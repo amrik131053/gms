@@ -118,6 +118,8 @@ $(function() {
             flag: code,course:course,batch:batch,semester:semester,day:day,lecture:lecture,subject:subject,section:section,group:group
         },
         success: function(response) {
+            console.log(response);
+
 
          if(response=='2')
             {

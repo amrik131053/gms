@@ -855,7 +855,7 @@ elseif($code==14)
                                  }
 
 
- $queryday = "SELECT  *  FROM TimeTable WHERE  Day='$day' AND LectureNumber='$lecture' AND IDNo='$EmployeeID'";
+ echo $queryday = "SELECT  *  FROM TimeTable WHERE  Day='$day' AND LectureNumber='$lecture' AND IDNo='$EmployeeID' AND Status>0 ANd Examination='$Examination'";
         $querydayrun=sqlsrv_query($conntest,$queryday);
                                  if($querydayrunrow = sqlsrv_fetch_array($querydayrun, SQLSRV_FETCH_ASSOC))
                                  { 
