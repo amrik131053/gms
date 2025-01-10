@@ -126,14 +126,32 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class=" ">
                             <div class="card-header ">
-                                <h3 class="card-title">Semester open</h3>
+                                <h3 class="card-title">Examination Semester Open </h3>
                                         <!-- <input type="date"  id="dateopen" class="form-control"> -->
                             </div>
                             <div class="card-body  ">
 
                                     <div class="row">
-                                        
-                                        <div class="col-lg-3">
+                                             <div class="col-lg-2">
+                                    <label>Session</label>
+                                    <select id="session" name="session" class="form-control" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT  DISTINCT Top(10) Session  FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
+
+
+                                </div>
+                                        <div class="col-lg-2">
                                             <label>Batch</label>
                                             <select id="BatchOpen" class="form-control" required>
 
@@ -145,8 +163,16 @@
                                                     ?>
                                             </select>
                                         </div>
+
+
+
+                                    
+
+
+
+
                                         <div class="col-lg-3">
-                                            <label>Duration</label>
+                                            <label>Duration <span style="color: red;">(in years)</span></label>
                                             <select class="form-control" id="DurationOpen">
                                             <option value="">Select</option>
                                                         <?PHP 
@@ -154,7 +180,7 @@
                                                              $checkOpenRun=sqlsrv_query($conntest,$checkOpen);
                                                              while($row=sqlsrv_fetch_array($checkOpenRun,SQLSRV_FETCH_ASSOC))
                                                              {?>
-                                                               <option value="<?=$row['Duration'];?>"><?=$row['Duration'];?></option><?php 
+                                                               <option value="<?=$row['Duration'];?>"><?=$row['Duration'];?> Years</option><?php 
                                                                  
                                                              }
                                                              ?>
@@ -386,7 +412,7 @@ function searchSemesterRecord() {
      }
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
-    var code = '422';
+    var code = '422'; 
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -395,6 +421,7 @@ function searchSemesterRecord() {
             BatchOpen: BatchOpen,DurationOpen:DurationOpen,TypeOpen:TypeOpen
         },
         success: function(response) {
+            console.log(response);
             spinner.style.display = 'none';
             document.getElementById('showSemesterOpenRecord').innerHTML = response;
 

@@ -32252,7 +32252,7 @@ elseif($code=='422')
         <div class="col-lg-12">
             <div class="row text-center">
           <?php   $semesters = [];
-    $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
+  echo $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
                   INNER JOIN MasterCourseCodes  ON MasterCourseStructure.CourseID = MasterCourseCodes.CourseID 
                    WHERE MasterCourseStructure.Batch = '$BatchOpen' AND MasterCourseCodes.Duration = '$DurationOpen' AND MasterCourseStructure.$TypeOpen = '1'  
                   ORDER BY SemesterID ASC";
@@ -32288,9 +32288,9 @@ elseif($code=='422')
             <div class="col-lg-12">
                 <div class="row text-center">
               <?php   $semesters = [];
-        $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
+  $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
                       INNER JOIN MasterCourseCodes  ON MasterCourseStructure.CourseID = MasterCourseCodes.CourseID 
-                       WHERE MasterCourseStructure.Batch = '$BatchOpen' and MasterCourseStructure.$TypeOpen = '1'  
+                       WHERE MasterCourseStructure.Batch = '$BatchOpen' and MasterCourseStructure.$TypeOpen = '1'  AND MasterCourseStructure.CourseID!='188' AND MasterCourseStructure.CourseID!='185'AND MasterCourseStructure.CourseID!='464'
                       ORDER BY SemesterID ASC";
         $checkOpenRun = sqlsrv_query($conntest, $checkOpen);
         while ($row = sqlsrv_fetch_array($checkOpenRun, SQLSRV_FETCH_ASSOC)) {
