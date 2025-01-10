@@ -846,6 +846,7 @@ elseif($code==14)
     $section=$_POST['section'];
     $group=$_POST['group'];
 
+if($day=='Monday'){$order=1;}else if($day=='Tuesday'){$order=2;}else if($day=='Wednesday'){$order=3;}else if($day=='Thursday'){$order=4;}else if($day=='Friday'){$order=5;}else if($day=='Saturday'){$order=6;}else if($day=='Sunday'){$order=7;}
 
            $query1 = "SELECT  Distinct CollegeID  FROM MasterCourseCodes WHERE  CourseID='$course'";
         $getCourseRun1=sqlsrv_query($conntest,$query1);
@@ -855,7 +856,7 @@ elseif($code==14)
                                  }
 
 
- echo $queryday = "SELECT  *  FROM TimeTable WHERE  Day='$day' AND LectureNumber='$lecture' AND IDNo='$EmployeeID' AND Status>0 ANd Examination='$Examination'";
+ $queryday = "SELECT  *  FROM TimeTable WHERE  Day='$day' AND LectureNumber='$lecture' AND IDNo='$EmployeeID' AND Status>0 ANd Examination='$CurrentExamination'";
         $querydayrun=sqlsrv_query($conntest,$queryday);
                                  if($querydayrunrow = sqlsrv_fetch_array($querydayrun, SQLSRV_FETCH_ASSOC))
                                  { 
@@ -864,8 +865,8 @@ elseif($code==14)
                                  else
                                  {
 
-$update1 = "INSERT INTO TimeTable(CollegeID,CourseID,Batch,SemesterID,LectureNumber, IDNo,Day,SubjectCode,Examination,CreatedDate,Section,GroupName) 
-            VALUES('$CollegeID','$course', '$batch', '$semester','$lecture','$EmployeeID','$day','$subject','$CurrentExamination','$timeStamp','$section','$group')";
+   $update1 = "INSERT INTO TimeTable(CollegeID,CourseID,Batch,SemesterID,LectureNumber, IDNo,Day,SubjectCode,Examination,CreatedDate,Section,GroupName,Status,DayOrder) 
+            VALUES('$CollegeID','$course', '$batch', '$semester','$lecture','$EmployeeID','$day','$subject','$CurrentExamination','$timeStamp','$section','$group','1','$order')";
                 sqlsrv_query($conntest,$update1);
 if ($update1){
         echo "1";
@@ -1379,4 +1380,331 @@ if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
       }
       sqlsrv_close($conntest);
 }
+//time for faculty side
+elseif($code==25) 
+{
+   $CollegeName="";
+$CourseName="";
+$SubjectName="";
+?>
+        <table class="table " id="example">
+        
+            <tbody style="height:1px" id="">
+                <?php 
+    $Sr=1;
+    
+    $getprograms="SELECT Distinct CourseID  FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' order by  CourseID  DESC "; 
+    $getprogramsRun=sqlsrv_query($conntest,$getprograms);
+    while($getprogramsrow=sqlsrv_fetch_array($getprogramsRun,SQLSRV_FETCH_ASSOC))
+    { 
+  //echo $getprogramsrow['CourseID'];
+
+ $getAllcourse1 = "SELECT  Distinct Course FROM MasterCourseStructure 
+                  WHERE CourseID = '" . $getprogramsrow['CourseID'] . "'"  ;
+
+    $etAllcourse1Run=sqlsrv_query($conntest,$getAllcourse1);
+    while($rowcourse=sqlsrv_fetch_array($etAllcourse1Run,SQLSRV_FETCH_ASSOC))   
+
+{
+  ?>
+
+  <tr>
+                    <th colspan="6" style="text-align: center;color: red"><?=$rowcourse['Course'];?></th></tr>
+
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Day</th>
+                    <th>Lecture</th>
+                  <!--   <th>College</th> -->
+                    
+                    <th>Semester</th>
+                    <th>Batch</th>
+                    <th>Subject</th>
+                 
+                 
+                </tr>
+            <?php 
 }
+  $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' AND CourseID='" .$getprogramsrow['CourseID']. "'  order by  DayOrder  ASC "; 
+
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    { 
+  $getAllleaves1 = "SELECT  Distinct Course,SubjectName FROM MasterCourseStructure 
+                  WHERE CourseID = '" . $row['CourseID'] . "' 
+                  AND CollegeID = '" . $row['CollegeID'] . "' 
+                  AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
+;
+    $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
+    while($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
+
+{
+
+
+?>
+                <tr>
+                    <td><?=$Sr;?></td>  <td><?=$row['Day'];?></td><td><?=$row['LectureNumber'];?></td>
+                   <!--  <td><?=$row1['CollegeName'];?></td> -->
+                    
+                    <td><?=$row['SemesterID'];?></td>
+                    <td><?=$row['Batch'];?>-<?=$row['Section'];?>/<?=$row['GroupName'];?></td>
+                    <td><?=$row1['SubjectName'];?>(<?=$row['SubjectCode'];?>)</td>
+                    
+                    
+                    <td>
+               
+                        </div>
+
+
+                    </td>
+                </tr>
+                <?php
+
+       }
+        $Sr++;
+        // $aa[]=$row;
+    }
+}
+    // print_r($aa);
+    ?>
+            </tbody>
+        </table><?php 
+          sqlsrv_close($conntest);
+
+}
+elseif($code==25.1) 
+{
+    $CollegeName="";
+$CourseName="";
+$SubjectName="";
+?>
+        <table class="table " id="example">
+          
+            <tbody style="height:1px" id="">
+                <?php 
+    $Sr=1;
+    
+    $getprograms="SELECT Distinct CourseID  FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' order by  CourseID  DESC "; 
+    $getprogramsRun=sqlsrv_query($conntest,$getprograms);
+    while($getprogramsrow=sqlsrv_fetch_array($getprogramsRun,SQLSRV_FETCH_ASSOC))
+    { 
+  //echo $getprogramsrow['CourseID'];
+
+ $getAllcourse1 = "SELECT  Distinct Course FROM MasterCourseStructure 
+                  WHERE CourseID = '" . $getprogramsrow['CourseID'] . "'"  ;
+
+    $etAllcourse1Run=sqlsrv_query($conntest,$getAllcourse1);
+    while($rowcourse=sqlsrv_fetch_array($etAllcourse1Run,SQLSRV_FETCH_ASSOC))   
+
+{
+  ?>
+  <tr>
+                    <th colspan="9" style="text-align: center;border: 1px solid red;"><?=$rowcourse['Course'];?></th></tr>
+
+<tr style="border: 1px solid red;"><th style="border: 1px solid red;">Day / Lecture No</th><th style="text-align: center;border: 1px solid red">1</th><th style="text-align: center;border: 1px solid red">2</th><th style="text-align: center;border: 1px solid red">3</th>
+    <th style="text-align: center;border: 1px solid red">4</th><th style="text-align: center;border: 1px solid red">5</th><th style="text-align: center;border: 1px solid red">6</th><th style="text-align: center;border: 1px solid red">7</th>
+    <th style="text-align: center;border: 1px solid red">8</th></tr>
+
+
+<?php
+// Define the start and end dates
+$start_date = new DateTime('2025-01-06'); // Start date
+$end_date = new DateTime('2025-01-11');   // End date
+
+// Add 1 day to include the end date in the loop
+$end_date->modify('+1 day');
+
+// Loop through each day
+$interval = new DateInterval('P1D'); // 1 day interval
+$date_range = new DatePeriod($start_date, $interval, $end_date);
+
+foreach ($date_range as $date) {
+
+ 
+
+   $day_name = $date->format('l'); // Get the day name
+    
+    if ($day_name === 'Sunday') {
+        continue; // Skip Sundays
+    }
+    
+
+?>
+
+
+<tr><td style="border: 1px solid red;"><?=$day_name;?></td>
+
+    <?php 
+
+for($i=1;$i<=8;$i++)
+{
+    $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' AND CourseID='" .$getprogramsrow['CourseID']. "' ANd Day='$day_name' AND LectureNumber='$i'  order by  DayOrder  ASC "; 
+
+  
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    { 
+  $getAllleaves1 = "SELECT  Distinct Course,SubjectName FROM MasterCourseStructure 
+                  WHERE CourseID = '" . $row['CourseID'] . "' 
+                  AND CollegeID = '" . $row['CollegeID'] . "' 
+                  AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
+;
+    $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
+    if($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
+
+{
+?><td style="border: 1px solid red;">Semester -<?=$row['SemesterID'];?> &nbsp; <?=$row1['SubjectName'];?> (<?=$row['SubjectCode'];?>) <?=$row['Batch'];?>-<?=$row['Section'];?>/<?=$row['GroupName'];?></td>
+  <?php
+
+       }
+       
+        $Sr++;
+        // $aa[]=$row;
+    }
+    else
+    {?>
+        <td style="border: 1px solid red" style="text-align: center;min-width: 500px;"></td>
+    <?php }
+}
+}
+?></tr>
+
+
+
+
+
+
+                    <?php 
+}
+
+
+
+
+}
+    // print_r($aa);
+    ?>
+            </tbody>
+        </table><?php 
+          sqlsrv_close($conntest);
+
+}
+
+
+elseif($code==25.2) 
+{
+    $CollegeName="";
+$CourseName="";
+$SubjectName="";
+?>
+        <table class="table " id="example">
+          
+            <tbody style="height:1px" id="">
+                <?php 
+    $Sr=1;
+    
+//     $getprograms="SELECT Distinct CourseID  FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' order by  CourseID  DESC"; 
+//     $getprogramsRun=sqlsrv_query($conntest,$getprograms);
+//     while($getprogramsrow=sqlsrv_fetch_array($getprogramsRun,SQLSRV_FETCH_ASSOC))
+//     { 
+//   //echo $getprogramsrow['CourseID'];
+//  $getAllcourse1 = "SELECT  Distinct Course FROM MasterCourseStructure 
+//                   WHERE CourseID = '" . $getprogramsrow['CourseID'] . "'"  ;
+
+//     $etAllcourse1Run=sqlsrv_query($conntest,$getAllcourse1);
+//     while($rowcourse=sqlsrv_fetch_array($etAllcourse1Run,SQLSRV_FETCH_ASSOC))   
+
+// {
+//   ?>
+  <!-- <tr>
+                    <th colspan="9" style="text-align: center;border: 1px solid red;"><?=$rowcourse['Course'];?></th></tr> -->
+
+<tr style="border: 1px solid red;"><th style="border: 1px solid red;">Day / Lecture No</th><th style="text-align: center;border: 1px solid red">1</th><th style="text-align: center;border: 1px solid red">2</th><th style="text-align: center;border: 1px solid red">3</th>
+    <th style="text-align: center;border: 1px solid red">4</th><th style="text-align: center;border: 1px solid red">5</th><th style="text-align: center;border: 1px solid red">6</th><th style="text-align: center;border: 1px solid red">7</th>
+    <th style="text-align: center;border: 1px solid red">8</th></tr>
+
+
+<?php
+// Define the start and end dates
+$start_date = new DateTime('2025-01-06'); // Start date
+$end_date = new DateTime('2025-01-11');   // End date
+
+// Add 1 day to include the end date in the loop
+$end_date->modify('+1 day');
+
+// Loop through each day
+$interval = new DateInterval('P1D'); // 1 day interval
+$date_range = new DatePeriod($start_date, $interval, $end_date);
+
+foreach ($date_range as $date) {
+
+ 
+
+   $day_name = $date->format('l'); // Get the day name
+    
+    if ($day_name === 'Sunday') {
+        continue; // Skip Sundays
+    }
+    
+
+?>
+
+
+<tr><td style="border: 1px solid red;"><?=$day_name;?></td>
+
+    <?php 
+
+for($i=1;$i<=8;$i++)
+{
+    $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1'  ANd Day='$day_name' AND LectureNumber='$i'  order by  DayOrder  ASC "; 
+
+  
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    { 
+  $getAllleaves1 = "SELECT  Distinct Course,SubjectName FROM MasterCourseStructure 
+                  WHERE CourseID = '" . $row['CourseID'] . "' 
+                  AND CollegeID = '" . $row['CollegeID'] . "' 
+                  AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
+;
+    $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
+    if($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
+
+{
+?><td style="border: 1px solid red;">Semester -<?=$row['SemesterID'];?> &nbsp; <?=$row1['SubjectName'];?> (<?=$row['SubjectCode'];?>) <?=$row['Batch'];?>-<?=$row['Section'];?>/<?=$row['GroupName'];?></td>
+  <?php
+
+       }
+       
+        $Sr++;
+        // $aa[]=$row;
+    }
+    else
+    {?>
+        <td style="border: 1px solid red" style="text-align: center;min-width: 500px;"></td>
+    <?php }
+}
+}
+?></tr>
+
+
+
+
+
+
+                    <?php 
+}
+
+
+
+
+}
+    // print_r($aa);
+    ?>
+            </tbody>
+        </table><?php 
+          sqlsrv_close($conntest);
+
+// }
+
+
+// }

@@ -27240,7 +27240,7 @@ $SubjectName="";
                 <?php 
     $Sr=1;
     
-     $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' order by  ID  DESC "; 
+     $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' order by  ID  DESC "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 

@@ -106,7 +106,7 @@ $(function() {
    var section=document.getElementById('Section').value;
    var group=document.getElementById('Group').value;
 
-   if(course!='' && batch!='' && semester!=''&& day!='' && lecture !='' &&subject!='' && section !='' && group!='')
+   if(course!='' && batch!='' && semester!=''&& day!='' && lecture !='' &&subject!='' && section !='' )
    {
   var code = 14;
     var spinner = document.getElementById('ajax-loader');
@@ -124,7 +124,7 @@ $(function() {
          if(response=='2')
             {
 
-               ErrorToast('Lecture Already exist',"bg-danger" );
+               ErrorToast('You already have a lecture on this day',"bg-danger" );
             }
             else if(response=='1')
             {
@@ -132,7 +132,7 @@ $(function() {
             }
             else
             {
-
+ErrorToast('Already Added by You or Other Employee Contact HOD or Dean For more Detail',"bg-danger" );
             }
            
             spinner.style.display = 'none';
@@ -147,6 +147,7 @@ else
 }
 
 }
+//fetch record
 uploadedRecord();
 function uploadedRecord() {
    
@@ -167,37 +168,60 @@ function uploadedRecord() {
     });
 }
 
-function deleteCourseFile(id) {
-
-var a = confirm('Are you sure you want to delete');
-
-if (a == true) {
-    var code = 396;
-
+function Programwise(id) {
+   
+    var code = 25;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
-        url: 'action_g.php',
+        url: 'action_a.php',
         type: 'POST',
         data: {
-            code: code,
-            id: id
+            flag: code
         },
         success: function(response) {
-
-            if (response == 1) {
-                spinner.style.display = 'none';
-                SuccessToast('SuccessFully Deleted');
-                uploadedRecord();
-            }
-
+             console.log(response);
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
         }
     });
-} else {
-
 }
+function GridView(id) {
+   
+    var code = 25.1;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code
+        },
+        success: function(response) {
+             console.log(response);
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
 }
-
+function Consolidated(id) {
+   
+    var code = 25.2;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code
+        },
+        success: function(response) {
+             console.log(response);
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
 
 </script>
 <!-- Main content -->
@@ -308,7 +332,7 @@ if (a == true) {
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group">
-                                <label>Group</label>
+                                <label>Group</label> <span style="color:red"><b>(if Rerquired)</b></span>
                                <select name="Group" id="Group" class="form-control" required="">
                                     <option value="">Group</option>
                                   
@@ -347,13 +371,13 @@ if (a == true) {
 
                     <span style="float:right;">
                      
-                        <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                        <button type="button" onclick="Programwise(<?=$EmployeeID;?>);" class="btn btn-success btn-sm">
                             Program Wise
                         </button>
-                        <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                        <button type="button" onclick="GridView(<?=$EmployeeID;?>);" class="btn btn-success btn-sm">
                             Grid View
                         </button>
-                        <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                        <button type="button" onclick="Consolidated(<?=$EmployeeID;?>);" class="btn btn-success btn-sm">
                            Consolidated
                         </button>
                     </span>
