@@ -1074,8 +1074,7 @@ $c++;
     }else{
         $clr= "primary";
     };
-    if (!in_array($StuCorection_row['IDNo'], $arrayFaultyArticle)) 
-    {
+ 
  $StuCorection_num=$StuCorection_num+1;?>
  <tr class="bg-<?=$clr;?>">
  <td><?=$StuCorection_num;?></td>
@@ -1094,7 +1093,7 @@ $c++;
 </tr>
 <?php 
 $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
- }
+ 
  }   
  ?>
   </tbody>
@@ -1150,6 +1149,7 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
                 $Nname = $row6['StudentName'];
                 $Nfather_name = $row6['FatherName'];
                 $Nmother_name = $row6['MotherName'];
+                $remakrsbystudent = $row6['StudentRemarks'];
                  $Ndob = $row6['DateOfBirth']->format('d-m-Y');
                 $Ngender = $row6['Gender'];
                 $UpdateBy = $row6['UpdateBy'];
@@ -1257,13 +1257,13 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
  </tr>
  <tr>
 
- <td colspan="10"><b>Attachment:</b>&nbsp;&nbsp;<a href="http://erp.gku.ac.in:86/Images/Correction/<?=$FilePath;?>" target="_blank"><i class="fa fa-eye"></i></a></td>
+ <td colspan="10"><b>Remmarks by Student:</b>&nbsp;&nbsp;<?php echo $remakrsbystudent;?></td>
  </tr>
  <tr>
-    <td colspan="10">
-       Updated By: <?=$UpdateBy;?>
-    </td>
+
+ <td colspan="10"><b>Attachment:</b>&nbsp;&nbsp;<a href="http://erp.gku.ac.in:86/Images/Correction/<?=$FilePath;?>" target="_blank"><i class="fa fa-eye"></i></a></td>
  </tr>
+ 
   <?php 
   if($status=='0' )
   {?>
@@ -1276,6 +1276,15 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
 </td>
  </tr>
  <?php
+ }
+ else{
+    ?>
+<tr>
+    <td colspan="10">
+       Updated By: <?=$UpdateBy;?>
+    </td>
+ </tr>
+    <?php
  }
  ?>
  <tr>
