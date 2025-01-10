@@ -22,6 +22,7 @@ class ProfileController extends Controller
         return view('profile', compact('profileData'));
     }
 
+
 public function submitProfileForm(Request $request)
 {
     // Validate form inputs
@@ -84,6 +85,7 @@ public function submitProfileForm(Request $request)
                 return back()->withErrors(['error' => 'Try After Sometime']);
             }
     }
+
     
     public function uploadImage(Request $request)
     {
@@ -144,6 +146,82 @@ public function submitProfileForm(Request $request)
     }
     }
     
+    public function correctionRequest(Request $request)
+    { 
+        $correctionData=[];
+        $correctionDataHistory=[];
+        $BaseURL=config('app.baseUrl');
+        $token = $request->session()->get('api_token');
+        $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/profile');
+        $DataResponseCorrection = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/correctiondata');
+        $resData = $DataResponse->json()??[];
+        $DataResponseCorr = $DataResponseCorrection->json();
+        $correctionData=$resData['data'][0] ?? [];
+        $correctionDataHistory=$DataResponseCorr['data'] ?? [];
+        return view('correctionRequest', compact('correctionData','correctionDataHistory'));
+    }
+    public function submitCorrectionForm(Request $request)
+    {
+        $request->validate([
+            'student_name' => 'required',
+            'gender' => 'required',
+            'father_name' => 'required',
+            'mother_name' => 'required',
+            'dob' => 'required',
+            'remarks' => 'required',
+            'correction' => [
+                'required',
+                'mimetypes:image/png,image/jpeg,image/jpg,application/pdf',
+                'max:5120', // File size limit in KB (5MB = 5120KB)
+            ],
+        ], [
+            'student_name.required' => 'Please enter a student name.',
+            'gender.required' => 'Please select a gender.',
+            'father_name.required' => 'Please enter a father name.',
+            'mother_name.required' => 'Please enter a mother name.',
+            'dob.required' => 'Please enter a date of birth.',
+            'remarks.required' => 'Please enter remarks.',
+            'correction.mimes' => 'The file must be of type: jpg, jpeg, png, or pdf.',
+            'correction.max' => 'The file must be less than or equal to 5MB.',
+        ]);
+        // dd($request->file('fileName')->getMimeType());
+
+        $BaseURL = config('app.baseUrl');
+        $token = $request->session()->get('api_token');
+        $student_name = $request->input('student_name');
+        $gender = $request->input('gender');
+        $father_name = $request->input('father_name');
+        $mother_name = $request->input('mother_name');
+        $dob = $request->input('dob');
+        $mobile = $request->input('mobile');
+        $email = $request->input('email');
+        $address = $request->input('address');
+        $remarks = $request->input('remarks');
+    
+        if (!$token) {
+            return back()->withErrors(['error' => 'Token is missing']);
+        }
+    
+        $file = $request->file('correction');
+        $tempPath = $file->getRealPath();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->attach('correction', file_get_contents($tempPath), $file->getClientOriginalName())
+          ->post($BaseURL.'Student/correction/'.$student_name.'/'.$father_name.'/'.$mother_name.'/'.$gender.'/'.$mobile.'/'.$email.'/'.$address.'/'.$dob.'/'.$remarks);
+          $resp = $response->json();
+        if ($resp['data'] == '1') {
+            return back()->with('success', 'Request submit successfully');
+        }
+         elseif ($resp['data'] == '-1') {
+            return back()->with('error', 'Request already in process');
+        } 
+        elseif ($resp['data'] == '2') {
+            return back()->with('error', 'no data change check new details again');
+        } 
+        else{
+            return back()->withErrors(['error' => 'Try Again Later']);
+        }
+    }
     
 
 }

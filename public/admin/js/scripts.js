@@ -389,37 +389,34 @@ function hideLoader() {
     document.getElementById('fullScreenLoader').style.display = 'none';
 }
 
+
+
  function checkBoxIDcard() {
     const checkbox = document.getElementById('smartCardCheckbox');
     const label = document.getElementById('checkboxLabel');
     const text = document.getElementById('confirmationText');
     
+    
     document.getElementById('applyButton')?.addEventListener('click', function (event) {
         if (!checkbox.checked) {
-            alert('Please check the box to confirm all details are correct before applying.');
+            // alert('Please check the box to confirm all details are correct before applying.');
+            showErrorMessage('Please check the box to confirm all details are correct before applying.');
             event.preventDefault(); // Prevent form submission
-
-            // Add red border and text color
             checkbox.style.outline = '2px solid red';
             label.style.color = 'red';
             text.style.color = 'red';
         } else {
-            // Change color to green and allow form submission
             checkbox.style.outline = '2px solid green';
             label.style.color = 'green';
             text.style.color = 'green';
         }
     });
-
-    // Add event listener to checkbox to change color on check/uncheck
     checkbox.addEventListener('change', function () {
         if (checkbox.checked) {
-            // Change color to green when checked
             checkbox.style.outline = '2px solid green';
             label.style.color = 'green';
             text.style.color = 'green';
         } else {
-            // Change color to red when unchecked
             checkbox.style.outline = '2px solid red';
             label.style.color = 'red';
             text.style.color = 'red';

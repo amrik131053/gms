@@ -5,36 +5,32 @@
             <div class="card">
             <div class="card-status-top bg-primary"></div>
             <div class="card-header">
-                    <h4 class="card-title">Results</h4>
+                    <h4 class="card-title">All Results</h4>
                   </div>
               <div class="card-body">
                 <div id="table-default" class="table-responsive">
                   <table class="table table-vcenter card-table">
                     <thead>
                       <tr>
-              
-                        <th><button class="table-sort">SrNo</button></th>
-                        <th><button class="table-sort">Semester</button></th>
-                        <th><button class="table-sort">Type</button></th>
-                        <th><button class="table-sort">Examination</button></th>
-                        
-                        <th><button class="table-sort">Sgpa</button></th>
-                        <th><button class="table-sort">DeclareDate</button></th>
-                        <th><button class="table-sort">Action</button></th>
+                        <th>SrNo</th>
+                        <th>Semester</th>
+                        <th>Type</th>
+                        <th>Examination</th>
+                        <th>Sgpa</th>
+                        <th>DeclareDate</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody class="table-tbody">
                     @foreach ($resultsData as $resultdata)
                    <tr>
                    <td>{{ $loop->iteration }}</td>
-                            <td class="sort-date">{{ $resultdata['Semester'] }}</td>
-                            <td class="sort-semester">{{ $resultdata['Type'] }}</td>
-                            <td class="sort-type">{{ $resultdata['Examination'] }}</td>
-                           
-                            <td class="sort-transaction">{{ $resultdata['Sgpa'] }}</td>
-                 
-                            <td class="sort-amount">{{ \Carbon\Carbon::parse($resultdata['DeclareDate'])->format('d-m-Y') }}</td>
-                            <td class="sort-transaction">
+                            <td>{{ $resultdata['Semester'] }}</td>
+                            <td>{{ $resultdata['Type'] }}</td>
+                            <td>{{ $resultdata['Examination'] }}</td>
+                            <td>{{ $resultdata['Sgpa'] }}</td>
+                            <td>{{ \Carbon\Carbon::parse($resultdata['DeclareDate'])->format('d-m-Y') }}</td>
+                            <td>
                               <form action="{{url('fetch-result')}}" method="post">
                                 @csrf
                               <input type="hidden" name="ResultID" value="{{$resultdata['Id']}}">
@@ -44,7 +40,7 @@
   <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
   <path d="M7 11l5 5l5 -5" />
   <path d="M12 4l0 12" />
-</svg>      Download</button> </form>
+</svg>Download</button> </form>
                           </td>
                         </tr>
                     @endforeach

@@ -12,63 +12,42 @@ class AdmitCardController extends Controller
     { 
         $BaseURL=config('app.baseUrl');
         $token = $request->session()->get('api_token');
-        $responseAllExamForms = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL . 'Student/examforms');
+        $responseAllExamForms = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL . 'Student/allAdmitCard');
         $AllExamForms=[];
         if ($responseAllExamForms->successful()) {
             $AllExamForms = $responseAllExamForms->json()['data']??[];
         }
-        // dd($AllExamForms);
         return View('AdmitCard', compact('AllExamForms'));
     }
     
     public function generateAdmitCardPDF(Request $request)
     {
         $resultid = $request->input('FormID');
-        $Semesterid = $request->input('Semesterid');
-        // dd($resultid);
         $currentDateFormatted = Carbon::now()->format('d-M-Y');
-        $Type = $request->input('Type');
-        $Course = $request->input('Course');
-        $Examination = $request->input('Examination');
-        $SubmitFormDate = $request->input('SubmitFormDate');
-        $formattedDate = Carbon::parse($SubmitFormDate)->format('d M Y');
-
         $BaseURL=config('app.baseUrl');
         $token = $request->session()->get('api_token');
-        $token = $request->session()->get('api_token');
-    $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/profile');
-        if ($DataResponse->failed()) {
-            return view('index', [
-                'profileData' => []
-                
-            ]);
-        }
-        $resData = $DataResponse->json();
-        $profileData=$resData['data'][0];
         $response = Http::withHeaders(['Authorization' => 'Bearer ' .$token,
-        ])->post($BaseURL.'Student/examform/'.$resultid);
+        ])->post($BaseURL.'Student/admitCardPrint/'.$resultid);
         if ($response->successful()) {
             $resultsData = $response->json();
-               $resultsData1=$resultsData['data'];
-               $resultsData=$resultsData['data1'];
-               
+               $resultsData1=$resultsData['data1'][0];
+               $resultsData=$resultsData['data2'];
                $data = [
-                    'UniRollNo'=>$profileData['UniRollNo'],
-                    'StudentName'=>$profileData['StudentName'],
-                    'FatherName'=>$profileData['FatherName'],
-                    'Batch'=>$profileData['Batch'],
-                    'Course'=>$Course,
-                    'Semester'=>$Semesterid,
-                    'Examination'=>$Examination,
-                    'Type'=>$Type,
+                    'UniRollNo'=>$resultsData1['UniRollNo'],
+                    'StudentName'=>$resultsData1['StudentName'],
+                    'FatherName'=>$resultsData1['FatherName'],
+                    'Batch'=>$resultsData1['Batch'],
+                    'Course'=>$resultsData1['Course'],
+                    'Semester'=>$resultsData[0]['SemesterId'],
+                    'Examination'=>$resultsData[0]['Examination'],
+                    'Type'=>$resultsData[0]['Type'][0],
                     'SubmitFormDate'=>$currentDateFormatted,
-                    'Image'=>$profileData['Image'],
-                    'SignaturePath'=>$profileData['SignaturePath'],
+                    'Image'=>$resultsData1['Image'],
+                    'SignaturePath'=>$resultsData1['SignaturePath'],
                     'SubjectsResult'=>$resultsData
         ];   
-        // dd($resultsData1);
         $pdf = PDF::loadView('ViewAdmitCard', ['data' => $data]);
-        return $pdf->download('AdmitCard-'.$Examination.'.pdf');
+        return $pdf->download('AdmitCard-'.$resultsData[0]['Examination'].'.pdf');
         
     } 
     else 

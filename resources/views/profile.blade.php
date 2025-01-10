@@ -321,7 +321,7 @@
                                                                         class="text-danger">(Only for punjab SC/ST
                                                                         students)</small></label>
                                                                 <input type="text" class="form-control" id="otr"
-                                                                    name="otr" value="{{$profileData['OTR']}}" >
+                                                                    name="otr" value="{{$profileData['OTR']}}">
                                                             </div>
                                                             <!-- Email -->
                                                             <div class="col-md-4 mb-3">

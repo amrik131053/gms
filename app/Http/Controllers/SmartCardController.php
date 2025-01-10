@@ -25,15 +25,15 @@ class SmartCardController extends Controller
         }
         $SmartCard = $SmartCardResponse->json();
         // dd($SmartCard);
-        $MasterCourse=$SmartCard['data1'][0];
-        $SmartCard=$SmartCard['data'][0];
+        $MasterCourse=$SmartCard['data1'][0]??[];
+        $SmartCard=$SmartCard['data'][0]??[];
         $flag = $smartCardFlgResponse->json();
-        $flag=$flag['flag'];
+        $flag=$flag['flag']??[];
         $flag1 = $statusSmartcardResponse->json();
-        $flag1=$flag1['flag'];
+        $flag1=$flag1['flag']??[];
         $StatusIDCard = $statusSmartcardResponse->json();
         $StatusIDCard=$StatusIDCard['data'][0]??[];
-        // dd($flag);
+        // dd($StatusIDCard);
         return view('smartCard', compact('SmartCard','MasterCourse','flag','flag1','StatusIDCard'));
         
     }

@@ -85,3 +85,7 @@ Route::post('/payu/failure', [PayuPaymentController::class, 'paymentFailure'])->
 
 // News Routes
 // Route::post('/show-news-details', [NewsController::class, 'showNewsDetails'])->middleware(CheckAuthentication::class);
+
+// correction details
+Route::get('correctionRequest', [ProfileController::class, 'correctionRequest'])->name('correctionrequest')->middleware(CheckAuthentication::class);
+Route::post('submitCorrectionData', [ProfileController::class, 'submitCorrectionForm'])->name('submitCorrectionData')->middleware(CheckAuthentication::class);

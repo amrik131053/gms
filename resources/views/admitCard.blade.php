@@ -34,13 +34,10 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th><button class="table-sort">Course</button></th>
-                                        <th><button class="table-sort">Sem/Type</button></th>
-                                        <th><button class="table-sort">Examination</button></th>
-
-
-
-                                        <th><button class="table-sort">Action</button></th>
+                                        <th>Course</th>
+                                        <th>Sem/Type</th>
+                                        <th>Examination</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-tbody">
@@ -49,22 +46,14 @@
                                     @if ($allExamShows['Status'] == 8)
                                     <!-- Filter condition for status 8 -->
                                     <tr>
-                                        <td class="sort-session">{{ $allExamShows['Course'] }}</td>
-                                        <td class="sort-session">{{ $allExamShows['Semesterid'] }}
+                                        <td>{{ $allExamShows['Course'] }}</td>
+                                        <td>{{ $allExamShows['Semesterid'] }}
                                             ({{ $allExamShows['Type'] }})</td>
-                                        <td class="sort-date">{{ $allExamShows['Examination'] }}</td>
-                                        <td class="sort-transaction">
+                                        <td>{{ $allExamShows['Examination'] }}</td>
+                                        <td>
                                             <form method="POST" action="{{route('downloadAdmitCard')}}">
                                                 @csrf
                                                 <input type="hidden" name="FormID" value="{{$allExamShows['ID']}}">
-                                                <input type="hidden" name="Semesterid"
-                                                    value="{{$allExamShows['Semesterid']}}">
-                                                <input type="hidden" name="Type" value="{{$allExamShows['Type']}}">
-                                                <input type="hidden" name="Course" value="{{$allExamShows['Course']}}">
-                                                <input type="hidden" name="Examination"
-                                                    value="{{$allExamShows['Examination']}}">
-                                                <input type="hidden" name="SubmitFormDate"
-                                                    value="{{$allExamShows['SubmitFormDate']}}">
                                                 <button class="btn btn-primary" type="submit">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -84,7 +73,7 @@
                                     @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="5" class="text-center text-danger">---No Record---</td>
+                                        <td colspan="5" class="text-center text-danger">University Roll Number has not been issued yet. Please contact the Registration Branch for assistance</td>
                                     </tr>
                                     @endif
 

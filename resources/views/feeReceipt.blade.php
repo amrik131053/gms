@@ -12,29 +12,29 @@
                   <table class="table table-vcenter card-table">
                     <thead>
                       <tr>
-                        <th><button class="table-sort">SrNo</button></th>
-                        <th><button class="table-sort">Session</button></th>
-                        <th><button class="table-sort">DateEntry</button></th>
-                        <th><button class="table-sort">Semester</button></th>
-                        <th><button class="table-sort">Type</button></th>
-                        <th><button class="table-sort">ReceiptNo</button></th>
-                        <th><button class="table-sort">TransactionID</button></th>
-                        <th><button class="table-sort">Amount</button></th>
-                        <th><button class="table-sort">Action</button></th>
+                        <th>SrNo</th>
+                        <th>Session</th>
+                        <th>DateEntry</th>
+                        <th>Semester</th>
+                        <th>Type</th>
+                        <th>ReceiptNo</th>
+                        <th>TransactionID</th>
+                        <th>Amount</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody class="table-tbody">
                     @foreach ($feeReceiptData as $feedata)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td class="sort-session">{{ $feedata['Session'] }}</td>
-                            <td class="sort-date">{{ $feedata['DateEntry'] }}</td>
-                            <td class="sort-semester">{{ $feedata['Semester'] }}</td>
-                            <td class="sort-type">{{ $feedata['Type'] }}</td>
-                            <td class="sort-receipt">{{ $feedata['ReceiptNo'] }}</td>
-                            <td class="sort-transaction">{{ $feedata['TransactionID'] }}</td>
-                            <td class="sort-amount">{{ number_format($feedata['Amount']) }}</td>
-                            <td class="sort-transaction">
+                            <td>{{ $feedata['Session'] }}</td>
+                            <td>{{ $feedata['DateEntry'] }}</td>
+                            <td>{{ $feedata['Semester'] }}</td>
+                            <td>{{ $feedata['Type'] }}</td>
+                            <td>{{ $feedata['ReceiptNo'] }}</td>
+                            <td>{{ $feedata['TransactionID'] }}</td>
+                            <td>{{ number_format($feedata['Amount']) }}</td>
+                            <td>
                             <form action="{{url('fetch-receipt')}}" method="post">
                                 @csrf
                               <input type="hidden" name="SlipID" value="{{$feedata['ReceiptNo']}}">
