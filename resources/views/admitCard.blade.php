@@ -43,11 +43,10 @@
                                 <tbody class="table-tbody">
                                     @if (!empty($AllExamForms))
                                     @foreach ($AllExamForms as $allExamShows)
-                                    @if ($allExamShows['Status'] == 8)
-                                    <!-- Filter condition for status 8 -->
+                                   
                                     <tr>
                                         <td>{{ $allExamShows['Course'] }}</td>
-                                        <td>{{ $allExamShows['Semesterid'] }}
+                                        <td>{{ $allExamShows['SemesterId'] }}
                                             ({{ $allExamShows['Type'] }})</td>
                                         <td>{{ $allExamShows['Examination'] }}</td>
                                         <td>
@@ -69,7 +68,7 @@
 
                                         </td>
                                     </tr>
-                                    @endif
+                                   
                                     @endforeach
                                     @else
                                     <tr>

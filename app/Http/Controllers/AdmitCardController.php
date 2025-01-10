@@ -30,6 +30,7 @@ class AdmitCardController extends Controller
         ])->post($BaseURL.'Student/admitCardPrint/'.$resultid);
         if ($response->successful()) {
             $resultsData = $response->json();
+            // dd($resultsData);
                $resultsData1=$resultsData['data1'][0];
                $resultsData=$resultsData['data2'];
                $data = [
