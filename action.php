@@ -25572,23 +25572,24 @@ else {
    {
   $id = $_POST['examination'];
 
- $resultdata="select distinct  Top(10) a.CollegeName,a.Course,a.Batch,rg.Semester,rg.Type,rg.DeclareDate,rg.DeclareType,rg.ResultNo  from ResultGKU as rg inner join
+ $resultdata="select  Distinct  a.CollegeName,a.Course,a.Batch,rg.Semester,rg.Type,rg.DeclareDate,rg.DeclareType,rg.ResultNo  from ResultGKU as rg inner join
 Admissions as a  on rg.UniRollNo=a.UniRollNo 
-where rg.Examination='May 2024' order by  rg.ResultNo Asc";
+where rg.Examination='$id' order by  rg.ResultNo Asc";
 
 $list_resultamrik = sqlsrv_query($conntest,$resultdata);
  $sr=1;?>
  <div class="card-body table-responsive ">
 <table class="table table-bordered"  border="1">
    <tr>
-            <td width="10"><?=$sr;?></td>
+            <td width="10">Sr No</td>
             
   <td>College</td>
     <td>  Course</td>
-
         <td>Batch</td>
+        <td>Semester</td>
          <td>Type</td>
           <td>Declare Date</td>
+          
            <td>Result No</td>
            <td>No of Appeared </td>
            <td>No of Passed</td>
@@ -25605,12 +25606,43 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik , SQLSRV_FETCH_ASSOC) )
     <td>  <?= $row7['Course'];?></td>
 
         <td>  <?= $row7['Batch'];?></td>
+          <td>  <?= $row7['Semester'];?></td>
          <td>  <?= $row7['Type'];?></td>
           <td>  <?= $row7['DeclareDate']->format('d-m-Y');?></td>
            <td> <?=  $no= $row7['ResultNo'];?></td>
-           <td> 
-            </td>
-           <td>  </td>
+           <td>
+
+
+<?php 
+
+
+
+
+$Admiss2="SELECT COUNT(ID) as Appeared FROM ResultGKU    WHERE  ResultNo='$no'";
+$q2 = sqlsrv_query($conntest, $Admiss2);
+
+ if ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) {
+    $totaldebit = $dataw['Appeared'];
+ }?>
+
+
+
+        <?= $totaldebit;?>    </td>
+           <td>
+           <?php 
+
+
+
+
+$Admiss2="SELECT COUNT(ID) as Passed FROM ResultGKU    WHERE  ResultNo='$no' AND Sgpa!='NC'";
+$q2 = sqlsrv_query($conntest, $Admiss2);
+
+ if ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) {
+    $passed = $dataw['Passed'];
+ }?>
+
+  <?= $passed;?>
+   </td>
    
 </tr>
 
@@ -27240,7 +27272,7 @@ $SubjectName="";
                 <?php 
     $Sr=1;
     
-     $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' order by  ID  DESC "; 
+     $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' order by  ID  DESC "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 

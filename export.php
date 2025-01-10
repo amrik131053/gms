@@ -12380,6 +12380,105 @@ elseif ($exportCode == 81) {
     $fileName = "Locked Basic Details";
 }
 
+
+
+
+
+
+
+
+
+
+elseif ($exportCode == 82) {
+   
+   
+    $Examination = $_GET['Examination'];
+
+
+    $sr = 1;
+
+
+ $resultdata="select  Distinct  a.CollegeName,a.Course,a.Batch,rg.Semester,rg.Type,rg.DeclareDate,rg.DeclareType,rg.ResultNo  from ResultGKU as rg inner join
+Admissions as a  on rg.UniRollNo=a.UniRollNo 
+where rg.Examination='$Examination' order by  rg.ResultNo Asc";
+
+$list_resultamrik = sqlsrv_query($conntest,$resultdata);
+ $sr=1;
+
+ $exportstudy = "<table class='table' border='1' style='font-family: Times New Roman, Times, serif;'>
+      
+       <tr>
+            <th colspan='10'>{$Examination}</th>
+            
+        </tr>  <tr>
+            <th>#</th>
+            <th>Faculty Name</th>
+            <th>Program Name</th>
+            <th>Batch</th>
+             <th>Semester</th>
+            <th>Type</th>
+            <th>DeclareDate</th>
+            <th>ResultNo</th>
+            <th>No of Appeared</th>
+            <th>No of Passed</th>
+            
+        </tr>";
+
+while($row7 = sqlsrv_fetch_array($list_resultamrik , SQLSRV_FETCH_ASSOC) )
+         { 
+
+$no=$row7['ResultNo'];
+$exportstudy .= "
+        
+        <tr>
+            <td>{$sr}</td>
+            <td>{$row7['CollegeName']}</td>
+            <td>{$row7['Course']}</td>
+            <td>{$row7['Batch']}</td>
+             <td>{$row7['Semester']}</td>
+            <td>{$row7['Type']}</td>
+       
+            <td>{$row7['DeclareDate']->format('d-m-Y')}</td>
+            <td>{$row7['ResultNo']}</td>
+          
+           ";
+     
+
+$Admiss2="SELECT COUNT(ID) as Appeared FROM ResultGKU   WHERE  ResultNo='$no'";
+$q2 = sqlsrv_query($conntest, $Admiss2);
+
+ if ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) {
+    $appeared = $dataw['Appeared'];
+ }
+ $exportstudy .= "
+   
+            <td>{$appeared}</td>";
+$Admiss2="SELECT COUNT(ID) as Passed FROM ResultGKU    WHERE  ResultNo='$no' AND Sgpa!='NC'";
+$q2 = sqlsrv_query($conntest, $Admiss2);
+
+ if ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) {
+    $passed = $dataw['Passed'];
+ }
+
+ $exportstudy .= "
+   
+            <td>{$passed}</td>";
+
+$exportstudy .= "
+        
+        </tr>";
+            $sr++;
+
+         }
+                $exportstudy .= "</table>";
+
+   
+    echo $exportstudy;
+
+    $fileName = "Result File-".$Examination;
+   
+}
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

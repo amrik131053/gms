@@ -39,8 +39,7 @@ $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe+$fgrace;
 else
 {
 $totalFinal=0;
-
-$nccount++;
+//$nccount++;
 }
 
 
@@ -105,11 +104,11 @@ else if($totalFinal>=40 &&$totalFinal<45)
 }
 else if($totalFinal<40)
 {
-   $grade="F";
-   $printmark=$totalFinal;
-   $showgradefail='-Fail'.'('.$printmark.')';
+    $grade="F";
+    $printmark=$totalFinal;
+    $showgradefail='-Fail'.'('.$printmark.')';
     $gardep=0;
     $color='red';
-     $nccount++;
+    $nccount++;
 }
 } ?>
