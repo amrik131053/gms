@@ -37,7 +37,7 @@ ini_set('max_execution_time', '0');
                                 <select id="examination2" class="form-control form-control" >
                                     <option value="">Select</option>
                                     <?php
-                                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                     $sql="SELECT DISTINCT Examination from ResultGKU Order by Examination ASC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                         while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                             {
@@ -55,9 +55,9 @@ ini_set('max_execution_time', '0');
                                 </select>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" class="btn btn-info" onclick="export_exam_data()"> <i
-                                        class="fa fa-file-excel" aria-hidden="true"></i></button> <button type="button" class="btn btn-info" onclick="search_exam_data()"> <i
-                                        class="fa fa-search" aria-hidden="true"></i></button>
+                                 <button type="button" class="btn btn-info" onclick="search_exam_data()"> <i
+                                        class="fa fa-search" aria-hidden="true"></i></button> &nbsp;<button type="button" class="btn btn-info" onclick="export_exam_data()"> <i
+                                        class="fa fa-file-excel" aria-hidden="true"></i></button>
                             </div>
                            
                         </div>
@@ -609,6 +609,22 @@ function exportCutListExcelmarksn() {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
             Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
+
+//
+
+function export_exam_data() { 
+    var exportCode = 82;
+   
+   var examination = document.getElementById('examination2').value;
+   
+    if (examination != '' ) {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" +  "&Examination=" + examination, '_blank');
 
     } else {
        
