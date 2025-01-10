@@ -25586,8 +25586,10 @@ $list_resultamrik = sqlsrv_query($conntest,$resultdata);
   <td>College</td>
     <td>  Course</td>
         <td>Batch</td>
+        <td>Semester</td>
          <td>Type</td>
           <td>Declare Date</td>
+          
            <td>Result No</td>
            <td>No of Appeared </td>
            <td>No of Passed</td>
@@ -25604,6 +25606,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik , SQLSRV_FETCH_ASSOC) )
     <td>  <?= $row7['Course'];?></td>
 
         <td>  <?= $row7['Batch'];?></td>
+          <td>  <?= $row7['Semester'];?></td>
          <td>  <?= $row7['Type'];?></td>
           <td>  <?= $row7['DeclareDate']->format('d-m-Y');?></td>
            <td> <?=  $no= $row7['ResultNo'];?></td>

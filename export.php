@@ -12406,11 +12406,16 @@ $list_resultamrik = sqlsrv_query($conntest,$resultdata);
  $sr=1;
 
  $exportstudy = "<table class='table' border='1' style='font-family: Times New Roman, Times, serif;'>
-        <tr>
+      
+       <tr>
+            <th colspan='10'>{$Examination}</th>
+            
+        </tr>  <tr>
             <th>#</th>
             <th>Faculty Name</th>
             <th>Program Name</th>
             <th>Batch</th>
+             <th>Semester</th>
             <th>Type</th>
             <th>DeclareDate</th>
             <th>ResultNo</th>
@@ -12430,6 +12435,7 @@ $exportstudy .= "
             <td>{$row7['CollegeName']}</td>
             <td>{$row7['Course']}</td>
             <td>{$row7['Batch']}</td>
+             <td>{$row7['Semester']}</td>
             <td>{$row7['Type']}</td>
        
             <td>{$row7['DeclareDate']->format('d-m-Y')}</td>
