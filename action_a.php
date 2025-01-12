@@ -428,7 +428,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
-                                            <label> File(Latter)</label>
+                                            <label> File(Letter)</label>
                                          <input type="file" name="promotionFile" class="form-control">
                                         </div>
                                     </div>
