@@ -446,7 +446,7 @@ function Move() {
 }
 function reports() {
     //228
-    var flag = 7;
+    var flag = 6.1;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
