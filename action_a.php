@@ -289,7 +289,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
       
       //      print_r($category);
       }
-      elseif ($code==6) {
+      elseif ($code==7) {
        ?><div class="card">
         <center>
          <h5>
@@ -421,7 +421,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
 
 <?php 
       }
-      if ($code == 7) {
+      if ($code == 6) {
         // Fetch promotion-related data from the form
         $organisationID = $_POST['organisationNamePromition'];
         $DepartmentID = $_POST['departmentNamePromition'];
