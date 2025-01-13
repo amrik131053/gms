@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PayuPaymentController;
 use App\Http\Controllers\AdmitCardController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\GrievanceController;
 use App\Http\Middleware\CheckAuthentication;
  
 // Auth Routes
@@ -89,3 +90,7 @@ Route::post('/payu/failure', [PayuPaymentController::class, 'paymentFailure'])->
 // correction details
 Route::get('correctionRequest', [ProfileController::class, 'correctionRequest'])->name('correctionrequest')->middleware(CheckAuthentication::class);
 Route::post('submitCorrectionData', [ProfileController::class, 'submitCorrectionForm'])->name('submitCorrectionData')->middleware(CheckAuthentication::class);
+// grievance 
+Route::get('grievance', [GrievanceController::class, 'grievance'])->name('grievance')->middleware(CheckAuthentication::class);
+Route::post('submitGrievanceData', [GrievanceController::class, 'submitGrievanceForm'])->name('submitGrievanceData')->middleware(CheckAuthentication::class);
+Route::post('complaintTrack', [GrievanceController::class, 'complaintTrack'])->name('complaintTrack')->middleware(CheckAuthentication::class);

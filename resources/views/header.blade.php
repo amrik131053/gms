@@ -410,6 +410,7 @@
                         </a>
                       
                     </li>
+                    
                     <li class="nav-item ">
                         <a class="nav-link" href="{{url('applysmartCard')}}">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -431,6 +432,27 @@
                                 Smart Card
                             </span>
                         </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{url('grievance')}}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dot">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M3 20l1.65 -1.65" />
+                                    <path d="M4.35 18.35c.18 -.2 .38 -.39 .6 -.55" />
+                                    <path d="M7 17h10a4 4 0 0 0 4 -4v-4a4 4 0 0 0 -4 -4h-10a4 4 0 0 0 -4 4v4a4 4 0 0 0 1.35 3" />
+                                    <path d="M11 12h2" />
+                                    <path d="M12 8v4" />
+                                </svg>
+                            </span>
+                            <span class="nav-link-title">
+                            Grievance
+                            </span>
+                        </a>
+                      
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"

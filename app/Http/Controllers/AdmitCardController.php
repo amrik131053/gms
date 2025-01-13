@@ -17,6 +17,7 @@ class AdmitCardController extends Controller
         if ($responseAllExamForms->successful()) {
             $AllExamForms = $responseAllExamForms->json()['data']??[];
         }
+        // dd($AllExamForms);
         return View('AdmitCard', compact('AllExamForms'));
     }
     

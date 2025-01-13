@@ -140,6 +140,7 @@ function searchSubjectsForExam() {
         showErrorMessage('An error occurred while fetching subjects. Please try again later.');
     });
 }
+
 function examFormSubmit() {
     showLoader();
 
@@ -660,4 +661,128 @@ function handleResponseProfile(data) {
 
 
 
+function trackComplaint() {
+    showLoader();
+    const complaint_no = document.getElementById('complaint_no').value;
+    if(!complaint_no)
+    {
+        showErrorMessage('Please select an semester.');
+        hideLoader();
+        return; 
+        
+    }
+   
+    fetch('/complaintTrack', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ complaintno: complaint_no})
+    })
+    .then(response => {
+        // console.log('Raw response:', response);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        hideLoader();
+        return response.text().then(text => {
+            return text ? JSON.parse(text) : {};
+        });
+        
+    })
+    .then(data => {
+        hideLoader();
+        console.log(data['trackingData']);
+        const datashow=data['trackingData'];
+        
+        const tableContainer = document.getElementById('trackedApplicationShow');
+        tableContainer.innerHTML = `
+     <div id="show_application" class="card custom-card fontsize col-12 position-relative">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-lg-8">
+                <strong><span  class="text-primary">Status: `+datashow['Action']+`</span></strong>
+            </div>
+            <div class="col-lg-4 text-end"></div>
+        </div>
+
+        <table class="table table-borderless bg-white">
+            <tbody> 
+                <tr>
+                    <td colspan="16"><strong>Reply:</strong> `+datashow['Reply']+`</td>
+                </tr>
+           
+                <tr>
+                    <th colspan="8">Application No: `+datashow['ComplaintNo']+`</th>
+                    <th colspan="8" class="text-end"><strong>Date:</strong> `+datashow['ComplaintDate']+`</th>
+                </tr>
+             
+                <tr>
+                    <th colspan="16"><strong>To</strong></th>
+                </tr>
+                <tr>
+                    <td colspan="16">
+                        Student Interaction Cell<br>
+                        Guru Kashi University<br>
+                        Talwandi Sabo
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td colspan="16">Respected Sir/Madam,</td>
+                </tr>
+                <tr>
+                    <td colspan="16"><strong>Subject:</strong> `+datashow['Comments']+`</td>
+                </tr>
+            
+                <tr>
+                    <td colspan="16">`+datashow['Complaint']+`</td>
+                </tr>
+                <tr>
+                    <td colspan="16">
+                        <a href="#" target="_blank">Attachments</a>
+                    </td>
+                </tr>
+             
+               
+             
+                <tr>
+                    <td colspan="8"><strong>Date:</strong> `+datashow['ComplaintDate']+`</td>
+                    <td colspan="8" class="text-end">
+                        <strong>Your Faithfully,</strong><br>
+                        <strong>Name:</strong> `+datashow['ComplainerName']+`<br>
+                        <strong>Roll No.:</strong> `+datashow['rollno']+`<br>
+                        <strong>Course:</strong> `+datashow['course']+`
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+<hr>
+        <table class="table  bg-white mt-3">
+            <tbody>
+                <tr>
+                    <td colspan="8">
+                        <strong>Forward to:</strong><br>
+                        `+datashow['ComplaineeIDNo']+`<br>
+                        `+datashow['ComplaineeName']+`
+                    </td>
+                    <td colspan="8" class="text-end">
+                        Regards,<br>
+                        <strong>`+datashow['ComplaineeName']+`</strong><br>
+                        Guru Kashi University<br>
+                        (`+datashow['ComplaintDate']+`)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+        `;
+    })
+    .catch(error => {
+        hideLoader();
+        showErrorMessage('An error occurred while fetching subjects. Please try again later.');
+    });
+}
 

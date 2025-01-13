@@ -4,8 +4,10 @@
 
        <div class="container-xl ">
        <div class="row justify-content-center">
-              <div class="col-8">
+        
+              <div class="col-lg-4 col-sm-12 col-md-12">
                 <div class="card">
+                <div class="card-status-top bg-primary"></div>
                 <div class="card-header">
                     <h4 class="card-title">Password Change</h4>
                   </div>
