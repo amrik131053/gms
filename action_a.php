@@ -59,15 +59,13 @@ window.location.href = "index.php";
        }
         $currentMonthString=date('F');
         $currentMonthInt=date('n');
-        $code =$_POST['flag'];
-      //   if($code==168)
-      //   {
-      //       include "connection/ftp.php";
-      //   }
+        $code=$_POST['flag'];
+     
         if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8)
         {
             include "connection/ftp-erp.php";
         }
+
 
 // HR/Admin Upload Staff Documents
 if($code==1)
@@ -577,7 +575,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
 
 <?php 
       }
-      if ($code == 7) {
+      else if ($code == 7) {
         // Fetch promotion-related data from the form
         $organisationID = $_POST['organisationNamePromition'];
         $DepartmentID = $_POST['departmentNamePromition'];
@@ -1599,7 +1597,6 @@ $SubjectName="";
                   WHERE CourseID = '" . $row['CourseID'] . "' 
                   AND CollegeID = '" . $row['CollegeID'] . "' 
                   AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
-;
     $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
     while($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
 
@@ -1632,8 +1629,10 @@ $SubjectName="";
 }
     // print_r($aa);
     ?>
-            </tbody>
-        </table><?php 
+ </tbody>
+</table>
+        
+        <?php 
           sqlsrv_close($conntest);
 
 }
@@ -1746,7 +1745,7 @@ for($i=1;$i<=8;$i++)
 
 
 }
-    // print_r($aa);
+
     ?>
             </tbody>
         </table><?php 
@@ -1850,13 +1849,8 @@ for($i=1;$i<=8;$i++)
 }
 }
 ?></tr>
+ <?php 
 
- 
-
-
-
-
-                    <?php 
    sqlsrv_close($conntest);                 
 
 }
@@ -1904,13 +1898,18 @@ elseif($code==25.3)
   sqlsrv_close($conntest); 
 }
 
-elseif($code==25.3)
+elseif($code==25.4)
 
    {
 echo $ArticleName=$_POST['ArticleName'];
 echo $ArticleSpecification=$_POST['ArticleSpecification'];
-   }
+   
 
 
-}
+
     
+
+          sqlsrv_close($conntest);
+      }
+}
+

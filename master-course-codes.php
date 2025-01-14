@@ -67,6 +67,7 @@ for($s1='16';$s1<='31';$s1++)
                                     <?php }?>
                                 </select>
                                 <select id="session3" class="btn btn-default btn-sm">
+                                    <option value=''>Select</option>
                                     <option value='J'>J</option>
                                     <option value='A'>A</option>
                                     <option value='J'>J</option>
