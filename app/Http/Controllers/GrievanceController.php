@@ -28,12 +28,12 @@ class GrievanceController extends Controller
                     'application_subject' => [
                         'required',
                         'string',
-                        'regex:/^[a-zA-Z0-9\s]+$/',
+                        "regex:/^[a-zA-Z0-9\s.,-_)(']+$/",
                     ],
                     'application_details' => [
                         'required',
                         'string',
-                        'regex:/^[a-zA-Z0-9\s]+$/',
+                        "regex:/^[a-zA-Z0-9\s.,-_)(']+$/",
                     ],
 
                     'application_file' => [

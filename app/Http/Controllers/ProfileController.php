@@ -36,7 +36,8 @@ public function submitProfileForm(Request $request)
         'address' => [
             'required',
             'string',
-            'regex:/^[a-zA-Z0-9\s]+$/'
+            "regex:/^[a-zA-Z0-9\s.,-_)(']+$/",
+
         ],
     ], [
         'bloodgroup.required' => 'Please select a bloodgroup.',
