@@ -658,131 +658,296 @@ function handleResponseProfile(data) {
     //     showErrorMessage('Exam Form Already Submitted.');
     // }
 }
+// function trackComplaint() {
+//     showLoader();
+//     const complaint_no = document.getElementById('complaint_no').value;
 
+//     if (!complaint_no) {
+//         showErrorMessage('Please enter a valid complaint number.');
+//         hideLoader();
+//         return;
+//     }
 
+//     fetch('/complaintTrack', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+//         },
+//         body: JSON.stringify({ complaintno: complaint_no }),
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//         hideLoader();
+//         return response.json(); // Parse the JSON response
+//     })
+//     .then(data => {
+//         hideLoader();
+//         const trackingData = data['trackingData'];
+//         if (!trackingData || trackingData.length === 0) {
+//             showErrorMessage('No tracking data found for this complaint.');
+//             return;
+//         }
+
+//         const tableContainer = document.getElementById('trackedApplicationShow');
+//         let stepsHTML = `
+//             <li class="step-item active">
+//                 <div class="h4 m-0">You</div>
+//                 <div class="text-success">${trackingData[0]['Complaint']}</div>
+//                 <div class="text-primary"><strong>Subject:</strong> ${trackingData[0]['Comments']}</div>
+//                 <div class="text-secondary">${trackingData[0]['ComplaintDate']}</div>
+//             </li>
+//             <li class="step-item">
+//                 <div class="h4 m-0">${trackingData[0]['ComplaineeName']} (${trackingData[0]['ComplaineeIDNo']})</div>
+//                 <div class="text-success">${trackingData[0]['ForwardToRemarks']}</div>
+//                 <div class="text-secondary">${trackingData[0]['ForwardDate']}</div>
+//             </li>
+//         `;
+
+//         trackingData.forEach((step, index) => {
+//             const isLastStep = index === trackingData.length - 1;
+//             const stepClass = step['Action'] === 'Forwarded' ? 'active' : isLastStep ? 'completed' : 'pending';
+
+//             stepsHTML += `
+//                 <li class="step-item ${stepClass}">
+//                     <div class="h4 m-0">${stepClass}${step['ForwardToName']} - ${step['ForwardToDesignation']} (${step['ForwardToIDNo']}) | ${step['ForwardToDep'] || 'N/A'}</div>
+                   
+//                     <div class="text-secondary">${step['ForwardToRemarks'] || 'N/A'}</div>
+
+//                     <div class="text-secondary">${step['ForwardDate'] || 'N/A'}</div>
+//                 </li>
+//             `;
+//         });
+
+//         tableContainer.innerHTML = `
+//             <div class="col-lg-12">
+//                 <div class="card">
+//                     <div class="card-body">
+//                         <h3 class="card-title">Application No: ${trackingData[0]['ComplaintNo']} - Total Steps: ${trackingData.length}</h3>
+//                         <ul class="steps steps-vertical">
+//                             ${stepsHTML}
+//                         </ul>
+//                     </div>
+//                 </div>
+//             </div>
+//         `;
+//     })
+//     .catch(error => {
+//         hideLoader();
+//         console.error('Error:', error);
+//         showErrorMessage('An error occurred while fetching complaint tracking data. Please try again later.');
+//     });
+// }
+function formatDateTime(dateTime) {
+    if (!dateTime) return 'N/A'; // Handle null or undefined
+    const date = new Date(dateTime);
+    return date.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata', // Convert to IST
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true // Use 12-hour format
+    });
+}
 
 function trackComplaint() {
     showLoader();
     const complaint_no = document.getElementById('complaint_no').value;
-    if(!complaint_no)
-    {
-        showErrorMessage('Please select an semester.');
+
+    if (!complaint_no) {
+        showErrorMessage('Please enter a valid complaint number.');
         hideLoader();
-        return; 
-        
+        return;
     }
-   
+
     fetch('/complaintTrack', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
-        body: JSON.stringify({ complaintno: complaint_no})
+        body: JSON.stringify({ complaintno: complaint_no }),
     })
     .then(response => {
-        // console.log('Raw response:', response);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        hideLoader();
-        return response.text().then(text => {
-            return text ? JSON.parse(text) : {};
-        });
-        
+        return response.json();
     })
     .then(data => {
         hideLoader();
-        console.log(data['trackingData']);
-        const datashow=data['trackingData'];
+        const trackingData = data['trackingData'];
+// console.log(data);
+        if (!trackingData) {
+            showErrorMessage('No tracking data found for this complaint.');
+            return;
+        }
         
+        const normalizedData = Array.isArray(trackingData) ? trackingData : [trackingData];
         const tableContainer = document.getElementById('trackedApplicationShow');
-        tableContainer.innerHTML = `
-     <div id="show_application" class="card custom-card fontsize col-12 position-relative">
-    <div class="card-body">
-        <div class="row mb-3">
-            <div class="col-lg-8">
-                <strong><span  class="text-primary">Status: `+datashow['Action']+`</span></strong>
-            </div>
-            <div class="col-lg-4 text-end"></div>
-        </div>
+        let stepsHTML = '';
+        console.log(normalizedData);
+        normalizedData.forEach((step, index) => {
+            if (index === 0) {
+                stepsHTML += `
+                <li class="step-item">
+                    <div class="card card-body">
+                        <div class="card-status-top bg-primary"></div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">You</h4>
+                            <div class="d-flex align-items-center">${step['SubmitDate'] || ''}</div>
+                        </div>
+                        <div class="text-primary"><strong>Subject:</strong> ${step['Subject'] || ''}</div>
+                        <div class="h4 m-0">${step['Description'] || ''}</div>
+                    </div>
+                </li>`;
+                
+                stepsHTML += `
+                <li class="step-item">
+                    <div class="card card-body">
+                        <div class="card-status-top bg-primary"></div>
+                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="">
+                        <div class="text-success">${step['EmployeeRemarks'] || ''}</div>
+                                ${step['EmployeeName'] || ''} (${step['EmployeeId'] || ''})-${step['EmployeeDesignation'] || ''}- ${step['EmployeeDepartment'] || ''}
+                              
+                            </div>
+                              <div class="text-secondary">${step['ForwardDateTime'] || ''}</div>
+                          
 
-        <table class="table table-borderless bg-white">
-            <tbody> 
-                <tr>
-                    <td colspan="16"><strong>Reply:</strong> `+datashow['Reply']+`</td>
-                </tr>
-           
-                <tr>
-                    <th colspan="8">Application No: `+datashow['ComplaintNo']+`</th>
-                    <th colspan="8" class="text-end"><strong>Date:</strong> `+datashow['ComplaintDate']+`</th>
-                </tr>
-             
-                <tr>
-                    <th colspan="16"><strong>To</strong></th>
-                </tr>
-                <tr>
-                    <td colspan="16">
-                        Student Interaction Cell<br>
-                        Guru Kashi University<br>
-                        Talwandi Sabo
-                    </td>
-                </tr>
+                        </div>
+                      
+                    </div>
+                </li>
+                `;
+                
+            } else {
+   
+                stepsHTML += `
+                <li class="step-item">
+                    <div class="card card-body">
+                        <div class="card-status-top bg-primary"></div>
+                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="">
+                        <div class="text-success">${step['EmployeeRemarks'] || ''}</div>
+                               ${step['EmployeeName'] || ''} (${step['EmployeeId'] || ''})-${step['EmployeeDesignation'] || ''}- ${step['EmployeeDepartment'] || ''}
+                               
+                            </div>
+                           <div class="text-secondary">${step['ForwardDateTime'] || ''}</div>
+                           
+                           
+                        </div>
+                       
+                    </div>
+                </li>
+`;
+
+            }
+        });
+
+        tableContainer.innerHTML = `
+          <div class="col-lg-12">
+            <div class="card">
+            <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Application No: ${normalizedData[0]['TokenNo'][0] || ''}</h4>
+                            <div class="d-flex align-items-center"><b>Status:&nbsp; </b> <b class="text-${normalizedData[0]['Status']==1 ? 'success':'warning' || ''}">  ${normalizedData[0]['Status']==1 ? ' Completed':' Forwarded' || ''}</b></div>
+                        </div>
                
-                <tr>
-                    <td colspan="16">Respected Sir/Madam,</td>
-                </tr>
-                <tr>
-                    <td colspan="16"><strong>Subject:</strong> `+datashow['Comments']+`</td>
-                </tr>
-            
-                <tr>
-                    <td colspan="16">`+datashow['Complaint']+`</td>
-                </tr>
-                <tr>
-                    <td colspan="16">
-                        <a href="#" target="_blank">Attachments</a>
-                    </td>
-                </tr>
-             
-               
-             
-                <tr>
-                    <td colspan="8"><strong>Date:</strong> `+datashow['ComplaintDate']+`</td>
-                    <td colspan="8" class="text-end">
-                        <strong>Your Faithfully,</strong><br>
-                        <strong>Name:</strong> `+datashow['ComplainerName']+`<br>
-                        <strong>Roll No.:</strong> `+datashow['rollno']+`<br>
-                        <strong>Course:</strong> `+datashow['course']+`
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-<hr>
-        <table class="table  bg-white mt-3">
-            <tbody>
-                <tr>
-                    <td colspan="8">
-                        <strong>Forward to:</strong><br>
-                        `+datashow['ComplaineeIDNo']+`<br>
-                        `+datashow['ComplaineeName']+`
-                    </td>
-                    <td colspan="8" class="text-end">
-                        Regards,<br>
-                        <strong>`+datashow['ComplaineeName']+`</strong><br>
-                        Guru Kashi University<br>
-                        (`+datashow['ComplaintDate']+`)
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-        `;
+                <ul class="steps steps-vertical">
+                  ${stepsHTML}
+                </ul>
+
+              </div>
+            </div>
+          </div>`;
     })
     .catch(error => {
         hideLoader();
-        showErrorMessage('An error occurred while fetching subjects. Please try again later.');
+        console.error('Error:', error);
+        showErrorMessage('An error occurred while fetching complaint tracking data. Please try again later.');
     });
 }
+
+
+
+// function trackComplaint() {
+//     showLoader();
+//     const complaint_no = document.getElementById('complaint_no').value;
+//     if(!complaint_no)
+//     {
+//         showErrorMessage('Please select an semester.');
+//         hideLoader();
+//         return; 
+        
+//     }
+   
+//     fetch('/complaintTrack', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//         },
+//         body: JSON.stringify({ complaintno: complaint_no})
+//     })
+//     .then(response => {
+//         // console.log('Raw response:', response);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//         hideLoader();
+//         return response.text().then(text => {
+//             return text ? JSON.parse(text) : {};
+//         });
+        
+//     })
+//     .then(data => {
+//         hideLoader();
+//         console.log(data['trackingData']);
+//         const datashow=data['trackingData'][0];
+//         const datashowloop=data['trackingData'];
+//         const Status=data['trackingData'][0]['Action'];
+        
+//         const tableContainer = document.getElementById('trackedApplicationShow');
+//         tableContainer.innerHTML = `
+//           <div class="col-lg-12">
+//                 <div class="card">
+//                   <div class="card-body">
+//                     <h3 class="card-title">Application No: `+datashow['ComplaintNo']+`-- `+datashowloop.length+`</h3>
+//                     <ul class="steps steps-vertical">
+//                       <li class="step-item">
+//                         <div class="h4 m-0">You</div>
+//                         <div class="text-success">`+datashow['Complaint']+`</div>
+//                         <div class="text-primary"><strong>Subject:</strong> `+datashow['Comments']+`</div>
+//                         <div class="text-secondary">`+datashow['ComplaintDate']+`</div>
+//                       </li>`
+//                           for (let i = 0; i < datashowloop.length; i++) {`
+//                       <li class="step-item ">
+//                         <div class="h4 m-0">`+datashow['ComplaineeName']+`(`+datashow['ComplaineeIDNo']+`)</div>
+//                         <div class="text-secondary">`+datashow['ForwardToRemarks']+`</div>
+//                         <div class="text-secondary">`+datashow['ForwardedDate']+`</div>
+//                       </li>
+//                            `}`
+//                       <li class="step-item">
+//                         <div class="h4 m-0">Completed</div>
+//                         <div class="text-secondary"></div>
+//                       </li>
+//                     </ul>
+//                   </div>
+                 
+//                 </div>
+//               </div>
+
+    
+//         `;
+//     })
+//     .catch(error => {
+//         hideLoader();
+//         showErrorMessage('An error occurred while fetching subjects. Please try again later.');
+//     });
+// }
 

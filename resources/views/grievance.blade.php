@@ -67,7 +67,7 @@
                                         <th class="text-start align-top" width="50%"></th>
                                         <td colspan="3" width="50%">
                                             <select name="application_to" id="" class="form-select">
-                                                <option value="1">Sic</option>
+                                                <option value="170976">Sic</option>
                                                 <option value="2">Account</option>
                                             </select>
                                         </td>
@@ -153,22 +153,16 @@
                 <form action="#" method="post" class="card">
                     <div class="card-status-top bg-primary"></div>
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">All Requests</h4>
+                        <h4 class="card-title">Application Track</h4>
                         <div class="d-flex align-items-center">
                             <select name="complaint_no" id="complaint_no" class="form-select me-2">
                                 @foreach ($dropDownTrak as $dropDownTrakName)
-                                <option value="{{$dropDownTrakName['ComplaintNo']}}">
-                                    {{$dropDownTrakName['ComplaintNo']}}</option>
+                                <option value="{{$dropDownTrakName['TokenNo']}}">
+                                    {{$dropDownTrakName['TokenNo']}}</option>
                                 @endforeach
                             </select>
                             <a href="#" onclick="trackComplaint();" class="btn btn-primary d-flex align-items-center">
-                                <!-- Icon -->
-                                <!-- <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24" height="24" viewBox="0 0 24 24"
-                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 5l0 14" />
-                <path d="M5 12l14 0" />
-            </svg> -->
+                             
                                 Track Now
                             </a>
                         </div>

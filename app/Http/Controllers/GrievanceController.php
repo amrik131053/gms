@@ -96,7 +96,7 @@ class GrievanceController extends Controller
             if (empty($resp)) {
                 return response()->json(['error' => 'No data found'], 404);
             }
-            $examSubjectNormalData = $resp['data'][0] ?? [];
+            $examSubjectNormalData = $resp['data'] ?? [];
             return response()->json([
                 'trackingData' => $examSubjectNormalData,  
             ]);

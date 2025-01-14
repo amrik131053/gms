@@ -33,14 +33,19 @@ public function submitProfileForm(Request $request)
         'email' => 'required', 
         'mobile' => 'required', 
         'abcid' => 'required', 
-        'address' => 'required' 
+        'address' => [
+            'required',
+            'string',
+            'regex:/^[a-zA-Z0-9\s]+$/'
+        ],
     ], [
         'bloodgroup.required' => 'Please select a bloodgroup.',
         'gender.required' => 'Please select a gender.',
         'email.required' => 'Please enter  email.',
         'mobile.required' => 'Please enter a mobile.',
         'abcid.required' => 'Please enter a ABC ID.',
-        'address.required' => 'Please enter a Address.'
+        'address.required' => 'Please enter a Address.',
+        'address.regex' => 'The details contain invalid characters in address.',
     ]);
     $BaseURL=config('app.baseUrl');
     $token = $request->session()->get('api_token');

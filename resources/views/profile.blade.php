@@ -353,6 +353,10 @@
                                                                 <input type="text" class="form-control" id="address"
                                                                     name="address"
                                                                     value="{{$profileData['PermanentAddress']}}">
+                                                                    @error('address')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                                                                   
                                                             </div>
                                                         </div>
 
