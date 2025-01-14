@@ -24474,7 +24474,7 @@ else if($code=='363')
 $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-
+ 
 //$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
 
   $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
@@ -25589,7 +25589,7 @@ $list_resultamrik = sqlsrv_query($conntest,$resultdata);
         <td>Semester</td>
          <td>Type</td>
           <td>Declare Date</td>
-          
+
            <td>Result No</td>
            <td>No of Appeared </td>
            <td>No of Passed</td>

@@ -1,0 +1,869 @@
+<?php 
+  include "header.php";   
+?>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-info">
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12 col-md-4 col-sm-12">
+            <div class=" card-header">
+           Stock Management
+            <!-- <span style="float:right;">
+      <button class="btn btn-xs ">
+         <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Emp ID">
+      </button>
+            <button type="button" onclick="addlmsRole();" class="btn btn-success btn-sm">
+              Search
+            </button>
+      </span> -->
+</div>
+                <div class="card-body card">
+                <?php 
+                              
+                              if ($code_access!='000') 
+                              { 
+                                 ?>
+                    <div class="btn-group w-100 mb-2">
+                    
+          
+                        <a class="btn " id="btn1" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="Addarticle();bg(this.id);"> Add </a>
+
+
+                        <a class="btn " id="btn2" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="Search();bg(this.id);"> Search </a>
+
+                       <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a> -->
+                        <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a> 
+                        
+                        <a class="btn " id="btn5" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="Update();bg(this.id);"> Update </a>
+                            
+                        <a class="btn " id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="addRoleLMS();bg(this.id);"> Assign Role </a>
+                            <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="reports();bg(this.id);">Reports</a> 
+
+                              
+                            
+                    </div>
+                        <?php 
+                              }
+                               if ($code_access=='000') 
+                             { 
+                                ?>
+                                <script>
+                               $( window ).on("load", function() {
+                                 Search();
+});
+                                </script>
+
+                                
+                        <?php }?>
+
+                    <div id="table_load">
+                   
+                       
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+
+</section>
+<p id="ajax-loader"></p>
+<script type="text/javascript">
+$(window).on('load', function() {
+    $('#btn6').toggleClass("bg-success");
+})
+
+function format() {
+    window.location.href = 'http://gurukashiuniversity.co.in/gkuadmin/formats/studyscheme.csv';
+}
+
+function bg(id) {
+    $('.btn').removeClass("bg-success");
+    $('#' + id).toggleClass("bg-success");
+}
+
+function search_study_scheme() {
+    var code = 227;
+
+    var CollegeID = document.getElementById('College').value;
+
+    var Course = document.getElementById('Course').value;
+
+    var batch = document.getElementById('batch').value;
+
+    var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
+
+    var group = document.getElementById('group').value;
+     var Department = document.getElementById('Department').value;
+    
+
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            CollegeID: CollegeID,
+            Course: Course,
+            Batch: batch,
+            Group:group,
+            Department:Department,
+            Semester: semester,session:session
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("load_study_scheme").innerHTML = response;
+        }
+    });
+
+}
+
+function update_study_scheme_search() { 
+    var code = 254;
+    var CollegeID = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var batch = document.getElementById('batch').value;
+    var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            CollegeID: CollegeID,
+            Course: Course,
+            Batch: batch,Session:session,
+            Semester: semester
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("load_study_scheme").innerHTML = response;
+        }
+    });
+
+}
+function submit_rolelms(id)
+{
+
+var code=303; 
+var role_id= document.getElementById("roleID").value;
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+role_new:role_id,emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+if(response==1)
+{
+   addRoleLMS();
+  
+  SuccessToast('Successfully Asssined');
+}
+// else if(response==2)
+// {
+
+
+//   ErrorToast('already Assigned','bg-warning');
+// }
+else
+{
+  ErrorToast('Try Again','bg-danger');
+}
+},
+error:function(){
+}
+});
+} 
+
+function del_rolerr(id)
+{
+    var a=confirm('Are you sure you want to delete Role '+id);;
+if (a==true) {
+var code=302;  
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+   emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+  if(response==1)
+  {
+   searchEmp();
+   addRoleLMS();
+    SuccessToast('Successfully Delete');
+  }
+  else
+  {
+    ErrorToast('Try Again','bg-danger');
+  }
+      },
+error:function(){
+// alert("error");
+}
+});
+}
+else
+{
+
+}
+} 
+
+function searchEmp() {
+    var code = 301;
+    var empID = document.getElementById('empID').value;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            empid: empID
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("emp-data").innerHTML = response;
+        }
+    });
+}
+
+function addRoleLMS() {
+    var code = 300;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+function Addarticle() { 
+    var code = 25.3;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+
+function fetchcourse() {
+
+
+
+    var College = document.getElementById('College').value;
+    var department = document.getElementById('Department').value;
+
+    var code = '305';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            department: department,
+            College: College,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            if (data != "") {
+                console.log(data);
+                $("#Course").html("");
+                $("#Course").html(data);
+            }
+        }
+    });
+
+}
+
+function Search() { 
+    // $('#'+id).toggleClass("bg-green");
+
+    var code = 226;
+    var code_access = '<?php echo $code_access; ?>';
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            code_access: code_access
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+
+function Move() {
+    //228
+    var code = 228;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+function reports() {
+    //228
+    var flag = 6.1;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: flag
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+function Copy() { //229
+    var code = 229;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+
+function Update() { 
+
+    //230
+    var code = 230;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php', 
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+// function Upload()
+// { //241
+//   var code=241;
+//          var spinner=document.getElementById('ajax-loader');
+//          spinner.style.display='block';
+//          $.ajax({
+//             url:'action.php',
+//             type:'POST',
+//             data:{
+//                code:code
+//                },
+//             success: function(response) 
+//             { 
+//                spinner.style.display='none';
+//                document.getElementById("table_load").innerHTML=response;
+//             }
+//          });
+// }
+
+
+
+
+
+function submitarticle() {
+    var ArticleName = document.getElementById('ArticleName').value;
+    var ArticleSpecification = document.getElementById('ArticleSpecification').value;
+   
+    if (ArticleName != '' ) {
+        var code = 25.4;
+
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action_a.php',
+            type: 'POST',
+            data: {
+                flag:code,
+                ArticleName:ArticleName,
+                ArticleSpecification:ArticleSpecification,
+                
+            },
+            success: function(response) {
+console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully Submit');
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+            }
+        });
+    } else {
+        ErrorToast('Please Input All Required Filed', 'bg-warning');
+    }
+
+
+
+}
+
+function exportStudyScheme() 
+      {
+        var CollegeID = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var batch = document.getElementById('batch').value;
+    var semester = document.getElementById('semester').value;
+    
+         var exportCode='62';
+          window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batch+"&semester="+semester;
+      }
+
+function delete_study_scheme(id) {
+
+
+    var a = confirm('Are you sure to Delete');
+
+    var code = 291;
+    if (a == true) {
+
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action.php',
+            type: 'POST',
+            data: {
+                id: id,
+                code: code
+            },
+            success: function(response) {
+
+                spinner.style.display = 'none';
+
+                if (response == 1) {
+                    update_study_scheme_search();
+                    SuccessToast('Successfully Deleted');
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+            }
+
+
+
+
+        });
+
+    }
+}
+
+function update_study_scheme(srno) {
+
+    var subject_name = document.getElementById('subject_name' + srno).value;
+    var group = document.getElementById('sgroup' + srno).value;
+    // alert(subject_name);
+    var subject_code = document.getElementById('subject_code' + srno).value;
+    var subject_type = document.getElementById('subject_type' + srno).value;
+
+      var academic_type = document.getElementById('academic_type' + srno).value;
+
+    var int_marks = document.getElementById('int_marks' + srno).value;
+    var ext_marks = document.getElementById('ext_marks' + srno).value;
+    var elective = document.getElementById('elective' + srno).value;
+    var lecture = document.getElementById('lecture' + srno).value;
+    var practical = document.getElementById('practical' + srno).value;
+       var department = document.getElementById('department' + srno).value;
+    var tutorials = document.getElementById('tutorials' + srno).value;
+    var credits = document.getElementById('credits' + srno).value;
+    if (subject_name != '' && subject_code != '' && subject_type != '' && int_marks != '' && ext_marks != '' &&
+        elective != '' && lecture != '' && practical != '' && tutorials != '' && credits != '') {
+        var a = confirm('Are you sure to Update');
+        var code = 255;
+        if (a == true) {
+
+            var spinner = document.getElementById('ajax-loader');
+            spinner.style.display = 'block';
+            $.ajax({
+                url: 'action.php',
+                type: 'POST',
+                data: {
+                    code: code,
+                    subject_name: subject_name,
+                    subject_code: subject_code,
+                    subject_type: subject_type,academic_type:academic_type,
+                    int_marks: int_marks,
+                    ext_marks: ext_marks,
+                    elective: elective,
+                    lecture: lecture,
+                    practical: practical,
+                    tutorials: tutorials,
+                    credits: credits,department:department,
+                    srno: srno,
+                    group: group
+                },
+                success: function(response) {
+
+                    spinner.style.display = 'none';
+                     console.log(response);
+                    if (response == 1) {
+                        update_study_scheme_search()
+                        SuccessToast('Successfully Submit');
+                    } else {
+                        ErrorToast('Try Again', 'bg-danger');
+                    }
+                }
+            });
+        } else {
+
+        }
+    } else {
+        ErrorToast('Please Input All Required Filed', 'bg-warning');
+
+    }
+
+
+
+}
+
+function move_study_scheme() {
+    var CollegeID = document.getElementById('College').value;
+    var CourseID = document.getElementById('Course').value;
+    var from_batch = document.getElementById('from_batch').value;
+    var from_semester = document.getElementById('from_semester').value;
+    var to_batch = document.getElementById('to_batch').value;
+    var to_semester = document.getElementById('to_semester').value;
+    var code = 250;
+
+    if (CollegeID != '' && CourseID != '' && from_batch != '' && from_semester != '' && to_batch != '' && to_semester !=
+        '') {
+        var a = confirm('Are you sure to Move \n Batch ' + from_batch + ' To ' + to_batch + '\n Semester ' +
+            from_semester + ' To ' + to_semester);
+        if (a == true) {
+            var spinner = document.getElementById('ajax-loader');
+            spinner.style.display = 'block';
+            $.ajax({
+                url: 'action.php',
+                type: 'POST',
+                data: {
+                    code: code,
+                    CollegeID: CollegeID,
+                    CourseID: CourseID,
+                    from_batch: from_batch,
+                    from_semester: from_semester,
+                    to_batch: to_batch,
+                    to_semester: to_semester,
+
+                },
+                success: function(response) {
+                    // console.log(response);
+                    spinner.style.display = 'none';
+                    if (response == 1) {
+                        SuccessToast('Successfully Move');
+                    } else {
+                        ErrorToast('Try Again', 'bg-danger');
+                    }
+                }
+            });
+        } else {
+
+        }
+    } else {
+        ErrorToast('Please Input All Required Filed', 'bg-warning');
+    }
+
+
+}
+
+function copy_study_scheme() {
+    var CollegeID = document.getElementById('College').value;
+    var CourseID = document.getElementById('Course').value;
+    var from_batch = document.getElementById('from_batch').value;
+    var from_semester = document.getElementById('from_semester').value;
+    var to_batch = document.getElementById('to_batch').value;
+    var to_semester = document.getElementById('to_semester').value;
+    var to_session = document.getElementById('to_session').value;
+    var from_session = document.getElementById('from_session').value;
+    var code = 253;
+
+    if (CollegeID != '' && CourseID != '' && from_batch != '' && from_semester != '' && from_session!='' && to_session!='') {
+        var a = confirm('Are you sure to Copy \n Batch ' + from_batch + '  To  Batch ' + to_batch+ '\n Semester ' + from_semester +
+             ' to  Semester ' + to_semester+'\n Session ' + from_session + '  To  Session ' + to_session);
+        if (a == true) {
+            var spinner = document.getElementById('ajax-loader');
+            spinner.style.display = 'block';
+            $.ajax({
+                url: 'action.php',
+                type: 'POST',
+                data: {
+                    code: code,
+                    CollegeID: CollegeID,
+                    CourseID: CourseID,
+                    from_batch: from_batch,
+                    from_semester: from_semester,
+                    to_batch: to_batch,
+                    to_semester: to_semester,to_session:to_session,from_session:from_session
+
+
+                },
+                success: function(response) {
+                     console.log(response);
+                    spinner.style.display = 'none';
+                    if (response == 1) {
+                        SuccessToast('Successfully Copy');
+                    } else {
+                        ErrorToast('Try Again', 'bg-danger');
+                    }
+                }
+            });
+        } else {
+
+        }
+    } else {
+        ErrorToast('Please Input All Required Filed', 'bg-warning');
+    }
+
+
+}
+
+
+function verifiy() {
+    var verifiy = document.getElementsByClassName('un_check');
+    var len_student = verifiy.length;
+    var code = 243;
+    var subjectIDs = [];
+
+    for (i = 0; i < len_student; i++) {
+        if (verifiy[i].checked === true) {
+            subjectIDs.push(verifiy[i].value);
+        }
+    }
+
+
+
+    if ((typeof subjectIDs[0] == 'undefined')) {
+        alert('Select atleast one Subject');
+    } else {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                subjectIDs: subjectIDs,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                 console.log(data);
+                if (data == 1) {
+                    SuccessToast('Successfully Verified');
+                    search_study_scheme();
+                } else {
+
+                    ErrorToast(' try Again', 'bg-danger');
+
+                }
+            }
+        });
+    }
+}
+
+function un_verifiy() {
+    var un_verifiy = document.getElementsByClassName('v_check');
+    var len_student = un_verifiy.length;
+    var code = 244;
+    var subjectIDs = [];
+
+    for (i = 0; i < len_student; i++) {
+        if (un_verifiy[i].checked === true) {
+            subjectIDs.push(un_verifiy[i].value);
+        }
+    }
+
+
+
+    if ((typeof subjectIDs[0] == 'undefined')) {
+        alert('Select atleast one Subject');
+    } else {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                subjectIDs: subjectIDs,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                // console.log(data);
+                if (data == 1) {
+                    SuccessToast('Successfully UnVerified');
+                    search_study_scheme();
+                } else {
+                    ErrorToast(' try Again', 'bg-danger');
+
+                }
+            }
+        });
+    }
+}
+
+
+function un_verifiy_select() {
+    if (document.getElementById("select_all").checked) {
+        $('.un_check').each(function() {
+            this.checked = true;
+        });
+    } else {
+        $('.un_check').each(function() {
+            this.checked = false;
+        });
+    }
+
+    $('.un_check').on('click', function() {
+        var a = document.getElementsByClassName("un_check:checked").length;
+        var b = document.getElementsByClassName("un_check").length;
+
+        if (a == b) {
+
+            $('#select_all').prop('checked', true);
+        } else {
+            $('#select_all').prop('checked', false);
+        }
+    });
+
+}
+
+function verifiy_select() {
+    if (document.getElementById("select_all1").checked) {
+        $('.v_check').each(function() {
+            this.checked = true;
+        });
+    } else {
+        $('.v_check').each(function() {
+            this.checked = false;
+        });
+    }
+
+    $('.v_check').on('click', function() {
+        var a = document.getElementsByClassName("v_check:checked").length;
+        var b = document.getElementsByClassName("v_check").length;
+
+        if (a == b) {
+
+            $('#select_all1').prop('checked', true);
+        } else {
+            $('#select_all1').prop('checked', false);
+        }
+    });
+
+}
+
+function onchange_sem() {
+    var code = '251';
+    var CourseID = $("#Course").val();
+    var CollegeID = $("#College").val();
+    // alert('g');
+    $.ajax({
+        url: 'action.php',
+        data: {
+            CourseID: CourseID,
+            CollegeID: CollegeID,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            // console.log(data);
+            if (data != "") {
+                $("#from_semester").html("");
+                $("#from_semester").html(data);
+            }
+        }
+    });
+}
+
+function onchange_batch() {
+    var code = '252';
+    var CourseID = $("#Course").val();
+    var CollegeID = $("#College").val();
+    var from_semester = $("#from_semester").val();
+    // alert('g');
+    $.ajax({
+        url: 'action.php',
+        data: {
+            CourseID: CourseID,
+            CollegeID: CollegeID,
+            from_semester: from_semester,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            // console.log(data);
+            if (data != "") {
+                $("#from_batch").html("");
+                $("#from_batch").html(data);
+            }
+        }
+    });
+}
+</script>
+</br>
+<div>
+
+
+
+
+    <?php 
+
+
+    include "footer.php";  ?>

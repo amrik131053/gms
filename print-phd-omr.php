@@ -1,7 +1,7 @@
 <?php
 require('fpdf/fpdf.php');
-$From=$_POST['From']=2501;
-$To=$_POST['To']=2600;
+$From=$_POST['From']=2534;
+$To=$_POST['To']=2633;
 // Extend the FPDF class to create a custom class with a footer
 class CustomPDF extends FPDF {
     function Footer() {
@@ -15,11 +15,11 @@ class CustomPDF extends FPDF {
     }
       function CustomBulletPoint() {
         
-$this->Image('dist/img/bullet-point.png', 15, 63, 4);
-$this->Image('dist/img/bullet-point.png', 15, 68, 4);
-$this->Image('dist/img/bullet-point.png', 15, 73, 4);
-$this->Image('dist/img/bullet-point.png', 15, 78, 4);
-$this->Image('dist/img/bullet-point.png', 15, 83, 4);
+$this->Image('dist/img/bullet.png', 15, 63, 4);
+$this->Image('dist/img/bullet.png', 15, 68, 4);
+$this->Image('dist/img/bullet.png', 15, 73, 4);
+$this->Image('dist/img/bullet.png', 15, 78, 4);
+$this->Image('dist/img/bullet.png', 15, 83, 4);
     }
 }
 
@@ -32,7 +32,9 @@ for ($p=$From; $p <=$To ; $p++) {
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->SetXY(85, 1);
+$pdf->SetTextColor(255, 0, 0);
 $pdf->MultiCell(210, 10, 'Sr. No. '.$p, 0, 'C');
+$pdf->SetTextColor(0, 0, 0);
 // $pdf->SetXY(10, 10);
 $pdf->Image('dist/img/new-logo.png', 10, 10, 88);
 $pdf->Image('dist/img/naac-logo.png', 170, 10, 30);

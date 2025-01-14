@@ -7238,6 +7238,140 @@ if($list_result === false) {
 
 
  }
+ else if($code==65.1)
+{
+
+
+ $allow=0;
+ $course = $_GET['course'];
+ $CourseID = $_GET['courseid'];
+ $CollegeID = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+ $group = $_GET['group'];
+ $section = $_GET['section'];
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subjectcode'];
+  $subject = $_GET['subject'];
+ $exam = $_GET['examination'];
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="6" style="text-align: center;"></td></tr>
+   
+
+ <?php if($semID==1) {$ext="<sup>st</sup>"; } elseif($semID==2){ $ext="<sup>nd</sup>";}
+  elseif($semID==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$course."(<b>".$batch."</b>)";?></td><td  style="text-align:left;"><b>Semester :<b><?=$sem.$ext;?><b><td><?= $subject;?>(<?= $subjectcode;?>)</td>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="text-align: center;"> Sr No </th>
+                <th  style="text-align:center">Uni Roll No</th>
+                                                
+                      
+                       <th style="text-align: center;"> Name </th>
+            
+                   <th style="text-align: center;">Attendance </th>
+                 
+                  <th style="text-align: center;">Marked By </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+
+
+
+ 
+$sql1="Select  a.IDNo,StudentName,UniRollNo,ClassRollNo from ExamForm as ef inner join ExamFormSubject as efs on ef.Id=efs.ExamId 
+ inner join Admissions as a on ef.IDNo=a.IDNo  where ef.CollegeID='$CollegeID' and ef.CourseID='$CourseID'
+and ef.Semesterid='$semID' and ef.Batch='$Batch' and ef.Status=8 AND SGroup='$group'
+    and SubjectCode='$subjectcode' and ef.Examination='$exam' AND a.Section='A'
+      ANd  a.Status='1' AND  efs.ExternalExam='Y' order by  UniRollNo";
+
+
+
+$stmt2 = sqlsrv_query($conntest,$sql1);
+  
+  $count=0;
+
+while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+
+{
+
+               
+                  
+?>
+<tr>
+<td style="text-align: center"><?= $i++;?></td>
+<td style="text-align: center"><?=$row['ClassRollNo'];?>/ <?=$row['UniRollNo'];?></td>
+
+                                            
+               <td><?= $row['StudentName'];?></td>
+                           <td style='text-align:center'>  
+                              <input type="checkbox" required="" name="mst[]" value="" id='marks' class='marks' ></td>
+                            
+                          
+
+
+                              <td style='text-align:center;'>
+
+
+
+                        
+                               <i class="fa fa-lock text-danger" onclick="unlock();" ></i>
+
+                                
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1; 
+
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+
+<p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-danger "  >
+<?php 
+
+
+
+
+}
 
   elseif ($code==66) {
 
@@ -7295,6 +7429,7 @@ if($list_result === false) {
 
 
  }
+
  else if($code==67)
 {
 

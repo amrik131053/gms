@@ -19948,13 +19948,24 @@ if($row=sqlsrv_fetch_array($getShiftRun,SQLSRV_FETCH_ASSOC))
 {
     $shiftID=$row['ShiftID'];
 }
-       $sql="SELECT * from MadamShiftTime  where Exception='0' and ShiftId='$shiftID' order by Id ASC";
+
+ $sqln="SELECT * from MadamShiftTime  where Exception='1' and ShiftId='$shiftID' AND EndDate>'$todaydate' order by Id DESC";
+    $stmt2n = sqlsrv_query($conntest,$sqln);
+    if($row1n = sqlsrv_fetch_array($stmt2n, SQLSRV_FETCH_ASSOC) )
+    {
+        $times[]=$row1n;
+       
+    }
+    else
+        {
+            $sql="SELECT * from MadamShiftTime  where Exception='0' and ShiftId='$shiftID' order by Id ASC";
     $stmt2 = sqlsrv_query($conntest,$sql);
     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
     {
         $times[]=$row1;
        
     }
+}
     echo  json_encode($times);
     sqlsrv_close($conntest);
 }
@@ -20311,6 +20322,7 @@ elseif($code==267) //update student
      $Batch=$row1['Batch'];  
     $validUpto='NA';
     $IDNo=$row1['IDNo'];
+    $OTR=$row1['OTR'];
     $statustype= $row1['StatusType'];
 ?>
 
@@ -20464,7 +20476,21 @@ elseif($code==267) //update student
                                         
                                     </div>
 
-                                
+                                   <div class="col-md-12 col-lg-3">
+                                        <label>OTR</label>
+                                        <?php if($role_id=='2' OR  $role_id=='15'){
+                                            ?>
+                                            <input type="number" class="form-control" name="OTR"
+                                            placeholder="Enter OTR" value="<?=$OTR;?>">
+                                            <?php  } else
+                                            {
+                                                ?>
+                                                <input type="number" class="form-control" name="OTR"
+                                                placeholder="Enter ABC ID" value="<?=$OTR;?>" readonly><?php 
+                                            }
+                                        ?>
+                                        
+                                    </div>
 
                                      <div class="col-md-12 col-lg-2">
                                         <label>Blood Group</label>
@@ -21620,15 +21646,16 @@ elseif($code==270)  // search student
                         <th>FatherName</th>
                         <th>College</th>
                         <th>Course</th>
-                        <th>Status</th>
-                        <!-- <th>Edit</th> -->
-                        <th>ID Card</th>
+                      
                         <?php 
                              if ($role_id==2 || $role_id==13 || $role_id==16) 
                              {  ?>
                         <th>Section</th>
                         <th>Group</th>
-                        <?php }?>
+                        <?php }?>  <th>Status</th>
+                        <!-- <th>Edit</th> -->
+                        <th>ID Card</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -21709,7 +21736,30 @@ elseif($code==270)  // search student
                         <td><?=$row['Course'];?></td>
                         <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
                         </td> -->
-                        <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
+                           <?php 
+                             if ($role_id==2 || $role_id==13 || $role_id==16) 
+                             {  ?>
+                        <td>   <select  id="ClassSection" onchange="updateSection('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['Section'];?>"><?=$row['Section'];?></option>
+                                <option value="">Select</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select></td>
+                <td>   <select  id="ClassGroup" onchange="updateGroup('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['ClassGroup'];?>"><?=$row['ClassGroup'];?></option>
+                                <option value="">Select</option>
+                                <option value="G1">G1</option>
+                                <option value="G2">G2</option>
+                                <option value="G3">G3</option>
+                                <option value="G4">G4</option>
+                                <option value="G5">G5</option>
+                                <option value="G6">G6</option>
+                                <option value="G7">G7</option>
+                            </select></td>
+                            <?php }?> <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
                   <?php 
@@ -21749,30 +21799,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
   
 
                         </td>
-                        <?php 
-                             if ($role_id==2 || $role_id==13 || $role_id==16) 
-                             {  ?>
-                        <td>   <select  id="ClassSection" onchange="updateSection('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
-                                <option value="<?=$row['Section'];?>"><?=$row['Section'];?></option>
-                                <option value="">Select</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                                <option value="E">E</option>
-                            </select></td>
-                <td>   <select  id="ClassGroup" onchange="updateGroup('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
-                                <option value="<?=$row['ClassGroup'];?>"><?=$row['ClassGroup'];?></option>
-                                <option value="">Select</option>
-                                <option value="G1">G1</option>
-                                <option value="G2">G2</option>
-                                <option value="G3">G3</option>
-                                <option value="G4">G4</option>
-                                <option value="G5">G5</option>
-                                <option value="G6">G6</option>
-                                <option value="G7">G7</option>
-                            </select></td>
-                            <?php }?>
+                    
                     </tr>
                     <?php $sr++;
 
@@ -32252,9 +32279,9 @@ elseif($code=='422')
         <div class="col-lg-12">
             <div class="row text-center">
           <?php   $semesters = [];
-  echo $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
+  $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
                   INNER JOIN MasterCourseCodes  ON MasterCourseStructure.CourseID = MasterCourseCodes.CourseID 
-                   WHERE MasterCourseStructure.Batch = '$BatchOpen' AND MasterCourseCodes.Duration = '$DurationOpen' AND MasterCourseStructure.$TypeOpen = '1'  
+                   WHERE MasterCourseStructure.Batch = '$BatchOpen' AND MasterCourseCodes.Duration = '$DurationOpen'  AND MasterCourseStructure.CourseID!='188' AND MasterCourseStructure.CourseID!='185'AND MasterCourseStructure.CourseID!='464'AND MasterCourseStructure.$TypeOpen = '1'  
                   ORDER BY SemesterID ASC";
     $checkOpenRun = sqlsrv_query($conntest, $checkOpen);
     while ($row = sqlsrv_fetch_array($checkOpenRun, SQLSRV_FETCH_ASSOC)) {
@@ -32372,7 +32399,7 @@ else{
     $DurationOpen=$_REQUEST['DurationOpen'];
     $TypeOpen=$_REQUEST['TypeOpen'];
 
-    $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
+   echo $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
     inner join MasterCourseCodes mcc on mcs.CourseId=mcc.CourseId where mcs.Batch='$BatchOpen' ANd Duration='$DurationOpen' and $TypeOpen='1'";
 
    $update_run=sqlsrv_query($conntest,$update_permission);

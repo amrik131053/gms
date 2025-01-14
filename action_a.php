@@ -1851,25 +1851,66 @@ for($i=1;$i<=8;$i++)
 }
 ?></tr>
 
-
+ 
 
 
 
 
                     <?php 
-}
-
-
-
+   sqlsrv_close($conntest);                 
 
 }
-    // print_r($aa);
-    ?>
-            </tbody>
-        </table><?php 
-          sqlsrv_close($conntest);
 
-// }
+elseif($code==25.3)
+
+   {
+     ?><div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Add Article</b>
+        
+       </div>
+        </div>
+           
+              <label>Name of Article</label>
+                <input type="text" name="ArticleName" id='ArticleName'placeholder="Name of Article"  class="form-control">
+
+<label>Description</label>
+                <input type="text" name="ArticleSpecification" id='ArticleSpecification' placeholder="Specification"  class="form-control">
+<br>
+<button onclick="submitarticle()"  class="btn btn-primary">  Add</button>
+              </div>
 
 
-// }
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Manage Article</b>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+         
+
+  <?php 
+  sqlsrv_close($conntest); 
+}
+
+elseif($code==25.3)
+
+   {
+echo $ArticleName=$_POST['ArticleName'];
+echo $ArticleSpecification=$_POST['ArticleSpecification'];
+   }
+
+
+}
+    
