@@ -14414,7 +14414,7 @@ elseif ($code==186)
         {
          ?>
 
-<b><?=$row_staff['Name'];?></b>
+<?=$row_staff['Name'];?>
 
 <?php
      }

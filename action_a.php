@@ -1884,6 +1884,8 @@ elseif($code==25.3)
         <div class="card-header">
        
          <b>Manage Article</b>
+</div>
+         <div id="showarticle"><div>
         
        </div>
         </div>
@@ -1892,7 +1894,7 @@ elseif($code==25.3)
                 
                  
           </div>  
-         
+         </div>
 
   <?php 
   sqlsrv_close($conntest); 
@@ -1901,15 +1903,352 @@ elseif($code==25.3)
 elseif($code==25.4)
 
    {
-echo $ArticleName=$_POST['ArticleName'];
-echo $ArticleSpecification=$_POST['ArticleSpecification'];
+ $ArticleName=$_POST['ArticleName'];
+ $ArticleSpecification=$_POST['ArticleSpecification'];
    
+ $update1="insert into masterarticleadmisisoncell(Name,Description,CreatedBy,CreatedDate,Status)Values
+    ('$ArticleName','$ArticleSpecification','$EmployeeID','$timeStampS','0')";
 
+$addrun=mysqli_query($connection_s,$update1);
 
-
-    
-
-          sqlsrv_close($conntest);
+mysqli_close($connection_s);
+echo "1";
       }
+
+
+
+elseif($code==25.5)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+         $get_group="SELECT * FROM masterarticleadmisisoncell";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            $status=$row['Status'];
+            if($status=='1'){
+              $show='ON';
+              $color='';            
+            }
+            else
+            {
+                $show='OFF';   
+                $color='red';          
+            }
+            ?>
+        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['Name'];?></b>
+            </th>
+            <th><b><?=$row['Description'];?></b></th>
+             <th><b><?=$row['CreatedBy'];?></b></th>
+             <th><b><?=$row['CreatedDate'];?></b></th>
+            <th>
+
+                <div class="form-check form-switch">
+                    <select class="form-control" id='toggleForm<?=$row['ID'];?>' onchange="updateStatus(<?=$row['ID'];?>)" style="color: <?=$color;?>">
+                         <option value="<?=$status;?>"><?=$show;?></option>
+  <option value="1">ON</option>
+   <option value="0">OFF</option>
+                    </select>
+   
+ 
+</div></th>
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+      elseif($code==25.6)
+
+   {
+ $id=$_POST['id'];
+$status=$_POST['status'];
+
+ $asd="Update masterarticleadmisisoncell set Status='$status' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+mysqli_close($connection_s);
+
+echo "1";
+      }
+
+elseif($code==25.7)
+
+   {
+     ?><div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Add Stock</b>
+        
+       </div>
+        </div>
+           
+              <label>Name of Article</label>
+              <select class="form-control" id='articlecode'>
+              <?php $get_group="SELECT * FROM masterarticleadmisisoncell";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {?>
+            <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+            <?php }?>
+</select>
+
+<label>Quantity</label>
+                <input type="number"  id='quantity' placeholder=""  class="form-control">
+<br>
+<button onclick="submitstock()"  class="btn btn-primary">Add</button>
+              </div>
+
+
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id="showstock"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+        </div> 
+
+  <?php 
+  sqlsrv_close($conntest); 
 }
 
+elseif($code==25.8)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Total Stock</th>
+            <th>Issued Stock</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+          $get_group="SELECT * FROM  masterstockadmissioncell  as ms inner join masterarticleadmisisoncell as ma  on ma.ID=ms.ArticleID";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['Name'];?></b>
+            </th>
+            <th><b><?=$row['TotalStock'];?></b></th>
+             <th><b><?=$row['IssuedStock'];?></b></th>
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+      elseif($code==25.9)
+
+   {
+ $articlecode=$_POST['articlecode'];
+ $quantity=$_POST['quantity'];
+   
+if($quantity>0)
+{
+ $update1="insert into puchaserecordadmisisoncell(ArticleID,Stock,UpdateBy,Date)Values
+    ('$articlecode','$quantity','$EmployeeID','$timeStampS')";
+
+ $get_group_run=mysqli_query($connection_s,$update1);
+
+
+ $sql = "SELECT * FROM  masterstockadmissioncell WHERE ArticleID ='$articlecode'";
+$result = mysqli_query($connection_s,$sql);
+
+if ($result->num_rows == 0) 
+{
+
+$result_z = mysqli_query($connection_s,"INSERT into masterstockadmissioncell(ArticleID,TotalStock)
+                                                   values ('$articlecode','$quantity')");
+}
+else
+{
+while($row=mysqli_fetch_array($result))
+{   
+     $stock_quantity=$row["TotalStock"];
+}
+$new_quantity=$stock_quantity+$quantity;
+
+$result = mysqli_query($connection_s, "UPDATE masterstockadmissioncell set TotalStock='$new_quantity' WHERE ArticleID ='$articlecode'");
+
+}
+
+mysqli_close($connection_s);
+
+}
+      }
+
+
+elseif($code==26)
+
+
+   {
+
+    $code_access=$_POST['code_access'];?>
+<div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Issue Request</b>
+        
+       </div>
+       <script>
+
+            </script><br>
+               <div class="btn-group input-group-sm" style="text-align:center;">
+
+                       <input type="radio"  id="ossm"    hidden="" required="" checked=""
+                       onclick="emc1_show();" value="Guest" name="empc1">  
+
+                       <label for="ossm" class="btn btn-xs"> Guest</label>
+
+
+                       <input type="radio"   id="ossm1"  onclick="emc1_hide();" name="Employee" value='2' hidden="" required="">  
+
+                       <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                    
+
+                     </div>
+                      <div class="col-md-12" style="display: none;" id="lect_div">      
+  <label>Name <span style="color: red">*</span></label>
+  <input type="text" name="name_visitor" id="name_visitor" class="form-control">
+  <label>Mobile No <span style="color: red">*</span></label>
+  <input type="text" name="mobile_visitor" id="mobile_visitor" class="form-control">
+  <label>Purpose <span style="color: red">*</span></label>
+  <input type="text" name="purpose_visitor" id="purpose_visitor" class="form-control">
+  <label>Address <span style="color: red">*</span></label>
+  <textarea type="text" name="address_visitor" id="address_visitor" class="form-control"></textarea>
+  <br>
+  <button   class="btn btn-danger form-control"  onclick="insert_guest_visitor()"> Submit </button>
+  </div>
+
+  <div class="col-md-12" style="display: none;" id="lect_div1">
+ <label>Employee ID</label>
+<input type="text" class="form-control" name="" id='empID' onblur="emp_detail_verify1(this.value)" >
+
+<input type="hidden" class="form-control" name="" id='sname' >
+<span id='emp-data'></span>
+<br>
+                         
+
+
+</div>
+
+<br>
+        <table class="table-bordered">
+       <tr>   
+        <th>#</th>
+<th>Name of Article</th><th>Quantity</th><th>Remarks</th></tr>
+ 
+<?php  
+if($code_access!='000')
+{
+ $get_group="SELECT * FROM masterarticleadmisisoncell";   
+}
+else
+{
+ $get_group="SELECT * FROM masterarticleadmisisoncell where Status='1'";   
+}
+$sr=1;
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+
+            ?>
+
+        <tr>   
+<td width="10%" style="text-align:center;"><?=$sr;?></td>
+<td width="30%"><?=$row['Name'];?></td>
+<td width="30%"><input type="number" class="form-control"></td>
+<td><input type="text"  class="form-control"></td></tr>    
+            
+
+
+            <?php 
+
+            $sr++;}?>
+
+
+</table>
+               
+<br>
+<button onclick="submitstock()"  class="btn btn-primary">Issue</button>
+              </div>
+
+    </div>
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id=""><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+         </div>
+
+  <?php 
+  sqlsrv_close($conntest); 
+
+
+
+
+      }
+
+}
