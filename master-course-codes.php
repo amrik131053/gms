@@ -362,8 +362,9 @@ for($s1='0';$s1<='6';$s1++)
 
                         for (var i = 0; i < data.length; i++) {
                             var unirollno = data[i][6];
-                            table += '<tr>';
-                            table += '<td>' + data[i][1] + '</td>';
+                            var color1 = (data[i]['SerieseType']==1) ?'green' :'';
+                            table += '<tr style="color: ' + color1 + ';">';
+                            table += '<td >' + data[i][1] + '</td>';
                             table += '<td>' + data[i][2] +' ('+ data[i][10] + ')</td>';
                             table += '<td>' + data[i][3] +' ('+ data[i][11] + ')</td>';
                             table += '<td>' + data[i][4] + '</td>';
@@ -371,9 +372,10 @@ for($s1='0';$s1<='6';$s1++)
                             table += '<td >' + data[i][5] + '</td>';
                             table += '<td >' + data[i][8] + '</td>';
                             var color = (data[i][19] == 1) ? 'green' : 'red';
+
                         table += '<td style="color: ' + color + ';"><b>' + (data[i][19] == 1 ? 'Open' : (data[i][19] == 0 ? 'Close' : '')) + '</b></td>';
 
-                            table += '<td><button onclick="edit_student(' + data[i][0] +
+                            table += '<td><button onclick="edit_student('+ data[i][0] +
                                 ');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
                                  table += '<td><button onclick="delete_course(' + data[i][0] +
                                 ');"  class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></button ></td>';
@@ -442,7 +444,7 @@ for($s1='0';$s1<='6';$s1++)
 <script type="text/javascript">
 function edit_record() {
     var id = document.getElementById('master_id').value;
-    ValidUpTo
+    
     var CollegeID = document.getElementById('CollegeName1').value;
     var Department = document.getElementById('Department1').value;
     var Course = document.getElementById('Course1').value;
@@ -460,6 +462,7 @@ function edit_record() {
     var Status = document.getElementById('Status').value;
     var CourseType = document.getElementById('CourseType').value;
     var Duration = document.getElementById('Duration').value;
+        var SerieseType = document.getElementById('SerieseType').value;
         var creditcardactive = document.getElementById('creditcardactive').value;
     if (CollegeID != '' && Department != '') {
         var code = 158;
@@ -479,7 +482,7 @@ function edit_record() {
             EndClassRollNo: EndClassRollNo,
             CourseType: CourseType,
             Duration: Duration,ValidUpTo:ValidUpTo,
-            Status: Status,creditcardactive:creditcardactive
+            Status: Status,creditcardactive:creditcardactive,SerieseType:SerieseType
         };
         // Send the AJAX request
         $.ajax({

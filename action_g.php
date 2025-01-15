@@ -11537,7 +11537,8 @@ if ($Batch != '') {
 if ($IsopenSearch != '') {
     $baseQuery .= " AND Isopen='$IsopenSearch'";
 }
-$baseQuery.="order by Batch DESC";
+$baseQuery.="order by Id DESC";
+//echo  $baseQuery;
 if ($CollegeName !== '') {
     $degree_run = sqlsrv_query($conntest, $baseQuery);
     while ($degree_row = sqlsrv_fetch_array($degree_run)) {
@@ -11549,7 +11550,7 @@ if ($CollegeName !== '') {
 }
  else 
 {
-    $degree = "SELECT * FROM MasterCourseCodes ORDER BY Id ASC"; 
+    $degree = "SELECT * FROM MasterCourseCodes ORDER BY Id DESC"; 
     $degree_run = sqlsrv_query($conntest, $degree);
     while ($degree_row = sqlsrv_fetch_array($degree_run)) {                
         $data[] = $degree_row;
@@ -11570,6 +11571,7 @@ sqlsrv_close($conntest);
       {
          $ValidUpTo=$row[9];
            $creditcardisactive=$row['CreditCardOpen'];
+            $SerieseType=$row['SerieseType'];
 ?>
     <div class="row">
         <div class="col-lg-12">
@@ -11729,6 +11731,19 @@ sqlsrv_close($conntest);
                         <option value="0">Open</option>
                     </select>
                 </div>
+                     <div class="col-lg-2" >
+                    <label>Seriese Type</label>
+                    <select class="form-control form-control" id="SerieseType">
+
+                         <option value="<?=$SerieseType;?>"><?php if($SerieseType=='1'){echo 'International';}
+                         else if($SerieseType==''){ echo 'Select';} else{ echo 'National';};?></option>
+                        
+                        <option value="0">National</option>
+                        <option value="1">International</option>
+                        
+                    </select>
+                </div>  
+                       
 
 
                 <input type="hidden" id="master_id" class="form-control" value="<?=$row[0];?>">
@@ -11758,7 +11773,8 @@ sqlsrv_close($conntest);
  $Duration=$_POST['Duration'];
  $CourseType=$_POST['CourseType'];
   $ValidUpTo=$_POST['ValidUpTo'];
-  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo',CreditCardOpen='$creditcardactive' where Id='$id'";
+    $SerieseType=$_POST['SerieseType'];
+  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo',CreditCardOpen='$creditcardactive',SerieseType='$SerieseType' where Id='$id'";
  $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
