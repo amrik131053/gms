@@ -369,15 +369,18 @@ setInterval(function () {visitorCount();}, 60000);
 
 function fetchCollege() {
     var Session = document.getElementById('Session').value;
+    var Nationality = document.getElementById('Nationality').value;
+
     var code = 350;
     $.ajax({
         url: 'action_g.php',
         data: {
             Session: Session,
-            code: code
+            code: code,Nationality:Nationality
         },
         type: 'POST',
         success: function(data) {
+            console.log(data);
             if (data != "") {
                 $("#CollegeID").html("");
                 $("#CollegeID").html(data);
@@ -581,7 +584,10 @@ function adharPassChnage(id) {
         $('#PassportNo').hide();
         document.getElementById('AdharCardNo').value = "";
         document.getElementById('PassportNumber').value = "";
+
     }
+document.getElementById('Session').value = "";
+    
 }
 function onchnagereff(ref) {
     document.getElementById('refvalue').value = ref;

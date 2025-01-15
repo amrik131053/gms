@@ -28466,7 +28466,16 @@ if($Status==6)
    }
    elseif ($code==350) {
  $Session=$_REQUEST['Session'];
-    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1'";
+ $Nationality=$_REQUEST['Nationality'];
+ if($Nationality!='Indian')
+ {
+    $seriesetype=1;
+ }
+ else
+ {
+   $seriesetype=0; 
+ }
+   echo  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1' ANd SerieseType='$seriesetype' ";
            $stmt2 = sqlsrv_query($conntest,$sql);
            echo "<option value=''>Select</option>";
       while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -28717,6 +28726,17 @@ $SemesterID=$_POST['SemesterID'];
 $feeparticulr=$_POST['feeparticulr'];
 $feeTotalDebit=$_POST['feeTotalDebit'];
 
+if($Nationality=='Indian')
+{
+$serieseType=0;
+$rollnocheck='Indian';
+}
+else
+{
+$serieseType='1';
+$rollnocheck='NRI';
+}
+
 $sqlG="SELECT DISTINCT CollegeName from MasterCourseCodes  Where CollegeID='$CollegeID' and Isopen='1'";
 $stmtG = sqlsrv_query($conntest,$sqlG);
 if($rowG=sqlsrv_fetch_array($stmtG, SQLSRV_FETCH_ASSOC))
@@ -28742,7 +28762,7 @@ if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 }
 
 $ClassRollNo=0;
-  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'and Batch='$Batch' and LateralEntry='$LateralEntry'";
+  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'and Batch='$Batch' and LateralEntry='$LateralEntry' ANd SerieseType='$serieseType'";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
@@ -28763,7 +28783,7 @@ if($ClassRollNo>0)
 {
 $ClassRollNoUpdate=$ClassRollNo+1;
 
-$getIDNosql = "SELECT Top(1)* FROM Admissions order by IDNo DESC";
+$getIDNosql = "SELECT Top(1)* FROM Admissions  order by IDNo DESC";
 $getIDNostmt = sqlsrv_query($conntest,$getIDNosql);  
     if($getIDNorow = sqlsrv_fetch_array($getIDNostmt, SQLSRV_FETCH_ASSOC) )
 {    
