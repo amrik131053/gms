@@ -358,7 +358,7 @@ for($s1='0';$s1<='6';$s1++)
                             '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td></td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
                         table +=
-                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th colspan="2">Action</th></tr>';
+                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th>Seriese Type</th><th colspan="2">Action</th></tr>';
 
                         for (var i = 0; i < data.length; i++) {
                             var unirollno = data[i][6];
@@ -374,6 +374,7 @@ for($s1='0';$s1<='6';$s1++)
                             var color = (data[i][19] == 1) ? 'green' : 'red';
 
                         table += '<td style="color: ' + color + ';"><b>' + (data[i][19] == 1 ? 'Open' : (data[i][19] == 0 ? 'Close' : '')) + '</b></td>';
+                         table += '<td><b>' + (data[i]['SerieseType'] == 1 ? 'International' : (data[i]['SerieseType'] == 0 ? 'National' : '')) + '</b></td>';
 
                             table += '<td><button onclick="edit_student('+ data[i][0] +
                                 ');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
