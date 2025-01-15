@@ -24573,17 +24573,17 @@ elseif($code==305)
     $durationYears=$_POST['durationYears'];
     $durationMonth=$_POST['durationMonth'];
     $CourseType=$_POST['CourseType'];
-
+$SerieseType=$_POST['SerieseType'];
     if($LateralEntry=='Yes')
     {
          $Batch=$Batch-1;
     }
-   $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName, CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
- EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths,ValidUpto) 
- VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth','$ValidUpTo');";
+   $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName,CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
+ EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths,ValidUpto,SerieseType) 
+ VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth','$ValidUpTo','$SerieseType');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
 
-$insert_recordCourses = "INSERT INTO MasterCourses (CollegeName,Course,Batch,SemesterID,Semester) 
+$insert_recordCourses = "INSERT INTO MasterCourses(CollegeName,Course,Batch,SemesterID,Semester) 
 VALUES ('$CollegeName','$Course','$Batch','1','First');";
 sqlsrv_query($conntest, $insert_recordCourses);
 if ($insert_record_run==true) 

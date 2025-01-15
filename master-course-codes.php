@@ -49,7 +49,7 @@ $data[]=$degree_row;
                                 <label>Select Session</label>
                                 <br>
                                 <select id="session1" class="btn btn-default btn-sm">
-                                <option value="<?php echo date('Y')+1;?>"><?php echo date('Y')+1;?></option>
+                                <option value="<?php echo date('Y');?>"><?php echo date('Y');?></option>
                                     <?php 
 for($s='2015';$s<='2030';$s++)
 {
@@ -58,7 +58,7 @@ for($s='2015';$s<='2030';$s++)
                                     <?php }?>
                                 </select>
                                 <select id="session2" class="btn btn-default btn-sm">
-                                <option value="<?php echo date('y')+2;?>"><?php echo date('y')+2;?></option>
+                                <option value="<?php echo date('y')+1;?>"><?php echo date('y')+1;?></option>
                                     <?php 
 for($s1='16';$s1<='31';$s1++)
 {
@@ -67,7 +67,7 @@ for($s1='16';$s1<='31';$s1++)
                                     <?php }?>
                                 </select>
                                 <select id="session3" class="btn btn-default btn-sm">
-                                    <option value=''>Select</option>
+                                    <!-- <option value=''>Select</option> -->
                                     <option value='J'>J</option>
                                     <option value='A'>A</option>
                                     <option value='J'>J</option>
@@ -161,7 +161,7 @@ for($s1='16';$s1<='31';$s1++)
                         <option value="Diploma">Diploma</option>
                         <option value="Ph.D">Ph.D</option>
                     </select>
-                </div>      <div class="col-lg-2" >
+                </div>      <div class="col-lg-1" >
                                 <label>Duration</label>
                                
                                 <br>
@@ -185,7 +185,16 @@ for($s1='0';$s1<='6';$s1++)
                                 </select>
                                
                             </div>
-                            
+                          
+                             <div class="col-lg-2" >
+                    <label>Seriese Type</label>
+                    <select class="form-control form-control-sm" id="SerieseType">
+                        
+                        <option value="0">National</option>
+                        <option value="1">International</option>
+                        
+                    </select>
+                </div>  
                             
                         </div>
                         <div class="card-footer">
@@ -524,11 +533,11 @@ var ValidUpTo=document.getElementById('ValidUpTo').value;
 var LateralEntry=document.getElementById('LateralEntry').value;
 var durationYears=document.getElementById('duration1').value;
 var durationMonth=document.getElementById('duration2').value;
-
+var SerieseType=document.getElementById('SerieseType').value;
 var CourseType=document.getElementById('CourseType').value;
    
 
-    if ((durationYears!='' || durationMonth!='' ) && College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='' && CourseType!='')
+    if ((durationYears!='' || durationMonth!='' ) && College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='' && CourseType!='' &&SerieseType!='')
     {
         var code = 305;
         var data = {
@@ -544,7 +553,7 @@ ValidUpTo:ValidUpTo,
 LateralEntry:LateralEntry,
 durationYears:durationYears,
 durationMonth:durationMonth,
-CourseType:CourseType,
+CourseType:CourseType,SerieseType:SerieseType,
             code: code
         };
         $.ajax({
