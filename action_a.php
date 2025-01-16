@@ -1874,7 +1874,7 @@ elseif($code==25.3)
 <label>Description</label>
                 <input type="text" name="ArticleSpecification" id='ArticleSpecification' placeholder="Specification"  class="form-control">
 <br>
-<button onclick="submitarticle()"  class="btn btn-primary">  Add</button>
+<button onclick="submitarticle()"  class="btn btn-primary">Add</button>
               </div>
 
 
@@ -2055,6 +2055,7 @@ elseif($code==25.8)
             <th>Name</th>
             <th>Total Stock</th>
             <th>Issued Stock</th>
+            <th>Balance</th>
             
         </tr>
     </thead>
@@ -2073,6 +2074,8 @@ elseif($code==25.8)
             </th>
             <th><b><?=$row['TotalStock'];?></b></th>
              <th><b><?=$row['IssuedStock'];?></b></th>
+
+                 <th><b><?= $row['TotalStock']-$row['IssuedStock'];?></b></th>
              
           
         </tr>
