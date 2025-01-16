@@ -2620,7 +2620,7 @@ elseif($Status==5)
          $ss=mysqli_query($conn,$s);
 while($article_data=mysqli_fetch_array($ss))
 {
-   $article_name=$article_data['ArticleName'];
+   $article_name=$article_data['ArticleName']; 
 ?>
    <div class="row">
       <div class="col-sm-2"></div>

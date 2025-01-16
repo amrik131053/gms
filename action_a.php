@@ -1085,7 +1085,7 @@ elseif ($code==18) {
 </tr>
 <?php 
    $Sr=1;
-     $updateSection="SELECT * FROM CouponRecord ";
+     $updateSection="SELECT * FROM CouponRecord order by ID Desc ";
     $updateSectionRun=sqlsrv_query($conntest,$updateSection);
     while($row=sqlsrv_fetch_array($updateSectionRun,SQLSRV_FETCH_ASSOC))
     {
@@ -1952,7 +1952,7 @@ elseif($code==25.5)
         <tr>
             <th><?=$sr;?></th>
             <th>
-                <b><?=$row['Name'];?></b>
+                <b><input type="text" class="form-control" id='arname<?=$row['ID'];?>' value="<?=$row['Name'];?>" onblur='chnageName(<?=$row['ID'];?>)'></b>
             </th>
             <th><b><?=$row['Description'];?></b></th>
              <th><b><?=$row['CreatedBy'];?></b></th>
@@ -2145,38 +2145,41 @@ elseif($code==26)
             </script><br>
                <div class="btn-group input-group-sm" style="text-align:center;">
 
-                       <input type="radio"  id="ossm"    hidden="" required="" checked=""
-                       onclick="emc1_show();" value="Guest" name="empc1">  
-
-                       <label for="ossm" class="btn btn-xs"> Guest</label>
-
-
-                       <input type="radio"   id="ossm1"  onclick="emc1_hide();" name="Employee" value='2' hidden="" required="">  
+ <input type="radio"   id="ossm1"  onclick="emc1_hide();" name="Employee"   checked="" value="0" required="" hidden>  
 
                        <label for="ossm1" class="btn  btn-xs"> Employee</label>
 
-                    
+                       <input type="radio"  id="ossm"  name="Employee"   required=""  onclick="emc1_show();" value="1" name="empc1" hidden>  
 
-                     </div>
-                      <div class="col-md-12" style="display: none;" id="lect_div">      
+                       <label for="ossm" class="btn btn-xs">Other</label>
+    </div>
+                      <div class="col-md-12" style="display: none;" id="lect_div">   
+                        <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                      <select class="form-control" id='emptype'>
+                         
+                          <option value="Guest">Guest</option>
+                            <option value="Field Team">FieldTeam</option>
+                              <option value="Consultant">Consultant</option>
+                                <option value="Other">Other</option>
+
+                      </select>   
   <label>Name <span style="color: red">*</span></label>
-  <input type="text" name="name_visitor" id="name_visitor" class="form-control">
-  <label>Mobile No <span style="color: red">*</span></label>
-  <input type="text" name="mobile_visitor" id="mobile_visitor" class="form-control">
-  <label>Purpose <span style="color: red">*</span></label>
-  <input type="text" name="purpose_visitor" id="purpose_visitor" class="form-control">
-  <label>Address <span style="color: red">*</span></label>
-  <textarea type="text" name="address_visitor" id="address_visitor" class="form-control"></textarea>
-  <br>
-  <button   class="btn btn-danger form-control"  onclick="insert_guest_visitor()"> Submit </button>
+  <input type="text" name="name_visitor" id="empNames" class="form-control">
+  
+  <label>Detail <span style="color: red">*</span></label>
+  <input type="text"  id="empDetail" class="form-control">
+ 
+  
   </div>
 
-  <div class="col-md-12" style="display: none;" id="lect_div1">
+  <div class="col-md-12"  id="lect_div1">
  <label>Employee ID</label>
 <input type="text" class="form-control" name="" id='empID' onblur="emp_detail_verify1(this.value)" >
+<span id='emp-data' style="font-weight:bold"></span>
+<input type="hidden" class="form-control" name="" id='empName' readonly><br>
+<input type="text" class="form-control"  placeholder="Description" id='empDescription' >
 
-<input type="hidden" class="form-control" name="" id='sname' >
-<span id='emp-data'></span>
 <br>
                          
 
@@ -2192,11 +2195,11 @@ elseif($code==26)
 <?php  
 if($code_access!='000')
 {
- $get_group="SELECT * FROM masterarticleadmisisoncell";   
+ $get_group="SELECT * FROM masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock";   
 }
 else
 {
- $get_group="SELECT * FROM masterarticleadmisisoncell where Status='1'";   
+ $get_group="SELECT * FROM masterarticleadmisisoncell where masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock ANd Status='1'";   
 }
 $sr=1;
          $get_group_run=mysqli_query($connection_s,$get_group);
@@ -2207,9 +2210,9 @@ $sr=1;
 
         <tr>   
 <td width="10%" style="text-align:center;"><?=$sr;?></td>
-<td width="30%"><?=$row['Name'];?></td>
-<td width="30%"><input type="number" class="form-control"></td>
-<td><input type="text"  class="form-control"></td></tr>    
+<td width="30%"><?=$row['Name'];?><input type="hidden" class="form-control article" value="<?=$row['ID'];?>" name="article[]" id="article"></td>
+<td width="30%"><input type="number"  name="quantity[]" class="form-control quantity" value="0" id="article_value<?=$row['ID'];?>"></td>
+<td><input type="text"  class="form-control remarks" id="remakrs<?=$row['ID'];?>" name="remarks[]"></td></tr>    
             
 
 
@@ -2217,11 +2220,11 @@ $sr=1;
 
             $sr++;}?>
 
-
+<input type="hidden"  value="<?=$sr-1;?>" class="form-control" id="flag">
 </table>
                
 <br>
-<button onclick="submitstock()"  class="btn btn-primary">Issue</button>
+<button onclick="IssueStock()"  class="btn btn-primary">Issue Stock</button>
               </div>
 
     </div>
@@ -2232,7 +2235,7 @@ $sr=1;
        
          <b>Master Stock</b>
 </div>
-         <div id=""><div>
+         <div id="issuedstocklist"><div>
         
        </div>
         </div>
@@ -2249,6 +2252,206 @@ $sr=1;
 
 
 
+      }
+
+        elseif($code==26.1)
+
+   {
+ $id=$_POST['id'];
+$ArticleName=$_POST['ArticleName'];
+
+$get_group="SELECT * FROM masterarticleadmisisoncell where  ID='$id'";   
+
+$sr=1;
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+ $oldname=$row['Name'];
+
+}
+ $asd="Update masterarticleadmisisoncell set Name='$ArticleName' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+ $update1="insert into trackchnages(userID,newname,oldname,createddate)Values('$EmployeeID','$ArticleName','$oldname','$timeStamp')";
+
+$addrun=mysqli_query($connection_s,$update1);
+
+mysqli_close($connection_s);
+
+
+      }
+
+
+   elseif($code==26.2)
+
+   {
+ $empID=$_POST['empid'];
+  $empName=$_POST['empName'];
+   $empDetail=$_POST['empDetail'];
+    $emptype=$_POST['emptype'];
+
+
+    $ids=$_POST['ids'];
+    $qnt=$_POST['quantity'];
+    $flag2= $_POST['flag2'];
+    $ids=$_POST['ids'];
+    $qnt=$_POST['quantity'];
+    $rem=$_POST['remarks'];
+
+$insert="insert into ledgeradmissioncell(IDNo,Name,Type,Remarks,CreatedDate,CreatedBy)Values
+                                        ('$empID','$empName','$emptype','$empDetail','$timeStamp','$EmployeeID')";
+
+$addrun=mysqli_query($connection_s,$insert);
+$select="Select ID from  ledgeradmissioncell  order by ID Desc limit 1";
+$get_group_run=mysqli_query($connection_s,$select);
+ if($row=mysqli_fetch_array($get_group_run))
+         {
+ $REfno=$row['ID'];
+
+}
+
+   for($i=0;$i<$flag2;$i++)
+   {
+   
+$issue="insert into requestadmissioncell(reference_no,item_code,quantity,specification)Values
+                                        ('$REfno','$ids[$i]','$qnt[$i]','$rem[$i]')";
+
+$addissue=mysqli_query($connection_s,$issue);
+
+$asdws="select IssuedStock from  masterstockadmissioncell  where ID='$ids[$i]'";
+   $addruns=mysqli_query($connection_s,$asdws);
+
+   while($row=mysqli_fetch_array($addruns))
+
+{
+   $IssuedStock=$row['IssuedStock'];
+
+$asdw="Update masterstockadmissioncell set IssuedStock=$IssuedStock+$qnt[$i] where ID='$ids[$i]'";
+   
+$addrun=mysqli_query($connection_s,$asdw);
+
+
+}
+
+
+
+
+   }
+
+
+
+      }
+
+    elseif($code==26.3)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+               <th>Request No</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Remarks</th>
+              <th>Issued By</th>
+              <th>View</th>
+
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+          $get_group="SELECT * FROM  ledgeradmissioncell  order by ID desc limit 10";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['ID'];?></b>
+            </th>
+            <th>
+                <b><?=$row['Name'];?>(<?=$row['IDNo'];?>)</b>
+            </th>
+           
+             <th><b><?=$row['Type'];?></b></th>
+               <th><b><?=$row['Remarks'];?></b></th>
+                <th><b><?=$row['CreatedBy'];?></b></th>
+
+                   <th><b><i class="fa fa-eye" onclick="viewlist(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i>
+ </b></th>
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+
+       elseif($code==26.4)
+
+   { 
+
+    $id=$_POST['id'];
+
+    ?>
+<table class="table">
+    <thead>
+        <tr> <th colspan="5" style="text-align: center;">
+                Request Number :<b><?=$id;?></b>
+            </th></tr>
+        <tr>
+            <th>#</th>
+              
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Remarks</th>
+            
+
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+       
+        <?php 
+         $sr=1;
+          $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestadmissioncell AS  rs inner join masterarticleadmisisoncell AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            
+            <th>
+                <b><?=$row['aName'];?>(<?=$row['AId'];?>)</b>
+            </th>
+           
+             <th><b><?=$row['quantity'];?></b></th>
+               <th><b><?=$row['specification'];?></b></th>
+              
+
+                   
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
       }
 
 }

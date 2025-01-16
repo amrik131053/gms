@@ -41,6 +41,33 @@
             </button>
       </span> -->
 </div>
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id='viewlistdiv'>
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>       
+
+
+
+
                 <div class="card-body card">
                 <?php 
                               
@@ -114,7 +141,7 @@ function emc1_show() {
                  var z = document.getElementById("after_data");
                x.style.display = "block";
                 y.style.display = "none";
- z.style.display = "none";
+
                
                
                }
@@ -126,7 +153,7 @@ function emc1_show() {
 
                x.style.display = "none";
                 y.style.display = "block";
-                 z.style.display = "none";
+               
                }
                
                
@@ -145,32 +172,132 @@ function emc1_show() {
               {
                   
                  document.getElementById("emp-data").innerHTML=response;
-document.getElementById("sname").value=response;
+                 document.getElementById("empName").value=response;
 
               }
            });
 }
 
-// function searchEmp() {
-//     var code = 301;
-//     var empID = document.getElementById('empID').value;
-//     var spinner = document.getElementById('ajax-loader');
-//     spinner.style.display = 'block';
-//     $.ajax({
-//         url: 'action_g.php',
-//         type: 'POST',
-//         data: {
-//             code: code,
-//             empid: empID
-//         },
-//         success: function(response) {
-//             spinner.style.display = 'none';
-//             document.getElementById("emp-data").innerHTML = response;
-//         }
-//     });
-// }
+
+function IssueStock()
+{
+var flag2 = document.getElementById('flag').value;
+if (document.getElementById('ossm1').checked) {
+  rate_value = document.getElementById('ossm1').value;
+}
+
+if (document.getElementById('ossm').checked) {
+  rate_value = document.getElementById('ossm').value;
+}
+
+if(rate_value==0)
+{
+var empID = document.getElementById('empID').value;
+var empName = document.getElementById('empName').value;
+var empDetail = document.getElementById('empDescription').value;
+var emptype='Employee';
+
+}
+else
+{
+var empID =1;
+var empName = document.getElementById('empNames').value;
+var emptype = document.getElementById('emptype').value;
+var empDetail = document.getElementById('empDetail').value;
+
+}
+
+var code=26.2;
+
+if(empID!='' && empName!='' && emptype!='')
+{
+var ids=[];
+  var quantity=[];
+    var remarks=[];
+var idnos=document.getElementsByClassName('article');
+var quantityn=document.getElementsByClassName('quantity');
+var remarksn=document.getElementsByClassName('remarks');
+    for(i=0;i<flag2;i++)
+     {
+        ids.push(idnos[i].value);
+        quantity.push(quantityn[i].value);
+        remarks.push(remarksn[i].value);
+       
+     }
+
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            code: code,
+            empid:empID,ids:ids,quantity:quantity,remarks:remarks,flag:code,flag2:flag2,empName:empName,emptype:emptype,empDetail:empDetail
+        },
+        success: function(response) {
+           
+            spinner.style.display = 'none';
+            SuccessToast('Successfully Submit');
+            Issue();
+
+        }
+    });
+}
+else
+{
+    ErrorToast('Try Again', 'bg-danger');
+}
+
+}
 
 
+
+function viewlist(id) { 
+
+
+ var code = 26.4;
+      
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,id:id
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+
+            document.getElementById("viewlistdiv").innerHTML = response;
+
+            
+        }
+    });
+
+
+}
+ 
+
+function chnageName(id) { 
+    var code = 26.1;
+        var ArticleName = document.getElementById('arname'+id).value;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,id:id,ArticleName:ArticleName
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+
+            document.getElementById("table_load").innerHTML = response;
+
+            show_article();
+        }
+    });
+}
 
 
 function Addarticle() { 
@@ -208,11 +335,32 @@ var code_access ='<?php echo $code_access; ?>';
         success: function(response) {
             spinner.style.display = 'none';
             document.getElementById("table_load").innerHTML = response;
+            Issuedstock();
 
                     }
     });
 }
 
+function Issuedstock() { 
+    var code = 26.3;
+
+
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("issuedstocklist").innerHTML = response;
+
+
+                    }
+    });
+}
 
 
 function submitarticle() {
@@ -328,7 +476,7 @@ function show_stock() {
         type: 'POST',
         success: function(data) {
             
-                console.log(data);
+                //console.log(data);
                 $("#showstock").html("");
                 $("#showstock").html(data);
             
@@ -358,6 +506,7 @@ if(quantity!='' && articlecode!='')
             document.getElementById("table_load").innerHTML = response;
 
           show_stock();
+
         }
     });
       } else {
