@@ -38,8 +38,8 @@
 <?php 
     $Sr=1;
 
-// Examination='$CurrentExamination'
-     $getAllleaves="SELECT * FROM TimeTable  where IDNo='171427'  AND Examination='December 2024' AND  Status='1' AND Day='$day'  order by  LectureNumber  ASC "; 
+// 
+     $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' AND  Status='1' AND Day='$day'  order by  LectureNumber  ASC "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
