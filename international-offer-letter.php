@@ -165,8 +165,8 @@ include "header.php";
 <div class="col-lg-3">
                  <label>Batch / Admisison Year</label>
                   <select  id="Batch"  class="form-control" required>
-                     <option value='2024'>2024</option>
-                       <option value='2023'>2023</option>
+                     <option value='2025'>2025</option>
+                       <!-- <option value='2023'>2023</option> -->
                  </select>
               </div> 
 
@@ -315,8 +315,8 @@ include "header.php";
             <div class="col-lg-3">
                  <label>Batch / Admisison Year</label>
                   <select  id="Batch"  class="form-control " onchange="fatchFee();" required>
-                     <option value='2024'>2024</option>
-                       <option value='2023'>2023</option>
+                     <option value='2025'>2025</option>
+                       <!-- <option value='2023'>2023</option> -->
                  </select>
               </div> 
 
@@ -337,14 +337,13 @@ include "header.php";
               </div>
 
 <div class="col-lg-3 col-md-3 col-sm-12">
-          <label>Category</label>
-          <select class="form-control" id="category">
-              <option value="">Select</option>
-              <option>SC</option>
-              <option>ST</option>
-              <option>OBC</option>
+          <label>Consultant Type</label>
+          <select class="form-control" id="consultanttype">
+              <option value="Student">Student</option>
+              <option value="Employee">Employee</option>
+              <option value="Consultant">Consultant</option>
 
-              <option>General</option>
+             
           </select>
       </div>
       </div>
@@ -382,9 +381,13 @@ include "header.php";
                <label>Program Start Date</label>
               <input type="date" class="form-control" id="pstartDate">
             </div>
-              <div class="col-lg-6">
+              <div class="col-lg-2">
                <label>Deadline</label>
-              <input type="text" class="form-control" id="deadline">
+              <input type="date" class="form-control" id="deadline">
+            </div>
+            <div class="col-lg-4">
+               <label>Commitment </label>
+              <input type="text" class="form-control" id="commitment">
             </div>
 
            
@@ -392,7 +395,7 @@ include "header.php";
             <div class="col-lg-3">
               
                   <select  id="Batch"  class="form-control" required hidden>
-                     <option value='2024'>2024</option>
+                     <option value='2025'>2025</option>
                        <option value='2023'>2023</option>
                  </select>
               </div> 
@@ -401,11 +404,11 @@ include "header.php";
          <!--    <div class="col-lg-2">
               <label>Session</label>   -->
               <select class="form-control" id="session" hidden>
-                <option value="2024-25">2024-25</option>
+                <option value="2025-26-J">2025-26-J</option>
                  <option value="">Select</option>
-                 <option value="2022-23">2022-23</option>
+           <!--       <option value="2022-23">2022-23</option>
                  <option value="2023-24">2023-24</option>
-                 <option value="2024-25">2024-25</option>
+                 <option value="2024-25">2024-25</option> -->
                  <option value="2025-26">2025-26</option>
                   
               </select>
@@ -843,10 +846,11 @@ function submit_record() {
    var Course = document.getElementById('Course1').value;
    var MobileNo = document.getElementById('MobileNo').value;
    var DOB = document.getElementById('DOB').value;
-   var Category = document.getElementById('category').value;
+ 
+    var consultanttype = document.getElementById('consultanttype').value;
     var Batch = document.getElementById('Batch').value;
     var DOB = document.getElementById('DOB').value;
-  var Nationality = document.getElementById('Nationality_').value;
+    var Nationality = document.getElementById('Nationality_').value;
     var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
 
   var HostelFee = document.getElementById('HostelFee').value;
@@ -861,6 +865,8 @@ var otherCharges=document.getElementById('otherCharges').value;
 var totalAnual=document.getElementById('totalAnual').value;
 var pstartDate=document.getElementById('pstartDate').value;
 var deadline=document.getElementById('deadline').value;
+var commitment=document.getElementById('commitment').value;
+
 
 if( Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!=''  &&months!=''&& RegistrationFee!=''&& HostelFee!='' && TutionFee!='' && SecurityDeposit!='' && MessCharges!='' &&
 otherCharges!='' &&
@@ -876,8 +882,8 @@ deadline!='')
    // alert(HostelFee);
   var data = {
     Name: Name,FatherName: FatherName,Gender: Gender,MobileNo: MobileNo,CollegeName: CollegeName,Department: Department,Course: Course,Batch: Batch,Nationality: Nationality,  
-    Lateral: Lateral,DOB:DOB,session: session,AdharCardNo: AdharCardNo,PassportNo: PassportNo,Category :Category,code:code,RegistrationFee:RegistrationFee,TutionFee:TutionFee,HostelFee:HostelFee
-   ,SecurityDeposit:SecurityDeposit,
+    Lateral: Lateral,DOB:DOB,session: session,AdharCardNo: AdharCardNo,PassportNo: PassportNo,consultanttype:consultanttype,code:code,RegistrationFee:RegistrationFee,TutionFee:TutionFee,HostelFee:HostelFee
+   ,SecurityDeposit:SecurityDeposit,commitment:commitment,
 MessCharges:MessCharges,
 otherCharges:otherCharges,
 totalAnual:totalAnual,

@@ -10,23 +10,11 @@
          <div class="col-md-3 col-lg-3 col-sm-3">
             <div class="card card-info">
                <div class="card-header">
-                  <h3 class="card-title">My Lectures on <b><?=$day;?></b></h3>
+                  <h3 class="card-title">My Lectures on <b><?=$day;?> - (<?=$todaydate;?>)</b></h3>
                </div>
 
       <script type="text/javascript">
-function checkall()
-{
 
-  var inputs = document.querySelectorAll('.newStudents');
-
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].checked = true;
-
-        }
-      document.getElementById("check").style.display = "none";
-       
-        document.getElementById("check1").style.display = "block";
-}
 </script>
 <div class="card-body">
     <div class="row">

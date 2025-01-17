@@ -9454,7 +9454,9 @@ $totalAnual=$_POST['totalAnual'];
 $pstartDate=$_POST['pstartDate'];
 $deadline=$_POST['deadline'];
 
-$Category= $_POST['Category'];
+$consultanttype= $_POST['consultanttype'];
+$commitment= $_POST['commitment'];
+
 $DOB= $_POST['DOB'];
 $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
@@ -9518,8 +9520,8 @@ $dist_count = 0;
 
 
 
- $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`
- ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline');";
+ $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`ConsultantType`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`,`commitment`
+ ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$consultanttype','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline','$commitment');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {

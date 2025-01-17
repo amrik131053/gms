@@ -2635,7 +2635,7 @@ while($article_data=mysqli_fetch_array($ss))
    <optgroup label="Building">
       <option value="">Select</option>
    <?php 
-   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='171250' || $EmployeeID=='101480' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
+   if ($EmployeeID=='131053' ||  $EmployeeID=='171250' || $EmployeeID=='101480' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
    {
       $locationBuildingSql="Select * from building_master ";
    }
@@ -7273,7 +7273,7 @@ if($list_result === false) {
 
 
 
-     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$course."(<b>".$batch."</b>)";?></td><td  style="text-align:left;"><b>Semester :<b><?=$sem.$ext;?><b><td><?= $subject;?>(<?= $subjectcode;?>)</td>
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$course."(<b>".$batch."</b>)";?></td><td  style="text-align:left;"><b>Semester :<b><?=$sem.$ext;?><b><td><?= $subject;?>(<?= $subjectcode;?>)</td><td><?= $section;?>(<?= $cgroup;?>)</td>
 
 
 
@@ -7305,7 +7305,7 @@ if($list_result === false) {
                       
                        <th style="text-align: center;"> Name </th>
             
-                   <th style="text-align: center;">Attendance </th>
+                   <th style="text-align: center;">Attendance <input type="checkbox"  id="select_all" onclick="selectAll()"></th>
                  
                   <th style="text-align: center;">Marked By </th>
                       
@@ -7348,17 +7348,14 @@ while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                             
                <td><?= $row['StudentName'];?></td>
                            <td style='text-align:center'>  
-                              <input type="checkbox" required="" name="mst[]" value="" id='marks' class='marks' ></td>
-                            
-                          
-
+                              <input type="checkbox" required="" name="mst[]" value=""   id='check' value='<?=$row['ClassRollNo'];?>' class='checkbox'></td>
 
                               <td style='text-align:center;'>
 
 
 
                         
-                               <i class="fa fa-lock text-danger" onclick="unlock();" ></i>
+                               <!-- <i class="fa fa-lock text-danger" onclick="unlock();" ></i> -->
 
                                 
 
@@ -7376,7 +7373,7 @@ while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 
 
 <tr>
-<td style="text-align:right" colspan="6"><p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-danger "  ></td></tr>
+<td style="text-align:right" colspan="6"><p style="text-align: right"><input   type="submit" name="submit" value="Update Attendance" onclick="UpdateAttendance();" class="btn btn-danger "  ></td></tr>
    </table>
 <?php 
 
