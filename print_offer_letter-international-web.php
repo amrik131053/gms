@@ -148,7 +148,7 @@ where MasterDepartment.Id='$Department' ";
     </style>
 </head>
 <body>
-    <div class="content">
+    <div class="content" style="font-size: 18px;">
         <p>Date: <?php echo date('d-m-Y'); ?></p>
 
         <p>To,<br>
