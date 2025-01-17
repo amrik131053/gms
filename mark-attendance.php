@@ -142,6 +142,8 @@
 
 <script type="text/javascript">
 
+UpdateAttendance()
+
 
 
 
@@ -150,7 +152,7 @@
   
 var  group = document.getElementById('Group').value;
 var  OrderBy = document.getElementById('OrderBy').value;
-
+alert(lecturenumber);
 
     
 
@@ -168,7 +170,7 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&courseid="+courseid+"&batch="+ batch+ "&sem=" + sem+ "&subjectcode=" +subjectcode+"&subject=" +subject+" &examination="+examination+"&group="+group+"&cgroup="+cgroup+"&section="+section+"&OrderBy="+OrderBy+"&code="+65.1,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&courseid="+courseid+"&batch="+ batch+ "&sem=" + sem+ "&subjectcode=" +subjectcode+"&subject=" +subject+" &examination="+examination+"&group="+group+"&cgroup="+cgroup+"&section="+section+"&OrderBy="+OrderBy+"&lecturenumber="+lecturenumber+"&code="+65.1,true);
         xmlhttp.send();
  }
 else

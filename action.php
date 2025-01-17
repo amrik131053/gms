@@ -19974,7 +19974,7 @@ else if($code=='303')
    {
    $College=$_POST['College'];
    $Department=$_POST['department'];
-     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL) AND Session='2025-2026-J' AND (CreditCardOpen!='1' OR CreditCardOpen is NULL)   order by Course ASC";
+     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL) AND (CreditCardOpen!='1' OR CreditCardOpen is NULL)   order by Course ASC";
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )

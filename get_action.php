@@ -7257,6 +7257,7 @@ if($list_result === false) {
   $subject = $_GET['subject'];
  $exam = $_GET['examination'];
   $OrderBy = $_GET['OrderBy'];
+   $lecturenumber = $_GET['lecturenumber'];
 
 ?>
 
@@ -7300,12 +7301,12 @@ if($list_result === false) {
                  
  
                   <th style="text-align: center;"> Sr No </th>
-                <th  style="text-align:center">Uni Roll No</th>
+                <th  style="text-align:center">Roll No</th>
                                                 
                       
                        <th style="text-align: center;"> Name </th>
             
-                   <th style="text-align: center;">Attendance <input type="checkbox"  id="select_all" onclick="selectAll()"></th>
+                   <th style="text-align: center;">Attendance<br> <span><input type="checkbox"  id="select_all" onclick="selectAll()"></span></th>
                  
                   <th style="text-align: center;">Marked By </th>
                       
@@ -7338,12 +7339,48 @@ while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 
 {
 
-               
-                  
+$IDNo=$row['IDNo'];
+
+
+
+
+
+
+
+       $sqlatt="Select Attendance from StudentAttendance where Semester='$semID'  ANd IDNo ='$IDNo' ANd LectureNumder='$lecturenumber' AND SubjectCode='$subjectcode' ANd Section='$section' ANd ClassGroup='$cgroup' AND  Date='$todaydate' ";
+      $stmtatt = sqlsrv_query($conntest,$sqlatt);
+  
+
+
+if($rowatt = sqlsrv_fetch_array($stmtatt, SQLSRV_FETCH_ASSOC) )
+
+{
+   $st=$rowatt['Attendance'];
+}
+  if($st=='1')
+  {
+   $value='Checked';
+  }  
+  else
+  {
+   $value='';
+  }              
 ?>
 <tr>
 <td style="text-align: center"><?= $i++;?></td>
-<td style="text-align: center"><?=$row['ClassRollNo'];?>/ <?=$row['UniRollNo'];?></td>
+<td style="text-align: center">
+   <?php if($OrderBy=='ClassRollNo'){
+
+echo $row['ClassRollNo'];
+
+   }else{
+
+echo $row['UniRollNo'];
+
+   }
+
+?>
+   </td>
 
                                             
                <td><?= $row['StudentName'];?></td>

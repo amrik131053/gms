@@ -213,7 +213,7 @@ function by_search_studetn() {
                            var unirollno = data[i][2];
                             var status = data[i][20];
                            var unirollno = data[i][2];
-                           var generate=data[i][39];
+                           var generate=data[i]['generate'];
                              if(data[i][31]==1){
                                table += '<tr style="background-color:#52BE80;">';
                            }

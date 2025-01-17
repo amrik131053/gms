@@ -217,6 +217,10 @@ var ids=[];
 var idnos=document.getElementsByClassName('article');
 var quantityn=document.getElementsByClassName('quantity');
 var remarksn=document.getElementsByClassName('remarks');
+
+
+
+
     for(i=0;i<flag2;i++)
      {
         ids.push(idnos[i].value);
@@ -224,6 +228,7 @@ var remarksn=document.getElementsByClassName('remarks');
         remarks.push(remarksn[i].value);
        
      }
+
 
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
@@ -235,7 +240,7 @@ var remarksn=document.getElementsByClassName('remarks');
             empid:empID,ids:ids,quantity:quantity,remarks:remarks,flag:code,flag2:flag2,empName:empName,emptype:emptype,empDetail:empDetail
         },
         success: function(response) {
-           
+           console.log(response);
             spinner.style.display = 'none';
             SuccessToast('Successfully Submit');
             Issue();
@@ -387,6 +392,7 @@ function submitarticle() {
                 if (response == 1) {
                     SuccessToast('Successfully Submit');
                      show_article();
+                     AddStock();
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
                 }
@@ -441,6 +447,7 @@ var status=document.getElementById('toggleForm'+id).value;
             //console.log(response);
             spinner.style.display = 'none';
             show_article();
+            AddStock();
             
         }
     });
@@ -458,8 +465,8 @@ function AddStock() {
         success: function(response) {
             spinner.style.display = 'none';
             document.getElementById("table_load").innerHTML = response;
-
-          show_stock();
+         
+           show_stock();
         }
     });
 }
@@ -504,8 +511,8 @@ if(quantity!='' && articlecode!='')
         success: function(response) {
             spinner.style.display = 'none';
             document.getElementById("table_load").innerHTML = response;
-
-          show_stock();
+           AddStock();
+          //show_stock();
 
         }
     });

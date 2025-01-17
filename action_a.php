@@ -2070,7 +2070,7 @@ elseif($code==25.8)
             ?>        <tr>
             <th><?=$sr;?></th>
             <th>
-                <b><?=$row['Name'];?></b>
+                <b><?=$row['Name'];?>(<?=$row['ID'];?>)</b>
             </th>
             <th><b><?=$row['TotalStock'];?></b></th>
              <th><b><?=$row['IssuedStock'];?></b></th>
@@ -2193,7 +2193,7 @@ elseif($code==26)
         <table class="table-bordered">
        <tr>   
         <th>#</th>
-<th>Name of Article</th><th>Quantity</th><th>Remarks</th></tr>
+<th>Name of Article</th><th>Quantity</th></tr>
  
 <?php  
 if($code_access!='000')
@@ -2202,7 +2202,7 @@ if($code_access!='000')
 }
 else
 {
- $get_group="SELECT * FROM masterarticleadmisisoncell where masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock ANd Status='1'";   
+  $get_group="SELECT * FROM masterarticleadmisisoncell where masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock ANd Status='1'";   
 }
 $sr=1;
          $get_group_run=mysqli_query($connection_s,$get_group);
@@ -2213,9 +2213,21 @@ $sr=1;
 
         <tr>   
 <td width="10%" style="text-align:center;"><?=$sr;?></td>
-<td width="30%"><?=$row['Name'];?><input type="hidden" class="form-control article" value="<?=$row['ID'];?>" name="article[]" id="article"></td>
-<td width="30%"><input type="number"  name="quantity[]" class="form-control quantity" value="0" id="article_value<?=$row['ID'];?>"></td>
-<td><input type="text"  class="form-control remarks" id="remakrs<?=$row['ID'];?>" name="remarks[]"></td></tr>    
+<td width="30%"><?=$row['Name'];?><input type="hidden" class="form-control article" value="<?=$row['ArticleID'];?>" name="article[]" id="article">
+
+<b>(<?php echo "Balance-". $balance=$row['TotalStock']-$row['IssuedStock'];?>)</b>
+</td>
+<td width="10%">  
+
+    <select name="quantity[]" class="form-control quantity" value="0" id="article_value<?=$row['ID'];?>">
+<?php  for($i=1;$i<=$balance;$i++)
+{?>
+ <option value="<?= $i;?>"><?= $i;?></option>
+<?php }
+?>    
+</select>
+</td>
+<input type="hidden"  class="form-control remarks" id="remakrs<?=$row['ID'];?>" name="remarks[]"></tr>    
             
 
 
@@ -2317,7 +2329,7 @@ $get_group_run=mysqli_query($connection_s,$select);
    for($i=0;$i<$flag2;$i++)
    {
    
-$issue="insert into requestadmissioncell(reference_no,item_code,quantity,specification)Values
+ $issue="insert into requestadmissioncell(reference_no,item_code,quantity,specification)Values
                                         ('$REfno','$ids[$i]','$qnt[$i]','$rem[$i]')";
 
 $addissue=mysqli_query($connection_s,$issue);

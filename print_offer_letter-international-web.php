@@ -223,6 +223,59 @@ Note: All fees are quoted in Indian Rupees (INR) and are subject to change as pe
     <!-- Add page break after each letter -->
     <div class="page-break"></div>
 
+    <h5><u> Terms and Conditions:</u></h5>
+
+   <h6><b>Admission Confirmation</b>   </h6>
+
+<ul> <li>Your admission will be confirmed only upon the receipt of the initial deposit. Non-payment of the deposit by the specified deadline may result in the cancelation in of of your you admission offer</li>
+<li>  All required original documents (academic transcripts, certificates, passport copy, etc.) must be submitted to the International Education Division at the time of registration</li>
+</ul>
+
+<h6><b>Refund Policy: </b> </h6>
+<li> In the case of visa rejection 100% of the tuition fee (except the registration fee) will be refunded upon submission of the wise rejection letter from the Indian Embassy.</li>
+<li> In other cases refund will be processed based on the university's refund policy, which is available on our website .</li>
+
+<h6><b>Hostel and Accommodation</b></h6>
+   <li>Accommodation is available on a a first-come, first-served basis and must be reserved in advance.</li>
+   <li>The Hostel Accommodation Fee includes room rent, basic basic furniture reserved in advance and maintenance charges</li>
+   <li>The student cannot leave the allocated hostel accommodation before completing one year. After one year, he/she can choose other options</li>
+   <li>Electricity charges will be billed separately based on actual consumption and must be paid monthly</li>
+
+<h6><b>Health Insurance:</b></h6>
+   <li>All international students are required to have a valid health insurance covering the duration of their  stay in India
+   Proof of insurance must be submitted before the start of the program</li>
+
+<h6><b>Visa Requirements:</b></h6>
+<li> Students must possess a vaid student visas study at Guru Kashi University it is your responsibility to ensure that your visa is obtained and renewed as required.</li>
+<li>  The university's IED- International Education Division will assist you with your Foreigners Regional Registration Office (FRRO registration upon your arrival in india.</li>
+
+<h6><b>Academic Requirement</b></h6>
+<li>You must be maintaining a minimum attendance of 75% and adhere to all academic and disciplinary regulations set by the university.</li>
+
+<h6><b>Disciplinary Regulations </b></h6>
+<li>The university maintains strict code e of conduct and disciplinary regulations. Any violation of university rules may result in penalties, including suspension or expulsion</li>
+
+<h6><b>Exlt and Travel Permissions:</b></h6>
+<li>Students who wish to leave the campus for personal reasons must seek permission from the International Education Division at least 48 hours in advance fit out the required forms. advance and fit</li>
+
+
+<h6><b>Next Steps:</b></h6>
+1)Confirm your admission by paying the initial deposit of Amount within 7days<br>
+
+2) Submit the following documents
+ <ul> <li> Copy of your valid passport</li>
+  <li> Academic transcripts and certificates</li>
+   <li>Proof of health insurance Visa copy (upon approval)</li></ul>
+3. Make travel arrangements and inform us of your arrival date to arrange airport pickup at iedcoordinator@gku.ac.in or<b> 700 998 5 998</b>
+<br>
+<br>
+We are excited to welcome you to Guru Kashi University and took forward to your academic success. If you have any questions, please do not hesitate to contact the international Education Division at IED helpline <b>700 998 5 998</b><br><br>
+
+Best regards<br>
+IED-International Education Division<br>
+Guru Kashi University
+
+
 </body>
 </html>
 <?php 
