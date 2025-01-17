@@ -2712,9 +2712,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                  $envolp="success";
                  $envolp_msg="Complete";
                  $envolp_icon="check-circle";
-            
-            
-            
+
                } 
             
                if ($get_details_run_row['forward_emp_id']!=0) 
