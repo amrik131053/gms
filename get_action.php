@@ -7249,12 +7249,15 @@ if($list_result === false) {
  $batch=$_GET['batch']; 
  $sem = $_GET['sem'];
  $group = $_GET['group'];
+  $cgroup = $_GET['cgroup'];
  $section = $_GET['section'];
  $Batch=$_GET['batch']; 
  $semID = $_GET['sem'];
  $subjectcode = $_GET['subjectcode'];
   $subject = $_GET['subject'];
  $exam = $_GET['examination'];
+  $OrderBy = $_GET['OrderBy'];
+
 ?>
 
 <!-- <form action="post_action.php" method="post"> -->
@@ -7309,17 +7312,23 @@ if($list_result === false) {
                 </tr>
  <?php
  $i='1';
-
-
-
- 
-$sql1="Select  a.IDNo,StudentName,UniRollNo,ClassRollNo from ExamForm as ef inner join ExamFormSubject as efs on ef.Id=efs.ExamId 
+ if($cgroup!='')
+{
+ $sql1="Select  a.IDNo,StudentName,UniRollNo,ClassRollNo from ExamForm as ef inner join ExamFormSubject as efs on ef.Id=efs.ExamId 
  inner join Admissions as a on ef.IDNo=a.IDNo  where ef.CollegeID='$CollegeID' and ef.CourseID='$CourseID'
 and ef.Semesterid='$semID' and ef.Batch='$Batch' and ef.Status=8 AND SGroup='$group'
-    and SubjectCode='$subjectcode' and ef.Examination='$exam' AND a.Section='A'
-      ANd  a.Status='1' AND  efs.ExternalExam='Y' order by  UniRollNo";
+    and SubjectCode='$subjectcode' and ef.Examination='$exam' AND a.Section='$section' AND a.ClassGroup='$cgroup'
+      ANd  a.Status='1' AND  efs.ExternalExam='Y' order by $OrderBy";
 
-
+}
+else
+{
+   $sql1="Select  a.IDNo,StudentName,UniRollNo,ClassRollNo from ExamForm as ef inner join ExamFormSubject as efs on ef.Id=efs.ExamId 
+ inner join Admissions as a on ef.IDNo=a.IDNo  where ef.CollegeID='$CollegeID' and ef.CourseID='$CourseID'
+and ef.Semesterid='$semID' and ef.Batch='$Batch' and ef.Status=8 AND SGroup='$group'
+    and SubjectCode='$subjectcode' and ef.Examination='$exam' AND a.Section='$section' 
+      ANd  a.Status='1' AND  efs.ExternalExam='Y' order by $OrderBy";
+}
 
 $stmt2 = sqlsrv_query($conntest,$sql1);
   
@@ -7363,9 +7372,12 @@ while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 ?>
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
-</table>
 
-<p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-danger "  >
+
+
+<tr>
+<td style="text-align:right" colspan="6"><p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-danger "  ></td></tr>
+   </table>
 <?php 
 
 
