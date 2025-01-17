@@ -136,17 +136,20 @@ function show_action_button_with_status(token)
               }
            });
 }
+function getSelectedRadioValue() {
+    var selectedValue = document.querySelector('input[name="empc121"]:checked').value;
+    // console.log("Selected Radio Value:", selectedValue);
+    return selectedValue;
+}
 
 
 
 function allotment_by_allotment_auth(TokenNo) {
-    var mode = document.getElementById('radioPrimary151').value;
+
     var postData = {};
     var remakrs = document.getElementById('remakrs').value.trim();
-
-    // Validate mode and populate `postData`
-    alert(mode);
-    if (mode == 1) {
+    var mode = getSelectedRadioValue();
+    if (mode == 0) {
         var roleID = document.getElementById('roleID').value.trim();
         var staff_name = document.getElementById('staff_name').value.trim();
 
@@ -178,47 +181,39 @@ function allotment_by_allotment_auth(TokenNo) {
         };
     }
 
-    // Final check for remarks and staff name
     if (!staff_name || !remakrs) {
         ErrorToast('Select All Required Inputs', 'bg-warning');
         return;
     }
-
-    // Show spinner during AJAX call
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
-
     var code = 8;
-
-    // Make the AJAX request
     $.ajax({
-        url: 'action_b.php',
-        type: 'POST',
-        data: {
-            code: code,
-            postData: postData,
-            mode: mode,
-            remakrs: remakrs,
-            TokenNo: TokenNo
-        },
-        success: function (response) {
-            console.log(response);
-            spinner.style.display = 'none';
-
-            if (response == 1) {
-                SuccessToast('Successfully Alloted');
-                show_timeline_verification_alott(TokenNo);
-                pending_requests();
-            } else {
-                ErrorToast('Try Again', 'bg-danger');
-            }
-        },
-        error: function () {
-            spinner.style.display = 'none';
-            ErrorToast('Error while making request', 'bg-danger');
-        }
-    });
+    url: 'action_b.php',
+    type: 'POST',
+    data: {
+        code:code,
+        TokenNo: TokenNo,
+        roleID: roleID,
+        staff_name: staff_name,
+        organisationName: organisationName,
+        departmentName: departmentName,
+        remakrs: remakrs
+    },
+    success: function (response) {
+        spinner.style.display = 'none';
+        console.log(response);
+        if (response == 1) {
+    SuccessToast('Successfully Alloted');
+    show_timeline_show_application(TokenNo);
+    pending_requests();
+} else {
+    ErrorToast('Try Again', 'bg-danger');
 }
+    }
+});
+}
+
 
 function reject_by_allotment_auth() {
 
@@ -243,7 +238,7 @@ function reject_by_allotment_auth() {
                   if (response==1) 
                  {
                     SuccessToast('Successfully Rejected');
-                  show_timeline_verification_alott(token);
+                  show_timeline_show_application(token);
                   pending_requests();
                  }
                  else
@@ -259,18 +254,17 @@ function reject_by_allotment_auth() {
 function approve_by_allotment_auth()
  {
      
-  var id=document.getElementById('time_line_id').value;
   var token=document.getElementById('time_line_token').value;
   var userId=document.getElementById('time_line_userId').value;
   var forward_remarks=document.getElementById('comment_approve').value;
     var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=48;
+           var code=9;
            $.ajax({
-              url:'action_g.php',
+              url:'action_b.php',
               type:'POST',
               data:{
-                 code:code,id:id,userId:userId,token:token,forward_remarks:forward_remarks
+                 code:code,userId:userId,token:token,forward_remarks:forward_remarks
               },
               success: function(response) 
               {
@@ -278,8 +272,8 @@ function approve_by_allotment_auth()
                   spinner.style.display='none';
                   if (response==1) 
                  {
-                    SuccessToast('Successfully Approved');
-                  show_timeline_verification_alott(token);
+                    SuccessToast('Successfully Replied');
+                  show_timeline_show_application(token);
                   pending_requests();
                  }
                  else
