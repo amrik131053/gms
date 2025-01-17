@@ -49,7 +49,7 @@ $data[]=$degree_row;
                                 <label>Select Session</label>
                                 <br>
                                 <select id="session1" class="btn btn-default btn-sm">
-                                <option value="<?php echo date('Y')+1;?>"><?php echo date('Y')+1;?></option>
+                                <option value="<?php echo date('Y');?>"><?php echo date('Y');?></option>
                                     <?php 
 for($s='2015';$s<='2030';$s++)
 {
@@ -58,7 +58,7 @@ for($s='2015';$s<='2030';$s++)
                                     <?php }?>
                                 </select>
                                 <select id="session2" class="btn btn-default btn-sm">
-                                <option value="<?php echo date('y')+2;?>"><?php echo date('y')+2;?></option>
+                                <option value="<?php echo date('y')+1;?>"><?php echo date('y')+1;?></option>
                                     <?php 
 for($s1='16';$s1<='31';$s1++)
 {
@@ -67,7 +67,7 @@ for($s1='16';$s1<='31';$s1++)
                                     <?php }?>
                                 </select>
                                 <select id="session3" class="btn btn-default btn-sm">
-                                    <option value=''>Select</option>
+                                    <!-- <option value=''>Select</option> -->
                                     <option value='J'>J</option>
                                     <option value='A'>A</option>
                                     <option value='J'>J</option>
@@ -161,7 +161,7 @@ for($s1='16';$s1<='31';$s1++)
                         <option value="Diploma">Diploma</option>
                         <option value="Ph.D">Ph.D</option>
                     </select>
-                </div>      <div class="col-lg-2" >
+                </div>      <div class="col-lg-1" >
                                 <label>Duration</label>
                                
                                 <br>
@@ -185,7 +185,16 @@ for($s1='0';$s1<='6';$s1++)
                                 </select>
                                
                             </div>
-                            
+                          
+                             <div class="col-lg-2" >
+                    <label>Seriese Type</label>
+                    <select class="form-control form-control-sm" id="SerieseType">
+                        
+                        <option value="0">National</option>
+                        <option value="1">International</option>
+                        
+                    </select>
+                </div>  
                             
                         </div>
                         <div class="card-footer">
@@ -349,12 +358,13 @@ for($s1='0';$s1<='6';$s1++)
                             '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td></td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
                         table +=
-                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th colspan="2">Action</th></tr>';
+                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th>Seriese Type</th><th colspan="2">Action</th></tr>';
 
                         for (var i = 0; i < data.length; i++) {
                             var unirollno = data[i][6];
-                            table += '<tr>';
-                            table += '<td>' + data[i][1] + '</td>';
+                            var color1 = (data[i]['SerieseType']==1) ?'green' :'';
+                            table += '<tr style="color: ' + color1 + ';">';
+                            table += '<td >' + data[i][1] + '</td>';
                             table += '<td>' + data[i][2] +' ('+ data[i][10] + ')</td>';
                             table += '<td>' + data[i][3] +' ('+ data[i][11] + ')</td>';
                             table += '<td>' + data[i][4] + '</td>';
@@ -362,9 +372,11 @@ for($s1='0';$s1<='6';$s1++)
                             table += '<td >' + data[i][5] + '</td>';
                             table += '<td >' + data[i][8] + '</td>';
                             var color = (data[i][19] == 1) ? 'green' : 'red';
-                        table += '<td style="color: ' + color + ';"><b>' + (data[i][19] == 1 ? 'Open' : (data[i][19] == 0 ? 'Close' : '')) + '</b></td>';
 
-                            table += '<td><button onclick="edit_student(' + data[i][0] +
+                        table += '<td style="color: ' + color + ';"><b>' + (data[i][19] == 1 ? 'Open' : (data[i][19] == 0 ? 'Close' : '')) + '</b></td>';
+                         table += '<td><b>' + (data[i]['SerieseType'] == 1 ? 'International' : (data[i]['SerieseType'] == 0 ? 'National' : '')) + '</b></td>';
+
+                            table += '<td><button onclick="edit_student('+ data[i][0] +
                                 ');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
                                  table += '<td><button onclick="delete_course(' + data[i][0] +
                                 ');"  class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></button ></td>';
@@ -433,7 +445,7 @@ for($s1='0';$s1<='6';$s1++)
 <script type="text/javascript">
 function edit_record() {
     var id = document.getElementById('master_id').value;
-    ValidUpTo
+    
     var CollegeID = document.getElementById('CollegeName1').value;
     var Department = document.getElementById('Department1').value;
     var Course = document.getElementById('Course1').value;
@@ -451,6 +463,7 @@ function edit_record() {
     var Status = document.getElementById('Status').value;
     var CourseType = document.getElementById('CourseType').value;
     var Duration = document.getElementById('Duration').value;
+        var SerieseType = document.getElementById('SerieseType').value;
         var creditcardactive = document.getElementById('creditcardactive').value;
     if (CollegeID != '' && Department != '') {
         var code = 158;
@@ -470,7 +483,7 @@ function edit_record() {
             EndClassRollNo: EndClassRollNo,
             CourseType: CourseType,
             Duration: Duration,ValidUpTo:ValidUpTo,
-            Status: Status,creditcardactive:creditcardactive
+            Status: Status,creditcardactive:creditcardactive,SerieseType:SerieseType
         };
         // Send the AJAX request
         $.ajax({
@@ -524,11 +537,11 @@ var ValidUpTo=document.getElementById('ValidUpTo').value;
 var LateralEntry=document.getElementById('LateralEntry').value;
 var durationYears=document.getElementById('duration1').value;
 var durationMonth=document.getElementById('duration2').value;
-
+var SerieseType=document.getElementById('SerieseType').value;
 var CourseType=document.getElementById('CourseType').value;
    
 
-    if ((durationYears!='' || durationMonth!='' ) && College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='' && CourseType!='')
+    if ((durationYears!='' || durationMonth!='' ) && College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='' && CourseType!='' &&SerieseType!='')
     {
         var code = 305;
         var data = {
@@ -544,7 +557,7 @@ ValidUpTo:ValidUpTo,
 LateralEntry:LateralEntry,
 durationYears:durationYears,
 durationMonth:durationMonth,
-CourseType:CourseType,
+CourseType:CourseType,SerieseType:SerieseType,
             code: code
         };
         $.ajax({

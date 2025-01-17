@@ -171,8 +171,8 @@
 
 
 
-                                        <div class="col-lg-3">
-                                            <label>Duration <span style="color: red;">(in years)</span></label>
+                                        <div class="col-lg-2">
+                                            <label>Duration </label>
                                             <select class="form-control" id="DurationOpen">
                                             <option value="">Select</option>
                                                         <?PHP 
@@ -186,7 +186,7 @@
                                                              ?>
                                             </select>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-2">
                                             <label>Type</label>
                                             <select class="form-control" id="TypeOpen">
                                                 <!-- <option value="">Select</option> -->
@@ -197,12 +197,14 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-lg-2">
+                                        <div class="col-lg-4">
                                             <label>Action</label><br>
                                             <button class="btn btn-success" onclick="searchSemesterRecord();"><i
                                                     class="fa fa-search"></i></button>
                                             <button class="btn btn-success" onclick="closeSemesterRecord();"><i
                                                     class="fa fa-stop"></i></button>
+
+                                                    <button class="btn btn-danger" onclick="closeSemesterRecord();">Close All</button>
                                         </div>
                                   </div>
                                 <div class="" id="showSemesterOpenRecord"></div>
@@ -433,7 +435,7 @@ function closeSemesterRecord() {
     var BatchOpen = document.getElementById('BatchOpen').value;
     var DurationOpen = document.getElementById('DurationOpen').value;
     var TypeOpen = document.getElementById('TypeOpen').value;
-    var r = confirm("Do you really want to close all");
+    var r = confirm("Do you really want to close");
     if (r == true) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -446,7 +448,7 @@ function closeSemesterRecord() {
             BatchOpen: BatchOpen,DurationOpen:DurationOpen,TypeOpen:TypeOpen
         },
         success: function(response) {
-            // console.log(response);
+             console.log(response);
             spinner.style.display = 'none';
             if (response==1) {
                     SuccessToast('Successfully close');

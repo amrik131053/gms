@@ -332,7 +332,7 @@ function Consolidated(id) {
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group">
-                                <label>Group</label> <span style="color:red"><b>(if Rerquired)</b></span>
+                                <label>Group</label> <span style="color:red"><b>(if required)</b></span>
                                <select name="Group" id="Group" class="form-control" required="">
                                     <option value="">Group</option>
                                   

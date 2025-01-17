@@ -19974,7 +19974,7 @@ else if($code=='303')
    {
    $College=$_POST['College'];
    $Department=$_POST['department'];
-     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL) AND (CreditCardOpen!='1' OR CreditCardOpen is NULL)   order by Course ASC";
+     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL) AND Session='2025-2026-J' AND (CreditCardOpen!='1' OR CreditCardOpen is NULL)   order by Course ASC";
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -24474,7 +24474,7 @@ else if($code=='363')
 $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-
+ 
 //$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
 
   $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
@@ -25589,7 +25589,7 @@ $list_resultamrik = sqlsrv_query($conntest,$resultdata);
         <td>Semester</td>
          <td>Type</td>
           <td>Declare Date</td>
-          
+
            <td>Result No</td>
            <td>No of Appeared </td>
            <td>No of Passed</td>

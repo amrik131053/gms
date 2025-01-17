@@ -4215,7 +4215,7 @@ else if($exportCode==39)
                     
             }
 $SrNo=1;
-$subCount=23;
+$subCount=27;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>  
 <tr>
@@ -4251,6 +4251,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>District </th>
     <th>Nationality </th>
      <th>ABC ID </th>
+      <th>OTR</th>
     <th>Remarks </th>
     <th>Status</th>
     <th>Locked</th>
@@ -4310,7 +4311,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Ereason=$row['EligibilityReason'];
             $Country=$row['country'];
             $State=$row['State'];
-            
+             $OTR=$row['OTR'];
 $ABCID=$row['ABCID'];
 
 if($row['DOB']!='')
@@ -4412,7 +4413,8 @@ else
          <td>{$Country}</td>     
          <td>{$State}</td>     
          <td>{$District}</td>     
-         <td>{$Nationality}</td>  
+         <td>{$Nationality}</td>
+          <td>{$OTR}</td>    
          <td>{$ABCID}</td>   
          <td>{$Ereason}</td>     
          <td style='background-color:".$clr1.";'>{$status}</td>     

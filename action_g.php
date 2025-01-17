@@ -9454,7 +9454,9 @@ $totalAnual=$_POST['totalAnual'];
 $pstartDate=$_POST['pstartDate'];
 $deadline=$_POST['deadline'];
 
-$Category= $_POST['Category'];
+$consultanttype= $_POST['consultanttype'];
+$commitment= $_POST['commitment'];
+
 $DOB= $_POST['DOB'];
 $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
@@ -9518,8 +9520,8 @@ $dist_count = 0;
 
 
 
- $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`
- ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline');";
+ $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`ConsultantType`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`,`commitment`
+ ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$consultanttype','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline','$commitment');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -11537,7 +11539,8 @@ if ($Batch != '') {
 if ($IsopenSearch != '') {
     $baseQuery .= " AND Isopen='$IsopenSearch'";
 }
-$baseQuery.="order by Batch DESC";
+$baseQuery.="order by Id DESC";
+//echo  $baseQuery;
 if ($CollegeName !== '') {
     $degree_run = sqlsrv_query($conntest, $baseQuery);
     while ($degree_row = sqlsrv_fetch_array($degree_run)) {
@@ -11549,7 +11552,7 @@ if ($CollegeName !== '') {
 }
  else 
 {
-    $degree = "SELECT * FROM MasterCourseCodes ORDER BY Id ASC"; 
+    $degree = "SELECT * FROM MasterCourseCodes ORDER BY Id DESC"; 
     $degree_run = sqlsrv_query($conntest, $degree);
     while ($degree_row = sqlsrv_fetch_array($degree_run)) {                
         $data[] = $degree_row;
@@ -11570,6 +11573,7 @@ sqlsrv_close($conntest);
       {
          $ValidUpTo=$row[9];
            $creditcardisactive=$row['CreditCardOpen'];
+            $SerieseType=$row['SerieseType'];
 ?>
     <div class="row">
         <div class="col-lg-12">
@@ -11729,6 +11733,19 @@ sqlsrv_close($conntest);
                         <option value="0">Open</option>
                     </select>
                 </div>
+                     <div class="col-lg-2" >
+                    <label>Seriese Type</label>
+                    <select class="form-control form-control" id="SerieseType">
+
+                         <option value="<?=$SerieseType;?>"><?php if($SerieseType=='1'){echo 'International';}
+                         else if($SerieseType==''){ echo 'Select';} else{ echo 'National';};?></option>
+                        
+                        <option value="0">National</option>
+                        <option value="1">International</option>
+                        
+                    </select>
+                </div>  
+                       
 
 
                 <input type="hidden" id="master_id" class="form-control" value="<?=$row[0];?>">
@@ -11758,7 +11775,8 @@ sqlsrv_close($conntest);
  $Duration=$_POST['Duration'];
  $CourseType=$_POST['CourseType'];
   $ValidUpTo=$_POST['ValidUpTo'];
-  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo',CreditCardOpen='$creditcardactive' where Id='$id'";
+    $SerieseType=$_POST['SerieseType'];
+  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo',CreditCardOpen='$creditcardactive',SerieseType='$SerieseType' where Id='$id'";
  $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -14414,7 +14432,7 @@ elseif ($code==186)
         {
          ?>
 
-<b><?=$row_staff['Name'];?></b>
+<?=$row_staff['Name'];?>
 
 <?php
      }
@@ -19948,13 +19966,24 @@ if($row=sqlsrv_fetch_array($getShiftRun,SQLSRV_FETCH_ASSOC))
 {
     $shiftID=$row['ShiftID'];
 }
-       $sql="SELECT * from MadamShiftTime  where Exception='0' and ShiftId='$shiftID' order by Id ASC";
+
+ $sqln="SELECT * from MadamShiftTime  where Exception='1' and ShiftId='$shiftID' AND EndDate>'$todaydate' order by Id DESC";
+    $stmt2n = sqlsrv_query($conntest,$sqln);
+    if($row1n = sqlsrv_fetch_array($stmt2n, SQLSRV_FETCH_ASSOC) )
+    {
+        $times[]=$row1n;
+       
+    }
+    else
+        {
+            $sql="SELECT * from MadamShiftTime  where Exception='0' and ShiftId='$shiftID' order by Id ASC";
     $stmt2 = sqlsrv_query($conntest,$sql);
     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
     {
         $times[]=$row1;
        
     }
+}
     echo  json_encode($times);
     sqlsrv_close($conntest);
 }
@@ -20311,6 +20340,7 @@ elseif($code==267) //update student
      $Batch=$row1['Batch'];  
     $validUpto='NA';
     $IDNo=$row1['IDNo'];
+    $OTR=$row1['OTR'];
     $statustype= $row1['StatusType'];
 ?>
 
@@ -20464,7 +20494,21 @@ elseif($code==267) //update student
                                         
                                     </div>
 
-                                
+                                   <div class="col-md-12 col-lg-3">
+                                        <label>OTR</label>
+                                        <?php if($role_id=='2' OR  $role_id=='15'){
+                                            ?>
+                                            <input type="number" class="form-control" name="OTR"
+                                            placeholder="Enter OTR" value="<?=$OTR;?>">
+                                            <?php  } else
+                                            {
+                                                ?>
+                                                <input type="number" class="form-control" name="OTR"
+                                                placeholder="Enter ABC ID" value="<?=$OTR;?>" readonly><?php 
+                                            }
+                                        ?>
+                                        
+                                    </div>
 
                                      <div class="col-md-12 col-lg-2">
                                         <label>Blood Group</label>
@@ -21620,15 +21664,16 @@ elseif($code==270)  // search student
                         <th>FatherName</th>
                         <th>College</th>
                         <th>Course</th>
-                        <th>Status</th>
-                        <!-- <th>Edit</th> -->
-                        <th>ID Card</th>
+                      
                         <?php 
                              if ($role_id==2 || $role_id==13 || $role_id==16) 
                              {  ?>
                         <th>Section</th>
                         <th>Group</th>
-                        <?php }?>
+                        <?php }?>  <th>Status</th>
+                        <!-- <th>Edit</th> -->
+                        <th>ID Card</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -21709,7 +21754,30 @@ elseif($code==270)  // search student
                         <td><?=$row['Course'];?></td>
                         <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
                         </td> -->
-                        <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
+                           <?php 
+                             if ($role_id==2 || $role_id==13 || $role_id==16) 
+                             {  ?>
+                        <td>   <select  id="ClassSection" onchange="updateSection('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['Section'];?>"><?=$row['Section'];?></option>
+                                <option value="">Select</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select></td>
+                <td>   <select  id="ClassGroup" onchange="updateGroup('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['ClassGroup'];?>"><?=$row['ClassGroup'];?></option>
+                                <option value="">Select</option>
+                                <option value="G1">G1</option>
+                                <option value="G2">G2</option>
+                                <option value="G3">G3</option>
+                                <option value="G4">G4</option>
+                                <option value="G5">G5</option>
+                                <option value="G6">G6</option>
+                                <option value="G7">G7</option>
+                            </select></td>
+                            <?php }?> <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
                   <?php 
@@ -21749,30 +21817,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
   
 
                         </td>
-                        <?php 
-                             if ($role_id==2 || $role_id==13 || $role_id==16) 
-                             {  ?>
-                        <td>   <select  id="ClassSection" onchange="updateSection('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
-                                <option value="<?=$row['Section'];?>"><?=$row['Section'];?></option>
-                                <option value="">Select</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                                <option value="E">E</option>
-                            </select></td>
-                <td>   <select  id="ClassGroup" onchange="updateGroup('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
-                                <option value="<?=$row['ClassGroup'];?>"><?=$row['ClassGroup'];?></option>
-                                <option value="">Select</option>
-                                <option value="G1">G1</option>
-                                <option value="G2">G2</option>
-                                <option value="G3">G3</option>
-                                <option value="G4">G4</option>
-                                <option value="G5">G5</option>
-                                <option value="G6">G6</option>
-                                <option value="G7">G7</option>
-                            </select></td>
-                            <?php }?>
+                    
                     </tr>
                     <?php $sr++;
 
@@ -24546,17 +24591,17 @@ elseif($code==305)
     $durationYears=$_POST['durationYears'];
     $durationMonth=$_POST['durationMonth'];
     $CourseType=$_POST['CourseType'];
-
+$SerieseType=$_POST['SerieseType'];
     if($LateralEntry=='Yes')
     {
          $Batch=$Batch-1;
     }
-   $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName, CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
- EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths,ValidUpto) 
- VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth','$ValidUpTo');";
+   $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName,CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
+ EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths,ValidUpto,SerieseType) 
+ VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth','$ValidUpTo','$SerieseType');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
 
-$insert_recordCourses = "INSERT INTO MasterCourses (CollegeName,Course,Batch,SemesterID,Semester) 
+$insert_recordCourses = "INSERT INTO MasterCourses(CollegeName,Course,Batch,SemesterID,Semester) 
 VALUES ('$CollegeName','$Course','$Batch','1','First');";
 sqlsrv_query($conntest, $insert_recordCourses);
 if ($insert_record_run==true) 
@@ -28423,7 +28468,16 @@ if($Status==6)
    }
    elseif ($code==350) {
  $Session=$_REQUEST['Session'];
-    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1'";
+ $Nationality=$_REQUEST['Nationality'];
+ if($Nationality!='Indian')
+ {
+    $seriesetype=1;
+ }
+ else
+ {
+   $seriesetype=0; 
+ }
+   echo  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1' ANd SerieseType='$seriesetype' ";
            $stmt2 = sqlsrv_query($conntest,$sql);
            echo "<option value=''>Select</option>";
       while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -28674,6 +28728,17 @@ $SemesterID=$_POST['SemesterID'];
 $feeparticulr=$_POST['feeparticulr'];
 $feeTotalDebit=$_POST['feeTotalDebit'];
 
+if($Nationality=='Indian')
+{
+$serieseType=0;
+$rollnocheck='Indian';
+}
+else
+{
+$serieseType='1';
+$rollnocheck='NRI';
+}
+
 $sqlG="SELECT DISTINCT CollegeName from MasterCourseCodes  Where CollegeID='$CollegeID' and Isopen='1'";
 $stmtG = sqlsrv_query($conntest,$sqlG);
 if($rowG=sqlsrv_fetch_array($stmtG, SQLSRV_FETCH_ASSOC))
@@ -28699,7 +28764,7 @@ if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 }
 
 $ClassRollNo=0;
-  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'and Batch='$Batch' and LateralEntry='$LateralEntry'";
+  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'and Batch='$Batch' and LateralEntry='$LateralEntry' ANd SerieseType='$serieseType'";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
@@ -28720,7 +28785,7 @@ if($ClassRollNo>0)
 {
 $ClassRollNoUpdate=$ClassRollNo+1;
 
-$getIDNosql = "SELECT Top(1)* FROM Admissions order by IDNo DESC";
+$getIDNosql = "SELECT Top(1)* FROM Admissions  order by IDNo DESC";
 $getIDNostmt = sqlsrv_query($conntest,$getIDNosql);  
     if($getIDNorow = sqlsrv_fetch_array($getIDNostmt, SQLSRV_FETCH_ASSOC) )
 {    
@@ -32252,9 +32317,9 @@ elseif($code=='422')
         <div class="col-lg-12">
             <div class="row text-center">
           <?php   $semesters = [];
-  echo $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
+  $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
                   INNER JOIN MasterCourseCodes  ON MasterCourseStructure.CourseID = MasterCourseCodes.CourseID 
-                   WHERE MasterCourseStructure.Batch = '$BatchOpen' AND MasterCourseCodes.Duration = '$DurationOpen' AND MasterCourseStructure.$TypeOpen = '1'  
+                   WHERE MasterCourseStructure.Batch = '$BatchOpen' AND MasterCourseCodes.Duration = '$DurationOpen'  AND MasterCourseStructure.CourseID!='188' AND MasterCourseStructure.CourseID!='185'AND MasterCourseStructure.CourseID!='464'AND MasterCourseStructure.$TypeOpen = '1'  
                   ORDER BY SemesterID ASC";
     $checkOpenRun = sqlsrv_query($conntest, $checkOpen);
     while ($row = sqlsrv_fetch_array($checkOpenRun, SQLSRV_FETCH_ASSOC)) {
@@ -32372,7 +32437,7 @@ else{
     $DurationOpen=$_REQUEST['DurationOpen'];
     $TypeOpen=$_REQUEST['TypeOpen'];
 
-    $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
+   echo $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
     inner join MasterCourseCodes mcc on mcs.CourseId=mcc.CourseId where mcs.Batch='$BatchOpen' ANd Duration='$DurationOpen' and $TypeOpen='1'";
 
    $update_run=sqlsrv_query($conntest,$update_permission);
