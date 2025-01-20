@@ -422,7 +422,7 @@ if($code==1) // pendig complaint
        elseif($check_flow_row['Action']==2)
        {
        ?>
-     <form action="transport_allotted_slip.php" method="POST" target="_blank">
+     <form action="#" method="POST" target="_blank">
          <input type="hidden" name="token_no" value="<?=$TokenNo;?>">
          <input type="submit" class="btn btn-primary btn-xs" value="Print">
      </form>
