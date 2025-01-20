@@ -2202,7 +2202,7 @@ if($code_access!='000')
 }
 else
 {
-  $get_group="SELECT * FROM masterarticleadmisisoncell where masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock ANd Status='1'";   
+  $get_group="SELECT * FROM masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock ANd Status='1'";   
 }
 $sr=1;
          $get_group_run=mysqli_query($connection_s,$get_group);
