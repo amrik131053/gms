@@ -858,7 +858,7 @@ function trackComplaint() {
             <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title">Application No: ${normalizedData[0]['TokenNo'][0] || ''}</h4>
-                            <div class="d-flex align-items-center"><b>Status:&nbsp; </b> <b class="text-${normalizedData[0]['Status']==1 ? 'success':'warning' || ''}">  ${normalizedData[0]['Status']==1 ? ' Completed':' Forwarded' || ''}</b></div>
+                            <div class="d-flex align-items-center"><b>Status:&nbsp; </b> <b class="text-${normalizedData[0]['Status']==1 ? 'success':'warning' || ''}">  ${normalizedData[0]['Status']==2 ? ' Completed':' Forwarded' || ''}</b></div>
                         </div>
                
                 <ul class="steps steps-vertical">
