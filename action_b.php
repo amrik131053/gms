@@ -215,9 +215,9 @@ if($code==1) // pendig complaint
            }
            elseif ($get_details_run_row['Action']==2) 
            {
-             $envolp="danger";
-             $envolp_msg="Reject";
-             $envolp_icon="times";
+             $envolp="success";
+             $envolp_msg="Complete";
+             $envolp_icon="check-circle";
         
         
            } 
@@ -234,9 +234,7 @@ if($code==1) // pendig complaint
              $envolp="success";
              $envolp_msg="Complete";
              $envolp_icon="check-circle";
-        
-        
-        
+    
            } 
         
            if ($get_details_run_row['ForrwardToId']!=0) 
@@ -265,11 +263,7 @@ if($code==1) // pendig complaint
                     <p class="timeline-header">
                         <?=$Self;?>&nbsp;&nbsp;<b><?=$get_details_run_row['EmployeeName'];?>&nbsp;(<?=$get_details_run_row['EmployeeDepartment'];?>)</b><?=$forward_to_;?>
                     </p>
-                    <!--   <div class="ribbon-wrapper ribbon-sm">
-                  <div class="ribbon bg-primary ">
-                    Complete
-                  </div>
-                  </div> -->
+               
                     <div class="timeline-body">
                         <?php 
                      if ($get_details_run_row['EmployeeRemarks']!='')
