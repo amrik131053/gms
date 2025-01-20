@@ -433,7 +433,7 @@
                             </span>
                         </a>
                     </li>
-                    <!-- <li class="nav-item ">
+                    <li class="nav-item ">
                         <a class="nav-link" href="{{url('grievance')}}">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -453,7 +453,7 @@
                             </span>
                         </a>
                       
-                    </li> -->
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                             data-bs-auto-close="outside" role="button" aria-expanded="false">
