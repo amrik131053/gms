@@ -578,11 +578,11 @@ if($code==1) // pendig complaint
   }
       if ( $insert_request_process_run==true) 
       {
-      echo "1";   // success
+      echo 1;   // success
       }
       else
       {
-         echo "0"; // error
+         echo 0; // error
       }
       sqlsrv_close($conntest);
    }
@@ -597,11 +597,11 @@ if($code==1) // pendig complaint
        $insert_request_process_run= sqlsrv_query($conntest,$status_update_after_forward);
         if ( $insert_request_process_run==$insert_request_process_run1) 
         {
-        echo "1";   // success
+        echo 1;   // success
         }
         else
         {
-           echo "0"; // error
+           echo 0; // error
         }
      sqlsrv_close($conntest);
    } 
