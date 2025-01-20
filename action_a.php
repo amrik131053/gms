@@ -2412,7 +2412,7 @@ $addrun=mysqli_query($connection_s,$asdw);
 <?php
       }
 
-       elseif($code==26.4)
+elseif($code==26.4)
 
    { 
 
@@ -2469,4 +2469,142 @@ $addrun=mysqli_query($connection_s,$asdw);
 <?php
       }
 
+elseif($code==26.5)
+
+   { 
+
+    
+
+    ?> <table class="table table-head-fixed text-nowrap">
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Mobile</th>
+                              <th>Address</th>
+                              <th>Organisation</th>
+
+                              <th>Action</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                        
+    
+                       
+                      
+   <?php 
+          $sr=1;
+                            $get_consultant="SELECT * FROM MasterConsultant  order by ID desc"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
+                     {
+
+                      if($row['Status'] == 0) {
+                           $color='red'; 
+                        }
+                        else
+                        {
+                          $color='';  
+                        }
+                 
+
+                        ?>
+
+                     <tr style="background-color: <?=$color;?>"><td><?= $sr++;?></td><td><?=$row['Name'];?> <b>(<?=$row['ID'];?>)</b></td><td><?=$row['Mobile'];?></td><td><?=$row['Address'];?></td>
+                        <td><?=$row['Organisation'];?></td>
+                        <!-- <td><?php echo ($row['Status'] == 1) ? 'Active' : 'Inactive'; ?></td> -->
+                        <td><i class="fa fa-edit" onclick="edit_consultant(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i></td>
+                    </tr>
+                     
+                     <?php }?>  </tbody>
+                     </table>
+
+
+<?php
+      }
+elseif($code==26.6)
+
+   { 
+    $id=$_POST['id'];
+
+$get_consultant="SELECT * FROM MasterConsultant where  ID='$id'"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
+                     {?>
+<div class="col-md-12    col-lg-12  col-sm-12   ">
+            <div class="card card-info">
+               
+             
+                  <div class="card-body">
+                     <div class="form-group row">  
+           <div class="col-lg-6">
+                        <label >Name</label>
+               
+                  <input type="text" class="form-control" id="consultant_name" value="<?=$row['Name'];?>">
+                   <input type="hidden" class="form-control" id="consultant_id" value="<?=$row['ID'];?>">
+               </div>  <div class="col-lg-6">
+                  <label>Mobile</label>
+
+                   <input type="text" class="form-control" id="Mobile-e" value="<?=$row['Mobile'];?>">
+                </div>
+                <div class="col-lg-6">
+                  
+                   <label>Address</label>
+                    <input type="text" class="form-control" id="address-e" value="<?=$row['Address'];?>">
+                 </div> <div class="col-lg-6">
+                    <label>Organisation</label>
+                     <input type="text" class="form-control" id="organisation-e" value="<?=$row['Organisation'];?>">
+                  </div>
+                  </div> <div class="col-lg-6">
+                       <label>Status</label>
+                    <select class="form-control" id="status-e">
+                          <option value='<?=$row['Status'];?>'><?php echo ($row['Status'] == 1) ? 'Active' : 'Inactive'; ?></option>
+                        <option value='1'>Active</option>
+                         <option value='0'>InActive</option>
+
+                    </select>
+                 
+                     
+                  </div>
+
+
+                    
+               </div>
+              
+            </div>
+
+      </div>
+                       
+                         
+
+         </div>
+                     
+                     <?php 
+
+    
+
+
 }
+}
+elseif($code==26.7)
+
+   { 
+      
+
+    $id=$_POST['consultant_id'];
+     $consultant_m=$_POST['consultant_m'];
+      $consultant_a=$_POST['consultant_a'];
+       $consultant_o=$_POST['consultant_o'];
+        $status_e=$_POST['status_e'];
+     
+
+
+ $get_consultant="Update  MasterConsultant set Mobile='$consultant_m',Address='$consultant_a',Organisation='$consultant_o' ,Status='$status_e' where  ID='$id'"; 
+
+ $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                    
+echo 1;
+
+}}
