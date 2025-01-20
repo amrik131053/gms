@@ -357,7 +357,7 @@ where MasterDepartment.Id='$Department' ";
                 <th>Fee (INR)</th>
             </tr>
             <tr>
-                <th>Tuition Fee (Per Year)</th>
+                <th>Fee package plan/year including enrollment fee,Tution</th>
                 <td>₹<?= $TutionFee; ?></td>
                 <th>Security Deposit</th>
                 <td>₹<?= $SecurityDeposit; ?></td>
@@ -365,13 +365,13 @@ where MasterDepartment.Id='$Department' ";
             <tr>
                 <th>Registration Fee</th>
                 <td>₹<?= $RegistrationFee; ?></td>
-                <th>Mess Charges</th>
+                <th>Misc. Charges</th>
                 <td>₹<?= $MessCharges; ?></td>
             </tr>
             <tr>
                 <th>Hostel Accommodation Fee(AC)</th>
                 <td>₹<?= $HostelFee; ?></td>
-                <th>Other Academic Charges</th>
+                <th>Other Charges</th>
                 <td>₹<?= $otherCharges; ?></td>
             </tr>
             <tr>
