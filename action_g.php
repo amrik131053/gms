@@ -9717,11 +9717,11 @@ mysqli_close($conn);
          $insert_consultant_run=sqlsrv_query($conntest,$insert_consultant);
          if ($insert_consultant_run==true)
           {
-         echo "1";   
+         echo 1;   
          }
          else
          {
-            echo "0";
+            echo 0;
          }
          sqlsrv_close($conntest);
       }     

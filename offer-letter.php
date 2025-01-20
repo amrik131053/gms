@@ -88,45 +88,7 @@ include "header.php";
 
 
 
-<div class="modal fade" id="for_consultant" tabindex="-1" role="dialog" aria-labelledby="for_consultantLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="for_consultantLabel">New Consultant</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-            <div class="row">
-                <div class="col-lg-2">
-                </div>
-               <div class="col-lg-8">
-                <label>Name</label>
-                  <input type="text" class="form-control" id="consultant_name" value="">
-                  <label>Mobile</label>
 
-                   <input type="text" class="form-control" id="Mobile" value="">
-                   <label>Address</label>
-                    <input type="text" class="form-control" id="address" value="">
-                    <label>Organisation</label>
-                     <input type="text" class="form-control" id="organisation" value="">
-
-<br>
-                     <button class="btn btn-primary" onclick="add_consultant();"><i class="fa fa-plus" ></i>ADD</button>
-               </div>
-             
-            </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
-      </div>
-    </div>
-  </div>
-
-</div>
 <div class="modal fade" id="for_edit" tabindex="-1" role="dialog" aria-labelledby="for_editLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -965,42 +927,7 @@ else
 }
 }
 
-function add_consultant() 
-{
-  // alert();
-    var consultant_name = document.getElementById("consultant_name").value;
-      var consultant_m = document.getElementById("Mobile").value;
-        var consultant_a = document.getElementById("address").value;
-          var consultant_o = document.getElementById("organisation").value;
-    if (consultant_name!='' && consultant_name!=null) 
-    {
-var code=135;
-      $.ajax({
-    url: 'action_g.php',
-    data: {consultant_name:consultant_name,consultant_m:consultant_m,consultant_a:consultant_a,consultant_o:consultant_o,code:code},
-    type: 'POST',
-    success: function(response)
-     {
-    //console.log(response);
-    if (response==1) {
-         SuccessToast('Successfully Inserted');
-   }
-   else
-   {
-      ErrorToast('Try after some time ','bg-warning');
-   }
-  },
-    error: function(xhr, status, error) {
-      console.error(xhr.responseText);
-   
-    }
-  });
-}
-else
-{
-   ErrorToast('All Input Required ','bg-warning');
-}
-}
+
 
 //    function postcode() {
 //   var pincode = document.getElementById("Pincode").value;
