@@ -142,8 +142,54 @@
 
 <script type="text/javascript">
 
-UpdateAttendance()
+function UpdateAttendance()
+{
+var students=document.getElementsByClassName('checkbox');
+var subjects=document.getElementsByClassName('newSubject');
+var len_student= students.length; 
+var len_subject= subjects.length;
 
+
+  var code=101;
+  var student_str=[];
+  var subject_str=[];
+    
+    for(i=0;i<len_subject;i++)
+     {
+      if(subjects[i].checked===true)
+       {
+        subject_str.push(subjects[i].value);
+        }
+     }
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(students[i].checked===true)
+          {
+            student_str.push(students[i].value);
+          }
+       }
+     
+
+
+  if((typeof  student_str[0]== 'undefined') || (typeof subject_str[0]== 'undefined') )
+  {
+    alert('Select atleast one student and subject to proceed');
+  }else{
+    var spinner=document.getElementById("ajax-loader");
+                                  spinner.style.display='block';
+  $.ajax({
+         url:'action.php',
+         data:{students:student_str,subjects:subject_str,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            alert('Inserted Successfully.') 
+                                }      
+});
+}
+}
 
 
 
@@ -152,7 +198,6 @@ UpdateAttendance()
   
 var  group = document.getElementById('Group').value;
 var  OrderBy = document.getElementById('OrderBy').value;
-alert(lecturenumber);
 
     
 

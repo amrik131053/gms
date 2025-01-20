@@ -7347,15 +7347,17 @@ $IDNo=$row['IDNo'];
 
 
 
-       $sqlatt="Select Attendance from StudentAttendance where Semester='$semID'  ANd IDNo ='$IDNo' ANd LectureNumder='$lecturenumber' AND SubjectCode='$subjectcode' ANd Section='$section' ANd ClassGroup='$cgroup' AND  Date='$todaydate' ";
+  $sqlatt="Select Attendance from StudentAttendance where Semester='$semID'  ANd IDNo ='$IDNo' ANd LectureNumber='$lecturenumber' AND SubjectCode='$subjectcode' ANd Section='$section' ANd ClassGroup='$cgroup' AND  Date='$todaydate' ";
       $stmtatt = sqlsrv_query($conntest,$sqlatt);
   
-
-
 if($rowatt = sqlsrv_fetch_array($stmtatt, SQLSRV_FETCH_ASSOC) )
 
 {
    $st=$rowatt['Attendance'];
+}
+else
+{
+  $st='' ;
 }
   if($st=='1')
   {
@@ -7371,11 +7373,11 @@ if($rowatt = sqlsrv_fetch_array($stmtatt, SQLSRV_FETCH_ASSOC) )
 <td style="text-align: center">
    <?php if($OrderBy=='ClassRollNo'){
 
-echo $row['ClassRollNo'];
+ echo $row['ClassRollNo'];
 
    }else{
 
-echo $row['UniRollNo'];
+echo $row['UniRollNo']; 
 
    }
 
@@ -7385,7 +7387,7 @@ echo $row['UniRollNo'];
                                             
                <td><?= $row['StudentName'];?></td>
                            <td style='text-align:center'>  
-                              <input type="checkbox" required="" name="mst[]" value=""   id='check' value='<?=$row['ClassRollNo'];?>' class='checkbox'></td>
+                              <input type="checkbox" required="" name="mst[]" value=""   id='check' value='<?=$row['ClassRollNo'];?>' class='checkbox' <?=$value;?>></td>
 
                               <td style='text-align:center;'>
 

@@ -1341,7 +1341,10 @@ else{
                                         
                                                // $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
 
-                                                 $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+
+                                        // $text = "Programme:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+
+                                                 $text = "Programme:".$course."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1353,8 +1356,8 @@ else{
             
                <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
                   <span class="notranslate">
-                     <div style="height: 60px;"></div>
-                     <!--78-->
+                     <div style="height: 78px;"></div>
+                     <!--60-->
                      <div class="row">
                   <?php  
                         
