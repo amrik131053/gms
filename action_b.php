@@ -302,7 +302,7 @@ if($code==1) // pendig complaint
         elseif($code==3)
         {
             $TokenNo=$_POST['Token_No'];
-         $check_flow="SELECT * FROM  StudentGrievanceTrack  Where TokenNo='$TokenNo' and EmployeeId='$EmployeeID' ";
+         $check_flow="SELECT * FROM  StudentGrievanceTrack  Where TokenNo='$TokenNo' and EmployeeId='$EmployeeID' order by ID DESC ";
         $check_flow_run=sqlsrv_query($conntest,$check_flow);
         if($check_flow_row=sqlsrv_fetch_array($check_flow_run))
         {
