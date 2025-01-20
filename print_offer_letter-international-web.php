@@ -31,8 +31,18 @@ foreach ($id as $key => $value) {
         $ID_Proof_No=$row['ID_Proof_No'];
         $Consultant_id=$row['Consultant_id'];
         $pstartDate=$row['pstartDate'];
+        $pstartDate = DateTime::createFromFormat('Y-m-d', $pstartDate)->format('d-m-Y');
         $deadline=$row['deadline'];
+        $Nationality=$row['Nationality'];
+        $id=$row['id'];
 
+         $get_coutry_name="SELECT name FROM countries where id='$Nationality'";
+        $get_coutry_name_run=mysqli_query($conn,$get_coutry_name);
+        if ($row_coutry_name=mysqli_fetch_array($get_coutry_name_run)) {
+        
+            $NationalityName=$row_coutry_name['name'];
+             
+        }
          $get_course_name="SELECT Course,CourseType FROM MasterCourseCodes where CourseID='$Course'";
         $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
         if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
@@ -110,174 +120,342 @@ where MasterDepartment.Id='$Department' ";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>International Visa Support Letter</title>
     <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+    }
+
+    table {
+        width: 100%;
+        border-color: black;
+        color: black;
+    }
+
+    th,
+    td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr {
+        background-color: #f2f2f2;
+        /* Light background for rows */
+    }
+
+    .header,
+    .footer {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .footer {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .content {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    table th,
+    table td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .signature-section {
+            /* margin-top: 40px; */
+            text-align: right;
+        }
+        .signature-section img {
+            max-width: 150px;
+            display: block;
+            /* margin-bottom: 5px; */
+            float: right;
+            
+        }
+        .signature-section p {
+            font-size: 0.9em;
+            margin: 0;
+            
+        }
+   
+    .page-break {
+        page-break-after: always;
+    }
+
+    .important {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: red;
+    }
+
+    .note {
+        font-style: italic;
+        color: #555;
+       
+    }
+
+    ul {
+        margin-left: 20px;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    .terms-conditions {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    @media print {
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
         }
-        .header, .footer {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        .footer {
-            margin-top: 40px;
-        }
+
         .content {
-            margin-bottom: 20px;
+            page-break-inside: avoid;
+            /* margin-top: 200px; */
+            padding:10px;
+
         }
-        .signature-section {
-            margin-top: 40px;
+
+        /* .footer {
+                position: fixed;
+                bottom: 10px;
+                width: 100%;
+            } */
+        table {
+            width: 100%;
+            border-color: black;
+            color: black;
         }
-        .enclosures {
-            margin-top: 20px;
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
         }
-        /* CSS for page break after each letter */
-        @media print {
-            .page-break {
-                page-break-after: always;
-            }
+
+        tr {
+            background-color: #f2f2f2;
+            /* Light background for rows */
         }
+    }
+    .logo-section {
+        text-align: center;
+        margin-bottom: 10px; /* Reduced margin */
+    }
+    .logo-section img {
+        width: 100%; /* Full width */
+      
+        height: 100px; /* Maintain aspect ratio */
+        max-height: 150px; /* Constrain the height to avoid pushing content */
+    }
+
     </style>
 </head>
+
 <body>
-    <div class="content" style="font-size: 18px;">
-        <p>Date: <?php echo date('d-m-Y'); ?></p>
-
-        <p>To,<br>
-        ___________________________<br>
-        ___________________________</p>
-
-        <p><strong>Subject: Offer of Admission to Guru Kashi University (International Students)</strong></p>
-
-        <p>Dear <strong><?php echo $name; ?></strong>,</p>
-        We are pleased to inform you that you have been <strong>conditionally</strong> offered admission to
-        <strong>Guru Kashi University</strong> for the <strong><?php echo $courseName; ?></strong> commencing on <strong><?php echo $pstartDate;?></strong> for the
-          academic session <strong><?php echo $Session;?></strong>. This offer is based on your fulfillment of the 
-          admission requirements and submission of all necessary documents as outlined below. 
-          <br></br>
-          <hr>
-        <h5><u>Program Details:</u></h5>
-        <ul>
-       <li><b>Program Name:</b> <?php echo $courseName; ?></li>
-       <li><b>Level of Study: </b> <?=$Type;?></li>
-       <li><b>Duration:</b><?=$Duration;?></li>
-       <li><b>Faculty/Department:</b><?php echo $department;?></li>
-       <li><b>Medium of Instruction: English</b></li>
-        </ul>
-<hr>
-        <h5><u>Fee Structure:</u></h5>
-        <p> Below is a detailed breakdown of the fees for your program:  </p>
-        <table>
-            <tr><td>Category</td><td>Fee(INR)</td></tr>
-    <tr>
-    <td>Tuition Fee (Per Year) </td><td>&nbsp; &#x20b9;<?php echo $TutionFee;?></td>
-    </tr>
-    <tr> 
-                                  
-        <td>Registration Fee</td><td>&nbsp; &#x20b9;<?php echo $RegistrationFee;?></td>
-        </tr>
-        <tr>  
-        <td>Hostel Accommodation Fee</td><td>&nbsp; &#x20b9;<?php echo $HostelFee;?></td>
-        </tr>
-        <tr>  
-        <td>Security Deposit</td><td>&nbsp; &#x20b9;<?php echo $SecurityDeposit;?></td>
-        </tr>
-        <tr>  
-        <td>Mess Charges</td><td>&nbsp; &#x20b9;<?php echo $MessCharges;?></td>
-        </tr>
-        <tr>  
-        <td>Other Academic Charges</td><td>&nbsp; &#x20b9;<?php echo $otherCharges;?></td>
-        </tr>
-        <tr>  
-        <td>Total Annual Fee</td><td>&nbsp; &#x20b9;<?php echo $totalAnual;?></td>
-    </tr>
-        </table>                              
-Note: All fees are quoted in Indian Rupees (INR) and are subject to change as per university policies. 
-
- 
-
-
-
-
-    <div class="enclosures">
-        <h5><u>Payment Schedule:</u></h5>
-        1.	Initial Deposit: 50% of the total fee must be paid before <b><?php echo $deadline;?></b> to confirm your admission.<br>
-        2.	Balance Payment: The remaining 50% must be paid within 45 days of the start of the academic year. <br><br>
-       
-        <table class="table table-bordered" style="border:1px solid black">
-        <b>Please use the following bank account details to transfer the fee:</b>
-            <tr><td><b>Bank Name</b>- HDFC BANK LTD</td><td><b>Address</b>- Talwandi Sabo, Punjab-151302</td></tr>
-            <tr><td><b>Account Name</b>- Guru Kashi University </td><td><b>Account Number</b>- 50100033779951</td></tr>
-            <tr><td><b>Swift Code</b>- HDFCINBB</td><td><b>IFSC/MICR</b>-HDFC0001322/151240102</td></tr>
-        </table>
+    
+    <div class="content">
+        <div class="logo-section">
+                <img src="dist/img/logo-join.png" alt="Logo">
+            </div>
+            <div class="signature-section" style="text-align: right; position: relative;">
+    <div style="display: inline-block; position: relative;">
+        
     </div>
+    <span style="margin-top: 10px; text-align: right;">
+    <span><b style="text-align: right" >Date: <?= date('d-m-Y'); ?></b></span><br>
+    <span><b style="text-align: right">Refrence No:GKU/IED/2025/00<?=$id;?></b></span>
+</span>
+</div>
+      
+        <span>To,<br>
+            <strong><?= $name; ?></strong><br>
+            <b>Father Name-</b> <?= $FatherName; ?><br>
+           <b>Country-</b> <?= $NationalityName; ?>
+        </span><br>
 
-    <!-- Add page break after each letter -->
-    <div class="page-break"></div>
+        <span><strong>Subject: Offer of Admission to Guru Kashi University (International Students)</strong></span><br>
+        <span>Dear <strong><?= $name; ?></strong>,</span></br>
+        <span>We are pleased to inform you that you have been <strong>conditionally</strong> offered admission to
+            <strong>Guru Kashi University</strong> for the <strong><?= $courseName; ?></strong> commencing on
+            <strong><?= $pstartDate; ?></strong> for the academic session <strong><?= $Session; ?></strong>. This offer
+            is based on your fulfillment of the admission requirements and submission of all necessary documents.</span>
 
-    <h5><u> Terms and Conditions:</u></h5>
+        <table>
+            <tr style="background:black;color:white;margin-top:-10px;">
+                <td>
+                    <h6><b>Program Details:</b></h6>
+                </td>
+            </tr>
+        </table>
+        <table style="font-size:12px;margin-top:-10px;">
+            <tr>
+                <th>Program Name:</th>
+                <td><?= $courseName; ?></td>
+                <th>Level of Study:</th>
+                <td> <?= $Type; ?></td>
+            </tr>
+            <tr>
+                <th>Duration:</th>
+                <td><?= $Duration; ?> Years</td>
+                <th>Faculty/Department:</th>
+                <td> <?= $department; ?></td>
+            </tr>
+            <tr>
+                <th>Medium of Instruction:</th>
+                <td>English</td>
+                <th></th>
+                <th></th>
+              
+              
+            </tr>
+        </table>
+       
 
-   <h6><b>Admission Confirmation</b>   </h6>
+        <table style="margin-top:-10px;">
+            <tr style="background:black;color:white;">
+                <td>
+                    <h6><b>Fee Structure:</b></h6>
+                </td>
+            </tr>
+        </table>
 
-<ul> <li>Your admission will be confirmed only upon the receipt of the initial deposit. Non-payment of the deposit by the specified deadline may result in the cancelation in of of your you admission offer</li>
-<li>  All required original documents (academic transcripts, certificates, passport copy, etc.) must be submitted to the International Education Division at the time of registration</li>
-</ul>
-
-<h6><b>Refund Policy: </b> </h6>
-<li> In the case of visa rejection 100% of the tuition fee (except the registration fee) will be refunded upon submission of the wise rejection letter from the Indian Embassy.</li>
-<li> In other cases refund will be processed based on the university's refund policy, which is available on our website .</li>
-
-<h6><b>Hostel and Accommodation</b></h6>
-   <li>Accommodation is available on a a first-come, first-served basis and must be reserved in advance.</li>
-   <li>The Hostel Accommodation Fee includes room rent, basic basic furniture reserved in advance and maintenance charges</li>
-   <li>The student cannot leave the allocated hostel accommodation before completing one year. After one year, he/she can choose other options</li>
-   <li>Electricity charges will be billed separately based on actual consumption and must be paid monthly</li>
-
-<h6><b>Health Insurance:</b></h6>
-   <li>All international students are required to have a valid health insurance covering the duration of their  stay in India
-   Proof of insurance must be submitted before the start of the program</li>
-
-<h6><b>Visa Requirements:</b></h6>
-<li> Students must possess a vaid student visas study at Guru Kashi University it is your responsibility to ensure that your visa is obtained and renewed as required.</li>
-<li>  The university's IED- International Education Division will assist you with your Foreigners Regional Registration Office (FRRO registration upon your arrival in india.</li>
-
-<h6><b>Academic Requirement</b></h6>
-<li>You must be maintaining a minimum attendance of 75% and adhere to all academic and disciplinary regulations set by the university.</li>
-
-<h6><b>Disciplinary Regulations </b></h6>
-<li>The university maintains strict code e of conduct and disciplinary regulations. Any violation of university rules may result in penalties, including suspension or expulsion</li>
-
-<h6><b>Exlt and Travel Permissions:</b></h6>
-<li>Students who wish to leave the campus for personal reasons must seek permission from the International Education Division at least 48 hours in advance fit out the required forms. advance and fit</li>
-
-
-<h6><b>Next Steps:</b></h6>
-1)Confirm your admission by paying the initial deposit of Amount within 7days<br>
-
-2) Submit the following documents
- <ul> <li> Copy of your valid passport</li>
-  <li> Academic transcripts and certificates</li>
-   <li>Proof of health insurance Visa copy (upon approval)</li></ul>
-3. Make travel arrangements and inform us of your arrival date to arrange airport pickup at iedcoordinator@gku.ac.in or<b> 700 998 5 998</b>
-<br>
-<br>
-We are excited to welcome you to Guru Kashi University and took forward to your academic success. If you have any questions, please do not hesitate to contact the international Education Division at IED helpline <b>700 998 5 998</b><br><br>
-
-Best regards<br>
-IED-International Education Division<br>
-Guru Kashi University
+        <table style="font-size:12px; margin-top:-10px;">
+            <tr>
+                <th>Category</th>
+                <th>Fee (INR)</th>
+                <th>Category</th>
+                <th>Fee (INR)</th>
+            </tr>
+            <tr>
+                <th>Tuition Fee (Per Year)</th>
+                <td>₹<?= $TutionFee; ?></td>
+                <th>Security Deposit</th>
+                <td>₹<?= $SecurityDeposit; ?></td>
+            </tr>
+            <tr>
+                <th>Registration Fee</th>
+                <td>₹<?= $RegistrationFee; ?></td>
+                <th>Mess Charges</th>
+                <td>₹<?= $MessCharges; ?></td>
+            </tr>
+            <tr>
+                <th>Hostel Accommodation Fee(AC)</th>
+                <td>₹<?= $HostelFee; ?></td>
+                <th>Other Academic Charges</th>
+                <td>₹<?= $otherCharges; ?></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="1"><strong>Total Annual Fee:</strong>
+                <strong>₹<?= $totalAnual; ?></strong></td>
+               
+            </tr>
+        </table>
 
 
+        <!-- <h6><b></b></h6> -->
+        <span class="note"  >Important: This is an Offer Letter only cannot be used to apply for a study visa.</span>
+
+        <h6><b>Terms and Conditions for Final Admission:</b></h6>
+
+        <h6><b>1. Admission Criteria:</b></h6>
+        <span>
+            Final admission will be granted only after the student meets the eligibility requirements set by the
+            Government of Punjab and the Government of India. All necessary documents supporting the student’s
+            eligibility must be submitted as part of the admission process.
+        </span>
+
+        <h6><b>2. Hostel Fees and Accommodation Options:</b></h6>
+        <ul>
+            <li style="margin-top:-10px;"><strong>Hostel fees:</strong> will apply during the foundation program.
+                From the second year onwards, students choosing to live off-campus will receive a reduction in their fee
+                package i.e. <b>$300 USD/year</b> for non-AC accommodation and <b>$500 USD/year</b> for AC accommodation.
+               
+            </li>
+            <li style="margin-top:-10px;">
+                <strong>Additional Charges:</strong> <b>Exam fees:</b> $50 USD per semester. <b>Electricity charges:</b> Calculated based on actual monthly consumption and billed separately.
+               
+            </li>
+        </ul>
+
+        <!-- <h6><b>3. Validity of Offer Letter:</b></h6> -->
+        <span >
+            <b >This offer letter is valid for 15 days from the date of issue.</b>
+        </span><br>
+        <!-- <table>
+            <tr style="background:black;color:white;">
+                <td>
+                    <h6><b>Payment Details:</b></h6>
+                </td>
+            </tr>
+        </table> -->
+        <table style="font-size:12px; ">
+            <b>Please use the following bank account details to transfer the fee:</b>
+            <tr>
+                <td><b>Bank Name</b>- HDFC BANK LTD</td>
+                <td><b>Address</b>- Talwandi Sabo, Punjab-151302</td>
+            </tr>
+            <tr>
+                <td><b>Account Name</b>- Guru Kashi University </td>
+                <td><b>Account Number</b>- 50100033779951</td>
+            </tr>
+            <tr>
+                <td><b>Swift Code</b>- HDFCINBB</td>
+                <td><b>IFSC/MICR</b>-HDFC0001322/151240102</td>
+            </tr>
+        </table>
+        <div class="signature-section" style="text-align: right; position: relative;">
+    <div style="display: inline-block; position: relative;">
+        <img src="dist/img/stamp-ied-colored.jpg" alt="Stamp" style="width: 120px; border: 0px solid;">
+        <img src="dist/img/navdeep.png" alt="Signature" 
+             style="position: absolute; top: 110%; left: 50%; transform: translate(-50%, -50%); width: 150px;">
+    </div>
+    <p style="margin-top: 20px; text-align: right;">Authorized Signature<br>
+       IED - International Education Division</p>
+</div>
+
+
+        <hr>
+        <div class="footer">
+            <p>IED - International Education Division<br>
+                Office No. 304, Second Floor, Block A, GKU Campus, Sardulgarh Road, Talwandi Sabo, Punjab - 151302<br>
+                IED Helpline: 700 998 5 998 | Email: ied@gku.ac.in | Website: www.gku.ac.in</p>
+        </div>
+    </div>
 </body>
+
 </html>
+
 <?php 
     } 
 } 
