@@ -215,9 +215,9 @@ if($code==1) // pendig complaint
            }
            elseif ($get_details_run_row['Action']==2) 
            {
-             $envolp="danger";
-             $envolp_msg="Reject";
-             $envolp_icon="times";
+             $envolp="success";
+             $envolp_msg="Complete";
+             $envolp_icon="check-circle";
         
         
            } 
@@ -234,9 +234,7 @@ if($code==1) // pendig complaint
              $envolp="success";
              $envolp_msg="Complete";
              $envolp_icon="check-circle";
-        
-        
-        
+    
            } 
         
            if ($get_details_run_row['ForrwardToId']!=0) 
@@ -265,11 +263,7 @@ if($code==1) // pendig complaint
                     <p class="timeline-header">
                         <?=$Self;?>&nbsp;&nbsp;<b><?=$get_details_run_row['EmployeeName'];?>&nbsp;(<?=$get_details_run_row['EmployeeDepartment'];?>)</b><?=$forward_to_;?>
                     </p>
-                    <!--   <div class="ribbon-wrapper ribbon-sm">
-                  <div class="ribbon bg-primary ">
-                    Complete
-                  </div>
-                  </div> -->
+               
                     <div class="timeline-body">
                         <?php 
                      if ($get_details_run_row['EmployeeRemarks']!='')
@@ -428,7 +422,7 @@ if($code==1) // pendig complaint
        elseif($check_flow_row['Action']==2)
        {
        ?>
-     <form action="transport_allotted_slip.php" method="POST" target="_blank">
+     <form action="#" method="POST" target="_blank">
          <input type="hidden" name="token_no" value="<?=$TokenNo;?>">
          <input type="submit" class="btn btn-primary btn-xs" value="Print">
      </form>
@@ -584,11 +578,11 @@ if($code==1) // pendig complaint
   }
       if ( $insert_request_process_run==true) 
       {
-      echo "1";   // success
+      echo 1;   // success
       }
       else
       {
-         echo "0"; // error
+         echo 0; // error
       }
       sqlsrv_close($conntest);
    }
@@ -603,11 +597,11 @@ if($code==1) // pendig complaint
        $insert_request_process_run= sqlsrv_query($conntest,$status_update_after_forward);
         if ( $insert_request_process_run==$insert_request_process_run1) 
         {
-        echo "1";   // success
+        echo 1;   // success
         }
         else
         {
-           echo "0"; // error
+           echo 0; // error
         }
      sqlsrv_close($conntest);
    } 

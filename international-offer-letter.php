@@ -131,11 +131,11 @@ include "header.php";
               <input type="text" class="form-control" id="FSecurityDeposit">
             </div>
               <div class="col-lg-2">
-               <label>Mess Charges</label>
+               <label>Misc Charges</label>
               <input type="text" class="form-control" id="FMessCharges">
             </div>
               <div class="col-lg-2">
-               <label>Other Academic Charges</label>
+               <label>Other Charges</label>
               <input type="text" class="form-control" id="FotherCharges">
             </div>
               <div class="col-lg-2">
@@ -366,11 +366,11 @@ include "header.php";
               <input type="text" class="form-control" id="SecurityDeposit" >
             </div>
               <div class="col-lg-2">
-               <label>Mess Charges</label>
+               <label>Misc Charges</label>
               <input type="text" class="form-control" id="MessCharges" >
             </div>
               <div class="col-lg-2">
-               <label>Other Academic Charges</label>
+               <label>Other Charges</label>
               <input type="text" class="form-control" id="otherCharges" >
             </div>
               <div class="col-lg-2">
