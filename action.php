@@ -24881,14 +24881,16 @@ $q1 = sqlsrv_query($conntest,$list_sql);
 ?><tr><td><?=$srno;?></<td><td><?= $row['Session'];?></td><td><?= $idno= $row['IDNo'];?></td><td><?=$row['ClassRollNo'];?></td> <td><?=$row['UniRollNo'];?></td>
 <td><?=$row['StudentName'];?></td><td><?=$row['FatherName'];?></td><td><?=$row['Course'];?></td><td><?= $row['Batch'];?></td><td><?= $row['FeeCategory'];?></td>
 <?php 
-$Admiss2="SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from  ledger   WHERE 1=1" ; 
+$Admiss2="SELECT sum(Debit) as totaldebit,sum(Credit)as totalcredit from  ledger   WHERE 1=1" ; 
 if($sem!='')
 {
  $Admiss2.= " AND SemesterID<='$sem' ";
 }
 $Admiss2.="AND IDNo='$idno'";
-$q2 = sqlsrv_query($conntest, $Admiss2);
 
+//echo $Admiss2;
+
+$q2 = sqlsrv_query($conntest,$Admiss2);
  while ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
  {
 $tdebit=$dataw['totaldebit'];
@@ -24896,7 +24898,8 @@ $tcredit=$dataw['totalcredit'];
 $balanceamount=$tdebit-$tcredit;
 ?><td><?=$tdebit;?></td><td><?=$tcredit;?></td><td><?=$balanceamount;?></td>
 <?php 
- }?>
+ }
+ ?>
 
           <tr> <?php
           $srno++;

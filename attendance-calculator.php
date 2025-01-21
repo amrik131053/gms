@@ -145,7 +145,7 @@ $shifttimechnage=0;
 
  $sql_att234="SELECT * ,
             CASE 
-               WHEN StartDate < '$start' THEN '$start'
+               WHEN StartDate < '$start' THEN '$start' 
                ELSE StartDate 
             END AS Shift_Start_Date,
             CASE 

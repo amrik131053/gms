@@ -147,7 +147,7 @@ include 'attendance-calculator.php';
 
    if($shifttimechnage>0)
 {
-    $shiftchnageremarks=' Time Exception';
+    $shiftchnageremarks=' Time Exception'; 
 } 
 else
 {
@@ -215,28 +215,28 @@ else
     $pdf->Cell(75,6,$shiftchnageremarks,1,'C');
 }
  
-$countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
+//$countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
 
 
 
 
-if($countdayn<=1)
-{
-    if($countdayn<0)
-    {
-$countday=0;
-    }
-    else
-    {
-  $countday=$countdayn;  
-}
+// if($countdayn<=1)
+// {
+//     if($countdayn<0)
+//     {
+// $countday=0;
+//     }
+//     else
+//     {
+//   $countday=$countdayn;  
+// }
 
-}
+// }
 
-else
-{
-    $countday=1;
-}
+// else
+// {
+//     $countday=1;
+// }
 
   $pdf->SetXY(154.98,$y);
 

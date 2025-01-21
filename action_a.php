@@ -2622,13 +2622,14 @@ elseif($code==26.8)
      $date=$_POST['date'];
      $batch=$_POST['batch'];
 
-   $values = array();
+   // $values = array();
    
-   $values1 = array();
+   // $values1 = array();
+     //print_r($attendance);
    
-   foreach($_POST['students'] as $key => $IDNo) { 
+   for($i=0;$i<5;$i++) { 
 
- $sql="SELECT * from StudentAttendance where IDNo='$IDNo' AND SubjectCode='$subjectcode' AND LectureNumber='$lecturenumber' ANd Date='$date'";
+ $sql="SELECT * from StudentAttendance where IDNo='$students[$i]' AND SubjectCode='$subjectcode' AND LectureNumber='$lecturenumber' ANd Date='$date'";
          $stmt2 = sqlsrv_query($conntest,$sql);
           $stmt_c = sqlsrv_query($conntest,$sql, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
            $count=sqlsrv_num_rows($stmt_c);
@@ -2637,27 +2638,31 @@ elseif($code==26.8)
     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
         {
    $DataID= $row1['ID']; 
-   echo "Update at ".$DataID;
+
+ $update="Update StudentAttendance set Attendance='$attendance[$i]' where ID='$DataID'";
+$stupdate = sqlsrv_query($conntest,$update); 
         }
+
+
+
+
    }
    else
    {
 
-echo $insersub= "Insert into ExamFormSubject";
+ $insersub= "INSERT INTO StudentAttendance(IDNo,LectureNumber,SubjectCode,Semester,Section,ClassGroup,Attendance,Date,CreatedDate,CreatedBy,Batch,Session)VALUES
+           ('$students[$i]','$lecturenumber','$subjectcode','$semester','$section','$cgroup','$attendance[$i]','$date','$timeStampS','$EmployeeID','$batch','$examination')";
+
+ $stmtinsert = sqlsrv_query($conntest,$insersub); 
 
    }
 
-   
- 
+                  
 
-
- //$stmtinsert = sqlsrv_query($conntest,$insersub); 
-                    
-echo 1;
 
 }
 
-
+echo 1;
 
 }
 }

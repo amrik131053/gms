@@ -164,7 +164,6 @@ $pdf->SetFont('Arial', 'B', 6.5);
 
 if($HolidayName!='' && $printleave!='')
 {
-
 $pdf->SetXY($X+60,$y+4.6);
 
 $pdf->Cell(30,$Height,$HolidayName."(".$printShortleave.")",1,'C'); 

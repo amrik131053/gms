@@ -194,7 +194,7 @@ var attendance_str=[];
 
   if((typeof  student_str[0]== 'undefined') || (typeof attendance_str[0]== 'undefined') )
   {
-    alert('Mark student Attedance');
+        ErrorToast('Mark student Attedance','bg-warning');
   }else{
     var spinner=document.getElementById("ajax-loader");
                                   spinner.style.display='block';
@@ -203,10 +203,14 @@ var attendance_str=[];
          data:{students:student_str,attendance:attendance_str,lecturenumber:lecturenumber,subjectcode:subjectcode,semester:semester,section:section,cgroup:cgroup,examination:examination,date:date,batch:batch,flag:code,},
          type:'POST',
          success:function(data) {
+            console.log(data);
+             if(data==1)
+                  {
+
             spinner.style.display='none';
-             console.log(data);
-            alert('Updated Successfully.') 
-                                }      
+            SuccessToast('Submit Successfully');
+                                }    
+                                }  
 });
 }
 }
