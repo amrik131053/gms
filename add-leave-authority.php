@@ -595,7 +595,7 @@ function emp_detail_verify3(id)
          contentType: false,
          processData: false,
          success: function(response) {
-             console.log(response);
+            //  console.log("Console:"+response+"H");
             if (response==1) 
             {
                update_emp_record(loginId);
@@ -682,13 +682,14 @@ function updateRelievingDate(id, dateValue,empid) {
            });
     }
     
-function addletters(form,id) {
-    var letter_type=form.letter_type.value;
-    var refernaceletter=form.refernaceletter.value;
-    var startdateofissueletter=form.startdateofissueletter.value;
-    var remarksletters=form.remarksletters.value;
+function addletters(form) {
+    var letter_type=form.letter_type_gen.value;
+    var id=form.employeeIDgen.value;
+    var refernaceletter=form.refernacelettergen.value;
+    var startdateofissueletter=form.startdateofissuelettergen.value;
+    var remarksletters=form.remarkslettersgen.value;
 
-    var fileAttachment=form.fileAttachment.value;
+    var fileAttachment=form.fileAttachmentgen.value;
     
     if (letter_type === "") {
         ErrorToast('Please select Letters.', 'bg-warning');
@@ -713,8 +714,7 @@ function addletters(form,id) {
     }
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
-    var formData = new FormData(form);
-    var loginId = formData.get("IDEmployee"); 
+    var formData = new FormData(form); 
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
