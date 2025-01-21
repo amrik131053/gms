@@ -352,32 +352,32 @@ where MasterDepartment.Id='$Department' ";
         <table style="font-size:12px; margin-top:-10px;">
             <tr>
                 <th>Category</th>
-                <th>Fee (INR)</th>
+                <th>Fee (USD)</th>
                 <th>Category</th>
-                <th>Fee (INR)</th>
+                <th>Fee (USD)</th>
             </tr>
             <tr>
                 <th>Fee package plan/year including enrollment fee,Tution</th>
-                <td>₹<?= $TutionFee; ?></td>
+                <td>$<?= $TutionFee; ?></td>
                 <th>Security Deposit</th>
-                <td>₹<?= $SecurityDeposit; ?></td>
+                <td>$<?= $SecurityDeposit; ?></td>
             </tr>
             <tr>
                 <th>Registration Fee</th>
-                <td>₹<?= $RegistrationFee; ?></td>
+                <td>$<?= $RegistrationFee; ?></td>
                 <th>Misc. Charges</th>
-                <td>₹<?= $MessCharges; ?></td>
+                <td>$<?= $MessCharges; ?></td>
             </tr>
             <tr>
                 <th>Hostel Accommodation Fee(AC)</th>
-                <td>₹<?= $HostelFee; ?></td>
+                <td>$<?= $HostelFee; ?></td>
                 <th>Other Charges</th>
-                <td>₹<?= $otherCharges; ?></td>
+                <td>$<?= $otherCharges; ?></td>
             </tr>
             <tr>
                 <td colspan="3"></td>
                 <td colspan="1"><strong>Total Annual Fee:</strong>
-                <strong>₹<?= $totalAnual; ?></strong></td>
+                <strong>$<?= $totalAnual; ?></strong></td>
                
             </tr>
         </table>
