@@ -1242,37 +1242,31 @@ function printEmpRecordPdf(id) {
       
 }
 
-function upload_dmc_phd(id) {
-
-    
- var fileInput = document.getElementById("dmcfile_"+id);
-    if (!fileInput.files[0]) {
-                 ErrorToast('Attachment required',"bg-danger" );
-                return;
-            }
-             var formData = new FormData();
-             formData.append("moocfile", fileInput.files[0]);
-             formData.append("code",396.6);
-             formData.append("id",id);                     
-             var xhr = new XMLHttpRequest();
-             xhr.open("POST", "action.php", true);
-             xhr.onload = function () {
-             console.log("Server response:",xhr.responseText);
-                if (xhr.status === 200) {
-             SuccessToast('Successfully Uploaded');
-               } 
-                else {
-                    statusDiv.innerHTML = "<p style='color:red;'>File upload failed.</p>";
-                }
-            };
-
-            xhr.onerror = function () {
-                statusDiv.innerHTML = "<p style='color:red;'>An error occurred while uploading the file.</p>";
-            };
-
-            xhr.send(formData);
-         
+function upload_dmc_phd() {
+    var form = document.getElementById("uploadPhdForm");
+    var courseFileInput = document.getElementById("coursefile");
+    var dmcFileInput = document.getElementById("dmcfile");
+    if (!courseFileInput.files[0] || !dmcFileInput.files[0]) {
+        ErrorToast('Both attachments are required', "bg-danger");
+        return;
+    }
+    var formData = new FormData(form); 
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "action.php", true);
+    xhr.onload = function () {
+    if (xhr.status === 200) {
+        var response = xhr.responseText; 
+        SuccessToast('Successfully Uploaded');
+    } else {
+        ErrorToast('File upload failed. Please try again.', "bg-danger");
+    }
+};
+    xhr.onerror = function () {
+        ErrorToast('An error occurred during the file upload.', "bg-danger");
+    };
+    xhr.send(formData);
 }
+
 
 function uploadmooc(id) {
 

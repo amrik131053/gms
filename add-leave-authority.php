@@ -934,8 +934,14 @@ function deleteaddtional(id,emp) {
          {
             alert("Select ");
          }
+      }
+  function downloadphdDetails() 
+      {
+         var exportCode=83;
        
-        
+           
+          window.location.href="export.php?exportCode="+exportCode;
+         
       }
 
 

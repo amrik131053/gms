@@ -11240,13 +11240,13 @@ if ($stmt === false) {
   }
 ?>
 
-                              
-                <!-- ----------------------------------------------------------------------------------- -->
 
-       
+ <!-- ----------------------------------------------------------------------------------- -->
 
 
-       <?php
+
+
+ <?php
      
     $exportstudy.="</table>";
     echo $exportstudy;
@@ -11371,13 +11371,13 @@ if ($stmt === false) {
   }
 ?>
 
-                              
-                <!-- ----------------------------------------------------------------------------------- -->
 
-       
+ <!-- ----------------------------------------------------------------------------------- -->
 
 
-       <?php
+
+
+ <?php
      
     $exportstudy.="</table>";
     echo $exportstudy;
@@ -12479,6 +12479,98 @@ $exportstudy .= "
 
     $fileName = "Result File-".$Examination;
    
+}
+
+elseif($exportCode==83)
+{
+  
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Emp ID</th>
+          <th>Name</th>
+          <th>FatherName</th>
+           <th>College</th>
+           <th>Department</th>
+           <th>Designation</th>
+          <th>Phone</th>
+                    <th>University From PHD</th>
+                    <th>Topic of Research</th>
+                    <th>Name of Supervisor</th>
+                    <th>Date of Enrollment</th>
+                    <th>Date of Registration</th>
+                    <th>Date of Degree</th>
+                    <th>Subject</th>
+                    <th>Supervisor Details</th>
+                    <th>Course Work Details</th>
+                    <th>Course Work University</th>
+                    <th>Total Marks</th>
+                    <th>Obtained Marks</th>
+                    <th>Date of Passing</th>
+                    <th>Percentage</th>
+          
+         </tr>
+        </thead>";
+      $count=1;
+      $sql12 = "SELECT * FROM Staff WHERE Phd='Yes' and JobStatus='1' order by IDNo ASC";
+      $res111 = sqlsrv_query($conntest, $sql12);
+      $SrNo = 1;
+      while ($data1 = sqlsrv_fetch_array($res111))
+       { 
+        $IDNo = $data1['IDNo'];
+        $Name = $data1['Name'];
+        $FatherName = $data1['FatherName'];
+        $MotherName = $data1['MotherName'];
+        $CollegeName = $data1['CollegeName'];
+        $Department = $data1['Department'];
+        $Designation = $data1['Designation'];
+        $email = $data1['EmailID'];
+        $OfficialEmailID = $data1['OfficialEmailID'];
+        $phone = $data1['MobileNo'];
+        $adhar = $data1['AadhaarCard'];
+        $pan = $data1['PANNo'];
+            $doj = $data1['DateOfJoining']->format('d-m-Y');
+        $Phd = $data1['Phd'];
+      $sql1 = "SELECT * FROM PHDacademic WHERE UserName = '$IDNo'";
+      $get_category_run1 = sqlsrv_query($conntest, $sql1);
+     while($row=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
+        {
+    
+            $exportMeter.="<tr>
+                <td>{$count}</td>
+                <td>{$IDNo}</td>
+                <td>{$Name}</td>
+                <td>{$FatherName}</td>
+            
+                <td>{$CollegeName}</td>
+                <td>{$Department}</td>
+                <td>{$Designation}</td>
+             
+                <td>{$phone}</td>
+                <td>{$row['University']}</td>
+                            <td>{$row['TopicofResearch']}</td>
+                            <td>{$row['NameofSupervisor']}</td>
+                            <td>{$row['DateofEnrollment']}</td>
+                            <td>{$row['DateofRegistration']}</td>
+                            <td>{$row['DateofDegree']}</td>
+                            <td>{$row['Subject']}</td>
+                            <td>{$row['SupervisorDetails']}</td>
+                            <td>{$row['CourseWorkDetails']}</td>
+                            <td>{$row['CourseWorkUniversity']}</td>
+                            <td>{$row['TotalMarks']}</td>
+                            <td>{$row['ObtainedMarks']}</td>
+                            <td>{$row['DateofPassing']}</td>
+                            <td>{$row['Percentage']}</td>
+            </tr>";
+$count++;
+    }
+}
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Staff Phd Report";
+
 }
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");

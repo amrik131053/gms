@@ -27685,42 +27685,43 @@ else if($code==396.5)
             </div>
         <?php
 }
-else if($code==396.6)
-{
 
+else if ($code == 396.6) {
+    include "connection/ftp-erp.php"; 
+    $Id = $_POST['idphd'];
+    $dmc_file_name = $_FILES['dmcfile']['name'];
+    $dmc_file_tmp = $_FILES['dmcfile']['tmp_name'];
+    $dmc_image_name = "dmc" . $Id . "_" . $dmc_file_name;
+    $dmc_destdir = '/Images/Staff/PhDThesis';
 
-   include "connection/ftp-erp.php";
+    ftp_chdir($conn_id, $dmc_destdir) or die("Could not change directory");
+    ftp_pasv($conn_id, true);
+    ftp_put($conn_id, $dmc_image_name, $dmc_file_tmp, FTP_BINARY) or die("Could not upload DMC file");
+    
+    $course_file_name = $_FILES['coursefile']['name'];
+    $course_file_tmp = $_FILES['coursefile']['tmp_name'];
+    $course_image_name = "course" . $Id . "_" . $course_file_name;
+    $course_destdir = '/Images/Staff/PhDThesis';
 
+    ftp_chdir($conn_id, $course_destdir) or die("Could not change directory");
+    ftp_pasv($conn_id, true);
+    ftp_put($conn_id, $course_image_name, $course_file_tmp, FTP_BINARY) or die("Could not upload Course file");
+    
+    ftp_close($conn_id);
 
-   $Id = $_POST["id"];
-
-
-      $file_name = $_FILES['dmcfile']['name'];
-      $file_tmp = $_FILES['dmcfile']['tmp_name'];
-      $type = $_FILES['dmcfile']['type'];
-     // $file_data = file_get_contents($file_tmp);
-      $characters = '';
-
-    $image_name ="dmc".$Id."_".$file_name;
-     
-     //$destdir = 'PhDThesis';
-
-     $destdir = '/Images/Staff/PhDThesis';
-     ftp_chdir($conn_id, "/Images/Staff/PhDThesis/") or die("Could not change directory");
-     ftp_pasv($conn_id,true);
-     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
-     ftp_close($conn_id);
-     
-       
-   
-     $image_name1=$image_name;
-
- echo  $query = "UPDATE PHDacademic SET DMC='$image_name1' where id='$Id'";
-  $stmt = sqlsrv_query($conntest,$query);    
-
-  echo "Uploaded"; 
-  sqlsrv_close($conntest);
+    $query = "UPDATE PHDacademic SET DMC=?, Degree=? WHERE id=?";
+    $params = array($dmc_image_name, $course_image_name, $Id);
+    
+    $stmt = sqlsrv_query($conntest, $query, $params);
+    if ($stmt === false) {
+        die(print_r(sqlsrv_errors(), true)); 
+    } else {
+        echo "Uploaded successfully";
+    }
+    
+    sqlsrv_close($conntest);
 }
+
 
 
  else

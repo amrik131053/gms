@@ -269,6 +269,7 @@ elseif($code==4)
         <a href="#" class="nav-link">
             <i class="fas fa-inbox"></i> <?=$row['QualificationName'];?>
             <span class="badge bg-primary float-right"><?=$emp_count;?></span>
+           
         </a>
     </li>
     <?php 
@@ -277,10 +278,12 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
               $check_count_emp_catego_run=sqlsrv_query($conntest,$check_count_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
               $emp_coun1t=sqlsrv_num_rows($check_count_emp_catego_run);
       ?>
-    <li class="nav-item " onclick="show_emp_all_qualification(8);">
-        <a href="#" class="nav-link">
+    <li class="nav-item " >
+        <a href="#" class="nav-link" >
             <i class="fas fa-inbox"></i>PHD
-            <span class="badge bg-primary float-right"><?=$emp_coun1t;?></span>
+            <button class="btn m-1 badge bg-primary float-right" onclick="show_emp_all_qualification(8);"><?=$emp_coun1t;?></button>
+            <button class="btn m-1 badge bg-primary float-right" onclick="show_emp_all_qualification(8);"><i class="fa fa-eye"></i></button>
+            <button class="btn m-1 badge bg-success float-right" onclick="downloadphdDetails(8);"> <i class="fa fa-download"></i></button>
         </a>
     </li>
     <?php 

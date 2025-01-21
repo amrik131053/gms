@@ -6623,19 +6623,22 @@ else if ($code == 57.1) {
    $sql = "SELECT * from PHDacademic WHERE id= $id ";
    $res = sqlsrv_query($conntest, $sql);
    while ($data = sqlsrv_fetch_array($res)) { 
-     echo  $data['DMC'] ;?>
+       $data['DMC'] ;?>
       <label>TopicofResearch:<span style="color: #223260;"><?php echo "   ".$data['TopicofResearch'];?></span></label></br>
-      <label>University:<span style="color: #223260;"><?php echo  "   ".$data['University'];?></span></label>
+      <label>University:<span style="color: #223260;"><?php echo  "   ".$data['University'];?></span></label><br> 
+      <hr>
+      <label>Compliance Certificate</label>
       <embed class="pdf" 
       src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['Uploadcertificate']?>"
-            width="100%" height="600">
-      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['Uploadcertificate']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
-            
-        <hr>    
-           
-      <embed class="pdf" 
-      src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['DMC']?>"
-            width="100%" height="600"><?php
+            width="100%" height="600">  
+        <hr> 
+        <label>DMC </label>
+        <embed class="pdf" src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['DMC']?>" width="100%" height="600">
+        
+        <hr> 
+        <label>Degree</label>
+        <embed class="pdf" src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['Degree']?>" width="100%" height="600"> 
+            <?php
 
    }
 }
@@ -6674,32 +6677,23 @@ else if ($code == 57.3) {
 
 else if ($code == 57.4) {
    $id = $_GET['id'];
-   $sql = "SELECT * from PHDacademic WHERE id= $id ";
-   $res = sqlsrv_query($conntest, $sql);
-
-   while ($data = sqlsrv_fetch_array($res)) { 
-
-        }
-   ?>
-   <input type="text" Class="form-control" id='table_id_phd' value="<?= $id;?>">
-
-<label>Course Work DMC</label>
-<form id="form">
-<div class='row'>
-   <div class="col-lg-7">
-<input type="file" Class="form-control" id='dmcfile_<?=$id;?>' name="dmcfile">
-
-      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_dmc_phd(<?= $id;?>)" >Upload</button></div>
    
-   </div>
- </form>
-
-<!-- <label>Phd Degree</label>
-<div class='row'>
-   <div class="col-lg-7"> 
-<input type="File" Class="form-control">
-      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_degree_phd()>Upload</button></div>
-      </div> -->
+   ?>
+    <form id="uploadPhdForm" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="code" value="396.6">
+    <input type="hidden" name="IDEmployee" id="IDEmployee" value="<?=$emp_id;?>">
+    <input type="hidden" name="idphd" id="idphd" value="<?=$id;?>">
+    <label>Course Work DMC</label>
+    <input type="file" class="form-control-file" name="coursefile" id="coursefile">
+    <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small>
+    <br><strong id="coursefileError" style="color: red"></strong><br>
+    <label>PhD Degree</label>
+    <input type="file" class="form-control-file" name="dmcfile" id="dmcfile">
+    <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small>
+    <br>
+    <strong id="dmcfileError" style="color: red"></strong><br>
+    <input type="button" class="btn btn-success btn-xs" onclick="upload_dmc_phd()" value="Upload">
+    </form>                                  
 <?php 
 }
 else if ($code == 58) {
