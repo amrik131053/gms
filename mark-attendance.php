@@ -18,7 +18,7 @@
 </script>
 <div class="card-body">
     <div class="row">
-<div class="col-lg-6">   <label>Group</label>
+<div class="col-lg-4">   <label>Group</label>
                                 <select id="Group" class="form-control form-control-sm" >
                                     <option value="NA">NA</option>
                                     <?php
@@ -36,13 +36,18 @@
 
                                                             ?>
                                 </select>
- </div><div class="col-lg-6"> <label>Order By</label>
+ </div><div class="col-lg-4"> <label>Order By</label>
                                 <select id="OrderBy" class="form-control form-control-sm" >
                                     <option value="ClassRollNo">ClassRollNo</option>
                                    
                                     <option value="UniRollNo">UniRollNo</option>
                                     
                                 </select> </div>
+
+                                <div class="col-lg-4"> <label>Date</label>
+
+                                    <input type="date" value="<?=$todaydate;?>" class="form-control form-control-sm" name="" id='todate'>
+                                 </div>
     </div>
 
                             
@@ -193,13 +198,12 @@ var len_subject= subjects.length;
 
 
 
-   function showCandidates(college,lecturenumber,subjectcode,courseid,course,section,cgroup,batch,sem,examination,subject) 
+   function showCandidates(college,lecturenumber,subjectcode,courseid,course,section,cgroup,batch,sem,examination,subject,date) 
 { 
   
 var  group = document.getElementById('Group').value;
 var  OrderBy = document.getElementById('OrderBy').value;
-
-    
+var  date = document.getElementById('todate').value;
 
   if(college!=''&&batch!='' && sem!='' && subjectcode!=''&& examination!='' )
  {
@@ -215,7 +219,7 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&courseid="+courseid+"&batch="+ batch+ "&sem=" + sem+ "&subjectcode=" +subjectcode+"&subject=" +subject+" &examination="+examination+"&group="+group+"&cgroup="+cgroup+"&section="+section+"&OrderBy="+OrderBy+"&lecturenumber="+lecturenumber+"&code="+65.1,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&courseid="+courseid+"&batch="+ batch+ "&sem=" + sem+ "&subjectcode=" +subjectcode+"&subject=" +subject+" &examination="+examination+"&group="+group+"&cgroup="+cgroup+"&section="+section+"&OrderBy="+OrderBy+"&lecturenumber="+lecturenumber+"&date="+date+"&code="+65.1,true);
         xmlhttp.send();
  }
 else

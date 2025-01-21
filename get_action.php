@@ -7249,16 +7249,16 @@ if($list_result === false) {
  $batch=$_GET['batch']; 
  $sem = $_GET['sem'];
  $group = $_GET['group'];
-  $cgroup = $_GET['cgroup'];
+ $cgroup = $_GET['cgroup'];
  $section = $_GET['section'];
  $Batch=$_GET['batch']; 
  $semID = $_GET['sem'];
  $subjectcode = $_GET['subjectcode'];
-  $subject = $_GET['subject'];
+ $subject = $_GET['subject'];
  $exam = $_GET['examination'];
-  $OrderBy = $_GET['OrderBy'];
-   $lecturenumber = $_GET['lecturenumber'];
-
+ $OrderBy = $_GET['OrderBy'];
+ $lecturenumber = $_GET['lecturenumber'];
+ $date = $_GET['date'];
 ?>
 
 <!-- <form action="post_action.php" method="post"> -->
@@ -7281,12 +7281,13 @@ if($list_result === false) {
 
      </td>
 
-<input type="hidden" value="<?= $batch;?>" name="batch">
-<input type="hidden" value="<?= $ucourse;?>" name="course">
-
+<input type="hidden" value="<?= $exam;?>" name="batch">
 <input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="<?= $section;?>" name="course">
+<input type="hidden" name="ecat" id="ecat" value="<?= $cgroup;?>">
+<input type="hidden" name="ecat" id="ecat" value="<?= $date;?>"> 
 <input type="hidden" value="11" name="code">
-<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
 
 
      </tr>
