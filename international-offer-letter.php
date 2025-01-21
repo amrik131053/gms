@@ -351,7 +351,7 @@ include "header.php";
       <div class="row" >
       <div class="col-lg-2" >
                <label>Registration Fee</label>
-              <input type="text" class="form-control" id="RegistrationFee" >
+              <input type="text" class="form-control" id="RegistrationFee" value="100"  >
             </div>
               <div class="col-lg-2" >
                <label>Tution Fee</label>
@@ -367,11 +367,11 @@ include "header.php";
             </div>
               <div class="col-lg-2">
                <label>Misc Charges</label>
-              <input type="text" class="form-control" id="MessCharges" >
+              <input type="text" class="form-control" id="MessCharges" value="200"  >
             </div>
               <div class="col-lg-2">
                <label>Other Charges</label>
-              <input type="text" class="form-control" id="otherCharges" >
+              <input type="text" class="form-control" value="100" id="otherCharges" >
             </div>
               <div class="col-lg-2">
                <label>Total Annual Fee</label>
@@ -828,10 +828,10 @@ var code=133.2;
       
                 document.getElementById('TutionFee').value=response.TutionFee;
                 document.getElementById('HostelFee').value=response.HostelFee;
-                document.getElementById('RegistrationFee').value=response.RegistrationFee;
+                //document.getElementById('RegistrationFee').value=response.RegistrationFee;
                 document.getElementById('SecurityDeposit').value=response.SecurityDeposit;
-                document.getElementById('MessCharges').value=response.MessCharges;
-                document.getElementById('otherCharges').value=response.otherCharges;
+                //document.getElementById('MessCharges').value=response.MessCharges;
+                //document.getElementById('otherCharges').value=response.otherCharges;
                 document.getElementById('totalAnual').value=response.totalAnual;
     }
    })
