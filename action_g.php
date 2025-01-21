@@ -9461,7 +9461,7 @@ $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
 $ID_Proof_No=$AdharCardNo.$PassportNo;
 
-$check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
+$check_exit="SELECT * FROM offer_latter_international where ID_Proof_No='$ID_Proof_No' AND Status='0'";
 $check_exit_run=mysqli_query($conn,$check_exit);
 $numof_exit=mysqli_num_rows($check_exit_run);
 if ($numof_exit>0) {
@@ -9509,7 +9509,7 @@ $dist_count = 0;
     if ($count>= $dist_count) {
 
       
-        $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
+        $check_exit="SELECT * FROM offer_latter_international where ID_Proof_No='$ID_Proof_No' AND Status='0'";
         $check_exit_run=mysqli_query($conn,$check_exit);
         $numof_exit=mysqli_num_rows($check_exit_run);
         if ($numof_exit>0) {
