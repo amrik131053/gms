@@ -2220,7 +2220,7 @@ $sr=1;
 <td width="10%">  
 
     <select name="quantity[]" class="form-control quantity" value="0" id="article_value<?=$row['ID'];?>">
-<?php  for($i=1;$i<=$balance;$i++)
+<?php  for($i=0;$i<=$balance;$i++)
 {?>
  <option value="<?= $i;?>"><?= $i;?></option>
 <?php }
