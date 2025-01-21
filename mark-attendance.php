@@ -149,49 +149,68 @@
 
 function UpdateAttendance()
 {
-var students=document.getElementsByClassName('checkbox');
-var subjects=document.getElementsByClassName('newSubject');
+
+var lecturenumber=document.getElementById('lecturenumber').value;
+var subjectcode =document.getElementById('subjectcode').value;
+var semester =document.getElementById('semester').value;
+var section =document.getElementById('section').value;
+var cgroup=document.getElementById('cgroup').value; 
+var examination=document.getElementById('examination').value;
+var date =document.getElementById('date').value; 
+var batch=document.getElementById('Batch').value;
+
+var students=document.getElementsByClassName('checkbox_s');
+var attendance=document.getElementsByClassName('checkbox');
 var len_student= students.length; 
-var len_subject= subjects.length;
+var len_attendance= attendance.length;
 
 
-  var code=101;
-  var student_str=[];
-  var subject_str=[];
+
+
+var code=26.8;
+var student_str=[];
+var attendance_str=[];
     
-    for(i=0;i<len_subject;i++)
+    for(i=0;i<len_student;i++)
      {
-      if(subjects[i].checked===true)
+      if(students[i].checked===true)
        {
-        subject_str.push(subjects[i].value);
+        student_str.push(students[i].value);
         }
      }
        
-     for(i=0;i<len_student;i++)
+     for(i=0;i<len_attendance;i++)
      {
-          if(students[i].checked===true)
+          if(attendance[i].checked===true)
           {
-            student_str.push(students[i].value);
+            attendance_str.push(attendance[i].value);
+          }
+          else
+          {
+            attendance_str.push('0');
           }
        }
-     
+    
 
-
-  if((typeof  student_str[0]== 'undefined') || (typeof subject_str[0]== 'undefined') )
+  if((typeof  student_str[0]== 'undefined') || (typeof attendance_str[0]== 'undefined') )
   {
-    alert('Select atleast one student and subject to proceed');
+        ErrorToast('Mark student Attedance','bg-warning');
   }else{
     var spinner=document.getElementById("ajax-loader");
                                   spinner.style.display='block';
   $.ajax({
-         url:'action.php',
-         data:{students:student_str,subjects:subject_str,code:code},
+         url:'action_a.php',
+         data:{students:student_str,attendance:attendance_str,lecturenumber:lecturenumber,subjectcode:subjectcode,semester:semester,section:section,cgroup:cgroup,examination:examination,date:date,batch:batch,flag:code,},
          type:'POST',
          success:function(data) {
+            console.log(data);
+             if(data==1)
+                  {
+
             spinner.style.display='none';
-            // console.log(data);
-            alert('Inserted Successfully.') 
-                                }      
+            SuccessToast('Submit Successfully');
+                                }    
+                                }  
 });
 }
 }

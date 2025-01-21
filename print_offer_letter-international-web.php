@@ -363,15 +363,15 @@ where MasterDepartment.Id='$Department' ";
                 <td>$<?= $SecurityDeposit; ?></td>
             </tr>
             <tr>
-                <th>Registration Fee</th>
+                <th>Registration Fee (One Time)</th>
                 <td>$<?= $RegistrationFee; ?></td>
-                <th>Misc. Charges</th>
+                <th>Misc. Charges(One Time)</th>
                 <td>$<?= $MessCharges; ?></td>
             </tr>
             <tr>
                 <th>Hostel Accommodation Fee(AC)</th>
                 <td>$<?= $HostelFee; ?></td>
-                <th>Other Charges</th>
+                <th>Other Charges (One Time)</th>
                 <td>$<?= $otherCharges; ?></td>
             </tr>
             <tr>
