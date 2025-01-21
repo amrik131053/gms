@@ -7280,20 +7280,19 @@ if($list_result === false) {
 
 
      </td>
+<input type="hidden" value="<?= $lecturenumber;?>" id="lecturenumber">
+<input type="hidden" value="<?= $subjectcode;?>" id="subjectcode">
+<input type="hidden" value="<?=$semID;?>" id="semester">
+<input type="hidden" value="<?= $section;?>" id='section'>
 
-<input type="hidden" value="<?= $exam;?>" name="batch">
-<input type="hidden" value="<?=$sem;?>" name="sem">
-<input type="hidden" value="<?= $section;?>" name="course">
-<input type="hidden" name="ecat" id="ecat" value="<?= $cgroup;?>">
-<input type="hidden" name="ecat" id="ecat" value="<?= $date;?>"> 
-<input type="hidden" value="11" name="code">
+<input type="hidden"  id="cgroup" value="<?= $cgroup;?>">
 
+<input type="hidden" value="<?= $exam;?>" id="examination">
 
-
-     </tr>
-
- 
-              </table>
+<input type="hidden"  id="date" value="<?= $date;?>"> 
+<input type="hidden"  id="Batch" value="<?= $Batch;?>"> 
+ </tr>
+</table>
 
 
 
@@ -7339,16 +7338,8 @@ $stmt2 = sqlsrv_query($conntest,$sql1);
 while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 
 {
-
 $IDNo=$row['IDNo'];
-
-
-
-
-
-
-
-  $sqlatt="Select Attendance from StudentAttendance where Semester='$semID'  ANd IDNo ='$IDNo' ANd LectureNumber='$lecturenumber' AND SubjectCode='$subjectcode' ANd Section='$section' ANd ClassGroup='$cgroup' AND  Date='$todaydate' ";
+$sqlatt="Select Attendance from StudentAttendance where Semester='$semID'  ANd IDNo ='$IDNo' ANd LectureNumber='$lecturenumber' AND SubjectCode='$subjectcode' ANd Section='$section' ANd ClassGroup='$cgroup' AND  Date='$todaydate' ";
       $stmtatt = sqlsrv_query($conntest,$sqlatt);
   
 if($rowatt = sqlsrv_fetch_array($stmtatt, SQLSRV_FETCH_ASSOC) )
@@ -7360,18 +7351,18 @@ else
 {
   $st='' ;
 }
-  if($st=='1')
-  {
-   $value='Checked';
-  }  
-  else
-  {
-   $value='';
-  }              
+if($st=='1')
+{
+$value='Checked';
+}  
+else
+{
+ $value='';
+ }              
 ?>
 <tr>
 <td style="text-align: center"><?= $i++;?></td>
-<td style="text-align: center">
+<td style="text-align: center"><input type='checkbox' name='check[]' id='check' value='<?=$row['IDNo'];?>' class='checkbox_s' checked  hidden>
    <?php if($OrderBy=='ClassRollNo'){
 
  echo $row['ClassRollNo'];
@@ -7383,12 +7374,11 @@ echo $row['UniRollNo'];
    }
 
 ?>
-   </td>
-
-                                            
-               <td><?= $row['StudentName'];?></td>
+ 
+                                          
+ <td><?= $row['StudentName'];?></td>
                            <td style='text-align:center'>  
-                              <input type="checkbox" required="" name="mst[]" value=""   id='check' value='<?=$row['ClassRollNo'];?>' class='checkbox' <?=$value;?>></td>
+   <input type="checkbox" required="" name="att[]"  id='check' value='1' class='checkbox' <?=$value;?>></td>
 
                               <td style='text-align:center;'>
 
