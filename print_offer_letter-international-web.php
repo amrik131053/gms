@@ -11,6 +11,13 @@ foreach ($id as $key => $value) {
     $get_student_details = "SELECT * FROM offer_latter_international WHERE id='$value' AND generate=1";
     $get_student_details_run = mysqli_query($conn, $get_student_details);
 
+             $TutionFee="0";
+          $HostelFee="0";
+          $RegistrationFee="0";
+          $SecurityDeposit="0";
+          $MessCharges="0";
+          $otherCharges="0";
+          $totalAnual="0";
     if ($row = mysqli_fetch_array($get_student_details_run)) {
         $name = $row['Name'];
         $FatherName = $row['FatherName'];
@@ -36,6 +43,14 @@ foreach ($id as $key => $value) {
         $Nationality=$row['Nationality'];
         $id=$row['id'];
 
+        $TutionFee=$row['TutionFee'];
+        $HostelFee=$row['HostelFee'];
+        $RegistrationFee=$row['RegistrationFee'];
+       
+        $SecurityDeposit=$row['SecurityDeposit'];
+        $MessCharges=$row['MessCharges'];
+        $otherCharges=$row['otherCharges'];
+        $totalAnual=$row['totalAnual'];
          $get_coutry_name="SELECT name FROM countries where id='$Nationality'";
         $get_coutry_name_run=mysqli_query($conn,$get_coutry_name);
         if ($row_coutry_name=mysqli_fetch_array($get_coutry_name_run)) {
@@ -73,49 +88,49 @@ where MasterDepartment.Id='$Department' ";
             $department=$rowCollege['Department'];
         }
 
-        $fee_details="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch' ";
-        $fee_details_run=mysqli_query($conn,$fee_details);
-        if ($row_fee=mysqli_fetch_array($fee_details_run))
-         {
-            $TutionFee=$row_fee['TutionFee'];
-            $HostelFee=$row_fee['HostelFee'];
-            $RegistrationFee=$row_fee['RegistrationFee'];
+        // $fee_details="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch' ";
+        // $fee_details_run=mysqli_query($conn,$fee_details);
+        // if ($row_fee=mysqli_fetch_array($fee_details_run))
+        //  {
+        //     $TutionFee=$row_fee['TutionFee'];
+        //     $HostelFee=$row_fee['HostelFee'];
+        //     $RegistrationFee=$row_fee['RegistrationFee'];
            
-            $SecurityDeposit=$row_fee['SecurityDeposit'];
-            $MessCharges=$row_fee['MessCharges'];
-            $otherCharges=$row_fee['otherCharges'];
-            $totalAnual=$row_fee['totalAnual'];
+        //     $SecurityDeposit=$row_fee['SecurityDeposit'];
+        //     $MessCharges=$row_fee['MessCharges'];
+        //     $otherCharges=$row_fee['otherCharges'];
+        //     $totalAnual=$row_fee['totalAnual'];
            
-         }
-         else
-         {
-          $fee_details1="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch'";
-          $fee_details1_run=mysqli_query($conn,$fee_details1);
-          if($row_fee1=mysqli_fetch_array($fee_details1_run))
-          {
-              $TutionFee=$row_fee1['TutionFee'];
-              $HostelFee=$row_fee1['HostelFee'];
-              $RegistrationFee=$row_fee1['RegistrationFee'];
+        //  }
+        //  else
+        //  {
+        //   $fee_details1="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch'";
+        //   $fee_details1_run=mysqli_query($conn,$fee_details1);
+        //   if($row_fee1=mysqli_fetch_array($fee_details1_run))
+        //   {
+        //       $TutionFee=$row_fee1['TutionFee'];
+        //       $HostelFee=$row_fee1['HostelFee'];
+        //       $RegistrationFee=$row_fee1['RegistrationFee'];
              
-              $SecurityDeposit=$row_fee1['SecurityDeposit'];
-              $MessCharges=$row_fee1['MessCharges'];
-              $otherCharges=$row_fee1['otherCharges'];
-              $totalAnual=$row_fee1['totalAnual'];
+        //       $SecurityDeposit=$row_fee1['SecurityDeposit'];
+        //       $MessCharges=$row_fee1['MessCharges'];
+        //       $otherCharges=$row_fee1['otherCharges'];
+        //       $totalAnual=$row_fee1['totalAnual'];
             
-         }
-         else
-         {
-          $TutionFee="0";
-          $HostelFee="0";
-          $RegistrationFee="0";
-          $SecurityDeposit="0";
-          $MessCharges="0";
-          $otherCharges="0";
-          $totalAnual="0";
+        //  }
+        //  else
+        //  {
+        //   $TutionFee="0";
+        //   $HostelFee="0";
+        //   $RegistrationFee="0";
+        //   $SecurityDeposit="0";
+        //   $MessCharges="0";
+        //   $otherCharges="0";
+        //   $totalAnual="0";
        
         
-         } 
-         }
+        //  } 
+        //  }
         
 ?>
 <!DOCTYPE html>
