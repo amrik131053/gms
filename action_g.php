@@ -9507,14 +9507,24 @@ $Batch = $_POST['Batch'];
 $Lateral = $_POST['Lateral'];
 
 $Nationality = $_POST['Nationality'];
+
+// $HostelFee = $_POST['HostelFee'];
+// $TutionFee = $_POST['TutionFee'];
+// $RegistrationFee = $_POST['RegistrationFee'];
+// $SecurityDeposit=$_POST['SecurityDeposit'];
+// $MessCharges=$_POST['MessCharges'];
+// $otherCharges=$_POST['otherCharges'];
 $HostelFee = $_POST['HostelFee'];
 $TutionFee = $_POST['TutionFee'];
 $RegistrationFee = $_POST['RegistrationFee'];
-
-$SecurityDeposit=$_POST['SecurityDeposit'];
-$MessCharges=$_POST['MessCharges'];
-$otherCharges=$_POST['otherCharges'];
+$SecurityDeposit = $_POST['SecurityDeposit'];
+$MessCharges = $_POST['MessCharges'];
+$otherCharges = $_POST['otherCharges'];
 $totalAnual=$_POST['totalAnual'];
+
+$totalAnual = intval($HostelFee) + intval($TutionFee) + intval($RegistrationFee) + intval($SecurityDeposit)  + intval($MessCharges) + intval($otherCharges);
+
+
 $pstartDate=$_POST['pstartDate'];
 $deadline=$_POST['deadline'];
 
