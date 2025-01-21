@@ -116,31 +116,31 @@ include "header.php";
         
       <div class="col-lg-2" >
                <label>Registration Fee</label>
-              <input type="text" class="form-control" id="FRegistrationFee">
+              <input type="number" class="form-control" id="FRegistrationFee">
             </div>
               <div class="col-lg-2" >
                <label>Tution Fee</label>
-              <input type="text" class="form-control" id="FTutionFee">
+              <input type="number" class="form-control" id="FTutionFee">
             </div>
               <div class="col-lg-2">
                <label>Hostel Fee</label>
-              <input type="text" class="form-control" id="FHostelFee">
+              <input type="number" class="form-control" id="FHostelFee">
             </div>
               <div class="col-lg-2">
                <label>Security Deposit</label>
-              <input type="text" class="form-control" id="FSecurityDeposit">
+              <input type="number" class="form-control" id="FSecurityDeposit">
             </div>
               <div class="col-lg-2">
                <label>Misc Charges</label>
-              <input type="text" class="form-control" id="FMessCharges">
+              <input type="number" class="form-control" id="FMessCharges">
             </div>
               <div class="col-lg-2">
                <label>Other Charges</label>
-              <input type="text" class="form-control" id="FotherCharges">
+              <input type="number" class="form-control" id="FotherCharges">
             </div>
               <div class="col-lg-2">
                <label>Total Annual Fee</label>
-              <input type="text" class="form-control" id="FtotalAnual">
+              <input type="number" class="form-control" id="FtotalAnual">
             </div>
                      <div class="col-lg-2">
               <label>Lateral Entry</label> <br>
@@ -351,31 +351,31 @@ include "header.php";
       <div class="row" >
       <div class="col-lg-2" >
                <label>Registration Fee</label>
-              <input type="text" class="form-control" id="RegistrationFee" value="100"  >
+              <input type="number" class="form-control" id="RegistrationFee" value="100"  >
             </div>
               <div class="col-lg-2" >
                <label>Tution Fee</label>
-              <input type="text" class="form-control" id="TutionFee" >
+              <input type="number" class="form-control" id="TutionFee" >
             </div>
               <div class="col-lg-2">
                <label>Hostel Fee</label>
-              <input type="text" class="form-control" id="HostelFee" >
+              <input type="number" class="form-control" id="HostelFee" >
             </div>
               <div class="col-lg-2">
                <label>Security Deposit</label>
-              <input type="text" class="form-control" id="SecurityDeposit" >
+              <input type="number" class="form-control" id="SecurityDeposit" >
             </div>
               <div class="col-lg-2">
                <label>Misc Charges</label>
-              <input type="text" class="form-control" id="MessCharges" value="200"  >
+              <input type="number" class="form-control" id="MessCharges" value="200"  >
             </div>
               <div class="col-lg-2">
                <label>Other Charges</label>
-              <input type="text" class="form-control" value="100" id="otherCharges" >
+              <input type="number" class="form-control" value="100" id="otherCharges" >
             </div>
               <div class="col-lg-2">
                <label>Total Annual Fee</label>
-              <input type="text" class="form-control" id="totalAnual" >
+              <input type="number" class="form-control" id="totalAnual" >
             </div>
               <div class="col-lg-2">
                <label>Program Start Date</label>
