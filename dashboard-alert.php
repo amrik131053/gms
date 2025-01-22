@@ -65,6 +65,17 @@ $lCount=0;
 
 
 
+         $studentCorerectionSql="SELECT * FROM  StudentCorrectionData  Where Status='0'";
+ $studentCorerectionSqlRun=sqlsrv_query($conntest,$studentCorerectionSql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+          $studentCorerectioncount=sqlsrv_num_rows($studentCorerectionSqlRun);
+    
+
+    if($studentCorerectioncount>0)
+    {
+$alertshow=1;
+    } 
+
+
          $grievanceSql="SELECT * FROM  StudentGrievanceTrack  Where Action='0' and EmployeeId='$EmployeeID'";
  $grievanceSqlRun=sqlsrv_query($conntest,$grievanceSql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
           $grievancecount=sqlsrv_num_rows($grievanceSqlRun);
@@ -460,6 +471,31 @@ if($lCount>0||$count>0)
                         <?php   }
 
 
+           if($studentCorerectioncount>0 && $role_id==15 )
+     {?>
+                         <div class="col-md-12">
+                           
+                            <div class="info-box mb-12 bg-primary">
+                                <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+
+                               
+
+                                 <div class="info-box-content">
+                                    <span class="info-box-text">Student Correction Request<span>
+                                    <span class="info-box-number"><?=$studentCorerectioncount;?><a href="student-correction-form.php">&nbsp; &nbsp;<i class="fa fa-eye"
+                                            style="color:white;"></i></a></span>
+                                  
+
+                                </div>
+
+                                
+                                
+                            </div>
+                        </div>
+
+
+
+                        <?php   }
 
 
 
