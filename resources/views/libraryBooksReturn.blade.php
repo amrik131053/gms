@@ -43,7 +43,7 @@
                                         @endforeach
                                         @else
                                         <tr>
-                                            <td colspan="4" class="text-danger text-center">--No Record--</td>
+                                            <td colspan="7" class="text-danger text-center">--No Record--</td>
                                         </tr>
                                         @endif
                                     </tbody>
