@@ -22,6 +22,7 @@
                       </tr>
                     </thead>
                     <tbody class="table-tbody">
+                    @if (!empty($resultsData))
                     @foreach ($resultsData as $resultdata)
                    <tr>
                    <td>{{ $loop->iteration }}</td>
@@ -44,7 +45,13 @@
                           </td>
                         </tr>
                     @endforeach
-
+                  @else
+                  <tr>
+                    <td colspan="7" class="text-danger text-center">
+                      ---No Record---
+                    </td>
+                  </tr>
+                  @endif
                     </tbody>
                   </table>
                 </div>

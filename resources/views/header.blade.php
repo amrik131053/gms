@@ -24,7 +24,7 @@
                 </a>
                 <a href="?theme=light" class="nav-link px-0 hide-theme-light" title="Enable light mode"
                     data-bs-toggle="tooltip" data-bs-placement="bottom">
-                    
+
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
                         stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -270,11 +270,6 @@
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
                                     <div class="dropend">
-
-
-                                        <!-- <a class="dropdown-item " href="{{url('feeReceipt')}}">
-                          CGPA Calculator
-                          </a> -->
                                         @if ($DataButtonsExam==0)
                                         <a class="dropdown-item " href="{{url('RegularExamForm')}}"> <span
                                                 class="nav-link-icon d-md-none d-lg-inline-block">
@@ -386,6 +381,72 @@
                             </div>
                         </div>
                     </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside" role="button" aria-expanded="false">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dot">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                                    <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                                    <path d="M3 6l0 13" />
+                                    <path d="M12 6l0 13" />
+                                    <path d="M21 6l0 13" />
+                                </svg>
+                            </span>
+                            <span class="nav-link-title">
+                                Library
+                            </span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-menu-columns">
+                                <div class="dropdown-menu-column">
+                                    <div class="dropend">
+                                        <a class="dropdown-item " href="{{url('library')}}">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dot">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path
+                                                        d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" />
+                                                </svg>
+                                            </span> Book Search
+                                        </a>
+                                        <a class="dropdown-item " href="{{url('libraryDetails')}}">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dot">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path
+                                                        d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" />
+                                                </svg>
+                                            </span> Issued Details
+                                        </a>
+                                        <a class="dropdown-item " href="{{url('libraryBooksReturn')}}">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dot">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path
+                                                        d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" />
+                                                </svg>
+                                            </span> Fine Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="{{url('applyBusPass')}}">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -408,9 +469,9 @@
                                 Bus Pass
                             </span>
                         </a>
-                      
+
                     </li>
-                    
+
                     <li class="nav-item ">
                         <a class="nav-link" href="{{url('applysmartCard')}}">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -440,19 +501,20 @@
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
                                     class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dot">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M3 20l1.65 -1.65" />
                                     <path d="M4.35 18.35c.18 -.2 .38 -.39 .6 -.55" />
-                                    <path d="M7 17h10a4 4 0 0 0 4 -4v-4a4 4 0 0 0 -4 -4h-10a4 4 0 0 0 -4 4v4a4 4 0 0 0 1.35 3" />
+                                    <path
+                                        d="M7 17h10a4 4 0 0 0 4 -4v-4a4 4 0 0 0 -4 -4h-10a4 4 0 0 0 -4 4v4a4 4 0 0 0 1.35 3" />
                                     <path d="M11 12h2" />
                                     <path d="M12 8v4" />
                                 </svg>
                             </span>
                             <span class="nav-link-title">
-                            Grievance
+                                Grievance
                             </span>
                         </a>
-                      
+
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"

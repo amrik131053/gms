@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PayuPaymentController;
 use App\Http\Controllers\AdmitCardController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\GrievanceController;
 use App\Http\Middleware\CheckAuthentication;
  
@@ -94,3 +95,12 @@ Route::post('submitCorrectionData', [ProfileController::class, 'submitCorrection
 Route::get('grievance', [GrievanceController::class, 'grievance'])->name('grievance')->middleware(CheckAuthentication::class);
 Route::post('submitGrievanceData', [GrievanceController::class, 'submitGrievanceForm'])->name('submitGrievanceData')->middleware(CheckAuthentication::class);
 Route::post('complaintTrack', [GrievanceController::class, 'complaintTrack'])->name('complaintTrack')->middleware(CheckAuthentication::class);
+
+
+//Library
+Route::get('library', [LibraryController::class, 'libraryBooks'])->name('libraryBooks')->middleware(CheckAuthentication::class);
+Route::post('searchBooks', [LibraryController::class, 'searchBooksApi'])->name('searchBooks')->middleware(CheckAuthentication::class);
+Route::get('searchBooks', [LibraryController::class, 'libraryBooks'])->name('searchBooks')->middleware(CheckAuthentication::class);
+
+Route::get('libraryDetails', [LibraryController::class, 'libraryDetailsBooks'])->name('libraryDetailsBooks')->middleware(CheckAuthentication::class);
+Route::get('libraryBooksReturn', [LibraryController::class, 'libraryBooksReturnAction'])->name('libraryBooksReturn')->middleware(CheckAuthentication::class);

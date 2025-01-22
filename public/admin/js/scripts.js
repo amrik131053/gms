@@ -790,7 +790,7 @@ function trackComplaint() {
         const normalizedData = Array.isArray(trackingData) ? trackingData : [trackingData];
         const tableContainer = document.getElementById('trackedApplicationShow');
         let stepsHTML = '';
-        console.log(normalizedData);
+        // console.log(normalizedData);
         normalizedData.forEach((step, index) => {
             if (index === 0) {
                 stepsHTML += `
@@ -954,3 +954,35 @@ function trackComplaint() {
 //     });
 // }
 
+
+
+function updateTextBox() {
+    var searchType = document.getElementById("searchType").value;
+    var textBox = document.getElementById("searchValue");
+
+    // Update placeholder text based on selected search type
+    switch (searchType) {
+        case "Edition":
+            textBox.placeholder = "Enter Edition";
+            break;
+        case "Title":
+            textBox.placeholder = "Enter Title";
+            break;
+        case "AccessionNo":
+            textBox.placeholder = "Enter Accession Number";
+            break;
+        case "Author":
+            textBox.placeholder = "Enter Author";
+            break;
+        case "Publisher":
+            textBox.placeholder = "Enter Publisher";
+            break;
+        default:
+            textBox.placeholder = "Enter Search Value";
+            break;
+    }
+}
+
+function showLoaders() {
+    document.getElementById('fullScreenLoader').style.display = 'flex';
+}
