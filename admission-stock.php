@@ -360,6 +360,7 @@ function Issuedstock() {
         },
         success: function(response) {
             spinner.style.display = 'none';
+            console.log(response);
             document.getElementById("issuedstocklist").innerHTML = response;
 
 

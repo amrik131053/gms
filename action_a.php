@@ -2331,21 +2331,23 @@ $get_group_run=mysqli_query($connection_s,$select);
 
    for($i=0;$i<$flag2;$i++)
    {
-   
+  $Issuedqty=$qnt[$i];
  $issue="insert into requestadmissioncell(reference_no,item_code,quantity,specification)Values
                                         ('$REfno','$ids[$i]','$qnt[$i]','$rem[$i]')";
 
 $addissue=mysqli_query($connection_s,$issue);
 
-$asdws="select IssuedStock from  masterstockadmissioncell  where ID='$ids[$i]'";
+ $asdws="select IssuedStock from  masterstockadmissioncell  where ArticleID='$ids[$i]'";
    $addruns=mysqli_query($connection_s,$asdws);
 
    while($row=mysqli_fetch_array($addruns))
 
 {
    $IssuedStock=$row['IssuedStock'];
+  
+    $cstock=$IssuedStock+$Issuedqty;
 
-$asdw="Update masterstockadmissioncell set IssuedStock=$IssuedStock+$qnt[$i] where ID='$ids[$i]'";
+ $asdw="Update masterstockadmissioncell set IssuedStock='$cstock' where ArticleID='$ids[$i]'";
    
 $addrun=mysqli_query($connection_s,$asdw);
 
