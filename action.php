@@ -19983,7 +19983,7 @@ else if($code=='303')
    
    echo "<option value='".$row["CourseID"]."'>".$row["Course"]." (".$row["CourseID"].")</option>";
    }
-   echo " <option value='other'>Other</option>";
+   // echo " <option value='other'>Other</option>";
    sqlsrv_close($conntest);
    }
 

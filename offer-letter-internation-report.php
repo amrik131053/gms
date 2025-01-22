@@ -63,6 +63,7 @@ include "header.php";
 
 function pending() {
                     
+                    // alert("aw");
                     var currentPage = 1;
                   var code = 179.1;
                   var searchQuery = '';
@@ -175,6 +176,7 @@ function by_search_studetn() {
                      loadData(currentPage);
 
                      function loadData(page) {
+                            // alert(code);
                         var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
                         // var by_search=document.getElementById('by_search').value;

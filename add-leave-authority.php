@@ -5,6 +5,32 @@
    <script type="text/javascript">
 
 
+function SyncNewStaff()
+          {
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=26.9;
+           $.ajax({
+              url:'action_a.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                  spinner.style.display='none';
+        
+          if(response==1){
+            
+          SuccessToast('Updated Successfully');
+               }
+           }
+           });
+          } 
+
+
+
+
       show_category_wise();
    function show_category_wise()
           {
@@ -3282,6 +3308,10 @@ function toggleLeavingDate(selectElement) {
       <button type="button" onclick="addNewStaff();" class="btn btn-success btn-sm ">
      Add New Staff
       </button>
+      <button type="button" onclick="SyncNewStaff();" class="btn btn-success btn-sm ">
+     Sync to SPOC
+      </button>
+
       <span style="float:right;">
       <button class="btn btn-sm ">
          <input type="search" onblur="search_all_employee_emp_name(this.value);" class="form-control form-control-sm" name="emp_name" id="emp_name" placeholder="Search here">

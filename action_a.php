@@ -2668,4 +2668,10 @@ $stupdate = sqlsrv_query($conntest,$update);
 echo 1;
 
 }
+
+elseif($code==26.9)
+
+   {
+   echo 1;
+   } 
 }
