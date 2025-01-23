@@ -2672,8 +2672,143 @@ echo 1;
 }
 
 elseif($code==26.9)
-
    {
-   echo 1;
+$staff="SELECT *
+ FROM Staff where DepartmentID!='81'";
+
+ $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+    $name=$row_staff['Name'];
+    $emp_id=$row_staff['IDNo'];
+    $email=$row_staff['EmailID'];
+    $phone=$row_staff['MobileNo'];
+    $birth=$row_staff['DateOfBirth'];
+    $gender=$row_staff['Gender'];
+    $design=$row_staff['Designation'];
+    $status=$row_staff['JobStatus'];
+    $address=$row_staff['PermanentAddress'];
+    $city='';
+    $state='';
+    $role_id='8';
+       
+ $Emp_CollegeID=$row_staff['CollegeId'];
+if($Emp_CollegeID=='61')
+{
+    $dept_id=11;
+        $institute_id=1;
+}
+else if ($Emp_CollegeID=='62')
+{
+$dept_id=21;
+        $institute_id=11;
+}
+else if ($Emp_CollegeID=='63')
+{
+    $dept_id=12;
+        $institute_id=2;
+}
+
+else if ($Emp_CollegeID=='64')
+{
+    $dept_id=13;
+        $institute_id=3;
+}
+else if ($Emp_CollegeID=='65')
+{
+    $dept_id=17;
+        $institute_id=7;
+}
+else if ($Emp_CollegeID=='66')
+{
+    $dept_id=14;
+        $institute_id=4;
+}
+else if ($Emp_CollegeID=='67' ||$Emp_CollegeID=='69'||$Emp_CollegeID=='74')
+{
+    $dept_id=23;
+        $institute_id=13;
+}
+
+else if ($Emp_CollegeID=='71')
+{
+    $dept_id=16;
+        $institute_id=6;
+}
+else if ($Emp_CollegeID=='72')
+{
+    $dept_id=20;
+        $institute_id=10;
+}
+else if ($Emp_CollegeID=='73')
+{
+    $dept_id=15;
+        $institute_id=5;
+}
+else if ($Emp_CollegeID=='75')
+{
+    $dept_id=19;
+        $institute_id=9;
+}
+else if ($Emp_CollegeID=='76')
+{
+    $dept_id=24;
+        $institute_id=14;
+}
+
+  $password=$emp_id;
+     
+$check="SELECT  * from employee_master where emp_id='$emp_id'";
+$checkdata=mysqli_query($conn_spoc,$check);
+   if (mysqli_num_rows($checkdata)>0)
+   {
+$Updateqry="Update employee_master set institute_id='$institute_id', dept_id='$dept_id', name='$name', email='$email', phone='$phone', 
+            designation='$design', sex='$gender', birthday='', address='$address',status_code='$status' where emp_id='$emp_id'";
+            $Updateqryres=mysqli_query($conn_spoc,$Updateqry);
+
+if($status!='1')
+        {
+           $sql = "delete from user_login_master where username='$emp_id'" ; 
+            $intress=$conn_spoc->query($sql); 
+        }
+   }
+else
+    {
+if($status!='1')
+{
+}
+else
+{
+ $insertqry="INSERT INTO `employee_master`(`institute_id`, `dept_id`, `emp_id`,`new_emp_id`, `name`, `email`, `phone`, 
+            `designation`, `sex`, `birthday`, `address`,`status_code`) VALUES 
+            ('$institute_id','$dept_id','$emp_id','$emp_id','$name','$email','$phone','$design','$gender','','$address','1')";
+            $insertres=mysqli_query($conn_spoc,$insertqry);
+
+         if ($insertres) 
+       {
+        $checku="SELECT  * from user_login_master where username='$emp_id'";
+$checkdatau=mysqli_query($conn_spoc,$checku);
+   if (mysqli_num_rows($checkdatau)>0)
+   {
+
+   }else
+   {
+
+                $insertqryu="INSERT INTO `user_login_master`(`username`, `password`, `role_id`) VALUES ('$emp_id','$password','$role_id')";
+            $insertresu=mysqli_query($conn_spoc,$insertqryu);  
+            }            
+           
+       }
+}
+
+
+
+}
+  
+ 
+//while
    } 
+    echo 1;
+}
+
 }

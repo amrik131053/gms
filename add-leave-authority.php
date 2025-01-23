@@ -14,10 +14,11 @@ function SyncNewStaff()
               url:'action_a.php',
               type:'POST',
               data:{
-                 code:code
+                 flag:code
               },
               success: function(response) 
               {
+                //console.log(response);
                   spinner.style.display='none';
         
           if(response==1){
