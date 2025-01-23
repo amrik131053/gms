@@ -29,7 +29,6 @@ Route::post('passwordchangeAction', [AuthController::class, 'passwordchangeActio
 // Fee Routes
 Route::get('feeReceipt', [FeeController::class, 'feeReceipts'])->name('feeReceipt')->middleware(CheckAuthentication::class);
 Route::post('fetch-receipt', [FeeController::class, 'generateReceiptPDF'])->name('/fetch-receipt');
-
 // bus pass Routes
 Route::get('applyBusPass', [BusPassController::class, 'busPassPage'])->name('applyBusPass')->middleware(CheckAuthentication::class);
 Route::post('/fetch-spots', [BusPassController::class, 'fetchSpots']);
