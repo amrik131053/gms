@@ -25,21 +25,6 @@ class LibraryController extends Controller
         }
     }
     
-    //     public function fetchsubject(Request $request)
-    // {
-        //     $BaseURL=config('app.baseUrl');
-        //     $semID = $request->input('semid');
-        //     $token = $request->session()->get('api_token');
-        //         $response = Http::withHeaders([
-            //                     'Authorization' => 'Bearer ' . $token,
-            //                 ])->post($BaseURL.'Student/subjects/' . $semID);
-            //     if ($response->successful()) {
-                //         $subjectData = $response->json();
-                //         $subjectData=$subjectData['semesters']['recordsets'][0];
-                //         return response()->json($subjectData);
-                //     }
-                //     return response()->json(['error' => 'Unable to fetch spots'], 500);
-                // }
                 public function searchBooksApi(Request $request)
                 {
                     $request->validate([

@@ -14,12 +14,15 @@ class GrievanceController extends Controller
         $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/grievance');
         $DataTracks = $DataResponseTrack->json();
         $dropDownTrak=$DataTracks['grievances'] ?? [];
-
+        $DataResponsedropDownHead = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/grievancehead');
+        $DataResponsedropDown = $DataResponsedropDownHead->json();
+        $dropDownHead=$DataResponsedropDown['data'] ?? [];
+// dd($dropDownHead);
         $resData = $DataResponse->json()??[];
         $grievanceData=$resData['data'][0] ?? [];
 
         $grievanceDataHistory=$DataTracks['data'] ?? [];
-        return view('grievance', compact('grievanceData','grievanceDataHistory','dropDownTrak'));
+        return view('grievance', compact('grievanceData','grievanceDataHistory','dropDownTrak','dropDownHead'));
     }
     public function submitGrievanceForm(Request $request)
     {

@@ -67,8 +67,10 @@
                                         <th class="text-start align-top" width="50%"></th>
                                         <td colspan="3" width="50%">
                                             <select name="application_to" id="" class="form-select">
-                                                <option value="170976">Sic</option>
-                                                <option value="2">Account</option>
+                                            @foreach ($dropDownHead as $dropDownHeadName)
+                                <option value="{{$dropDownHeadName['IDNo']}}">
+                                    {{$dropDownHeadName['Designation']}}</option>
+                                @endforeach
                                             </select>
                                         </td>
                                     </tr>
