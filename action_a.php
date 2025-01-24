@@ -1306,7 +1306,13 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
    else if($code==22)
    {
     $IDNo=$_POST['id'];
-     $sql = "SELECT *,StudentCorrectionData.Status as ActionStatus,Admissions.StudentName as SStudentName,Admissions.DOB as SDOB,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName,Admissions.Sex as SGender FROM StudentCorrectionData 
+      $sql = "SELECT *,
+      StudentCorrectionData.StudentName,
+StudentCorrectionData.FatherName,
+StudentCorrectionData.MotherName,
+StudentCorrectionData.DateOfBirth,
+StudentCorrectionData.Gender,
+      StudentCorrectionData.Status as ActionStatus,Admissions.StudentName as SStudentName,Admissions.DOB as SDOB,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName,Admissions.Sex as SGender FROM StudentCorrectionData 
                 INNER JOIN Admissions  ON Admissions.IDNo = StudentCorrectionData.IDNo  WHERE StudentCorrectionData.ID = '$IDNo'";
     $stmt1 = sqlsrv_query($conntest,$sql);
             while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -1324,9 +1330,10 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
                  $dob = $row6['SDOB']->format('d-m-Y');
                 $gender = $row6['Sex'];
                 $Nname = $row6['StudentName'];
-                $Nfather_name = $row6['FatherName'];
+                 $Nfather_name = $row6['FatherName'];
                 $Nmother_name = $row6['MotherName'];
                 $remakrsbystudent = $row6['StudentRemarks'];
+                $remakrsby = $row6['Remarks'];
                  $Ndob = $row6['DateOfBirth']->format('d-m-Y');
                 $Ngender = $row6['Gender'];
                 $UpdateBy = $row6['UpdateBy'];
@@ -1360,7 +1367,10 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
                 $college = $row6['CollegeName'];
                 $CourseID=$row6['CourseID'];
                 $CollegeID=$row6['CollegeID'];
+                $aa[]=$row6;
               }
+            //   print_r($aa);
+
     ?>
     <div class="card-body table-responsive">
  <table class="table"  style="border:1px solid black">
@@ -1434,7 +1444,7 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
  </tr>
  <tr>
 
- <td colspan="10"><b>Remmarks by Student:</b>&nbsp;&nbsp;<?php echo $remakrsbystudent;?></td>
+ <td colspan="10"><b>Remarks by Student:</b>&nbsp;&nbsp;<?php echo $remakrsbystudent;?></td>
  </tr>
  <tr>
 
@@ -1457,8 +1467,11 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
  else{
     ?>
 <tr>
-    <td colspan="10">
-       Updated By: <?=$UpdateBy;?>
+    <td colspan="5">
+      <b> Updated By:</b> <?=$UpdateBy;?>
+    </td>
+    <td colspan="5">
+       <b>Remarks:</b> <?=$remakrsby;?>
     </td>
  </tr>
     <?php
