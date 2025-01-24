@@ -17096,11 +17096,11 @@ elseif($code=='257.1')
    $univ_rollno=$_POST['rollNo'];
   if(is_numeric($univ_rollno))
 {
-   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno'"; 
+   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
 }
  else
  {
-$result1 = "SELECT  * FROM Admissions where   IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+$result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
       }
    $stmt1 = sqlsrv_query($conntest,$result1);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -17242,11 +17242,11 @@ sqlsrv_close($conntest);
 
    if(is_numeric($univ_rollno))
 {
-   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno'"; 
+ $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
 }
  else
  {
-$result1 = "SELECT  * FROM Admissions where   IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+ $result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
       }
 
    $stmt1 = sqlsrv_query($conntest,$result1);
