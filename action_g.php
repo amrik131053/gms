@@ -12231,7 +12231,7 @@ $degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 3
       if($value!='')
       {
          
-             $degree="SELECT * FROM offer_latter_international where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%' or RefNo like '%$value%' order by Id DESC "; 
+              $degree="SELECT * FROM offer_latter_international where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%' or RefNo like '%$value%' order by Id DESC "; 
     
          $degree_run=mysqli_query($conn,$degree);
          while ($degree_row=mysqli_fetch_array($degree_run)) 
@@ -12256,35 +12256,34 @@ $degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 3
          $recordsPerPage = 100;
          $startIndex = ($page - 1) * $recordsPerPage;
          $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-         // echo json_encode($pagedData);
-      
-             echo json_encode($pagedData);
+         echo json_encode($pagedData);
+        // echo $pagedData;
+             // echo json_encode($pagedData);
          // print_r($pagedData);
       }
       else
-      {
-          
-$degree="SELECT * FROM offer_latter_international  order by Id DESC limit 30 "; 
+      {  
+                $degree="SELECT * FROM offer_latter_international  order by Id DESC limit 30 "; 
                 $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
                   {
                      $data2=$degree_row;
                      $CourseID=$degree_row['Course'];
-                     $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                      $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
                      $get_course_run=sqlsrv_query($conntest,$get_course);
                      if($row=sqlsrv_fetch_array($get_course_run))
                      {
                     $data1=$row;
                     $data[]=array_merge($data2,$data1);
                      }
-                 
                   }
-                //   print_r($data);
+                       // print_r($data);
                   // print_r($data);139
                   $page = $_POST['page'];
                   $recordsPerPage = 100;
                   $startIndex = ($page - 1) * $recordsPerPage;
                   $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+                  // echo $pagedData;
                   echo json_encode($pagedData);
        }
        sqlsrv_close($conntest);
@@ -13295,7 +13294,7 @@ elseif($code==179)
 }
 elseif($code==179.1)
 {   
-          $degree="SELECT * FROM offer_latter_international where generate='0' order by Id DESC "; 
+          echo $degree="SELECT * FROM offer_latter_international where generate='0' order by Id DESC "; 
         //   $degree="SELECT * FROM offer_latter_international where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%' or RefNo like '%$value%' order by Id DESC "; 
     
                $degree_run=mysqli_query($conn,$degree);
