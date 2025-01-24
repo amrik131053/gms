@@ -203,7 +203,7 @@ public function submitProfileForm(Request $request)
         $email = $request->input('email');
         $address = $request->input('address');
         $remarks = $request->input('remarks');
-    
+    // dd($dob);
         if (!$token) {
             return back()->withErrors(['error' => 'Token is missing']);
         }

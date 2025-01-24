@@ -102,9 +102,9 @@
                                                             <div class="col-md-3 mb-3">
                                                                 <label for="dob" class="form-label">Date of
                                                                     Birth</label>
-                                                                <input type="text" class="form-control" id="dob"
+                                                                <input type="date" class="form-control" id="dob"
                                                                     name="dob"
-                                                                    value="{{ \Carbon\Carbon::parse($correctionData['DOB'])->format('d-m-Y') }}"
+                                                                    value="{{ \Carbon\Carbon::parse($correctionData['DOB'])->format('Y-m-d') }}"
                                                                     >
                                                             </div>
                                                             <div class="col-md-12 mb-12">
