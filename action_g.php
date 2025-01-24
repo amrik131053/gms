@@ -35569,41 +35569,38 @@ echo "3"; // file format
     }
     else{
 
-        $dmc_file_name = $_FILES['dmcfile']['name'];
-        $dmc_file_tmp = $_FILES['dmcfile']['tmp_name'];
-        $dmc_image_name = "dmc" . $dmc_file_tmp . "_" . $dmc_file_name;
-        $dmc_destdir = '/Images/Staff/PhDThesis';
-    
-        ftp_chdir($conn_id, $dmc_destdir) or die("Could not change directory");
-        ftp_pasv($conn_id, true);
-        ftp_put($conn_id, $dmc_image_name, $dmc_file_tmp, FTP_BINARY) or die("Could not upload DMC file");
-        
-        $course_file_name = $_FILES['coursefile']['name'];
-        $course_file_tmp = $_FILES['coursefile']['tmp_name'];
-        $course_image_name = "course" . $dmc_file_tmp . "_" . $course_file_name;
-        $course_destdir = '/Images/Staff/PhDThesis';
-    
-        ftp_chdir($conn_id, $course_destdir) or die("Could not change directory");
-        ftp_pasv($conn_id, true);
-        ftp_put($conn_id, $course_image_name, $course_file_tmp, FTP_BINARY) or die("Could not upload Course file");
-        
-    
-        $insertExp="INSERT into PHDacademic (University,TopicofResearch,NameofSupervisor,DateofEnrollment,DateofRegistration,DateofDegree,upddate,status,Username,
-        Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate,DMC,Degree)
-        values('$university','$topic','$supervisor_name','$enrollment_date','$registration_date','$award_date','$timeStamp','1','$EmployeeID',
-        '$subject','$supervisor_details','$course_work_details','$course_work_university','$total_marks','$obtained_marks','$date_of_passing','$percentage','$ugc_rule',
-        '','$dmc_image_name','$course_image_name');
-        ";
-      $insertExp;
-    $result = sqlsrv_query($conntest, $insertExp);
-    if($result==true)
-    {
-        echo "1";
-    }
-    else
-    {
-        echo "0";
-    }
+ 
+$dmc_file_name = $_FILES['dmcfile']['name'];
+$dmc_file_tmp = $_FILES['dmcfile']['tmp_name'];
+$dmc_image_name = "dmc_" . $dmc_file_name;
+$dmc_destdir = '/Images/Staff/PhDThesis';
+
+ftp_chdir($conn_id, $dmc_destdir) or die("Could not change directory");
+ftp_pasv($conn_id, true);
+ftp_put($conn_id, $dmc_image_name, $dmc_file_tmp, FTP_BINARY) or die("Could not upload DMC file");
+
+$course_file_name = $_FILES['coursefile']['name'];
+$course_file_tmp = $_FILES['coursefile']['tmp_name'];
+$course_image_name = "course_" . $course_file_name; 
+$course_destdir = '/Images/Staff/PhDThesis';
+
+ftp_chdir($conn_id, $course_destdir) or die("Could not change directory");
+ftp_pasv($conn_id, true);
+ftp_put($conn_id, $course_image_name, $course_file_tmp, FTP_BINARY) or die("Could not upload Course file");
+
+$insertExp = "INSERT into PHDacademic (University,TopicofResearch,NameofSupervisor,DateofEnrollment,DateofRegistration,DateofDegree,upddate,status,Username,
+    Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate,DMC,Degree)
+    values('$university','$topic','$supervisor_name','$enrollment_date','$registration_date','$award_date','$timeStamp','1','$EmployeeID',
+    '$subject','$supervisor_details','$course_work_details','$course_work_university','$total_marks','$obtained_marks','$date_of_passing','$percentage','$ugc_rule',
+    '','$dmc_image_name','$course_image_name');";
+$result = sqlsrv_query($conntest, $insertExp);
+
+if($result == true) {
+    echo "1";
+} else {
+    echo "0";
+}
+
 
     }
 
