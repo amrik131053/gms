@@ -1327,6 +1327,7 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
                 $Nfather_name = $row6['FatherName'];
                 $Nmother_name = $row6['MotherName'];
                 $remakrsbystudent = $row6['StudentRemarks'];
+                $remakrsby = $row6['Remarks'];
                  $Ndob = $row6['DateOfBirth']->format('d-m-Y');
                 $Ngender = $row6['Gender'];
                 $UpdateBy = $row6['UpdateBy'];
@@ -1434,7 +1435,7 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
  </tr>
  <tr>
 
- <td colspan="10"><b>Remmarks by Student:</b>&nbsp;&nbsp;<?php echo $remakrsbystudent;?></td>
+ <td colspan="10"><b>Remarks by Student:</b>&nbsp;&nbsp;<?php echo $remakrsbystudent;?></td>
  </tr>
  <tr>
 
@@ -1457,8 +1458,11 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
  else{
     ?>
 <tr>
-    <td colspan="10">
-       Updated By: <?=$UpdateBy;?>
+    <td colspan="5">
+      <b> Updated By:</b> <?=$UpdateBy;?>
+    </td>
+    <td colspan="5">
+       <b>Remarks:</b> <?=$remakrsby;?>
     </td>
  </tr>
     <?php
