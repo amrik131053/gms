@@ -65,12 +65,12 @@ $lCount=0;
 
 
 
-         $studentCorerectionSql="SELECT * FROM  StudentCorrectionData  Where Status='0'";
+         $studentCorerectionSql="SELECT * FROM  StudentCorrectionData  Where Status='0' ";
  $studentCorerectionSqlRun=sqlsrv_query($conntest,$studentCorerectionSql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
           $studentCorerectioncount=sqlsrv_num_rows($studentCorerectionSqlRun);
     
 
-    if($studentCorerectioncount>0)
+    if($studentCorerectioncount>0 && $role_id==15)
     {
 $alertshow=1;
     } 
