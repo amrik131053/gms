@@ -25009,12 +25009,12 @@ $collegeName=$row1['CollegeName'];
         <td><?=$row['Amount'];?></td>
 
         <td>
-        <form action="print_receipt.php" method="post">
-           <input type="text" name="SlipID" value="<?=$row['ReceiptNo'];?>">
-            <input type="text" name="lagerName" value="<?=$row['Type'];?>">
-            <input type="text" name="session" value="<?=$row['Session'];?>">
-            <input type="text" name="collegeName" value="<?=$collegeName;?>">
-            <input type="text" name="IDNo" value="<?=$IDNo;?>">
+        <form action="print_receipt.php" method="post" target="_blank">
+           <input type="hidden" name="SlipID" value="<?=$row['ReceiptNo'];?>">
+            <input type="hidden" name="lagerName" value="<?=$row['Type'];?>">
+            <input type="hidden" name="session" value="<?=$row['Session'];?>">
+            <input type="hidden" name="collegeName" value="<?=$collegeName;?>">
+            <input type="hidden" name="IDNo" value="<?=$IDNo;?>">
            <input class="btn btn-primary" type="submit" value="Download">
         </form>
         </td>
