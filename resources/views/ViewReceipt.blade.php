@@ -96,8 +96,8 @@
     <div class="details">
        <table>
             <tr>
-                <td colspan="3"><strong>Receipt No: {{$ReceiptNo;}}</strong></td>
-                <td colspan="1"><strong style="text-align:right;">Date: {{ \Carbon\Carbon::parse($DateEntry)->format('d-m-Y') }}</strong></td>
+                <td colspan="3" ><strong>Receipt No: {{$ReceiptNo;}}</strong></td>
+                <td colspan="1"style="text-align:right;"><strong >Date: {{ \Carbon\Carbon::parse($DateEntry)->format('d-m-Y') }}</strong></td>
             </tr>
             <tr>
               <td><strong>Received From:</strong></td>
