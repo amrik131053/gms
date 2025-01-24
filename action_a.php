@@ -1925,6 +1925,9 @@ elseif($code==25.4)
  $update1="insert into masterarticleadmisisoncell(Name,Description,CreatedBy,CreatedDate,Status)Values
     ('$ArticleName','$ArticleSpecification','$EmployeeID','$timeStampS','0')";
 
+
+
+
 $addrun=mysqli_query($connection_s,$update1);
 
 mysqli_close($connection_s);
@@ -1985,7 +1988,7 @@ elseif($code==25.5)
  
 </div></th>
         </tr>
-        <?php
+        <?php 
          $sr++; }
            ?>
     </tbody>
@@ -2003,6 +2006,8 @@ $status=$_POST['status'];
  $asd="Update masterarticleadmisisoncell set Status='$status' where ID='$id'";
    
 $addrun=mysqli_query($connection_s,$asd);
+
+
 
 mysqli_close($connection_s);
 
