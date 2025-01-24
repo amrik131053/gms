@@ -62,7 +62,7 @@ if($code==1) // pendig complaint
           <thead>
               <tr>
                   <th>#</th>
-                  <th>Complain No</th>
+                  <th>Token No</th>
                   <th>Complaint Date</th>
                   <th>Title</th>
               </tr>
@@ -70,12 +70,12 @@ if($code==1) // pendig complaint
           <tbody>
               <?php  
               $sr=1; $get_pending="SELECT StudentGrievance.TokenNo,MAX(StudentGrievance.SubmitDate) AS SubmitDate,MAX(StudentGrievance.Subject) AS Subject,MAX(StudentGrievanceTrack.Action) AS Action,
-    MAX(StudentGrievanceTrack.EmployeeId) AS EmployeeId FROM  StudentGrievance INNER JOIN   StudentGrievanceTrack ON  StudentGrievance.TokenNo = StudentGrievanceTrack.TokenNo WHERE StudentGrievanceTrack.Action = '0' AND StudentGrievanceTrack.EmployeeId = '$EmployeeID' GROUP BY StudentGrievance.TokenNo;"; 
+    MAX(StudentGrievanceTrack.EmployeeId) AS EmployeeId FROM  StudentGrievance INNER JOIN   StudentGrievanceTrack ON  StudentGrievance.TokenNo = StudentGrievanceTrack.TokenNo WHERE StudentGrievanceTrack.Action = '0' AND StudentGrievanceTrack.EmployeeId = '$EmployeeID' GROUP BY StudentGrievance.TokenNo order by StudentGrievance.TokenNo DESC "; 
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   while($get_row=sqlsrv_fetch_array($get_pending_run))
                   {
               ?>
-              <tr>
+              <tr onclick="show_timeline_show_application(<?=$get_row['TokenNo'];?>);">
                   <td><?=$sr;?></td>
                   <td onclick="show_timeline_show_application(<?=$get_row['TokenNo'];?>);"><a href="#"><B
                               class="text-primary"><?=$get_row['TokenNo'];?></B></a></td>
@@ -166,11 +166,15 @@ if($code==1) // pendig complaint
                         <tr>
                             <td colspan="16"><strong>Subject:</strong> <?=$get_row_token['Subject'];?></td>
                         </tr>
+                        <?php if($get_row_token['FilePath']!='' && $get_row_token['FilePath']!='null')
+                        {
+                        ?>
                         <tr>
                             <td colspan="16">
                                 <a href="http://erp.gku.ac.in:86/Images/Grievance/<?=$get_row_token['FilePath'];?>" target="_blank"><strong>Attachments <i class="fa fa-eye"></i></strong></a>
                             </td>
                         </tr>
+                        <?php }?>
                         <tr>
                             <td colspan="16">Respected Sir/Madam,</td>
                         </tr>
@@ -363,7 +367,7 @@ if($code==1) // pendig complaint
                  <option value="">Select</option>
                  <?php  
     
-                   $getRoleName = "SELECT * FROM role_name order by role_name asc ";
+                   $getRoleName = "SELECT * FROM role_name where id!='2' and id!='24' order by role_name asc ";
                    $getRoleNameRun = mysqli_query($conn, $getRoleName);
                    while($rowGetRoleName = mysqli_fetch_array($getRoleNameRun)) {
                ?>
@@ -474,7 +478,7 @@ if($code==1) // pendig complaint
           <thead>
               <tr>
                   <th>#</th>
-                  <th>Complain No</th>
+                  <th>Token No</th>
                   <th>Complaint Date</th>
                   <th>Title</th>
               </tr>
@@ -485,12 +489,12 @@ if($code==1) // pendig complaint
     MAX(StudentGrievance.SubmitDate) AS SubmitDate,
     MAX(StudentGrievance.Subject) AS Subject,
     MAX(StudentGrievanceTrack.Action) AS Action,
-    MAX(StudentGrievanceTrack.EmployeeId) AS EmployeeId FROM  StudentGrievance INNER JOIN   StudentGrievanceTrack ON  StudentGrievance.TokenNo = StudentGrievanceTrack.TokenNo WHERE StudentGrievanceTrack.Action = '1' AND StudentGrievanceTrack.EmployeeId = '$EmployeeID' GROUP BY StudentGrievance.TokenNo"; 
+    MAX(StudentGrievanceTrack.EmployeeId) AS EmployeeId FROM  StudentGrievance INNER JOIN   StudentGrievanceTrack ON  StudentGrievance.TokenNo = StudentGrievanceTrack.TokenNo WHERE StudentGrievanceTrack.Action = '1' AND StudentGrievanceTrack.EmployeeId = '$EmployeeID' GROUP BY StudentGrievance.TokenNo order by StudentGrievance.TokenNo DESC "; 
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   while($get_row=sqlsrv_fetch_array($get_pending_run))
                   {
               ?>
-              <tr>
+              <tr onclick="show_timeline_show_application(<?=$get_row['TokenNo'];?>);">
                   <td><?=$sr;?></td>
                   <td onclick="show_timeline_show_application(<?=$get_row['TokenNo'];?>);"><a href="#"><B
                               class="text-primary"><?=$get_row['TokenNo'];?></B></a></td>
@@ -511,7 +515,7 @@ if($code==1) // pendig complaint
           <thead>
               <tr>
                   <th>#</th>
-                  <th>Complain No</th>
+                  <th>Token No</th>
                   <th>Complaint Date</th>
                   <th>Title</th>
               </tr>
@@ -522,12 +526,12 @@ if($code==1) // pendig complaint
     MAX(StudentGrievance.SubmitDate) AS SubmitDate,
     MAX(StudentGrievance.Subject) AS Subject,
     MAX(StudentGrievanceTrack.Action) AS Action,
-    MAX(StudentGrievanceTrack.EmployeeId) AS EmployeeId FROM  StudentGrievance INNER JOIN   StudentGrievanceTrack ON  StudentGrievance.TokenNo = StudentGrievanceTrack.TokenNo WHERE StudentGrievanceTrack.Action = '2' AND StudentGrievanceTrack.EmployeeId = '$EmployeeID' GROUP BY StudentGrievance.TokenNo;"; 
+    MAX(StudentGrievanceTrack.EmployeeId) AS EmployeeId FROM  StudentGrievance INNER JOIN   StudentGrievanceTrack ON  StudentGrievance.TokenNo = StudentGrievanceTrack.TokenNo WHERE StudentGrievanceTrack.Action = '2' AND StudentGrievanceTrack.EmployeeId = '$EmployeeID' GROUP BY StudentGrievance.TokenNo order by StudentGrievance.TokenNo DESC "; 
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   while($get_row=sqlsrv_fetch_array($get_pending_run))
                   {
               ?>
-              <tr>
+              <tr onclick="show_timeline_show_application(<?=$get_row['TokenNo'];?>);">
                   <td><?=$sr;?></td>
                   <td onclick="show_timeline_show_application(<?=$get_row['TokenNo'];?>);"><a href="#"><B
                               class="text-primary"><?=$get_row['TokenNo'];?></B></a></td>

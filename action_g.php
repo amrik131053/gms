@@ -22161,11 +22161,11 @@ $list_sql.= "AND ExamForm.Sgroup='$Group'";
   $list_sql.= "ANd ExamForm.Examination='$Examination'"; 
  }
   $list_sql.= "ORDER BY ExamForm.Status ASC";
-
+// echo $list_sql;
 }
 else{
     $rollNo = $_POST['rollNo'];
-     $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
+      $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
      ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
      ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
      FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='1'
@@ -24985,6 +24985,7 @@ $update_query=sqlsrv_query($conntest,$update1);
         </tr>
     </thead><?php
 $IDNo=$row1['IDNo'];
+$collegeName=$row1['CollegeName'];
        }
        $sql1 = "{CALL SP_DisplayPaymentDetails('$IDNo')}";
 
@@ -25009,13 +25010,20 @@ $IDNo=$row1['IDNo'];
         <td><?=$row['Amount'];?></td>
 
         <td>
-            <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printReceipt();"></i>
-
+        <form action="print_receipt.php" method="post">
+           <input type="text" name="SlipID" value="<?=$row['ReceiptNo'];?>">
+            <input type="text" name="lagerName" value="<?=$row['Type'];?>">
+            <input type="text" name="session" value="<?=$row['Session'];?>">
+            <input type="text" name="collegeName" value="<?=$collegeName;?>">
+            <input type="text" name="IDNo" value="<?=$IDNo;?>">
+           <input class="btn btn-primary" type="submit" value="Download">
+        </form>
         </td>
     </tr>
     <?php $sr++;
 
       }
+
       ?>
     </tbody>
 </table>

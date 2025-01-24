@@ -202,9 +202,9 @@ function allotment_by_allotment_auth(TokenNo) {
     },
     success: function (response) {
         spinner.style.display = 'none';
-        console.log(response);
+      //   console.log(response);
         if (response == 1) {
-    SuccessToast('Successfully Alloted');
+    SuccessToast('Successfully Forwarded');
     show_timeline_show_application(TokenNo);
     pending_requests();
 } else {
