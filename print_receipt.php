@@ -8,14 +8,7 @@ $collegeName=$_POST['collegeName'];
 $IDNo=$_POST['IDNo'];
 date_default_timezone_set("Asia/Kolkata");  
    include "connection/connection.php";
-    $getStatus="SELECT Ledger.Remarks,Ledger.credit,Ledger.CollegeName,Ledger.UserID,Ledger.ClassRollNo,Ledger.UniRollNo,
-         Ledger.StudentName,Ledger.FatherName,Ledger.MotherName,Ledger.Sex,Ledger.ReceiptNo,Ledger.DateEntry,Ledger.IDNo,
-         Ledger.Course,Ledger.Batch,Ledger.Semester,Ledger.OnAccountof,Ledger.ChequeDraftBank,Ledger.ChequeDraftNo,
-         CONVERT(VARCHAR(11),Ledger.ChequeDraftDate,106) as ChequeDraftDate ,Ledger.ModeOfPayment as ModeOfPayment,
-         Ledger.Credit as Credit1,Ledger.CashAmount,Ledger.OtherAmount,Ledger.ReferenceNumber  from Ledger 
-         Where
-         Ledger.CollegeName='$collegeName' And  Ledger.LedgerName='$lagerName' And  Ledger.ReceiptNo='$SlipID' And   Ledger.Session='$session' and IDNo='$IDNo'
-";
+    $getStatus="SELECT Ledger.Remarks,Ledger.credit,Ledger.CollegeName,Ledger.UserID,Ledger.ClassRollNo,Ledger.UniRollNo,Ledger.StudentName,Ledger.FatherName,Ledger.MotherName,Ledger.Sex,Ledger.ReceiptNo,Ledger.DateEntry,Ledger.IDNo, Ledger.Course,Ledger.Batch,Ledger.Semester,Ledger.OnAccountof,Ledger.ChequeDraftBank,Ledger.ChequeDraftNo, CONVERT(VARCHAR(11),Ledger.ChequeDraftDate,106) as ChequeDraftDate ,Ledger.ModeOfPayment as ModeOfPayment, Ledger.Credit as Credit1,Ledger.CashAmount,Ledger.OtherAmount,Ledger.ReferenceNumber  from Ledger  Where Ledger.CollegeName='$collegeName' And  Ledger.LedgerName='$lagerName' And  Ledger.ReceiptNo='$SlipID' And   Ledger.Session='$session' and IDNo='$IDNo'";
    $getStatusRun=sqlsrv_query($conntest,$getStatus);
    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
    {  
@@ -44,13 +37,20 @@ date_default_timezone_set("Asia/Kolkata");
         $OnAccountof=$getStatusRow['OnAccountof'];
         $ChequeDraftBank=$getStatusRow['ChequeDraftBank'];
         $ChequeDraftNo=$getStatusRow['ChequeDraftNo'];
-        $ChequeDraftDate=$getStatusRow['ChequeDraftDate'];
+        $ChequeDraftDate1=$getStatusRow['ChequeDraftDate'];
+        if($getStatusRow['ChequeDraftDate']!=''){
+        $date1 = DateTime::createFromFormat('m-d-Y', $ChequeDraftDate1);
+        $ChequeDraftDate = $date1->format('d-m-Y');
+            }
+            else{
+                $ChequeDraftDate="";
+            }
         $Credit1=$getStatusRow['Credit1'];
         $CashAmount=$getStatusRow['CashAmount'];
         $OtherAmount=$getStatusRow['OtherAmount'];
-        $ChequeDraftBank=$getStatusRow['ChequeDraftBank'];
         $ModeOfPayment=$getStatusRow['ModeOfPayment'];
         $ReferenceNumber=$getStatusRow['ReferenceNumber'];
+       
       $result1 = "SELECT  * FROM Admissions where IDNo='$IDNo'";
       $stmt1 = sqlsrv_query($conntest,$result1);
       if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -119,6 +119,7 @@ date_default_timezone_set("Asia/Kolkata");
         'IDNo' => $IDNo,
         'gender' => $gender,
         'OnAccountof' => $OnAccountof,
+        'Semester' => $Semester,
         'UniRollNo' => $UniRollNo,
     ];
     
@@ -126,6 +127,8 @@ date_default_timezone_set("Asia/Kolkata");
         'ModeOfPayment' => $ModeOfPayment,
         'ChequeDraftNo' => $ChequeDraftNo,
         'ChequeDraftBank' => $ChequeDraftBank,
+        'ReferenceNumber' => $ReferenceNumber,
+        'ChequeDraftDate' => $ChequeDraftDate,
         'Credit' => $Credit1,
     ];
     
@@ -146,17 +149,31 @@ class CustomPDF extends FPDF {
 
 class PDF extends FPDF
 {
-    // $X=$pdf->GETX();
-    // $Y=$pdf->GETY();
+   
+    // Optional: If you need to set transparency for all content
+    public function SetAlpha($alpha = 1) {
+        $this->_out('q ' . $alpha . ' 0 0 ' . $alpha . ' 0 0 cm'); // Apply alpha
+    }
+    public function AddWatermark($imagePath, $width = 100, $height = 50,$opacity=0.5) {
+        // Center the watermark on the page
+        // $this->SetAlpha($opacity);
+        $pageWidth = $this->GetPageWidth();
+        $pageHeight = $this->GetPageHeight();
 
-    // Page Header
+        $x = ($pageWidth - $width) / 2;  // Center horizontally
+        $y = ($pageHeight - $height) / 7; // Center vertically
+
+        // Add the watermark image
+        $this->Image($imagePath, $x, $y, $width, $height);
+    }
+
     function Header()
     {
         $X=10;
-        $Y=15;
+        $Y=13;
+        $this->AddWatermark('dist/img/logo-watermakr.png',90,80);
                 $this->SetXY($X, $Y);
-        // Add University Logo
-        $this->Image('dist/img/logo-login.png', 10, 10, 20);
+        $this->Image('dist/img/logo-login.png', 15, 13, 20);
         $this->SetFont('Arial', 'B', 12);
         $this->Cell(0, 10, 'Guru Kashi University', 0, 1, 'C');
         $this->SetXY($X, $Y+6);
@@ -165,145 +182,137 @@ class PDF extends FPDF
         $this->SetXY($X, $Y+11);
         $this->SetFont('Arial', '', 8);
         $this->Cell(0, 10, 'Sardulgarh Road, Talwandi Sabo ', 0, 1, 'C');
-        // $this->Ln(10); // Line break
     }
 
-    // Footer
     function Footer()
     {
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
+        // $this->SetY(-15);
+        // $this->SetFont('Arial', 'I', 8);
+        // $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
     }
 
-    // Add Receipt Details
     function AddReceiptDetails($details)
     {
-        $X=10;
-$Y=35;
+        $X=15;
+        $Y=35;
         $this->SetXY($X, $Y);
-        $this->SetFont('Arial', 'B', 11);
+        $this->SetFont('Arial', 'B', 9.5);
         $this->Cell(0, 4, 'Receipt No: ' . $details['ReceiptNo'], 0, 1,'L');
         $this->SetXY($X, $Y);
-        $this->Cell(0, 4, 'Date: ' . $details['DateEntry'], 0, 1,'R');
+        $this->Cell(179, 4, 'Date: ' . $details['DateEntry'], 0, 1,'R');
 
 
         $this->SetXY($X, $Y+6);
         $this->Cell(35, 4, 'Received From: ', 0, 0);
         $this->SetXY($X+35, $Y+5.5);
-        $this->Cell(0, 5, $details['StudentName'] .' '. $details['gender'].' ' . $details['FatherName'],'B', 0, 1);
+        $this->Cell(144, 5, $details['StudentName'] .' '. $details['gender'].' ' . $details['FatherName'],'B', 0, 1);
 
         $this->SetXY($X, $Y+12);
-        $this->Cell(35, 4, 'Course: ', 0, 0);
+        $this->Cell(35, 4, 'Programme: ', 0, 0);
         $this->SetXY($X+35, $Y+11.5);
     
-        $this->Cell(130, 5, $details['Course'],'B', 0, 1);
-        $this->SetXY($X+159, $Y+12);
+        $this->Cell(115, 5, $details['Course'],'B', 0, 1);
+        $this->SetXY($X+148, $Y+12);
         $this->Cell(20, 4, "Batch:",'', 1,'R');
-        $this->SetXY($X+178, $Y+11.5);
+        $this->SetXY($X+167, $Y+11.5);
         $this->Cell(12, 5,$details['Batch'],'B', 1,'R');
 
         $this->SetXY($X, $Y+18);
         $this->Cell(35, 4, 'Class Roll No: ', 0, 0);
         $this->SetXY($X+35, $Y+17.5);
-        $this->Cell(91, 5, $details['ClassRollNo'],'B', 0, 1);
+        $this->Cell(76, 5, $details['ClassRollNo'],'B', 0, 1);
 
-        $this->SetXY($X+126, $Y+18);
+        $this->SetXY($X+115, $Y+18);
         $this->Cell(25, 4, "ID/Reg. No: ", 0, 1,'L');
 
-        $this->SetXY($X+152, $Y+17.5);
-        $this->Cell(38, 5, $details['IDNo'], 'B', 1,'L');
+        $this->SetXY($X+140, $Y+17.5);
+        $this->Cell(39, 5, $details['IDNo'], 'B', 1,'L');
                  
         $this->SetXY($X, $Y+23);
         $this->Cell(35, 4, 'On Account of:', 0, 0);
         $this->SetXY($X+35, $Y+22.5);
-        $this->Cell(95, 5, $details['OnAccountof'],'B', 0, 1);
+        $this->Cell(92, 5, $details['Semester'].' Semester ('.$details['OnAccountof'].')','B', 0, 1);
 
-        $this->SetXY($X+130, $Y+23);
+        $this->SetXY($X+118, $Y+23);
 
         $this->Cell(30, 4, "Uni Roll No:", 0, 1,'R');
-        $this->SetXY($X+160, $Y+23);
+        $this->SetXY($X+149, $Y+23);
         $this->Cell(30, 5, $details['UniRollNo'], 'B', 1,'R');
     }
-
-    // Add Payment Details
     function AddPaymentDetails($payment)
     {
  
-        $X=10;
+        $X=16;
         $Y=28;
         $this->SetXY($X, $Y+40);
-        $this->SetFont('Arial', 'B', 10);
+        $this->SetFont('Arial', 'B', 9.5);
         $this->Cell(10, 7, 'S.No.', 1, 0, 'C');
-        $this->Cell(140, 7, 'Particulars', 1, 0, 'C');
+        $this->Cell(128, 7, 'Particulars', 1, 0, 'C');
         $this->Cell(40, 7, 'Amount', 1, 1, 'C');
 
-        $this->SetFont('Arial', 'B', 10);
-        if ($payment['ModeOfPayment'] != 'Cash') {
-            $this->Cell(10, 15, '1', 1, 0, 'C');
-            $this->Cell(140, 7, 'Cheque/Draft No: ' . $payment['ChequeDraftNo'], 1, 0);
-            $this->SetXY($X+10, $Y+54);
-            $this->Cell(140, 8, 'Bank: ' . $payment['ChequeDraftBank'], 1, 0);
-            $this->SetXY($X+150, $Y+47);
-            $this->Cell(40, 15, $payment['Credit'], 1, 1,'C');
-        } else {
-            $this->Cell(10, 7, '1', 1, 0, 'C');
-            $this->Cell(140, 7, 'Cash Payment', 1, 0);
-            $this->Cell(40, 7, $payment['Credit'], 1, 1,'C');
+        $this->SetFont('Arial', 'B', 9.5);
+        if ($payment['ModeOfPayment'] == 'Bank Transfer') {
+            $this->SetXY($X, $Y+47);
+            $this->Cell(10, 19, '1', 1, 0, 'C');
+            $this->Cell(128.5, 7, 'Cheque/Draft No: ' . $payment['ChequeDraftNo'], 0, 0);
+            $this->SetXY($X+10, $Y+52);
+            $this->Cell(128.5, 8, 'Bank Date: ' . $payment['ChequeDraftDate'], 0, 0);
+            $this->SetXY($X+10, $Y+57);
+            $this->Cell(128.5, 8, 'Bank: ' . $payment['ChequeDraftBank'], 0, 0);
+            $this->SetXY($X+138, $Y+47);
+            $this->Cell(40, 19, $payment['Credit'], 1, 1,'C');
+        }
+        else if ($payment['ModeOfPayment'] == 'Payment Gateway') {
+            $this->SetXY($X, $Y+47);
+            $this->Cell(10, 19, '1', 1, 0, 'C');
+            $this->Cell(128.5, 7, 'Reference No: ' . $payment['ReferenceNumber'], 0, 0);
+            $this->SetXY($X+10, $Y+52);
+            $this->Cell(128.5, 8, 'Date: ' . $payment['ChequeDraftDate'], 0, 0);
+          
+            $this->SetXY($X+138, $Y+47);
+            $this->Cell(40, 19, 'Rs. '.$payment['Credit'].'/-', 1, 1,'C');
+        }
+         else {
+            $this->SetXY($X, $Y+47);
+            $this->Cell(10, 19, '1', 1, 0, 'C');
+            $this->Cell(128, 19, 'Cash Payment', 1, 0);
+            $this->Cell(40, 19, 'Rs. '.$payment['Credit'].'/-', 1, 1,'C');
         }
 
-        $this->SetFont('Arial', 'B', 11);
-        $this->Cell(150, 7, 'Total', 1, 0, 'R');
-        $this->Cell(40, 7, $payment['Credit'], 1, 1, 'C');
+        $this->SetXY($X, $Y+66);
+        $this->SetFont('Arial', 'B', 9.5);
+        $this->Cell(138, 7, 'Total', 1, 0, 'R');
+        $this->Cell(40, 7, 'Rs. '.$payment['Credit'].'/-', 1, 1, 'C');
     }
-
-    // Add Footer Details
     function AddFooterDetails($footer)
     {
-          $X=$this->GETX();
-    $Y=$this->GETY();
-        $this->SetXY($X, $Y+2);
-        // $this->Ln(10); // Line break
-        $this->SetFont('Arial', 'B', 10);
-        $this->Cell(0, 4, 'Received Rs. ' , 0, 1);
-        $this->SetFont('Arial', '', 10);
-        $this->SetXY($X+24, $Y+2);
-        $this->Cell(126, 4, $footer['AmountInWords'] . ' by ' . $footer['ModeOfPayment'], 0, 1);
-        $this->SetFont('Arial', 'B', 10);
         $X=$this->GETX();
-        $this->SetXY($X+150, $Y+2);
-        $this->Cell(7, 4, ' by ', 0, 1);
-        $this->SetFont('Arial', '', 10);
-        $this->SetXY($X+157, $Y+2);
-        $this->Cell(0, 4, $footer['ModeOfPayment'], 0, 1);
-
-            // $this->Ln(10); // Line break
-            // $this->SetFont('Arial', 'B', 10);
-            // $this->Cell(0, 10, 'Cashier Signature', 0, 1, 'R');
+        $Y=$this->GETY();
+        $this->SetXY($X+5, $Y+2);
+        $this->SetFont('Arial', 'B', 9.5);
+        $this->Cell(0, 4, 'Received Rs. ' , 0, 1);
+        $this->SetFont('Arial', '', 9.5);
+        $this->SetXY($X+29, $Y+2);
+        $this->Cell(126, 4, $footer['AmountInWords'] . ' by (' . $footer['ModeOfPayment'].')', 0, 1);
+        $this->SetFont('Arial', 'B', 9.5);
+       
+        $X=$this->GETX();
+        $Y=$this->GETY();
+        $this->SetXY($X+6, $Y+3);
+            $this->SetFont('Arial', 'B', 8);
+            $this->Cell(178, 8, 'This is computer generated receipt, no signature required ', '', 1, 'L');
+        $this->SetXY($X+6, $Y+3);
+        setlocale(LC_TIME, "");
+        date_default_timezone_set('Europe/Paris');
+        $date_du_jour = utf8_encode(strftime('%A %d %B %Y'));
+            $this->SetFont('Arial', 'I', 8);
+            $this->Cell(178, 8, 'Print Date:'.$date_du_jour, '', 1, 'R');
     }
-
-   
 }
-
-
-
-
-
-// Generate PDF
 $pdf = new PDF();
 $pdf->collegeName = $collegeName;
-
-// Add Page
 $pdf->AddPage();
-
-// Add Receipt Details
 $pdf->AddReceiptDetails($receiptData);
-
-// Add Payment Details
 $pdf->AddPaymentDetails($paymentData);
-
-// Add Footer Details
 $pdf->AddFooterDetails($footerData);
-
-// Output PDF
-$pdf->Output('I', 'receipt.pdf'); // 'I' for inline display, 'D' for download
+$pdf->Output('I','ReceiptNo_'.$ReceiptNo.'.pdf'); // 'I' for inline display, 'D' for download
