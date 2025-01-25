@@ -22,13 +22,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         .header img {
             width: 70px;
             height: auto;
-            padding-top:-200px;
+            padding-top:-50px;
             position: relative;
         }
 
@@ -74,7 +74,7 @@
         }
 
         .footer {
-            margin-top: 20px;
+            margin-top: 10px;
             font-size: 12px;
         }
 
@@ -85,11 +85,14 @@
     </style>
 </head>
 <body>
+    <!-- Content goes here -->
+
 
 <div class="container">
     <div class="header">
-        <img src="admin/img/applogo.png" alt="University Logo" >
+        <img src="admin/img/logo-login.png" alt="University Logo" >
         <h5>Guru Kashi University<br><small>{{$CollegeName;}}</small></h5>
+<!-- <small style="text-align:center;font-size:8px">Sardulgarh Road, Talwandi Sabo</small> -->
         <div style="width: 70px;"></div> <!-- Placeholder to balance the flex alignment -->
     </div>
 
@@ -136,24 +139,31 @@
             <tbody>
                 <tr>
                     <th>1</th>
-                    @if ($ModeOfPayment!='Cash')
+                    @if ($ModeOfPayment=='Bank Transfer')
                     <th>
                         
                         Cheque/draft no.: <span style="border-bottom:1.5pt solid black;">{{$ChequeDraftNo}}</span><br>
+                        Bank Date: <span style="border-bottom:1.5pt solid black;">{{$ChequeDraftDate}}</span><br>
+                        Bank Name: <span style="border-bottom:1.5pt solid black;">{{$ChequeDraftBank}}</span>
+                            
+                    </th>
+                    
+                    @elseif ($ModeOfPayment=='Payment Gateway')
+                    <th>
+                        
+                        Reference No:: <span style="border-bottom:1.5pt solid black;">{{$ReferenceNumber}}</span><br>
                         Date: <span style="border-bottom:1.5pt solid black;">{{$ChequeDraftDate}}</span><br>
-                        Bank: <span style="border-bottom:1.5pt solid black;">{{$ChequeDraftBank}}</span>
+                        
                             
                     </th>
                     @else
-                    <th>
-                        ______________________________________________________________
-    </th>
+                    <th>Cash Payment</th>
                     @endif
                     <th>{{$credit}}</th>
                 </tr>
                 <tr>
                     <th colspan="2"><strong style="float:right;">Total:</strong></th>
-                    <th><strong>{{$credit}}</strong></th>
+                    <th><strong>Rs. {{$credit}}/-</strong></th>
                 </tr>
             </tbody>
         </table>
@@ -162,6 +172,11 @@
     <div class="footer">
         <div>
             <strong>Received Rs. <span style="border-bottom:1.5pt dotted black;">{{$amountInWords}} <strong>By</strong> ({{$ModeOfPayment}})</span></strong>
+        </div>
+       
+        <div>
+            <br>
+            <strong>This is computer generated receipt, no signature required</strong>
         </div>
        
     </div>

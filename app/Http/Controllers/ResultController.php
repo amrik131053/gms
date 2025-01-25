@@ -35,7 +35,7 @@ class ResultController extends Controller
             $resultsData = $response->json();
                $resultsData=$resultsData['data'];
         //  dd($resultsData);
-        
+        $examination=$resultsData[0]['Examination'].'_'.$resultsData[0]['Semester'];
         $data = [
             'UniRollNo'=>$resultsData[0]['UniRollNo'],
             'StudentName'=>$resultsData[0]['StudentName'],
@@ -51,7 +51,7 @@ class ResultController extends Controller
         ];   
         $pdf = PDF::loadView('ViewResult', $data);
        
-        return $pdf->download('result-pdf.pdf');
+        return $pdf->download($examination.'.pdf');
     } 
     else 
     {

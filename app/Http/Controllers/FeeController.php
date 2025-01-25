@@ -82,6 +82,7 @@ class FeeController extends Controller
                 'ChequeDraftNo'=>$feeReceiptData[0]['ChequeDraftNo'],
                 'ChequeDraftDate'=>$feeReceiptData[0]['ChequeDraftDate'],
                 'ModeOfPayment'=>$feeReceiptData[0]['ModeOfPayment'],
+                'ReferenceNumber'=>$feeReceiptData[0]['ReferenceNumber'],
                 'Sex'=>$feeReceiptData[0]['Sex'],
                 'genderDSo'=>$genderDSo,
                 'amountInWords'=>$amountInWords
@@ -91,7 +92,7 @@ class FeeController extends Controller
     $data['credit_in_words'] = ucwords($converter->toWords($feeReceiptData[0]['credit']));
 
     $pdf = PDF::loadView('ViewReceipt', $data);
-    return $pdf->download('fee-pdf.pdf');
+    return $pdf->download('ReceiptNo_'.$SlipID.'.pdf');
     } 
     else 
     {

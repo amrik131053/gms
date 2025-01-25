@@ -8,7 +8,7 @@
                     *{
                         margin: 0;
                         padding: 0;
-                        font-family: Times, sans-serif;
+                        font-family: arial, sans-serif;
                     }
                     .layout{
                         margin-top:24px;
@@ -84,7 +84,7 @@
                 <div class="layout">
                     <center>
                     <div class="topOfPage">
-                    <img class="logo" src="admin/img/appLogo.png" alt="uniLogo">
+                    <img class="logo" src="admin/img/logo-login.png" alt="uniLogo">
                         <p class="heading">GURU KASHI UNIVERSITY</p>
                         <h4 class="heading2">TALWANDI SABO BATHINDA,PUNJAB -151302</h4>
                         <p class="establishment">(Established by Government of Punjab Act No. 37 of 2011 as per Section 2(f) of UGC Act. 1956)</p>
