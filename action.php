@@ -23269,7 +23269,7 @@ elseif($Status==8)
  elseif($code==356)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+  $list_sqlw5 ="SELECT * from ExamForm Where ID='$id'";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
@@ -23380,7 +23380,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 <?php 
 
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType!='P'  ANd ExternalExam='Y' order by ExternalExam DESC";  
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by SubjectCode ASC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
 {  
@@ -23451,293 +23451,31 @@ echo $msttotal=$mst1;
 ?>
   
   </td>
-  
-    
-  
- 
-  
-       <td>
+ <td>
    <?php echo $ESe= $row7['ESE'];?> 
 
-
 </td>
 
 <td>
-   <?php if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
-?>
-   <?=
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;?>
-</td>
-
-<!-- <td>
-
-   <?php
-$grade='';
-if($totalFinal>=90)
-{
-   echo "O";
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   echo"A+";
-
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   echo"A";
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   echo"B+";
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   echo"B";
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   echo"C";
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   echo"D";
-}
-else if($totalFinal<40)
-{
-   echo"F";
-}
-?>
-
-</td>
-<td>
-  <?php
-$grade='';
-if($totalFinal>=90)
-{
-   echo "10";
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   echo"9";
-
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   echo"8";
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   echo"7";
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   echo"6";
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   echo"5";
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   echo"4";
-}
-else if($totalFinal<40)
-{
-   echo"0";
-}
-?></td> -->
-
-
-
-
-</tr>
-
-
-
-
-         <?php }
-         ?>
-<tr>
-   <th>SrNo</th>
-  <th width="60%">Subject Name</th>
-  <th width="12%">Subject Code</th><th>Credit</th>
-  <th width="8%">Int</th>
-  <th width="8%">P1</th>
-    <th width="8%">P2</th>
-     <th width="8%">P3</th>
-    <th width="8%">P4</th>
-    <th width="8%">P5</th>
-   
-           <th width="8%" colspan="2">Total</th>
-  <th width="8%" colspan="2">Grade</th>
-   <th width="8%" colspan="2">Grade point</th>
-
- 
-</tr>
-
-
-
-         <?php 
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType='P' ANd ExternalExam='Y' order by ExternalExam DESC";  
-$list_resultamrik = sqlsrv_query($conntest,$amrik);  
-if($list_resultamrik === false) 
-{  
-    die( print_r( sqlsrv_errors(), true) );
-}
-$sr=0;
-$credit='';
-while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
-         { $sr++;
-            
-$SubjectCode=$row7['SubjectCode'];
-
-            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode'";  
-$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
-
-while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
-         {
-             $credit=$row7c['NoOFCredits'];
-            }
-$nop=0;
-$practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$CollegeID' ANd CourseId='$CourseID' ANd Batch='$batch' AND SubCode='$SubjectCode' ANd Session='$examination' AND IDNO='$IDNo'"; 
-$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
-$pmarks=array();
-while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-         {
-
-$pmarks[]=$row7pr['PMarks']+$row7pr['VMarks']+$row7pr['FMarks'];
-$nop++;
-          }  
-?>
-
-
-         <tr>
-            <td width="10"><?=$sr;?></td>
-            <?php if($examinationss<>$row7['Examination'])
-            {               $color="#ed040491";      }else $color='';
-  ?>
-  <td colspan="1" style="background-color: <?=$color;?>">
-   <?= $row7['SubjectName'];?>
-
-</td>
-   <td >
-      <?=$row7['SubjectCode'];?>
-   </td>
-   <td><?= $credit;?></td>
-
-  <td><?php echo $row7['ExternalExam'];?>
-    </td>
-
-    <?php 
-    $totapracti=0;
-    for($i=0;$i<$nop;$i++)
-    {
-      ?>
-      <td>
-        
-
-   <?php echo  $CE1=$pmarks[$i];
-  if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-
-      $totapracti=$totapracti+$fCE1;
-      ?>
-  </td>
-  <?php   }
-  
-  ?>
+<?php  $grace=0;
+$nccount=0;?>
+<?php include 'result-pages/grade_calculator.php';?>
  
 
-<td colspan="2">
-      <?= $totapracti;?>
+  <?=$totalFinal;?>
 </td>
 
-<td colspan="2">
-
-   <?php
-$grade='';
-if($totapracti>=90)
-{
-   echo "O";
-}
-else if($totapracti>=80 &&$totapracti<90)
-{
-   echo"A+";
-}
-else if($totapracti>=70 &&$totapracti<80)
-{
-   echo"A";
-}
-else if($totapracti>=60 &&$totapracti<70)
-{
-   echo"B+";
-}
-else if($totapracti>=50 &&$totapracti<60)
-{
-   echo"B";
-}
-else if($totapracti>=45 &&$totapracti<50)
-{
-   echo"C";
-}
-else if($totapracti>=40 &&$totapracti<45)
-{
-   echo"D";
-}
-else if($totapracti<40)
-{
-   echo"F";
-}
-?>
+ <td>
+<?= $grade;?>
+ 
 
 </td>
-<td>
-  <?php
-$grade='';
-if($totalFinal>=90)
-{
-   echo "10";
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   echo"9";
-
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   echo"8";
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   echo"7";
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   echo"6";
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   echo"5";
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   echo"4";
-}
-else if($totalFinal<40)
-{
-   echo"0";
-}
-?></td>
-
-
-
+<td style="color:<?=$color;?>">
+ 
+ <?=  $gardep;?>
+</td>
 </tr>
-
-
-         <?php }
+  <?php }
          ?>
 </table>
 </div>

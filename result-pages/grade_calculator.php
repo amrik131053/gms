@@ -1,5 +1,5 @@
 <?php  
-$color='black';
+$color='';
 $printmark='';
 $showgradefail='';
 $msttotal='';
@@ -111,4 +111,5 @@ else if($totalFinal<40)
     $color='red';
     $nccount++;
 }
-} ?>
+}
+ ?>
