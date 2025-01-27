@@ -23090,12 +23090,12 @@ $c++;
 
 
                $list_sql = "SELECT Admissions.ClassRollNo,   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
+               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' AND Admissions.Status='1' ORDER BY ExamForm.ID DESC"; 
 }
 else if ($_POST['rollNo'] !='') 
 {
  $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
+               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' AND Admissions.Status='1' ORDER BY ExamForm.ID DESC"; 
 }
 
  else
@@ -23115,10 +23115,10 @@ $Course = $_POST['Course'];
   $Type = $_POST['Type'];
     $Group = $_POST['Group'];
         $Examination = $_POST['Examination'];
-
+         $OrderBy = $_POST['OrderBy'];
 
 $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' ORDER BY Admissions.UniRollNo";
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ORDER BY Admissions.$OrderBy";
 
 }
 
@@ -23126,7 +23126,7 @@ else
 
 {
     $list_sql = "SELECT TOP 150 Admissions.ClassRollNo,  ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  Admissions.Status='1'ORDER BY ExamForm.ID DESC"; 
 }
 ?>
 
@@ -24016,9 +24016,13 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     <th width="8%">CA3/P2</th>
      <th width="8%">Att/P3</th>
     <th width="8%">MST1/P4</th>
-    <th width="8%">MST2/P5</th>
-    <!-- <th width="8%">Best</th> -->
-    
+    <th width="8%">ESE/P5</th>
+    <th width="8%">Total</th>
+    <th width="8%">Grade</th>
+    <th width="8%">Grade Point</th>
+   
+
+
  
 </tr>
 
@@ -24076,19 +24080,9 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
       
   </td>
   <td>
-      <?php echo $mst1=$row7['MST1'];?> 
-  </td>
-  <td>
-      <?php echo $mst2= $row7['ESE'];?> 
-  </td>
-   <!-- <td>
-      <?php echo $mst2= $row7['MST2'];?> 
-  </td> -->
- <!--  <td>
-
-   <?php
-   $msttotal='';
-    if($mst1>$mst2)
+      <?php  $mst1=$row7['MST1'];
+      $mst2= $row7['MST2'];
+ if($mst1>$mst2)
    {
 echo $msttotal=$mst1;
    }
@@ -24096,11 +24090,28 @@ echo $msttotal=$mst1;
    {
      echo  $msttotal=$mst2;
    }
+      ?> 
+  </td>
+  <td>
+      <?php echo $ESe= $row7['ESE'];?> 
+  </td>
+ <td>
 
-?>
-  
-  </td> -->
+   <?php 
+   $grace=0;
+    include'result-pages/grade_calculator.php';?>
+
+<?= $totalFinal;?> 
+
+  </td> 
+ <td>
+<?= $grade;?> 
    
+  </td> 
+  <td>
+<?= $gardep;?> 
+   
+  </td>  
   
     
   

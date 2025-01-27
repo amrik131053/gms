@@ -1,5 +1,5 @@
 <?php  
-$color='';
+$color='black';
 $printmark='';
 $showgradefail='';
 $msttotal='';

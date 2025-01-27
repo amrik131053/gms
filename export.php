@@ -8613,7 +8613,7 @@ else if($exportCode==59)
  else if($exportCode==60)
 {
     include 'result-pages/result-subject-bind-new.php';
- 
+ $OrderBy=$_GET['OrderBy'];
 $subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
 $exportstudy="<table class='table' border='1'>     <thead>";
@@ -8673,7 +8673,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
 
 
     $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
-    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
+    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8' ANd Admissions.Status='1'  ORDER BY Admissions.$OrderBy";
         
         
                 $j=0;
