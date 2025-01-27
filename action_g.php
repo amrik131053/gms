@@ -9520,7 +9520,7 @@ $RegistrationFee = $_POST['RegistrationFee'];
 $SecurityDeposit = $_POST['SecurityDeposit'];
 $MessCharges = $_POST['MessCharges'];
 $otherCharges = $_POST['otherCharges'];
-$totalAnual=$_POST['totalAnual'];
+$totalAnual1=$_POST['totalAnual'];
 
 $totalAnual = intval($HostelFee) + intval($TutionFee) + intval($RegistrationFee) + intval($SecurityDeposit)  + intval($MessCharges) + intval($otherCharges);
 
@@ -9594,8 +9594,8 @@ $dist_count = 0;
 
 
 
- $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`ConsultantType`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`,`commitment`
- ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$consultanttype','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline','$commitment');";
+ $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`ConsultantType`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`,`commitment`,`ActualFee`
+ ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$consultanttype','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline','$commitment','$totalAnual1');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
