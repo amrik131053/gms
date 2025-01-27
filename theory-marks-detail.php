@@ -409,7 +409,7 @@ function exportCutListExcelgradeca() {
     if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination+"&OrderBy="+OrderBy, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+"&OrderBy="+OrderBy    , '_blank');
 
     } else {
        
