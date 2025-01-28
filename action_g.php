@@ -15,7 +15,7 @@ window.location.href = 'index.php';
    //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $CurrentExaminationGetDate=date('Y-m-d');
 
-   $Leave_Authority_ID="172027"; 
+   $Leave_Authority_ID="171881"; 
 
    $Leave_Authority_Label="Pending to VC";
 
@@ -14783,6 +14783,70 @@ elseif($code==192)
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card-body table-responsive " id="tab_data">
+            </div>
+        </section>
+        <?php
+sqlsrv_close($conntest);
+}
+elseif($code==192.1)
+{
+    ?>
+        <section class="content">
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-2"><label>Authority Type</label>
+                        <div class="card-tools">
+                            <div class="input-group">
+                               
+                  <select name="Authtype" id='authority_type'                                    class="form-control" required="">
+                                    <option value=''>Select Authority Type</option>
+                        
+
+                                    <option value="LeaveRecommendingAuthority"> Recomending Authority</option>
+                                    <option value="LeaveSanctionAuthority">Sanction Authority</option>
+                         </select>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                      <div class="col-lg-2">
+                          <label>Previous </label> 
+                        <div class="card-tools">
+                            <div class="input-group">
+                                
+                  <input type="text" class="form-control"  name="" id="recommendID_old" >
+
+                                
+                            </div>
+                        </div>
+                    </div>
+
+    <div class="col-lg-2">  <label>New </label>    
+                        <div class="card-tools">
+                            <div class="input-group">
+                            
+                  
+  <input type="text" class="form-control"  name="" id="recommendID_new">
+                                
+                            </div>
+                        </div>
+                    </div>
+                      <div class="col-lg-2">  <label> &nbsp;</label>    
+                        <div class="card-tools">
+                            <div class="input-group">
+                            
+                  
+<input type="button" onclick="UpdateLeaverecomendingoldnew();" value="Sync" class="btn btn-success ">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             <div class="card-body table-responsive " id="tab_data">

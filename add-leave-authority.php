@@ -229,7 +229,66 @@ function SyncNewStaff()
                  document.getElementById("department_wise_show"+collegeId).innerHTML=response;
               }
            });
-          }      
+          } 
+
+ function UpdateLeaverecomendingoldnew() {
+        
+        var recommendID=document.getElementById("recommendID_old").value;
+        var senctionID=document.getElementById("recommendID_new").value;
+        var authority_type=document.getElementById("authority_type").value;
+
+     if(recommendID!='' &&  senctionID!='' && authority_type!='') 
+     {
+var code = 12.1; 
+var spinner = document.getElementById("ajax-loader");
+  
+      spinner.style.display = 'block';
+
+  $.ajax({
+      url: 'action_a.php',
+      data: {flag:code,recommendID:recommendID,senctionID:senctionID,authority_type:authority_type }, 
+      type: 'POST',
+      success: function (data) {
+        console.log(data);
+          if (spinner) {
+              spinner.style.display = 'none';
+          }
+      
+          SuccessToast('Submit Successfully');
+         
+      },
+      error: function (xhr, status, error) {
+          if (spinner) {
+              spinner.style.display = 'none';
+          }
+          // alert('An error occurred: ' + error);
+      }
+  });
+
+}
+else{
+    ErrorToast('please enter recommend authority & senction authority','bg-warning');
+}
+}
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           function submitLeaveAuthority() {
         
         var recommendID=document.getElementById("recommendID").value;
@@ -1769,6 +1828,25 @@ function addRole(empid,college)
 }
 
 
+function manageauthority()
+          {
+       var code=192.1;
+
+      
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("show_record").innerHTML=response;
+               }
+         });
+
+     }
 
 function manageDepartment()
           {
@@ -3311,6 +3389,10 @@ function toggleLeavingDate(selectElement) {
       </button>
       <button type="button" onclick="SyncNewStaff();" class="btn btn-success btn-sm ">
      Sync to SPOC
+      </button>
+
+      <button type="button"  onclick="manageauthority()"  class="btn btn-success btn-sm">
+     Change Authority
       </button>
 
       <span style="float:right;">
