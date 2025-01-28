@@ -1257,7 +1257,7 @@ else{
                 </i>
              </div>
           </div>
-          <div style="height: 30px;"></div>
+          <div style="height: 10px;"></div>
  
           <div class="row">
              <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
