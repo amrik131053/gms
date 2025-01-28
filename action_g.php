@@ -20085,8 +20085,8 @@ elseif ($code==262) {
     $outtime2=$_POST['outtime2'];
     $outtime3=$_POST['outtime3'];
 
-       $insertMasterShift="INSERT into MadamSingleEmployeeException(IDNo,StartDate,EndDate,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3)
-    VALUES('$StaffID','$StartDate','$EndDate','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3')";
+       $insertMasterShift="INSERT into MadamSingleEmployeeException(IDNo,StartDate,EndDate,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,CreatedBy,CreatedAt)
+    VALUES('$StaffID','$StartDate','$EndDate','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','$EmployeeID','$timeStamp')";
     $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
     if($insertMasterShiftRun==true)
     {

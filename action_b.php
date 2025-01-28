@@ -597,9 +597,11 @@ if($code==1) // pendig complaint
    $forward_remarks=$_POST['forward_remarks'];
     $action_update_after_forward="UPDATE StudentGrievanceTrack SET Action='2',EmployeeRemarks='$forward_remarks' where TokenNo='$TokenNo' and EmployeeId='$EmployeeID'";
     $insert_request_process_run1= sqlsrv_query($conntest,$action_update_after_forward);
-    $status_update_after_forward="UPDATE StudentGrievance SET Status='2' where TokenNo='$TokenNo'";
+
+     $status_update_after_forward="UPDATE StudentGrievance SET Status='2' where TokenNo='$TokenNo'";
+
        $insert_request_process_run= sqlsrv_query($conntest,$status_update_after_forward);
-        if ( $insert_request_process_run==$insert_request_process_run1) 
+        if ($insert_request_process_run==true) 
         {
         echo 1;   // success
         }
