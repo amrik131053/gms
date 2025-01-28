@@ -1002,7 +1002,9 @@ else
              $updateLeaveAuth="UPDATE ApplyLeaveGKU SET $appluauth='$senctionID' where $appluauth='$recommendID'  and Status!='Approved' and Status!='Reject'";
             sqlsrv_query($conntest,$updateLeaveAuth);
             
-        
+         $update1="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$authority_type from $recommendID to $senctionID ','$EmployeeID','$timeStamp')";
+
+$update_query=sqlsrv_query($conntest,$update1);
     
     
 }

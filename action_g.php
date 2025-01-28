@@ -14934,7 +14934,7 @@ elseif($code=='194')
 $CollegeID = $_POST['college']; 
       $shortname = $_POST['department']; 
      
- $updatedep="INSERT  into MasterDesignation (Designation,Status) Values('$shortname','1')";
+ $updatedep="INSERT  into MasterDesignation (Designation,Status,CreatedBy,CreatedAt) Values('$shortname','1','$EmployeeID','$timeStamp')";
 
   $stmt2 = sqlsrv_query($conntest,$updatedep);
  if($stmt2)
@@ -14992,7 +14992,12 @@ $id = $_POST['id'];
 
 $updatedep="UPDATE MasterDesignation set Designation='$fullname',Status='1' where Id='$id'";
 
+
   $stmt2 = sqlsrv_query($conntest,$updatedep);
+
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','Update Desingation-$fullname','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
   echo "1";
   sqlsrv_close($conntest);
 }
@@ -15269,8 +15274,8 @@ else
     $RightsLevel="Staff";
     $LMSRole='12';
 }
- $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID,BloodGroup)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole','$bloodGroup');";
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID,BloodGroup,CreatedBy,CreatedAt)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole','$bloodGroup','$EmployeeID','$Timestamp');";
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
@@ -17404,9 +17409,9 @@ ftp_close($conn_id);
       {
 
    
-     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
+     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath,CreatedBy)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
   if($InsertLeaveRun==true)
   {
@@ -17425,9 +17430,9 @@ echo "6";
      }
 else{
 
-     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
+     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath,CreatedBy)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
 
 
