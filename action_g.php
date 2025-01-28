@@ -4948,14 +4948,20 @@ else { ?>
                 <select class="form-control" name="letter_type_gen" id="letter_type_gen">
                     <option value=''>Select</option>
                     <option value='Appointment Letter'>Appointment Letter</option>
+                    <option value='Advisory Letter'>Advisory Letter</option>
+                     <option value='Appreciation Letter'>Appreciation Letter</option>
+                      <option value='Experience Letter'>Experience Letter</option>
                     <option value='Joining Letter'>Joining Letter</option>
-                    <option value='Appreciation Letter'>Appreciation Letter</option>
-                    <option value='Warning Letter'>Warning Letter</option>
+                   
+                   
                     <option value='No Dues Certificate'>No Dues Certificate</option>
+                    <option value='No Objection Certificate'>No Objection Certificate</option>
+                     <option value='Office Order'>Office Order</option>
                     <option value='Promotion Letter'>Promotion Letter</option>
-                    <option value='Experience Letter'>Experience Letter</option>
-                    <option value='Office Order'>Office Order</option>
-                    <option value='Office Order'>Advisory Letter</option>
+                    <option value='Warning Letter'>Warning Letter</option>
+                   
+                    
+                    
                 </select>
             </div>
         </div>
