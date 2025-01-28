@@ -1356,7 +1356,7 @@ else{
             
                <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
                   <span class="notranslate">
-                     <div style="height: 60px;"></div>
+                     <div style="height: 50px;"></div>
                      <!--60-->
                      <div class="row">
                   <?php  
