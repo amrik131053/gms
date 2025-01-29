@@ -2263,6 +2263,8 @@ cities on cities.id=offer_latter.District  where offer_latter.batch='$batch' ";
              <th>Name</th>
              <th>Father Name</th>
              <th>RollNo</th>
+              <th>Batch</th>
+ <th>Laternal Entry</th>
              <th>Gender</th>
              <th>State</th>
              <th>District</th>
@@ -2292,7 +2294,8 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $FatherName=$row['FatherName'];    
     $MotherName=$row['MotherName'];    
     $Collegeid=$row['CollegeName'];    
-    $Course=$row['Course'];    
+    $Course=$row['Course'];  
+    $batch=$row['Batch'];    
     $Department=$row['Department'];    
     $Gender=$row['Gender'];    
     $classroll=$row['Class_RollNo'];
@@ -2406,6 +2409,8 @@ else
           <td>{$FatherName}</td>
 
           <td bgcolor=$color>{$classroll}</td>
+          <td>{$batch}</td>
+          <td>{$Lateral}</td>
           <td>{$Gender}</td>
           <td>{$State}</td>
           <td>{$District}</td>
