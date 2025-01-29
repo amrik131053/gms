@@ -377,7 +377,7 @@ function Search_exam_student1() {
     var Type = document.getElementById("Type").value;
     var Group = document.getElementById("Group").value;
     var Examination = document.getElementById("Examination").value;
-     //var userid = document.getElementById('userid').value;
+     var OrderBy='';//var userid = document.getElementById('userid').value;
 
     if (Batch != '' && Semester != '' && College != '' && Course != '' && Type != '' && Group != '' && Examination !=
         '') {
@@ -397,6 +397,7 @@ function Search_exam_student1() {
                 Semester: Semester,
                 Type: Type,
                 Group: Group,
+                OrderBy:OrderBy,
                 Examination: Examination,
                 sub_data: sub_data
             },
