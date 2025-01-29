@@ -358,6 +358,38 @@ function lockIT(ID)
         });
     }
 }
+function lockITAgain(ID,IDNo)
+ {
+    var r = confirm("Do you really want to Forward Again");
+    if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 340.1;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ID: ID,IDNo:IDNo
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                // console.log(response);
+                if (response == 1) {
+                    
+                    SuccessToast('Successfully Forward Again');
+                    edit_stu(ID);
+                    fetchCutList();
+                    $('.bd-example-modal-xl').modal('hide');
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+    }
+}
 function RejectIT(ID)
  {
     var remark = document.getElementById("remarkReject").value;
@@ -405,7 +437,7 @@ function RejectIT(ID)
 </script>
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Bus Pass</h5>

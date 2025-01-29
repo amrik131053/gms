@@ -27267,7 +27267,104 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
         </table>
         <br>
+        <div class="table table-responsive" style="height:500px;">
+            <table class="table  table-bordered  table-hover table-head-fixed table-striped"
+                style="border:1px solid black;">
+                <thead>
+                    <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
 
+                    <!-- <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td> -->
+                    <!-- <td colspan="2"></td>
+                                                <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
+                                                </tr> -->
+
+
+                    <tr>
+                        <th style='background-color:#223260!important; color:white;'>Receipt Date</th>
+                        <th style='background-color:#223260!important; color:white;'>Receipt No</th>
+                        <th style='background-color:#223260!important; color:white;'>Particulars</th>
+                        <th style='background-color:#223260!important; color:white;'>LedgerName</th>
+                        <th style='background-color:#223260!important; color:white;'>Installment</th>
+                        <th style='background-color:#223260!important; color:white;'>Debit</th>
+                        <th style='background-color:#223260!important; color:white;'>Credit</th>
+                        <th style='background-color:#223260!important; color:white;'> Remarks</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php  $sql8 = "select  * from  Ledger where IDNo='$IDNo' order by DateEntry DESC";
+                                            $stmt8 = sqlsrv_query($conntest,$sql8);
+                                            while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                            
+                                                ?>
+
+                    <tr>
+                        <td>
+                            <?php
+                                                                                        if($row8['DateEntry']!='')
+                                                                                        {
+                                            
+                                                                                           echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
+                                            
+                                                                                   
+                                                                                    }
+                                                                                    ?>
+
+
+
+                        </td>
+                        <td><?= $row8['ReceiptNo'];;?></td>
+                        <td style="width: 300px"><?= $row8['Particulars'];?></td>
+
+                        <td><?= $row8['LedgerName'];?> </td>
+                        <td><?= $row8['Semester'];;?></td>
+                        <td><?= $row8['Debit'];?></td>
+                        <td><?= $row8['Credit'];?></td>
+                        <td><?= $row8['Remarks'];?>
+                    </tr>
+
+                    <?php 
+                                                                                            }?>
+
+
+
+                    <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
+
+                    <tr>
+                        <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
+                        <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
+                        <td colspan="2"></td>
+                        <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <table class="table" style="border:1px solid black">
 
@@ -27405,7 +27502,15 @@ if($Status==6)
                     </center>
                     <?php
 
-};?>
+}
+else if($Status==4 ){
+
+   ?> <td colspan="5"> <button type="submit" id="type" onclick="lockITAgain(<?=$SerialNo;?>,<?=$IDNo;?>);" name="update"
+    class="btn btn-success ">Forward Again</button>
+</td>
+    <?php 
+}
+?>
 
                 </td>
 
@@ -27475,6 +27580,25 @@ else{
 //     echo "Error: " . print_r($errors, true);
 //     // echo "0";
 // } 
+sqlsrv_close($conntest);
+}
+   else if($code==340.1)
+{
+    $ID=$_POST['ID'];
+    $IDNo=$_POST['IDNo'];
+       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='3' Where SerialNo='$ID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+$escapedQuery="Bus Pass Again Forward ".str_replace("'", "''", $getDefalutMenu);
+$update12="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$escapedQuery','$EmployeeID','$timeStamp')";
+sqlsrv_query($conntest,$update12);
+
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
 sqlsrv_close($conntest);
 }
 else if($code==341)
