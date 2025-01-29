@@ -15,7 +15,7 @@ window.location.href = 'index.php';
    //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $CurrentExaminationGetDate=date('Y-m-d');
 
-   $Leave_Authority_ID="172027"; 
+   $Leave_Authority_ID="171881"; 
 
    $Leave_Authority_Label="Pending to VC";
 
@@ -4948,14 +4948,20 @@ else { ?>
                 <select class="form-control" name="letter_type_gen" id="letter_type_gen">
                     <option value=''>Select</option>
                     <option value='Appointment Letter'>Appointment Letter</option>
+                    <option value='Advisory Letter'>Advisory Letter</option>
+                     <option value='Appreciation Letter'>Appreciation Letter</option>
+                      <option value='Experience Letter'>Experience Letter</option>
                     <option value='Joining Letter'>Joining Letter</option>
-                    <option value='Appreciation Letter'>Appreciation Letter</option>
-                    <option value='Warning Letter'>Warning Letter</option>
+                   
+                   
                     <option value='No Dues Certificate'>No Dues Certificate</option>
+                    <option value='No Objection Certificate'>No Objection Certificate</option>
+                     <option value='Office Order'>Office Order</option>
                     <option value='Promotion Letter'>Promotion Letter</option>
-                    <option value='Experience Letter'>Experience Letter</option>
-                    <option value='Office Order'>Office Order</option>
-                    <option value='Office Order'>Advisory Letter</option>
+                    <option value='Warning Letter'>Warning Letter</option>
+                   
+                    
+                    
                 </select>
             </div>
         </div>
@@ -9520,7 +9526,7 @@ $RegistrationFee = $_POST['RegistrationFee'];
 $SecurityDeposit = $_POST['SecurityDeposit'];
 $MessCharges = $_POST['MessCharges'];
 $otherCharges = $_POST['otherCharges'];
-$totalAnual=$_POST['totalAnual'];
+$totalAnual1=$_POST['totalAnual'];
 
 $totalAnual = intval($HostelFee) + intval($TutionFee) + intval($RegistrationFee) + intval($SecurityDeposit)  + intval($MessCharges) + intval($otherCharges);
 
@@ -9594,8 +9600,8 @@ $dist_count = 0;
 
 
 
- $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`ConsultantType`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`,`commitment`
- ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$consultanttype','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline','$commitment');";
+ $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`ConsultantType`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`,`commitment`,`ActualFee`
+ ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$consultanttype','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline','$commitment','$totalAnual1');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -14791,6 +14797,70 @@ elseif($code==192)
         <?php
 sqlsrv_close($conntest);
 }
+elseif($code==192.1)
+{
+    ?>
+        <section class="content">
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-2"><label>Authority Type</label>
+                        <div class="card-tools">
+                            <div class="input-group">
+                               
+                  <select name="Authtype" id='authority_type'                                    class="form-control" required="">
+                                    <option value=''>Select Authority Type</option>
+                        
+
+                                    <option value="LeaveRecommendingAuthority"> Recomending Authority</option>
+                                    <option value="LeaveSanctionAuthority">Sanction Authority</option>
+                         </select>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                      <div class="col-lg-2">
+                          <label>Previous </label> 
+                        <div class="card-tools">
+                            <div class="input-group">
+                                
+                  <input type="text" class="form-control"  name="" id="recommendID_old" >
+
+                                
+                            </div>
+                        </div>
+                    </div>
+
+    <div class="col-lg-2">  <label>New </label>    
+                        <div class="card-tools">
+                            <div class="input-group">
+                            
+                  
+  <input type="text" class="form-control"  name="" id="recommendID_new">
+                                
+                            </div>
+                        </div>
+                    </div>
+                      <div class="col-lg-2">  <label> &nbsp;</label>    
+                        <div class="card-tools">
+                            <div class="input-group">
+                            
+                  
+<input type="button" onclick="UpdateLeaverecomendingoldnew();" value="Sync" class="btn btn-success ">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="card-body table-responsive " id="tab_data">
+            </div>
+        </section>
+        <?php
+sqlsrv_close($conntest);
+}
 elseif($code==193)
 {
     ?>
@@ -14870,7 +14940,7 @@ elseif($code=='194')
 $CollegeID = $_POST['college']; 
       $shortname = $_POST['department']; 
      
- $updatedep="INSERT  into MasterDesignation (Designation,Status) Values('$shortname','1')";
+ $updatedep="INSERT  into MasterDesignation (Designation,Status,CreatedBy,CreatedAt) Values('$shortname','1','$EmployeeID','$timeStamp')";
 
   $stmt2 = sqlsrv_query($conntest,$updatedep);
  if($stmt2)
@@ -14928,7 +14998,12 @@ $id = $_POST['id'];
 
 $updatedep="UPDATE MasterDesignation set Designation='$fullname',Status='1' where Id='$id'";
 
+
   $stmt2 = sqlsrv_query($conntest,$updatedep);
+
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','Update Desingation-$fullname','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
   echo "1";
   sqlsrv_close($conntest);
 }
@@ -15205,8 +15280,8 @@ else
     $RightsLevel="Staff";
     $LMSRole='12';
 }
- $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID,BloodGroup)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole','$bloodGroup');";
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID,BloodGroup,CreatedBy,CreatedAt)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole','$bloodGroup','$EmployeeID','$Timestamp');";
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
@@ -17340,9 +17415,9 @@ ftp_close($conn_id);
       {
 
    
-     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
+     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath,CreatedBy)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
   if($InsertLeaveRun==true)
   {
@@ -17361,9 +17436,9 @@ echo "6";
      }
 else{
 
-     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
+     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath,CreatedBy)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
 
 
@@ -20021,8 +20096,8 @@ elseif ($code==262) {
     $outtime2=$_POST['outtime2'];
     $outtime3=$_POST['outtime3'];
 
-       $insertMasterShift="INSERT into MadamSingleEmployeeException(IDNo,StartDate,EndDate,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3)
-    VALUES('$StaffID','$StartDate','$EndDate','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3')";
+       $insertMasterShift="INSERT into MadamSingleEmployeeException(IDNo,StartDate,EndDate,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,CreatedBy,CreatedAt)
+    VALUES('$StaffID','$StartDate','$EndDate','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','$EmployeeID','$timeStamp')";
     $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
     if($insertMasterShiftRun==true)
     {

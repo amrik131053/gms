@@ -42,6 +42,7 @@ foreach ($id as $key => $value) {
         $deadline=$row['deadline'];
         $Nationality=$row['Nationality'];
         $id=$row['id'];
+        $ActualFee=$row['ActualFee'];
 
         $TutionFee=$row['TutionFee'];
         $HostelFee=$row['HostelFee'];
@@ -366,33 +367,53 @@ where MasterDepartment.Id='$Department' ";
 
         <table style="font-size:12px; margin-top:-10px;">
             <tr>
-                <th>Category</th>
-                <th>Fee (USD)</th>
-                <th>Category</th>
-                <th>Fee (USD)</th>
+                <th colspan="2" style="text-align: center;width: 50%;"><b>One Time Charges</b></th>
+                
+                <th colspan="2" style="text-align: center;"><b>Fee Per Year</b></th>
+                
             </tr>
             <tr>
-                <th>Fee package plan/year including enrollment fee,Tution</th>
-                <td>$<?= $TutionFee; ?></td>
+               <th>Registration Fee </th>
+                <td style="text-align: center;">$<?= $RegistrationFee; ?></td> 
+               <th>Actual Fee</th>
+               <td style="text-align: center;">$<?= $ActualFee; ?></td>
+            </tr>
+            <tr>
+               <th>Misc. Charges</th>
+                <td style="text-align: center;">$<?= $MessCharges; ?></td> 
+                  <th>Application Fee as per package per year</th>
+                     <td style="text-align: center;">$<?= $TutionFee; ?></td>
+            </tr>
+            <tr>
+                 <th>Other Charges </th>
+                <td style="text-align: center;">$<?= $otherCharges; ?></td>
+                 <th>Hostel Accommodation Fee(AC)</th>
+                <td style="text-align: center;">$<?= $HostelFee; ?></td>
+            </tr>
+
+
+            
+             <tr>
                 <th>Security Deposit</th>
-                <td>$<?= $SecurityDeposit; ?></td>
+                <td style="text-align: center;">$<?= $SecurityDeposit; ?></td>
+         
+                <th></th>
+                 <th></th>
+               
+                
+            </tr>
+             <tr>
+                <th>Total</th>
+                <td style="text-align: center;"><b>$400</b></td>
+         
+                <th>Total Fee per year</th>
+                 <th style="text-align: center;"> $<?= $TutionFee+$HostelFee;?></th>
+                
             </tr>
             <tr>
-                <th>Registration Fee (One Time)</th>
-                <td>$<?= $RegistrationFee; ?></td>
-                <th>Misc. Charges(One Time)</th>
-                <td>$<?= $MessCharges; ?></td>
-            </tr>
-            <tr>
-                <th>Hostel Accommodation Fee(AC)</th>
-                <td>$<?= $HostelFee; ?></td>
-                <th>Other Charges (One Time)</th>
-                <td>$<?= $otherCharges; ?></td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td colspan="1"><strong>Total Annual Fee:</strong>
-                <strong>$<?= $totalAnual; ?></strong></td>
+               
+                <td colspan="3" style="text-align:right;"><strong>Grand Total payable:</strong></td>
+                <td style="text-align: center;"><strong >$<?= $totalAnual; ?></strong></td>
                
             </tr>
         </table>
@@ -403,8 +424,8 @@ where MasterDepartment.Id='$Department' ";
 
         <h6><b>Terms and Conditions for Final Admission:</b></h6>
 
-        <h6><b>1. Admission Criteria:</b></h6>
-        <span>
+        <h6 style="margin-top: -10px;margin-bottom: -1px;"><b>1. Admission Criteria:</b></h6>
+        <span >
             Final admission will be granted only after the student meets the eligibility requirements set by the
             Government of Punjab and the Government of India. All necessary documents supporting the student’s
             eligibility must be submitted as part of the admission process.

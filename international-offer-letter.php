@@ -118,6 +118,21 @@ include "header.php";
                <label>Registration Fee</label>
               <input type="number" class="form-control" id="FRegistrationFee">
             </div>
+            <div class="col-lg-2">
+               <label>Misc Charges</label>
+              <input type="number" class="form-control" id="FMessCharges">
+            </div>
+             <div class="col-lg-2">
+               <label>Security Deposit</label>
+              <input type="number" class="form-control" id="FSecurityDeposit">
+            </div>
+              
+              <div class="col-lg-2">
+               <label>Other Charges</label>
+              <input type="number" class="form-control" id="FotherCharges">
+            </div>
+
+
               <div class="col-lg-2" >
                <label>Tution Fee</label>
               <input type="number" class="form-control" id="FTutionFee">
@@ -126,18 +141,7 @@ include "header.php";
                <label>Hostel Fee</label>
               <input type="number" class="form-control" id="FHostelFee">
             </div>
-              <div class="col-lg-2">
-               <label>Security Deposit</label>
-              <input type="number" class="form-control" id="FSecurityDeposit">
-            </div>
-              <div class="col-lg-2">
-               <label>Misc Charges</label>
-              <input type="number" class="form-control" id="FMessCharges">
-            </div>
-              <div class="col-lg-2">
-               <label>Other Charges</label>
-              <input type="number" class="form-control" id="FotherCharges">
-            </div>
+             
               <div class="col-lg-2">
                <label>Total Annual Fee</label>
               <input type="number" class="form-control" id="FtotalAnual">
@@ -353,6 +357,18 @@ include "header.php";
                <label>Registration Fee</label>
               <input type="number" class="form-control" id="RegistrationFee" value="100"  >
             </div>
+            <div class="col-lg-2">
+               <label>Misc Charges</label>
+              <input type="number" class="form-control" id="MessCharges" value="200"  >
+            </div>
+              <div class="col-lg-2">
+               <label>Other Charges</label>
+              <input type="number" class="form-control" value="100" id="otherCharges" >
+            </div>
+            <div class="col-lg-2">
+               <label>Security Deposit</label>
+              <input type="number" class="form-control" id="SecurityDeposit" >
+            </div>
               <div class="col-lg-2" >
                <label>Tution Fee</label>
               <input type="number" class="form-control" id="TutionFee" >
@@ -361,20 +377,10 @@ include "header.php";
                <label>Hostel Fee</label>
               <input type="number" class="form-control" id="HostelFee" >
             </div>
+              
+              
               <div class="col-lg-2">
-               <label>Security Deposit</label>
-              <input type="number" class="form-control" id="SecurityDeposit" >
-            </div>
-              <div class="col-lg-2">
-               <label>Misc Charges</label>
-              <input type="number" class="form-control" id="MessCharges" value="200"  >
-            </div>
-              <div class="col-lg-2">
-               <label>Other Charges</label>
-              <input type="number" class="form-control" value="100" id="otherCharges" >
-            </div>
-              <div class="col-lg-2">
-               <label>Total Annual Fee</label>
+               <label>Actual Fee</label>
               <input type="number" class="form-control" id="totalAnual" >
             </div>
               <div class="col-lg-2">

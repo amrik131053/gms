@@ -219,6 +219,7 @@ ini_set('max_execution_time', '0');
                                                     
                                                      <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsvn()">NCSV</button> <!--66-->
                                                      <button class="btn btn-success btn-sm " onclick="exportCutListExcelmarksn()">NM</button> <!--67-->
+                                                     <button class="btn btn-success btn-sm " onclick="exportCutListMaster()">Master</button> <!--64.1 -->
 
 
 
@@ -376,7 +377,7 @@ function Search_exam_student1() {
     var Type = document.getElementById("Type").value;
     var Group = document.getElementById("Group").value;
     var Examination = document.getElementById("Examination").value;
-     //var userid = document.getElementById('userid').value;
+     var OrderBy='';//var userid = document.getElementById('userid').value;
 
     if (Batch != '' && Semester != '' && College != '' && Course != '' && Type != '' && Group != '' && Examination !=
         '') {
@@ -396,6 +397,7 @@ function Search_exam_student1() {
                 Semester: Semester,
                 Type: Type,
                 Group: Group,
+                OrderBy:OrderBy,
                 Examination: Examination,
                 sub_data: sub_data
             },
@@ -598,6 +600,25 @@ function exportCutListExcelcsvn() {
 
 function exportCutListExcelmarksn() {
     var exportCode = 67;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
+function exportCutListMaster() {
+    var exportCode = 64.1;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;

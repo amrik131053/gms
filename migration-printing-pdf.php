@@ -105,7 +105,7 @@ $y=$pdf->GetY();
 $pdf->SetXY(99, $Y+120);
 $pdf->SetFont('Times', 'B', $fontSize);
 $len=strlen($examination);
-$pdf->MultiCell(7+$len*2.15, 10, $examination, 0, 'L');
+$pdf->MultiCell(7+$len*2.19, 10, $examination, 0, 'L');
 
 $YY=($len*1.98)+106.2;
 $pp=0;

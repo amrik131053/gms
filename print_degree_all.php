@@ -1186,7 +1186,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
             
              <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
        <span class="notranslate">
-          <div style="height: 74px;"></div>
+          <div style="height:50px;"></div>
           <div class="row">
              <!-- // space -->
     <?php   if($RegistrationNo!='')
@@ -1209,7 +1209,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
              </div>
           </div>
           <div class="row">
-             <div style="height: 152px;"></div>
+             <div style="height: 142px;"></div>
              <!-- // space -->
              <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
           </div>
@@ -1257,7 +1257,7 @@ else{
                 </i>
              </div>
           </div>
-          <div style="height: 30px;"></div>
+          <div style="height: 10px;"></div>
  
           <div class="row">
              <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
@@ -1356,7 +1356,7 @@ else{
             
                <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
                   <span class="notranslate">
-                     <div style="height: 78px;"></div>
+                     <div style="height: 50px;"></div>
                      <!--60-->
                      <div class="row">
                   <?php  
@@ -1381,7 +1381,7 @@ else{
                         </div>
                      </div>
                      <div class="row">
-                        <div style="height: 152px;"></div>
+                        <div style="height: 140px;"></div>
                         <!-- // space -->
                         <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
                      </div>

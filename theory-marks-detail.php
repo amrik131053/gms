@@ -14,8 +14,8 @@ ini_set('max_execution_time', '0');
                 <div class="card card-info">
                     <div class="card-header ">
                         <div class="row">
-                            <div class="col-lg-1">
-                                <h3 class="card-title">Exam From</h3>
+                            <div class="col-lg-3">
+                                <h3 class="card-title">Consolidated List </h3>
                             </div>
                             <div class="col-lg-2">
                             
@@ -168,13 +168,26 @@ ini_set('max_execution_time', '0');
 
                             </div>
 
-                            <div class="col-lg-3 col-md-3 col-sm-13">
+                            <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label>Order By</label>
+                                <select id="OrderBy" class="form-control form-control-sm" >
+                                    <option value="ClassRollNo">Class RollNo</option>
+                                   
+                                    <option value="UniRollNo">Uni RollNo</option>
+                                    
+
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="Search_exam_student1()"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 
                                                    <!-- &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()">S</button> 
                                                     &nbsp;&nbsp;<button class="btn btn-success btn-sm " onclick="exportCutListExcelgrade()">G</button> -->
-                                 <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradeca()">Consolidated</button> 
+                                 <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradeca()"><i class="fa fa-file-excel"></i></button> 
 
                                                     
                                                   <!--    <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> 
@@ -309,10 +322,10 @@ function Search_exam_student1() {
     var Type = document.getElementById("Type").value;
     var Group = document.getElementById("Group").value;
     var Examination = document.getElementById("Examination").value;
-     //var userid = document.getElementById('userid').value;
+    var OrderBy = document.getElementById('OrderBy').value;
 
     if (Batch != '' && Semester != '' && College != '' && Course != '' && Type != '' && Group != '' && Examination !=
-        '') {
+        '' &&OrderBy!='') {
 
         //x.style.display = "block";
         var spinner = document.getElementById("ajax-loader");
@@ -330,7 +343,7 @@ function Search_exam_student1() {
                 Type: Type,
                 Group: Group,
                 Examination: Examination,
-                sub_data: sub_data
+                sub_data: sub_data,OrderBy:OrderBy
             },
             success: function(response) {
                 // $('#modal-lg-view-question').modal('toggle');
@@ -391,11 +404,12 @@ function exportCutListExcelgradeca() {
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
+    var OrderBy = document.getElementById('OrderBy').value;
     var Examination = document.getElementById('Examination').value;
     if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+"&OrderBy="+OrderBy    , '_blank');
 
     } else {
        

@@ -978,6 +978,36 @@ elseif($code==12)
     }
     
 }
+elseif($code==12.1)
+{
+    $recommendID=$_POST['recommendID'];
+    $senctionID=$_POST['senctionID'];
+    $authority_type=$_POST['authority_type'];
+
+if($authority_type=='LeaveRecommendingAuthority')
+{
+  $appluauth='SanctionId';  
+   
+}
+else
+{
+  $appluauth='AuthorityId';    
+}
+
+ 
+       $up="UPDATE Staff SET $authority_type ='$senctionID' where $authority_type='$recommendID'";
+        sqlsrv_query($conntest,$up);
+
+    
+             $updateLeaveAuth="UPDATE ApplyLeaveGKU SET $appluauth='$senctionID' where $appluauth='$recommendID'  and Status!='Approved' and Status!='Reject'";
+            sqlsrv_query($conntest,$updateLeaveAuth);
+            
+         $update1="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$authority_type from $recommendID to $senctionID ','$EmployeeID','$timeStamp')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+    
+    
+}
 elseif($code==13)
 {
     $id = $_POST['id'];
