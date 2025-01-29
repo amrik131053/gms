@@ -15645,8 +15645,11 @@ elseif($code==205)
                 <ul class="nav flex-column" style="color:black;">
 
 
-                    <div class="col-lg-12"><input type="hidden" id="LeaveID" class="form-control" value="<?=$id;?>"
+                    <div class="col-lg-12">
+                        <input type="hidden" id="LeaveID" class="form-control" value="<?=$id;?>"
                             readonly>
+                        <input type="hidden" id="LeaveIDNo" class="form-control" value="<?=$row['IDNo'];?>"
+                            >
                     </div>
                     <!-- <div class="col-lg-12"><label>Employee</label><input type="text" class="form-control"
                     value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div> -->
@@ -15916,6 +15919,7 @@ sqlsrv_close($conntest);
 elseif($code==206)
 {
     $LeaveID=$_POST['LeaveID'];
+    $LeaveIDNo=$_POST['LeaveIDNo'];
     $StartDate=$_POST['StartDate'];
     $EndDate=$_POST['EndDate'];
     $ApplyDate=$_POST['ApplyDate'];
@@ -15926,6 +15930,9 @@ elseif($code==206)
     $LeaveReason=$_POST['LeaveReason']; 
          $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
         $LeaveUpdateRun=sqlsrv_query($conntest,$LeaveUpdate);
+        $escapedQuery="Leave Update By ".$EmployeeID.' '.str_replace("'", "''", $LeaveUpdate);
+$update12="insert into logbook(userid,remarks,updatedby,date)Values('$LeaveIDNo','$escapedQuery','$EmployeeID','$timeStamp')";
+sqlsrv_query($conntest,$update12);
         if($LeaveUpdateRun==true)
         {
            echo "1";
@@ -16069,7 +16076,7 @@ elseif($code==206)
                                 <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
-                                <td>
+                                <!-- <td>
                                     <div class="controls">
                                         <button type="button" class="edit-btn btn btn-primary  btn-sm"
                                             onclick="editRow(this)"><i class="fa fa-edit"></i></button>
@@ -16080,7 +16087,7 @@ elseif($code==206)
                                             onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times">
                                             </i> </button>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
                             <?php
            $Sr++;

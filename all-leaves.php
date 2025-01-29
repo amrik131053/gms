@@ -290,6 +290,7 @@ function deleteLeaveOne(LeaveID) {
 
 function UpdateLeave() {
     var code = 206;
+    var LeaveIDNo = document.getElementById('LeaveIDNo').value;
     var LeaveID = document.getElementById('LeaveID').value;
     var StartDate = document.getElementById('StartDate').value;
     var EndDate = document.getElementById('EndDate').value;
@@ -305,6 +306,7 @@ function UpdateLeave() {
         data: {
             code: code,
             LeaveID: LeaveID,
+            LeaveIDNo: LeaveIDNo,
             StartDate: StartDate,
             EndDate: EndDate,
             ApplyDate: ApplyDate,
