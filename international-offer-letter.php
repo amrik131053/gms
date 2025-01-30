@@ -1136,7 +1136,7 @@ $("#Department").html(data);
       {  
       var College=document.getElementById('CollegeName').value;
        var department=document.getElementById('Department').value;
-var code='305';
+var code='305.1';
 $.ajax({
 url:'action.php',
 data:{department:department,College:College,code:code},
@@ -1157,7 +1157,7 @@ $("#Course").html(data);
 {   
  var College=document.getElementById('CollegeName1').value;
        var department=document.getElementById('Department1').value;
-var code='305';
+var code='305.1';
 $.ajax({
 url:'action.php',
 data:{department:department,College:College,code:code},
