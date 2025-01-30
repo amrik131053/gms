@@ -15953,7 +15953,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
                                 <th>Winter Vacation</th>
-                                <!-- <th>Action</th> -->
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -15992,18 +15992,7 @@ sqlsrv_query($conntest,$update12);
                                 <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
-                                <!-- <td>
-                                    <div class="controls">
-                                        <button type="button" class="edit-btn btn btn-primary btn-sm"
-                                            onclick="editRow(this)"><i class="fa fa-edit"></i></button>
-                                        <button type="button" class="save-btn btn btn-success  btn-sm"
-                                            onclick="saveRow(this,<?= $data['IDNo']; ?>)" style="display: none;"><i
-                                                class="fa fa-check"></i></button>
-                                        <button type="button" class="cancel-btn btn btn-danger  btn-sm"
-                                            onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times">
-                                            </i> </button>
-                                    </div>
-                                </td> -->
+                              
                             </tr>
                             <?php
             $Sr++;
@@ -16026,7 +16015,12 @@ sqlsrv_query($conntest,$update12);
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
                                 <th>Winter Vacation</th>
-                                <!-- <th>Action</th> -->
+                                <?php 
+                                if($role_id==2)
+                                {
+                                ?>
+                                <th>Action</th>
+                                <?php }?>
                             </tr>
                         </thead>
                         <tbody>
@@ -16076,7 +16070,11 @@ sqlsrv_query($conntest,$update12);
                                 <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
-                                <!-- <td>
+                                <?php 
+                                if($role_id==2)
+                                {
+                                ?>
+                                <td>
                                     <div class="controls">
                                         <button type="button" class="edit-btn btn btn-primary  btn-sm"
                                             onclick="editRow(this)"><i class="fa fa-edit"></i></button>
@@ -16087,7 +16085,8 @@ sqlsrv_query($conntest,$update12);
                                             onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times">
                                             </i> </button>
                                     </div>
-                                </td> -->
+                                </td>
+                            <?php }?>
                             </tr>
                             <?php
            $Sr++;

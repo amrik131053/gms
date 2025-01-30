@@ -31,7 +31,7 @@
                       </a>
                       <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i
                       class="fa fa-retweet" aria-hidden="true"></i></button>
-                      <button type="button" class="btn btn-success btn-sm" onclick="casulaCountSubmit();" data-toggle="modal"  data-target="#viewLeaveBulk">Bulk Count</button>
+                      <button type="button" class="btn btn-success btn-sm" data-toggle="modal"  data-target="#viewLeaveBulk">Add Casual</button>
                                 <?php }else{
                                    ?><input type="hidden"id="actionButtonValue" value="Manage Leaves"><?php  }?>
                         <input type="hidden" id="CollegeID_Set">
@@ -431,12 +431,26 @@ function show_text_box_pages(id) {
             <div class="modal-body" id="view_leave_table_load">
             <a href="formats/casualCount.csv" class="btn btn-primary btn-xs">Format</a>
             <form action="action_a.php" method="post" enctype="multipart/form-data">
-<div class="row">
-    <div class="col-lg-3">
-       <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
-      <input type="file" name="casualCountFile"   class="form-control">
-      <input type="hidden" name="flag" value="19">
-</div>
+
+                <input type="hidden" name="flag" value="19">
+                <div class="row">
+                <div class="col-lg-3">
+                    <label>Bulk/Single</label>
+                    <select name="TypeofLeave" id="TypeofLeave" class="form-control">
+                        <option value="Single">Single</option>
+                        <option value="Bulk">Bulk</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3" id="fileInputContainer" style="display: none;">
+                    <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
+                    <input type="file" name="casualCountFile" class="form-control">
+                </div>
+
+                <div class="col-lg-3" id="textInputContainer">
+                    <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
+                    <input type="number" name="employeeId" class="form-control">
+                </div>
                <div class="col-lg-3">
                <label>Count<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="CountType"  id="CountType" required>
@@ -473,6 +487,21 @@ function show_text_box_pages(id) {
         </div>
     </div>
 </div>
+<script>
+    const selectLeaveType = document.getElementById('TypeofLeave');
+    const fileInputContainer = document.getElementById('fileInputContainer');
+    const textInputContainer = document.getElementById('textInputContainer');
+
+    selectLeaveType.addEventListener('change', function() {
+        if (selectLeaveType.value === 'Bulk') {
+            fileInputContainer.style.display = 'block';
+            textInputContainer.style.display = 'none'; 
+        } else {
+            fileInputContainer.style.display = 'none'; 
+            textInputContainer.style.display = 'block'; 
+        }
+    });
+</script>
 <?php
    include "footer.php"; 
    

@@ -1153,26 +1153,41 @@ elseif ($code==18) {
 }
 elseif ($code==19)
  {
+    $TypeofLeave=$_POST['TypeofLeave'];
     $Count=$_POST['CountType'];
     $Type=$_POST['Type'];
-    $file = $_FILES['casualCountFile']['tmp_name'];
-  $handle = fopen($file, 'r');
-  $c = 0;
-  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
-  { 
-if($c>0)
-{
-  $EmpID=$filesop[0];
-  $Update="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$EmpID' and LeaveType_Id='$Type'";
- $ss=sqlsrv_query($conntest,$Update);
- if($ss=true)
- {
-     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$EmpID','$Type','$Count','$EmployeeID','$timeStamp','0')";
-     $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
- }
-}
-$c++;
-}
+
+    if ($TypeofLeave == 'Single') {
+        $employeeId = $_POST['employeeId'];
+        $Update1="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$employeeId' and LeaveType_Id='$Type'";
+        $s1s=sqlsrv_query($conntest,$Update1);
+        if($s1s=true)
+        {
+            $insertBLance1="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$employeeId','$Type','$Count','$EmployeeID','$timeStamp','0')";
+            $insertBLanceRun1=sqlsrv_query($conntest,$insertBLance1);
+        }
+    }
+    else
+    {
+        $file = $_FILES['casualCountFile']['tmp_name'];
+        $handle = fopen($file, 'r');
+        $c = 0;
+        while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+        { 
+      if($c>0)
+      {
+        $EmpID=$filesop[0];
+        $Update="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$EmpID' and LeaveType_Id='$Type'";
+         $ss=sqlsrv_query($conntest,$Update);
+         if($ss=true)
+         {
+           $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$EmpID','$Type','$Count','$EmployeeID','$timeStamp','0')";
+           $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
+         }
+        }
+        $c++;
+         }
+     }
    }
    elseif($code=='20') 
    {
