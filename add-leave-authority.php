@@ -2137,7 +2137,7 @@ var code=197;
                document.getElementById("show_record").innerHTML=response;
                }
          });
-
+ 
      }
    function addNewStaff()
           {
