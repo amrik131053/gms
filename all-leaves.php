@@ -454,7 +454,10 @@ function show_text_box_pages(id) {
                <div class="col-lg-3">
                <label>Count<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="CountType"  id="CountType" required>
-               <option value="1">1</option>
+                   <option value="1">1</option>
+                   <option value="0.25">0.25</option>
+                   <option value="0.50">0.50</option>
+                   <option value="0.75">0.75</option>
                <option value="2">2</option>
                <option value="3">3</option>
                <option value="4">4</option>
@@ -467,6 +470,7 @@ function show_text_box_pages(id) {
                <label>Type<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="Type"  id="Type" required>
                <option value="1">Casual</option>
+               <option value="2">Compansatory</option>
                </select>
                 </div>
               
