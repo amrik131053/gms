@@ -5067,7 +5067,7 @@ else { ?>
                                     <div class="row">
                                         <div class="table-responsive col-lg-12">
                                             <?php
-                               $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $emp_id  order by StandardType ";
+                               $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $emp_id and DeleteStatus='0'  order by StandardType ";
                                    if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                         ?>
                                             <table class="table table-bordered" style="font-size:14px;">
@@ -5129,7 +5129,7 @@ else { ?>
                                     <div class="row">
                                         <div class="table-responsive col-lg-12">
                                             <?php
-                          $sql1 = "SELECT * from PHDacademic WHERE UserName= $emp_id ";
+                          $sql1 = "SELECT * from PHDacademic WHERE UserName= '$emp_id' and DeleteStatus='0' ";
                              if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
                                ?>
                                             <h4 class="text-center"><b>PHD Details</b></h4>
@@ -34357,7 +34357,7 @@ elseif($code==431)
                                                         <div class="table-responsive col-lg-12">
                                                             <?php
                                                
-                                                $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $EmployeeID ";
+                                                $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= '$EmployeeID' and DeleteStatus='0'";
                                         
                                             if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                                             ?>
@@ -34432,7 +34432,7 @@ elseif($code==431)
                                                     <div class="row">
                                                         <div class="table-responsive col-lg-12">
                                                             <?php
-$sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";      
+$sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatus='0' ";      
    if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
          ?>
                                                             <h4 class="text-center"><b>PHD Details</b></h4>
@@ -35121,7 +35121,7 @@ elseif($code==432)
          ftp_chdir($conn_id,"Images/Staff/AcademicDocument") or die("Could not change directory");
         if (ftp_delete($conn_id, $docName))
         {
-            $sql = "DELETE from StaffAcademicDetails where Id= $id";
+            $sql = "UPDATE  StaffAcademicDetails SET DeleteStatus='1'  where Id= $id";
             $res = sqlsrv_query($conntest, $sql);
         }
         ftp_close($conn_id);
@@ -35139,16 +35139,16 @@ elseif($code==432.1)
             $docName = $rows['Uploadcertificate'];
             ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
             if (ftp_delete($conn_id, $docName)) {
-                $sql = "DELETE FROM PHDacademic WHERE id = '$id' and UserName='$EmployeeID'";
+                $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
                 $res = sqlsrv_query($conntest, $sql);
             }
             else{
-                $sql = "DELETE FROM PHDacademic WHERE id = $id and UserName='$EmployeeID'";
+                $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = $id and UserName='$EmployeeID'";
                 $res = sqlsrv_query($conntest, $sql);
             }
             ftp_close($conn_id);
         } else {
-            $sql = "DELETE FROM PHDacademic WHERE id = $id";
+            $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = $id";
             $res = sqlsrv_query($conntest, $sql);
         }
     }
@@ -35175,19 +35175,19 @@ elseif($code==432.2)
             $docName = $rows['Uploadcertificate'];
             ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
             if (ftp_delete($conn_id, $docName)) {
-                $sql = "DELETE FROM PHDacademic WHERE id = '$id' and UserName='$emp_id'";
+                $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
                 $res = sqlsrv_query($conntest, $sql);
                 $escapedQuery = str_replace("'", "''", $sql);
                 $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
                 sqlsrv_query($conntest,$update12);
             }
             else{
-                $sql = "DELETE FROM PHDacademic WHERE id = $id and UserName='$emp_id'";
+                $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = $id and UserName='$emp_id'";
                 $res = sqlsrv_query($conntest, $sql);
             }
             ftp_close($conn_id);
         } else {
-            $sql = "DELETE FROM PHDacademic WHERE id = '$id' and UserName='$emp_id'";
+            $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
             $res = sqlsrv_query($conntest, $sql);
             $escapedQuery = str_replace("'", "''", $sql);
             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
@@ -35511,8 +35511,8 @@ $destdir = '/Images/Staff/AcademicDocument';
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
    $insertExp="INSERT into StaffAcademicDetails
-(Course,Type,University,Institute,YearofPassing,Percentage,Status,UserName,DocumentPath,StandardType,TotalMarks,ObtainedMarls,updateddate)
-VALUES('$course','$mode','$school_clg','$uni_board','$passing_date','$cgpa_value','0','$EmployeeID','$file_name','$qualification','$total_marks','$marks_obtained','$timeStamp')";
+(Course,Type,University,Institute,YearofPassing,Percentage,Status,UserName,DocumentPath,StandardType,TotalMarks,ObtainedMarls,updateddate,DeleteStatus)
+VALUES('$course','$mode','$school_clg','$uni_board','$passing_date','$cgpa_value','0','$EmployeeID','$file_name','$qualification','$total_marks','$marks_obtained','$timeStamp','0')";
 $result = sqlsrv_query($conntest, $insertExp);
 if($result==true)
 {
@@ -35744,10 +35744,10 @@ elseif($code==436.1)
     
 
    $insertExp="INSERT into PHDacademic (University,TopicofResearch,NameofSupervisor,DateofEnrollment,DateofRegistration,DateofDegree,upddate,status,Username,
-    Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate,DMC,Degree)
+    Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate,DMC,Degree,DeleteStatus)
     values('$university','$topic','$supervisor_name','$enrollment_date','$registration_date','$award_date','$timeStamp','1','$EmployeeID',
     '$subject','$supervisor_details','$course_work_details','$course_work_university','$total_marks','$obtained_marks','$date_of_passing','$percentage','$ugc_rule',
-    '$file_name','$dmc_image_name','$course_image_name');
+    '$file_name','$dmc_image_name','$course_image_name','0');
     ";
   $insertExp;
 $result = sqlsrv_query($conntest, $insertExp);
@@ -35794,10 +35794,10 @@ ftp_pasv($conn_id, true);
 ftp_put($conn_id, $course_image_name, $course_file_tmp, FTP_BINARY) or die("Could not upload Course file");
 
 $insertExp = "INSERT into PHDacademic (University,TopicofResearch,NameofSupervisor,DateofEnrollment,DateofRegistration,DateofDegree,upddate,status,Username,
-    Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate,DMC,Degree)
+    Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate,DMC,Degree,DeleteStatus)
     values('$university','$topic','$supervisor_name','$enrollment_date','$registration_date','$award_date','$timeStamp','1','$EmployeeID',
     '$subject','$supervisor_details','$course_work_details','$course_work_university','$total_marks','$obtained_marks','$date_of_passing','$percentage','$ugc_rule',
-    '','$dmc_image_name','$course_image_name');";
+    '','$dmc_image_name','$course_image_name','0');";
 $result = sqlsrv_query($conntest, $insertExp);
 
 if($result == true) {
