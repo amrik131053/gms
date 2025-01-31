@@ -17096,11 +17096,11 @@ elseif($code=='257.1')
    $univ_rollno=$_POST['rollNo'];
   if(is_numeric($univ_rollno))
 {
-   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno'"; 
+   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
 }
  else
  {
-$result1 = "SELECT  * FROM Admissions where   IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+$result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
       }
    $stmt1 = sqlsrv_query($conntest,$result1);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -17242,11 +17242,11 @@ sqlsrv_close($conntest);
 
    if(is_numeric($univ_rollno))
 {
-   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno'"; 
+ $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
 }
  else
  {
-$result1 = "SELECT  * FROM Admissions where   IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+ $result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
       }
 
    $stmt1 = sqlsrv_query($conntest,$result1);
@@ -19986,6 +19986,22 @@ else if($code=='303')
    echo " <option value='other'>Other</option>";
    sqlsrv_close($conntest);
    }
+  elseif($code=='305.1') 
+   {
+   $College=$_POST['College'];
+   $Department=$_POST['department'];
+     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE Batch>2024 and  CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL) AND (CreditCardOpen!='1' OR CreditCardOpen is NULL)   order by Course ASC";
+   $stmt = sqlsrv_query($conntest,$sql);  
+   echo "<option value=''>Course</option>";
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+   echo "<option value='".$row["CourseID"]."'>".$row["Course"]." (".$row["CourseID"].")</option>";
+   }
+   // echo " <option value='other'>Other</option>";
+   sqlsrv_close($conntest);
+   }
 
   elseif($code=='306') 
    {
@@ -22475,8 +22491,8 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                     {
 
                
-    $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
- VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department(Miss Punch Update)','1','$LeaveDurationsTime','0','0','0','Approved')";
+  $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy)
+ VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department(Miss Punch Update)','1','$LeaveDurationsTime','0','0','0','Approved','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
@@ -23074,12 +23090,12 @@ $c++;
 
 
                $list_sql = "SELECT Admissions.ClassRollNo,   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
+               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' AND Admissions.Status='1' ORDER BY ExamForm.ID DESC"; 
 }
 else if ($_POST['rollNo'] !='') 
 {
  $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
+               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' AND Admissions.Status='1' ORDER BY ExamForm.ID DESC"; 
 }
 
  else
@@ -23099,18 +23115,24 @@ $Course = $_POST['Course'];
   $Type = $_POST['Type'];
     $Group = $_POST['Group'];
         $Examination = $_POST['Examination'];
-
-
+         $OrderBy = $_POST['OrderBy'];
+if($OrderBy!='')
+{
 $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' ORDER BY Admissions.UniRollNo";
-
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ORDER BY Admissions.$OrderBy";
+}
+else
+{
+   $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ORDER BY Admissions.UniRollNo";
+}
 }
 
 else 
 
 {
     $list_sql = "SELECT TOP 150 Admissions.ClassRollNo,  ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  Admissions.Status='1'ORDER BY ExamForm.ID DESC"; 
 }
 ?>
 
@@ -23253,7 +23275,7 @@ elseif($Status==8)
  elseif($code==356)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+  $list_sqlw5 ="SELECT * from ExamForm Where ID='$id'";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
@@ -23364,7 +23386,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 <?php 
 
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType!='P'  ANd ExternalExam='Y' order by ExternalExam DESC";  
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by SubjectCode ASC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
 {  
@@ -23435,293 +23457,31 @@ echo $msttotal=$mst1;
 ?>
   
   </td>
-  
-    
-  
- 
-  
-       <td>
+ <td>
    <?php echo $ESe= $row7['ESE'];?> 
 
-
 </td>
 
 <td>
-   <?php if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
-?>
-   <?=
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;?>
-</td>
-
-<!-- <td>
-
-   <?php
-$grade='';
-if($totalFinal>=90)
-{
-   echo "O";
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   echo"A+";
-
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   echo"A";
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   echo"B+";
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   echo"B";
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   echo"C";
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   echo"D";
-}
-else if($totalFinal<40)
-{
-   echo"F";
-}
-?>
-
-</td>
-<td>
-  <?php
-$grade='';
-if($totalFinal>=90)
-{
-   echo "10";
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   echo"9";
-
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   echo"8";
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   echo"7";
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   echo"6";
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   echo"5";
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   echo"4";
-}
-else if($totalFinal<40)
-{
-   echo"0";
-}
-?></td> -->
-
-
-
-
-</tr>
-
-
-
-
-         <?php }
-         ?>
-<tr>
-   <th>SrNo</th>
-  <th width="60%">Subject Name</th>
-  <th width="12%">Subject Code</th><th>Credit</th>
-  <th width="8%">Int</th>
-  <th width="8%">P1</th>
-    <th width="8%">P2</th>
-     <th width="8%">P3</th>
-    <th width="8%">P4</th>
-    <th width="8%">P5</th>
-   
-           <th width="8%" colspan="2">Total</th>
-  <th width="8%" colspan="2">Grade</th>
-   <th width="8%" colspan="2">Grade point</th>
-
- 
-</tr>
-
-
-
-         <?php 
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType='P' ANd ExternalExam='Y' order by ExternalExam DESC";  
-$list_resultamrik = sqlsrv_query($conntest,$amrik);  
-if($list_resultamrik === false) 
-{  
-    die( print_r( sqlsrv_errors(), true) );
-}
-$sr=0;
-$credit='';
-while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
-         { $sr++;
-            
-$SubjectCode=$row7['SubjectCode'];
-
-            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode'";  
-$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
-
-while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
-         {
-             $credit=$row7c['NoOFCredits'];
-            }
-$nop=0;
-$practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$CollegeID' ANd CourseId='$CourseID' ANd Batch='$batch' AND SubCode='$SubjectCode' ANd Session='$examination' AND IDNO='$IDNo'"; 
-$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
-$pmarks=array();
-while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-         {
-
-$pmarks[]=$row7pr['PMarks']+$row7pr['VMarks']+$row7pr['FMarks'];
-$nop++;
-          }  
-?>
-
-
-         <tr>
-            <td width="10"><?=$sr;?></td>
-            <?php if($examinationss<>$row7['Examination'])
-            {               $color="#ed040491";      }else $color='';
-  ?>
-  <td colspan="1" style="background-color: <?=$color;?>">
-   <?= $row7['SubjectName'];?>
-
-</td>
-   <td >
-      <?=$row7['SubjectCode'];?>
-   </td>
-   <td><?= $credit;?></td>
-
-  <td><?php echo $row7['ExternalExam'];?>
-    </td>
-
-    <?php 
-    $totapracti=0;
-    for($i=0;$i<$nop;$i++)
-    {
-      ?>
-      <td>
-        
-
-   <?php echo  $CE1=$pmarks[$i];
-  if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-
-      $totapracti=$totapracti+$fCE1;
-      ?>
-  </td>
-  <?php   }
-  
-  ?>
+<?php  $grace=0;
+$nccount=0;?>
+<?php include 'result-pages/grade_calculator.php';?>
  
 
-<td colspan="2">
-      <?= $totapracti;?>
+  <?=$totalFinal;?>
 </td>
 
-<td colspan="2">
-
-   <?php
-$grade='';
-if($totapracti>=90)
-{
-   echo "O";
-}
-else if($totapracti>=80 &&$totapracti<90)
-{
-   echo"A+";
-}
-else if($totapracti>=70 &&$totapracti<80)
-{
-   echo"A";
-}
-else if($totapracti>=60 &&$totapracti<70)
-{
-   echo"B+";
-}
-else if($totapracti>=50 &&$totapracti<60)
-{
-   echo"B";
-}
-else if($totapracti>=45 &&$totapracti<50)
-{
-   echo"C";
-}
-else if($totapracti>=40 &&$totapracti<45)
-{
-   echo"D";
-}
-else if($totapracti<40)
-{
-   echo"F";
-}
-?>
+ <td>
+<?= $grade;?>
+ 
 
 </td>
-<td>
-  <?php
-$grade='';
-if($totalFinal>=90)
-{
-   echo "10";
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   echo"9";
-
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   echo"8";
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   echo"7";
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   echo"6";
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   echo"5";
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   echo"4";
-}
-else if($totalFinal<40)
-{
-   echo"0";
-}
-?></td>
-
-
-
+<td style="color:<?=$color;?>">
+ 
+ <?=  $gardep;?>
+</td>
 </tr>
-
-
-         <?php }
+  <?php }
          ?>
 </table>
 </div>
@@ -24262,9 +24022,13 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     <th width="8%">CA3/P2</th>
      <th width="8%">Att/P3</th>
     <th width="8%">MST1/P4</th>
-    <th width="8%">MST2/P5</th>
-    <!-- <th width="8%">Best</th> -->
-    
+    <th width="8%">ESE/P5</th>
+    <th width="8%">Total</th>
+    <th width="8%">Grade</th>
+    <th width="8%">Grade Point</th>
+   
+
+
  
 </tr>
 
@@ -24322,19 +24086,9 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
       
   </td>
   <td>
-      <?php echo $mst1=$row7['MST1'];?> 
-  </td>
-  <td>
-      <?php echo $mst2= $row7['ESE'];?> 
-  </td>
-   <!-- <td>
-      <?php echo $mst2= $row7['MST2'];?> 
-  </td> -->
- <!--  <td>
-
-   <?php
-   $msttotal='';
-    if($mst1>$mst2)
+      <?php  $mst1=$row7['MST1'];
+      $mst2= $row7['MST2'];
+ if($mst1>$mst2)
    {
 echo $msttotal=$mst1;
    }
@@ -24342,11 +24096,28 @@ echo $msttotal=$mst1;
    {
      echo  $msttotal=$mst2;
    }
+      ?> 
+  </td>
+  <td>
+      <?php echo $ESe= $row7['ESE'];?> 
+  </td>
+ <td>
 
-?>
-  
-  </td> -->
+   <?php 
+   $grace=0;
+    include'result-pages/grade_calculator.php';?>
+
+<?= $totalFinal;?> 
+
+  </td> 
+ <td>
+<?= $grade;?> 
    
+  </td> 
+  <td>
+<?= $gardep;?> 
+   
+  </td>  
   
     
   
@@ -24474,7 +24245,7 @@ else if($code=='363')
 $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-
+ 
 //$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
 
   $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
@@ -24881,14 +24652,16 @@ $q1 = sqlsrv_query($conntest,$list_sql);
 ?><tr><td><?=$srno;?></<td><td><?= $row['Session'];?></td><td><?= $idno= $row['IDNo'];?></td><td><?=$row['ClassRollNo'];?></td> <td><?=$row['UniRollNo'];?></td>
 <td><?=$row['StudentName'];?></td><td><?=$row['FatherName'];?></td><td><?=$row['Course'];?></td><td><?= $row['Batch'];?></td><td><?= $row['FeeCategory'];?></td>
 <?php 
-$Admiss2="SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from  ledger   WHERE 1=1" ; 
+$Admiss2="SELECT sum(Debit) as totaldebit,sum(Credit)as totalcredit from  ledger   WHERE 1=1" ; 
 if($sem!='')
 {
  $Admiss2.= " AND SemesterID<='$sem' ";
 }
 $Admiss2.="AND IDNo='$idno'";
-$q2 = sqlsrv_query($conntest, $Admiss2);
 
+//echo $Admiss2;
+
+$q2 = sqlsrv_query($conntest,$Admiss2);
  while ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
  {
 $tdebit=$dataw['totaldebit'];
@@ -24896,7 +24669,8 @@ $tcredit=$dataw['totalcredit'];
 $balanceamount=$tdebit-$tcredit;
 ?><td><?=$tdebit;?></td><td><?=$tcredit;?></td><td><?=$balanceamount;?></td>
 <?php 
- }?>
+ }
+ ?>
 
           <tr> <?php
           $srno++;
@@ -25589,7 +25363,7 @@ $list_resultamrik = sqlsrv_query($conntest,$resultdata);
         <td>Semester</td>
          <td>Type</td>
           <td>Declare Date</td>
-          
+
            <td>Result No</td>
            <td>No of Appeared </td>
            <td>No of Passed</td>
@@ -27685,42 +27459,43 @@ else if($code==396.5)
             </div>
         <?php
 }
-else if($code==396.6)
-{
 
+else if ($code == 396.6) {
+    include "connection/ftp-erp.php"; 
+    $Id = $_POST['idphd'];
+    $dmc_file_name = $_FILES['dmcfile']['name'];
+    $dmc_file_tmp = $_FILES['dmcfile']['tmp_name'];
+    $dmc_image_name = "dmc" . $Id . "_" . $dmc_file_name;
+    $dmc_destdir = '/Images/Staff/PhDThesis';
 
-   include "connection/ftp-erp.php";
+    ftp_chdir($conn_id, $dmc_destdir) or die("Could not change directory");
+    ftp_pasv($conn_id, true);
+    ftp_put($conn_id, $dmc_image_name, $dmc_file_tmp, FTP_BINARY) or die("Could not upload DMC file");
+    
+    $course_file_name = $_FILES['coursefile']['name'];
+    $course_file_tmp = $_FILES['coursefile']['tmp_name'];
+    $course_image_name = "course" . $Id . "_" . $course_file_name;
+    $course_destdir = '/Images/Staff/PhDThesis';
 
+    ftp_chdir($conn_id, $course_destdir) or die("Could not change directory");
+    ftp_pasv($conn_id, true);
+    ftp_put($conn_id, $course_image_name, $course_file_tmp, FTP_BINARY) or die("Could not upload Course file");
+    
+    ftp_close($conn_id);
 
-   $Id = $_POST["id"];
-
-
-      $file_name = $_FILES['dmcfile']['name'];
-      $file_tmp = $_FILES['dmcfile']['tmp_name'];
-      $type = $_FILES['dmcfile']['type'];
-     // $file_data = file_get_contents($file_tmp);
-      $characters = '';
-
-    $image_name ="dmc".$Id."_".$file_name;
-     
-     //$destdir = 'PhDThesis';
-
-     $destdir = '/Images/Staff/PhDThesis';
-     ftp_chdir($conn_id, "/Images/Staff/PhDThesis/") or die("Could not change directory");
-     ftp_pasv($conn_id,true);
-     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
-     ftp_close($conn_id);
-     
-       
-   
-     $image_name1=$image_name;
-
- echo  $query = "UPDATE PHDacademic SET DMC='$image_name1' where id='$Id'";
-  $stmt = sqlsrv_query($conntest,$query);    
-
-  echo "Uploaded"; 
-  sqlsrv_close($conntest);
+    $query = "UPDATE PHDacademic SET DMC=?, Degree=? WHERE id=?";
+    $params = array($dmc_image_name, $course_image_name, $Id);
+    
+    $stmt = sqlsrv_query($conntest, $query, $params);
+    if ($stmt === false) {
+        die(print_r(sqlsrv_errors(), true)); 
+    } else {
+        echo "Uploaded successfully";
+    }
+    
+    sqlsrv_close($conntest);
 }
+
 
 
  else

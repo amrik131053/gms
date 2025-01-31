@@ -661,7 +661,7 @@ function getEmployeeShift(id)
         },
         success: function(response) 
         {
-        //   console.log(response);  
+          //console.log(response);  
         $("#intime").val(response[0]['Intime']);
         $("#intime1").val(response[0]['Intime1']);
         $("#intime2").val(response[0]['Intime2']);

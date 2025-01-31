@@ -63,6 +63,7 @@ include "header.php";
 
 function pending() {
                     
+                    // alert("aw");
                     var currentPage = 1;
                   var code = 179.1;
                   var searchQuery = '';
@@ -175,6 +176,7 @@ function by_search_studetn() {
                      loadData(currentPage);
 
                      function loadData(page) {
+                            // alert(code);
                         var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
                         // var by_search=document.getElementById('by_search').value;
@@ -213,7 +215,7 @@ function by_search_studetn() {
                            var unirollno = data[i][2];
                             var status = data[i][20];
                            var unirollno = data[i][2];
-                           var generate=data[i][39];
+                           var generate=data[i]['generate'];
                              if(data[i][31]==1){
                                table += '<tr style="background-color:#52BE80;">';
                            }
@@ -758,7 +760,7 @@ $("#Department1").html(data);
  var College=document.getElementById('CollegeName').value;
        var department=document.getElementById('Department').value;
 
-var code='305';
+var code='305.1';
 $.ajax({
 url:'action.php',
 data:{department:department,College:College,code:code},
@@ -779,7 +781,7 @@ $("#Course").html(data);
 {   
  var College=document.getElementById('CollegeName1').value;
        var department=document.getElementById('Department1').value;
-var code='305';
+var code='305.1';
 $.ajax({
 url:'action.php',
 data:{department:department,College:College,code:code},

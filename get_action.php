@@ -2620,7 +2620,7 @@ elseif($Status==5)
          $ss=mysqli_query($conn,$s);
 while($article_data=mysqli_fetch_array($ss))
 {
-   $article_name=$article_data['ArticleName'];
+   $article_name=$article_data['ArticleName']; 
 ?>
    <div class="row">
       <div class="col-sm-2"></div>
@@ -2635,7 +2635,7 @@ while($article_data=mysqli_fetch_array($ss))
    <optgroup label="Building">
       <option value="">Select</option>
    <?php 
-   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='171250' || $EmployeeID=='101480' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
+   if ($EmployeeID=='131053' ||  $EmployeeID=='171250' || $EmployeeID=='101480' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
    {
       $locationBuildingSql="Select * from building_master ";
    }
@@ -3621,12 +3621,7 @@ if($list_result === false) {
              
                
                </tr>
-
-
-
-               
-
-<?php
+               <?php
 }
 
 
@@ -6623,19 +6618,22 @@ else if ($code == 57.1) {
    $sql = "SELECT * from PHDacademic WHERE id= $id ";
    $res = sqlsrv_query($conntest, $sql);
    while ($data = sqlsrv_fetch_array($res)) { 
-     echo  $data['DMC'] ;?>
+       $data['DMC'] ;?>
       <label>TopicofResearch:<span style="color: #223260;"><?php echo "   ".$data['TopicofResearch'];?></span></label></br>
-      <label>University:<span style="color: #223260;"><?php echo  "   ".$data['University'];?></span></label>
+      <label>University:<span style="color: #223260;"><?php echo  "   ".$data['University'];?></span></label><br> 
+      <hr>
+      <label>Compliance Certificate</label>
       <embed class="pdf" 
       src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['Uploadcertificate']?>"
-            width="100%" height="600">
-      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['Uploadcertificate']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
-            
-        <hr>    
-           
-      <embed class="pdf" 
-      src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['DMC']?>"
-            width="100%" height="600"><?php
+            width="100%" height="600">  
+        <hr> 
+        <label>DMC </label>
+        <embed class="pdf" src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['DMC']?>" width="100%" height="600">
+        
+        <hr> 
+        <label>Degree</label>
+        <embed class="pdf" src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['Degree']?>" width="100%" height="600"> 
+            <?php
 
    }
 }
@@ -6674,32 +6672,23 @@ else if ($code == 57.3) {
 
 else if ($code == 57.4) {
    $id = $_GET['id'];
-   $sql = "SELECT * from PHDacademic WHERE id= $id ";
-   $res = sqlsrv_query($conntest, $sql);
-
-   while ($data = sqlsrv_fetch_array($res)) { 
-
-        }
-   ?>
-   <input type="text" Class="form-control" id='table_id_phd' value="<?= $id;?>">
-
-<label>Course Work DMC</label>
-<form id="form">
-<div class='row'>
-   <div class="col-lg-7">
-<input type="file" Class="form-control" id='dmcfile_<?=$id;?>' name="dmcfile">
-
-      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_dmc_phd(<?= $id;?>)" >Upload</button></div>
    
-   </div>
- </form>
-
-<!-- <label>Phd Degree</label>
-<div class='row'>
-   <div class="col-lg-7"> 
-<input type="File" Class="form-control">
-      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_degree_phd()>Upload</button></div>
-      </div> -->
+   ?>
+    <form id="uploadPhdForm" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="code" value="396.6">
+    <input type="hidden" name="IDEmployee" id="IDEmployee" value="<?=$emp_id;?>">
+    <input type="hidden" name="idphd" id="idphd" value="<?=$id;?>">
+    <label>Course Work DMC</label>
+    <input type="file" class="form-control-file" name="coursefile" id="coursefile">
+    <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small>
+    <br><strong id="coursefileError" style="color: red"></strong><br>
+    <label>PhD Degree</label>
+    <input type="file" class="form-control-file" name="dmcfile" id="dmcfile">
+    <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small>
+    <br>
+    <strong id="dmcfileError" style="color: red"></strong><br>
+    <input type="button" class="btn btn-success btn-xs" onclick="upload_dmc_phd()" value="Upload">
+    </form>                                  
 <?php 
 }
 else if ($code == 58) {
@@ -7238,6 +7227,179 @@ if($list_result === false) {
 
 
  }
+ else if($code==65.1)
+{
+
+
+ $allow=0;
+ $course = $_GET['course'];
+ $CourseID = $_GET['courseid'];
+ $CollegeID = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+ $group = $_GET['group'];
+ $cgroup = $_GET['cgroup'];
+ $section = $_GET['section'];
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subjectcode'];
+ $subject = $_GET['subject'];
+ $exam = $_GET['examination'];
+ $OrderBy = $_GET['OrderBy'];
+ $lecturenumber = $_GET['lecturenumber'];
+ $date = $_GET['date'];
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="6" style="text-align: center;"></td></tr>
+   
+
+ <?php if($semID==1) {$ext="<sup>st</sup>"; } elseif($semID==2){ $ext="<sup>nd</sup>";}
+  elseif($semID==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$course."(<b>".$batch."</b>)";?></td><td  style="text-align:left;"><b>Semester :<b><?=$sem.$ext;?><b><td><?= $subject;?>(<?= $subjectcode;?>)</td><td><?= $section;?>(<?= $cgroup;?>)</td>
+
+
+
+
+     </td>
+<input type="hidden" value="<?= $lecturenumber;?>" id="lecturenumber">
+<input type="hidden" value="<?= $subjectcode;?>" id="subjectcode">
+<input type="hidden" value="<?=$semID;?>" id="semester">
+<input type="hidden" value="<?= $section;?>" id='section'>
+
+<input type="hidden"  id="cgroup" value="<?= $cgroup;?>">
+
+<input type="hidden" value="<?= $exam;?>" id="examination">
+
+<input type="hidden"  id="date" value="<?= $date;?>"> 
+<input type="hidden"  id="Batch" value="<?= $Batch;?>"> 
+ </tr>
+</table>
+
+
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="text-align: center;"> Sr No </th>
+                <th  style="text-align:center">Roll No</th>
+                                                
+                      
+                       <th style="text-align: center;"> Name </th>
+            
+                   <th style="text-align: center;">Attendance<br> <span><input type="checkbox"  id="select_all" onclick="selectAll()"></span></th>
+                 
+                  <th style="text-align: center;">Marked By </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+ if($cgroup!='')
+{
+ $sql1="Select  a.IDNo,StudentName,UniRollNo,ClassRollNo from ExamForm as ef inner join ExamFormSubject as efs on ef.Id=efs.ExamId 
+ inner join Admissions as a on ef.IDNo=a.IDNo  where ef.CollegeID='$CollegeID' and ef.CourseID='$CourseID'
+and ef.Semesterid='$semID' and ef.Batch='$Batch' and ef.Status=8 AND SGroup='$group'
+    and SubjectCode='$subjectcode' and ef.Examination='$exam' AND a.Section='$section' AND a.ClassGroup='$cgroup'
+      ANd  a.Status='1' AND  efs.ExternalExam='Y' order by $OrderBy";
+
+}
+else
+{
+   $sql1="Select  a.IDNo,StudentName,UniRollNo,ClassRollNo from ExamForm as ef inner join ExamFormSubject as efs on ef.Id=efs.ExamId 
+ inner join Admissions as a on ef.IDNo=a.IDNo  where ef.CollegeID='$CollegeID' and ef.CourseID='$CourseID'
+and ef.Semesterid='$semID' and ef.Batch='$Batch' and ef.Status=8 AND SGroup='$group'
+    and SubjectCode='$subjectcode' and ef.Examination='$exam' AND a.Section='$section' 
+      ANd  a.Status='1' AND  efs.ExternalExam='Y' order by $OrderBy";
+}
+
+$stmt2 = sqlsrv_query($conntest,$sql1);
+  
+  $count=0;
+
+while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+
+{
+$IDNo=$row['IDNo'];
+$sqlatt="Select Attendance from StudentAttendance where Semester='$semID'  ANd IDNo ='$IDNo' ANd LectureNumber='$lecturenumber' AND SubjectCode='$subjectcode' ANd Section='$section' ANd ClassGroup='$cgroup' AND  Date='$todaydate' ";
+      $stmtatt = sqlsrv_query($conntest,$sqlatt);
+  
+if($rowatt = sqlsrv_fetch_array($stmtatt, SQLSRV_FETCH_ASSOC) )
+
+{
+   $st=$rowatt['Attendance'];
+}
+else
+{
+  $st='' ;
+}
+if($st=='1')
+{
+$value='Checked';
+}  
+else
+{
+ $value='';
+ }              
+?>
+<tr>
+<td style="text-align: center"><?= $i++;?></td>
+<td style="text-align: center"><input type='checkbox' name='check[]' id='check' value='<?=$row['IDNo'];?>' class='checkbox_s' checked  hidden>
+   <?php if($OrderBy=='ClassRollNo'){
+
+ echo $row['ClassRollNo'];
+
+   }else{
+
+echo $row['UniRollNo']; 
+
+   }
+
+?>
+ 
+                                          
+ <td><?= $row['StudentName'];?></td>
+                           <td style='text-align:center'>  
+   <input type="checkbox" required="" name="att[]"  id='check' value='1' class='checkbox' <?=$value;?>></td>
+
+                              <td style='text-align:center;'>
+
+
+
+                        
+                               <!-- <i class="fa fa-lock text-danger" onclick="unlock();" ></i> -->
+
+                                
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1; 
+
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+
+
+
+<tr>
+<td style="text-align:right" colspan="6"><p style="text-align: right"><input   type="submit" name="submit" value="Update Attendance" onclick="UpdateAttendance();" class="btn btn-danger "  ></td></tr>
+   </table>
+<?php 
+
+
+
+
+}
 
   elseif ($code==66) {
 
@@ -7295,6 +7457,7 @@ if($list_result === false) {
 
 
  }
+
  else if($code==67)
 {
 

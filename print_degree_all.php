@@ -1196,7 +1196,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
             
              <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
        <span class="notranslate">
-          <div style="height: 74px;"></div>
+          <div style="height:50px;"></div>
           <div class="row">
              <!-- // space -->
     <?php   if($RegistrationNo!='')
@@ -1219,7 +1219,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
              </div>
           </div>
           <div class="row">
-             <div style="height: 152px;"></div>
+             <div style="height: 142px;"></div>
              <!-- // space -->
              <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
           </div>
@@ -1245,14 +1245,14 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
 if($Stream!=''){
 
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
- having completed the requirements for the award of  Diploma and having passed 
+ having completed the requirements for the award of  diploma and having passed 
  the prescribed examination held in <b>".$Examination."</b>, has been conferred the 
 <b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks, with distinction in the subjects(s) ".$Stream."</b> 
 and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b> in regular mode.";
 }
 else{
    echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
-   having completed the requirements for the award of  Diploma and having passed 
+   having completed the requirements for the award of  diploma and having passed 
    the prescribed examination held in <b>".$Examination."</b>, has been conferred the 
   <b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks,</b> 
   and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b> in regular mode.";
@@ -1267,7 +1267,7 @@ else{
                 </i>
              </div>
           </div>
-          <div style="height: 30px;"></div>
+          <div style="height: 10px;"></div>
  
           <div class="row">
              <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
@@ -1351,7 +1351,10 @@ else{
                                         
                                                // $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
 
-                                                 $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+
+                                        // $text = "Programme:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+
+                                                 $text = "Programme:".$course."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1363,8 +1366,8 @@ else{
             
                <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
                   <span class="notranslate">
-                     <div style="height: 60px;"></div>
-                     <!--78-->
+                     <div style="height: 50px;"></div>
+                     <!--60-->
                      <div class="row">
                   <?php  
                         
@@ -1388,7 +1391,7 @@ else{
                         </div>
                      </div>
                      <div class="row">
-                        <div style="height: 152px;"></div>
+                        <div style="height: 140px;"></div>
                         <!-- // space -->
                         <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
                      </div>

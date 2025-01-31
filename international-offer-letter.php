@@ -116,31 +116,35 @@ include "header.php";
         
       <div class="col-lg-2" >
                <label>Registration Fee</label>
-              <input type="text" class="form-control" id="FRegistrationFee">
+              <input type="number" class="form-control" id="FRegistrationFee">
             </div>
+            <div class="col-lg-2">
+               <label>Misc Charges</label>
+              <input type="number" class="form-control" id="FMessCharges">
+            </div>
+             <div class="col-lg-2">
+               <label>Security Deposit</label>
+              <input type="number" class="form-control" id="FSecurityDeposit">
+            </div>
+              
+              <div class="col-lg-2">
+               <label>Other Charges</label>
+              <input type="number" class="form-control" id="FotherCharges">
+            </div>
+
+
               <div class="col-lg-2" >
                <label>Tution Fee</label>
-              <input type="text" class="form-control" id="FTutionFee">
+              <input type="number" class="form-control" id="FTutionFee">
             </div>
               <div class="col-lg-2">
                <label>Hostel Fee</label>
-              <input type="text" class="form-control" id="FHostelFee">
+              <input type="number" class="form-control" id="FHostelFee">
             </div>
-              <div class="col-lg-2">
-               <label>Security Deposit</label>
-              <input type="text" class="form-control" id="FSecurityDeposit">
-            </div>
-              <div class="col-lg-2">
-               <label>Mess Charges</label>
-              <input type="text" class="form-control" id="FMessCharges">
-            </div>
-              <div class="col-lg-2">
-               <label>Other Academic Charges</label>
-              <input type="text" class="form-control" id="FotherCharges">
-            </div>
+             
               <div class="col-lg-2">
                <label>Total Annual Fee</label>
-              <input type="text" class="form-control" id="FtotalAnual">
+              <input type="number" class="form-control" id="FtotalAnual">
             </div>
                      <div class="col-lg-2">
               <label>Lateral Entry</label> <br>
@@ -165,8 +169,8 @@ include "header.php";
 <div class="col-lg-3">
                  <label>Batch / Admisison Year</label>
                   <select  id="Batch"  class="form-control" required>
-                     <option value='2024'>2024</option>
-                       <option value='2023'>2023</option>
+                     <option value='2025'>2025</option>
+                       <!-- <option value='2023'>2023</option> -->
                  </select>
               </div> 
 
@@ -315,8 +319,8 @@ include "header.php";
             <div class="col-lg-3">
                  <label>Batch / Admisison Year</label>
                   <select  id="Batch"  class="form-control " onchange="fatchFee();" required>
-                     <option value='2024'>2024</option>
-                       <option value='2023'>2023</option>
+                     <option value='2025'>2025</option>
+                       <!-- <option value='2023'>2023</option> -->
                  </select>
               </div> 
 
@@ -337,14 +341,13 @@ include "header.php";
               </div>
 
 <div class="col-lg-3 col-md-3 col-sm-12">
-          <label>Category</label>
-          <select class="form-control" id="category">
-              <option value="">Select</option>
-              <option>SC</option>
-              <option>ST</option>
-              <option>OBC</option>
+          <label>Consultant Type</label>
+          <select class="form-control" id="consultanttype">
+              <option value="Student">Student</option>
+              <option value="Employee">Employee</option>
+              <option value="Consultant">Consultant</option>
 
-              <option>General</option>
+             
           </select>
       </div>
       </div>
@@ -352,39 +355,45 @@ include "header.php";
       <div class="row" >
       <div class="col-lg-2" >
                <label>Registration Fee</label>
-              <input type="text" class="form-control" id="RegistrationFee" >
+              <input type="number" class="form-control" id="RegistrationFee" value="100"  >
+            </div>
+            <div class="col-lg-2">
+               <label>Misc Charges</label>
+              <input type="number" class="form-control" id="MessCharges" value="200"  >
+            </div>
+              <div class="col-lg-2">
+               <label>Other Charges</label>
+              <input type="number" class="form-control" value="100" id="otherCharges" >
+            </div>
+            <div class="col-lg-2">
+               <label>Security Deposit</label>
+              <input type="number" class="form-control" id="SecurityDeposit" >
             </div>
               <div class="col-lg-2" >
                <label>Tution Fee</label>
-              <input type="text" class="form-control" id="TutionFee" >
+              <input type="number" class="form-control" id="TutionFee" >
             </div>
               <div class="col-lg-2">
                <label>Hostel Fee</label>
-              <input type="text" class="form-control" id="HostelFee" >
+              <input type="number" class="form-control" id="HostelFee" >
             </div>
+              
+              
               <div class="col-lg-2">
-               <label>Security Deposit</label>
-              <input type="text" class="form-control" id="SecurityDeposit" >
-            </div>
-              <div class="col-lg-2">
-               <label>Mess Charges</label>
-              <input type="text" class="form-control" id="MessCharges" >
-            </div>
-              <div class="col-lg-2">
-               <label>Other Academic Charges</label>
-              <input type="text" class="form-control" id="otherCharges" >
-            </div>
-              <div class="col-lg-2">
-               <label>Total Annual Fee</label>
-              <input type="text" class="form-control" id="totalAnual" >
+               <label>Actual Fee</label>
+              <input type="number" class="form-control" id="totalAnual" >
             </div>
               <div class="col-lg-2">
                <label>Program Start Date</label>
               <input type="date" class="form-control" id="pstartDate">
             </div>
-              <div class="col-lg-6">
+              <div class="col-lg-2">
                <label>Deadline</label>
-              <input type="text" class="form-control" id="deadline">
+              <input type="date" class="form-control" id="deadline">
+            </div>
+            <div class="col-lg-4">
+               <label>Commitment </label>
+              <input type="text" class="form-control" id="commitment">
             </div>
 
            
@@ -392,7 +401,7 @@ include "header.php";
             <div class="col-lg-3">
               
                   <select  id="Batch"  class="form-control" required hidden>
-                     <option value='2024'>2024</option>
+                     <option value='2025'>2025</option>
                        <option value='2023'>2023</option>
                  </select>
               </div> 
@@ -401,11 +410,11 @@ include "header.php";
          <!--    <div class="col-lg-2">
               <label>Session</label>   -->
               <select class="form-control" id="session" hidden>
-                <option value="2024-25">2024-25</option>
+                <option value="2025-26-J">2025-26-J</option>
                  <option value="">Select</option>
-                 <option value="2022-23">2022-23</option>
+           <!--       <option value="2022-23">2022-23</option>
                  <option value="2023-24">2023-24</option>
-                 <option value="2024-25">2024-25</option>
+                 <option value="2024-25">2024-25</option> -->
                  <option value="2025-26">2025-26</option>
                   
               </select>
@@ -825,10 +834,10 @@ var code=133.2;
       
                 document.getElementById('TutionFee').value=response.TutionFee;
                 document.getElementById('HostelFee').value=response.HostelFee;
-                document.getElementById('RegistrationFee').value=response.RegistrationFee;
+                //document.getElementById('RegistrationFee').value=response.RegistrationFee;
                 document.getElementById('SecurityDeposit').value=response.SecurityDeposit;
-                document.getElementById('MessCharges').value=response.MessCharges;
-                document.getElementById('otherCharges').value=response.otherCharges;
+                //document.getElementById('MessCharges').value=response.MessCharges;
+                //document.getElementById('otherCharges').value=response.otherCharges;
                 document.getElementById('totalAnual').value=response.totalAnual;
     }
    })
@@ -843,10 +852,11 @@ function submit_record() {
    var Course = document.getElementById('Course1').value;
    var MobileNo = document.getElementById('MobileNo').value;
    var DOB = document.getElementById('DOB').value;
-   var Category = document.getElementById('category').value;
+ 
+    var consultanttype = document.getElementById('consultanttype').value;
     var Batch = document.getElementById('Batch').value;
     var DOB = document.getElementById('DOB').value;
-  var Nationality = document.getElementById('Nationality_').value;
+    var Nationality = document.getElementById('Nationality_').value;
     var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
 
   var HostelFee = document.getElementById('HostelFee').value;
@@ -861,6 +871,8 @@ var otherCharges=document.getElementById('otherCharges').value;
 var totalAnual=document.getElementById('totalAnual').value;
 var pstartDate=document.getElementById('pstartDate').value;
 var deadline=document.getElementById('deadline').value;
+var commitment=document.getElementById('commitment').value;
+
 
 if( Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!=''  &&months!=''&& RegistrationFee!=''&& HostelFee!='' && TutionFee!='' && SecurityDeposit!='' && MessCharges!='' &&
 otherCharges!='' &&
@@ -876,8 +888,8 @@ deadline!='')
    // alert(HostelFee);
   var data = {
     Name: Name,FatherName: FatherName,Gender: Gender,MobileNo: MobileNo,CollegeName: CollegeName,Department: Department,Course: Course,Batch: Batch,Nationality: Nationality,  
-    Lateral: Lateral,DOB:DOB,session: session,AdharCardNo: AdharCardNo,PassportNo: PassportNo,Category :Category,code:code,RegistrationFee:RegistrationFee,TutionFee:TutionFee,HostelFee:HostelFee
-   ,SecurityDeposit:SecurityDeposit,
+    Lateral: Lateral,DOB:DOB,session: session,AdharCardNo: AdharCardNo,PassportNo: PassportNo,consultanttype:consultanttype,code:code,RegistrationFee:RegistrationFee,TutionFee:TutionFee,HostelFee:HostelFee
+   ,SecurityDeposit:SecurityDeposit,commitment:commitment,
 MessCharges:MessCharges,
 otherCharges:otherCharges,
 totalAnual:totalAnual,
@@ -1124,7 +1136,7 @@ $("#Department").html(data);
       {  
       var College=document.getElementById('CollegeName').value;
        var department=document.getElementById('Department').value;
-var code='305';
+var code='305.1';
 $.ajax({
 url:'action.php',
 data:{department:department,College:College,code:code},
@@ -1145,7 +1157,7 @@ $("#Course").html(data);
 {   
  var College=document.getElementById('CollegeName1').value;
        var department=document.getElementById('Department1').value;
-var code='305';
+var code='305.1';
 $.ajax({
 url:'action.php',
 data:{department:department,College:College,code:code},

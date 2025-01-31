@@ -11,6 +11,13 @@ foreach ($id as $key => $value) {
     $get_student_details = "SELECT * FROM offer_latter_international WHERE id='$value' AND generate=1";
     $get_student_details_run = mysqli_query($conn, $get_student_details);
 
+             $TutionFee="0";
+          $HostelFee="0";
+          $RegistrationFee="0";
+          $SecurityDeposit="0";
+          $MessCharges="0";
+          $otherCharges="0";
+          $totalAnual="0";
     if ($row = mysqli_fetch_array($get_student_details_run)) {
         $name = $row['Name'];
         $FatherName = $row['FatherName'];
@@ -31,8 +38,27 @@ foreach ($id as $key => $value) {
         $ID_Proof_No=$row['ID_Proof_No'];
         $Consultant_id=$row['Consultant_id'];
         $pstartDate=$row['pstartDate'];
+        $pstartDate = DateTime::createFromFormat('Y-m-d', $pstartDate)->format('d-m-Y');
         $deadline=$row['deadline'];
+        $Nationality=$row['Nationality'];
+        $id=$row['id'];
+        $ActualFee=$row['ActualFee'];
 
+        $TutionFee=$row['TutionFee'];
+        $HostelFee=$row['HostelFee'];
+        $RegistrationFee=$row['RegistrationFee'];
+       
+        $SecurityDeposit=$row['SecurityDeposit'];
+        $MessCharges=$row['MessCharges'];
+        $otherCharges=$row['otherCharges'];
+        $totalAnual=$row['totalAnual'];
+         $get_coutry_name="SELECT name FROM countries where id='$Nationality'";
+        $get_coutry_name_run=mysqli_query($conn,$get_coutry_name);
+        if ($row_coutry_name=mysqli_fetch_array($get_coutry_name_run)) {
+        
+            $NationalityName=$row_coutry_name['name'];
+             
+        }
          $get_course_name="SELECT Course,CourseType FROM MasterCourseCodes where CourseID='$Course'";
         $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
         if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
@@ -63,168 +89,409 @@ where MasterDepartment.Id='$Department' ";
             $department=$rowCollege['Department'];
         }
 
-        $fee_details="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch' ";
-        $fee_details_run=mysqli_query($conn,$fee_details);
-        if ($row_fee=mysqli_fetch_array($fee_details_run))
-         {
-            $TutionFee=$row_fee['TutionFee'];
-            $HostelFee=$row_fee['HostelFee'];
-            $RegistrationFee=$row_fee['RegistrationFee'];
+        // $fee_details="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch' ";
+        // $fee_details_run=mysqli_query($conn,$fee_details);
+        // if ($row_fee=mysqli_fetch_array($fee_details_run))
+        //  {
+        //     $TutionFee=$row_fee['TutionFee'];
+        //     $HostelFee=$row_fee['HostelFee'];
+        //     $RegistrationFee=$row_fee['RegistrationFee'];
            
-            $SecurityDeposit=$row_fee['SecurityDeposit'];
-            $MessCharges=$row_fee['MessCharges'];
-            $otherCharges=$row_fee['otherCharges'];
-            $totalAnual=$row_fee['totalAnual'];
+        //     $SecurityDeposit=$row_fee['SecurityDeposit'];
+        //     $MessCharges=$row_fee['MessCharges'];
+        //     $otherCharges=$row_fee['otherCharges'];
+        //     $totalAnual=$row_fee['totalAnual'];
            
-         }
-         else
-         {
-          $fee_details1="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch'";
-          $fee_details1_run=mysqli_query($conn,$fee_details1);
-          if($row_fee1=mysqli_fetch_array($fee_details1_run))
-          {
-              $TutionFee=$row_fee1['TutionFee'];
-              $HostelFee=$row_fee1['HostelFee'];
-              $RegistrationFee=$row_fee1['RegistrationFee'];
+        //  }
+        //  else
+        //  {
+        //   $fee_details1="SELECT * FROM master_fee_international where Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch'";
+        //   $fee_details1_run=mysqli_query($conn,$fee_details1);
+        //   if($row_fee1=mysqli_fetch_array($fee_details1_run))
+        //   {
+        //       $TutionFee=$row_fee1['TutionFee'];
+        //       $HostelFee=$row_fee1['HostelFee'];
+        //       $RegistrationFee=$row_fee1['RegistrationFee'];
              
-              $SecurityDeposit=$row_fee1['SecurityDeposit'];
-              $MessCharges=$row_fee1['MessCharges'];
-              $otherCharges=$row_fee1['otherCharges'];
-              $totalAnual=$row_fee1['totalAnual'];
+        //       $SecurityDeposit=$row_fee1['SecurityDeposit'];
+        //       $MessCharges=$row_fee1['MessCharges'];
+        //       $otherCharges=$row_fee1['otherCharges'];
+        //       $totalAnual=$row_fee1['totalAnual'];
             
-         }
-         else
-         {
-          $TutionFee="0";
-          $HostelFee="0";
-          $RegistrationFee="0";
-          $SecurityDeposit="0";
-          $MessCharges="0";
-          $otherCharges="0";
-          $totalAnual="0";
+        //  }
+        //  else
+        //  {
+        //   $TutionFee="0";
+        //   $HostelFee="0";
+        //   $RegistrationFee="0";
+        //   $SecurityDeposit="0";
+        //   $MessCharges="0";
+        //   $otherCharges="0";
+        //   $totalAnual="0";
        
         
-         } 
-         }
+        //  } 
+        //  }
         
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>International Visa Support Letter</title>
     <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+    }
+
+    table {
+        width: 100%;
+        border-color: black;
+        color: black;
+    }
+
+    th,
+    td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr {
+        background-color: #f2f2f2;
+        /* Light background for rows */
+    }
+
+    .header,
+    .footer {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .footer {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .content {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    table th,
+    table td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .signature-section {
+            /* margin-top: 40px; */
+            text-align: right;
+        }
+        .signature-section img {
+            max-width: 150px;
+            display: block;
+            /* margin-bottom: 5px; */
+            float: right;
+            
+        }
+        .signature-section p {
+            font-size: 0.9em;
+            margin: 0;
+            
+        }
+   
+    .page-break {
+        page-break-after: always;
+    }
+
+    .important {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: red;
+    }
+
+    .note {
+        font-style: italic;
+        color: #555;
+       
+    }
+
+    ul {
+        margin-left: 20px;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    .terms-conditions {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    @media print {
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
         }
-        .header, .footer {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        .footer {
-            margin-top: 40px;
-        }
+
         .content {
-            margin-bottom: 20px;
+            page-break-inside: avoid;
+            /* margin-top: 200px; */
+            padding:10px;
+
         }
-        .signature-section {
-            margin-top: 40px;
+
+        /* .footer {
+                position: fixed;
+                bottom: 10px;
+                width: 100%;
+            } */
+        table {
+            width: 100%;
+            border-color: black;
+            color: black;
         }
-        .enclosures {
-            margin-top: 20px;
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
         }
-        /* CSS for page break after each letter */
-        @media print {
-            .page-break {
-                page-break-after: always;
-            }
+
+        tr {
+            background-color: #f2f2f2;
+            /* Light background for rows */
         }
+    }
+    .logo-section {
+        text-align: center;
+        margin-bottom: 10px; /* Reduced margin */
+    }
+    .logo-section img {
+        width: 100%; /* Full width */
+      
+        height: 100px; /* Maintain aspect ratio */
+        max-height: 150px; /* Constrain the height to avoid pushing content */
+    }
+
     </style>
 </head>
+
 <body>
+    
     <div class="content">
-        <p>Date: <?php echo date('d-m-Y'); ?></p>
-
-        <p>To,<br>
-        ___________________________<br>
-        ___________________________</p>
-
-        <p><strong>Subject: Offer of Admission to Guru Kashi University (International Students)</strong></p>
-
-        <p>Dear <strong><?php echo $name; ?></strong>,</p>
-        We are pleased to inform you that you have been <strong>conditionally</strong> offered admission to
-        <strong>Guru Kashi University</strong> for the <strong><?php echo $courseName; ?></strong> commencing on <strong><?php echo $pstartDate;?></strong> for the
-          academic session <strong><?php echo $Session;?></strong>. This offer is based on your fulfillment of the 
-          admission requirements and submission of all necessary documents as outlined below. 
-          <br></br>
-          <hr>
-        <h5><u>Program Details:</u></h5>
-        <ul>
-       <li><b>Program Name:</b> <?php echo $courseName; ?></li>
-       <li><b>Level of Study: </b> <?=$Type;?></li>
-       <li><b>Duration:</b><?=$Duration;?></li>
-       <li><b>Faculty/Department:</b><?php echo $department;?></li>
-       <li><b>Medium of Instruction: English</b></li>
-        </ul>
-<hr>
-        <h5><u>Fee Structure:</u></h5>
-        <p> Below is a detailed breakdown of the fees for your program:  </p>
-        <table>
-            <tr><td>Category</td><td>Fee(INR)</td></tr>
-    <tr>
-    <td>Tuition Fee (Per Year) </td><td>&nbsp; &#x20b9;<?php echo $TutionFee;?></td>
-    </tr>
-    <tr> 
-                                  
-        <td>Registration Fee</td><td>&nbsp; &#x20b9;<?php echo $RegistrationFee;?></td>
-        </tr>
-        <tr>  
-        <td>Hostel Accommodation Fee</td><td>&nbsp; &#x20b9;<?php echo $HostelFee;?></td>
-        </tr>
-        <tr>  
-        <td>Security Deposit</td><td>&nbsp; &#x20b9;<?php echo $SecurityDeposit;?></td>
-        </tr>
-        <tr>  
-        <td>Mess Charges</td><td>&nbsp; &#x20b9;<?php echo $MessCharges;?></td>
-        </tr>
-        <tr>  
-        <td>Other Academic Charges</td><td>&nbsp; &#x20b9;<?php echo $otherCharges;?></td>
-        </tr>
-        <tr>  
-        <td>Total Annual Fee</td><td>&nbsp; &#x20b9;<?php echo $totalAnual;?></td>
-    </tr>
-        </table>                              
-Note: All fees are quoted in Indian Rupees (INR) and are subject to change as per university policies. 
-
- 
-
-
-
-
-    <div class="enclosures">
-        <h5><u>Payment Schedule:</u></h5>
-        1.	Initial Deposit: 50% of the total fee must be paid before <b><?php echo $deadline;?></b> to confirm your admission.<br>
-        2.	Balance Payment: The remaining 50% must be paid within 45 days of the start of the academic year. <br><br>
-       
-        <table class="table table-bordered" style="border:1px solid black">
-        <b>Please use the following bank account details to transfer the fee:</b>
-            <tr><td><b>Bank Name</b>- HDFC BANK LTD</td><td><b>Address</b>- Talwandi Sabo, Punjab-151302</td></tr>
-            <tr><td><b>Account Name</b>- Guru Kashi University </td><td><b>Account Number</b>- 50100033779951</td></tr>
-            <tr><td><b>Swift Code</b>- HDFCINBB</td><td><b>IFSC/MICR</b>-HDFC0001322/151240102</td></tr>
-        </table>
+        <div class="logo-section">
+                <img src="dist/img/logo-join.png" alt="Logo">
+            </div>
+            <div class="signature-section" style="text-align: right; position: relative;">
+    <div style="display: inline-block; position: relative;">
+        
     </div>
+    <span style="margin-top: 10px; text-align: right;">
+    <span><b style="text-align: right" >Date: <?= date('d-m-Y'); ?></b></span><br>
+    <span><b style="text-align: right">Refrence No:GKU/IED/2025/00<?=$id;?></b></span>
+</span>
+</div>
+      
+        <span>To,<br>
+            <strong><?= $name; ?></strong><br>
+            <b>Father Name-</b> <?= $FatherName; ?><br>
+           <b>Country-</b> <?= $NationalityName; ?>
+        </span><br>
 
-    <!-- Add page break after each letter -->
-    <div class="page-break"></div>
+        <span><strong>Subject: Offer of Admission to Guru Kashi University (International Students)</strong></span><br>
+        <span>Dear <strong><?= $name; ?></strong>,</span></br>
+        <span>We are pleased to inform you that you have been <strong>conditionally</strong> offered admission to
+            <strong>Guru Kashi University</strong> for the <strong><?= $courseName; ?></strong> commencing on
+            <strong><?= $pstartDate; ?></strong> for the academic session <strong><?= $Session; ?></strong>. This offer
+            is based on your fulfillment of the admission requirements and submission of all necessary documents.</span>
 
+        <table>
+            <tr style="background:black;color:white;margin-top:-10px;">
+                <td>
+                    <h6><b>Program Details:</b></h6>
+                </td>
+            </tr>
+        </table>
+        <table style="font-size:12px;margin-top:-10px;">
+            <tr>
+                <th>Program Name:</th>
+                <td><?= $courseName; ?></td>
+                <th>Level of Study:</th>
+                <td> <?= $Type; ?></td>
+            </tr>
+            <tr>
+                <th>Duration:</th>
+                <td><?= $Duration; ?> Years</td>
+                <th>Faculty/Department:</th>
+                <td> <?= $department; ?></td>
+            </tr>
+            <tr>
+                <th>Medium of Instruction:</th>
+                <td>English</td>
+                <th></th>
+                <th></th>
+              
+              
+            </tr>
+        </table>
+       
+
+        <table style="margin-top:-10px;">
+            <tr style="background:black;color:white;">
+                <td>
+                    <h6><b>Fee Structure:</b></h6>
+                </td>
+            </tr>
+        </table>
+
+        <table style="font-size:12px; margin-top:-10px;">
+            <tr>
+                <th colspan="2" style="text-align: center;width: 50%;"><b>One Time Charges</b></th>
+                
+                <th colspan="2" style="text-align: center;"><b>Fee Per Year</b></th>
+                
+            </tr>
+            <tr>
+               <th>Registration Fee </th>
+                <td style="text-align: center;">$<?= $RegistrationFee; ?></td> 
+               <th>Actual Fee</th>
+               <td style="text-align: center;">$<?= $ActualFee; ?></td>
+            </tr>
+            <tr>
+               <th>Misc. Charges</th>
+                <td style="text-align: center;">$<?= $MessCharges; ?></td> 
+                  <th>Application Fee as per package per year</th>
+                     <td style="text-align: center;">$<?= $TutionFee; ?></td>
+            </tr>
+            <tr>
+                 <th>Other Charges </th>
+                <td style="text-align: center;">$<?= $otherCharges; ?></td>
+                 <th>Hostel Accommodation Fee(AC)</th>
+                <td style="text-align: center;">$<?= $HostelFee; ?></td>
+            </tr>
+
+
+            
+             <tr>
+                <th>Security Deposit</th>
+                <td style="text-align: center;">$<?= $SecurityDeposit; ?></td>
+         
+                <th></th>
+                 <th></th>
+               
+                
+            </tr>
+             <tr>
+                <th>Total</th>
+                <td style="text-align: center;"><b>$400</b></td>
+         
+                <th>Total Fee per year</th>
+                 <th style="text-align: center;"> $<?= $TutionFee+$HostelFee;?></th>
+                
+            </tr>
+            <tr>
+               
+                <td colspan="3" style="text-align:right;"><strong>Grand Total payable:</strong></td>
+                <td style="text-align: center;"><strong >$<?= $totalAnual; ?></strong></td>
+               
+            </tr>
+        </table>
+
+
+        <!-- <h6><b></b></h6> -->
+        <span class="note"  >Important: This is an Offer Letter only cannot be used to apply for a study visa.</span>
+
+        <h6><b>Terms and Conditions for Final Admission:</b></h6>
+
+        <h6 style="margin-top: -10px;margin-bottom: -1px;"><b>1. Admission Criteria:</b></h6>
+        <span >
+            Final admission will be granted only after the student meets the eligibility requirements set by the
+            Government of Punjab and the Government of India. All necessary documents supporting the student’s
+            eligibility must be submitted as part of the admission process.
+        </span>
+
+        <h6><b>2. Hostel Fees and Accommodation Options:</b></h6>
+        <ul>
+            <li style="margin-top:-10px;"><strong>Hostel fees:</strong> will apply during the foundation program.
+                From the second year onwards, students choosing to live off-campus will receive a reduction in their fee
+                package i.e. <b>$300 USD/year</b> for non-AC accommodation and <b>$500 USD/year</b> for AC accommodation.
+               
+            </li>
+            <li style="margin-top:-10px;">
+                <strong>Additional Charges:</strong> <b>Exam fees:</b> $50 USD per semester. <b>Electricity charges:</b> Calculated based on actual monthly consumption and billed separately.
+               
+            </li>
+        </ul>
+
+        <!-- <h6><b>3. Validity of Offer Letter:</b></h6> -->
+        <span >
+            <b >This offer letter is valid for 15 days from the date of issue.</b>
+        </span><br>
+        <!-- <table>
+            <tr style="background:black;color:white;">
+                <td>
+                    <h6><b>Payment Details:</b></h6>
+                </td>
+            </tr>
+        </table> -->
+        <table style="font-size:12px; ">
+            <b>Please use the following bank account details to transfer the fee:</b>
+            <tr>
+                <td><b>Bank Name</b>- HDFC BANK LTD</td>
+                <td><b>Address</b>- Talwandi Sabo, Punjab-151302</td>
+            </tr>
+            <tr>
+                <td><b>Account Name</b>- Guru Kashi University </td>
+                <td><b>Account Number</b>- 50100033779951</td>
+            </tr>
+            <tr>
+                <td><b>Swift Code</b>- HDFCINBB</td>
+                <td><b>IFSC/MICR</b>-HDFC0001322/151240102</td>
+            </tr>
+        </table>
+        <div class="signature-section" style="text-align: right; position: relative;">
+    <div style="display: inline-block; position: relative;">
+        <img src="dist/img/stamp-ied-colored.jpg" alt="Stamp" style="width: 120px; border: 0px solid;">
+        <img src="dist/img/navdeep.png" alt="Signature" 
+             style="position: absolute; top: 110%; left: 50%; transform: translate(-50%, -50%); width: 150px;">
+    </div>
+    <p style="margin-top: 20px; text-align: right;">Authorized Signature<br>
+       IED - International Education Division</p>
+</div>
+
+
+        <hr>
+        <div class="footer">
+            <p>IED - International Education Division<br>
+                Office No. 304, Second Floor, Block A, GKU Campus, Sardulgarh Road, Talwandi Sabo, Punjab - 151302<br>
+                IED Helpline: 700 998 5 998 | Email: ied@gku.ac.in | Website: www.gku.ac.in</p>
+        </div>
+    </div>
 </body>
+
 </html>
+
 <?php 
     } 
 } 

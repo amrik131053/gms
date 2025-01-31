@@ -5,6 +5,33 @@
    <script type="text/javascript">
 
 
+function SyncNewStaff()
+          {
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=26.9;
+           $.ajax({
+              url:'action_a.php',
+              type:'POST',
+              data:{
+                 flag:code
+              },
+              success: function(response) 
+              {
+                //console.log(response);
+                  spinner.style.display='none';
+        
+          if(response==1){
+            
+          SuccessToast('Updated Successfully');
+               }
+           }
+           });
+          } 
+
+
+
+
       show_category_wise();
    function show_category_wise()
           {
@@ -202,7 +229,66 @@
                  document.getElementById("department_wise_show"+collegeId).innerHTML=response;
               }
            });
-          }      
+          } 
+
+ function UpdateLeaverecomendingoldnew() {
+        
+        var recommendID=document.getElementById("recommendID_old").value;
+        var senctionID=document.getElementById("recommendID_new").value;
+        var authority_type=document.getElementById("authority_type").value;
+
+     if(recommendID!='' &&  senctionID!='' && authority_type!='') 
+     {
+var code = 12.1; 
+var spinner = document.getElementById("ajax-loader");
+  
+      spinner.style.display = 'block';
+
+  $.ajax({
+      url: 'action_a.php',
+      data: {flag:code,recommendID:recommendID,senctionID:senctionID,authority_type:authority_type }, 
+      type: 'POST',
+      success: function (data) {
+        console.log(data);
+          if (spinner) {
+              spinner.style.display = 'none';
+          }
+      
+          SuccessToast('Submit Successfully');
+         
+      },
+      error: function (xhr, status, error) {
+          if (spinner) {
+              spinner.style.display = 'none';
+          }
+          // alert('An error occurred: ' + error);
+      }
+  });
+
+}
+else{
+    ErrorToast('please enter recommend authority & senction authority','bg-warning');
+}
+}
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           function submitLeaveAuthority() {
         
         var recommendID=document.getElementById("recommendID").value;
@@ -595,7 +681,7 @@ function emp_detail_verify3(id)
          contentType: false,
          processData: false,
          success: function(response) {
-             console.log(response);
+            //  console.log("Console:"+response+"H");
             if (response==1) 
             {
                update_emp_record(loginId);
@@ -682,13 +768,14 @@ function updateRelievingDate(id, dateValue,empid) {
            });
     }
     
-function addletters(form,id) {
-    var letter_type=form.letter_type.value;
-    var refernaceletter=form.refernaceletter.value;
-    var startdateofissueletter=form.startdateofissueletter.value;
-    var remarksletters=form.remarksletters.value;
+function addletters(form) {
+    var letter_type=form.letter_type_gen.value;
+    var id=form.employeeIDgen.value;
+    var refernaceletter=form.refernacelettergen.value;
+    var startdateofissueletter=form.startdateofissuelettergen.value;
+    var remarksletters=form.remarkslettersgen.value;
 
-    var fileAttachment=form.fileAttachment.value;
+    var fileAttachment=form.fileAttachmentgen.value;
     
     if (letter_type === "") {
         ErrorToast('Please select Letters.', 'bg-warning');
@@ -713,8 +800,7 @@ function addletters(form,id) {
     }
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
-    var formData = new FormData(form);
-    var loginId = formData.get("IDEmployee"); 
+    var formData = new FormData(form); 
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -934,8 +1020,14 @@ function deleteaddtional(id,emp) {
          {
             alert("Select ");
          }
+      }
+  function downloadphdDetails() 
+      {
+         var exportCode=83;
        
-        
+           
+          window.location.href="export.php?exportCode="+exportCode;
+         
       }
 
 
@@ -1736,6 +1828,25 @@ function addRole(empid,college)
 }
 
 
+function manageauthority()
+          {
+       var code=192.1;
+
+      
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("show_record").innerHTML=response;
+               }
+         });
+
+     }
 
 function manageDepartment()
           {
@@ -2026,7 +2137,7 @@ var code=197;
                document.getElementById("show_record").innerHTML=response;
                }
          });
-
+ 
      }
    function addNewStaff()
           {
@@ -3276,6 +3387,14 @@ function toggleLeavingDate(selectElement) {
       <button type="button" onclick="addNewStaff();" class="btn btn-success btn-sm ">
      Add New Staff
       </button>
+      <button type="button" onclick="SyncNewStaff();" class="btn btn-success btn-sm ">
+     Sync to SPOC
+      </button>
+
+      <button type="button"  onclick="manageauthority()"  class="btn btn-success btn-sm">
+     Change Authority
+      </button>
+
       <span style="float:right;">
       <button class="btn btn-sm ">
          <input type="search" onblur="search_all_employee_emp_name(this.value);" class="form-control form-control-sm" name="emp_name" id="emp_name" placeholder="Search here">

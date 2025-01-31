@@ -130,14 +130,14 @@ function printSmartCardForStudent(id) {
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
-                <form action="action_g.php" method="post" enctype="multipart/form-data">
+                <!-- <form action="action_g.php" method="post" enctype="multipart/form-data"> -->
                     <div class="table-responsive" id="show_record1" style="height:auto;">
                         <!-- Your table to display employee records goes here -->
                     </div>
                     <div class="table-responsive" id="show_record" style="height:auto;">
                         <!-- Your table to display employee records goes here -->
                     </div>
-                </form>
+                <!-- </form> -->
                 <!-- /.mail-box-messages -->
             </div>
             <!-- /.card-body -->

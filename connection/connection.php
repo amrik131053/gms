@@ -2,6 +2,8 @@
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $timeStamp=date('Y-m-d H:i:s.v');
    $timeStampS=date('Y-m-d H:i:s');
+      $todaydate=date('Y-m-d');
+   $day=date('l'); 
    
 //$serverName = "10.0.10.11"; //serverName\instanceName
 $serverName = "117.250.20.109";

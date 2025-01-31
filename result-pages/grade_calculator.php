@@ -111,4 +111,5 @@ else if($totalFinal<40)
     $color='red';
     $nccount++;
 }
-} ?>
+}
+ ?>

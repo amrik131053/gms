@@ -59,15 +59,13 @@ window.location.href = "index.php";
        }
         $currentMonthString=date('F');
         $currentMonthInt=date('n');
-        $code =$_POST['flag'];
-      //   if($code==168)
-      //   {
-      //       include "connection/ftp.php";
-      //   }
+        $code=$_POST['flag'];
+     
         if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8)
         {
             include "connection/ftp-erp.php";
         }
+
 
 // HR/Admin Upload Staff Documents
 if($code==1)
@@ -271,6 +269,7 @@ elseif($code==4)
         <a href="#" class="nav-link">
             <i class="fas fa-inbox"></i> <?=$row['QualificationName'];?>
             <span class="badge bg-primary float-right"><?=$emp_count;?></span>
+           
         </a>
     </li>
     <?php 
@@ -279,10 +278,12 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
               $check_count_emp_catego_run=sqlsrv_query($conntest,$check_count_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
               $emp_coun1t=sqlsrv_num_rows($check_count_emp_catego_run);
       ?>
-    <li class="nav-item " onclick="show_emp_all_qualification(8);">
-        <a href="#" class="nav-link">
+    <li class="nav-item " >
+        <a href="#" class="nav-link" >
             <i class="fas fa-inbox"></i>PHD
-            <span class="badge bg-primary float-right"><?=$emp_coun1t;?></span>
+            <button class="btn m-1 badge bg-primary float-right" onclick="show_emp_all_qualification(8);"><?=$emp_coun1t;?></button>
+            <button class="btn m-1 badge bg-primary float-right" onclick="show_emp_all_qualification(8);"><i class="fa fa-eye"></i></button>
+            <button class="btn m-1 badge bg-success float-right" onclick="downloadphdDetails(8);"> <i class="fa fa-download"></i></button>
         </a>
     </li>
     <?php 
@@ -577,7 +578,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
 
 <?php 
       }
-      if ($code == 7) {
+      else if ($code == 7) {
         // Fetch promotion-related data from the form
         $organisationID = $_POST['organisationNamePromition'];
         $DepartmentID = $_POST['departmentNamePromition'];
@@ -977,6 +978,36 @@ elseif($code==12)
     }
     
 }
+elseif($code==12.1)
+{
+    $recommendID=$_POST['recommendID'];
+    $senctionID=$_POST['senctionID'];
+    $authority_type=$_POST['authority_type'];
+
+if($authority_type=='LeaveRecommendingAuthority')
+{
+  $appluauth='SanctionId';  
+   
+}
+else
+{
+  $appluauth='AuthorityId';    
+}
+
+ 
+       $up="UPDATE Staff SET $authority_type ='$senctionID' where $authority_type='$recommendID'";
+        sqlsrv_query($conntest,$up);
+
+    
+             $updateLeaveAuth="UPDATE ApplyLeaveGKU SET $appluauth='$senctionID' where $appluauth='$recommendID'  and Status!='Approved' and Status!='Reject'";
+            sqlsrv_query($conntest,$updateLeaveAuth);
+            
+         $update1="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$authority_type from $recommendID to $senctionID ','$EmployeeID','$timeStamp')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+    
+    
+}
 elseif($code==13)
 {
     $id = $_POST['id'];
@@ -1087,7 +1118,7 @@ elseif ($code==18) {
 </tr>
 <?php 
    $Sr=1;
-     $updateSection="SELECT * FROM CouponRecord ";
+     $updateSection="SELECT * FROM CouponRecord order by ID Desc ";
     $updateSectionRun=sqlsrv_query($conntest,$updateSection);
     while($row=sqlsrv_fetch_array($updateSectionRun,SQLSRV_FETCH_ASSOC))
     {
@@ -1122,26 +1153,41 @@ elseif ($code==18) {
 }
 elseif ($code==19)
  {
+    $TypeofLeave=$_POST['TypeofLeave'];
     $Count=$_POST['CountType'];
     $Type=$_POST['Type'];
-    $file = $_FILES['casualCountFile']['tmp_name'];
-  $handle = fopen($file, 'r');
-  $c = 0;
-  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
-  { 
-if($c>0)
-{
-  $EmpID=$filesop[0];
-  $Update="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$EmpID' and LeaveType_Id='$Type'";
- $ss=sqlsrv_query($conntest,$Update);
- if($ss=true)
- {
-     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$EmpID','$Type','$Count','$EmployeeID','$timeStamp','0')";
-     $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
- }
-}
-$c++;
-}
+
+    if ($TypeofLeave == 'Single') {
+        $employeeId = $_POST['employeeId'];
+        $Update1="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$employeeId' and LeaveType_Id='$Type'";
+        $s1s=sqlsrv_query($conntest,$Update1);
+        if($s1s=true)
+        {
+            $insertBLance1="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$employeeId','$Type','$Count','$EmployeeID','$timeStamp','0')";
+            $insertBLanceRun1=sqlsrv_query($conntest,$insertBLance1);
+        }
+    }
+    else
+    {
+        $file = $_FILES['casualCountFile']['tmp_name'];
+        $handle = fopen($file, 'r');
+        $c = 0;
+        while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+        { 
+      if($c>0)
+      {
+        $EmpID=$filesop[0];
+        $Update="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$EmpID' and LeaveType_Id='$Type'";
+         $ss=sqlsrv_query($conntest,$Update);
+         if($ss=true)
+         {
+           $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$EmpID','$Type','$Count','$EmployeeID','$timeStamp','0')";
+           $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
+         }
+        }
+        $c++;
+         }
+     }
    }
    elseif($code=='20') 
    {
@@ -1305,7 +1351,13 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
    else if($code==22)
    {
     $IDNo=$_POST['id'];
-     $sql = "SELECT *,StudentCorrectionData.Status as ActionStatus,Admissions.StudentName as SStudentName,Admissions.DOB as SDOB,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName,Admissions.Sex as SGender FROM StudentCorrectionData 
+      $sql = "SELECT *,
+      StudentCorrectionData.StudentName,
+StudentCorrectionData.FatherName,
+StudentCorrectionData.MotherName,
+StudentCorrectionData.DateOfBirth,
+StudentCorrectionData.Gender,
+      StudentCorrectionData.Status as ActionStatus,Admissions.StudentName as SStudentName,Admissions.DOB as SDOB,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName,Admissions.Sex as SGender FROM StudentCorrectionData 
                 INNER JOIN Admissions  ON Admissions.IDNo = StudentCorrectionData.IDNo  WHERE StudentCorrectionData.ID = '$IDNo'";
     $stmt1 = sqlsrv_query($conntest,$sql);
             while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -1323,9 +1375,10 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
                  $dob = $row6['SDOB']->format('d-m-Y');
                 $gender = $row6['Sex'];
                 $Nname = $row6['StudentName'];
-                $Nfather_name = $row6['FatherName'];
+                 $Nfather_name = $row6['FatherName'];
                 $Nmother_name = $row6['MotherName'];
                 $remakrsbystudent = $row6['StudentRemarks'];
+                $remakrsby = $row6['Remarks'];
                  $Ndob = $row6['DateOfBirth']->format('d-m-Y');
                 $Ngender = $row6['Gender'];
                 $UpdateBy = $row6['UpdateBy'];
@@ -1359,7 +1412,10 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
                 $college = $row6['CollegeName'];
                 $CourseID=$row6['CourseID'];
                 $CollegeID=$row6['CollegeID'];
+                $aa[]=$row6;
               }
+            //   print_r($aa);
+
     ?>
     <div class="card-body table-responsive">
  <table class="table"  style="border:1px solid black">
@@ -1433,7 +1489,7 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
  </tr>
  <tr>
 
- <td colspan="10"><b>Remmarks by Student:</b>&nbsp;&nbsp;<?php echo $remakrsbystudent;?></td>
+ <td colspan="10"><b>Remarks by Student:</b>&nbsp;&nbsp;<?php echo $remakrsbystudent;?></td>
  </tr>
  <tr>
 
@@ -1456,8 +1512,11 @@ $arrayFaultyArticle[]=$StuCorection_row['IDNo'];
  else{
     ?>
 <tr>
-    <td colspan="10">
-       Updated By: <?=$UpdateBy;?>
+    <td colspan="5">
+      <b> Updated By:</b> <?=$UpdateBy;?>
+    </td>
+    <td colspan="5">
+       <b>Remarks:</b> <?=$remakrsby;?>
     </td>
  </tr>
     <?php
@@ -1599,7 +1658,6 @@ $SubjectName="";
                   WHERE CourseID = '" . $row['CourseID'] . "' 
                   AND CollegeID = '" . $row['CollegeID'] . "' 
                   AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
-;
     $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
     while($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
 
@@ -1632,8 +1690,10 @@ $SubjectName="";
 }
     // print_r($aa);
     ?>
-            </tbody>
-        </table><?php 
+ </tbody>
+</table>
+        
+        <?php 
           sqlsrv_close($conntest);
 
 }
@@ -1746,7 +1806,7 @@ for($i=1;$i<=8;$i++)
 
 
 }
-    // print_r($aa);
+
     ?>
             </tbody>
         </table><?php 
@@ -1850,26 +1910,968 @@ for($i=1;$i<=8;$i++)
 }
 }
 ?></tr>
+ <?php 
+
+   sqlsrv_close($conntest);                 
+
+}
+
+elseif($code==25.3)
+
+   {
+     ?><div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Add Article</b>
+        
+       </div>
+        </div>
+           
+              <label>Name of Article</label>
+                <input type="text" name="ArticleName" id='ArticleName'placeholder="Name of Article"  class="form-control">
+
+<label>Description</label>
+                <input type="text" name="ArticleSpecification" id='ArticleSpecification' placeholder="Specification"  class="form-control">
+<br>
+<button onclick="submitarticle()"  class="btn btn-primary">Add</button>
+              </div>
+
+
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Manage Article</b>
+</div>
+         <div id="showarticle"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+         </div>
+
+  <?php 
+  sqlsrv_close($conntest); 
+}
+
+elseif($code==25.4)
+
+   {
+ $ArticleName=$_POST['ArticleName'];
+ $ArticleSpecification=$_POST['ArticleSpecification'];
+   
+ $update1="insert into masterarticleadmisisoncell(Name,Description,CreatedBy,CreatedDate,Status)Values
+    ('$ArticleName','$ArticleSpecification','$EmployeeID','$timeStampS','0')";
 
 
 
 
+$addrun=mysqli_query($connection_s,$update1);
+
+mysqli_close($connection_s);
+echo "1";
+      }
 
 
-                    <?php 
+
+elseif($code==25.5)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+         $get_group="SELECT * FROM masterarticleadmisisoncell";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            $status=$row['Status'];
+            if($status=='1'){
+              $show='ON';
+              $color='';            
+            }
+            else
+            {
+                $show='OFF';   
+                $color='red';          
+            }
+            ?>
+        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><input type="text" class="form-control" id='arname<?=$row['ID'];?>' value="<?=$row['Name'];?>" onblur='chnageName(<?=$row['ID'];?>)'></b>
+            </th>
+            <th><b><?=$row['Description'];?></b></th>
+             <th><b><?=$row['CreatedBy'];?></b></th>
+             <th><b><?=$row['CreatedDate'];?></b></th>
+            <th>
+
+                <div class="form-check form-switch">
+                    <select class="form-control" id='toggleForm<?=$row['ID'];?>' onchange="updateStatus(<?=$row['ID'];?>)" style="color: <?=$color;?>">
+                         <option value="<?=$status;?>"><?=$show;?></option>
+  <option value="1">ON</option>
+   <option value="0">OFF</option>
+                    </select>
+   
+ 
+</div></th>
+        </tr>
+        <?php 
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+      elseif($code==25.6)
+
+   {
+ $id=$_POST['id'];
+$status=$_POST['status'];
+
+ $asd="Update masterarticleadmisisoncell set Status='$status' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+
+
+mysqli_close($connection_s);
+
+echo "1";
+      }
+
+elseif($code==25.7)
+
+   {
+     ?><div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Add Stock</b>
+        
+       </div>
+        </div>
+           
+              <label>Name of Article</label>
+              <select class="form-control" id='articlecode'>
+              <?php $get_group="SELECT * FROM masterarticleadmisisoncell";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {?>
+            <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+            <?php }?>
+</select>
+
+<label>Quantity</label>
+                <input type="number"  id='quantity' placeholder=""  class="form-control">
+<br>
+<button onclick="submitstock()"  class="btn btn-primary">Add</button>
+              </div>
+
+
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id="showstock"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+        </div> 
+
+  <?php 
+  sqlsrv_close($conntest); 
+}
+
+elseif($code==25.8)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Total Stock</th>
+            <th>Issued Stock</th>
+            <th>Balance</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+          $get_group="SELECT * FROM  masterstockadmissioncell  as ms inner join masterarticleadmisisoncell as ma  on ma.ID=ms.ArticleID";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['Name'];?>(<?=$row['ID'];?>)</b>
+            </th>
+            <th><b><?=$row['TotalStock'];?></b></th>
+             <th><b><?=$row['IssuedStock'];?></b></th>
+
+                 <th><b><?= $row['TotalStock']-$row['IssuedStock'];?></b></th>
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+      elseif($code==25.9)
+
+   {
+ $articlecode=$_POST['articlecode'];
+ $quantity=$_POST['quantity'];
+   
+if($quantity>0)
+{
+ $update1="insert into puchaserecordadmisisoncell(ArticleID,Stock,UpdateBy,Date)Values
+    ('$articlecode','$quantity','$EmployeeID','$timeStampS')";
+
+ $get_group_run=mysqli_query($connection_s,$update1);
+
+
+ $sql = "SELECT * FROM  masterstockadmissioncell WHERE ArticleID ='$articlecode'";
+$result = mysqli_query($connection_s,$sql);
+
+if ($result->num_rows == 0) 
+{
+
+$result_z = mysqli_query($connection_s,"INSERT into masterstockadmissioncell(ArticleID,TotalStock)
+                                                   values ('$articlecode','$quantity')");
+}
+else
+{
+while($row=mysqli_fetch_array($result))
+{   
+     $stock_quantity=$row["TotalStock"];
+}
+$new_quantity=$stock_quantity+$quantity;
+
+$result = mysqli_query($connection_s, "UPDATE masterstockadmissioncell set TotalStock='$new_quantity' WHERE ArticleID ='$articlecode'");
+
+}
+
+mysqli_close($connection_s);
+
+}
+      }
+
+
+elseif($code==26)
+
+
+   {
+
+    $code_access=$_POST['code_access'];?>
+<div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Issue Request</b>
+        
+       </div>
+       <script>
+
+            </script><br>
+               <div class="btn-group input-group-sm" style="text-align:center;">
+
+ <input type="radio"   id="ossm1"  onclick="emc1_hide();" name="Employee"   checked="" value="0" required="" hidden>  
+
+                       <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                       <input type="radio"  id="ossm"  name="Employee"   required=""  onclick="emc1_show();" value="1" name="empc1" hidden>  
+
+                       <label for="ossm" class="btn btn-xs">Other</label>
+    </div>
+                      <div class="col-md-12" style="display: none;" id="lect_div">   
+                        <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                      <select class="form-control" id='emptype'>
+                         
+                          <option value="Guest">Guest</option>
+                            <option value="Field Team">FieldTeam</option>
+                              <option value="Consultant">Consultant</option>
+                                <option value="Other">Other</option>
+
+                      </select>   
+  <label>Name <span style="color: red">*</span></label>
+  <input type="text" name="name_visitor" id="empNames" class="form-control">
+  
+  <label>Detail <span style="color: red">*</span></label>
+  <input type="text"  id="empDetail" class="form-control">
+ 
+  
+  </div>
+
+  <div class="col-md-12"  id="lect_div1">
+ <label>Employee ID</label>
+<input type="text" class="form-control" name="" id='empID' onblur="emp_detail_verify1(this.value)" >
+<span id='emp-data' style="font-weight:bold"></span>
+<input type="hidden" class="form-control" name="" id='empName' readonly><br>
+<input type="text" class="form-control"  placeholder="Description" id='empDescription' >
+
+<br>
+                         
+
+
+</div>
+
+<br>
+        <table class="table-bordered">
+       <tr>   
+        <th>#</th>
+<th>Name of Article</th><th>Quantity</th></tr>
+ 
+<?php  
+if($code_access!='000')
+{
+ $get_group="SELECT * FROM masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock";   
+}
+else
+{
+  $get_group="SELECT * FROM masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock ANd Status='1'";   
+}
+$sr=1;
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+
+            ?>
+
+        <tr>   
+<td width="10%" style="text-align:center;"><?=$sr;?></td>
+<td width="30%"><?=$row['Name'];?><input type="hidden" class="form-control article" value="<?=$row['ArticleID'];?>" name="article[]" id="article">
+
+<b>(<?php echo "Balance-". $balance=$row['TotalStock']-$row['IssuedStock'];?>)</b>
+</td>
+<td width="10%">  
+
+    <select name="quantity[]" class="form-control quantity" value="0" id="article_value<?=$row['ID'];?>">
+<?php  for($i=0;$i<=$balance;$i++)
+{?>
+ <option value="<?= $i;?>"><?= $i;?></option>
+<?php }
+?>    
+</select>
+</td>
+<input type="hidden"  class="form-control remarks" id="remakrs<?=$row['ID'];?>" name="remarks[]"></tr>    
+            
+
+
+            <?php 
+
+            $sr++;}?>
+
+<input type="hidden"  value="<?=$sr-1;?>" class="form-control" id="flag">
+</table>
+               
+<br>
+<button onclick="IssueStock()"  class="btn btn-primary">Issue Stock</button>
+              </div>
+
+    </div>
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id="issuedstocklist"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+         </div>
+
+  <?php 
+  sqlsrv_close($conntest); 
+
+
+
+
+      }
+
+        elseif($code==26.1)
+
+   {
+ $id=$_POST['id'];
+$ArticleName=$_POST['ArticleName'];
+
+$get_group="SELECT * FROM masterarticleadmisisoncell where  ID='$id'";   
+
+$sr=1;
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+ $oldname=$row['Name'];
+
+}
+ $asd="Update masterarticleadmisisoncell set Name='$ArticleName' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+ $update1="insert into trackchnages(userID,newname,oldname,createddate)Values('$EmployeeID','$ArticleName','$oldname','$timeStamp')";
+
+$addrun=mysqli_query($connection_s,$update1);
+
+mysqli_close($connection_s);
+
+
+      }
+
+
+   elseif($code==26.2)
+
+   {
+ $empID=$_POST['empid'];
+  $empName=$_POST['empName'];
+   $empDetail=$_POST['empDetail'];
+    $emptype=$_POST['emptype'];
+
+
+    $ids=$_POST['ids'];
+    $qnt=$_POST['quantity'];
+    $flag2= $_POST['flag2'];
+    $ids=$_POST['ids'];
+    $qnt=$_POST['quantity'];
+    $rem=$_POST['remarks'];
+
+$insert="insert into ledgeradmissioncell(IDNo,Name,Type,Remarks,CreatedDate,CreatedBy)Values
+                                        ('$empID','$empName','$emptype','$empDetail','$timeStamp','$EmployeeID')";
+
+$addrun=mysqli_query($connection_s,$insert);
+$select="Select ID from  ledgeradmissioncell  order by ID Desc limit 1";
+$get_group_run=mysqli_query($connection_s,$select);
+ if($row=mysqli_fetch_array($get_group_run))
+         {
+ $REfno=$row['ID'];
+
+}
+
+   for($i=0;$i<$flag2;$i++)
+   {
+  $Issuedqty=$qnt[$i];
+ $issue="insert into requestadmissioncell(reference_no,item_code,quantity,specification)Values
+                                        ('$REfno','$ids[$i]','$qnt[$i]','$rem[$i]')";
+
+$addissue=mysqli_query($connection_s,$issue);
+
+ $asdws="select IssuedStock from  masterstockadmissioncell  where ArticleID='$ids[$i]'";
+   $addruns=mysqli_query($connection_s,$asdws);
+
+   while($row=mysqli_fetch_array($addruns))
+
+{
+   $IssuedStock=$row['IssuedStock'];
+  
+    $cstock=$IssuedStock+$Issuedqty;
+
+ $asdw="Update masterstockadmissioncell set IssuedStock='$cstock' where ArticleID='$ids[$i]'";
+   
+$addrun=mysqli_query($connection_s,$asdw);
+
+
 }
 
 
 
 
-}
-    // print_r($aa);
+   }
+
+
+
+      }
+
+    elseif($code==26.3)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+               <th>Request No</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Remarks</th>
+              <th>Issued By</th>
+              <th>View</th>
+
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+          $get_group="SELECT * FROM  ledgeradmissioncell  order by ID desc limit 10";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['ID'];?></b>
+            </th>
+            <th>
+                <b><?=$row['Name'];?>(<?=$row['IDNo'];?>)</b>
+            </th>
+           
+             <th><b><?=$row['Type'];?></b></th>
+               <th><b><?=$row['Remarks'];?></b></th>
+                <th><b><?=$row['CreatedBy'];?></b></th>
+
+                   <th><b><i class="fa fa-eye" onclick="viewlist(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i>
+ </b></th>
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+
+elseif($code==26.4)
+
+   { 
+
+    $id=$_POST['id'];
+
     ?>
-            </tbody>
-        </table><?php 
-          sqlsrv_close($conntest);
+<table class="table">
+    <thead>
+        <tr> <th colspan="5" style="text-align: center;">
+                Request Number :<b><?=$id;?></b>
+            </th></tr>
+        <tr>
+            <th>#</th>
+              
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Remarks</th>
+            
 
-// }
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+       
+        <?php 
+         $sr=1;
+          $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestadmissioncell AS  rs inner join masterarticleadmisisoncell AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            
+            <th>
+                <b><?=$row['aName'];?>(<?=$row['AId'];?>)</b>
+            </th>
+           
+             <th><b><?=$row['quantity'];?></b></th>
+               <th><b><?=$row['specification'];?></b></th>
+              
+
+                   
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
 
 
-// }
+<?php
+      }
+
+elseif($code==26.5)
+
+   { 
+
+    
+
+    ?> <table class="table table-head-fixed text-nowrap">
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Mobile</th>
+                              <th>Address</th>
+                              <th>Organisation</th>
+
+                              <th>Action</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                        
+    
+                       
+                      
+   <?php 
+          $sr=1;
+                            $get_consultant="SELECT * FROM MasterConsultant  order by ID desc"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
+                     {
+
+                      if($row['Status'] == 0) {
+                           $color='red'; 
+                        }
+                        else
+                        {
+                          $color='';  
+                        }
+                 
+
+                        ?>
+
+                     <tr style="background-color: <?=$color;?>"><td><?= $sr++;?></td><td><?=$row['Name'];?> <b>(<?=$row['ID'];?>)</b></td><td><?=$row['Mobile'];?></td><td><?=$row['Address'];?></td>
+                        <td><?=$row['Organisation'];?></td>
+                        <!-- <td><?php echo ($row['Status'] == 1) ? 'Active' : 'Inactive'; ?></td> -->
+                        <td><i class="fa fa-edit" onclick="edit_consultant(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i></td>
+                    </tr>
+                     
+                     <?php }?>  </tbody>
+                     </table>
+
+
+<?php
+      }
+elseif($code==26.6)
+
+   { 
+    $id=$_POST['id'];
+
+$get_consultant="SELECT * FROM MasterConsultant where  ID='$id'"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
+                     {?>
+<div class="col-md-12    col-lg-12  col-sm-12   ">
+            <div class="card card-info">
+               
+             
+                  <div class="card-body">
+                     <div class="form-group row">  
+           <div class="col-lg-6">
+                        <label >Name</label>
+               
+                  <input type="text" class="form-control" id="consultant_name" value="<?=$row['Name'];?>">
+                   <input type="hidden" class="form-control" id="consultant_id" value="<?=$row['ID'];?>">
+               </div>  <div class="col-lg-6">
+                  <label>Mobile</label>
+
+                   <input type="text" class="form-control" id="Mobile-e" value="<?=$row['Mobile'];?>">
+                </div>
+                <div class="col-lg-6">
+                  
+                   <label>Address</label>
+                    <input type="text" class="form-control" id="address-e" value="<?=$row['Address'];?>">
+                 </div> <div class="col-lg-6">
+                    <label>Organisation</label>
+                     <input type="text" class="form-control" id="organisation-e" value="<?=$row['Organisation'];?>">
+                  </div>
+                  </div> <div class="col-lg-6">
+                       <label>Status</label>
+                    <select class="form-control" id="status-e">
+                          <option value='<?=$row['Status'];?>'><?php echo ($row['Status'] == 1) ? 'Active' : 'Inactive'; ?></option>
+                        <option value='1'>Active</option>
+                         <option value='0'>InActive</option>
+
+                    </select>
+                 
+                     
+                  </div>
+
+
+                    
+               </div>
+              
+            </div>
+
+      </div>
+                       
+                         
+
+         </div>
+                     
+                     <?php 
+
+    
+
+
+}
+}
+elseif($code==26.7)
+
+   { 
+      
+
+    $id=$_POST['consultant_id'];
+     $consultant_m=$_POST['consultant_m'];
+      $consultant_a=$_POST['consultant_a'];
+       $consultant_o=$_POST['consultant_o'];
+        $status_e=$_POST['status_e'];
+     
+
+
+ $get_consultant="Update  MasterConsultant set Mobile='$consultant_m',Address='$consultant_a',Organisation='$consultant_o' ,Status='$status_e' where  ID='$id'"; 
+
+ $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                    
+echo 1;
+
+}
+elseif($code==26.8)
+
+   { 
+     $students=$_POST['students'];
+     $attendance=$_POST['attendance'];
+     $lecturenumber=$_POST['lecturenumber'];
+     $subjectcode=$_POST['subjectcode'];
+     $semester=$_POST['semester'];
+     $section=$_POST['section'];
+     $cgroup=$_POST['cgroup'];
+     $examination=$_POST['examination'];
+     $date=$_POST['date'];
+     $batch=$_POST['batch'];
+
+   // $values = array();
+   
+   // $values1 = array();
+     //print_r($attendance);
+   
+   for($i=0;$i<5;$i++) { 
+
+ $sql="SELECT * from StudentAttendance where IDNo='$students[$i]' AND SubjectCode='$subjectcode' AND LectureNumber='$lecturenumber' ANd Date='$date'";
+         $stmt2 = sqlsrv_query($conntest,$sql);
+          $stmt_c = sqlsrv_query($conntest,$sql, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+           $count=sqlsrv_num_rows($stmt_c);
+           if($count>0)
+           {
+    while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+        {
+   $DataID= $row1['ID']; 
+
+ $update="Update StudentAttendance set Attendance='$attendance[$i]' where ID='$DataID'";
+$stupdate = sqlsrv_query($conntest,$update); 
+        }
+
+
+
+
+   }
+   else
+   {
+
+ $insersub= "INSERT INTO StudentAttendance(IDNo,LectureNumber,SubjectCode,Semester,Section,ClassGroup,Attendance,Date,CreatedDate,CreatedBy,Batch,Session)VALUES
+           ('$students[$i]','$lecturenumber','$subjectcode','$semester','$section','$cgroup','$attendance[$i]','$date','$timeStampS','$EmployeeID','$batch','$examination')";
+
+ $stmtinsert = sqlsrv_query($conntest,$insersub); 
+
+   }
+
+                  
+
+
+}
+
+echo 1;
+
+}
+
+elseif($code==26.9)
+   {
+$staff="SELECT *
+ FROM Staff where DepartmentID!='81'";
+
+ $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+    $name=$row_staff['Name'];
+    $emp_id=$row_staff['IDNo'];
+    $email=$row_staff['EmailID'];
+    $phone=$row_staff['MobileNo'];
+    $birth=$row_staff['DateOfBirth'];
+    $gender=$row_staff['Gender'];
+    $design=$row_staff['Designation'];
+    $status=$row_staff['JobStatus'];
+    $address=$row_staff['PermanentAddress'];
+    $city='';
+    $state='';
+    $role_id='8';
+       
+ $Emp_CollegeID=$row_staff['CollegeId'];
+if($Emp_CollegeID=='61')
+{
+    $dept_id=11;
+        $institute_id=1;
+}
+else if ($Emp_CollegeID=='62')
+{
+$dept_id=21;
+        $institute_id=11;
+}
+else if ($Emp_CollegeID=='63')
+{
+    $dept_id=12;
+        $institute_id=2;
+}
+
+else if ($Emp_CollegeID=='64')
+{
+    $dept_id=13;
+        $institute_id=3;
+}
+else if ($Emp_CollegeID=='65')
+{
+    $dept_id=17;
+        $institute_id=7;
+}
+else if ($Emp_CollegeID=='66')
+{
+    $dept_id=14;
+        $institute_id=4;
+}
+else if ($Emp_CollegeID=='67' ||$Emp_CollegeID=='69'||$Emp_CollegeID=='74')
+{
+    $dept_id=23;
+        $institute_id=13;
+}
+
+else if ($Emp_CollegeID=='71')
+{
+    $dept_id=16;
+        $institute_id=6;
+}
+else if ($Emp_CollegeID=='72')
+{
+    $dept_id=20;
+        $institute_id=10;
+}
+else if ($Emp_CollegeID=='73')
+{
+    $dept_id=15;
+        $institute_id=5;
+}
+else if ($Emp_CollegeID=='75')
+{
+    $dept_id=19;
+        $institute_id=9;
+}
+else if ($Emp_CollegeID=='76')
+{
+    $dept_id=24;
+        $institute_id=14;
+}
+
+  $password=$emp_id;
+     
+$check="SELECT  * from employee_master where emp_id='$emp_id'";
+$checkdata=mysqli_query($conn_spoc,$check);
+   if (mysqli_num_rows($checkdata)>0)
+   {
+$Updateqry="Update employee_master set institute_id='$institute_id', dept_id='$dept_id', name='$name', email='$email', phone='$phone', 
+            designation='$design', sex='$gender', birthday='', address='$address',status_code='$status' where emp_id='$emp_id'";
+            $Updateqryres=mysqli_query($conn_spoc,$Updateqry);
+
+if($status!='1')
+        {
+           $sql = "delete from user_login_master where username='$emp_id'" ; 
+            $intress=$conn_spoc->query($sql); 
+        }
+   }
+else
+    {
+if($status!='1')
+{
+}
+else
+{
+ $insertqry="INSERT INTO `employee_master`(`institute_id`, `dept_id`, `emp_id`,`new_emp_id`, `name`, `email`, `phone`, 
+            `designation`, `sex`, `birthday`, `address`,`status_code`) VALUES 
+            ('$institute_id','$dept_id','$emp_id','$emp_id','$name','$email','$phone','$design','$gender','','$address','1')";
+            $insertres=mysqli_query($conn_spoc,$insertqry);
+
+         if ($insertres) 
+       {
+        $checku="SELECT  * from user_login_master where username='$emp_id'";
+$checkdatau=mysqli_query($conn_spoc,$checku);
+   if (mysqli_num_rows($checkdatau)>0)
+   {
+
+   }else
+   {
+
+                $insertqryu="INSERT INTO `user_login_master`(`username`, `password`, `role_id`) VALUES ('$emp_id','$password','$role_id')";
+            $insertresu=mysqli_query($conn_spoc,$insertqryu);  
+            }            
+           
+       }
+}
+
+
+
+}
+  
+ 
+//while
+   } 
+    echo 1;
+}
+
+}
