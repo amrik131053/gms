@@ -133,11 +133,11 @@
 
                                    if($RegistrationNo!='')
                                        {
-                                                $text = "Program:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Programme:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
-                                          $text = "Program:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                          $text = "Programme:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
 
                                        }
                                     // $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
