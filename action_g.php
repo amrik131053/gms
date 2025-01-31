@@ -4073,7 +4073,7 @@ else { ?>
                         <div class="row">
                             <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
                                 <?php
-                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and ExperienceCategory='1'";
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and DeleteStatus='0' and ExperienceCategory='1'";
                   if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                   ?>
                                 <h4><b>Previous Employment</b></h4>
@@ -5018,7 +5018,7 @@ else { ?>
                 <td>Documents</td>
             </tr>
             <?php  
-             $Letters="SELECT *  FROM GeneralLetters where IDNo='$emp_id' ANd Status='0' order by ID Desc"; 
+             $Letters="SELECT *  FROM GeneralLetters where IDNo='$emp_id'  ANd Status='0' order by ID Desc"; 
                 $getLeeters=sqlsrv_query($conntest,$Letters);
                 $countletter=1;
                 while($getLeetersRow=sqlsrv_fetch_array($getLeeters,SQLSRV_FETCH_ASSOC))
@@ -5204,7 +5204,7 @@ else { ?>
                                     <div class="row">
                                         <div class="table-responsive col-lg-12">
                                             <?php
-                     $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= '$emp_id' ";
+                     $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= '$emp_id' and DeleteStatus='0'  ";
                      if ($data12 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql12))) {
                          ?>
                                             <h4 class="text-center"><b>Additional Qualifications</b></h4>
@@ -5442,7 +5442,7 @@ while ($data1 = sqlsrv_fetch_array($res)) {
                                 <div class="row">
                                     <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
                                         <?php
-                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and ExperienceCategory='0' ";
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and DeleteStatus='0' and ExperienceCategory='0' ";
                   if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                   ?>
                                         <table class="table table-bordered" style="font-size:14px;">
@@ -34526,7 +34526,7 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                     <div class="row">
                                                         <div class="table-responsive col-lg-12">
                                                             <?php
-      $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= $EmployeeID ";
+      $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= '$EmployeeID' and DeleteStatus='0'  ";
  if ($data12 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql12))) {
           ?>
                                                             <h4 class="text-center"><b>Additional Qualifications</b>
@@ -34891,7 +34891,7 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                         <div class="col-lg-12" style="overflow-x:auto;"
                                                             id="table-scroll">
                                                             <?php
-                                                $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$EmployeeID' and ExperienceCategory='0' ";
+                                                $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$EmployeeID' and DeleteStatus='0' and ExperienceCategory='0' ";
                                             if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                                             ?>
                                                             <table class="table table-bordered" style="font-size:14px;">
@@ -35249,7 +35249,7 @@ elseif($code==432.4)
             $docName = $rows['DocumentPath'];
             ftp_chdir($conn_id, "Images/Staff/Courses") or die("Could not change directory");
             if (ftp_delete($conn_id, $docName)) {
-                $sql = "DELETE FROM AdditionalQualifications WHERE id = '$id' and UserName='$EmployeeID'";
+                $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
                 $res = sqlsrv_query($conntest, $sql);
                 $escapedQuery = str_replace("'", "''", $sql);
                 $update12="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$escapedQuery','$EmployeeID','$timeStamp')";
@@ -35257,7 +35257,7 @@ elseif($code==432.4)
             }
             ftp_close($conn_id);
         } else {
-            $sql = "DELETE FROM AdditionalQualifications WHERE id = '$id' and UserName='$EmployeeID'";
+            $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
             $res = sqlsrv_query($conntest, $sql);
             $escapedQuery = str_replace("'", "''", $sql);
             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$escapedQuery','$EmployeeID','$timeStamp')";
@@ -35278,7 +35278,7 @@ elseif($code==432.5)
             $docName = $rows['DocumentPath'];
             ftp_chdir($conn_id, "Images/Staff/Courses") or die("Could not change directory");
             if (ftp_delete($conn_id, $docName)) {
-                $sql = "DELETE FROM AdditionalQualifications WHERE id = '$id' and UserName='$emp_id'";
+                $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
                 $res = sqlsrv_query($conntest, $sql);
                 $escapedQuery = str_replace("'", "''", $sql);
                 $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
@@ -35290,7 +35290,7 @@ elseif($code==432.5)
             ftp_close($conn_id);
         } else 
         {
-            $sql = "DELETE FROM AdditionalQualifications WHERE id = '$id' and UserName='$emp_id'";
+            $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
             $res = sqlsrv_query($conntest, $sql); 
      
             $escapedQuery = str_replace("'", "''", $sql);
@@ -35353,8 +35353,8 @@ $destdir = '/Images/Staff/ExperienceDocument';
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
 $insertExp="INSERT into StaffExperienceDetails(ExperienceType,NameofOrganisation,DateofAppointment,DateofLeaving,TimePeriod,Status,
-UserName,DocumentPath,Reason,Designation,PayScaleORConsolidated,upddate,ExperienceCategory)VALUES('$experienceType','$department','$from_date','$to_date','$exp_total','0','$employeeID','$file_name','$left_reason',
-'$designation','$salary','$timeStamp','0')";
+UserName,DocumentPath,Reason,Designation,PayScaleORConsolidated,upddate,ExperienceCategory,DeleteStatus)VALUES('$experienceType','$department','$from_date','$to_date','$exp_total','0','$employeeID','$file_name','$left_reason',
+'$designation','$salary','$timeStamp','0','0')";
 $result = sqlsrv_query($conntest, $insertExp);
 if($result==true)
 {
@@ -35413,7 +35413,7 @@ elseif ($code == 435)
         ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
         if (ftp_delete($conn_id, $docName))
         {
-             $sql = "DELETE from StaffExperienceDetails where Id= $id";
+             $sql = "UPDATE  StaffExperienceDetails SET DeleteStatus='1' where Id= $id";
             $res = sqlsrv_query($conntest, $sql);
             $escapedQuery = str_replace("'", "''", $sql);
             $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
@@ -35438,11 +35438,11 @@ elseif ($code == 435.1)
         ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
         if (ftp_delete($conn_id, $docName))
         {
-                         $sql = "DELETE from StaffExperienceDetails where Id= '$id'";
+                         $sql = "UPDATE StaffExperienceDetails SET DeleteStatus='1' where Id= '$id'";
                         $res = sqlsrv_query($conntest, $sql);
                     }else{
                         
-                        $sql = "DELETE from StaffExperienceDetails where Id= '$id'";
+                        $sql = "UPDATE StaffExperienceDetails SET DeleteStatus='1' where Id= '$id'";
                        $res = sqlsrv_query($conntest, $sql);
         }
          $sql1 = "UPDATE Staff Set DateOfPromotion=NULL where IDNo='$emp_id' and DateOfPromotion='$DateofAppointment'";

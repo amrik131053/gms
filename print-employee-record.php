@@ -342,7 +342,7 @@ if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
 <table class="table">
     <!-- Academic Details -->
     <?php
-      $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= $emp_id";
+      $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= '$emp_id' and DeleteStatus='0' ";
  if ($data12 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql12))) {
           ?>
 
@@ -380,7 +380,7 @@ if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
 <table class="table">
     <!-- PHD Details -->
     <?php
-    $sql1 = "SELECT * FROM PHDacademic WHERE UserName = $emp_id";
+    $sql1 = "SELECT * FROM PHDacademic WHERE UserName = '$emp_id' and DeleteStatus='0' ";
     if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
     ?>
         
@@ -441,7 +441,7 @@ if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
 <table class="table">
     <!-- Experience Details -->
     <?php
-    $sql = "SELECT * FROM StaffExperienceDetails WHERE UserName = $emp_id ";
+    $sql = "SELECT * FROM StaffExperienceDetails WHERE UserName = '$emp_id' and DeleteStatus='0'  ";
     if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
     ?>
        
@@ -490,7 +490,7 @@ if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
 <table class="table">
     <!-- Experience Details -->
     <?php
-    $sql = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = $emp_id order By ID desc ";
+    $sql = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = '$emp_id' and DeleteStatus='0' order By ID desc ";
     if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
 
         $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='".$data['CollegeID']."' ";
