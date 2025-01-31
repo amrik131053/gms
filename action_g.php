@@ -34980,7 +34980,7 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                         <div class="tab-pane" id="additionalResposibilities1<?=$emp_id;?>">
                                             <div class="row">
                                                 <?php
-                         $sql1 = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = $EmployeeID";
+                         $sql1 = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = '$EmployeeID' and Status='0'";
                         if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) { ?>
                                                 <div class="container-fluid">
                                                     <h4 class="text-center"><b>Additional Responsibilities</b></h4>
@@ -35112,46 +35112,52 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
 elseif($code==432)
 {
     $id = $_POST['ID'];
-    $qry = "SELECT DocumentPath from StaffAcademicDetails where Id = $id";
-    $result = sqlsrv_query($conntest, $qry);
-    $data = sqlsrv_fetch_array($result);
-    if ($data)
-    {
-         $docName = $data['DocumentPath'];
-         ftp_chdir($conn_id,"Images/Staff/AcademicDocument") or die("Could not change directory");
-        if (ftp_delete($conn_id, $docName))
-        {
+    // $qry = "SELECT DocumentPath from StaffAcademicDetails where Id = $id";
+    // $result = sqlsrv_query($conntest, $qry);
+    // $data = sqlsrv_fetch_array($result);
+    // if ($data)
+    // {
+    //      $docName = $data['DocumentPath'];
+    //      ftp_chdir($conn_id,"Images/Staff/AcademicDocument") or die("Could not change directory");
+    //     if (ftp_delete($conn_id, $docName))
+    //     {
             $sql = "UPDATE  StaffAcademicDetails SET DeleteStatus='1'  where Id= $id";
             $res = sqlsrv_query($conntest, $sql);
-        }
-        ftp_close($conn_id);
-    }
+            $escapedQuery = str_replace("'", "''", $sql);
+            $update12="insert into logbook(userid,remarks,updatedby,date)Values('$id','$escapedQuery','$EmployeeID','$timeStamp')";
+            sqlsrv_query($conntest,$update12);
+    //     }
+    //     ftp_close($conn_id);
+    // }
     sqlsrv_close($conntest);
 }
 elseif($code==432.1)
 {
     $id = $_POST['ID'];
-    $qry = "SELECT Uploadcertificate FROM PHDacademic WHERE id = '$id' and  UserName='$EmployeeID' ";
-    $result = sqlsrv_query($conntest, $qry);
+    // $qry = "SELECT Uploadcertificate FROM PHDacademic WHERE id = '$id' and  UserName='$EmployeeID' ";
+    // $result = sqlsrv_query($conntest, $qry);
     
-    if ($rows = sqlsrv_fetch_array($result)) {
-        if ($rows['Uploadcertificate'] != '') {
-            $docName = $rows['Uploadcertificate'];
-            ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
-            if (ftp_delete($conn_id, $docName)) {
-                $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
-                $res = sqlsrv_query($conntest, $sql);
-            }
-            else{
-                $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = $id and UserName='$EmployeeID'";
-                $res = sqlsrv_query($conntest, $sql);
-            }
-            ftp_close($conn_id);
-        } else {
+    // if ($rows = sqlsrv_fetch_array($result)) {
+    //     if ($rows['Uploadcertificate'] != '') {
+    //         $docName = $rows['Uploadcertificate'];
+    //         ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
+    //         if (ftp_delete($conn_id, $docName)) {
+    //             $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
+    //             $res = sqlsrv_query($conntest, $sql);
+    //         }
+    //         else{
+    //             $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = $id and UserName='$EmployeeID'";
+    //             $res = sqlsrv_query($conntest, $sql);
+    //         }
+    //         ftp_close($conn_id);
+    //     } else {
             $sql = "UPDATE PHDacademic SET DeleteStatus='1' WHERE id = $id";
             $res = sqlsrv_query($conntest, $sql);
-        }
-    }
+            $escapedQuery = str_replace("'", "''", $sql);
+            $update12="insert into logbook(userid,remarks,updatedby,date)Values('$id','$escapedQuery','$EmployeeID','$timeStamp')";
+            sqlsrv_query($conntest,$update12);
+        // }
+    // }
     $remainingQry = "SELECT COUNT(*) AS recordCount FROM PHDacademic WHERE UserName = '$EmployeeID'";
     $remainingResult = sqlsrv_query($conntest, $remainingQry);
     $remainingRow = sqlsrv_fetch_array($remainingResult);
@@ -35167,33 +35173,33 @@ elseif($code==432.2)
 {
     $id = $_POST['ID'];
     $emp_id = $_POST['emp_id'];
-    $qry = "SELECT Uploadcertificate FROM PHDacademic WHERE id = '$id' and UserName='$emp_id' ";
-    $result = sqlsrv_query($conntest, $qry);
+    // $qry = "SELECT Uploadcertificate FROM PHDacademic WHERE id = '$id' and UserName='$emp_id' ";
+    // $result = sqlsrv_query($conntest, $qry);
     
-    if ($rows = sqlsrv_fetch_array($result)) {
-        if ($rows['Uploadcertificate'] != '') {
-            $docName = $rows['Uploadcertificate'];
-            ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
-            if (ftp_delete($conn_id, $docName)) {
-                $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
-                $res = sqlsrv_query($conntest, $sql);
-                $escapedQuery = str_replace("'", "''", $sql);
-                $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
-                sqlsrv_query($conntest,$update12);
-            }
-            else{
-                $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = $id and UserName='$emp_id'";
-                $res = sqlsrv_query($conntest, $sql);
-            }
-            ftp_close($conn_id);
-        } else {
+    // if ($rows = sqlsrv_fetch_array($result)) {
+    //     if ($rows['Uploadcertificate'] != '') {
+    //         $docName = $rows['Uploadcertificate'];
+    //         ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
+    //         if (ftp_delete($conn_id, $docName)) {
+    //             $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
+    //             $res = sqlsrv_query($conntest, $sql);
+    //             $escapedQuery = str_replace("'", "''", $sql);
+    //             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
+    //             sqlsrv_query($conntest,$update12);
+    //         }
+    //         else{
+    //             $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = $id and UserName='$emp_id'";
+    //             $res = sqlsrv_query($conntest, $sql);
+    //         }
+    //         ftp_close($conn_id);
+    //     } else {
             $sql = "UPDATE  PHDacademic SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
             $res = sqlsrv_query($conntest, $sql);
             $escapedQuery = str_replace("'", "''", $sql);
             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
             sqlsrv_query($conntest,$update12);
-        }
-    }
+        // }
+    // }
     $remainingQry = "SELECT COUNT(*) AS recordCount FROM PHDacademic WHERE UserName = '$emp_id'";
     $remainingResult = sqlsrv_query($conntest, $remainingQry);
     $remainingRow = sqlsrv_fetch_array($remainingResult);
@@ -35241,29 +35247,29 @@ $res = sqlsrv_query($conntest, $sql);
 elseif($code==432.4)
 {
     $id = $_POST['ID'];
-    $qry = "SELECT DocumentPath FROM AdditionalQualifications WHERE id = '$id' and UserName='$EmployeeID' ";
-    $result = sqlsrv_query($conntest, $qry);
+    // $qry = "SELECT DocumentPath FROM AdditionalQualifications WHERE id = '$id' and UserName='$EmployeeID' ";
+    // $result = sqlsrv_query($conntest, $qry);
     
-    if ($rows = sqlsrv_fetch_array($result)) {
-        if ($rows['DocumentPath'] != '') {
-            $docName = $rows['DocumentPath'];
-            ftp_chdir($conn_id, "Images/Staff/Courses") or die("Could not change directory");
-            if (ftp_delete($conn_id, $docName)) {
-                $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
-                $res = sqlsrv_query($conntest, $sql);
-                $escapedQuery = str_replace("'", "''", $sql);
-                $update12="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$escapedQuery','$EmployeeID','$timeStamp')";
-                sqlsrv_query($conntest,$update12);
-            }
-            ftp_close($conn_id);
-        } else {
+    // if ($rows = sqlsrv_fetch_array($result)) {
+    //     if ($rows['DocumentPath'] != '') {
+    //         $docName = $rows['DocumentPath'];
+    //         ftp_chdir($conn_id, "Images/Staff/Courses") or die("Could not change directory");
+    //         if (ftp_delete($conn_id, $docName)) {
+    //             $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
+    //             $res = sqlsrv_query($conntest, $sql);
+    //             $escapedQuery = str_replace("'", "''", $sql);
+    //             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$escapedQuery','$EmployeeID','$timeStamp')";
+    //             sqlsrv_query($conntest,$update12);
+    //         }
+    //         ftp_close($conn_id);
+    //     } else {
             $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$EmployeeID'";
             $res = sqlsrv_query($conntest, $sql);
             $escapedQuery = str_replace("'", "''", $sql);
             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','$escapedQuery','$EmployeeID','$timeStamp')";
             sqlsrv_query($conntest,$update12);
-        }
-    }
+        // }
+    // }
     
     sqlsrv_close($conntest);
 }
@@ -35271,34 +35277,32 @@ elseif($code==432.5)
 {
     $id = $_POST['ID'];
     $emp_id = $_POST['emp_id'];
-    $qry = "SELECT DocumentPath FROM AdditionalQualifications WHERE id = '$id' and UserName='$emp_id' ";
-    $result = sqlsrv_query($conntest, $qry);
-    if ($rows = sqlsrv_fetch_array($result)) {
-        if ($rows['DocumentPath'] != '') {
-            $docName = $rows['DocumentPath'];
-            ftp_chdir($conn_id, "Images/Staff/Courses") or die("Could not change directory");
-            if (ftp_delete($conn_id, $docName)) {
-                $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
-                $res = sqlsrv_query($conntest, $sql);
-                $escapedQuery = str_replace("'", "''", $sql);
-                $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
-                sqlsrv_query($conntest,$update12);
-            }
-            else{
+    // $qry = "SELECT DocumentPath FROM AdditionalQualifications WHERE id = '$id' and UserName='$emp_id' ";
+    // $result = sqlsrv_query($conntest, $qry);
+    // if ($rows = sqlsrv_fetch_array($result)) {
+    //     if ($rows['DocumentPath'] != '') {
+    //         $docName = $rows['DocumentPath'];
+    //         ftp_chdir($conn_id, "Images/Staff/Courses") or die("Could not change directory");
+    //         if (ftp_delete($conn_id, $docName)) {
+                // $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
+                // $res = sqlsrv_query($conntest, $sql);
+                // $escapedQuery = str_replace("'", "''", $sql);
+                // $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
+                // sqlsrv_query($conntest,$update12);
+            // }
+            // else{
                 
-            }
-            ftp_close($conn_id);
-        } else 
-        {
+            // }
+        //     ftp_close($conn_id);
+        // } else 
+        // {
             $sql = "UPDATE AdditionalQualifications SET DeleteStatus='1' WHERE id = '$id' and UserName='$emp_id'";
             $res = sqlsrv_query($conntest, $sql); 
-     
             $escapedQuery = str_replace("'", "''", $sql);
-            
             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
             sqlsrv_query($conntest,$update12);
-        }
-    }
+        // }
+    // }
     
     sqlsrv_close($conntest);
 }elseif($code==432.6)
@@ -35404,55 +35408,55 @@ elseif ($code == 434)
 elseif ($code == 435)
 {
     $id = $_POST['ID'];
-    $qry = "SELECT DocumentPath from StaffExperienceDetails where Id = $id";
-    $result = sqlsrv_query($conntest, $qry);
-    $data = sqlsrv_fetch_array($result);
-    if($data)
-    {
-        $docName = $data['DocumentPath'];
-        ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
-        if (ftp_delete($conn_id, $docName))
-        {
+    // $qry = "SELECT DocumentPath from StaffExperienceDetails where Id = $id";
+    // $result = sqlsrv_query($conntest, $qry);
+    // $data = sqlsrv_fetch_array($result);
+    // if($data)
+    // {
+    //     $docName = $data['DocumentPath'];
+    //     ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
+    //     if (ftp_delete($conn_id, $docName))
+    //     {
              $sql = "UPDATE  StaffExperienceDetails SET DeleteStatus='1' where Id= $id";
             $res = sqlsrv_query($conntest, $sql);
             $escapedQuery = str_replace("'", "''", $sql);
             $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
                          VALUES('$EmployeeID', '$escapedQuery', '$EmployeeID', '$timeStamp')";
                          sqlsrv_query($conntest,$update12);
-        }
-        ftp_close($conn_id);
-    }
+    //     }
+    //     ftp_close($conn_id);
+    // }
     sqlsrv_close($conntest);
 }
 elseif ($code == 435.1)
 {
     $id = $_POST['ID'];
     $emp_id = $_POST['emp_id'];
-    $qry = "SELECT DocumentPath,DateofAppointment from StaffExperienceDetails where Id = $id";
-    $result = sqlsrv_query($conntest, $qry);
-    $data = sqlsrv_fetch_array($result);
-    if($data)
-    {
-         $docName = $data['DocumentPath'];
-        $DateofAppointment = $data['DateofAppointment']->format('Y-m-d'); // convert DateTime object to string
-        ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
-        if (ftp_delete($conn_id, $docName))
-        {
-                         $sql = "UPDATE StaffExperienceDetails SET DeleteStatus='1' where Id= '$id'";
-                        $res = sqlsrv_query($conntest, $sql);
-                    }else{
+    // $qry = "SELECT DocumentPath,DateofAppointment from StaffExperienceDetails where Id = $id";
+    // $result = sqlsrv_query($conntest, $qry);
+    // $data = sqlsrv_fetch_array($result);
+    // if($data)
+    // {
+    //      $docName = $data['DocumentPath'];
+    //     $DateofAppointment = $data['DateofAppointment']->format('Y-m-d'); // convert DateTime object to string
+    //     ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
+    //     if (ftp_delete($conn_id, $docName))
+    //     {
+    //                      $sql = "UPDATE StaffExperienceDetails SET DeleteStatus='1' where Id= '$id'";
+    //                     $res = sqlsrv_query($conntest, $sql);
+    //                 }else{
                         
                         $sql = "UPDATE StaffExperienceDetails SET DeleteStatus='1' where Id= '$id'";
                        $res = sqlsrv_query($conntest, $sql);
-        }
+        // }
          $sql1 = "UPDATE Staff Set DateOfPromotion=NULL where IDNo='$emp_id' and DateOfPromotion='$DateofAppointment'";
         sqlsrv_query($conntest, $sql1);
         $escapedQuery = str_replace("'", "''", $sql);
         $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
                      VALUES('$emp_id', '$escapedQuery', '$EmployeeID', '$timeStamp')";
                      sqlsrv_query($conntest,$update12);
-        ftp_close($conn_id);
-    }
+    //     ftp_close($conn_id);
+    // }
     sqlsrv_close($conntest);
 }
 elseif($code==436)

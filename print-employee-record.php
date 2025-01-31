@@ -490,7 +490,7 @@ if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
 <table class="table">
     <!-- Experience Details -->
     <?php
-    $sql = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = '$emp_id' and DeleteStatus='0' order By ID desc ";
+    $sql = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = '$emp_id' and Status='0' order By ID desc ";
     if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
 
         $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='".$data['CollegeID']."' ";
