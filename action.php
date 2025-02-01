@@ -22328,7 +22328,7 @@ elseif($code=='336')
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
     <option value="">Select Type</option>
     <?php 
-      $sql_att23="SELECT DISTINCT LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes where LeaveTypes.Id= '26'  "; 
+      $sql_att23="SELECT DISTINCT LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes where LeaveTypes.Id= '26' OR  LeaveTypes.Id= '7'"; 
 
 
       $stmt = sqlsrv_query($conntest,$sql_att23);  
@@ -23052,8 +23052,8 @@ if($c>0)
 
 
         
- $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
- VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveendDate','$leaveStartDate','By HR Department','$coutv','0','0','0','0','Approved')";
+ $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy,CreatedAt)
+ VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveendDate','$leaveStartDate','By HR Department','$coutv','0','0','0','0','Approved','$EmployeeID','$timeStampS')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
