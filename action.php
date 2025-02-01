@@ -23052,8 +23052,8 @@ if($c>0)
 
 
         
- $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy,CreatedAt)
- VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveendDate','$leaveStartDate','By HR Department','$coutv','0','0','0','0','Approved','$EmployeeID','$timeStampS')";
+ $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy)
+ VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveendDate','$timeStampS','By HR Department','$coutv','0','0','0','0','Approved','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
