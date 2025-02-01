@@ -23055,19 +23055,20 @@ if($c>0)
  $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy)
  VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveendDate','$timeStampS','By HR Department','$coutv','0','0','0','0','Approved','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
-                if($InsertLeaveRun==true)
-                {
-                    echo "1";
-                }
-                else
-                {
-                    echo "0";
-                }
+                // if($InsertLeaveRun==true)
+                // {
+                //     echo "1";
+                // }
+                // else
+                // {
+                //     echo "0";
+                // }
               
                 
 }
 $c++;
  }
+ echo "1";
  sqlsrv_close($conntest);
 }
 
