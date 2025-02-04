@@ -31,7 +31,7 @@
                       </a>
                       <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i
                       class="fa fa-retweet" aria-hidden="true"></i></button>
-                      <button type="button" class="btn btn-success btn-sm" data-toggle="modal"  data-target="#viewLeaveBulk">Add Casual</button>
+                      <button type="button" class="btn btn-success btn-sm" data-toggle="modal"  data-target="#viewLeaveBulk">Add  Leave</button>
                                 <?php }else{
                                    ?><input type="hidden"id="actionButtonValue" value="Manage Leaves"><?php  }?>
                         <input type="hidden" id="CollegeID_Set">
@@ -464,6 +464,10 @@ function show_text_box_pages(id) {
                <option value="5">5</option>
                <option value="6">6</option>
                <option value="7">7</option>
+               <option value="-1">-1</option>
+                   <option value="-0.25">-0.25</option>
+                   <option value="-0.50">-0.50</option>
+                   <option value="-0.75">-0.75</option>
                </select>
                 </div>
                <div class="col-lg-3">

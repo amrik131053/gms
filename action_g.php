@@ -17575,7 +17575,7 @@ elseif($code==227)
 }
     elseif($code==228)
 {
-    $staff="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances)";
+    $staff="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=1)";
     $stmt=sqlsrv_query($conntest,$staff,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     while($row=sqlsrv_fetch_array($stmt))
     {
@@ -17585,6 +17585,22 @@ sqlsrv_query($conntest,$updateLeaveBalance);
 
 
     }
+    $staffc="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=2)";
+    $stmtc=sqlsrv_query($conntest,$staffc,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    while($rowc=sqlsrv_fetch_array($stmtc))
+    {
+   $employeeIdc=$rowc['IDNo'];
+    $updateLeaveBalancec="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc','0','2') ";
+sqlsrv_query($conntest,$updateLeaveBalancec);
+
+
+    }
+
+
+
+
+
+
     sqlsrv_close($conntest);
 
     }
