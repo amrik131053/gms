@@ -3323,7 +3323,7 @@ else { ?>
                     $color = (sqlsrv_num_rows($get_card_run) > 0) ? "red" : "";
                 ?>
                     <?php if($role_id == 3 || $role_id == 2) { ?>
-                    <?php if($row['depid'] != '81') { ?>
+                    <?php if($row['depid'] != '81' && $row['CategoryId']!='8') { ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpRecordPdf(<?=$row['IDNo'];?>);"></i>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
@@ -3442,7 +3442,7 @@ $srNo++;
                           }  
 ?>
 
-                    <?php if($row1['depid']!='81'){
+                    <?php if($row1['depid']!='81' && $row1['CategoryId']!='8'){
     ?>
 
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
