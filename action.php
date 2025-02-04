@@ -64,7 +64,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
       $permissionCount++;
    }
      $code = $_POST['code'];
-    if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333'||$code=='386' || $code=='386.1' || $code=='394.1' || $code=='393.1' || $code=='388'|| $code=='387'
+    if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='332.1'|| $code=='333'||$code=='386' || $code=='386.1' || $code=='394.1' || $code=='393.1' || $code=='388'|| $code=='387'
     ||$code=='389'||$code=='390'||$code=='391'||$code=='392'||$code=='393'|| $code=='394'|| $code=='395' || $code=='395.1' || $code=='392.1' )
     {
        include "connection/connection_web.php"; 
@@ -21777,6 +21777,146 @@ if($payment_id!=''){?>
       <td><?php echo $amount; ?></td>
       <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
   
+      </tr>
+            <?php }?>
+
+
+
+<?php 
+mysqli_close($conn);
+   }
+ elseif($code=='332.1') 
+   {
+    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025'";
+ $result = mysqli_query($conn_online,$qry);
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+        $user_id = $row['user_id'];
+    $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+       $purpose=$row['purposeType'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+      //  $admissionstatus=$row['merge'];
+       
+       switch ($purpose) {
+         case 'student':
+            $category_label='Student';
+            break;
+        case 'researchScholar':
+            $category_label='Research Scholar';
+            break;
+        case 'faculty_inside':
+            $category_label='Faculty Member';
+            break;
+        case 'industry_persons':
+                $category_label='Industry Persons';
+            break;
+         case 'participants':
+                $category_label='Participant Person';
+            break;
+         default:
+             $category_label = 'Not Available';
+     }
+  ?>  
+
+  <td>  
+      <?php
+      echo $counter++;?>
+     </td>
+     <td>
+     <b><?php 
+if($payment_id!=''){?>
+        <?= $payment_id.'('.$id.')';?><?php 
+      } ?></b>
+ </td>
+ <td> <?php echo $name ;?> </td>
+ <td><?php echo $category_label; ;?></td>
+ <td><?php echo $course; ?></td>    
+ <td><?php echo $email;?> </td>
+ <td><?php echo $remarks;?> </td>
+      <td><?php echo $phone; ?></td>
+      <td><?php echo $amount; ?></td>
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+      <td><b>Registration</b></td>
+      </tr>
+            <?php }
+
+    $qry1="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025 Award'";
+ $result1 = mysqli_query($conn_online,$qry1);
+    $counter1 = 1; 
+        while($row1=mysqli_fetch_array($result1)) 
+        {
+      $id = $row1['slip_no'];
+        $user_id = $row1['user_id'];
+    $payment_id = $row1['payment_id'];
+      $name = $row1['name'];
+      $father_name = $row1['father_name'];
+      $roll_no = $row1['roll_no'];
+      $course = $row1['course'];
+      $sem = $row1['sem'];
+      $batch=$row1['batch'];
+       $purpose=$row1['purposeType'];
+      $remarks=$row1['remarks'];
+      $status=$row1['status'];
+      $Created_date=$row1['Created_date'];
+      $Created_time=$row1['Created_time'];
+      $amount=$row1['amount'];
+      $email = $row1['email'];
+      $phone = $row1['phone'];
+      //  $admissionstatus=$row1['merge'];
+       switch ($purpose) {
+         case 'student':
+            $category_label='Student';
+            break;
+        case 'researchScholar':
+            $category_label='Research Scholar';
+            break;
+        case 'faculty_inside':
+            $category_label='Faculty Member';
+            break;
+        case 'industry_persons':
+                $category_label='Industry Persons';
+            break;
+         case 'participants':
+                $category_label='Participant Person';
+            break;
+         default:
+             $category_label = 'Not Available';
+     }
+  ?>  
+<tr style="background-color:#223260;color:white;" >
+  <td>  
+      <?php
+      echo $counter1++;?>
+     </td>
+     <td >
+     <b><?php 
+if($payment_id!=''){?>
+        <?= $payment_id.'('.$id.')';?><?php 
+      } ?></b>
+ </td>
+ <td> <?php echo $name ;?> </td>
+ <td><?php echo $category_label; ;?></td>
+ <td><?php echo $course; ?></td>    
+ <td><?php echo $email;?> </td>
+ <td><?php echo $remarks;?> </td>
+      <td><?php echo $phone; ?></td>
+      <td><?php echo $amount; ?></td>
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+      <td><b>Award</b></td>
       </tr>
             <?php }?>
 

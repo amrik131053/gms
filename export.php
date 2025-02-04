@@ -17,7 +17,7 @@ elseif (isset($_GET['exportCode']))
     $exportCode = $_GET['exportCode'];
 }
 
-if($exportCode==19 ||$exportCode==27||$exportCode==28||$exportCode==77||$exportCode==78||$exportCode==79||$exportCode==80 ||$exportCode==80.1)
+if($exportCode==19 ||$exportCode==27 || $exportCode==27.1 || $exportCode==27.2 ||$exportCode==28||$exportCode==77||$exportCode==78||$exportCode==79||$exportCode==80 ||$exportCode==80.1)
    {
        include "connection/connection_web.php"; 
 
@@ -3101,6 +3101,289 @@ elseif($exportCode=='27')
                  <td>{$accomodation}</td>
                   <td>{$acctype}</td>
                   <td>{$presentation}</td>
+                  <td>{$abstract_title}</td>
+                   <td>{$start}</td>
+                    <td>{$endd}</td>
+                    <td>{$presenting}</td>
+                     <td>{$attending}</td>
+
+               
+            </tr>";
+$count++;
+    }
+    
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Report";
+
+
+}
+elseif($exportCode=='27.1')
+{
+    
+
+  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025'");
+    $counter = 1; 
+       
+    $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Payment ID</th>
+          <th>Ref no</th>
+          <th>Name</th>
+          <th>Member Type</th>
+             <th>Designation</th>
+            <th>College</th>
+             <th>Department</th>
+         
+          <th>Email</th> 
+          <th>Purpose</th>
+          <th>Phone</th>
+          <th>Amount</th>
+          <th>Transaction Date/ Time</th>
+          <th>Country</th>
+           <th>Accomodation</th>
+           <th>Accomodation Type </th>
+           <th>Presentation Type </th>
+           <th>Abstract Title </th>
+              <th>Check in Date </th>
+                <th>Check out Date </th>
+                 <th>Presenting</th>
+          <th>Attending</th>
+            
+         </tr>
+        </thead>";
+       
+
+         $count=1;
+    
+     while($row=mysqli_fetch_array($result)) 
+        {
+            $id = $row['slip_no'];
+            $payment_id = $row['payment_id'];
+            $name = $row['name'];
+            $father_name = $row['father_name'];
+            $Designation = $row['roll_no'];
+            $result1 = mysqli_query($conn_online,"SELECT * FROM seminar_registrations where  id='$Designation'");
+            if($row1=mysqli_fetch_array($result1)) 
+            {
+               $presentation=$row1['presentation'];
+               $abstract_title=$row1['abstract_title'];
+            }
+             
+
+
+      $Organisation = $row['course'];
+      $IdNo = $row['Class_rollno'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+       $quali=$row['quali'];
+     
+      $amount=$row['amount'];
+      $email = $row['email'];
+
+      $accomodation=$row['accomodation'];
+       $country=$row['country'];
+     
+      $acctype=$row['acctype'];
+      $start=$row['start'];
+      $endd=$row['endd'];
+      $CollegeName=$row['CollegeName'];
+
+
+      $presenting = $row['presenting'];
+
+
+      $phone = $row['phone'];
+
+      $attending = $row['attending'];
+      switch ($purpose) {
+        case 'student':
+           $category_label='Student';
+           break;
+       case 'researchScholar':
+           $category_label='Research Scholar';
+           break;
+       case 'faculty_inside':
+           $category_label='Faculty Member';
+           break;
+       case 'industry_persons':
+               $category_label='Industry Persons';
+           break;
+        case 'participants':
+               $category_label='Participant Person';
+           break;
+        default:
+            $category_label = 'Not Available';
+    }
+       
+            $exportMeter.="<tr>
+                <td>{$count}</td>
+                <td>{$payment_id}</td>
+                <td>{$id}</td>
+                <td>{$name}</td>
+                <td>{$category_label}</td>
+                
+                 <td>{$Organisation}</td>
+                <td>{$CollegeName}</td>
+              
+                 <td>{$father_name}</td>
+                 
+                
+                <td>{$email}</td>
+                <td>{$remarks}</td>
+                <td>{$phone}</td>
+                <td>{$amount}</td>
+                <td>{$Created_date}&nbsp;{$Created_time}</td>
+                <td>{$country}</td>
+                 <td>{$accomodation}</td>
+                  <td>{$acctype}</td>
+                  <td>{$presentation}</td>
+                  <td>{$abstract_title}</td>
+                   <td>{$start}</td>
+                    <td>{$endd}</td>
+                    <td>{$presenting}</td>
+                     <td>{$attending}</td>
+
+               
+            </tr>";
+$count++;
+    }
+    
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Report";
+
+
+}
+elseif($exportCode=='27.2')
+{
+    
+
+  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025 Award'");
+    $counter = 1; 
+       
+    $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Payment ID</th>
+          <th>Ref no</th>
+          <th>Name</th>
+          <th>Member Type</th>
+             <th>Designation</th>
+            <th>College</th>
+             <th>Department</th>
+         
+          <th>Email</th> 
+          <th>Purpose</th>
+          <th>Phone</th>
+          <th>Amount</th>
+          <th>Transaction Date/ Time</th>
+          <th>Award Name </th>
+           <th>Paper Title </th>
+              <th>Check in Date </th>
+                <th>Check out Date </th>
+                 <th>Presenting</th>
+          <th>Attending</th>
+            
+         </tr>
+        </thead>";
+       
+
+         $count=1;
+    
+     while($row=mysqli_fetch_array($result)) 
+        {
+            $id = $row['slip_no'];
+            $payment_id = $row['payment_id'];
+            $name = $row['name'];
+            $father_name = $row['father_name'];
+            $Designation = $row['roll_no'];
+            $result1 = mysqli_query($conn_online,"SELECT * FROM seminar_registrations where  id='$Designation'");
+            if($row1=mysqli_fetch_array($result1)) 
+            {
+               $presentation=$row1['presentation'];
+               $abstract_title=$row1['abstract_title'];
+            }
+             
+
+
+      $Organisation = $row['course'];
+      $IdNo = $row['Class_rollno'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+       $quali=$row['quali'];
+     
+      $amount=$row['amount'];
+      $email = $row['email'];
+
+      $accomodation=$row['award_name'];
+       $country=$row['country'];
+     
+      $acctype=$row['acctype'];
+      $start=$row['start'];
+      $endd=$row['endd'];
+      $CollegeName=$row['CollegeName'];
+
+
+      $presenting = $row['presenting'];
+
+
+      $phone = $row['phone'];
+
+      $attending = $row['attending'];
+      switch ($purpose) {
+        case 'student':
+           $category_label='Student';
+           break;
+       case 'researchScholar':
+           $category_label='Research Scholar';
+           break;
+       case 'faculty_inside':
+           $category_label='Faculty Member';
+           break;
+       case 'industry_persons':
+               $category_label='Industry Persons';
+           break;
+        case 'participants':
+               $category_label='Participant Person';
+           break;
+        default:
+            $category_label = 'Not Available';
+    }
+       
+            $exportMeter.="<tr>
+                <td>{$count}</td>
+                <td>{$payment_id}</td>
+                <td>{$id}</td>
+                <td>{$name}</td>
+                <td>{$category_label}</td>
+                
+                 <td>{$Organisation}</td>
+                <td>{$CollegeName}</td>
+              
+                 <td>{$father_name}</td>
+                 
+                
+                <td>{$email}</td>
+                <td>{$remarks}</td>
+                <td>{$phone}</td>
+                <td>{$amount}</td>
+                <td>{$Created_date}&nbsp;{$Created_time}</td>
+              
+                 <td>{$accomodation}</td>
                   <td>{$abstract_title}</td>
                    <td>{$start}</td>
                     <td>{$endd}</td>
