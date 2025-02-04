@@ -3155,7 +3155,7 @@ if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
                           }  
 ?>
 
-                    <?php if($row1['DepartmentID']!='81'){
+                    <?php if($row1['DepartmentID']!='81' && $row1['CategoryId']!='8'){
     ?>
 
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
