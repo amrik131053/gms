@@ -9,9 +9,6 @@ date_default_timezone_set("Asia/Kolkata");
   
      $stmt1 = sqlsrv_query($conntest,$list_sqlw);
 
-
-
-
    $getStatus="SELECT * FROM Migration where ID='$id'";
    $getStatusRun=sqlsrv_query($conntest,$getStatus);
    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
@@ -22,6 +19,7 @@ date_default_timezone_set("Asia/Kolkata");
       $result = $getStatusRow['Result'];
       $IDNo = $getStatusRow['IDNo'];
       $dateofissue = $getStatusRow['IssueDate']->format('d-m-Y');
+      $failDate = $getStatusRow['failDate']->format('d-m-Y');
       $result1 = "SELECT  * FROM Admissions where IDNo='$IDNo'";
       $stmt1 = sqlsrv_query($conntest,$result1);
       if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -82,31 +80,29 @@ $pdf->SetXY(20, $Y+90);
 $pdf->MultiCell(172, 10, 'It is informed that Guru Kashi University has no objection to continue his/her studies at another University.', 0, 'L');
 
 $pdf->SetXY(20, $Y+110);
-if($gender=='Male')
+if($result=='Pass')
 {
- $pdf->MultiCell(45, 10, 'He last appeared in', 0, 'L');
- 
-}
-else
-{
-   $pdf->MultiCell(45, 10, 'She last appeared in', 0, 'L');
-
-}
-
-$pdf->SetXY(60, $Y+110);
-$pdf->SetFont('Times', 'B', $fontSize);
-$pdf->MultiCell(150, 10, ': '.$course, 0, 'L');
-$pdf->SetFont('Times', '', $fontSize);
-$pdf->SetXY(20, $Y+120);
-$pdf->MultiCell(85, 10, 'Examination of this Univerisity held in', 0, 'L');
-
-$x=$pdf->GetX();
+    if($gender=='Male')
+    {
+     $pdf->MultiCell(45, 10, 'He last appeared in', 0, 'L');
+     
+    }
+    else
+    {
+       $pdf->MultiCell(45, 10, 'She last appeared in', 0, 'L');
+    }
+    $pdf->SetXY(20, $Y+120);
+    $pdf->MultiCell(85, 10, 'Examination of this Univerisity held in', 0, 'L');
+    $pdf->SetXY(60, $Y+110);
+    $pdf->SetFont('Times', 'B', $fontSize);
+    $pdf->MultiCell(150, 10, ': '.$course, 0, 'L');
+    $pdf->SetFont('Times', '', $fontSize);
+    $x=$pdf->GetX();
 $y=$pdf->GetY();
 $pdf->SetXY(99, $Y+120);
 $pdf->SetFont('Times', 'B', $fontSize);
 $len=strlen($examination);
 $pdf->MultiCell(7+$len*2.19, 10, $examination, 0, 'L');
-
 $YY=($len*1.98)+106.2;
 $pp=0;
 $ppp=9;
@@ -131,35 +127,35 @@ if($len==8)
     $pp=1;
     $ppp=7.6;
 }
-
-// if($len==11)
-// {
-//     $YY=128;
-// }
-// if($len==12)
-// {
-//     $YY=130;
-// }
-// if($len==13)
-// {
-//     $YY=132;
-// }
-// elseif($len==)
-// {
-//     $YY=142;
-// }
-// elseif($len>12)
-// {
-    // $YY=142;
-// }
 $pdf->SetXY($YY-$pp, $Y+120);
 $pdf->SetFont('Times', '', $fontSize);
 $pdf->MultiCell(11, 10,'and', 0, 'L');
 $pdf->SetFont('Times', 'B', $fontSize);
 $pdf->SetXY($YY+$ppp, $Y+120);
 $pdf->MultiCell(37, 10,$result.'.', 0, 'L');
-$pdf->SetXY(20, $Y+160);
+}
+else
+{
 
+    $pdf->SetXY(64, $Y+100);
+        $pdf->MultiCell(120, 10, 'The student was admitted to the programme', 0, 'L');
+        $pdf->SetXY(20, $Y+110);
+        $pdf->SetFont('Times', 'B', $fontSize);
+        $pdf->MultiCell(170, 10,$course, 0, 'L');
+        $pdf->SetFont('Times', '', $fontSize);
+        $x=$pdf->GetX();
+        $y=$pdf->GetY();
+        $pdf->SetXY($x+10, $Y+120);
+        $pdf->MultiCell(50, 10, 'and has dropped out on', 0, 'L');
+        $x=$pdf->GetX();
+        $y=$pdf->GetY();
+        $pdf->SetXY(68, $Y+120);
+        $pdf->SetFont('Times', 'B', $fontSize);
+        $len=strlen($examination);
+        $pdf->MultiCell(100, 10,$failDate, 0, 'L');
+
+}
+$pdf->SetXY(20, $Y+160);
 $yrdata= strtotime($dateofissue);
 
 $dateofissue=date('d F Y', $yrdata);

@@ -38312,12 +38312,13 @@ elseif($code==468.1)
     $id=$_POST['id'];
     $result=$_POST['result'];
     $examination=$_POST['examination'];
-    $desc= "INSERT into Migration(IDNo,Examination,Status,Result,ApplyDate)values('$id','$examination','1','$R','$timeStamp')";
+    $failDate=$_POST['failDate'];
+    $desc= "INSERT into Migration(IDNo,Examination,Status,Result,ApplyDate,failDate)values('$id','$examination','1','$result','$timeStamp','$failDate')";
     
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
 
-    $basiclocked="INSERT into Migration(IDNo,Examination,Status,Result,ApplyDate)values('$id','$examination','1','$result','$timeStamp')";
+     $basiclocked="INSERT into Migration(IDNo,Examination,Status,Result,ApplyDate,failDate)values('$id','$examination','1','$result','$timeStamp','$failDate')";
     $basiclockedRun=sqlsrv_query($conntest,$basiclocked);
     if($basiclockedRun==true)
     {

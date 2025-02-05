@@ -129,6 +129,7 @@
 var result= document.getElementById("result_n").value;
 
 var mid= document.getElementById("mid").value;
+var failDateUp= document.getElementById("failDateUp").value;
 var code="257.4";
 
 
@@ -141,7 +142,7 @@ var code="257.4";
             type:"POST",
             data:
             {
-               code:code,srno:srno,examination:examination,result:result,mid:mid,idno:idno
+               code:code,srno:srno,examination:examination,result:result,mid:mid,idno:idno,failDateUp:failDateUp
             },
             success:function(response) 
             {
@@ -277,7 +278,16 @@ var code="257.4";
    }
 
 
+   function toggleDateField() {
+    var result = document.getElementById("result").value;
+    var dateField = document.getElementById("dateField");
 
+    if (result === "Fail") {
+        dateField.style.display = "block";
+    } else {
+        dateField.style.display = "none";
+    }
+}
 
 
 
@@ -322,13 +332,14 @@ var code="257.4";
        var code=468.1;
        var examination= document.getElementById("examination").value;
        var result= document.getElementById("result").value;
+       var failDate= document.getElementById("failDate").value;
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
             url:'action_g.php',
             type:'POST',
             data:{
-               code:code,id:id,result:result,examination:examination
+               code:code,id:id,result:result,examination:examination,failDate:failDate
                   },
                  success: function(response) 
             { 

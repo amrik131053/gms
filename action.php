@@ -17096,7 +17096,7 @@ elseif($code=='257.1')
    $univ_rollno=$_POST['rollNo'];
   if(is_numeric($univ_rollno))
 {
-   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
+    $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
 }
  else
  {
@@ -17179,11 +17179,17 @@ $result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  Class
                   </li>
                   <li class="nav-item">
                      <li class="nav-link"><b>Result : &nbsp;&nbsp;&nbsp;</b>
-                     <select class="btn btn-md" id="result">
-                        <option value="Pass">Pass</option>
-                        <option value="Fail">Fail</option>
-                     </select></li>
+                     <select class="btn btn-md" id="result" onchange="toggleDateField()">
+    <option value="Pass">Pass</option>
+    <option value="Fail">Fail</option>
+</select></li>
                   </li>
+                  <li class="nav-link">  <div id="dateField" style="display: none; margin-top: 10px;">
+    <b>Enter Date:</b>
+    <input type="date" id="failDate" class="form-control">
+</div>
+                           </li>
+
                   <li class="nav-item">
                      <li class="nav-link"><b class="text-danger">
                       <?php if($status==0 || $status=='')
@@ -17242,7 +17248,7 @@ sqlsrv_close($conntest);
 
    if(is_numeric($univ_rollno))
 {
- $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
+ $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
 }
  else
  {
@@ -17346,6 +17352,14 @@ elseif($code=='257.3')
         $IDNo = $getStatusRow['IDNo'];
          $srnumber = $getStatusRow['SrNumber'];
         $mID = $getStatusRow['ID'];
+        if($getStatusRow['failDate']!='')
+        {
+           $failDateUp = $getStatusRow['failDate']->format('Y-m-d');
+
+        }
+        else{
+         $failDateUp="";
+        }
       }
 
 
@@ -17365,6 +17379,7 @@ elseif($code=='257.3')
     $college = $row['CollegeName'];
        $UniRollNo = $row['UniRollNo'];
     $ClassRollNo = $row['ClassRollNo'];
+   
    
   }
    ?>
@@ -17404,7 +17419,8 @@ elseif($code=='257.3')
                   <li class="nav-item">
                      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
                   </li>
-                  <li class="nav-item"><li class="nav-link">
+                  <li class="nav-item">
+                     <li class="nav-link">
                     <div class="row">
 
                       <div class="col-lg-6"><b>Examination</b>
@@ -17428,6 +17444,22 @@ elseif($code=='257.3')
                         <option value="Pass">Pass</option>
                         <option value="Fail">Fail</option>
                      </select>
+                     </div>
+
+                   </div>
+                 </li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link">
+                    <div class="row">
+
+                     
+
+                  <div class="col-lg-12"> 
+                     <b>Fail Date</b>
+                    
+    <input type="date" id="failDateUp" name="failDateUp" value="<?=$failDateUp;?>" class="form-control">
+
                      </div>
 
                    </div>
@@ -17486,6 +17518,7 @@ elseif($code=='257.3')
     $result=$_POST['result'];
     $mid=$_POST['mid'];
      $idno=$_POST['idno'];
+     $failDateUp=$_POST['failDateUp'];
 //  $file_name = $_FILES['migrationfile']['name'];
 // $file_tmp = $_FILES['migrationfile']['tmp_name'];
 // $type = $_FILES['migrationfile']['type'];
@@ -17543,12 +17576,12 @@ elseif($code=='257.3')
 // }
 
 
- $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination' where ID='$mid'";
+ $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination',failDate='$failDateUp' where ID='$mid'";
   
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
 
 
-  $desc= "UPDATE  Migration set result $result,SrNumber$srno,Examination$examination where ID:$mid";
+  $desc= "UPDATE  Migration set result $result,SrNumber$srno,Examination$examination,failDate=$failDateUp where ID:$mid";
     
  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
