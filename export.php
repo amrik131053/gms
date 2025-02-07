@@ -11960,6 +11960,7 @@ else if($exportCode==75)
       <th style='background-color:black; color:white;'>EmailID</th>
       <th style='background-color:black; color:white;'>Student Mobile No</th>
       <th style='background-color:black; color:white;'>Status</th>
+      <th style='background-color:black; color:white;'>State</th>
       ";
       $exportstudy.="</tr></thead>";      
                   
@@ -12003,6 +12004,7 @@ else if($exportCode==75)
                                      $Status=$row['ExamStatus'];
                                      $Batch=$row['Batch'];
                                      $SemesterId=$row['SemesterId'];
+                                     $State=$row['State'];
                                     
  if($Status==-1)
               {
@@ -12074,6 +12076,7 @@ else if($exportCode==75)
                                         <td>{$EmailID}</td>
                                         <td>{$StudentMobileNo}</td>
                                         <td>{$StatusShow}</td>
+                                        <td>{$State}</td>
                                         </tr>";
            }
                      $exportstudy.="</table>";
