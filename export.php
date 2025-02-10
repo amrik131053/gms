@@ -3058,25 +3058,60 @@ elseif($exportCode=='27')
       $phone = $row['phone'];
 
       $attending = $row['attending'];
-      switch ($purpose) {
-        case 'student':
+    //   switch ($purpose) {
+    //     case 'student':
            
-            $category_label='Student';
-            break;
-        case 'researchScholar':
+    //         $category_label='Student';
+    //         break;
+    //     case 'researchScholar':
            
-            $category_label='Research Scholar';
-            break;
-        case 'faculty_inside':
+    //         $category_label='Research Scholar';
+    //         break;
+    //     case 'faculty_inside':
            
-            $category_label='Guru Kashi Faculty Member';
-            break;
-            case 'faculty_outside':
+    //         $category_label='Guru Kashi Faculty Member';
+    //         break;
+    //         case 'faculty_outside':
                
-                $category_label='Outside Faculty Member';
-            break;
+    //             $category_label='Outside Faculty Member';
+    //         break;
+    //     default:
+    //         $fee = 'Not Available';
+    // }
+
+    switch ($purpose) {
+        case 'student':
+           $category_label='Student';
+           break;
+        case 'studentUG':
+             
+              $category_label='Student UG';
+              break;
+        case 'studentPG':
+             
+              $category_label='Student PG';
+              break;
+       case 'researchScholar':
+           $category_label='Research Scholar';
+           break;
+       case 'faculty_inside':
+           $category_label='Faculty Member';
+           break;
+       case 'industry_persons':
+               $category_label='Industry Persons';
+           break;
+        case 'participants':
+               $category_label='Participant Person';
+           break;
+        case 'project_participation':
+            
+              $category_label='Project Participation';
+              break;
+        case 'school_student':
+              $category_label='School Student';
+          break;
         default:
-            $fee = 'Not Available';
+            $category_label = 'Not Available';
     }
        
             $exportMeter.="<tr>
