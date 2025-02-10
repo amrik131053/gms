@@ -9349,7 +9349,7 @@ $q1 = sqlsrv_query($conntest,$list_sql);
 
 
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'><tr><td>Sr No</td><td>Session</td><td>IDNo</td><td>UniRollNo</td><td>Class RollNO</td><td>Name</td>
-  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Fee Category</td><td>Debit</td><td>Credit</td><td>Balance</td></tr>";
+  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Fee Category</td><td>Debit</td><td>Credit</td><td>Balance</td><td>Consultant</td></tr>";
 
   $srno=1;
         while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
@@ -9377,6 +9377,21 @@ $balanceamount=$tdebit-$tcredit;
 $exportstudy.="<td>{$tdebit}</td><td>{$tcredit}</td><td>{$balanceamount}</td>";
 
  }
+
+ $Admiss3="SELECT  Name from  MasterConsultantRef  mcr inner join MasterConsultant mc  on mcr.RefIDNo=mc.ID   WHERE 1=1" ; 
+if($semID!='')
+{
+ $Admiss3.= " AND SemesterID<='$semID' ";
+}
+$Admiss3.="AND StudentIDNo='$idno'";
+
+$q2 = sqlsrv_query($conntest, $Admiss3);
+ while ($dataw3 = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
+ {
+$conname=$dataw3['Name'];
+$exportstudy.="<td>{$conname}</td>";
+ }
+
 
           $exportstudy.="</tr>"; 
           $srno++;

@@ -21848,6 +21848,14 @@ mysqli_close($conn);
          case 'student':
             $category_label='Student';
             break;
+         case 'studentUG':
+              
+               $category_label='Student UG';
+               break;
+         case 'studentPG':
+              
+               $category_label='Student PG';
+               break;
         case 'researchScholar':
             $category_label='Research Scholar';
             break;
@@ -21860,6 +21868,13 @@ mysqli_close($conn);
          case 'participants':
                 $category_label='Participant Person';
             break;
+         case 'project_participation':
+             
+               $category_label='Project Participation';
+               break;
+         case 'school_student':
+               $category_label='School Student';
+           break;
          default:
              $category_label = 'Not Available';
      }
@@ -21882,7 +21897,7 @@ if($payment_id!=''){?>
  <td><?php echo $remarks;?> </td>
       <td><?php echo $phone; ?></td>
       <td><?php echo $amount; ?></td>
-      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)).' '.date("h:i:s", strtotime($Created_time)) ?></td>
       <td><b>Registration</b></td>
       </tr>
             <?php }
@@ -21948,7 +21963,7 @@ if($payment_id!=''){?>
  <td><?php echo $remarks;?> </td>
       <td><?php echo $phone; ?></td>
       <td><?php echo $amount; ?></td>
-      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)).' '.date("h:i:s", strtotime($Created_time)) ?></td>
       <td><b>Award</b></td>
       </tr>
             <?php }?>
