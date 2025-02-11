@@ -9397,12 +9397,8 @@ $exportstudy.="<td>{$tdebit}</td><td>{$tcredit}</td><td>{$balanceamount}</td>";
 
  }
 
- $Admiss3="SELECT  Name from  MasterConsultantRef  mcr inner join MasterConsultant mc  on mcr.RefIDNo=mc.ID   WHERE 1=1" ; 
-if($semID!='')
-{
- $Admiss3.= " AND SemesterID<='$semID' ";
-}
-$Admiss3.="AND StudentIDNo='$idno'";
+ $Admiss3="SELECT  Name from  MasterConsultantRef  mcr inner join MasterConsultant mc  on mcr.RefIDNo=mc.ID   WHERE StudentIDNo='$idno'" ; 
+
 
 $q2 = sqlsrv_query($conntest, $Admiss3);
  while ($dataw3 = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
