@@ -3220,6 +3220,9 @@ elseif($exportCode=='27.1')
         case 'participants':
                $category_label='Participant Person';
            break;
+        case 'gku_faculty':
+            $category_label='Gku Faculty Member';
+            break;
         case 'project_participation':
               $category_label='Project Participation';
               break;
@@ -3367,6 +3370,9 @@ elseif($exportCode=='27.2')
        case 'faculty_inside':
            $category_label='Faculty Member';
            break;
+           case 'gku_faculty':
+            $category_label='Gku Faculty Member';
+            break;
        case 'industry_persons':
                $category_label='Industry Persons';
            break;
