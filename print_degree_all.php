@@ -1373,7 +1373,7 @@ else{
                   <?php }
                   else
                   {?>
-<div style="height:90px;"></div>
+<div style="height:60px;"></div>
               <?php    } 
                      // code...
                   ?>
@@ -1401,7 +1401,22 @@ else{
                         </div>
                      </div>
                      <div class="row">
-                        <div style="height: 140px;"></div>
+
+
+                          <?php  if($RegistrationNo!='')
+                        {
+                         ?>
+                  <div style="height: 140px;"></div>
+                  <?php }
+                  else
+                  {?>
+<div style="height: 160px;"></div>
+              <?php    } 
+                     // code...
+                  ?>
+
+
+                        
                         <!-- // space -->
                         <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
                      </div>
