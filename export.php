@@ -2976,7 +2976,7 @@ elseif($exportCode=='27')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='National Seminar 20-22 January 2025'");
+   $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='National Seminar 20-22 January 2025'");
     $counter = 1; 
      
     
@@ -3021,15 +3021,12 @@ elseif($exportCode=='27')
             $name = $row['name'];
             $father_name = $row['father_name'];
             $Designation = $row['roll_no'];
-            $result1 = mysqli_query($conn_online,"SELECT * FROM seminar_registrations where  id='$Designation'");
+              $result1 = mysqli_query($conn_online,"SELECT * FROM seminar_registrations where  id='$Designation'");
             if($row1=mysqli_fetch_array($result1)) 
             {
                $presentation=$row1['presentation'];
                $abstract_title=$row1['abstract_title'];
             }
-             
-
-
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
@@ -3078,20 +3075,18 @@ elseif($exportCode=='27')
         default:
             $fee = 'Not Available';
     }
+
+    
        
             $exportMeter.="<tr>
                 <td>{$count}</td>
                 <td>{$payment_id}</td>
                 <td>{$id}</td>
                 <td>{$name}</td>
-                <td>{$category_label}</td>
-                
+                <td>{$purpose}</td>
                  <td>{$Organisation}</td>
                 <td>{$CollegeName}</td>
-              
                  <td>{$father_name}</td>
-                 
-                
                 <td>{$email}</td>
                 <td>{$remarks}</td>
                 <td>{$phone}</td>
@@ -3178,7 +3173,7 @@ elseif($exportCode=='27.1')
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
-      $purpose=$row['purpose'];
+      $purpose=$row['purposeType'];
       $remarks=$row['remarks'];
 
       $Created_date=$row['Created_date'];
@@ -3207,6 +3202,12 @@ elseif($exportCode=='27.1')
         case 'student':
            $category_label='Student';
            break;
+        case 'studentUG':
+              $category_label='Student UG';
+              break;
+        case 'studentPG':
+              $category_label='Student PG';
+              break;
        case 'researchScholar':
            $category_label='Research Scholar';
            break;
@@ -3219,6 +3220,15 @@ elseif($exportCode=='27.1')
         case 'participants':
                $category_label='Participant Person';
            break;
+        case 'gku_faculty':
+            $category_label='Gku Faculty Member';
+            break;
+        case 'project_participation':
+              $category_label='Project Participation';
+              break;
+        case 'school_student':
+              $category_label='School Student';
+          break;
         default:
             $category_label = 'Not Available';
     }
@@ -3319,7 +3329,7 @@ elseif($exportCode=='27.2')
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
-      $purpose=$row['purpose'];
+       $purpose=$row['purposeType'];
       $remarks=$row['remarks'];
 
       $Created_date=$row['Created_date'];
@@ -3348,18 +3358,33 @@ elseif($exportCode=='27.2')
         case 'student':
            $category_label='Student';
            break;
+        case 'studentUG':
+              $category_label='Student UG';
+              break;
+        case 'studentPG':
+              $category_label='Student PG';
+              break;
        case 'researchScholar':
            $category_label='Research Scholar';
            break;
        case 'faculty_inside':
            $category_label='Faculty Member';
            break;
+           case 'gku_faculty':
+            $category_label='Gku Faculty Member';
+            break;
        case 'industry_persons':
                $category_label='Industry Persons';
            break;
         case 'participants':
                $category_label='Participant Person';
            break;
+        case 'project_participation':
+              $category_label='Project Participation';
+              break;
+        case 'school_student':
+              $category_label='School Student';
+          break;
         default:
             $category_label = 'Not Available';
     }
@@ -9349,7 +9374,7 @@ $q1 = sqlsrv_query($conntest,$list_sql);
 
 
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'><tr><td>Sr No</td><td>Session</td><td>IDNo</td><td>UniRollNo</td><td>Class RollNO</td><td>Name</td>
-  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Fee Category</td><td>Debit</td><td>Credit</td><td>Balance</td></tr>";
+  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Fee Category</td><td>Debit</td><td>Credit</td><td>Balance</td><td>Consultant</td></tr>";
 
   $srno=1;
         while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
@@ -9377,6 +9402,17 @@ $balanceamount=$tdebit-$tcredit;
 $exportstudy.="<td>{$tdebit}</td><td>{$tcredit}</td><td>{$balanceamount}</td>";
 
  }
+
+ $Admiss3="SELECT  Name from  MasterConsultantRef  mcr inner join MasterConsultant mc  on mcr.RefIDNo=mc.ID   WHERE StudentIDNo='$idno'" ; 
+
+
+$q2 = sqlsrv_query($conntest, $Admiss3);
+ while ($dataw3 = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
+ {
+$conname=$dataw3['Name'];
+$exportstudy.="<td>{$conname}</td>";
+ }
+
 
           $exportstudy.="</tr>"; 
           $srno++;
