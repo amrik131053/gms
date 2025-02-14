@@ -1373,7 +1373,7 @@ else{
                   <?php }
                   else
                   {?>
-<div style="height:70px;"></div>
+<div style="height:90px;"></div>
               <?php    } 
                      // code...
                   ?>
