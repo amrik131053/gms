@@ -11,10 +11,12 @@ $fileName = 'My File';
 if (isset($_POST['exportCode']))
 {
     $exportCode = $_POST['exportCode'];
+    $role_id = $_POST['role_id'];
 }
 elseif (isset($_GET['exportCode']))
 {
     $exportCode = $_GET['exportCode'];
+    $role_id = $_POST['role_id'];
 }
 
 if($exportCode==19 ||$exportCode==27 || $exportCode==27.1 || $exportCode==27.2 ||$exportCode==28||$exportCode==77||$exportCode==78||$exportCode==79||$exportCode==80 ||$exportCode==80.1)
@@ -4528,7 +4530,7 @@ else if($exportCode==39)
                     
             }
 $SrNo=1;
-$subCount=27;
+$subCount=28;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>  
 <tr>
@@ -4568,6 +4570,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Remarks </th>
     <th>Status</th>
     <th>Locked</th>
+    <th>Comments</th>
 
     </tr>
         </thead>";
@@ -4622,6 +4625,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Course=$row['Course'];
             $Batch=$row['Batch'];
             $Ereason=$row['EligibilityReason'];
+            $CommentsDetail=$row['CommentsDetail'];
             $Country=$row['country'];
             $State=$row['State'];
              $OTR=$row['OTR'];
@@ -4700,7 +4704,14 @@ else
                 $clr1="red";
             }
 
+            if($role_id==22)
+            {
+                $CommentsDetail=$CommentsDetail;
+            }
 
+            else{
+                $CommentsDetail="";
+            }
 
          
          $exportstudy.="<tr>
@@ -4731,8 +4742,9 @@ else
          <td>{$ABCID}</td>   
          <td>{$Ereason}</td>     
          <td style='background-color:".$clr1.";'>{$status}</td>     
-
-           <td>{$lockedtype}</td>     
+         
+         <td>{$lockedtype}</td>     
+         <td>{$CommentsDetail}</td>     
      </tr>";
 
 
@@ -13125,6 +13137,50 @@ elseif($exportCode==83)
 $count++;
     }
 }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Staff Phd Report";
+
+}
+elseif($exportCode==84)
+{
+  
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Request No</th>
+          <th>Name</th>
+          <th>Type</th>
+           <th>Remarks</th>
+           <th>Issued By</th>
+           <th>Stocks</th>
+         </tr>
+        </thead>";
+      $count=1;
+      $sql12 = "SELECT * FROM masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock";
+      $res111 = sqlsrv_query($conntest, $sql12);
+      $SrNo = 1;
+      while ($data1 = sqlsrv_fetch_array($res111))
+       { 
+            $exportMeter.="<tr>
+                            <td>{$row['TopicofResearch']}</td>
+                            <td>{$row['Name']}</td>
+                            <td>{$row['DateofEnrollment']}</td>
+                            <td>{$row['DateofRegistration']}</td>
+                            <td>{$row['DateofDegree']}</td>
+                            <td>{$row['Subject']}</td>
+                            <td>{$row['SupervisorDetails']}</td>
+                            <td>{$row['CourseWorkDetails']}</td>
+                            <td>{$row['CourseWorkUniversity']}</td>
+                            <td>{$row['TotalMarks']}</td>
+                            <td>{$row['ObtainedMarks']}</td>
+                            <td>{$row['DateofPassing']}</td>
+                            <td>{$row['Percentage']}</td>
+            </tr>";
+$count++;
+    }
     $exportMeter.="</table>";
     //echo $exportMeterHeader;
     echo $exportMeter;

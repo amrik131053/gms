@@ -32,14 +32,19 @@
             <div class="col-lg-12 col-md-4 col-sm-12">
             <div class=" card-header">
            Stock Management
-            <!-- <span style="float:right;">
-      <button class="btn btn-xs ">
+            <span style="float:right;">
+      <!-- <button class="btn btn-xs ">
          <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Emp ID">
       </button>
             <button type="button" onclick="addlmsRole();" class="btn btn-success btn-sm">
               Search
-            </button>
-      </span> -->
+            </button> -->
+            <button type="button" onclick="exportExcel()" class="btn btn-success btn-sm">
+
+<i class="fa fa-file-excel">&nbsp;&nbsp;Download</i>
+
+</button>
+      </span>
 </div>
     <!-- Button trigger modal -->
 
@@ -121,7 +126,16 @@
 
 </section>
 <p id="ajax-loader"></p>
+
+
 <script type="text/javascript">
+
+function exportExcel() {
+    var exportCode = 84;
+ 
+        window.open("export.php?exportCode=" + exportCode, '_blank');
+}
+
 $(window).on('load', function() {
     $('#btn6').toggleClass("bg-success");
 })
