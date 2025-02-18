@@ -1366,7 +1366,17 @@ else{
             
                <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
                   <span class="notranslate">
+                    <?php  if($RegistrationNo!='')
+                        {
+                         ?>
                      <div style="height: 50px;"></div>
+                  <?php }
+                  else
+                  {?>
+<div style="height:60px;"></div>
+              <?php    } 
+                     // code...
+                  ?>
                      <!--60-->
                      <div class="row">
                   <?php  
@@ -1391,7 +1401,22 @@ else{
                         </div>
                      </div>
                      <div class="row">
-                        <div style="height: 140px;"></div>
+
+
+                          <?php  if($RegistrationNo!='')
+                        {
+                         ?>
+                  <div style="height: 140px;"></div>
+                  <?php }
+                  else
+                  {?>
+<div style="height: 170px;"></div>
+              <?php    } 
+                     // code...
+                  ?>
+
+
+                        
                         <!-- // space -->
                         <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
                      </div>
