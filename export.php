@@ -7,16 +7,23 @@ header("Pragma: no-cache");
 header("Expires: 0");
 include 'connection/connection.php';
 $exportCode ='';
+$role_id ='';
 $fileName = 'My File';
+
+if (isset($_POST['role_id']))
+{
+    $role_id = $_POST['role_id'];
+}
 if (isset($_POST['exportCode']))
 {
     $exportCode = $_POST['exportCode'];
-    $role_id = $_POST['role_id'];
+   
 }
 elseif (isset($_GET['exportCode']))
 {
     $exportCode = $_GET['exportCode'];
-    $role_id = $_POST['role_id'];
+
+
 }
 
 if($exportCode==19 ||$exportCode==27 || $exportCode==27.1 || $exportCode==27.2 ||$exportCode==28||$exportCode==77||$exportCode==78||$exportCode==79||$exportCode==80 ||$exportCode==80.1)
@@ -13159,26 +13166,28 @@ elseif($exportCode==84)
          </tr>
         </thead>";
       $count=1;
-      $sql12 = "SELECT * FROM masterarticleadmisisoncell ma  inner join masterstockadmissioncell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock";
-      $res111 = sqlsrv_query($conntest, $sql12);
+      $sql12 = "SELECT * FROM ledgeradmissioncell";
+      $res111 = mysqli_query($connection_s, $sql12);
       $SrNo = 1;
-      while ($data1 = sqlsrv_fetch_array($res111))
+      while ($data1 = mysqli_fetch_array($res111))
        { 
-            $exportMeter.="<tr>
-                            <td>{$row['TopicofResearch']}</td>
-                            <td>{$row['Name']}</td>
-                            <td>{$row['DateofEnrollment']}</td>
-                            <td>{$row['DateofRegistration']}</td>
-                            <td>{$row['DateofDegree']}</td>
-                            <td>{$row['Subject']}</td>
-                            <td>{$row['SupervisorDetails']}</td>
-                            <td>{$row['CourseWorkDetails']}</td>
-                            <td>{$row['CourseWorkUniversity']}</td>
-                            <td>{$row['TotalMarks']}</td>
-                            <td>{$row['ObtainedMarks']}</td>
-                            <td>{$row['DateofPassing']}</td>
-                            <td>{$row['Percentage']}</td>
-            </tr>";
+        $id=$data1['ID'];
+            $exportMeter.="<tr>     
+                           <td>{$count}</td>
+                           <td>{$data1['ID']}</td>
+                            <td>{$data1['Name']}-{$data1['IDNo']}</td>
+                            <td>{$data1['Type']}</td>
+                            <td>{$data1['Remarks']}</td>
+                            <td>{$data1['CreatedBy']}</td><td><table  class='table' border='1'>";
+                            $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestadmissioncell AS  rs inner join masterarticleadmisisoncell AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+                            $get_group_run=mysqli_query($connection_s,$get_group);
+                                while($row=mysqli_fetch_array($get_group_run))
+                                {
+                            $exportMeter.="<tr><td>{$row['Name']}({$row['quantity']})</td></tr>";
+
+                                }
+                           
+             $exportMeter.="</table></td></tr>";
 $count++;
     }
     $exportMeter.="</table>";
