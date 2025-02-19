@@ -3019,7 +3019,7 @@ elseif($code==27.1)
                      <?php 
 
                 
-               $get_study_scheme="SELECT * FROM MasterCourseStructure inner join MasterDepartment on MasterCourseStructure.DepartmentId=MasterDepartment.Id WHERE 1=1";
+               $get_study_scheme="SELECT * FROM MasterCourseStructure inner join MasterDepartment on MasterCourseStructure.DepartmentId=MasterDepartment.Id WHERE IsVerified=1";
 
                       if($CollegeID!='')
                       {

@@ -21119,21 +21119,19 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 
 
 
-                                                        <option value="Special Meritorious Scholarship ">Special
-                                                            Meritorious Scholarship </option>
-                                                        <option value="Early Bird scholarship">Early Bird scholarship
-                                                        </option>
-                                                        <option value="Single Girl Child Scholarship">Single Girl Child
-                                                            Scholarship</option>
-                                                        <option value="Orphan Student scholarship">Orphan Student
-                                                            scholarship</option>
-                                                        <option value="Jan adhar card yojana scholarship">Jan adhar card
-                                                            yojana scholarship</option>
-                                                        <option value="Old Student Scholarship policy">Old Student
-                                                            Scholarship policy</option>
-                                                        <option value="SC Punjab 100% Scholarship">SC Punjab 100%
-                                                            Scholarship</option>
-                                                        <option value="Not Applicable">Not Applicable</option>
+                                                        <option value="">Select</option>
+                <?php 
+              $tdate = date('Y-m-d');
+              $getScholarship = "SELECT * FROM MasterScholarship WHERE StartDate <= '$tdate' AND EndDate >= '$tdate'";
+              
+                $getScholarshipRun=sqlsrv_query($conntest,$getScholarship);
+                while($row=sqlsrv_fetch_array($getScholarshipRun))
+                    {
+                    ?>
+                <option value="<?=$row['Name'];?> "><?=$row['Name'];?> </option> 
+                <?php 
+                }
+                ?>
 
                                                     </select>
                                                 </div>
@@ -28466,14 +28464,19 @@ if($Status==6)
             <label>Scholarship</label>
             <select class="form-control" id="scholaship">
                 <option value="">Select</option>
-                <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
-                <option value="Early Bird scholarship">Early Bird scholarship</option>
-                <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
-                <option value="Orphan Student scholarship">Orphan Student scholarship</option>
-                <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
-                <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
-                <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
-                <option value="Not Applicable">Not Applicable</option>
+                <?php 
+              $tdate = date('Y-m-d');
+              $getScholarship = "SELECT * FROM MasterScholarship WHERE StartDate <= '$tdate' AND EndDate >= '$tdate'";
+              
+                $getScholarshipRun=sqlsrv_query($conntest,$getScholarship);
+                while($row=sqlsrv_fetch_array($getScholarshipRun))
+                    {
+                    ?>
+                <option value="<?=$row['Name'];?> "><?=$row['Name'];?> </option> 
+                <?php 
+                }
+                ?>
+    
             </select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
@@ -28794,14 +28797,19 @@ if($Status==6)
             <label>Scholarship</label>
             <select class="form-control" id="scholaship">
                 <option value="">Select</option>
-                <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
-                <option value="Early Bird scholarship">Early Bird scholarship</option>
-                <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
-                <option value="Orphan Student scholarship">Orphan Student scholarship</option>
-                <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
-                <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
-                <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
-                <option value="Not Applicable">Not Applicable</option>
+               
+                <?php 
+              $tdate = date('Y-m-d');
+              $getScholarship = "SELECT * FROM MasterScholarship WHERE StartDate <= '$tdate' AND EndDate >= '$tdate'";
+              
+                $getScholarshipRun=sqlsrv_query($conntest,$getScholarship);
+                while($row=sqlsrv_fetch_array($getScholarshipRun))
+                    {
+                    ?>
+                <option value="<?=$row['Name'];?> "><?=$row['Name'];?> </option> 
+                <?php 
+                }
+                ?>
             </select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
@@ -30153,15 +30161,19 @@ else if($code==367)
         <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Scholarship</label>
             <select class="form-control" id="scholaship">
-                <option value="">Select</option>
-                <option value="Special Meritorious Scholarship">Special Meritorious Scholarship </option>
-                <option value="Early Bird scholarship">Early Bird scholarship</option>
-                <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
-                <option value="Orphan Student scholarship">Orphan Student scholarship</option>
-                <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
-                <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
-                <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
-                <option value="Not Applicable">Not Applicable</option>
+            <option value="">Select</option>
+                <?php 
+              $tdate = date('Y-m-d');
+              $getScholarship = "SELECT * FROM MasterScholarship WHERE StartDate <= '$tdate' AND EndDate >= '$tdate'";
+              
+                $getScholarshipRun=sqlsrv_query($conntest,$getScholarship);
+                while($row=sqlsrv_fetch_array($getScholarshipRun))
+                    {
+                    ?>
+                <option value="<?=$row['Name'];?> "><?=$row['Name'];?> </option> 
+                <?php 
+                }
+                ?>
             </select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
