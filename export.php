@@ -7,14 +7,23 @@ header("Pragma: no-cache");
 header("Expires: 0");
 include 'connection/connection.php';
 $exportCode ='';
+$role_id ='';
 $fileName = 'My File';
+
+if (isset($_POST['role_id']))
+{
+    $role_id = $_POST['role_id'];
+}
 if (isset($_POST['exportCode']))
 {
     $exportCode = $_POST['exportCode'];
+   
 }
 elseif (isset($_GET['exportCode']))
 {
     $exportCode = $_GET['exportCode'];
+
+
 }
 
 if($exportCode==19 ||$exportCode==27 || $exportCode==27.1 || $exportCode==27.2 ||$exportCode==28||$exportCode==77||$exportCode==78||$exportCode==79||$exportCode==80 ||$exportCode==80.1)
@@ -4528,7 +4537,7 @@ else if($exportCode==39)
                     
             }
 $SrNo=1;
-$subCount=27;
+$subCount=28;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>  
 <tr>
@@ -4568,6 +4577,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Remarks </th>
     <th>Status</th>
     <th>Locked</th>
+    <th>Comments</th>
 
     </tr>
         </thead>";
@@ -4622,6 +4632,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Course=$row['Course'];
             $Batch=$row['Batch'];
             $Ereason=$row['EligibilityReason'];
+            $CommentsDetail=$row['CommentsDetail'];
             $Country=$row['country'];
             $State=$row['State'];
              $OTR=$row['OTR'];
@@ -4700,7 +4711,14 @@ else
                 $clr1="red";
             }
 
+            if($role_id==22)
+            {
+                $CommentsDetail=$CommentsDetail;
+            }
 
+            else{
+                $CommentsDetail="";
+            }
 
          
          $exportstudy.="<tr>
@@ -4731,8 +4749,9 @@ else
          <td>{$ABCID}</td>   
          <td>{$Ereason}</td>     
          <td style='background-color:".$clr1.";'>{$status}</td>     
-
-           <td>{$lockedtype}</td>     
+         
+         <td>{$lockedtype}</td>     
+         <td>{$CommentsDetail}</td>     
      </tr>";
 
 
@@ -13125,6 +13144,52 @@ elseif($exportCode==83)
 $count++;
     }
 }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Staff Phd Report";
+
+}
+elseif($exportCode==84)
+{
+  
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Request No</th>
+          <th>Name</th>
+          <th>Type</th>
+           <th>Remarks</th>
+           <th>Issued By</th>
+           <th>Stocks</th>
+         </tr>
+        </thead>";
+      $count=1;
+      $sql12 = "SELECT * FROM ledgeradmissioncell";
+      $res111 = mysqli_query($connection_s, $sql12);
+      $SrNo = 1;
+      while ($data1 = mysqli_fetch_array($res111))
+       { 
+        $id=$data1['ID'];
+            $exportMeter.="<tr>     
+                           <td>{$count}</td>
+                           <td>{$data1['ID']}</td>
+                            <td>{$data1['Name']}-{$data1['IDNo']}</td>
+                            <td>{$data1['Type']}</td>
+                            <td>{$data1['Remarks']}</td>
+                            <td>{$data1['CreatedBy']}</td><td><table  class='table' border='1'>";
+                            $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestadmissioncell AS  rs inner join masterarticleadmisisoncell AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+                            $get_group_run=mysqli_query($connection_s,$get_group);
+                                while($row=mysqli_fetch_array($get_group_run))
+                                {
+                            $exportMeter.="<tr><td>{$row['Name']}({$row['quantity']})</td></tr>";
+
+                                }
+                           
+             $exportMeter.="</table></td></tr>";
+$count++;
+    }
     $exportMeter.="</table>";
     //echo $exportMeterHeader;
     echo $exportMeter;

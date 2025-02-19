@@ -45,6 +45,7 @@
                         <a class="btn " id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
                             onclick="addRoleLMS();bg(this.id);"> Assign Role </a>
                             <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="reports();bg(this.id);">Reports</a> 
+                            <a class="btn" id="btn7" style="background-color:#223260; color: white; border: 1px solid;" onclick="datesheetTab();bg(this.id);">Date Sheet</a> 
 
                               
                             
@@ -233,6 +234,58 @@ function search_study_scheme() {
 
 function update_study_scheme_search() { 
     var code = 254; 
+    var CollegeID = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var batch = document.getElementById('batch').value;
+    var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            CollegeID: CollegeID,
+            Course: Course,
+            Batch: batch,Session:session,
+            Semester: semester
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("load_study_scheme").innerHTML = response;
+        }
+    });
+
+}
+function update_study_scheme_search_datesheet() { 
+    var code = 27.1;
+    var CollegeID = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var batch = document.getElementById('batch').value;
+    var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,
+            CollegeID: CollegeID,
+            Course: Course,
+            Batch: batch,Session:session,
+            Semester: semester
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("load_study_scheme").innerHTML = response;
+        }
+    });
+
+}
+function update_study_scheme_search() { 
+    var code = 254;
     var CollegeID = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var batch = document.getElementById('batch').value;
@@ -454,6 +507,23 @@ function reports() {
         type: 'POST',
         data: {
             flag: flag
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+function datesheetTab() {
+
+    var code = 27;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code
         },
         success: function(response) {
             spinner.style.display = 'none';
@@ -1024,6 +1094,142 @@ function onchange_batch() {
         }
     });
 }
+
+
+function updateMstdateSheet(id){
+    var mstDate = document.getElementById('mst'+id+'Date').value;
+    if (mstDate != '') {
+    var a = confirm('Are you sure to Update');
+    var code = 27.2;
+    if (a == true) {
+
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action_a.php',
+            type: 'POST',
+            data: {
+                flag: code,
+                mstDate: mstDate,
+                id: id
+              
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                //  console.log(response);
+                if (response == 1) {
+                    update_study_scheme_search_datesheet();
+                    SuccessToast('Successfully Submit');
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+            }
+        });
+    } else {
+
+    }
+}else{
+        ErrorToast('Date is required', 'bg-warning');
+    }
+}
+function updateMstdateSheetLock(id){
+    var a = confirm('Are you sure to Lock');
+    var code = 27.4;
+    if (a == true) {
+
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action_a.php',
+            type: 'POST',
+            data: {
+                flag: code,
+                id: id
+              
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                //  console.log(response);
+                if (response == 1) {
+                    update_study_scheme_search_datesheet();
+                    SuccessToast('Successfully Locked');
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+            }
+        });
+    } else {
+
+    }
+}
+
+function updateESEdateSheet(id){
+    var eseDate = document.getElementById('ese'+id+'Date').value;
+    if (eseDate != '') {
+    var a = confirm('Are you sure to Update');
+    var code = 27.3;
+    if (a == true) {
+
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action_a.php',
+            type: 'POST',
+            data: {
+                flag: code,
+                eseDate: eseDate,
+                id: id
+              
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                //  console.log(response);
+                if (response == 1) {
+                    update_study_scheme_search_datesheet();
+                    SuccessToast('Successfully Submit');
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+            }
+        });
+    } else {
+
+    }
+}
+    else{
+        ErrorToast('Date is required', 'bg-warning');
+    }
+}
+function updateESEdateSheetLock(id){
+    var a = confirm('Are you sure to Update');
+    var code = 27.5;
+    if (a == true) {
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action_a.php',
+            type: 'POST',
+            data: {
+                flag: code,
+                id: id
+              
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                //  console.log(response);
+                if (response == 1) {
+                    update_study_scheme_search_datesheet();
+                    SuccessToast('Successfully locked');
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+            }
+        });
+    } else {
+
+    }
+}
+
 </script>
 </br>
 <div>

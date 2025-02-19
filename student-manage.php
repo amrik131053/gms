@@ -1102,6 +1102,7 @@ function copyToClipboard(text) {
                 <div class="card-body p-2">
                     <form action="export.php" method="post">
                         <input type="hidden" value="39" name="exportCode">
+                        <input type="hidden" value="<?=$role_id;?>" name="role_id">
                         <div class="col-lg-12" id="unhide" style="display:none;">
                             <label>Name</label>
                             <input type="text" class="form-control" name="StudentName1" id="StudentName1"
