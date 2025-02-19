@@ -2874,4 +2874,339 @@ $checkdatau=mysqli_query($conn_spoc,$checku);
     echo 1;
 }
 
+elseif($code==27)
+   {
+     ?>
+        <div class="card">
+        <center>
+         <h5>
+         <b>Date Sheet Update</b>
+        </h5>
+        </center>
+        </div>
+           <div class="row">
+                <div class="col-lg-3">  
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control form-control-sm" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+               <div class="col-lg-2">
+                 <label>Department</label>
+                  <select  id="Department" name="Department" class="form-control form-control-sm"  onchange="fetchcourse()" required>
+                     <option value=''>Select Department</option>
+                 </select>
+              </div>  
+
+
+              <div class="col-lg-2">
+                 <label>Course</label>
+                  <select  id="Course" name="Course" class="form-control form-control-sm" required >
+                     <option value=''>Select Course</option>
+                 </select>
+              </div>
+
+
+
+
+
+
+              <div class="col-lg-1">
+                 <label>Batch</label>
+                   <select id="batch"  class="form-control form-control-sm">
+                       <option value="">Batch</option>
+                          <?php 
+                              for($i=2013;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+                   
+              </div>   <div class="col-lg-1">
+                                    <label> Session</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
+
+
+                                </div>
+              <div class="col-lg-1">
+                 <label>Semester</label>
+                      <select   id='semester' class="form-control form-control-sm">
+                       <option value="">Sem</option>
+                     <?php 
+                        for($i=1;$i<=14;$i++)
+                           {?>
+                     <option value="<?=$i?>"><?=$i?></option>
+                     <?php }
+            ?>
+            </select>
+              </div>
+              <div class="col-lg-2">
+                 <label>Action</label><br>
+                 <button onclick="update_study_scheme_search_datesheet();" class="btn btn-success btn-sm">Search</button>
+                 <!-- <button onclick="exportStudyScheme();" class="btn btn-success btn-sm">Download</button> -->
+              </div>
+            
+            </div>
+<br>
+            <div class="row" id="load_study_scheme">
+
+             
+            </div>
+        </div>
+
+  <?php  
+  sqlsrv_close($conntest);
+}
+
+
+elseif($code==27.1)
+{
+                   $CollegeID=$_POST['CollegeID'];    
+                   $Course=$_POST['Course'];
+                   $Batch=$_POST['Batch'];
+                   $Semester=$_POST['Semester'];
+                   $Session=$_POST['Session'];
+                
+
+?>
+
+                  <div class="col-lg-12 col-md-12 col-sm-12 ">
+                  <div class="card-header">
+                     Date Sheet Update
+                     <div class="card-tools">
+         </form>
+          </div>
+                  </div>
+                     <div  class="table table-responsive table-bordered table-hover" style="font-size:12px;">
+                        <table class="table">
+                           <thead>
+                           <tr>
+                              <th style="width:50px" >Srno</th>
+                              <th>Name</th>
+                              <th style="width:100px">Code</th>
+                               <th style="width:50px">Subject Type</th>
+                              <th style="width:200px">MST DateSheet</th>
+                              <th style="width:200px">ESE DateSheet</th>
+                            
+                           </tr>
+                        </thead>
+                        <tbody>
+                     <?php 
+
+                
+               $get_study_scheme="SELECT * FROM MasterCourseStructure inner join MasterDepartment on MasterCourseStructure.DepartmentId=MasterDepartment.Id WHERE 1=1";
+
+                      if($CollegeID!='')
+                      {
+                         $get_study_scheme.="AND MasterCourseStructure.CollegeID='$CollegeID'";
+                      }
+                      if($Course!='')
+                      {
+                      $get_study_scheme.=" AND MasterCourseStructure.CourseID='$Course'";
+                      }
+                      if($Batch!='')
+                      {
+                      $get_study_scheme.=" AND MasterCourseStructure.Batch='$Batch'";
+                      }
+                      if($Semester!='')
+                      {
+                      $get_study_scheme.=" AND MasterCourseStructure.SemesterID='$Semester'";
+                      }
+                      if($Session!='')
+                      {
+                      $get_study_scheme.=" AND MasterCourseStructure.Session='$Session'";
+                      }
+
+                      $get_study_scheme ;
+
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+
+                        while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                        {
+                           
+                            $count_0++;
+                            $SubjectCode=$get_row['SubjectCode'];
+                            if($get_row['MST']!='' && $get_row['MST']->format('Y-m-d')!='1900-01-01'){
+                                $MST=$get_row['MST']->format('Y-m-d');
+                            }
+                            else{
+                                $MST="";
+                            }
+                            if($get_row['ESE']!='' && $get_row['ESE']->format('Y-m-d')!='1900-01-01' ){
+                                $ESE=$get_row['ESE']->format('Y-m-d');
+                            }
+                            else{
+                                $ESE="";
+                            }
+                           ?> 
+
+                              <tr>
+                                 <td><?=$count_0;?></td>
+                                 <td style="width:250px" > <?= $get_row['SubjectName'];?>
+                                    </td>
+                                 <td> <?=$get_row['SubjectCode'];?>
+                                 </td>
+                                 <td><?=$get_row['SubjectType'];?>
+                                    </td>
+                                <td>
+                                     <span >
+                                     <button class="btn btn-sm ">
+                                        <?php  if($get_row['MSTStatus']!='1'){?>
+                                         <input type="date" id="mst<?=$get_row['SrNo'];?>Date" value="<?=$MST;?>" class="form-control form-control-sm">
+                                        <?php }else{?>
+                                            <?=$MST;?>
+                                            <?php }?>
+                                        </button>
+                                    <?php if($get_row['MSTStatus']!='1'){?>
+                                      
+                                        <button class="btn btn-success btn-xs" onclick="updateMstdateSheet('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button>
+                                         
+
+                                        <?php }else{?>
+                                            
+                                         
+                                        <?php }?>
+                                        </span>
+                                
+                                </td>
+                                <td>
+                                <span >
+                                     <button class="btn btn-sm ">
+                                     <?php  if($get_row['ESEStatus']!='1'){?>
+                                         <input type="date" id="ese<?=$get_row['SrNo'];?>Date" value="<?=$ESE;?>" class="form-control form-control-sm">
+                                        <?php }else{?>
+                                       
+                                            <?=$ESE;?>
+                                            <?php }?>
+                                        </button>
+                                    
+
+                                        <?php if($get_row['ESEStatus']!='1'){?>
+                                      
+                                      <button class="btn btn-success btn-xs" onclick="updateESEdateSheet('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button>
+                                         
+                                      <?php }else{?>
+                                         
+                                      <?php }?>
+                                        </span>
+
+                                    
+                                </td>
+                                
+                       
+                              </tr>
+                        <?php
+                         // print_r($get_row);
+                         }
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><div class='alert alert-warning' role='alert'>
+No Record Found
+</div></td></tr>";
+                       }
+                       ?>
+                    </tbody>
+                    </table>
+                  </div>
+             
+                  </div>
+              
+<?php
+sqlsrv_close($conntest);
+}
+
+elseif($code==27.2)
+{
+               $mstDate=$_POST['mstDate'];
+               $id=$_POST['id']; 
+               $update_study="UPDATE  MasterCourseStructure SET MST='$mstDate',MSTUpdateBy='$EmployeeID',MSTStatus='0' WHERE SrNo='$id'";
+               $update_study_run=sqlsrv_query($conntest,$update_study);  
+         if ($update_study_run==true) 
+         {
+            echo "1";
+         }
+         else
+         {
+            echo "0";
+         }
+         sqlsrv_close($conntest);
+}
+elseif($code==27.3)
+{
+               $eseDate=$_POST['eseDate'];
+               $id=$_POST['id']; 
+               $update_study="UPDATE  MasterCourseStructure SET ESE='$eseDate',ESEUpdateBy='$EmployeeID',ESEStatus='0' WHERE SrNo='$id'";
+               $update_study_run=sqlsrv_query($conntest,$update_study);  
+         if ($update_study_run==true) 
+         {
+            echo "1";
+         }
+         else
+         {
+            echo "0";
+         }
+         sqlsrv_close($conntest);
+}
+elseif($code==27.4)
+{
+              
+               $id=$_POST['id']; 
+               $update_study="UPDATE  MasterCourseStructure SET MSTUpdateBy='$EmployeeID',MSTStatus='1' WHERE SrNo='$id'";
+               $update_study_run=sqlsrv_query($conntest,$update_study);  
+         if ($update_study_run==true) 
+         {
+            echo "1";
+         }
+         else
+         {
+            echo "0";
+         }
+         sqlsrv_close($conntest);
+}
+elseif($code==27.5)
+{
+              
+               $id=$_POST['id']; 
+               $update_study="UPDATE  MasterCourseStructure SET ESEUpdateBy='$EmployeeID',ESEStatus='1' WHERE SrNo='$id'";
+               $update_study_run=sqlsrv_query($conntest,$update_study);  
+         if ($update_study_run==true) 
+         {
+            echo "1";
+         }
+         else
+         {
+            echo "0";
+         }
+         sqlsrv_close($conntest);
+}
 }

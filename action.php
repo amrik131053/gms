@@ -16623,14 +16623,14 @@ elseif($code==252)
                            <thead>
                            <tr>
                               <th style="width:50px">Srno</th>
-                              <th>Name</th>
+                              <th style="width:250px">Name</th>
                               <th style="width:90px">Code</th>
 
                              
                                <th style="width:50px" >Subject Type</th>
                               <!-- <th style="width:50px">Int</th>
                               <th style="width:50px">Ext </th> -->
-                              <th style="width:80px" >Elective</th>
+                              <th style="width:50px" >Elective</th>
                                <th style="width:100px" >Group</th>
                               <th style="width:50px">Lecture</th>                          
 
@@ -16640,6 +16640,8 @@ elseif($code==252)
                              <th style="width:180px" >Marks Type</th>
                              <th>Department</th>
                               <th>No of Credits</th>
+                               <th>MST Date</th>
+                                <th>ESE Date</th>
                               <th>Action</th>
                            </tr>
                         </thead>
@@ -16682,11 +16684,28 @@ elseif($code==252)
                            
                             $count_0++;
                             $SubjectCode=$get_row['SubjectCode'];
+                            if($get_row['ESE']!='' AND  $get_row['ESE']->format('Y-m-d')!="1900-01-01")
+                              {
+                      $ese = $get_row['ESE']->format('Y-m-d');
+                              }
+                              else
+                                 {
+                                    $ese='';
+                                 }
+
+                              if($get_row['MST']!='' AND  $get_row['MST']->format('Y-m-d')!='1900-01-01' )
+                                 {
+                                 $mst=$get_row['MST']->format('Y-m-d');
+                                 }
+                              else
+                                 {
+                                    $mst='';
+                                 }
                            ?> 
 
                               <tr>
                                  <td><?=$count_0;?></td>
-                                 <td style="width:250px" >  <textarea style="font-size:14px" class="form-control"  rows=2 id="subject_name<?=$get_row['SrNo'];?>"><?= $get_row['SubjectName'];?></textarea>
+                                 <td style="width:250px" >  <textarea style="font-size:14px"  rows=2 column=30 id="subject_name<?=$get_row['SrNo'];?>"><?= $get_row['SubjectName'];?></textarea>
 
                                   
                                     </td>
@@ -16708,7 +16727,7 @@ elseif($code==252)
                                  <td> --><input type="hidden" id="ext_marks<?=$get_row['SrNo'];?>" class="form-control" style="width:50px" value="<?=$get_row['ExtMaxMarks'];?>">
                                  <!-- </td> -->
                                  <td>
-                                    <select class="form-control" style="width:80px" id="elective<?=$get_row['SrNo'];?>">
+                                    <select class="form-control" style="width:70px" id="elective<?=$get_row['SrNo'];?>">
                                        <option value="<?=$get_row['Elective'];?>" ><?=$get_row['Elective'];?></option>
                                        <option value="C">C</option>
                                        <option value="E">E</option>
@@ -16831,7 +16850,10 @@ $get_study_scheme1="SELECT * FROM MasterDepartment  WHERE CollegeID='$CollegeID'
    
 </td>
 
-                                 <td style="width:80px"><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
+                                 <td style="width:80px"><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>">
+                                 </td>
+                                 <td style="width:80px"><input type="date" id="mst<?=$get_row['SrNo'];?>" class="form-control" value="<?=$mst;?>"></td>
+                                 <td style="width:80px"><input type="date" id="ese<?=$get_row['SrNo'];?>" class="form-control" value="<?=$ese;?>"></td>
 
                                  <td style="width:80px"><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button>
 
@@ -16854,6 +16876,7 @@ $get_exam_form="SELECT * FROM ExamFormSubject WHERE SemesterID='$Semester' and B
 
 
                                  </td>
+                                 
                        
                               </tr>
                         <?php
@@ -16893,11 +16916,18 @@ elseif($code==255)
                $credits=$_POST['credits'];
                $department=$_POST['department'];
                $group=$_POST['group'];
-               $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',DepartmentID='$department',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
+               $ese=$_POST['ese'];
+               $mst=$_POST['mst'];
+
+               $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',DepartmentID='$department',NoOFCredits='$credits',SGroup='$group',MST='$mst',ESE='$ese' WHERE SrNo='$SrNo'";
                $update_study_run=sqlsrv_query($conntest,$update_study);  
 
          if ($update_study_run==true) 
          {
+            $desc= "UPDATE  MasterCourseStructure SET AcademicType=`$academic_type`, SubjectName=`$subject_name`,SubjectType=`$subject_type`,SubjectCode=`$subject_code`,Elective=`$elective`,IntMaxMarks=`$int_marks`,ExtMaxMarks=`$ext_marks`,Lecture=`$lecture`,Tutorial=`$tutorials`,Practical=`$practical`,DepartmentID=`$department`,NoOFCredits=`$credits`,SGroup=`$group`,MST=`$mst`,ESE=`$ese`";
+
+            $update1="insert into logbook(userid,remarks,updatedby,date)Values('$SrNo-$subject_code','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
             echo "1";
          }
          else
