@@ -20,28 +20,19 @@ $SubjectsNewop=array();
                 $SubjectNamesNewop=array();
                 $SubjectTypesNewop=array();
 
-
-
-
-
 $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
 $list_cllegename = sqlsrv_query($conntest,$collegename);
-                  
-              
-                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
-                   {
 
+              if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+                   {
                    // print_r($row);
                 $CollegeName=$row_college['CollegeName'] ;
                 $CourseName=$row_college['Course'] ;
-                
-        }
-
+                   }
 
  $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd   Sgroup='$Group' ANd
- Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' 
+ Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' order by SubjectType";
 
-  order by SubjectType";
   //ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S' OR SubjectType='S1' OR SubjectType='TP' OR SubjectType='P'OR SubjectType='W') 
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  

@@ -233,7 +233,7 @@ function search_study_scheme() {
 }
 
 function update_study_scheme_search() { 
-    var code = 254;
+    var code = 254; 
     var CollegeID = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var batch = document.getElementById('batch').value;
@@ -759,6 +759,9 @@ function update_study_scheme(srno) {
        var department = document.getElementById('department' + srno).value;
     var tutorials = document.getElementById('tutorials' + srno).value;
     var credits = document.getElementById('credits' + srno).value;
+    var mst = document.getElementById('mst' + srno).value;
+    var ese = document.getElementById('ese' + srno).value;
+
     if (subject_name != '' && subject_code != '' && subject_type != '' && int_marks != '' && ext_marks != '' &&
         elective != '' && lecture != '' && practical != '' && tutorials != '' && credits != '') {
         var a = confirm('Are you sure to Update');
@@ -782,7 +785,7 @@ function update_study_scheme(srno) {
                     practical: practical,
                     tutorials: tutorials,
                     credits: credits,department:department,
-                    srno: srno,
+                    srno: srno,mst:mst,ese:ese,
                     group: group
                 },
                 success: function(response) {
