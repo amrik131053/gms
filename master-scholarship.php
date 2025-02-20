@@ -64,7 +64,7 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body table-responsive p-0" style="height: 650px;">
-                    <div id='consultant-data'></div>
+                    <div id='scholarship-data'></div>
                   </div>
                  
                </div>
@@ -77,7 +77,6 @@
    </div>
  
 </section>
-
 <div class="modal fade" id="exampleModal_update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog" role="document" >
       <div class="modal-content"  >
@@ -90,7 +89,6 @@
          <form action="action.php" method="post">
             <input type="hidden" name="code" value="19">
             <div class="modal-body" id="update_category">
-               
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -100,7 +98,6 @@
       </div>
    </div>
 </div>
-
 <div  class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document" >
       <div class="modal-content"  >
@@ -110,26 +107,23 @@
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-              
-                  
             <input type="hidden" name="code" value="">
-            <div class="modal-body" id="consultant-data-edit">
+            <div class="modal-body" id="scholarship-data-edit">
                
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary" onclick="scholarshipupdate()">Save</button>
+ 
+              <button type="submit" class="btn btn-primary" onclick="scholarshipupdate()">Save</button>
             </div>
-               
-        
       </div>
    </div>
 </div>
 
 <script type="text/javascript">
  viewScholarshp();
-   function edit_scholarsh(id)
-   
+
+   function edit_scholarship(id)
 {  
    //alert(id);
 var code='1.1';
@@ -143,31 +137,27 @@ document.getElementById('scholarship-data-edit').innerHTML=data;
 });
 
 }
-
-
-
-function scholarshipupdate() 
+function scholarshipupdate()
 {
- 
-   
-        var scholarship_d = document.getElementById("details-e").value;
-        var scholarship_s = document.getElementById("start dtae-e").value;
-        var scholarship_e = document.getElementById("end date-e").value;
-        var scholarship_id = document.getElementById("consultant_id").value;
-           var status_e = document.getElementById("status-e").value;  
-
-    if (scholarship_m!='' && scholarship_a!=null && scholarship_o!=null ) 
+        var scholarship_name1 = document.getElementById("scholarship_name1").value;
+        var scholarship_details1 = document.getElementById("details1").value;
+        var scholarship_startdate1 = document.getElementById("startdate1").value;
+        var scholarship_enddate1 = document.getElementById("enddate1").value;
+        var scholarship_id = document.getElementById("scholarship_id").value;
+     //alert(scholarship_enddate1);
+    if (scholarship_name!='') 
     {
 var code=1.2;
       $.ajax({
     url: 'action_c.php',
-    data: {scholarship_d:scholarship_d,scholarship_s:scholarship_s,scholarship_e:scholarship_e,flag:code,scholarship_id:scholarship_id,status_e:status_e},
+    data: {scholarship_name:scholarship_name1,scholarship_details:scholarship_details1,scholarship_startdate:scholarship_startdate1,flag:code,scholarship_enddate:scholarship_enddate1,scholarship_id:scholarship_id},
     type: 'POST',
     success: function(response)
      {
     console.log(response);
     if (response==1) {
          SuccessToast('Successfully Updated');
+
          ViewScholarship();
    }
    else
@@ -188,39 +178,28 @@ else
 }
 
 
-
-
 viewScholarshp();
-
-
-
-
-
-
-
-
-
 
 
 
 function add_scholarship() 
 {
-    var scholarship_name = document.getElementById("scholarship_name").value;
-
-      var scholarship_d = document.getElementById("details").value;
-        var scholarship_s = document.getElementById("startdate").value;
-        var scholarship_e = document.getElementById('end_date').value;
-         // alert(scholarship_s+'-'+scholarship_e+'-');
-    if (scholarship_name!='' && scholarship_d!=null) 
+        var scholarship_name1 = document.getElementById("scholarship_name").value;
+        var scholarship_details1 = document.getElementById("details").value;
+        var scholarship_startdate1 = document.getElementById("startdate").value;
+        var scholarship_enddate1 = document.getElementById('end_date').value;
+         (scholarship_startdate1+'-'+scholarship_enddate1+'-')
+    if (scholarship_name1!='' && scholarship_details1!=null) 
     {
 var code=1;
       $.ajax({
     url: 'action_c.php',
-    data: {scholarship_name:scholarship_name,scholarship_d:scholarship_d,scholarship_s:scholarship_s,scholarship_e:scholarship_e,flag:code},
+    data: {scholarship_name:scholarship_name1,scholarship_details:scholarship_details1,scholarship_startdate:scholarship_startdate1,scholarship_enddate:scholarship_enddate1,flag:code},
     type: 'POST',
     success: function(response)
      {
     viewScholarshp();
+     console.log(response);
     if (response==1) {
          SuccessToast('Successfully Inserted');
         
@@ -252,7 +231,7 @@ data:{flag:code},
 type:'POST',
 success:function(data){
 
-document.getElementById('consultant-data').innerHTML=data;
+document.getElementById('scholarship-data').innerHTML=data;
 }
 });
 

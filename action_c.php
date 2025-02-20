@@ -70,14 +70,14 @@ window.location.href = "index.php";
 // HR/Admin Upload Staff Documents
 if($code==1)
       {
-         $state=$_POST['scholarship_name'];
-          $d=$_POST['scholarship_d'];
-           $s=$_POST['scholarship_s'];
-            $e=$_POST['scholarship_e'];
+         $n=$_POST['scholarship_name'];
+          $d=$_POST['scholarship_details'];
+           $s=$_POST['scholarship_startdate'];
+            $e=$_POST['scholarship_enddate'];
             $date=date('Y-m-d');
 
 
-         $insert_scholarship="INSERT INTO MasterScholarship (Name,Details,StartDate,EndDate,CreatedBy,CreateOn)values('$state','$d','$s','$e','$EmployeeID',$date)";
+         $insert_scholarship="INSERT INTO MasterScholarship (Name,Details,StartDate,EndDate,CreatedBy,CreateOn)values('$n','$d','$s','$e','$EmployeeID',$date)";
 
          $insert_scholarship_run=sqlsrv_query($conntest,$insert_scholarship);
          if ($insert_scholarship_run==true)
@@ -94,7 +94,7 @@ if($code==1)
 elseif($code==1.1)
 
    { 
-    $id=$_POST['id'];
+    echo $id=$_POST['id'];
 
 $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'"; 
 
@@ -103,41 +103,29 @@ $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'";
                      {?>
 <div class="col-md-12    col-lg-12  col-sm-12   ">
             <div class="card card-info">
-               
-             
                   <div class="card-body">
                      <div class="form-group row">  
            <div class="col-lg-6">
                         <label >Name</label>
-               
-                  <input type="text" class="form-control" id="scholarship_name" value="<?=$row['Name'];?>">
-                   <input type="hidden" class="form-control" id="scholarship_id" value="<?=$row['ID'];?>">
+
+                  <input type="text" class="form-control" id="scholarship_name1" value="<?=$row['Name'];?>">
+                   <input type="text" class="form-control" id="scholarship_id" value="<?=$row['ID'];?>">
                </div>  <div class="col-lg-6">
                   <label>Details</label>
 
-                   <input type="text" class="form-control" id="details-e" value="<?=$row['Mobile'];?>">
+                   <input type="text" class="form-control" id="details1" value="<?=$row['Details'];?>">
                 </div>
                 <div class="col-lg-6">
                   
                    <label>Start Date </label>
-                    <input type="text" class="form-control" id="start date-e" value="<?=$row['Address'];?>">
+                    <input type="date" class="form-control" id="startdate1" value="<?=$row['StartDate']->format('Y-m-d');?>">
                  </div> <div class="col-lg-6">
                     <label>End date</label>
-                     <input type="text" class="form-control" id="end date-e" value="<?=$row['Organisation'];?>">
+                     <input type="date" class="form-control" id="enddate1" value="<?=$row['EndDate']->format('Y-m-d');?>">
                   </div>
-                  </div> <div class="col-lg-6">
-                       <label>Status</label>
-                    <select class="form-control" id="status-e">
-                          <option value='<?=$row['Status'];?>'><?php echo ($row['Status'] == 1) ? 'Active' : 'Inactive'; ?></option>
-                        <option value='1'>Active</option>
-                         <option value='0'>InActive</option>
+                  </div> 
 
-                    </select>
-                 
-                     
-                  </div>
-
-
+ 
                     
                </div>
               
@@ -156,12 +144,11 @@ $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'";
    { 
       
     $id=$_POST['scholarship_id'];
-     $scholarship_d=$_POST['scholarship_d'];
-      $scholarship_s=$_POST['scholarship_s'];
-       $scholarship_e=$_POST['scholarship_e'];
-        $status_e=$_POST['status_e'];
-
- $get_scholarship="Update  MasterScholarship set Mobile='$scholarship_d',Address='$scholarship_s',Organisation='$scholarship_e' ,Status='$status_e' where  ID='$id'"; 
+     $scholarship_name1=$_POST['scholarship_name'];
+      $scholarship_details1=$_POST['scholarship_details'];
+       $scholarship_startdate1=$_POST['scholarship_startdate'];
+        $scholarship_enddate1=$_POST['scholarship_enddate'];
+ $get_scholarship="Update  MasterScholarship set Name='$scholarship_name1',Details='$scholarship_details1',StartDate='$scholarship_startdate1' ,EndDate='$scholarship_enddate1' where  ID='$id'"; 
 
  $get_scholarship_run=sqlsrv_query($conntest,$get_scholarship);
                     
