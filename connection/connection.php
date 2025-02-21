@@ -7,7 +7,7 @@
    
 $serverName = "10.0.8.181"; //serverName\instanceName
 //$serverName = "117.250.20.109";
-$connectionInfo = array( "Database"=>"DBGuruKashi", "UID"=>"Amrik", "PWD"=>"Amrik@123");
+$connectionInfo = array( "Database"=>"DBGuruKashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
 
 $conntest = sqlsrv_connect($serverName,$connectionInfo);
