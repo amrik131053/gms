@@ -188,7 +188,7 @@ function search_all_employee_emp_name(emp_name) {
     }
 }
 
-function search_all_employee() {
+function search_all_employee() { 
 
 
     var code_access = '<?php echo $code_access; ?>';
@@ -688,7 +688,7 @@ function updateStudentdata(id) {
     var lock = document.getElementById('ulocked').value;
     var classroll = document.getElementById('classroll').value;
     var uniroll = document.getElementById('uniroll').value;
-    var uniroll = document.getElementById('uniroll').value;
+    var usession = document.getElementById('usession').value;
     var uniroll = document.getElementById('uniroll').value;
 
     var Collegechange = document.getElementById('Collegechange').value;
@@ -710,7 +710,7 @@ function updateStudentdata(id) {
             id: id,
             classroll: classroll,
             uniroll: uniroll,
-            eligible: eligible,
+            eligible: eligible,usession:usession,
             coursechange: coursechange,
             Collegechange: Collegechange
 

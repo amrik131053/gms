@@ -14464,6 +14464,7 @@ $IDNo= $_POST['IDNo'];
     $ClassRollNo= $row['ClassRollNo'];
     $img= $row['Image'];
     $UniRollNo= $row['UniRollNo'];
+    $Session= $row['Session'];
     $name = $row['StudentName'];
     $CourseID=$row['CourseID'];
     $CollegeID=$row['CollegeID'];
@@ -14574,6 +14575,22 @@ $ApplyDate="";
                      <li class="nav-link"><b>Father Name</b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
                   </li>
                 
+                   <li class="nav-item">
+                     <li class="nav-link"><b>Session</b>&nbsp;&nbsp;&nbsp;:
+                        <select class="btn btn-md" id="usession" >
+<option value="<?=$Session;?>"><?=$Session;?></option>
+                          <?php 
+                  $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes ";
+                  $get_country_run=sqlsrv_query($conntest,$get_country);
+                  while($row_Session=sqlsrv_fetch_array($get_country_run))
+                  {?>
+                    <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+                    <?php }
+
+                 ?>
+                  </select>
+                  </li>
+                  </li>
                   <li class="nav-item">
                      <li class="nav-link"><b>Batch</b>&nbsp;&nbsp;&nbsp;:
                         <select class="btn btn-md" id="ubatch" >
@@ -14798,6 +14815,7 @@ elseif($code==220)
     $eligible=$_POST['eligible'];
     $classroll=$_POST['classroll'];
      $uniroll=$_POST['uniroll'];
+     $usession=$_POST['usession'];
        $Collegechange=$_POST['Collegechange'];
          $coursechange=$_POST['coursechange'];
 $provisional='';
@@ -14825,7 +14843,7 @@ $update_uprun=sqlsrv_query($conntest,$upuser);
 
 
 
-  $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course',EligibilityReason='$provisional' where IDNo='$id'";
+  $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course',Session='$usession',EligibilityReason='$provisional' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
