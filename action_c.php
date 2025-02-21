@@ -94,7 +94,7 @@ if($code==1)
 elseif($code==1.1)
 
    { 
-    echo $id=$_POST['id'];
+    $id=$_POST['id'];
 
 $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'"; 
 
@@ -109,8 +109,9 @@ $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'";
                         <label >Name</label>
 
                   <input type="text" class="form-control" id="scholarship_name1" value="<?=$row['Name'];?>">
-                   <input type="text" class="form-control" id="scholarship_id" value="<?=$row['ID'];?>">
-               </div>  <div class="col-lg-6">
+                   <input type="hidden" class="form-control" id="scholarship_id" value="<?=$row['ID'];?>">
+               </div>  
+               <div class="col-lg-6">
                   <label>Details</label>
 
                    <input type="text" class="form-control" id="details1" value="<?=$row['Details'];?>">
@@ -119,7 +120,8 @@ $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'";
                   
                    <label>Start Date </label>
                     <input type="date" class="form-control" id="startdate1" value="<?=$row['StartDate']->format('Y-m-d');?>">
-                 </div> <div class="col-lg-6">
+                 </div> 
+                 <div class="col-lg-6">
                     <label>End date</label>
                      <input type="date" class="form-control" id="enddate1" value="<?=$row['EndDate']->format('Y-m-d');?>">
                   </div>
@@ -180,7 +182,7 @@ elseif($code==1.3)
                          $TodayDate=date('Y-m-d');
                         
                          $EndDate=$row['EndDate']->format('Y-m-d');
-                        if($TodayDate>=$EndDate) {
+                        if($TodayDate>$EndDate) {
                                  $clr="danger";
                                  } 
                                  else 
