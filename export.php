@@ -10666,7 +10666,7 @@ $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade
 }
 $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>"; 
 
-    $list_sql = "SELECT ExamForm.AcceptType, ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'  ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
+    $list_sql = "SELECT ExamForm.AcceptType, ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'  ANd ExamForm.Status='8' ANd Admissions.Status='1'  ORDER BY Admissions.UniRollNo  ";
             $j=0;
              $list_result = sqlsrv_query($conntest,$list_sql);
                             $count = 1;
@@ -10706,13 +10706,13 @@ $nccount=0;
 
 include'result-pages/grade_calculator.php';
 
-if($AcceptType>0)
-{ 
-  $grade='RLF' ; 
-  $gardep=0;
-   $color ='red';
-   $showgradefail='';
-}
+// if($AcceptType>0)
+// { 
+//   $grade='RLF' ; 
+//   $gardep=0;
+//    $color ='red';
+//    $showgradefail='';
+// }
 
 
 
@@ -10861,11 +10861,12 @@ $exportstudy.="<td style='text-align:center;color:{$color}'>NC </td>";
 else
 
  { 
-if($AcceptType>0)
-{
-  $sgpa='RLF'; 
+
+// if($AcceptType>0)
+// {
+//   $sgpa='RLF'; 
    
-}
+// }
 
 
     $exportstudy.="<td style='text-align:center;'>{$sgpa}</td>";}  
