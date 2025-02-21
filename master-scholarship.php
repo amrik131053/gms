@@ -54,11 +54,12 @@
             <div class="col-lg-8 col-md-8 col-sm-3">
                <div class="card card-info">
                   <div class="card-header">
+
+                  <h3 class="card-title">Scholarship Details </h3>
+               </div>
                      <h3 class="card-title"></h3>
                      <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
-                           
-                           
                         </div>
                      </div>
                   </div>
@@ -114,7 +115,7 @@
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
  
-              <button type="submit" class="btn btn-primary" onclick="scholarshipupdate()">Save</button>
+              <button type="submit" class="btn btn-primary" onclick="scholarshipupdate()" data-dismiss="modal">Save</button>
             </div>
       </div>
    </div>
@@ -139,12 +140,14 @@ document.getElementById('scholarship-data-edit').innerHTML=data;
 }
 function scholarshipupdate()
 {
+
         var scholarship_name1 = document.getElementById("scholarship_name1").value;
         var scholarship_details1 = document.getElementById("details1").value;
         var scholarship_startdate1 = document.getElementById("startdate1").value;
         var scholarship_enddate1 = document.getElementById("enddate1").value;
         var scholarship_id = document.getElementById("scholarship_id").value;
      //alert(scholarship_enddate1);
+        location.reload();
     if (scholarship_name!='') 
     {
 var code=1.2;
@@ -154,7 +157,7 @@ var code=1.2;
     type: 'POST',
     success: function(response)
      {
-    console.log(response);
+    
     if (response==1) {
          SuccessToast('Successfully Updated');
 
