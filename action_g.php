@@ -22585,7 +22585,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
         <tr>
             <td colspan="2"><img src="dist/img/new-logo.png" height="40" width="200"></td>
             <td colspan="5">
-                <h5><b>Examination: <?=$CurrentExamination;?></b></h5>
+                <h5><b>Examination: <?=$examinationss;?></b></h5>
             </td>
             <td colspan="2"><img src="dist/img/naac-logo.png" height="40" width="100" style="float:right;"></td>
         </tr>
