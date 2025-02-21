@@ -124,9 +124,6 @@ $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'";
                      <input type="date" class="form-control" id="enddate1" value="<?=$row['EndDate']->format('Y-m-d');?>">
                   </div>
                   </div> 
-
- 
-                    
                </div>
               
             </div>
@@ -150,7 +147,7 @@ $get_scholarship="SELECT * FROM MasterScholarship where  ID='$id'";
         $scholarship_enddate1=$_POST['scholarship_enddate'];
  $get_scholarship="Update  MasterScholarship set Name='$scholarship_name1',Details='$scholarship_details1',StartDate='$scholarship_startdate1' ,EndDate='$scholarship_enddate1' where  ID='$id'"; 
 
- $get_scholarship_run=sqlsrv_query($conntest,$get_scholarship);
+   $get_scholarship_run=sqlsrv_query($conntest,$get_scholarship);
                     
 echo 1;
 
@@ -160,7 +157,8 @@ elseif($code==1.3)
 
    { 
 
-    ?> <table class="table table-head-fixed text-nowrap">
+    ?> 
+    <table class="table table-head-fixed text-nowrap">
                         <thead>
                            <tr>
                               <th>#</th>
@@ -179,15 +177,26 @@ elseif($code==1.3)
                      $get_scholarship_run=sqlsrv_query($conntest,$get_scolarship);
                      while($row=sqlsrv_fetch_array($get_scholarship_run))
                      {
+                         $TodayDate=date('Y-m-d');
+                        
+                         $EndDate=$row['EndDate']->format('Y-m-d');
+                        if($TodayDate>=$EndDate) {
+                                 $clr="danger";
+                                 } 
+                                 else 
+                                 {
+                                    $clr="sucess";
+                                 }
 
-                     
                         ?>
 
-                     <tr style="background-color: "><td><?= $sr++;?></td><td><?=$row['Name'];?> <b>(<?=$row['ID'];?>)</b></td><td><?=$row['Details'];?></td><td><?=$row['StartDate']->format('d-m-Y');?></td>
+                     <tr class="bg-<?=$clr;?>">
+                        <td><?= $sr++;?></td><td><?=$row['Name'];?> <b>(<?=$row['ID'];?>)</b></td><td><?=$row['Details'];?></td><td><?=$row['StartDate']->format('d-m-Y');?></td>
                         <td><?=$row['EndDate']->format('d-m-Y');?></td>
                        
                         <td><i class="fa fa-edit" onclick="edit_scholarship(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i></td>
                     </tr>
+
                      
                      <?php }?>
 

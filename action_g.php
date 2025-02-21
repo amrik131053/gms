@@ -31673,12 +31673,34 @@ $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
+
+$semester=$row['Semester'];
+$exam=$row['Examination'];
+$type=$row['Type'];
+$idno=$row['IDNo'];
+       $acceptstatus="SELECT AcceptType,Status from ExamForm  where  Semesterid='$semester' ANd Examination='$exam' ANd Type='$type' ANd IDNo='$idno'";
+ $result1 = sqlsrv_query($conntest,$acceptstatus);
+       while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+       {
+        $accepttype=$row1['AcceptType'];
+        $acceptstatus=$row1['Status'];
+       }
+
        ?>
         <tr>
             <td><?=$srNo?></td>
             <td><?=$row['Semester'];?></td>
-            <td><?=$row['Examination'];?></td>
-            <td><?=$row['Sgpa']?></td>
+            <td><?=$row['Examination'];?> </td>
+
+           <?php if($accepttype=='1')
+            {?><td style="color:red"><b>RLF</b></td>
+              
+            <?php
+        }  else
+            {
+            ?> <td><?=$row['Sgpa']?></td> 
+            <?php
+        }?>
             <td><?=$row['TotalCredit'];?></td>
             <td><?=$row['Type'];?></td>
             <td>
@@ -31691,7 +31713,31 @@ $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=
 }
 ?>
                 <?= $decdate;?></td>
-            <td> <i class="fa fa-print" style="color: red;" onclick="print(<?=$row['Id'];?>)"></i></td>
+            <td> 
+
+                 <?php if($accepttype=='1')
+            {?>
+              <i class="fa fa-window-close" style="color: red;" ></i>
+            <?php
+        }  else
+            {
+            ?>  <i class="fa fa-print" style="color: red;" onclick="print(<?=$row['Id'];?>)"></i>
+            <?php
+        }?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+               </td>
             <?php 
      $srNo++;
 
