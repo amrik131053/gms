@@ -3238,6 +3238,9 @@ elseif($exportCode=='27.1')
         case 'school_student':
               $category_label='School Student';
           break;
+           case 'international_student':
+              $category_label='International Student';
+          break;
         default:
             $category_label = 'Not Available';
     }

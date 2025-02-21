@@ -21781,7 +21781,8 @@ $id = $_POST['id'];
 }
  elseif($code=='332') 
    {
-    $qry="SELECT * FROM online_payment where  status='success' AND remarks='National Seminar 20-22 January 2025'";
+    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='National Seminar 20-22 January 2025'";
+
 
  $result = mysqli_query($conn_online,$qry);
     $counter = 1; 
@@ -21796,7 +21797,7 @@ $id = $_POST['id'];
       $course = $row['course'];
       $sem = $row['sem'];
       $batch=$row['batch'];
-      $purpose=$row['purpose'];
+      $purpose=$row['purposeType'];
       $remarks=$row['remarks'];
       $status=$row['status'];
       $Created_date=$row['Created_date'];
@@ -21804,7 +21805,9 @@ $id = $_POST['id'];
       $amount=$row['amount'];
       $email = $row['email'];
       $phone = $row['phone'];
+      $abstract_file = $row['abstract_file'];
        $admissionstatus=$row['merge'];
+
        switch ($purpose) {
          case 'student':
             
@@ -21848,9 +21851,11 @@ if($payment_id!=''){?>
 <!-- </td>     -->
  <td><?php echo $email;?> </td>
  <td><?php echo $remarks;?> </td>
-  <td style="text-align: left;">  <?php if($row['receipt']!="")
+ <td><?php echo $abstract_file;?> </td>
+
+  <td style="text-align: left;">  <?php if($abstract_file!="")
 {?>
-<a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
+<a href="https://gku.ac.in/national-seminar/upload_files/abstracts/<?= $abstract_file;?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
 <?php 
 }
 ?> </td>
@@ -21922,6 +21927,12 @@ mysqli_close($conn);
                break;
          case 'school_student':
                $category_label='School Student';
+           break;
+            case 'international_students':
+               $category_label='International Student';
+           break;
+            case 'gku_faculty':
+               $category_label='GKU Faculty';
            break;
          default:
              $category_label = 'Not Available';
