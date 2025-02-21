@@ -44,9 +44,9 @@
                </div>
               <button class="btn btn-primary" onclick='add_scholarship();'><i class="fa fa-plus"></i>ADD</button>
             </div>
-
       </div>
-                       
+
+            
                          
 
          </div>
@@ -54,12 +54,10 @@
             <div class="col-lg-8 col-md-8 col-sm-3">
                <div class="card card-info">
                   <div class="card-header">
-
-                  <h3 class="card-title">Scholarship Details </h3>
-               </div>
-                     <h3 class="card-title"></h3>
+                     <h3 class="card-title">Scholarship Details</h3>
                      <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
+                           
                         </div>
                      </div>
                   </div>
@@ -71,10 +69,7 @@
                </div>
               
             </div>
-      
-        
       </div>
-      
    </div>
  
 </section>
@@ -110,17 +105,14 @@
          </div>
             <input type="hidden" name="code" value="">
             <div class="modal-body" id="scholarship-data-edit">
-               
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
- 
               <button type="submit" class="btn btn-primary" onclick="scholarshipupdate()" data-dismiss="modal">Save</button>
             </div>
       </div>
    </div>
 </div>
-
 <script type="text/javascript">
  viewScholarshp();
 
