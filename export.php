@@ -1987,6 +1987,7 @@ else
           <th>Name</th>
           <th>FatherName</th>
           <th>MotherName</th>
+          <th>Gender</th>
            <th>College</th>
            <th>Department</th>
            <th>Designation</th>
@@ -2012,6 +2013,7 @@ else
       $CollegeName = $row['CollegeName'];
       $Department = $row['Department'];
       $Designation = $row['Designation'];
+       $Gender = $row['Gender'];
       $email = $row['EmailID'];
       $OfficialEmailID = $row['OfficialEmailID'];
       $phone = $row['MobileNo'];
@@ -2025,6 +2027,7 @@ else
                 <td>{$Name}</td>
                 <td>{$FatherName}</td>
                 <td>{$MotherName}</td>
+                 <td>{$Gender}</td>
                 <td>{$CollegeName}</td>
                 <td>{$Department}</td>
                 <td>{$Designation}</td>
