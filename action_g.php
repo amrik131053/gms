@@ -9437,6 +9437,7 @@ if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
     
     
 
+
 }
 $dist_count = 0;
     $count = 0;
@@ -26725,8 +26726,7 @@ $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scro
 $Registration=sqlsrv_num_rows($getActiveTotal_run);
 
 //Registration reject
-$getRegReject="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and 
- ExamForm.Status='22'";
+$getRegReject="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and  ExamForm.Status='22'";
  
  if($Type!='')
  {
@@ -26754,8 +26754,7 @@ $getRegReject_run=sqlsrv_query($conntest,$getRegReject,array(), array( "Scrollab
 $RegistrationReject=sqlsrv_num_rows($getRegReject_run);
  //Registration verified
 
-$getRegForward="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and
- ExamForm.Status>='0' and ExamForm.Status!='22'";
+$getRegForward="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and ExamForm.Status>='0' and ExamForm.Status!='22'";
   if($Type!='')
   {
       $getRegForward.="and  ExamForm.Type='$Type' ";
@@ -26783,8 +26782,7 @@ $RegistrationForward=sqlsrv_num_rows($getRegForward_run);
 
  //Department Pending
 
- $getdpPending="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and
-  (ExamForm.Status='0' or ExamForm.Status='1') ";
+ $getdpPending="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and  (ExamForm.Status='0' or ExamForm.Status='1') ";
   if($Type!='')
   {
       $getdpPending.="and  ExamForm.Type='$Type' ";
@@ -26812,8 +26810,7 @@ $Department=sqlsrv_num_rows($getdpPending_run);
 
  //Department reject
 
-$getDpReject="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and
- (ExamForm.Status='2' or ExamForm.Status='3')  ";
+$getDpReject="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and (ExamForm.Status='2' or ExamForm.Status='3') ";
   if($Type!='')
   {
       $getDpReject.="and  ExamForm.Type='$Type' ";
@@ -26839,8 +26836,7 @@ $DepartmentReject=sqlsrv_num_rows($getDpReject_run);
 
  //Department verified 
 
-$getDpForward="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and
- ExamForm.Status>='4' ";
+$getDpForward="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and ExamForm.Status>='4' ";
    if($Type!='')
    {
        $getDpForward.="and  ExamForm.Type='$Type' ";
@@ -26867,8 +26863,7 @@ $DepartmentForward=sqlsrv_num_rows($getDpForward_run);
 
 // Account Pending
 
-$getACPending="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and
-   ExamForm.Status='4' ";
+$getACPending="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and   ExamForm.Status='4' ";
       if($Type!='')
       {
           $getACPending.="and  ExamForm.Type='$Type' ";
@@ -26894,8 +26889,7 @@ $Account=sqlsrv_num_rows($getACPending_run);
 
 // Account reject
 
-$getACReject="SELECTDistinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and
- ExamForm.Status='6' ";
+$getACReject="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and ExamForm.Status='6'";
        if($Type!='')
        {
            $getACReject.="and  ExamForm.Type='$Type' ";
@@ -26916,13 +26910,11 @@ $getACReject="SELECTDistinct Admissions.IDNo FROM  ExamForm  inner join Admissio
        {
           $getACReject.="and  ExamForm.Examination='$Examination' ";
        }
-$getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-$AccountReject=sqlsrv_num_rows($getACReject_run);
+     $getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+     $AccountReject=sqlsrv_num_rows($getACReject_run);
 
-// Account verified
-
-$getACForward="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and 
- ExamForm.Status>='5' AND ExamForm.Status!='6'  ";
+     // Account verified
+     $getACForward="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and  ExamForm.Status>='5' AND ExamForm.Status!='6' ";
     if($Type!='')
     {
         $getACForward.="and  ExamForm.Type='$Type' ";
@@ -26948,8 +26940,7 @@ $AccountForward=sqlsrv_num_rows($getACForward_run);
 
 // Exam pending
 
-$getExamPending="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and
- ExamForm.Status='5'";
+$getExamPending="SELECT Distinct Admissions.IDNo FROM  ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo  WHERE  Admissions.Status='1' and ExamForm.Status='5'";
     if($Type!='')
     {
         $getExamPending.="and  ExamForm.Type='$Type' ";
@@ -29033,14 +29024,24 @@ if($Status==6)
    elseif ($code==350) {
  $Session=$_REQUEST['Session'];
  $Nationality=$_REQUEST['Nationality'];
- if($Nationality!='Indian')
+ 
+
+ if($Nationality!='')
  {
+    if($Nationality!='Indian')
+ {
+
     $seriesetype=1;
  }
  else
  {
    $seriesetype=0; 
  }
+}
+else
+{
+ $seriesetype=2; 
+}
    echo  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1' ANd SerieseType='$seriesetype' ";
            $stmt2 = sqlsrv_query($conntest,$sql);
            echo "<option value=''>Select</option>";
@@ -29058,12 +29059,12 @@ if($Status==6)
 $College=$_POST['College'];
 $Session=$_POST['Session'];
 $Department=$_POST['Department'];
- $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' ANd MasterCourseCodes.DepartmentID='$Department' order by Course ASC";
+ $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID,Duration FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' ANd MasterCourseCodes.DepartmentID='$Department' order by Course ASC";
 $stmt = sqlsrv_query($conntest,$sql);  
 echo "<option value=''>Course</option>";
     while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
-echo "<option value='".$row["CourseID"]."'>".$row["Course"]."(".$row["CourseID"].")</option>";
+echo "<option value='".$row["CourseID"]."'>".$row["Course"]."(".$row["CourseID"].") - ".$row["Duration"]." Years</option>";
 }
 sqlsrv_close($conntest);
 }

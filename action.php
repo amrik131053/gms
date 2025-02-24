@@ -20055,14 +20055,14 @@ else if($code=='303')
    {
    $College=$_POST['College'];
    $Department=$_POST['department'];
-     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL) AND (CreditCardOpen!='1' OR CreditCardOpen is NULL)   order by Course ASC";
+     $sql = "SELECT DISTINCT Course,CourseID,Duration FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL) AND (CreditCardOpen!='1' OR CreditCardOpen is NULL)   order by Course ASC";
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    
    {
    
-   echo "<option value='".$row["CourseID"]."'>".$row["Course"]." (".$row["CourseID"].")</option>";
+   echo "<option value='".$row["CourseID"]."'>".$row["Course"]." (".$row["CourseID"].")- ".$row["Duration"]." Years</option>";
    }
    echo " <option value='other'>Other</option>";
    sqlsrv_close($conntest);

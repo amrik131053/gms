@@ -358,7 +358,7 @@ for($s1='0';$s1<='6';$s1++)
                             '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td></td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
                         table +=
-                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th>Seriese Type</th><th colspan="2">Action</th></tr>';
+                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>Duration</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th>Seriese Type</th><th colspan="2">Action</th></tr>';
 
                         for (var i = 0; i < data.length; i++) {
                             var unirollno = data[i][6];
@@ -367,6 +367,7 @@ for($s1='0';$s1<='6';$s1++)
                             table += '<td >' + data[i][1] + '</td>';
                             table += '<td>' + data[i][2] +' ('+ data[i][10] + ')</td>';
                             table += '<td>' + data[i][3] +' ('+ data[i][11] + ')</td>';
+                            table += '<td>' + data[i]['Duration']+' Years</td>';
                             table += '<td>' + data[i][4] + '</td>';
                             table += '<td >' + unirollno + '</td>';
                             table += '<td >' + data[i][5] + '</td>';

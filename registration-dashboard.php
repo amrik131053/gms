@@ -489,7 +489,7 @@
 
             },
             success: function(response) {
-                //console.log(response);
+                console.log(response);
                 spinner.style.display = 'none';
                 var data = JSON.parse(response);
                 document.getElementById("RegiPending").innerHTML = data[0];
