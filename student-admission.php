@@ -380,7 +380,7 @@ function fetchCollege() {
         },
         type: 'POST',
         success: function(data) {
-            console.log(data);
+            //console.log(data);
             if (data != "") {
                 $("#CollegeID").html("");
                 $("#CollegeID").html(data);

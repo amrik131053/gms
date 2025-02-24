@@ -665,12 +665,13 @@ function collegeByDepartment1(College) {
 function fetchcourse1() {
     var College = document.getElementById('CollegeName1').value;
     var department = document.getElementById('Department1').value;
+        var session = document.getElementById('Session1').value;
     var code = '305';
     $.ajax({
         url: 'action.php',
         data: {
             department: department,
-            College: College,
+            College: College,Session:session
             code: code
         },
         type: 'POST',
@@ -709,18 +710,19 @@ function collegeByDepartment3(College) {
 function fetchcourse3() {
     var College = document.getElementById('College3').value;
     var department = document.getElementById('Department3').value;
+    var session = document.getElementById('Session3').value;
     var code = '305';
     $.ajax({
         url: 'action.php',
         data: {
             department: department,
-            College: College,
+            College: College,Session:session,
             code: code
         },
         type: 'POST',
         success: function(data) {
             if (data != "") {
-                console.log(data);
+                
                 $("#Course3").html("");
                 $("#Course3").html(data);
             }
@@ -753,18 +755,20 @@ function fetchcourse() {
     var College = document.getElementById('CollegeName').value;
     var department = document.getElementById('Department').value;
 
+var session = document.getElementById('Session').value;
+
     var code = '305';
     $.ajax({
         url: 'action.php',
         data: {
             department: department,
-            College: College,
+            College: College,Session:session,
             code: code
         },
         type: 'POST',
         success: function(data) {
             if (data != "") {
-                //   console.log(data);
+                   console.log(data);
                 $("#Course").html("");
                 $("#Course").html(data);
             }

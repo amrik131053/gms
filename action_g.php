@@ -29066,7 +29066,7 @@ else
 {
  $seriesetype=2; 
 }
-   echo  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1' ANd SerieseType='$seriesetype' ";
+    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1' ANd SerieseType='$seriesetype'";
            $stmt2 = sqlsrv_query($conntest,$sql);
            echo "<option value=''>Select</option>";
       while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -29083,7 +29083,8 @@ else
 $College=$_POST['College'];
 $Session=$_POST['Session'];
 $Department=$_POST['Department'];
- $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID,Duration FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' ANd MasterCourseCodes.DepartmentID='$Department' order by Course ASC";
+ $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID,Duration FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' ANd MasterCourseCodes.DepartmentID='$Department'  ANd  ((OpenDate>'$todaydate') OR (OpenDate is NULL))  order by Course ASC";
+
 $stmt = sqlsrv_query($conntest,$sql);  
 echo "<option value=''>Course</option>";
     while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
