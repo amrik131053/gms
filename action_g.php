@@ -21907,7 +21907,7 @@ echo "<option value=''>Course</option>";
 
 {
 
-echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>";
+echo "<option value='".$row["CourseID"]."'>".$row["Course"]." (".$row["CourseID"].")</option>";
 }
 echo " <option value='other'>Other</option>";
 sqlsrv_close($conntest);

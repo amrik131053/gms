@@ -21851,7 +21851,7 @@ if($payment_id!=''){?>
 <!-- </td>     -->
  <td><?php echo $email;?> </td>
  <td><?php echo $remarks;?> </td>
- <td><?php echo $abstract_file;?> </td>
+
 
   <td style="text-align: left;">  <?php if($abstract_file!="")
 {?>
