@@ -11677,6 +11677,15 @@ sqlsrv_close($conntest);
                       {   
                         $college = $row1['CollegeName']; 
                         $CollegeID = $row1['CollegeID'];
+                        $opndate=$row['OpenDate'];
+                        if($opndate!='')
+                        {
+                        $opendate=$opndate->Format('Y-m-d');
+                        }
+                        else
+                        {
+                       $opendate='';
+                        }
                         ?>
                     <option value="<?=$CollegeID;?>"><?=$college;?></option>
                     <?php }
@@ -11699,6 +11708,7 @@ sqlsrv_close($conntest);
   $stmt111 = sqlsrv_query($conntest,$sql111); 
       while($row111 = sqlsrv_fetch_array($stmt111) )
   {
+
 ?>
                     <option value='<?=$row111["Id"];?>'><?= $row111["DepartmentFullName"];?></option>
                     <?php  }?>
@@ -11762,6 +11772,10 @@ sqlsrv_close($conntest);
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
+
+                <input type="date" name="opennow" id='opendate'  value='<?=$opendate;?>' class="form-control">
+
+
             </div>
             <div class="col-lg-2">
                 <label>Status</label>
@@ -11845,10 +11859,19 @@ sqlsrv_close($conntest);
  $Isopen=$_POST['Isopen'];
  $Status=$_POST['Status'];
  $Duration=$_POST['Duration'];
+  $opendate=$_POST['opendate'];
+
  $CourseType=$_POST['CourseType'];
   $ValidUpTo=$_POST['ValidUpTo'];
     $SerieseType=$_POST['SerieseType'];
+
+    if($opendate!='')
+    {
+$insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo',CreditCardOpen='$creditcardactive',SerieseType='$SerieseType',OpenDate='$opendate' where Id='$id'";
+    }else
+    {
   $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo',CreditCardOpen='$creditcardactive',SerieseType='$SerieseType' where Id='$id'";
+}
  $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -28475,7 +28498,8 @@ if($Status==6)
             <select class="form-control" id="Session" onchange="fetchCollege();">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes where Isopen='1' ";
+
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes where Isopen='1' ANd ((OpenDate>'$todaydate') OR (OpenDate is NULL))";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {?>

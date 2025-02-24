@@ -446,7 +446,9 @@ for($s1='0';$s1<='6';$s1++)
 <script type="text/javascript">
 function edit_record() {
     var id = document.getElementById('master_id').value;
-    
+
+     var opendate = document.getElementById('opendate').value;
+
     var CollegeID = document.getElementById('CollegeName1').value;
     var Department = document.getElementById('Department1').value;
     var Course = document.getElementById('Course1').value;
@@ -482,7 +484,7 @@ function edit_record() {
             ClassRollNo: ClassRollNo,
             Isopen: Isopen,
             EndClassRollNo: EndClassRollNo,
-            CourseType: CourseType,
+            CourseType: CourseType,opendate:opendate,
             Duration: Duration,ValidUpTo:ValidUpTo,
             Status: Status,creditcardactive:creditcardactive,SerieseType:SerieseType
         };
