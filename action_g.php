@@ -29405,7 +29405,7 @@ if($ifexitIDNo<1)
         mysqli_query($conn,$upd);  
     }
 
- $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry' and Batch='$Batch'";
+ $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry' and Batch='$Batch' AND SerieseType='$serieseType'";
     sqlsrv_query($conntest,$sqlG);
 
 
