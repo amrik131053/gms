@@ -2320,7 +2320,7 @@ mysqli_close($conn);
             </tr>
         </thead>
         <tbody>
-            <?php  $sr=1; $get_requests="SELECT * ,vehicle_types.name as t_name FROM vehicle_allotment inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id where vehicle_allotment.emp_id='$EmployeeID' order by  vehicle_allotment.id DESC"; 
+            <?php  $sr=1; $get_requests="SELECT * ,vehicle_types.name as t_name FROM vehicle_allotment inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id where vehicle_allotment.emp_id='$EmployeeID' order by  vehicle_allotment.id DESC limit 50"; 
             $get_requests_run=mysqli_query($conn,$get_requests);
             while($get_row=mysqli_fetch_array($get_requests_run))
             {
@@ -2379,14 +2379,19 @@ mysqli_close($conn);
                   if($get_driver_details_run_row=mysqli_fetch_array($get_driver_details_run))
                   {  
                   $driver_id=$get_driver_details_run_row['driver_id'];
-                  $get_emp_driver="SELECT * FROM Staff Where IDNo='$driver_id' and JobStatus='1'";
+                $get_emp_driver="SELECT * FROM Staff Where IDNo='$driver_id' and JobStatus='1'";
                   $get_emp_driver_run=sqlsrv_query($conntest,$get_emp_driver);
                   if($row=sqlsrv_fetch_array($get_emp_driver_run,SQLSRV_FETCH_ASSOC))
                   {     
                      ?>
-                    <a href="tel:<?=$row['MobileNo'];?>"><button type="button" class="btn btn-success btn-sm "><i
-                                class="fa fa-phone" aria-hidden="true"></i>&nbsp;Driver</button></a>
+                     <a href="tel:<?=$row['MobileNo'];?>"><button type="button" class="btn btn-success btn-sm "><i
+                                class="fa fa-phone" aria-hidden="true"></i>&nbsp;<?=$row['Name'];?></button></a>
                     <?php  }
+                    else
+                    {?>
+                       <a href="tel:6280247465"><button type="button" class="btn btn-warning btn-sm "><i
+                                class="fa fa-phone" aria-hidden="true"></i>&nbsp;Change Driver</button></a> 
+                    <?php }
                   }?>
                 </td>
                 <?php                      }?>
@@ -5882,7 +5887,7 @@ while ($data1 = sqlsrv_fetch_array($res)) {
             vehicle_allotment_process inner join vehicle_allotment  ON 
             vehicle_allotment_process.token_no=vehicle_allotment.token_no
              inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id 
-              where  vehicle_allotment.status='5' order by token_no DESC limit 100"; 
+              where  vehicle_allotment.status='5' order by token_no DESC limit 50"; 
                  $get_pending_run=mysqli_query($conn,$get_pending);
                  while($get_row=mysqli_fetch_array($get_pending_run))
                  {
