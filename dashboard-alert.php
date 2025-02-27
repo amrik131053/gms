@@ -106,7 +106,7 @@ $alertshow=1;
     } 
 
 
-$idcard="SELECT * FROM SmartCardDetails where  Status='Applied'";
+$idcard="SELECT * FROM SmartCardDetails  inner join  Admissions on Admissions.IDNo =SmartCardDetails.IDNO  where  SmartCardDetails.Status='Applied' AND Admissions.Status='1'";
  $idcard=sqlsrv_query($conntest,$idcard,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
          $idcard=sqlsrv_num_rows($idcard);
     
@@ -116,7 +116,7 @@ $idcard="SELECT * FROM SmartCardDetails where  Status='Applied'";
 $alertshow=1;
     } 
 
-$idcardv="SELECT * FROM SmartCardDetails where  Status='Verified'";
+$idcardv="SELECT * FROM SmartCardDetails inner join  Admissions on Admissions.IDNo =SmartCardDetails.IDNO  where  SmartCardDetails.Status='Verified' AND Admissions.Status='1'";
  $idcardv=sqlsrv_query($conntest,$idcardv,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
          $idcardv=sqlsrv_num_rows($idcardv);
     
