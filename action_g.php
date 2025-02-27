@@ -19487,7 +19487,7 @@ elseif($code==248)
    $result = sqlsrv_query($conntest,$sql);
    if($row=sqlsrv_fetch_array($result))
    {
-       echo $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Batch='".$row['Batch']."' and Session='".$row['Session']."' ";
+        $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Batch='".$row['Batch']."' and Session='".$row['Session']."' ";
        $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
        if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
        {
