@@ -18230,22 +18230,22 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                 </div>
                 <div class="card-footer p-0">
                     <ul class="nav flex-column" style="color:black;">
-                        <div class="col-lg-12" widht="100"> <label>Leave Type</label>
+                        <div class="col-lg-12" widht="100"> <label>Leave Type </label>
 
                             <select class="form-control form-control-sm" id="leaveTypeByAuth">
 
                                 <option value="<?=$row['LeaveTypeId'];?>"><?=$row['LeaveTypeName'];?></option>
                                 <?php 
-                    if($row['LeaveTypeId']!='1' && $row['LeaveTypeId']!='2' && $row['Status']!='Approved' && $row['Status']!='Reject' )
-                    {
-$getLeaveTypes="SELECT * from LeaveTypes where Id!='1' and Id!='2'  and Id!='3'  and Id!='8'  and Id!='12'  and Id!='7' and Id!='6'   ";
+                    // if($row['LeaveTypeId']!='1' && $row['LeaveTypeId']!='2' && $row['Status']!='Approved' && $row['Status']!='Reject' )
+                    // {
+$getLeaveTypes="SELECT * from LeaveTypes where Id!='1' and Id!='2'  and Id!='3'  and Id!='8'  and Id!='12'  and Id!='7' and Id!='6'";
 $getLeaveTypesRun=sqlsrv_query($conntest,$getLeaveTypes);
 while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 {?>
                                 <option value="<?=$rowType['Id'];?>"><?=$rowType['Name'];?></option>
                                 <?php
  }
-}
+// }
 ?>
                             </select>
                             </span>
