@@ -19504,7 +19504,7 @@ elseif($code==248)
              {
                 echo "Please Update Valid Up To ";
              }
-             else if(strlen($CourseShortNameMAster)>24)
+             else if(strlen($CourseShortNameMAster)>19)
              {
                 echo "Course Short Name Large";
              }
