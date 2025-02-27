@@ -19487,7 +19487,7 @@ elseif($code==248)
    $result = sqlsrv_query($conntest,$sql);
    if($row=sqlsrv_fetch_array($result))
    {
-       $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Batch='".$row['Batch']."' and Session='".$row['Session']."' ";
+       echo $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Batch='".$row['Batch']."' and Session='".$row['Session']."' ";
        $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
        if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
        {
@@ -19495,7 +19495,7 @@ elseif($code==248)
         //    $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
            $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
            
-            $CourseShortNameMAster=$rowgetCourseDetails['Course'];
+            $CourseShortNameMAster=$rowgetCourseDetails['CourseShortName'];
        }
              $FatherName=$row['FatherName'];
              $StudentName=$row['StudentName'];
