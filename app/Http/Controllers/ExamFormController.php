@@ -280,9 +280,17 @@ class ExamFormController extends Controller
             'subjectsOpenElectiveData' => $subjectsOpenElectiveData
         ]);
     }
+    if($eid==1 || $eid==3 || $eid==5)
+{
+    $apiRoute="regular";
+}
+else{
+    $apiRoute="reappear";
+}
+// dd($apiRoute);
     $token = $request->session()->get('api_token');
     $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
-        ->post($BaseURL . 'Student/regular/' . $semID . '/' . $Group);
+        ->post($BaseURL . 'Student/'.$apiRoute.'/'. $semID . '/' . $Group);
 
     if ($response->successful()) {
         $resp = $response->json();
@@ -314,7 +322,7 @@ class ExamFormController extends Controller
                     "basicInfo"=>$basicInfo,
                    "subjects"=>$subjects 
                 ];
-if($eID=1 || $eID==3 || $eID==5)
+if($eID==1 || $eID==3 || $eID==5)
 {
     $apiRoute="examformsubmit";
 }
