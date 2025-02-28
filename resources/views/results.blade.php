@@ -15,9 +15,9 @@
                         <th>SrNo</th>
                         <th>Semester</th>
                         <th>Type</th>
-                        <th>Examination</th>
+                        <th>Examination</th><th>DeclareDate</th>
                         <th>Sgpa</th>
-                        <th>DeclareDate</th>
+                        
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -29,8 +29,13 @@
                             <td>{{ $resultdata['Semester'] }}</td>
                             <td>{{ $resultdata['Type'] }}</td>
                             <td>{{ $resultdata['Examination'] }}</td>
-                            <td>{{ $resultdata['Sgpa'] }}</td>
                             <td>{{ \Carbon\Carbon::parse($resultdata['DeclareDate'])->format('d-m-Y') }}</td>
+                           @if($resultdata['AcceptType']==1)
+                           <td><button class="btn btn-danger">RLF</button></td>
+                           <td><button class="btn btn-danger">
+                            Result late due to fee</button></td>
+                            @else
+                            <td>{{ $resultdata['Sgpa'] }}</td>
                             <td>
                               <form action="{{url('fetch-result')}}" method="post">
                                 @csrf
@@ -43,6 +48,7 @@
   <path d="M12 4l0 12" />
 </svg>Download</button> </form>
                           </td>
+                          @endif
                         </tr>
                     @endforeach
                   @else
