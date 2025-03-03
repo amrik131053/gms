@@ -19873,7 +19873,7 @@ elseif($code==301)
                  $result = sqlsrv_query($conntest,$sql);
 
 
-$desc= "UPDATE Admissions SET Status:".$status.",Course:".$Course.",Reason:".$reason;
+$desc= "UPDATE Admissions SET Status:".$status.",Reason:".$reason;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
