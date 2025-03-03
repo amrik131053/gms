@@ -19861,6 +19861,7 @@ elseif($code==301)
                                           {
                   $file = $_FILES['file_exl']['tmp_name'];
                   $handle = fopen($file, 'r');
+                  
                   $c = 0;
 //                   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
 //                   {
@@ -19890,50 +19891,35 @@ elseif($code==301)
                     
 //                   }
 while (($filesop = fgetcsv($handle, 1000, ',')) !== false) {
-   $class_rollno = trim($filesop[0]);
-   $status = trim($filesop[1]);
-   $reason = trim($filesop[2]);
-
-   if (empty($class_rollno) || empty($status)) {
-       continue;
-   }
-
+  $class_rollno = trim($filesop[0]);
+  $status = trim($filesop[1]);
+  $reason = trim($filesop[2]);
    $sql = "UPDATE Admissions SET Status = ?, Reason = ? WHERE ClassRollNo = ?";
    $stmt = sqlsrv_prepare($conntest, $sql, [$status, $reason, $class_rollno]);
 
    if ($stmt) {
-       $result = sqlsrv_execute($stmt);
+     $result = sqlsrv_execute($stmt);
    } else {
        die(print_r(sqlsrv_errors(), true));
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
    }
-
-   $desc = "Updated Admissions: Status = $status, Reason = $reason";
+    $desc = "Updated Admissions: Status = $status Reason = $reason";
    $update1 = "INSERT INTO logbook (userid, remarks, updatedby, date) VALUES (?, ?, ?, ?)";
    $logStmt = sqlsrv_prepare($conntest, $update1, [$class_rollno, $desc, $EmployeeID, $timeStamp]);
-
    if ($logStmt) {
-       sqlsrv_execute($logStmt);
+       $result1 = sqlsrv_execute($logStmt);
+
    } else {
        die(print_r(sqlsrv_errors(), true));
    }
-
    $c++;
 }
-                 if ($c>0)
-                      {
-                     echo "1";
-                     }
-                     else
-                     {
-                     echo "0";
-                     } 
+echo "<script>alert('Successfully Updated: $c'); window.location.href='manage_student.php';</script>";
                 }
                 
                 sqlsrv_close($conntest);
       }
-
-
-
 else if($code==302)
 {
  
