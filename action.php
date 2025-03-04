@@ -19861,49 +19861,65 @@ elseif($code==301)
                                           {
                   $file = $_FILES['file_exl']['tmp_name'];
                   $handle = fopen($file, 'r');
+                  
                   $c = 0;
-                  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
-                  {
-                    $class_rollno = $filesop[0];
-                    $status =$filesop[1]; 
+//                   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+//                   {
+//                    echo  $class_rollno = $filesop[0];
+//                     $status =$filesop[1]; 
 
-                    $reason = $filesop[2];  
+//                     $reason = $filesop[2];  
 
-                    $sql = "UPDATE  Admissions set  Status='$status', Reason='$reason' where ClassRollNo='$class_rollno'";
-                 $result = sqlsrv_query($conntest,$sql);
-
-
-$desc= "UPDATE Admissions SET Status:".$status.",Course:".$Course.",Reason:".$reason;
-
-    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
-$update_query=sqlsrv_query($conntest,$update1);
-//$update_query=mysqli_query($conn,$update1);
+//                  echo    $sql = "UPDATE  Admissions set  Status='$status', Reason='$reason' where ClassRollNo='$class_rollno'";
+//                  $result = sqlsrv_query($conntest,$sql);
 
 
+// echo $desc= "UPDATE Admissions SET Status:".$status.",Reason:".$reason;
 
-                if($result=== false)
-                 {
-                    die( print_r( sqlsrv_errors(), true) );
-                 }
+//     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
+// $update_query=sqlsrv_query($conntest,$update1);
+// //$update_query=mysqli_query($conn,$update1);
+
+
+
+//                 if($result=== false)
+//                  {
+//                     die( print_r( sqlsrv_errors(), true) );
+//                  }
                 
-                    $c = $c + 1;
+//                     $c = $c + 1;
                     
-                  }
-                 if ($c>0)
-                      {
-                     echo "1";
-                     }
-                     else
-                     {
-                     echo "0";
-                     } 
+//                   }
+while (($filesop = fgetcsv($handle, 1000, ',')) !== false) {
+  $class_rollno = trim($filesop[0]);
+  $status = trim($filesop[1]);
+  $reason = trim($filesop[2]);
+   $sql = "UPDATE Admissions SET Status = ?, Reason = ? WHERE ClassRollNo = ?";
+   $stmt = sqlsrv_prepare($conntest, $sql, [$status, $reason, $class_rollno]);
+
+   if ($stmt) {
+     $result = sqlsrv_execute($stmt);
+   } else {
+       die(print_r(sqlsrv_errors(), true));
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+   }
+    $desc = "Updated Admissions: Status = $status Reason = $reason";
+   $update1 = "INSERT INTO logbook (userid, remarks, updatedby, date) VALUES (?, ?, ?, ?)";
+   $logStmt = sqlsrv_prepare($conntest, $update1, [$class_rollno, $desc, $EmployeeID, $timeStamp]);
+   if ($logStmt) {
+       $result1 = sqlsrv_execute($logStmt);
+
+   } else {
+       die(print_r(sqlsrv_errors(), true));
+   }
+   $c++;
+}
+echo "<script>alert('Successfully Updated: $c'); window.location.href='manage_student.php';</script>";
                 }
                 
                 sqlsrv_close($conntest);
       }
-
-
-
 else if($code==302)
 {
  
