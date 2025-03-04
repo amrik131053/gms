@@ -28403,7 +28403,7 @@ if($Status==6)
             <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
                 <option value="">Select</option>
                 <option value="Indian">Indian</option>
-                <option value="NRI">NRI</option>
+                <option value="NRI">Other</option>
                 <option value="Nepal">Nepal</option>
                 <option value="Bhutan">Bhutan</option>
             </select>
@@ -28735,7 +28735,7 @@ if($Status==6)
             <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
                 <option value="">Select</option>
                 <option value="Indian">Indian</option>
-                <option value="NRI">NRI</option>
+                <option value="NRI">Other</option>
                 <option value="Nepal">Nepal</option>
                 <option value="Bhutan">Bhutan</option>
             </select>
@@ -30110,7 +30110,7 @@ else if($code==367)
             <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
                 <option value="">Select</option>
                 <option value="Indian">Indian</option>
-                <option value="NRI">NRI</option>
+                <option value="NRI">Other</option>
                 <option value="Nepal">Nepal</option>
                 <option value="Bhutan">Bhutan</option>
             </select>
