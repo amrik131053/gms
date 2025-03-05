@@ -3,6 +3,7 @@ function searchSubjectsForExam() {
     const semID = document.getElementById('semID').value;
     const Group = document.getElementById('Group').value;
     const typeForm = document.getElementById('typeForm').value;
+    const eID = document.getElementById('eID').value;
    
     if(!semID)
     {
@@ -24,10 +25,10 @@ function searchSubjectsForExam() {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify({ semid: semID, groupid: Group,typeForm:typeForm})
+        body: JSON.stringify({ semid: semID, groupid: Group,typeForm:typeForm,eID:eID})
     })
     .then(response => {
-        // console.log('Raw response:', response);
+        console.log('Raw response:', response);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -470,6 +471,8 @@ fetch('/fetch-buss-pass', {
     hideLoader();
 });
 }
+
+
 function viewExamForm(id) {
     showLoader();
     fetch('/fetch-exam-form', {
@@ -482,42 +485,81 @@ function viewExamForm(id) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         hideLoader();
-        const examSubjectNormalData = data;
-        const tableContainer = document.getElementById('subjectsTableDiv');
-        tableContainer.innerHTML = '';  
-        let table = document.createElement('table');
-        table.classList.add('table', 'table-bordered', 'table-striped', 'table-hover', 'card-table'); 
-        let headerRow = document.createElement('tr');
-        headerRow.innerHTML = `
-            <th>Subject Code</th>
-            <th>Subject Name</th>
-            <th>Y/N</th>
-        `;
-        table.appendChild(headerRow);
-        function addSubjectsToTable(subjects) {
-            subjects.forEach(subject => {
+        const tableBody = document.getElementById('subjectsTableDiv');
+        tableBody.innerHTML = '';
+
+        if (data.length > 0) {
+            data.forEach(subject => {
                 let row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${subject.SubjectCode}</td>
                     <td>${subject.SubjectName}</td>
                     <td>${subject.ExternalExam}</td>
                 `;
-                table.appendChild(row);
+                tableBody.appendChild(row);
             });
-        }
-        if (examSubjectNormalData.length > 0) {
-            addSubjectsToTable(examSubjectNormalData);
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">No subjects available</td></tr>';
         }
 
-        tableContainer.appendChild(table);
+        // Show the modal
+        let examModal = new bootstrap.Modal(document.getElementById('examModal'));
+        examModal.show();
     })
     .catch(error => {
         console.error('Error:', error);
         hideLoader(); 
     });
 }
+// function viewExamForm(id) {
+//     showLoader();
+//     fetch('/fetch-exam-form', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//         },
+//         body: JSON.stringify({ ID: id })
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         // console.log(data);
+//         hideLoader();
+//         const examSubjectNormalData = data;
+//         const tableContainer = document.getElementById('subjectsTableDiv');
+//         tableContainer.innerHTML = '';  
+//         let table = document.createElement('table');
+//         table.classList.add('table', 'table-bordered', 'table-striped', 'table-hover', 'card-table'); 
+//         let headerRow = document.createElement('tr');
+//         headerRow.innerHTML = `
+//             <th>Subject Code</th>
+//             <th>Subject Name</th>
+//             <th>Y/N</th>
+//         `;
+//         table.appendChild(headerRow);
+//         function addSubjectsToTable(subjects) {
+//             subjects.forEach(subject => {
+//                 let row = document.createElement('tr');
+//                 row.innerHTML = `
+//                     <td>${subject.SubjectCode}</td>
+//                     <td>${subject.SubjectName}</td>
+//                     <td>${subject.ExternalExam}</td>
+//                 `;
+//                 table.appendChild(row);
+//             });
+//         }
+//         if (examSubjectNormalData.length > 0) {
+//             addSubjectsToTable(examSubjectNormalData);
+//         }
+
+//         tableContainer.appendChild(table);
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         hideLoader(); 
+//     });
+// }
 
 
 

@@ -165,6 +165,7 @@
                         <th>Sem/Type</th>
                         <th>Examination</th>
                         <th>Status</th>
+                        <th>Submit Date</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -175,7 +176,8 @@
                             <td>{{ $allExamShows['Course'] }}</td>
                             <td>{{ $allExamShows['Semesterid'] }}({{$allExamShows['Type']}})</td>
                             <td>{{ $allExamShows['Examination'] }}</td>
-                    
+                            
+                            <td>{{ \Carbon\Carbon::parse($allExamShows['SubmitFormDate'])->format('d-m-Y') }}</td>
                             <td>
                             @if ($allExamShows['Status']=='-1')
                               <b class="text-primary">Forward to Registration Branch</b>

@@ -23,9 +23,8 @@
                         <th><button class="table-sort">Course</button></th>
                         <th><button class="table-sort">Sem/Type</button></th>
                         <th><button class="table-sort">Examination</button></th>
-                       
                         <th><button class="table-sort">Status</button></th>
-                        
+                        <th><button class="table-sort">Submit Date</button></th>
                         <th><button class="table-sort">Action</button></th>
                       </tr>
                     </thead>
@@ -37,7 +36,7 @@
                             <td class="sort-session">{{ $allExamShows['Course'] }}</td>
                             <td class="sort-session">{{ $allExamShows['Semesterid'] }}({{$allExamShows['Type']}})</td>
                             <td class="sort-date">{{ $allExamShows['Examination'] }}</td>
-                    
+                            <td>{{ \Carbon\Carbon::parse($allExamShows['SubmitFormDate'])->format('d-m-Y') }}</td>
                             <td class="sort-date">
                             @if ($allExamShows['Status']=='-1')
                               <b class="text-primary">Forward to Registration Branch</b>

@@ -1,3 +1,4 @@
+
 <div class="modal modal-blur fade" id="modal-view-busspass" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -35,7 +36,7 @@
     </div>
   </div>
 </div>
-<div class="modal modal-blur fade" id="modal-view-examForms" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal modal-blur fade" id="modal-view-examForms" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -54,7 +55,38 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+<div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="examModalLabel">Exam Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead >
+                                <tr >
+                                    <th style="background-color:#223260;color:white;">Subject Code</th>
+                                    <th style="background-color:#223260;color:white;">Subject Name</th>
+                                    <th style="background-color:#223260;color:white;">Y/N</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subjectsTableDiv">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!-- Modal for Uploading ping Image -->
 <div class="modal fade" id="modal-view-upload-image" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">

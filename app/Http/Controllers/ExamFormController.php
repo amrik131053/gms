@@ -268,7 +268,7 @@ class ExamFormController extends Controller
     $BaseURL = config('app.baseUrl');
     $semID = $request->input('semid');
     $Group = $request->input('groupid');
-    $eid = $request->input('typeForm');
+    $eid = $request->input('eID');
     if ((int)$eid == 1 && $semID != 1) {
         $examSubjectNormalData = [
             ['SubjectCode' => $semID, 'SubjectName' => 'Research Work', 'SubjectType' => 'P']
@@ -287,7 +287,7 @@ class ExamFormController extends Controller
 else{
     $apiRoute="reappear";
 }
-// dd($apiRoute);
+// dd($eid);
     $token = $request->session()->get('api_token');
     $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
         ->post($BaseURL . 'Student/'.$apiRoute.'/'. $semID . '/' . $Group);
