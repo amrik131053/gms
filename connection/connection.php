@@ -5,10 +5,10 @@
       $todaydate=date('Y-m-d');
    $day=date('l'); 
    
-$serverName = "10.0.8.181"; //serverName\instanceName
+// $serverName = "10.0.8.181"; //serverName\instanceName
 // $connectionInfo = array( "Database"=>"DBGuruKashi",  "UID"=>"Amrik", "PWD"=>"Amrik@123");
 
-// $serverName = "117.250.20.109";
+$serverName = "117.250.20.109";
 $connectionInfo = array( "Database"=>"DBGuruKashi",  "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
 //$connectionInfo = array( "Database"=>"DBGuruKashi",  "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
