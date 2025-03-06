@@ -19908,6 +19908,10 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                 $year = date('Y',$dateValue);
                                 $monthName = date('F',$dateValue);
                                  $monthNo = date('m',$dateValue);
+
+
+
+
                                   
                                 if($monthNo>=date('m') && $year>=date('Y'))
                                 {
@@ -19918,10 +19922,25 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                     </button>
                                     <?php }
                                   else{
-                                    ?>
-                                    <button type="button" class="btn btn-dark btn-xs" disabled><i
-                                            class="fa fa-edit"></i>
-                                    </button> <?php 
+                                    if($role_id==2 OR $role_id==27 )
+                                    {
+ ?>
+
+                                      <button type="button" class=" btn btn-dark btn-xs"
+                                        onclick="modalEditExceptionTiming(<?=$row1['id'];?>)" data-toggle="modal"
+                                        data-target="#ExceptionChnageModal1111"><i class="fa fa-edit"></i>
+                                    </button>
+                                        <?php
+                                    }
+                                    else
+                                    { ?>
+                                        <button type="button" class="btn btn-dark btn-xs" disabled><i
+                                                class="fa fa-edit"></i>
+                                        </button> <?php 
+
+                                    }
+
+
                                   }?>
                                 </td>
                                 <?php 
@@ -20040,10 +20059,24 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                         </button>
                                         <?php }
                                   else{
-                                    ?>
+                                    if($role_id==2 OR $role_id==27 )
+                                    {
+ ?>
+
+                                        <button type="button" class=" btn btn-dark btn-xs"
+                                            onclick="modalEditSingleException(<?=$row1['id'];?>)" data-toggle="modal"
+                                            data-target="#ExceptionChnageModal"><i class="fa fa-edit"></i>
+                                        </button>
+                                        <?php
+                                    }
+                                    else
+                                    { ?>
                                         <button type="button" class="btn btn-dark btn-xs" disabled><i
                                                 class="fa fa-edit"></i>
                                         </button> <?php 
+
+                                    }
+                                   
                                   }?>
                                     </td>
                                 </tr>
