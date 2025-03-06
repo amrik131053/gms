@@ -12081,7 +12081,8 @@ else if($exportCode==75)
               elseif($Status==0)
               {
                 $StatusShow="<b>Forward to Department</b>";
-              }elseif($Status==1)
+              }
+              elseif($Status==1)
               {
                 $StatusShow='<b>Forward to Dean</b>';
               }
@@ -12097,7 +12098,7 @@ else if($exportCode==75)
  
  elseif($Status==4)
               {
-                $StatusShow='<b>Pending</b>';
+                $StatusShow='<b>Forward to Account</b>';
               }
  elseif($Status==5)
               {
