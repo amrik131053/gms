@@ -65,7 +65,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
    }
      $code = $_POST['code'];
     if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='332.1'|| $code=='333'||$code=='386' || $code=='386.1' || $code=='394.1' || $code=='393.1' || $code=='388'|| $code=='387'
-    ||$code=='389'||$code=='390'||$code=='391'||$code=='392'||$code=='393'|| $code=='394'|| $code=='395' || $code=='395.1' || $code=='392.1' )
+    ||$code=='389'||$code=='390'||$code=='391' || $code=='364.1'||$code=='392'||$code=='393'|| $code=='394'|| $code=='395' || $code=='395.1' || $code=='392.1' )
     {
        include "connection/connection_web.php"; 
        
@@ -24593,6 +24593,57 @@ $date='';
 
 <?php
 
+}
+?>
+</table>
+<?php 
+  sqlsrv_close($conntest);
+}
+else if($code=='364.1')
+{
+ $Course = $_POST["Course"];
+ $Batch = $_POST["Batch"];
+ $Semester = $_POST["Semester"];
+ $Batch=$_POST['Batch'];
+ $Semester=$_POST['Semester'];
+ $Type=$_POST['Type'];
+ $Group=$_POST['Group'];
+ $Examination=$_POST['Examination'];
+?>
+  <table class="table">
+
+<?php 
+ $resulrs="SELECT *  from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!=''   order by classrollno DESC LIMIT 1";
+$list_resultsub = mysqli_query($conn_online_odl, $resulrs);
+$key1=1;
+ while ($rows = mysqli_fetch_array($list_resultsub)) 
+ {
+     $resulrs1="SELECT *  from ResultOnlineGKU where  UniRollNo='".$rows['classrollno']."' and Examination='$Examination' and Semester='$Semester' and Type='$Type'";
+   $list_resultsub1 = sqlsrv_query($conntest, $resulrs1);
+   $key1=1;
+    while ($rows1 = sqlsrv_fetch_array($list_resultsub1, SQLSRV_FETCH_ASSOC)) 
+    {
+   ?>
+   <tr><td></td><td><?= $rows['course'];?></td><td><?= $rows['batch'];?></td><td><?= $rows1['Semester'];?></td><td><?= $rows1['Type'];?></td><td>  <?php if($rows1['DeclareDate']!=''){
+      echo $date= $rows1['DeclareDate']->format('Y-m-d');
+   }
+   else
+   {
+$date='';
+
+   }
+?>
+      </td>
+      <td><?= $rows1['DeclareType'];?></td>
+      <td><?= $rows1['ResultNo'];?></td>
+      <td><?= $rows1['Examination'];?></td>
+      <td>   <button class="btn btn-success btn-sm " onclick="exportCutListExcelOnlineCourse('<?= $rows1['Examination'];?>','<?=$date;?>','<?= $rows1['ResultNo'];?>','<?=$rows1['Id'];?>')"><i
+                                        class="fa fa-file-excel"></i></button>
+                                     </td>
+                                  </tr>
+
+<?php
+    }
 }
 ?>
 </table>
