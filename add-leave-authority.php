@@ -3375,18 +3375,18 @@ function toggleLeavingDate(selectElement) {
       <button type="button" onclick="exportEmployee();" class="btn btn-success btn-sm ">
         <i class="fa fa-file-excel"></i>
       </button>
-      <?php if($role_id==2){?>
+       <button type="button" onclick="addNewStaff();" class="btn btn-success btn-sm ">
+     Add New Staff
+      </button>
+      <?php if($role_id==2 OR  $role_id='27'){?>
       <button type="button" onclick="manageDepartment();" class="btn btn-success btn-sm ">
       Manage Department
       </button>
-        <?php }?>
+      
       <button type="button" onclick="manageDesignation();" class="btn btn-success btn-sm ">
       Manage Designation
       </button>
-    
-      <button type="button" onclick="addNewStaff();" class="btn btn-success btn-sm ">
-     Add New Staff
-      </button>
+      
       <button type="button" onclick="SyncNewStaff();" class="btn btn-success btn-sm ">
      Sync to SPOC
       </button>
@@ -3394,7 +3394,8 @@ function toggleLeavingDate(selectElement) {
       <button type="button"  onclick="manageauthority()"  class="btn btn-success btn-sm">
      Change Authority
       </button>
-
+<?php }?>
+     
       <span style="float:right;">
       <button class="btn btn-sm ">
          <input type="search" onblur="search_all_employee_emp_name(this.value);" class="form-control form-control-sm" name="emp_name" id="emp_name" placeholder="Search here">
