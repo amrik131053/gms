@@ -18,7 +18,7 @@
              alert("Right Click Disabled");
              return false; 
            }
-         }
+         } 
  
       </script>
       <style type="text/css">
@@ -1411,7 +1411,7 @@ else{
                           <?php  if($RegistrationNo!='')
                         {
                          ?>
-                  <div style="height: 140px;"></div>
+                  <div style="height: 150px;"></div>
                   <?php }
                   else
                   {?>
@@ -1467,7 +1467,7 @@ else{
                            </i>
                         </div>
                      </div>
-                     <div style="height: 10px;"></div>
+                     <div style="height: 20px;"></div>
                      <div class="row">
                         <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
                      </div>
