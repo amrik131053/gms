@@ -14545,6 +14545,7 @@ $ApplyDate="";
                   <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
                   <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
                 </div>
+                
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username" ><b><?=$name; ?></b></h6>
                 <h6 class="widget-user-desc" style="text-align: left;">Class Roll No&nbsp;:&nbsp;
@@ -14558,17 +14559,17 @@ $ApplyDate="";
 </h6>
                    IDNO&nbsp;:&nbsp;<?=$IDNo;?>
                 </div>
-                <div class="col-lg-1 col-sm-1">
-
-        </div>
              </div>
                
-               
-
-
+           
+             <div class="col-lg-3 col-sm-3  ">
+                
+                <button class="btn btn-danger btn-xs" onclick="cancelAdmissions(<?=$IDNo;?>);">Delete Parmanetly From Admissons </button>  
+             </div>
               </div>
 
               <div class="card-footer p-0" style="text-align: left;">
+               
                 <ul class="nav flex-column">
 
                   <li class="nav-item">

@@ -3209,4 +3209,75 @@ elseif($code==27.5)
          }
          sqlsrv_close($conntest);
 }
+elseif($code==28)
+{
+              
+               $id=$_POST['student_id']; 
+               $getSql="SELECT * FROM Admissions WHERE IDNo = '$id'";
+               $getSql_run=sqlsrv_query($conntest,$getSql);  
+               if($getSqlRow=sqlsrv_fetch_array($getSql_run,SQLSRV_FETCH_ASSOC))
+               {
+                $Session=$getSqlRow['Session'];
+                $CollegeName=$getSqlRow['CollegeName'];
+                $Course=$getSqlRow['Course'];
+                $Batch=$getSqlRow['Batch'];
+                $IDNo=$getSqlRow['IDNo'];
+                $ClassRollNo=$getSqlRow['ClassRollNo'];
+                $UniRollNo=$getSqlRow['UniRollNo'];
+                $LateralEntry=$getSqlRow['LateralEntry'];
+                $AdmissionDate=$getSqlRow['AdmissionDate'];
+                $StudentName=$getSqlRow['StudentName'];
+                $FatherName=$getSqlRow['FatherName'];
+                $MotherName=$getSqlRow['MotherName'];
+                $Sex=$getSqlRow['Sex'];
+                $DOB=$getSqlRow['DOB'];
+                $CorrespondanceAddress=$getSqlRow['CorrespondanceAddress'];
+                $PermanentAddress=$getSqlRow['PermanentAddress'];
+                $EmailID=$getSqlRow['EmailID'];
+                $OfficialEmailID=$getSqlRow['OfficialEmailID'];
+                $StudentMobileNo=$getSqlRow['StudentMobileNo'];
+                $Category=$getSqlRow['Category'];
+                $State=$getSqlRow['State'];
+                $District=$getSqlRow['District'];
+                $Nationality=$getSqlRow['Nationality'];
+                $RegistrationNo=$getSqlRow['RegistrationNo'];
+                $RegistrationDate=$getSqlRow['RegistrationDate'];
+                $Comments=$getSqlRow['Comments'];
+                $CommentsDetail=$getSqlRow['CommentsDetail'];
+                $Image=$getSqlRow['Image'];
+                $AadhaarNo=$getSqlRow['AadhaarNo'];
+                $CollegeID=$getSqlRow['CollegeID'];
+                $CourseID=$getSqlRow['CourseID'];
+                $CommentFromAcc=$getSqlRow['CommentFromAcc'];
+             
+                $DepartmentId=$getSqlRow['DepartmentId'];
+                $YearOfAdmission=$getSqlRow['YearOfAdmission'];
+                $BasicLocked=$getSqlRow['BasicLocked'];
+                $AdmissionDate = ($AdmissionDate instanceof DateTime) ? $AdmissionDate->format('Y-m-d') : $AdmissionDate;
+                    $DOB = ($DOB instanceof DateTime) ? $DOB->format('Y-m-d') : $DOB;
+                    $RegistrationDate = ($RegistrationDate instanceof DateTime) ? $RegistrationDate->format('Y-m-d') : $RegistrationDate;
+               }
+              $insertSql = "INSERT INTO CancelledAdmission (CancellationDate,CancelStatus,Reason,Session,CollegeName,Course,Batch,ClassRollNo,LateralEntry,AdmissionDate,
+                IDNo,StudentName,FatherName,MotherName,Sex,DOB,CorrespondanceAddress,PermanentAddress,EmailID,StudentMobileNo,Category,State,District,Nationality,UniRollNo,RegistrationNo,RegistrationDate,CommentsDetail,CommentFromAcc) VALUES 
+                ('$timeStamp','Cancelled','Reason for cancellation','$Session','$CollegeName','$Course','$Batch','$ClassRollNo','$LateralEntry','$AdmissionDate','$IDNo','$StudentName','$FatherName','$MotherName','$Sex','$DOB','$CorrespondanceAddress','$PermanentAddress','$EmailID','$StudentMobileNo','$Category','$State','$District','$Nationality','$UniRollNo','$RegistrationNo','','$CommentsDetail','$CommentFromAcc')";
+            
+               $insertSql_run=sqlsrv_query($conntest,$insertSql); 
+               if($insertSql_run==true)
+               {
+                 $deleteSql="DELETE FROM Admissions  WHERE IDNo='$id'";
+                  $deleteSql_run=sqlsrv_query($conntest,$deleteSql);  
+                 $desc= 'Admissions Cancelled:'.$ClassRollNo;
+                 $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
+               } 
+                if ($deleteSql_run==true) 
+                {
+                    echo "1";
+                }
+                else
+                {
+                    echo "0";
+                }
+         sqlsrv_close($conntest);
+}
 }

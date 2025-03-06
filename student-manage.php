@@ -233,6 +233,25 @@ function updateSection(student_id) {
         }
     });
 }
+function cancelAdmissions(student_id) {
+    if (confirm("Really want to Delete this Studernt ") == true) {
+    var code = '28';
+    $.ajax({
+        url: 'action_a.php',
+        data: {
+            student_id: student_id,
+            flag: code
+        },
+        type: 'POST',
+        success: function(data) {
+            console.log(data);
+            if (data == 1) {
+                SuccessToast('Successfully Deleted ');
+            }
+        }
+    });
+    }
+}
 function updateGroup(student_id) {
     var group=document.getElementById("ClassGroup").value;
     var code = '16';
