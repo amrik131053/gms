@@ -3378,7 +3378,7 @@ function toggleLeavingDate(selectElement) {
        <button type="button" onclick="addNewStaff();" class="btn btn-success btn-sm ">
      Add New Staff
       </button>
-      <?php if($role_id==2 OR  $role_id='27'){?>
+      <?php if($role_id==2 OR  $role_id==27){?>
       <button type="button" onclick="manageDepartment();" class="btn btn-success btn-sm ">
       Manage Department
       </button>
