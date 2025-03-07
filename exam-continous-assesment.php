@@ -364,6 +364,25 @@ function edit_stu(id) {
 
 }
 
+function VerifyResultRegular(ID){
+
+    // alert(ID);
+var spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var code = 455.1;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,ID: ID
+            },
+            success: function(response) {
+             console.log(response)
+                spinner.style.display = 'none';
+            }
+        });
+}
+
 
 
 function Search_exam_student1() {
