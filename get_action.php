@@ -6993,7 +6993,7 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
   $Batch=$_GET['batch']; 
   $semID = $_GET['sem'];
   $exam = $_GET['examination'];
- echo $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
+  $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
   and Rp.Examination='$exam' and  Rp.Batch='$Batch' ";
      $stmt = sqlsrv_query($conntest,$sql1);
     if ($stmt === false) {
