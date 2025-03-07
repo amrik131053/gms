@@ -34,11 +34,31 @@
             </select>
          </div>
          <div class="col-lg-2" >
+          <?php 
+ if($role_id=='2' OR$role_id=='5')
+             {?>
+
+                 <input type="hidden" name="" value='194' id='code'>
+            <?php  }
+            else
+              {
+                ?>
+
+                 <input type="hidden" name="" value='194.1' id='code'>
+            <?php 
+          }
+          ?>
+
+        
             <select class="form-control" name="searchingValue" id="searchingValue" onchange="textBoxVisible(this.value)">
                <option value="" selected>Select</option>
                <option value="SubjectCode">Subject Code</option>
                <option value="EmployeeId">Employee Id</option>
+             <?php if($role_id=='2')
+             {?>
+
                <option value="PaperId">Paper Id</option>
+            <?php  }?>
             </select>
          </div>
          <div class="col-lg-2" >
@@ -365,8 +385,9 @@ function lockQuestions(SubjectCode,CourseID,Batch,Semester,EmpID)
    var textBoxValue=document.getElementById('textBox').value;
    var searchingValue=document.getElementById('searchingValue').value;
    var examSession=document.getElementById('examSession').value;
+    var code=document.getElementById('code').value;
      spinner.style.display='block';
-           var code=194;
+           
            $.ajax({
               url:'action.php',
               type:'POST',

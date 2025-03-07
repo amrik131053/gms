@@ -12608,6 +12608,7 @@ elseif($code==194)
          
 
             <?php
+
             if ($data['questionCount']>=118) 
                {
                   if ($data['lock_status']==0) 
@@ -12749,6 +12750,365 @@ elseif($code==194)
                           {
 
                             http://gurukashiuniversity.co.in/data-server/question_images/
+                            $img.= "<div><img src='http://gurukashiuniversity.co.in/data-server/question_images/{$imageData['image']}' height='200px'  ></div>";
+                           
+                          }
+                          if ($row['Type']!=1) 
+                          {
+                            $questionCount++;
+                          }
+                          
+
+                          if ($qType!=$row['Type']) 
+                          {
+                            $partCount++;
+                            if($partCount==1)
+                            {
+                              $partCountRoman='I';
+                            }
+                            elseif($partCount==2)
+                            {
+                              $partCountRoman='II';
+                            }
+                            elseif($partCount==3)
+                            {
+                              $partCountRoman='III';
+                            }
+                            ?>
+                            <tr>
+                              <th colspan="3" align="center" style="font-size:20px">
+                               <label style="margin-left:100px ;"> Part <?=$partCountRoman?> (<?=$row['type_name']?>)</label>
+                               <label style="float: right;">
+                                (<?php
+                                if ($row['Type']==1) 
+                                {
+                                  echo $mcq;
+                                }
+                                elseif ($row['Type']==2) 
+                                {
+                                  echo $short;
+                                }
+                                elseif ($row['Type']==3) 
+                                {
+                                  echo $long;
+                                } 
+                                ?>)
+                                </label>
+                              </th>
+                            </tr>
+                            <?php
+                          }
+                          
+                            ?>
+                            <tr valign="top">
+                              <th width="10%" align="right"><p><?=$questionCount?>. 
+                                <?php
+                                 if ($row['Type']==1) 
+                                  {
+                                    echo "({$mcqCount})";
+                                  }
+                                  ?>
+                                &nbsp;</p></th>
+                              <th data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$row['questionId1']?>);" align="left">
+                                    <?=$row['sanitized_question']?> <b style="color: red;">( <?=$row['questionId1']?>)</b>
+                                <?= $img?>
+                                <?php 
+                                if($row['OptionA']!='')
+                                {?>
+                                   (A) &nbsp; <?=$row['OptionA']?> 
+                                <?php }?> &nbsp;&nbsp;&nbsp;
+                                <?php 
+                                if($row['OptionB']!='')
+                                {?>
+                                   (B) &nbsp; <?=$row['OptionB']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+ <?php 
+                                if($row['OptionC']!='')
+                                {?>
+                                   (C) &nbsp; <?=$row['OptionC']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+                                 <?php 
+                                if($row['OptionD']!='')
+                                {?>
+                                   (D) &nbsp; <?=$row['OptionD']?> 
+                                <?php }?>
+
+                              </th>
+                              <th align="right">
+                                <p><table>
+                                <tr>
+                                  <!-- <td><?=$row['Unit']?></td> -->
+                                  <td><?=$row['category_name']?>(<?=$row['Unit']?>)</td>
+                                </tr>
+                              </table></p></th>
+                            </tr>
+                            
+                          <?php
+                          $qType=$row['Type'];
+                          if ($row['Type']==1) 
+                          {
+                            $mcqCount++;
+                          }
+                        }
+                        ?>
+                        
+                      </table>
+                    </td>
+                  </tr>
+                  <!-- <tr>
+                    <td height="1" align="center" valign="top"><img src="images/admit_card_border.png" width="966" height="16"></td>
+                  </tr> -->
+                </table>
+<?php
+   }
+   sqlsrv_close($conntest);
+   mysqli_close($conn);
+}
+
+elseif($code==194.1)
+{
+   $textBoxValue=$_POST['textBoxValue'];
+   $examSession=$_POST['examSession'];
+   $searchingValue=$_POST['searchingValue'];
+   if ($searchingValue=='SubjectCode') 
+   {
+ $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,Exam_Session,count(*) as questionCount from question_bank where SubjectCode='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy,Exam_Session";
+      $flag=1;
+   }
+   elseif ($searchingValue=='EmployeeId') 
+   {
+      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
+      $flag=1;
+   }
+   elseif ($searchingValue=='PaperId') 
+   {
+      $sql="Select * from question_paper inner join question_exam on question_paper.exam=question_exam.id where question_paper.id='$textBoxValue'";
+      $res=mysqli_query($conn,$sql);
+      while ($data=mysqli_fetch_array($res)) 
+      {
+         $examName=$data['exam_name'];
+         $sqlCourse = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE CourseID=".$data['course'];
+         $resultCourse = sqlsrv_query($conntest,$sqlCourse);
+         while($rowCourse = sqlsrv_fetch_array($resultCourse, SQLSRV_FETCH_ASSOC) )
+         {
+             $courseName=$rowCourse["Course"]; 
+         } 
+         $mcq=$data['mcq'];
+         $short=$data['short'];
+         $long=$data['long'];
+         $semester=$data['semester'];
+         $maxMarks=$data['max_marks'];
+         $time =$data['exam_time'];
+         $instruction =$data['instructions'];
+         $subjectCode=$data['subject_code'];
+
+         $sqlSubject = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID=".$data['course'];
+         $resultSubject = sqlsrv_query($conntest,$sqlSubject);
+         if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
+         {
+            $subjectName=$rowSubject["SubjectName"]; 
+         }
+      }
+      $flag=0;
+   }
+   if ($flag==1) 
+   {
+   $res=mysqli_query($conn,$sql);
+   $sr=0;
+   ?>
+   <table class="table">
+      <tr>
+         <th>#</th>
+         <th>Employee Id</th>
+         <th>Subject Code</th>
+         <th>Course</th>
+
+         <th>Batch</th>
+         <th>Semester</th>
+         <th>Questions</th>
+         <th>Action</th>
+         <!-- <th>Delete</th> -->
+      </tr>
+   <?php
+   while($data=mysqli_fetch_array($res))
+   {
+      $SubjectCode=$data['SubjectCode'];
+      $CourseID=$data['CourseID'];
+
+      $Batch=$data['Batch'];
+      $Semester=$data['Semester'];
+      $sr++;
+      ?>
+      <tr>
+         <td><?=$sr?></td>
+         <td><span class="text-info<?=$sr;?>" id="emp<?=$sr;?>"><?=$data['UpdatedBy']?></span></td>
+         <td><?=$data['SubjectCode']?></td>
+         <td><?php $sqlcourse = "SELECT DISTINCT Course from MasterCourseStructure WHERE CourseID='$CourseID'";
+         $result = sqlsrv_query($conntest,$sqlcourse);
+         if($rowCourse= sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+         {
+            $Course=$rowCourse["Course"]; 
+         }
+         echo $Course;?> 
+           </td>
+         <td> <span class="text-info<?=$sr;?>" id="batch<?=$sr;?>"> <?=$data['Batch']?></span></td>
+         <td><span class="text-info<?=$sr;?>" id="sem<?=$sr;?>"><?=$data['Semester']?></span></td>
+         <td><?=$data['questionCount']?></td>
+         <td>
+            
+            <i class="fa fa-eye fa-lg" style="color:green;" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')"  ></i>&nbsp;&nbsp;
+         
+<form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
+<input type="hidden"  name='SubjectCode' value="<?=$data['SubjectCode']?>">
+<input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
+
+
+            <!-- <i class="fa fa-edit fa-lg text-dark" id="editIcon<?=$sr;?>"  onclick="editAllQuestion('<?=$sr;?>','<?=$SubjectCode?>')"  ></i>&nbsp;&nbsp; -->
+         
+
+            <?php
+            
+            if ($data['questionCount']>=118) 
+               {
+                  if ($data['lock_status']==0) 
+                  {
+                     ?>
+                        <i onclick="lockQuestions('<?=$SubjectCode?>','<?=$CourseID?>','<?=$Batch?>','<?=$Semester?>',<?=$data['UpdatedBy']?>)" class="fa fa-lock-open text-success"></i>
+                     <?php
+                  }
+                  else
+                  {
+                     
+                  }
+                  ?>
+
+                  <?php
+                  
+               }
+            ?>
+         </td>
+      </tr>
+      <?php 
+      
+   }
+   ?>
+   </table>
+   <?php
+   }
+   elseif($flag==0)
+   {
+      ?>
+      <table border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%;  " width="100%">
+                  <!-- <tr>
+                    <td rowspan="3" align="center" valign="top" nowrap><img src="images/admit_card_border11.png" width="16" height="100%" style="margin-top:1px "></td>
+                    <td height="1" align="center" valign="top"><img src="images/admit_card_border.png" width="966" height="16"></td>
+                    <td rowspan="3" align="center" valign="top" nowrap><img src="images/admit_card_border11.png" width="16" height="100%" style="margin-top:1px "></td>
+                  </tr> -->
+                  <tr>
+                    <th align="left" width="31%" >
+                      <img src="logo2.png" width="80px" height="100%">
+                    </th>
+                    
+                    <th  colspan='2' valign="bottom" align="right">
+                      University Registration No...........................
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan='3' valign="bottom" align="center">
+                      <span style="font-size: 30px;">GURU KASHI UNIVERSITY</span>
+                      <br>
+                      <?=$examName?>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th valign="bottom" colspan="2" align="left">
+                      Course/Discipline: <?=$courseName?> 
+                    </th>
+                    
+                    <th valign="bottom" align="right">
+                     
+                      Semester: 
+                      <?php
+                      echo $semester; 
+                      if ($semester==1) 
+                      {
+                        ?><sup>st</sup><?php
+                      }
+                      elseif ($semester==2) 
+                      {
+                        ?><sup>nd</sup><?php
+                      }
+                      elseif ($semester==3) 
+                      {
+                        ?><sup>rd</sup><?php
+                      }
+                      elseif ($semester>=4) 
+                      {
+                        ?><sup>th</sup><?php
+                      }
+                      ?>
+
+                    </th>
+                  </tr>
+                  <tr>
+                    <th valign="bottom" align="left">
+                      Subject Code: <?=$subjectCode?> 
+                    </th>
+                    <th  colspan='2' valign="bottom" align="right">
+                     
+                       Maximum Marks: <?=$maxMarks?> 
+                    </th>
+
+                  </tr>
+                  
+                  <tr>
+                    <th  colspan='3' valign="bottom" align="center">
+                      <?=$subjectName?> 
+                    </th>
+                  </tr>
+                  <tr>
+                    <th  colspan='3' valign="bottom" align="left">
+                      Time: <?=$time?> 
+                    </th>
+                  </tr>
+                  <tr>
+                    <th  colspan='3' valign="bottom" align="left">
+                      Instructions:
+                      <table border="0" width="100%">
+                        <tr>
+                          <th width="12%" align="right">
+                            
+                          </th>
+                          <th align="left">
+                            <?=$instruction?>
+                          </th>
+                        </tr>
+                      </table>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td colspan="3">
+
+                      <table border="0" width="100%">
+                        <?php
+                        $qType=''; 
+                        $partCount=0;
+                        $questionCount=1;
+                        $mcqCount='a';
+                        
+                        $qry="Select *,REGEXP_REPLACE(Question,'style=".'[\\d\\D]*?'."','') AS sanitized_question,question_bank_details.question_id as questionId1 from question_paper_details inner join question_bank on question_bank.Id=question_paper_details.question_id inner join question_type on question_type.id=question_bank.Type inner join question_category on question_category.id=question_bank.Category inner join question_bank_details on question_bank.id=question_bank_details.question_id   where question_paper_id='$textBoxValue' ORDER BY  Type  asc, Category asc";
+                        $run=mysqli_query($conn,$qry);
+                        while($row=mysqli_fetch_array($run))
+                        { 
+                          $img='';
+                          $imageQry="Select * from question_image where question_id=".$row['Id'];
+                          $imageRes=mysqli_query($conn,$imageQry);
+                          while($imageData=mysqli_fetch_array($imageRes))
+                          {
+
+                            //http://gurukashiuniversity.co.in/data-server/question_images/
                             $img.= "<div><img src='http://gurukashiuniversity.co.in/data-server/question_images/{$imageData['image']}' height='200px'  ></div>";
                            
                           }
