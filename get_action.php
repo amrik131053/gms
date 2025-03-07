@@ -7022,7 +7022,16 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
  <td><?=$row['TotalCredit'];?></td>
  <td><?=$row['Sgpa'];?></td>
  <td><?=$row['VerifiedBy'];?></td>
- <td><button class="btn btn-danger"  onclick="deleteResultOne(<?= $row['Id'];?>,<?= $row['IDNo'];?>);"><i class="fa fa-trash"></i></button></td>
+ <td><?php
+   if($row['ResultStatus']!='1')
+          {?>
+         <button class="btn btn-danger"  onclick="deleteResultOne(<?= $row['Id'];?>,<?= $row['IDNo'];?>);"><i class="fa fa-trash"></i></button>
+        <?php   }
+          else
+          {
+
+          }?>
+         </td>
 </tr>
  <?php 
  $clr="";
