@@ -90,7 +90,27 @@
             <div class="col-lg-5 col-md-5 col-sm-5">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Examination Permission</h3>
+                       <div class="row"><div class="col-lg-4">Examination Permission</div><div class="col-lg-3"><select  id="Examination" name="examination">
+                 <option value="">Examination</option>
+                       <?php
+   $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $Sgroup = $row1['Examination']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select></div><div class="col-lg-3"></div>
+
+                   </div> 
 
                     </div>
                     <div class="card-body table-responsive  ">
