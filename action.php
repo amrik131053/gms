@@ -13748,11 +13748,8 @@ else
 
  for($i=0;$i<$flag;$i++)
   {
-$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
-  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
- if ($stmt1==true) 
- {
-  $sqlid="SELECT IDNo,$ecat from  ExamFormSubject where ID='$ids[$i]'";
+
+  $sqlid="SELECT IDNo,$ecat from ExamFormSubject where ID='$ids[$i]'";
 
    $stmt2id = sqlsrv_query($conntest,$sqlid);
 
@@ -13775,7 +13772,11 @@ if($update_query === false)
                 {
                die( print_r( sqlsrv_errors(), true) );
                }
-
+               
+$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
 
  }
  else
