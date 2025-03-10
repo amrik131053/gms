@@ -24135,7 +24135,9 @@ $nccount=0;?>
   <?php }
          ?>
 </table>
+
 </div>
+<button class="btn btn-primary" onclick="VerifyResultRegular('<?= $id;?>')">Verify Result</button>
 
          <?php 
      sqlsrv_close($conntest);

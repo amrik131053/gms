@@ -37244,7 +37244,8 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
                                 <td> SGPA : <?=$sgpan;?></td>
                                 <td colspan="2">
                                     <?php  
-     if($buttoncount>0){?><button class="btn btn-warning">Update End Semester Marks</button><?php } else{?><button
+     if($buttoncount>0){?>
+     <button class="btn btn-warning">Update End Semester Marks</button><?php } else{?><button
                                         class="btn btn-primary"
                                         onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify
                                         Result</button> <?php }?> </td>
@@ -37744,6 +37745,109 @@ $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName
   }
 
 
+  sqlsrv_close($conntest);        
+}
+elseif($code==455.1)
+  {
+   $id=$_POST['ID'];
+   $gradevaluetotal=0;
+   $totalcredit=0;
+   $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by SubjectCode ASC";  
+   $list_resultamrik = sqlsrv_query($conntest,$amrik);  
+   $sr=0;
+   $credit='';
+   while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
+            { 
+                $Examination=$row7['Examination']; 
+                $Semester=$row7['SemesterID']; 
+                $query = "SELECT * FROM Admissions   Where  IDNo='".$row7['IDNo']."' ";
+                $result = sqlsrv_query($conntest,$query);
+                while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+                {
+                  $IDNo= $row['IDNo'];
+                  $UniRollNo= $row['UniRollNo'];
+                  $CollegeID= $row['CollegeID'];
+                  $CourseID= $row['CourseID'];
+                  $ResultColumn=1;
+                  $Batch=$row['Batch'];          
+                }
+           $sr++;
+   $SubjectCode=$row7['SubjectCode'];
+   
+               $amrikc = "SELECT * FROM MasterCourseStructure where  Batch='".$row7['Batch']."' ANd SubjectCode='$SubjectCode'";  
+   $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+   
+   while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+            {
+                $credit=$row7c['NoOFCredits'];
+               }
+               $totalcredit=$totalcredit+$credit;
+               $SubjectNameArray[]=$SubjectName=$row7['SubjectName'];
+               $SubjectCodeArray[]=$SubjectCode=$row7['SubjectCode'];
+               $SubjectCreditArray[]=$SubjectCredit=$credit;
+       $row7['ExternalExam'];
+       $CE1=$row7['CE1'];
+      $CE3=$row7['CE3'];
+       $att=$row7['Attendance'];
+       $mst1=$row7['MST1']; 
+       $mst2= $row7['MST2'];
+       $msttotal='';
+        if($mst1>$mst2)
+        {
+        $msttotal=$mst1;
+        }
+        else
+        {
+            $msttotal=$mst2;
+        }
+       $ESe= $row7['ESE']; 
+        $grace=0;
+       $nccount=0;
+      include 'result-pages/grade_calculator.php';
+        $totalFinal;
+        $SubjectGradeArray[]=$SubjectGrade=$grade;
+        $SubjectGradePointArray[]=$SubjectGradePoint=$gardep;
+        if($credit>0)
+        {
+        $gradevalue=$gardep*$credit;
+        if($gradevalue>0)
+        {
+        $gradevaluetotal=$gradevaluetotal+$gradevalue;
+        }
+        else
+        {
+        if($grade=='F' || $grade=='US')
+        {
+        $nccount++;
+        }
+        }
+        $gradevaluetotal;
+        $totalcredit;
+        $sgpa=$gradevaluetotal/$totalcredit;
+            $sgpa= number_format($sgpa,2);  
+        }
+
+    }
+     $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus) 
+VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','','$timeStamp','0');";
+$result = sqlsrv_query($conntest,$insertResult);
+
+$getResultID="SELECT TOP(1)* FROM ResultPreparation ORDER by Id DESC ";
+$getResultIDRun = sqlsrv_query($conntest,$getResultID);
+if($rowgetResultIDRun = sqlsrv_fetch_array($getResultIDRun, SQLSRV_FETCH_ASSOC) )
+{
+$resultID=$rowgetResultIDRun['Id'];
+}
+if($result==true)
+{
+foreach ($SubjectCodeArray as $key => $value)
+ {
+     $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
+    VALUES ('$resultID','$SubjectNameArray[$key]','$SubjectCodeArray[$key]','$SubjectGradeArray[$key]','$SubjectCreditArray[$key]','$UniRollNo','$SubjectGradePointArray[$key]')";
+$result = sqlsrv_query($conntest, $insertResultDetails);
+}
+}
+    // print_r($SubjectCodeArray);
   sqlsrv_close($conntest);        
 }
 
