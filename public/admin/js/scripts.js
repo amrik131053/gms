@@ -512,6 +512,56 @@ function viewExamForm(id) {
         hideLoader(); 
     });
 }
+
+function viewNoDuesModal(id) {
+    showLoader();
+    // alert(id);
+    fetch('/fetch-no-dues-record', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ID: id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoader();
+        const tableBody = document.getElementById('viewNoDuesTable');
+        tableBody.innerHTML = '';
+        console.log(data);
+        if (data.length > 0) {
+           
+                let row = document.createElement('tr');
+                row.innerHTML = `
+                <tr>
+                    <td>${data[0]['ExamFormID']}</td>
+                    <td>${data[0]['AccountVerifiedBy']}</td>
+                    <td>${data[0]['IDNo']}</td></tr>
+                <tr>
+                    <td>${data[0]['ExamFormID']}</td>
+                    <td>${data[0]['AccountVerifiedBy']}</td>
+                    <td>${data[0]['IDNo']}</td></tr>
+                <tr>
+                    <td>${data[0]['ExamFormID']}</td>
+                    <td>${data[0]['AccountVerifiedBy']}</td>
+                    <td>${data[0]['IDNo']}</td></tr>
+                `;
+                tableBody.appendChild(row);
+            
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">No subjects available</td></tr>';
+        }
+
+        // Show the modal
+        let examModal = new bootstrap.Modal(document.getElementById('noDuesModal'));
+        examModal.show();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        hideLoader(); 
+    });
+}
 // function viewExamForm(id) {
 //     showLoader();
 //     fetch('/fetch-exam-form', {

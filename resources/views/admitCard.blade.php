@@ -50,6 +50,7 @@
                                             ({{ $allExamShows['Type'] }})</td>
                                         <td>{{ $allExamShows['Examination'] }}</td>
                                         <td>
+                                            @if($allExamShows['total_sum']==3)
                                             <form method="POST" action="{{route('downloadAdmitCard')}}">
                                                 @csrf
                                                 <input type="hidden" name="FormID" value="{{$allExamShows['ID']}}">
@@ -65,6 +66,16 @@
                                                     </svg>
                                                     Download</button>
                                             </form>
+                                            @else
+                                      
+                                    
+                                            <button class="btn btn-primary" type="button">        <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="noDuesModal" onclick="viewNoDuesModal({{ $allExamShows['mID'] }});" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                  <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                </svg>     View</button>
+               
+                                            @endif
 
                                         </td>
                                     </tr>

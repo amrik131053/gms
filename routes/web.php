@@ -55,10 +55,12 @@ Route::get('MyExamForms', [ExamFormController::class, 'MyExamForms'])->name('MyE
 Route::post('searchExamForms', [ExamFormController::class, 'searchExamForm'])->name('searchExamForms')->middleware(CheckAuthentication::class);
 Route::post('submitSubjects', [ExamFormController::class, 'submitExamForm'])->name('submitSubjects')->middleware(CheckAuthentication::class);
 Route::post('/fetch-exam-form', [ExamFormController::class, 'fetchForm'])->name('/fetch-exam-form');
+
 //Admit Card
 Route::match(['get', 'post'], '/AdmitCard', [AdmitCardController::class, 'AdmitCards'])->name('AdmitCard')->middleware(CheckAuthentication::class);
 Route::post('/download-admit-card', [AdmitCardController::class, 'generateAdmitCardPDF'])->name('downloadAdmitCard');
 // Route::match(['get', 'post'], '/AdmitCard', [AdmitCardController::class, 'AdmitCards'])->name('AdmitCard');
+Route::post('/fetch-no-dues-record', [AdmitCardController::class, 'fetchNoDuesAPI'])->name('/fetch-no-dues-record');
 
 //study metrial
 Route::get('study-material', [AcademicsController::class, 'studyMaterial'])->name('studymaterial')->middleware(CheckAuthentication::class);

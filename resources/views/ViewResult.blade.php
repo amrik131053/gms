@@ -104,7 +104,7 @@
                                 </tr>
                                 <tr>
                                     <td>Semester: {{$Semester}}</td>
-                                    <td>Examination: {{$Examination}} ({{$Type}})</td>
+                                    <td>Examination: {{$Examination}} ({{$Type}}@if($DeclareType!='') {{ $DeclareType }} @endif)  </td>
                                 </tr>
                             </tbody>
                         </table>

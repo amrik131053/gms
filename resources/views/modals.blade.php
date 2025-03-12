@@ -56,7 +56,7 @@
     </div>
   </div>
 </div> -->
-<div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
+      <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -74,6 +74,38 @@
                                 </tr>
                             </thead>
                             <tbody id="subjectsTableDiv">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+      <div class="modal fade" id="noDuesModal" tabindex="-1" aria-labelledby="noDuesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="noDuesModalLabel">No Dues Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead >
+                                <tr>
+                                    <th style="background-color:#223260;color:white;">Department Name</th>
+                                    <th style="background-color:#223260;color:white;">Verified By</th>
+                                    <th style="background-color:#223260;color:white;">Date On</th>
+                                    <th style="background-color:#223260;color:white;">Status</th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody id="viewNoDuesTable">
                                
                             </tbody>
                         </table>

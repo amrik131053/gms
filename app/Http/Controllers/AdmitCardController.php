@@ -59,5 +59,19 @@ class AdmitCardController extends Controller
     }
 
 
+    public function fetchNoDuesAPI(Request $request)
+    {
+        $BaseURL=config('app.baseUrl');
+        $ID = $request->input('ID');
+        // dd($ID);
+        $token = $request->session()->get('api_token');
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            ])->post($BaseURL.'Student/pendingAdmitCardData/' . $ID);
+// dd($response['data']);
+            return $response['data'];
+    }  
+
+
     
 }

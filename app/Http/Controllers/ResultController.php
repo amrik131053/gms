@@ -17,6 +17,7 @@ class ResultController extends Controller
         if ($response->successful()) {
             $resultsData = $response->json();
                $resultsData=$resultsData['data'];
+            //    dd($resultsData);
             return view('results')->with('resultsData', $resultsData);
         } 
         else 
@@ -47,6 +48,7 @@ class ResultController extends Controller
             'TotalCredit'=>$resultsData[0]['TotalCredit'],
             'Sgpa'=>$resultsData[0]['Sgpa'],
             'DeclareDate'=>$resultsData[0]['DeclareDate'],
+            'DeclareType'=>$resultsData[0]['DeclareType'],
             'SubjectsResult'=>$resultsData
         ];   
         $pdf = PDF::loadView('ViewResult', $data);

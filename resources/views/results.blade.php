@@ -27,7 +27,7 @@
                    <tr>
                    <td>{{ $loop->iteration }}</td>
                             <td>{{ $resultdata['Semester'] }}</td>
-                            <td>{{ $resultdata['Type'] }}</td>
+                            <td>{{ $resultdata['Type'] }} @if($resultdata['DeclareType']!='')({{ $resultdata['DeclareType'] }}) @endif </td>
                             <td>{{ $resultdata['Examination'] }}</td>
                             <td>{{ \Carbon\Carbon::parse($resultdata['DeclareDate'])->format('d-m-Y') }}</td>
                            @if($resultdata['AcceptType']==1)
