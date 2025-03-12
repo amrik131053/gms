@@ -3280,4 +3280,80 @@ elseif($code==28)
                 }
          sqlsrv_close($conntest);
 }
+
+elseif($code==29)
+{
+
+$examination=$_POST['examination'];
+$StudentList="SELECT  ID,IDNo FROM ExamForm WHERE ID NOT IN (SELECT ExamFormID FROM MasterNoDues) AND Examination='$examination' ANd Status='8' 
+AND Type='Regular' order By ID ASC"; 
+$getslist=sqlsrv_query($conntest,$StudentList);
+while($get_row=sqlsrv_fetch_array($getslist))
+                  {
+        $IDNo=$get_row['IDNo'];
+         $ID=$get_row['ID'];
+
+        $insertNewRecord="INSERT into  MasterNoDues (IDNo,ExamFormID)
+        VALUES('$IDNo','$ID')";
+
+        sqlsrv_query($conntest,$insertNewRecord);
+      }      
+
+ }
+ else if($code==29.1)
+   {
+    $College = isset($_POST['College']) ? $_POST['College'] : '';
+    $Course = isset($_POST['Course']) ? $_POST['Course'] : '';
+    $Semester = isset($_POST['Semester']) ? $_POST['Semester'] : '';
+    $Type = isset($_POST['Type']) ? $_POST['Type'] : '';
+    $Status = isset($_POST['Status']) ? $_POST['Status'] : '';
+    $Examination = isset($_POST['Examination']) ? $_POST['Examination'] : '';
+
+
+
+    $list_sql = "SELECT COUNT(*) as Count
+                 FROM ExamForm 
+                 INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  Inner join MasterNoDues on MasterNoDues.ExamFormID= ExamForm.ID
+                 WHERE ExamForm.Status = '8' AND Admissions.Status='1' AND MasterNoDues.Account='0' ";
+    if ($College !== '') {
+        $list_sql .= " AND ExamForm.CollegeID = '$College'";
+    }
+    
+    if ($Course !== '') {
+        $list_sql .= " AND ExamForm.CourseID = '$Course'";
+    }
+    
+    if ($Type !== '') {
+        $list_sql .= " AND ExamForm.Type = '$Type'";
+    }
+    
+    if ($Semester !== '') {
+        $list_sql .= " AND ExamForm.SemesterID = '$Semester'";
+    }
+    
+    if ($Examination !== '') {
+        $list_sql .= " AND ExamForm.Examination = '$Examination'";
+    }
+    if ($Examination == '') {
+        $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+    }
+
+// echo  $list_sql;
+
+
+
+    $getDefaultMenuRun = sqlsrv_query($conntest, $list_sql);
+    if ($row = sqlsrv_fetch_array($getDefaultMenuRun, SQLSRV_FETCH_ASSOC)) {
+        echo $row['Count'];
+    } 
+    else 
+    {
+        echo "0";
+    }
+    
+    sqlsrv_close($conntest);
+   }
+         
+
+
 }

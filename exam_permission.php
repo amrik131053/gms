@@ -90,7 +90,26 @@
             <div class="col-lg-5 col-md-5 col-sm-5">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Examination Permission</h3>
+                       <div class="row"><div class="col-lg-4">Exam Permission</div><div class="col-lg-3">
+
+                        <select  id="noduesexamination" name="examination" class="btn btn-default btn-xs">
+                 <option value="">Examination</option>
+                       <?php
+   $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {      
+     $Sgroup = $row1['Examination']; 
+         ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select></div><div class="col-lg-3"> <button class="btn btn-success btn-xs" onclick="createnodues()">Create No Dues</button></div>
+
+                   </div> 
 
                     </div>
                     <div class="card-body table-responsive  ">
@@ -763,6 +782,38 @@ function edit_start_end_date(id, Semester) {
         }
     });
 }
+
+function createnodues()
+{
+      var examination = document.getElementById('noduesexamination').value;
+      alert(examination);
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+   
+    var code = 29;
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,
+            examination: examination
+        },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+console.log(response);
+                SuccessToast('No Dues Created Success');
+              
+
+                
+            
+
+        }
+    });
+}
+
+
+
 
 function open_examination_permision_search() {
     var exam_type = document.getElementById('exam_type').value;

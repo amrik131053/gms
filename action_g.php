@@ -37797,7 +37797,7 @@ elseif($code==455.1)
                 while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
                 {
                   $IDNo= $row['IDNo'];
-                  $UniRollNo= $row['UniRollNo'];
+                  $UniRollNo= trim($row['UniRollNo']);
                   $CollegeID= $row['CollegeID'];
                   $CourseID= $row['CourseID'];
                   $ResultColumn=1;
@@ -37863,6 +37863,10 @@ elseif($code==455.1)
      $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus) 
 VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0');";
 $result = sqlsrv_query($conntest,$insertResult);
+if ($result === false) {
+        $errors = sqlsrv_errors();
+        echo "Error: " . print_r($errors, true);
+    } 
 
 $getResultID="SELECT TOP(1)* FROM ResultPreparation ORDER by Id DESC ";
 $getResultIDRun = sqlsrv_query($conntest,$getResultID);

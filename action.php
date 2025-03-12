@@ -13748,11 +13748,36 @@ else
 
  for($i=0;$i<$flag;$i++)
   {
+
+  $sqlid="SELECT IDNo,$ecat from ExamFormSubject where ID='$ids[$i]'";
+
+   $stmt2id = sqlsrv_query($conntest,$sqlid);
+
+
+while($row1id = sqlsrv_fetch_array($stmt2id, SQLSRV_FETCH_ASSOC) )
+{
+$sidno=$row1id['IDNo'];
+$ecat1=$row1id[$ecat];
+
+}
+
+
+$desc= "update ExamFormSubject set $ecat=$mst[$i] from $ecat1 ,$locked=1  where ID=$ids[$i]" ;
+
+  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$sidno','$desc','$EmployeeID','$timeStamp')";
+
+    $update_query=sqlsrv_query($conntest,$update1);
+
+if($update_query === false)
+                {
+               die( print_r( sqlsrv_errors(), true) );
+               }
+               
 $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
-   echo "1";
+
  }
  else
  {

@@ -3811,25 +3811,15 @@ else if($code=='43')
 
 
 
-     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
-
-
-
-
-     </td>
-
+<tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+</td>
 <input type="hidden" value="<?= $batch;?>" name="batch">
 <input type="hidden" value="<?= $ucourse;?>" name="course">
-
 <input type="hidden" value="<?=$sem;?>" name="sem">
 <input type="hidden" value="11" name="code">
-<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
-
-
-     </tr>
-
- 
-              </table>
+<input type="hidden" name="ecat" id="ecatn" value="<?= $ecat;?>"> 
+</tr>
+</table>
 
 <table   class="table"  style="border: 2px solid black"  >
  <tr>
