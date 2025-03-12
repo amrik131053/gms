@@ -174,6 +174,11 @@ for($i=1;$i<=12;$i++)
 
                     <!--  <form class="form-horizontal" action="" method="POST"> -->
                     <div class="card-body">
+                    <div class="row ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="mr-2"><i class="fa fa-stop text-warning" aria-hidden="true"></i> Reverted</span>
+                        <span class="mr-2"><i class="fa fa-stop text-white" style="border:1px solid black;" aria-hidden="true"></i> Pending</span>
+    <span ><i class="fa fa-stop text-success" aria-hidden="true"></i> Published</span>
+</div>&nbsp;
                         <div id="live_data">
 
 
@@ -209,6 +214,8 @@ function deleteResultOne(id,IDNo)
     var r = confirm("Do you really want to delete");
           if(r == true) 
            {
+            var spinner = document.getElementById("ajax-loader");
+            spinner.style.display = 'block';
             var code=463;
            $.ajax({
               url:'action_g.php',
@@ -223,6 +230,43 @@ function deleteResultOne(id,IDNo)
                   if (response=='1')
                            {
                            SuccessToast('Successfully deleted');
+                           select_mst();
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+
+           }
+           else{
+
+           }
+}
+function backtoverifiedResult(id,IDNo,DeclareType)
+{
+    var r = confirm("Do you really want to back this result?");
+          if(r == true) 
+           {
+            var spinner = document.getElementById("ajax-loader");
+            spinner.style.display = 'block';
+            var code=463.1;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,IDNo:IDNo,DeclareType:DeclareType
+              },
+              success: function(response) 
+              {
+            //    console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Back');
+                           select_mst();
                           }
                           else
                           {
@@ -412,6 +456,7 @@ function ViewResultStudent(ID){
     var sgroup = document.getElementById('group').value;
     var resultNum = document.getElementById('resultNum').value;
     var  decDate = document.getElementById('decDate').value;
+    var  ResultDeclareType = document.getElementById('ResultDeclareType').value;
     var verifiy = document.getElementsByClassName('v_check');
             var len_student = verifiy.length;
             var subjectIDs = [];
@@ -438,11 +483,12 @@ var spinner= document.getElementById("ajax-loader");
                 resultNum:resultNum,
                 decDate:decDate,
                 sgroup:sgroup,
+                ResultDeclareType:ResultDeclareType,
                 ResultIDs:subjectIDs
             },
             success: function(response) {
                 spinner.style.display = 'none';
-                console.log(response)
+                // console.log(response)
                 // if(response==1){
                     SuccessToast('Successfully Publish');
                     select_mst();

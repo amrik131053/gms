@@ -23745,12 +23745,18 @@ $Course = $_POST['Course'];
          $OrderBy = $_POST['OrderBy'];
 if($OrderBy!='')
 {
-$list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+$list_sql = "SELECT ExamForm.SemesterID,
+ExamForm.CourseID,
+ExamForm.CollegeID,
+ExamForm.Batch,  Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ORDER BY Admissions.$OrderBy";
 }
 else
 {
-   $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+   $list_sql = "SELECT ExamForm.SemesterID,
+ExamForm.CourseID,
+ExamForm.CollegeID,
+ExamForm.Batch,   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ORDER BY Admissions.UniRollNo";
 }
 }
@@ -23758,14 +23764,17 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 else 
 
 {
-    $list_sql = "SELECT TOP 150 Admissions.ClassRollNo,  ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+    $list_sql = "SELECT TOP 150 ExamForm.SemesterID,
+ExamForm.CourseID,
+ExamForm.CollegeID,
+ExamForm.Batch, Admissions.ClassRollNo,  ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  Admissions.Status='1'ORDER BY ExamForm.ID DESC"; 
 }
 ?>
 
 <table class="table table-bordered" id="example">
                                 <thead>
-                                    <tr>
+                                    <tr >
                                         <th>#</th>
                                         <th>ID</th>
                                         <th>Uni Roll No</th>
@@ -23792,20 +23801,57 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
                }
                 while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                    {
+                     $clr="";
+                     $ResultStatus="";
+                       $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['SemesterID']."' 
+                     and CourseID='".$row['CourseID']."' and CollegeID='".$row['CollegeID']."' and Examination='".$row['Examination']."' and Batch='".$row['Batch']."' and Type='Regular'
+                     GROUP BY ResultStatus ORDER BY ResultStatus ";
+                    $resultgetColor = sqlsrv_query($conntest,$getColor);
+                    if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
+                    {
+                       $DeclareType=$rowresultgetColor['MaxDeclareType'];
+                       $MinDeclareType=$rowresultgetColor['MinDeclareType'];
+                    if($rowresultgetColor['ResultStatus']=='0' && $DeclareType==1)
+                    {
+                       $clr="warning";
+                      
+                    }
+                   else if($rowresultgetColor['ResultStatus']=='1' && $DeclareType==1)
+                   {
+                   $clr="success";
+                  
+                    }
+                   else if($rowresultgetColor['ResultStatus']=='1' && $DeclareType<1)
+                   {
+                   $clr="info";
+                  
+                    }
+                      else{   
+                        $clr="";
+                    }
+                   }
+
+
+
+
+
+
                 $Status= $row['Status'];
                 $issueDate=$row['SubmitFormDate'];
                 ?>
-                <tr>
-                <td><?= $count++;?></td>
+                <tr class="bg-<?=$clr;?>">
+                <td><?= $count++;?>
+            
+               </td>
                 <td><?= $row['ID']?></td>
                 
                 <td>
                  
-                <a href=""  onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                <a href=""  onclick="edit_stu(<?= $row['ID'];?>,'<?=$DeclareType;?>','<?=$MinDeclareType;?>')" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
                   <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
              </td>
              <td>
-                <b><a href=""  onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                <b><a href=""  onclick="edit_stu(<?= $row['ID'];?>,'<?=$DeclareType;?>','<?=$MinDeclareType;?>')" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
                   <?=$row['StudentName'];?></a></b>
           </a>
                    </td>
@@ -23902,6 +23948,9 @@ elseif($Status==8)
  elseif($code==356)
    {
   $id = $_POST['id'];
+  $ResultStatus = $_POST['resultStatus'];
+  $MinDeclareType = $_POST['MinDeclareType'];
+  
   $list_sqlw5 ="SELECT * from ExamForm Where ID='$id'";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
@@ -24113,9 +24162,24 @@ $nccount=0;?>
 </table>
 
 </div>
-<button class="btn btn-primary" onclick="VerifyResultRegular('<?= $id;?>')">Verify Result</button>
+<?php 
+$clrbtn="";
+ if($ResultStatus==0)
+{
+$clrbtn="warning";
 
-         <?php 
+ }
+else if($ResultStatus<1)
+{
+$clrbtn="info";
+
+ }
+if($ResultStatus!=1)
+{
+?>
+<button class="btn btn-<?=$clrbtn;?>" onclick="VerifyResultRegular('<?= $id;?>','<?= $examination;?>','<?= $SemesterID;?>','<?=$MinDeclareType;?>')">Verify Result</button>
+<?php
+} 
      sqlsrv_close($conntest);
 }
 

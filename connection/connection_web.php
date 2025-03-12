@@ -8,6 +8,7 @@ $conn_recruitment= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123
 
  $conn_online= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_online');
  $conn_online_odl= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_online_degree_new_admisison');
+ $conn_online_pre_regist= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_pre_registration');
 // $servername1 = "10.0.8.10";
 // $username1 = "as";
 // $password1 = "Bathinda@123";

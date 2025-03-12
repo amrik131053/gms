@@ -113,6 +113,11 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp-erp.php";
 }
+if($code=='135')
+{
+   include "connection/connection_web.php"; 
+   
+  }
    if($code=='1')
    {
        $count=0;
@@ -9791,28 +9796,53 @@ mysqli_close($conn);
           sqlsrv_close($conntest);
           mysqli_close($conn);
       }
-          elseif($code==135)
-      {
-         $state=$_POST['consultant_name'];
-          $m=$_POST['consultant_m'];
-           $a=$_POST['consultant_a'];
-            $o=$_POST['consultant_o'];
+      elseif ($code == 135) {
 
-
-
-        $insert_consultant="INSERT INTO MasterConsultant (Name,Mobile,Address,Organisation,Status)values('$state','$m','$a','$o','1')";
-
-         $insert_consultant_run=sqlsrv_query($conntest,$insert_consultant);
-         if ($insert_consultant_run==true)
-          {
-         echo 1;   
-         }
-         else
-         {
-            echo 0;
-         }
-         sqlsrv_close($conntest);
-      }     
+        $name = $_POST['consultant_name'];
+        $mobile = $_POST['consultant_m'];
+        $address = $_POST['consultant_a'];
+        $o = $_POST['consultant_o'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $checkUser = "SELECT * FROM users WHERE email = ? OR mobile_number = ? AND (role = 'admin' OR role = 'super_admin')";
+        $stmt = mysqli_prepare($conn_online_pre_regist, $checkUser);
+        mysqli_stmt_bind_param($stmt, "ss", $email, $mobile);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if (mysqli_num_rows($result) > 0) {
+            echo "3"; 
+        } else {
+            $insert_consultant = "INSERT INTO MasterConsultant (Name, Mobile, Address, Organisation, Status) OUTPUT INSERTED.ID VALUES (?, ?, ?, ?, '1')";
+            $stmt1 = sqlsrv_prepare($conntest, $insert_consultant, [$name, $mobile, $address, $o]);
+            if (sqlsrv_execute($stmt1)) {
+                if ($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)) {
+                    $masterConsultantId = $row['ID'];
+                }
+                if ($masterConsultantId) {
+                    $insert_consultant_web = "INSERT INTO users (name, email, password, mobile_number, address, role, erp_id) VALUES (?, ?, ?, ?, ?, 'admin', ?)";
+                    $stmt2 = mysqli_prepare($conn_online_pre_regist, $insert_consultant_web);
+                    mysqli_stmt_bind_param($stmt2, "sssssi", $name, $email, $password, $mobile, $address, $masterConsultantId);
+        
+                    if (mysqli_stmt_execute($stmt2)) {
+                        echo "1"; // Success
+                    } else {
+                        echo "0"; 
+                    }
+                } else {
+                    echo "0";
+                }
+            } else {
+                echo "0";
+            }
+        }
+        
+        // Close connections
+        sqlsrv_close($conntest);
+        mysqli_close($conn_online_pre_regist);
+        
+    }
+    
        elseif($code==136)
       {
          $college=$_POST['college'];
@@ -37750,6 +37780,8 @@ $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName
 elseif($code==455.1)
   {
    $id=$_POST['ID'];
+   $Examination=$_POST['Examination']; 
+   $Semester=$_POST['Semester']; 
    $gradevaluetotal=0;
    $totalcredit=0;
    $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by SubjectCode ASC";  
@@ -37758,8 +37790,8 @@ elseif($code==455.1)
    $credit='';
    while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
             { 
-                $Examination=$row7['Examination']; 
-                $Semester=$row7['SemesterID']; 
+                // $Examination=$row7['Examination']; 
+                // $Semester=$row7['SemesterID']; 
                 $query = "SELECT * FROM Admissions   Where  IDNo='".$row7['IDNo']."' ";
                 $result = sqlsrv_query($conntest,$query);
                 while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
@@ -37829,7 +37861,7 @@ elseif($code==455.1)
 
     }
      $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus) 
-VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','','$timeStamp','0');";
+VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0');";
 $result = sqlsrv_query($conntest,$insertResult);
 
 $getResultID="SELECT TOP(1)* FROM ResultPreparation ORDER by Id DESC ";
@@ -37846,6 +37878,7 @@ foreach ($SubjectCodeArray as $key => $value)
     VALUES ('$resultID','$SubjectNameArray[$key]','$SubjectCodeArray[$key]','$SubjectGradeArray[$key]','$SubjectCreditArray[$key]','$UniRollNo','$SubjectGradePointArray[$key]')";
 $result = sqlsrv_query($conntest, $insertResultDetails);
 }
+echo "1";
 }
     // print_r($SubjectCodeArray);
   sqlsrv_close($conntest);        
@@ -37944,6 +37977,8 @@ elseif($code==457)
    $sgroup=$_POST['sgroup'];
    $resultNum=$_POST['resultNum'];
    $decDate=$_POST['decDate'];
+   $ResultDeclareType=$_POST['ResultDeclareType'];
+
     $ResultIDs=$_POST['ResultIDs'];
     foreach($ResultIDs as $key => $id)
     {
@@ -37963,7 +37998,7 @@ elseif($code==457)
           $Batch=$row['Batch'];
           $Type=$row['Type'];
           $ResultColumn=$row['ResultColumn'];
-          $DeclareType=$row['DeclareType'];
+        //   $DeclareType=$row['DeclareType'];
 
           $getResultID="SELECT TOP(1)* FROM ResultGKU ORDER by Id DESC ";
           $getResultIDRun = sqlsrv_query($conntest,$getResultID);
@@ -37972,7 +38007,7 @@ elseif($code==457)
              $resultIDNew=$rowgetResultIDRun['Id']+1;
           }
           $insertResult="INSERT into ResultGKU (Id,UniRollNo,IDNo,Semester,Sgpa,TotalCredit,Examination,Type,ResultColumn,DeclareType,ResultNo,DeclareDate) 
-          VALUES('$resultIDNew','$UniRollNo','$IDNo','$Semester','$Sgpa',' $totalcredit','$Examination','$Type','$ResultColumn','','$resultNum','$decDate');";
+          VALUES('$resultIDNew','$UniRollNo','$IDNo','$Semester','$Sgpa',' $totalcredit','$Examination','$Type','$ResultColumn','$ResultDeclareType','$resultNum','$decDate');";
      $result = sqlsrv_query($conntest,$insertResult);
      if ($result === false) {
         $errors = sqlsrv_errors();
@@ -38239,6 +38274,29 @@ sqlsrv_query($conntest,$query1);
 $query11= "Delete from ResultPreparationDetail where ResultID='$id_s'";
 sqlsrv_query($conntest,$query11);
 $desc= "Delete from ResultPreparationDetail where ResultID='$id_s' and StudentID='$IDNo' Delete from ResultPreparation where Id='$id_s' ";
+ $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
+
+if( $update_query  === false) {
+
+ die( print_r( sqlsrv_errors(), true) );
+}
+else
+{
+echo "1";
+}
+sqlsrv_close($conntest);
+}
+elseif($code==463.1) 
+{
+$id_s=$_POST['id'];
+$IDNo=$_POST['IDNo'];
+$dType=$_POST['DeclareType']-1;
+
+  $query1="UPDATE ResultPreparation SET DeclareType='$dType' where Id='$id_s'";
+sqlsrv_query($conntest,$query1);
+
+$desc= `update from ResultPreparation where ResultID='$id_s' and StudentID='$IDNo' and DeclareType='$dType-1' `;
  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
 

@@ -12,7 +12,6 @@
                <div class="card-header">
                   <h3 class="card-title">Registartion</h3>
                </div>
-             
                   <div class="card-body">
                      <div class="form-group row">  
            <div class="col-lg-6">
@@ -28,9 +27,18 @@
                   
                    <label>Address</label>
                     <input type="text" class="form-control" id="address" value="">
-                 </div> <div class="col-lg-6">
+                 </div> 
+                 <div class="col-lg-6">
                     <label>Organisation</label>
                      <input type="text" class="form-control" id="organisation" value="">
+                  </div>
+                 <div class="col-lg-6">
+                    <label>Email ID (For Login)</label>
+                     <input type="email" class="form-control" id="email" value="">
+                  </div>
+                 <div class="col-lg-6">
+                    <label>Create Password</label>
+                     <input type="text" class="form-control" id="password" value="">
                   </div>
 
 
@@ -200,22 +208,29 @@ else
 function add_consultant() 
 {
   // alert();
+  
     var consultant_name = document.getElementById("consultant_name").value;
       var consultant_m = document.getElementById("Mobile").value;
         var consultant_a = document.getElementById("address").value;
           var consultant_o = document.getElementById("organisation").value;
-    if (consultant_name!='' && consultant_name!=null) 
+          var email = document.getElementById("email").value;
+          var password = document.getElementById("password").value;
+    if (consultant_name!='' && consultant_name!=null && email!='' && password!='') 
     {
 var code=135;
       $.ajax({
     url: 'action_g.php',
-    data: {consultant_name:consultant_name,consultant_m:consultant_m,consultant_a:consultant_a,consultant_o:consultant_o,code:code},
+    data: {email:email,password:password,consultant_name:consultant_name,consultant_m:consultant_m,consultant_a:consultant_a,consultant_o:consultant_o,code:code},
     type: 'POST',
     success: function(response)
      {
-    console.log(response);
+   //  console.log(response);
     if (response==1) {
          SuccessToast('Successfully Inserted');
+         ViewConsultant();
+   }
+   else if (response==3) {
+      ErrorToast('email and mobile number already exists ','bg-warning');
          ViewConsultant();
    }
    else

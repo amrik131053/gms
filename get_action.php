@@ -5,6 +5,21 @@ session_start();
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 $EmployeeID=$_SESSION['usr'];
    include "connection/connection.php";
+   $employee_details="SELECT RoleID,IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
+   $employee_details_run=sqlsrv_query($conntest,$employee_details);
+   if($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
+      $Emp_Name=$employee_details_row['Name'];
+      $Emp_Designation=$employee_details_row['Designation'];
+      $Emp_CollegeName=$employee_details_row['CollegeName'];
+      $Emp_Department=$employee_details_row['Department'];
+      $role_id = $employee_details_row['RoleID'];
+      $Authority=$employee_details_row['LeaveSanctionAuthority'];
+      $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
+   }
+   else
+   {
+      // echo "inter net off";
+   }
        $CurrentExaminationGetDate=date('Y-m-d'); 
       $code=$_GET['code'];
       if ($code==1)
@@ -6996,41 +7011,62 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
   $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
   and Rp.Examination='$exam' and  Rp.Batch='$Batch' ";
      $stmt = sqlsrv_query($conntest,$sql1);
-    if ($stmt === false) {
-       $errors = sqlsrv_errors();
-       echo "Error: " . print_r($errors, true);  
-   } 
          $count=0;
       while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
-      {   
+      {  
+
          $IDNo=$row['IDNo'];
-          if($row['ResultStatus']=='1')
+  
+
+          if( $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
           {
          $clr="success";
           }
+          else if( $row['ResultStatus']=='1' &&  $row['DeclareType']!='1')
+          {
+         $clr="warning";
+          }
           else
-          {   
+          {  
+
           }
  ?>
  <tr class="bg-<?=$clr;?>">
 <td><?php if($row['ResultStatus']=='1'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
- <td><?= $i++;?></td>
+ <td><?=$row['DeclareType'];?><?= $i++;?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
- <td><?= $row['StudentName'];?>=<?= $row['Id'];?></td>             
+ <td><?= $row['StudentName'];?></td>             
  <td><?= $row['FatherName'];?></td>             
  <td><?= $row['Type'];?></td>             
  <td><?=$row['TotalCredit'];?></td>
  <td><?=$row['Sgpa'];?></td>
  <td><?=$row['VerifiedBy'];?></td>
+
  <td><?php
-   if($row['ResultStatus']!='1')
+   if($row['ResultStatus']!='1' )
           {?>
          <button class="btn btn-danger"  onclick="deleteResultOne(<?= $row['Id'];?>,<?= $row['IDNo'];?>);"><i class="fa fa-trash"></i></button>
-        <?php   }
+         <?php   }
           else
           {
+             
+         }
+         if(($role_id=='2' || $role_id=='28') && $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
+         {
+            ?>
+<button class="btn btn-danger"  onclick="backtoverifiedResult(<?= $row['Id'];?>,<?= $row['IDNo'];?>,'<?=$row['DeclareType'];?>');"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
 
-          }?>
+            <?php 
+         }
+         else{
+           
+         }
+         if($row['DeclareType']<1 && $row['ResultStatus']=='1')
+         {
+            ?><b>Reverted</b><?php
+         }
+
+         ?>
          </td>
 </tr>
  <?php 
@@ -7038,7 +7074,14 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
  } 
  ?>
  <tr>
-   <td colspan="6"></td>
+   <td colspan="5"></td>
+   <td colspan=""><label for="">Result Declare Type</label>
+   <select name="ResultDeclareType" class="form-control" id="ResultDeclareType">
+      <option value="">Normal</option>
+      <option value="Revised">Revised</option>
+      <option value="Re-evaluation">Re-evaluation</option>
+   </select>
+   </td>
    <td colspan="1">
    <label for="">ResultNo</label>
    <input   type="text" placeholder="Result No" id="resultNum"  class="form-control"  >

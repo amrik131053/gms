@@ -31,6 +31,7 @@ ini_set('max_execution_time', '0');
                                D - Detailed   , S - Summary , G - Grade , C - CSV , M  - Marks
                            
                             </div>
+                            
                               <div class="col-lg-2">
                             
                              
@@ -238,7 +239,11 @@ ini_set('max_execution_time', '0');
                         </div>
     </div>
 
-
+    <div class="row ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="mr-2"><i class="fa fa-stop text-info" aria-hidden="true"></i> Reverted</span>
+                        <span class="mr-2"><i class="fa fa-stop text-warning" aria-hidden="true"></i> Verified</span>
+    <span ><i class="fa fa-stop text-success" aria-hidden="true"></i> Published</span>
+</div>&nbsp;
 
                     <!-- /.card-header -->
                     <div class="card-body table-responsive" style="font-size: 14px;" id="live_data_Exam_student">
@@ -342,7 +347,8 @@ function search_exam_data() {
 }
 
 
-function edit_stu(id) {
+function edit_stu(id,resultStatus,MinDeclareType) {
+    // alert(resultStatus);
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
@@ -351,11 +357,12 @@ function edit_stu(id) {
         url: 'action.php',
         type: 'POST',
         data: {
-            code: code,
-            id: id
+            code:code,
+            id:id,
+            resultStatus:resultStatus,MinDeclareType:MinDeclareType
         },
         success: function(response) {
-
+// console.log(response);
             spinner.style.display = 'none';
             document.getElementById("edit_stu").innerHTML = response;
 
@@ -364,9 +371,9 @@ function edit_stu(id) {
 
 }
 
-function VerifyResultRegular(ID){
+function VerifyResultRegular(ID,Examination,Semester,MinDeclareType){
 
-    // alert(ID);
+    // alert(Examination+'-'+Semester);
 var spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
   var code = 455.1;
@@ -374,10 +381,12 @@ var spinner= document.getElementById("ajax-loader");
             url: 'action_g.php',
             type: 'POST',
             data: {
-                code: code,ID: ID
+                code: code,ID: ID,Examination:Examination,
+                Semester:Semester,MinDeclareType:MinDeclareType
             },
             success: function(response) {
-             console.log(response)
+             SuccessToast('Successfully Verified');
+             Search_exam_student1();
                 spinner.style.display = 'none';
             }
         });
@@ -386,7 +395,6 @@ var spinner= document.getElementById("ajax-loader");
 
 
 function Search_exam_student1() {
-
     var code = 355;
     var sub_data = 2;
     var College = document.getElementById("College").value;
