@@ -24107,6 +24107,8 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
             }
+
+            $totalcredit=$totalcredit+$credit;
 ?>
          <tr>
             <td width="10"><?=$sr;?></td>
@@ -24183,7 +24185,28 @@ $nccount=0;?>
 </td>
 </tr>
   <?php }
+
+if($credit>0)
+{
+$gradevalue=$gardep*$credit;
+if($gradevalue>0)
+{
+$gradevaluetotal=$gradevaluetotal+$gradevalue;
+}
+else
+{
+if($grade=='F' || $grade=='US')
+{
+$nccount++;
+}
+}
+$gradevaluetotal;
+$totalcredit;
+$sgpa=$gradevaluetotal/$totalcredit;
+    $sgpa= number_format($sgpa,2);  
+}
          ?>
+         
 </table>
 
 </div>
