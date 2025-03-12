@@ -3811,15 +3811,25 @@ else if($code=='43')
 
 
 
-<tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
-</td>
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+
+
+
+
+     </td>
+
 <input type="hidden" value="<?= $batch;?>" name="batch">
 <input type="hidden" value="<?= $ucourse;?>" name="course">
+
 <input type="hidden" value="<?=$sem;?>" name="sem">
 <input type="hidden" value="11" name="code">
-<input type="hidden" name="ecat" id="ecatn" value="<?= $ecat;?>"> 
-</tr>
-</table>
+<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
 
 <table   class="table"  style="border: 2px solid black"  >
  <tr>
@@ -7006,7 +7016,22 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
       {  
 
          $IDNo=$row['IDNo'];
-  
+          $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM
+          ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['Semester']."' 
+         and CourseID='".$row['CourseID']."' and CollegeID='".$row['CollegeID']."' and Examination='".$row['Examination']."' 
+         and Batch='".$row['Batch']."' and Type='Regular'
+         GROUP BY ResultStatus ORDER BY ResultStatus ";
+        $resultgetColor = sqlsrv_query($conntest,$getColor);
+        if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
+        {
+           $DeclareType=$rowresultgetColor['MaxDeclareType'];
+           $MinDeclareType=$rowresultgetColor['MinDeclareType'];
+        }
+
+
+
+
+
 
           if( $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
           {
@@ -7023,7 +7048,7 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
  ?>
  <tr class="bg-<?=$clr;?>">
 <td><?php if($row['ResultStatus']=='1'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
- <td><?=$row['DeclareType'];?><?= $i++;?></td>
+ <td><?= $i++;?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
  <td><?= $row['StudentName'];?></td>             
  <td><?= $row['FatherName'];?></td>             
@@ -7044,14 +7069,14 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
          if(($role_id=='2' || $role_id=='28') && $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
          {
             ?>
-<button class="btn btn-danger"  onclick="backtoverifiedResult(<?= $row['Id'];?>,<?= $row['IDNo'];?>,'<?=$row['DeclareType'];?>');"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+<button class="btn btn-danger"  onclick="backtoverifiedResult(<?= $row['Id'];?>,<?= $row['IDNo'];?>,'<?=$MinDeclareType;?>');"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
 
             <?php 
          }
          else{
            
          }
-         if($row['DeclareType']<1 && $row['ResultStatus']=='1')
+         if($row['DeclareType']<1)
          {
             ?><b>Reverted</b><?php
          }
