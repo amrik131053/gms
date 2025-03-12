@@ -38300,8 +38300,8 @@ $dType=$_POST['DeclareType']-1;
   $query1="UPDATE ResultPreparation SET DeclareType='$dType' where Id='$id_s'";
 sqlsrv_query($conntest,$query1);
 
-$desc= `update from ResultPreparation where ResultID='$id_s' and StudentID='$IDNo' and DeclareType='$dType-1' `;
- $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+$escapedQuery1 = str_replace("'", "''", $query1);
+ $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$escapedQuery1','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
 
 if( $update_query  === false) {
