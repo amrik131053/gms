@@ -38277,8 +38277,10 @@ $query1="Delete from ResultPreparation where Id='$id_s'";
 sqlsrv_query($conntest,$query1);
 $query11= "Delete from ResultPreparationDetail where ResultID='$id_s'";
 sqlsrv_query($conntest,$query11);
+
 $desc= "Delete from ResultPreparationDetail where ResultID='$id_s' and StudentID='$IDNo' Delete from ResultPreparation where Id='$id_s' ";
- $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+$escapedQuery1 = str_replace("'", "''", $desc);
+ $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$escapedQuery1','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
 
 if( $update_query  === false) {
