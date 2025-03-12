@@ -334,11 +334,11 @@ function select_mst()
 { 
   var  college = document.getElementById('College').value;
   var  course = document.getElementById('Course').value;
-   var  batch = document.getElementById('Batch').value;
-    var  sem = document.getElementById('Semester').value; 
-         var subject = document.getElementById('Subject').value;
-     var  examination = document.getElementById('Examination').value;
-var  group = document.getElementById('group').value;
+  var  batch = document.getElementById('Batch').value;
+  var  sem = document.getElementById('Semester').value; 
+  var subject = document.getElementById('Subject').value;
+  var  examination = document.getElementById('Examination').value;
+  var  group = document.getElementById('group').value;
 
     var distributiontheory = document.getElementById('ecat').value;
 
@@ -391,10 +391,9 @@ var   spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
   var idNos=document.getElementsByClassName('IdNos');
   var marks=document.getElementsByClassName('marks');
-  var ecat=document.getElementById('ecat').value;
+  var ecat=document.getElementById('ecatn').value;
   var len_student= idNos.length; 
   var len_marks= marks.length; 
-
   var student_str=[];
   var marks_str=[];
     for(i=0;i<len_student;i++)
@@ -405,7 +404,7 @@ var   spinner= document.getElementById("ajax-loader");
      {
         marks_str.push(marks[i].value);
      }
-    // alert(student_str);
+    alert(student_str);
 
     $.ajax({
       url:'action.php', 
@@ -418,7 +417,7 @@ var   spinner= document.getElementById("ajax-loader");
 console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
-       select_mst() ;
+       select_mst();
       }
     });
 }

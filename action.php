@@ -13720,70 +13720,70 @@ sqlsrv_close($conntest);
  // multiple update masrks  
  else if($code==201)
 {       
-// $ids =$_POST['ids']; 
-// $mst=$_POST['mst'];
-// $ecat=$_POST['ecat'];
-// $flag=$_POST['flag'];
+$ids =$_POST['ids']; 
+$mst=$_POST['mst'];
+$ecat=$_POST['ecat'];
+$flag=$_POST['flag'];
 
-// if($ecat=='ESE')
-// {
+if($ecat=='ESE')
+{
 
-// $update='MOOCupdateby'; 
-// $locked="MoocLocked";
-//   $updatedate="MOOCupdatedDate"; 
-// }
-// elseif($ecat=='Attendance')
-// {
-//    $update=$ecat."updateyby"; 
-//    $locked=$ecat."Locked";
-//   $updatedate=$ecat."updatedDate"; 
+$update='MOOCupdateby'; 
+$locked="MoocLocked";
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+   $locked=$ecat."Locked";
+  $updatedate=$ecat."updatedDate"; 
 
-// }
-// else
-// {
-//   $update=$ecat."updateby"; 
-//   $locked=$ecat."Locked";
-//   $updatedate=$ecat."updatedDate"; 
-// }
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $locked=$ecat."Locked";
+  $updatedate=$ecat."updatedDate"; 
+}
 
-//  for($i=0;$i<$flag;$i++)
-//   {
+ for($i=0;$i<$flag;$i++)
+  {
 
-//   $sqlid="SELECT IDNo,$ecat from ExamFormSubject where ID='$ids[$i]'";
+  $sqlid="SELECT IDNo,$ecat from ExamFormSubject where ID='$ids[$i]'";
 
-//    $stmt2id = sqlsrv_query($conntest,$sqlid);
-
-
-// while($row1id = sqlsrv_fetch_array($stmt2id, SQLSRV_FETCH_ASSOC) )
-// {
-// $sidno=$row1id['IDNo'];
-// $ecat1=$row1id[$ecat];
-
-// }
+   $stmt2id = sqlsrv_query($conntest,$sqlid);
 
 
-// $desc= "update ExamFormSubject set $ecat=$mst[$i] from $ecat1 ,$locked=1  where ID=$ids[$i]" ;
+while($row1id = sqlsrv_fetch_array($stmt2id, SQLSRV_FETCH_ASSOC) )
+{
+$sidno=$row1id['IDNo'];
+$ecat1=$row1id[$ecat];
 
-//   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$sidno','$desc','$EmployeeID','$timeStamp')";
+}
 
-//     $update_query=sqlsrv_query($conntest,$update1);
 
-// if($update_query === false)
-//                 {
-//                die( print_r( sqlsrv_errors(), true) );
-//                }
+$desc= "update ExamFormSubject set $ecat=$mst[$i] from $ecat1 ,$locked=1  where ID=$ids[$i]" ;
+
+  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$sidno','$desc','$EmployeeID','$timeStamp')";
+
+    $update_query=sqlsrv_query($conntest,$update1);
+
+if($update_query === false)
+                {
+               die( print_r( sqlsrv_errors(), true) );
+               }
                
-// $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
-//   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-//  if ($stmt1==true) 
-//  {
+$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
 
-//  }
-//  else
-//  {
-//   echo "0";
-//  }
-// }
+ }
+ else
+ {
+  echo "0";
+ }
+}
 sqlsrv_close($conntest);
 }
 

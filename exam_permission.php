@@ -788,23 +788,28 @@ function createnodues()
       var examination = document.getElementById('noduesexamination').value;
       alert(examination);
     var spinner = document.getElementById("ajax-loader");
-    //spinner.style.display = 'block';
-    // alert(exam_type);
-    // var code = 214;
-    // $.ajax({
-    //     url: 'action.php',
-    //     type: 'POST',
-    //     data: {
-    //         code: code,
-    //         exam_type: exam_type
-    //     },
-    //     success: function(response) {
+    spinner.style.display = 'block';
+   
+    var code = 29;
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,
+            examination: examination
+        },
+        success: function(response) {
 
-    //         spinner.style.display = 'none';
-    //         document.getElementById("table_load").innerHTML = response;
+            spinner.style.display = 'none';
+console.log(response);
+                SuccessToast('No Dues Created Success');
+              
 
-    //     }
-    // });
+                
+            
+
+        }
+    });
 }
 
 
