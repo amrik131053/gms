@@ -37782,6 +37782,7 @@ elseif($code==455.1)
    $id=$_POST['ID'];
    $Examination=$_POST['Examination']; 
    $Semester=$_POST['Semester']; 
+      $sgroup=$_POST['sgroup']; 
    $gradevaluetotal=0;
    $totalcredit=0;
    $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by SubjectCode ASC";  
@@ -37813,6 +37814,8 @@ elseif($code==455.1)
             {
                 $credit=$row7c['NoOFCredits'];
                }
+
+          if(is_numeric($credit)){$credit=$credit;}else{$credit=0;}
                $totalcredit=$totalcredit+$credit;
                $SubjectNameArray[]=$SubjectName=$row7['SubjectName'];
                $SubjectCodeArray[]=$SubjectCode=$row7['SubjectCode'];
@@ -37855,13 +37858,14 @@ elseif($code==455.1)
         }
         $gradevaluetotal;
         $totalcredit;
-        $sgpa=$gradevaluetotal/$totalcredit;
-            $sgpa= number_format($sgpa,2);  
+        
         }
 
     }
-     $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus) 
-VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0');";
+    $sgpa=$gradevaluetotal/$totalcredit;
+            $sgpa= number_format($sgpa,2);  
+   echo   $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
+VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0','$sgroup');";
 $result = sqlsrv_query($conntest,$insertResult);
 if ($result === false) {
         $errors = sqlsrv_errors();
