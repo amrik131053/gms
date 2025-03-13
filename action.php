@@ -13749,7 +13749,7 @@ else
  for($i=0;$i<$flag;$i++)
   {
 
-  $sqlid="SELECT IDNo,$ecat from ExamFormSubject where ID='$ids[$i]'";
+ $sqlid="SELECT IDNo,$ecat from ExamFormSubject where ID='$ids[$i]'";
 
    $stmt2id = sqlsrv_query($conntest,$sqlid);
 
@@ -24182,8 +24182,12 @@ $nccount=0;?>
  <?=  $gardep;?>
 </td>
 </tr>
+
   <?php }
          ?>
+
+         <tr><td>SGPA</td><td></td></tr>
+         
 </table>
 
 </div>

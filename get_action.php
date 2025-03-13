@@ -3823,7 +3823,7 @@ else if($code=='43')
 
 <input type="hidden" value="<?=$sem;?>" name="sem">
 <input type="hidden" value="11" name="code">
-<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+<input type="hidden" name="ecat" id="ecatn" value="<?= $ecat;?>"> 
 
 
      </tr>
