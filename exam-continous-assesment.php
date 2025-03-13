@@ -371,7 +371,7 @@ function edit_stu(id,resultStatus,MinDeclareType) {
 
 }
 
-function VerifyResultRegular(ID,Examination,Semester,MinDeclareType){
+function VerifyResultRegular(ID,Examination,sgroup,Semester,MinDeclareType){
 
     // alert(Examination+'-'+Semester);
 var spinner= document.getElementById("ajax-loader");
@@ -382,9 +382,10 @@ var spinner= document.getElementById("ajax-loader");
             type: 'POST',
             data: {
                 code: code,ID: ID,Examination:Examination,
-                Semester:Semester,MinDeclareType:MinDeclareType
+                Semester:Semester,MinDeclareType:MinDeclareType,sgroup:sgroup
             },
             success: function(response) {
+                console.log(response);
              SuccessToast('Successfully Verified');
              Search_exam_student1();
                 spinner.style.display = 'none';

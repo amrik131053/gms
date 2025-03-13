@@ -23820,6 +23820,8 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
 <?php
                 $list_result = sqlsrv_query($conntest,$list_sql);
                     $count = 1;
+                        $DeclareType='2';
+                        $MinDeclareType='2';
                if($list_result === false)
                 {
                die( print_r( sqlsrv_errors(), true) );
@@ -23863,6 +23865,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
 
                 $Status= $row['Status'];
                 $issueDate=$row['SubmitFormDate'];
+
                 ?>
                 <tr class="bg-<?=$clr;?>">
                 <td><?= $count++;?>
@@ -23872,8 +23875,8 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
                 
                 <td>
                  
-                <a href=""  onclick="edit_stu(<?= $row['ID'];?>,'<?=$DeclareType;?>','<?=$MinDeclareType;?>')" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
-                  <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
+                <a href=""  onclick="edit_stu(<?= $row['ID'];?>,<?=$DeclareType;?>,<?=$MinDeclareType;?>)" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                  <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?> </a>
              </td>
              <td>
                 <b><a href=""  onclick="edit_stu(<?= $row['ID'];?>,'<?=$DeclareType;?>','<?=$MinDeclareType;?>')" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
@@ -24094,7 +24097,9 @@ if($list_resultamrik === false)
     die( print_r( sqlsrv_errors(), true) );
 }
 $sr=0;
-$credit='';
+$credit=0;
+$totalcredit=0;
+$gradevaluetotal=0;
 while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
          { $sr++;
             
@@ -24106,7 +24111,10 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
-            }
+         }
+   if(is_numeric($credit)){$credit=$credit;}else{$credit=0;}
+
+               $totalcredit=$totalcredit+$credit;
 ?>
          <tr>
             <td width="10"><?=$sr;?></td>
@@ -24166,10 +24174,29 @@ echo $msttotal=$mst1;
 <td>
 <?php  $grace=0;
 $nccount=0;?>
-<?php include 'result-pages/grade_calculator.php';?>
+<?php include 'result-pages/grade_calculator.php';?> 
  
 
   <?=$totalFinal;?>
+<?php
+     if($credit>0)
+        {
+        $gradevalue=$gardep*$credit;
+        if($gradevalue>0)
+        {
+        $gradevaluetotal=$gradevaluetotal+$gradevalue;
+        }
+        else
+        {
+        if($grade=='F' || $grade=='US')
+        {
+        $nccount++;
+        }
+        }
+        $gradevaluetotal;
+        $totalcredit;
+       
+        }?>
 </td>
 
  <td>
@@ -24184,9 +24211,11 @@ $nccount=0;?>
 </tr>
 
   <?php }
-         ?>
+          $sgpa=$gradevaluetotal/$totalcredit;
+            $sgpa= number_format($sgpa,2);  
+            ?>
 
-         <tr><td>SGPA</td><td></td></tr>
+         <tr><td colspan="11"></td><td>SGPA</td><td><?=$sgpa;?></td> <td>Credit</td><td><?=$totalcredit;?></td></tr>
          
 </table>
 
@@ -24203,13 +24232,20 @@ else if($ResultStatus<1)
 $clrbtn="info";
 
  }
+ else
+ {
+   $clrbtn="primary";
+ }
 if($ResultStatus!=1)
 {
+   
 ?>
-<button class="btn btn-<?=$clrbtn;?>" onclick="VerifyResultRegular('<?= $id;?>','<?= $examination;?>','<?= $SemesterID;?>','<?=$MinDeclareType;?>')">Verify Result</button>
+<button class="btn btn-<?=$clrbtn;?>" onclick="VerifyResultRegular('<?= $id;?>','<?= $examination;?>','<?= $sgroup?>','<?= $SemesterID;?>','<?=$MinDeclareType;?>')">Verify Result</button>
 <?php
 } 
+
      sqlsrv_close($conntest);
+
 }
 
 else if($code==357)
