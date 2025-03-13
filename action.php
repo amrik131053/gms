@@ -23820,6 +23820,8 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
 <?php
                 $list_result = sqlsrv_query($conntest,$list_sql);
                     $count = 1;
+                        $DeclareType='';
+                        $MinDeclareType='';
                if($list_result === false)
                 {
                die( print_r( sqlsrv_errors(), true) );
@@ -23863,6 +23865,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
 
                 $Status= $row['Status'];
                 $issueDate=$row['SubmitFormDate'];
+
                 ?>
                 <tr class="bg-<?=$clr;?>">
                 <td><?= $count++;?>
