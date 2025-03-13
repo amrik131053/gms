@@ -6992,9 +6992,11 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
   <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
                  <th>Sr No </th>
                  <th>Uni Roll No</th>
+                 <th>IDNo</th>
                  <th> Name </th>
                  <th> Father Name </th>
                  <th> Type </th>
+                 <th> Group </th>
                  <th>Total Credit </th>
                  <th> SGPA </th>
                  <th> Verified By </th>
@@ -7008,7 +7010,7 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
   $Batch=$_GET['batch']; 
   $semID = $_GET['sem'];
   $exam = $_GET['examination'];
-  $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
+   $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
   and Rp.Examination='$exam' and  Rp.Batch='$Batch' ";
      $stmt = sqlsrv_query($conntest,$sql1);
          $count=0;
@@ -7050,9 +7052,11 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
 <td><?php if($row['ResultStatus']=='1'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
+ <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
  <td><?= $row['StudentName'];?></td>             
  <td><?= $row['FatherName'];?></td>             
  <td><?= $row['Type'];?></td>             
+ <td><?= $row['SGroup'];?></td>             
  <td><?=$row['TotalCredit'];?></td>
  <td><?=$row['Sgpa'];?></td>
  <td><?=$row['VerifiedBy'];?></td>
