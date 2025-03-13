@@ -404,7 +404,7 @@ var   spinner= document.getElementById("ajax-loader");
      {
         marks_str.push(marks[i].value);
      }
-    alert(student_str);
+    //alert(student_str);
 
     $.ajax({
       url:'action.php', 
@@ -414,7 +414,7 @@ var   spinner= document.getElementById("ajax-loader");
       },
       success:function(response)
       {
-console.log(response);
+//console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
        select_mst();
