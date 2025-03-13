@@ -23876,7 +23876,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
                 <td>
                  
                 <a href=""  onclick="edit_stu(<?= $row['ID'];?>,'<?=$DeclareType;?>','<?=$MinDeclareType;?>')" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
-                  <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
+                  <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?> </a>
              </td>
              <td>
                 <b><a href=""  onclick="edit_stu(<?= $row['ID'];?>,'<?=$DeclareType;?>','<?=$MinDeclareType;?>')" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
