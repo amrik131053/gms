@@ -23830,7 +23830,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
                    {
                      $clr="";
                      $ResultStatus="";
-                       $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['SemesterID']."' 
+                     $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['SemesterID']."' 
                      and CourseID='".$row['CourseID']."' and CollegeID='".$row['CollegeID']."' and Examination='".$row['Examination']."' and Batch='".$row['Batch']."' and Type='Regular'
                      GROUP BY ResultStatus ORDER BY ResultStatus ";
                     $resultgetColor = sqlsrv_query($conntest,$getColor);
@@ -23976,8 +23976,8 @@ elseif($Status==8)
  elseif($code==356)
    {
   $id = $_POST['id'];
-  $ResultStatus = $_POST['resultStatus'];
-  $MinDeclareType = $_POST['MinDeclareType'];
+  //$ResultStatus = $_POST['resultStatus'];
+  //$MinDeclareType = $_POST['MinDeclareType'];
   
   $list_sqlw5 ="SELECT * from ExamForm Where ID='$id'";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
@@ -24021,6 +24021,20 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CollegeID=$row6['CollegeID'];
           }
 
+
+$DeclareType='';
+$MinDeclareType='';
+ $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$SemesterID' 
+                     and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$examination' and Batch='$batch' and Type='$type'
+                     GROUP BY ResultStatus ORDER BY ResultStatus ";
+                    $resultgetColor = sqlsrv_query($conntest,$getColor);
+                    if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
+                    {
+                      echo  $DeclareType=$rowresultgetColor['MaxDeclareType'];
+                       echo $MinDeclareType=$rowresultgetColor['MinDeclareType'];
+                       echo $ResultStatus=$rowresultgetColor['MaxDeclareType'];
+
+                    }
 ?>
 
 
@@ -24072,9 +24086,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 <tr>
    <th>SrNo</th>
   <th width="60%">Subject Name</th>
-  <th width="12%">Subject Code</th><th>Credit</th>
+  <th width="12%">Subject Code</th>
   <th width="8%">Int</th>
-  <th width="8%">CA1&CA2</th>
+  <th width="8%">CA1/CA2</th>
     <th width="8%">CA3</th>
      <th width="8%">Att</th>
     <th width="8%">MST1</th>
@@ -24083,7 +24097,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
      <th width="8%">ESE</th>
 <th width="8%">Total</th>
 <th width="8%">Grade</th>
-<th width="8%">Grade Point</th>
+<th width="8%">Grade Point</th><th>Credit</th><th>GP*C</th>
  
 </tr>
 
@@ -24098,6 +24112,7 @@ if($list_resultamrik === false)
 }
 $sr=0;
 $credit=0;
+$gpc=0;
 $totalcredit=0;
 $gradevaluetotal=0;
 while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
@@ -24128,7 +24143,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
    <td >
       <?=$row7['SubjectCode'];?>
    </td>
-   <td><?= $credit;?></td>
+  
 
   <td><?php echo $row7['ExternalExam'];?>
     </td>
@@ -24208,6 +24223,11 @@ $nccount=0;?>
  
  <?=  $gardep;?>
 </td>
+ <td><?= $credit;?></td>
+
+ <td><?= $gp=$gardep*$credit;?></td>
+
+ <?php $gpc=$gp+$gpc;?>
 </tr>
 
   <?php }
@@ -24215,19 +24235,19 @@ $nccount=0;?>
             $sgpa= number_format($sgpa,2);  
             ?>
 
-         <tr><td colspan="11"></td><td>SGPA</td><td><?=$sgpa;?></td> <td>Credit</td><td><?=$totalcredit;?></td></tr>
+         <tr><td colspan="11"></td><td>SGPA</td><td><?=$sgpa;?></td> <td>Credit</td><td><?=$totalcredit;?></td><td><?=$gpc;?></td></tr>
          
 </table>
 
 </div>
 <?php 
 $clrbtn="";
- if($ResultStatus==0)
+ if($DeclareType==0)
 {
 $clrbtn="warning";
 
  }
-else if($ResultStatus<1)
+else if($DeclareType<1)
 {
 $clrbtn="info";
 
@@ -24235,11 +24255,12 @@ $clrbtn="info";
  else
  {
    $clrbtn="primary";
- }
-if($ResultStatus!=1)
+ }?>
+ 
+ <?php 
+if($DeclareType!=1)
 {
-   
-?>
+   ?>
 <button class="btn btn-<?=$clrbtn;?>" onclick="VerifyResultRegular('<?= $id;?>','<?= $examination;?>','<?= $sgroup?>','<?= $SemesterID;?>','<?=$MinDeclareType;?>')">Verify Result</button>
 <?php
 } 
