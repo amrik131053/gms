@@ -23828,9 +23828,6 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
                    {
                      $clr="";
                      $ResultStatus="";
-                     $DeclareType='';
-                       $MinDeclareType='';
-
                        $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['SemesterID']."' 
                      and CourseID='".$row['CourseID']."' and CollegeID='".$row['CollegeID']."' and Examination='".$row['Examination']."' and Batch='".$row['Batch']."' and Type='Regular'
                      GROUP BY ResultStatus ORDER BY ResultStatus ";
