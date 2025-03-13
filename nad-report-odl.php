@@ -88,7 +88,7 @@ $SemesterPrint=numberToRomanRepresentation($Semester);
     while($row1 = mysqli_fetch_array($stmt2) )
        {
 
-$PID="NA";
+$PID="";
 $CourseName=$row1["Name"];
 // $CollegeName=$row1["CollegeName"];
 // $CollegeID=$rown["CollegeID"];
@@ -169,7 +169,7 @@ $key2=$key1;
 // AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
 // ANd ResultGKU.Examination='$Examination' ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'    ORDER BY Admissions.UniRollNo";
  
-$resulrs="SELECT *  from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!=''   order by classrollno Asc";
+ $resulrs="SELECT *  from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!=''   order by classrollno Asc";
 $list_resultsub = mysqli_query($conn_online_odl, $resulrs);
 $key1=1;
  while ($rows = mysqli_fetch_array($list_resultsub)) 
@@ -181,6 +181,7 @@ $key1=1;
      while ($rows1 = sqlsrv_fetch_array($list_resultsub1, SQLSRV_FETCH_ASSOC)) 
      {
  $UniRollNo=$rows["classrollno"];
+ $dob=$rows["dob"];
  $RegistrationNo=$rows["id"];
   $StudentName=$rows["candidate_name"];
  $Gender=$rows["gender"];
@@ -216,8 +217,16 @@ $CourseNameU=strtoupper($CourseName);
  $orderdate = explode(" ", $Examination);
                             $ExaminationMonth = strtoupper($orderdate[0]);
                             $ExaminationYear = $orderdate[1];
+                            if($ExaminationYear=='JAN')
+                            {
+                                $ExaminationYear="JANUARY";
+                            }
+                            if($ExaminationYear=='AUG')
+                            {
+                                $ExaminationYear="AUGUST";
+                            }
                             $exportstudy .= "<tr>
-                            <td></td>
+                            <td>GURU KASHI UNIVERSITY</td>
                             <td></td>
                             <td>{$PID}</td>
                             <td>{$CourseNameU}</td>
@@ -229,7 +238,7 @@ $CourseNameU=strtoupper($CourseName);
                             <td>{$UniRollNo}</td>
                             <td>{$StudentName}</td>
                             <td>{$Gender}</td>
-                            <td></td>
+                            <td>{$dob}</td>
                             <td>{$FatherName}</td>
                             <td>{$MotherName}</td>
                             <td></td>
@@ -255,14 +264,14 @@ $CourseNameU=strtoupper($CourseName);
                             <td></td>
                             <td>{$Sgpa}</td>
                             <td>{$ABCID}</td>
-                            <td></td>
+                            <td>SEMESTER</td>
                             <td></td>";
                 
          
 
 
 
-$subjectresult="Select  * from ResultDetailOnlineGKU  where ResultID='$rID' order By SubjectCode";
+ $subjectresult="Select  * from ResultDetailOnlineGKU  where ResultID='$rID' order By SubjectCode";
 $list_resultsubject = sqlsrv_query($conntest, $subjectresult);
 
  while($rowsubjects = sqlsrv_fetch_array($list_resultsubject, SQLSRV_FETCH_ASSOC)) {
@@ -271,8 +280,9 @@ $list_resultsubject = sqlsrv_query($conntest, $subjectresult);
 $SubjectName=$rowsubjects["SubjectName"];
 $SubjectCode=$rowsubjects["SubjectCode"];
 $SubjectGrade=$rowsubjects["SubjectGrade"];
-$SubjectCredit=$rowsubjects["SubjectGradePoint"];
-$NoOfCredit='';
+$SubjectGradePoint=$rowsubjects["SubjectGradePoint"];
+$SubjectCredit=$rowsubjects["SubjectCredit"];
+// $NoOfCredit='';
 
 //     $subjectcredit="SELECT DISTINCT NoOFCredits from  MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd SubjectCode='$SubjectCode'";
 // $list_resultsubcredit = sqlsrv_query($conntest, $subjectcredit);
@@ -295,9 +305,9 @@ $NoOfCredit='';
                             <td></td>
                             <td></td>
                             <td>{$SubjectGrade}</td>
+                            <td>{$SubjectGradePoint}</td>
                             <td>{$SubjectCredit}</td>
-                            <td>{$NoOfCredit}</td>
-                            <td>{$NoOfCredit}</td>
+                            <td>{$SubjectCredit}</td>
                             <td></td>
                             <td></td>";
      
