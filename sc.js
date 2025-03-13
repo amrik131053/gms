@@ -287,7 +287,7 @@ $("#Course").html(data);
 function courseByCollegeexam(College) 
 {  
     // alert(College);
-var code='90.1';
+var code='90.1'; 
 $.ajax({
 url:'action.php',
 data:{College:College,code:code},

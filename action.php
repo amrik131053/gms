@@ -6061,7 +6061,7 @@ mysqli_close($conn);
 
    $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN SubjectAllotment on  
    SubjectAllotment.courseid = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND
-    SubjectAllotment.EmployeeID='$EmployeeID'  ANd (MasterCourseCodes.Status='1'  OR MasterCourseCodes.Status is NULL)order by MasterCourseCodes.Course ASC";
+    SubjectAllotment.EmployeeID='$EmployeeID'  AND  SubjectAllotment.status='1'   ANd (MasterCourseCodes.Status='1'  OR MasterCourseCodes.Status is NULL)order by MasterCourseCodes.Course ASC";
    // $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)order by Course ASC";
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
@@ -13596,9 +13596,9 @@ sqlsrv_close($conntest);
   {
 $course= $_POST['course'];
 $College= $_POST['College'];
-$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+$sql = "SELECT DISTINCT mcs.Batch as saBatch  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.CollegeID='$College' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+AND mcs.CollegeID='$College' ANd mcs.AcademicType='T' ANd sa.Status='1'  And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
 ?>
  <option value="">Batch</option>
@@ -13618,7 +13618,7 @@ $College= $_POST['College'];
 $Batch= $_POST['Batch'];
 $sql = "SELECT DISTINCT sa.Semester as saSemester  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.CollegeID='$College' and mcs.Batch='$Batch' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+AND mcs.CollegeID='$College' and mcs.Batch='$Batch' ANd mcs.AcademicType='T' ANd sa.Status='1' And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
 ?>
 <option value="">Semester</option>
@@ -13637,7 +13637,7 @@ sqlsrv_close($conntest);
 
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-echo  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+ $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE 
  mcs.SemesterID='$sem' ANd mcs.Batch='$batch'  And sa.EmployeeID='$EmployeeID'"; 
 ?>
