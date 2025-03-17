@@ -24232,7 +24232,15 @@ $nccount=0;?>
 
   <?php }
           $sgpa=$gradevaluetotal/$totalcredit;
-            $sgpa= number_format($sgpa,2);  
+           
+           if($nccount>0)
+           {
+            $sgpa= number_format($sgpa,2);
+           }   
+           else
+           {
+            $sgpa='NC';
+           }
             ?>
 
          <tr><td colspan="11"></td><td>SGPA</td><td><?=$sgpa;?></td> <td>Credit</td><td><?=$totalcredit;?></td><td><?=$gpc;?></td></tr>

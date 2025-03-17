@@ -37862,8 +37862,21 @@ elseif($code==455.1)
         }
 
     }
-    $sgpa=$gradevaluetotal/$totalcredit;
-            $sgpa= number_format($sgpa,2);  
+
+    if($nccount>0)
+    {
+$sgpa=$gradevaluetotal/$totalcredit;
+ $sgpa= number_format($sgpa,2); 
+    }
+    else
+    {
+     $sgpa='NC';   
+    }
+    
+            
+
+
+
       $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
 VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0','$sgroup');";
 $result = sqlsrv_query($conntest,$insertResult);
