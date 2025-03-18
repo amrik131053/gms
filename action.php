@@ -10626,6 +10626,10 @@ mysqli_close($conn);
        
          <i class="fa fa-eye text-success fa-lg" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')" data-toggle="modal" 
             data-target="#modal-lg-view-question" ></i>
+
+            <form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$Batch;?>>">
+<input type="hidden"  name='SubjectCode' value="<?=$SubjectCode;?>">
+<input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
         
       </td>
    </tr>
@@ -21454,10 +21458,17 @@ if ($type == 1) {
         $optionC = str_replace("'", " ",$_POST['QuestionC' . $i]);
         $optionD = str_replace("'", " ",$_POST['QuestionD' . $i]);
         
+        $clean="SELECT * FROM question_bank WHERE NOT EXISTS (SELECT 1 FROM question_bank_details WHERE question_bank.Id = question_bank_details.question_id)";
+        $getclean=mysqli_query($conn,$clean);
+
+
+
         if ($EmployeeID > 0) {
     $insQry ="INSERT INTO question_bank(SubjectCode,CollegeID, Type,Unit,Semester,Batch,CourseID,Category,UpdatedBy,Exam_Session,date_time) 
-         VALUES ('$subCode','$CollegeID','$type','$unit','$sem','$batch','$courseId','$category','$EmployeeID','$current_session','$timeStampS');";
+         VALUES ('$subCode','$CollegeID','$type','$unit','$sem','$batch','$courseId','$category','$EmployeeID','$current_session','$timeStampS')";
+
    // $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+
             $insQryRun = mysqli_query($conn, $insQry);
             if ($insQryRun===true) {
                $getQid="SELECT id as qid FROM question_bank ORDER BY id DESC LIMIT 1";
@@ -23338,9 +23349,9 @@ elseif($code==344)
 elseif($code==345)
 {
 $exit_date = date('d-M-Y');
-   $exit_time = date('h:i:s a');
-   $visitid = $_POST['id'];
- $sql = "UPDATE visitor_entry SET exit_date = '$exit_date', exit_time = '$exit_time', status = 'Checked Out' WHERE id = '$visitid' ORDER by status";
+$exit_time = date('h:i:s a');
+$visitid = $_POST['id'];
+$sql = "UPDATE visitor_entry SET exit_date = '$exit_date', exit_time = '$exit_time',status ='Checked Out' WHERE id = '$visitid' ORDER by status";
    mysqli_query($conn,$sql);
    mysqli_close($conn);
 }
