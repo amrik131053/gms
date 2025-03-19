@@ -37837,7 +37837,7 @@ elseif($code==455.1)
         }
        $ESe= $row7['ESE']; 
         $grace=0;
-       $nccount=0;
+      
       include 'result-pages/grade_calculator.php';
         $totalFinal;
         $SubjectGradeArray[]=$SubjectGrade=$grade;
@@ -37872,7 +37872,6 @@ $sgpa=$gradevaluetotal/$totalcredit;
     {
      $sgpa='NC';   
 
-      echo  $nccount++;
     }
     
             
