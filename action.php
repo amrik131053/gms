@@ -24208,10 +24208,7 @@ echo $msttotal=$mst1;
 
   <?=$totalFinal;?>
 <?php
- if($grade=='F' || $grade=='US')
-        {
-        $nccount++;
-        }
+
      if($credit>0)
         {
         $gradevalue=$gardep*$credit;

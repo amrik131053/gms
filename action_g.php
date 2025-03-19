@@ -37779,16 +37779,19 @@ $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName
 }
 elseif($code==455.1)
   {
+
    $id=$_POST['ID'];
    $Examination=$_POST['Examination']; 
    $Semester=$_POST['Semester']; 
-      $sgroup=$_POST['sgroup']; 
+   $sgroup=$_POST['sgroup']; 
    $gradevaluetotal=0;
    $totalcredit=0;
+   $nccount=0;
    $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by SubjectCode ASC";  
    $list_resultamrik = sqlsrv_query($conntest,$amrik);  
    $sr=0;
    $credit='';
+   
    while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
             { 
                 // $Examination=$row7['Examination']; 
@@ -37853,7 +37856,7 @@ elseif($code==455.1)
         {
         if($grade=='F' || $grade=='US')
         {
-       echo  $nccount++;
+      $nccount= $nccount+1;
         }
         }
         $gradevaluetotal;
@@ -37865,12 +37868,12 @@ elseif($code==455.1)
 
     if($nccount>0)
     {
-$sgpa=$gradevaluetotal/$totalcredit;
- $sgpa= number_format($sgpa,2); 
+   $sgpa='NC';   
     }
     else
     {
-     $sgpa='NC';   
+ $sgpa=$gradevaluetotal/$totalcredit;
+ $sgpa= number_format($sgpa,2); 
 
     }
     
