@@ -37853,7 +37853,7 @@ elseif($code==455.1)
         {
         if($grade=='F' || $grade=='US')
         {
-        $nccount++;
+       echo  $nccount++;
         }
         }
         $gradevaluetotal;
@@ -37871,6 +37871,8 @@ $sgpa=$gradevaluetotal/$totalcredit;
     else
     {
      $sgpa='NC';   
+
+      echo  $nccount++;
     }
     
             

@@ -24123,6 +24123,7 @@ if($list_resultamrik === false)
 }
 $sr=0;
 $credit=0;
+$nccount=0;
 $gpc=0;
 $totalcredit=0;
 $gradevaluetotal=0;
@@ -24199,18 +24200,24 @@ echo $msttotal=$mst1;
 
 <td>
 <?php  $grace=0;
-$nccount=0;?>
+
+?>
 <?php include 'result-pages/grade_calculator.php';?> 
- 
+
+
 
   <?=$totalFinal;?>
 <?php
+ if($grade=='F' || $grade=='US')
+        {
+        $nccount++;
+        }
      if($credit>0)
         {
         $gradevalue=$gardep*$credit;
         if($gradevalue>0)
         {
-        $gradevaluetotal=$gradevaluetotal+$gradevalue;
+       $gradevaluetotal=$gradevaluetotal+$gradevalue;
         }
         else
         {
@@ -24236,21 +24243,23 @@ $nccount=0;?>
 </td>
  <td><?= $credit;?></td>
 
- <td><?= $gp=$gardep*$credit;?></td>
+ <td><?= $gp=$gardep*$credit;?>  </td>
 
  <?php $gpc=$gp+$gpc;?>
 </tr>
 
   <?php }
+
+
           $sgpa=$gradevaluetotal/$totalcredit;
-           
-           if($nccount>0)
+
+         if($nccount>0)
            {
-            $sgpa= number_format($sgpa,2);
+             $sgpa='NC';
            }   
            else
            {
-            $sgpa='NC';
+            $sgpa= number_format($sgpa,2);
            }
             ?>
 
