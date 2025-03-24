@@ -201,7 +201,7 @@ function examFormSubmit() {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify({ basicInfo, subjects }),
+        body: JSON.stringify({ basicInfo, subjects,eID }),
     })
     .then(response => response.text().then(text => {
         hideLoader();
@@ -213,6 +213,7 @@ function examFormSubmit() {
     }))
     .then(data => {
         hideLoader();
+        console.log(data);
         handleResponse(data);
     })
     .catch(error => {

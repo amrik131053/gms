@@ -323,13 +323,15 @@ else{
                     "basicInfo"=>$basicInfo,
                    "subjects"=>$subjects 
                 ];
-if($eID==1 || $eID==3 || $eID==5)
-{
-    $apiRoute="examformsubmit";
-}
-else{
-    $apiRoute="examformsubmitr";
-}
+            
+                if((int)$eID==1 || (int)$eID==3 || (int)$eID==5)
+                {
+                    $apiRoute="examformsubmit";
+                }
+                else
+                {
+                    $apiRoute="examformsubmitr";
+                }
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token,
                     'Content-Type' => 'application/json'
