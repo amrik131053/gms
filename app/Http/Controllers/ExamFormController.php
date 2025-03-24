@@ -269,7 +269,8 @@ class ExamFormController extends Controller
     $semID = $request->input('semid');
     $Group = $request->input('groupid');
     $eid = $request->input('eID');
-    if ((int)$eid == 1 && $semID != 1) {
+  
+    if ((int)$eid == 5 && $semID != 1) {
         $examSubjectNormalData = [
             ['SubjectCode' => $semID, 'SubjectName' => 'Research Work', 'SubjectType' => 'P']
         ];
@@ -280,14 +281,14 @@ class ExamFormController extends Controller
             'subjectsOpenElectiveData' => $subjectsOpenElectiveData
         ]);
     }
-    if($eid==1 || $eid==3 || $eid==5)
+    if((int)$eid==1 || (int)$eid==3 || (int)$eid==5)
 {
     $apiRoute="regular";
 }
 else{
     $apiRoute="reappear";
 }
-// dd($eid);
+// dd($apiRoute);
     $token = $request->session()->get('api_token');
     $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
         ->post($BaseURL . 'Student/'.$apiRoute.'/'. $semID . '/' . $Group);

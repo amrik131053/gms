@@ -40,7 +40,7 @@ function searchSubjectsForExam() {
     })
     .then(data => {
         hideLoader();
-        // console.log(data);
+       
         const { examSubjectNormalData, subjectsOpenElectiveData } = data;
         const tableContainer = document.getElementById('subjectsTableDivForm');
         tableContainer.innerHTML = '';
