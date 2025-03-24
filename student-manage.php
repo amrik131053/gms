@@ -1289,7 +1289,7 @@ function copyToClipboard(text) {
 
                     <div class="row">
 
-                        <?php if($role_id==2 OR $role_id==21 OR  $role_id==20 )
+                        <?php if($role_id==2 OR $role_id==21 OR  $role_id==20 OR  $role_id==15 )
                         {?>
                         <div class="col-lg-4">
                            
