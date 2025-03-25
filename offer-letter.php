@@ -351,13 +351,17 @@ include "header.php";
                      <?php }?>
                  </select>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-2">
                <label>Student Name</label>
                <input type="text" value="" id="Name" class="form-control" > 
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-2">
                <label>Father Name</label>
                <input type="text" value="" id="FatherName" class="form-control" > 
+            </div>
+            <div class="col-lg-2">
+               <label>Mother Name</label>
+               <input type="text" value="" id="MotherName" class="form-control" > 
             </div>
             
              <div class="col-lg-2">
@@ -376,7 +380,14 @@ include "header.php";
                <label>Passport No</label>
               <input type="text" class="form-control" id="PassportNo">
             </div>
-           
+            <div class="col-lg-2">
+               <label>Accommodation</label>
+               <select id="Accommodation" class="form-control">
+                  <option value="">Select</option>
+                  <option value="AC">AC</option>
+                  <option value="Non-AC">Non-AC</option>
+               </select>
+            </div> 
 
             <div class="col-lg-2">
                 <label>College Name</label>
@@ -1082,9 +1093,12 @@ function submit_record() {
   var session = document.getElementById('session').value;
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
+  var MotherName = document.getElementById('MotherName').value;
+  var Accommodation = document.getElementById('Accommodation').value;
+  
+  
 
-
-if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && Consultant!='' &&months!='')
+if(State!='' && Accommodation!='' && MotherName!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && Consultant!='' &&months!='')
  
 {
    if(AdharCardNo!='' || PassportNo!='')
@@ -1107,6 +1121,8 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
     District: District,
     Consultant: Consultant,
     Lateral: Lateral,
+    MotherName: MotherName,
+    Accommodation: Accommodation,
    DOB:DOB,
     session: session,
     AdharCardNo: AdharCardNo,

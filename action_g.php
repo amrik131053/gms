@@ -9428,6 +9428,8 @@ $DOB= $_POST['DOB'];
 $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
+$Accommodation = $_POST['Accommodation'];
+$MotherName = $_POST['MotherName'];
 $ID_Proof_No=$AdharCardNo.$PassportNo;
 
 $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
@@ -9488,7 +9490,7 @@ $dist_count = 0;
 
 
 
- $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
+ $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`,`Accommodation`, `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) VALUES ('$Name','$FatherName','$MotherName','$Accommodation','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -38662,6 +38664,74 @@ elseif($code==468.1)
         echo "0";
     }
 }
+
+elseif($code==469)
+{
+   $SrNoFrom=$_POST['SrNoFrom'];
+   $SrNoTo=$_POST['SrNoTo'];
+   $resultNum=$_POST['resultNum'];
+   $decDate=$_POST['decDate'];
+   $Remakrs=$_POST['Remakrs'];
+   $SrNoLatter=$_POST['SrNoLatter'];
+
+   $college=$_POST['college'];
+   $course=$_POST['course'];
+   $batch=$_POST['batch'];
+   $sem=$_POST['sem'];
+   $examination=$_POST['examination'];
+   $type=$_POST['type'];
+   $sgroup=$_POST['sgroup'];
+   $ResultIDs=$_POST['ResultIDs'];
+   $BatchCreateGenerate="INSERT into DMCPrint(CollegeID,CourseID,Batch,Semester,Type,SGroup,Examination,GeneratedBy
+   ,Status,GenerateOn,Remarks)
+   values('$college','$course','$batch','$sem','$type','$sgroup','$examination','$EmployeeID','1','$timeStamp','$Remakrs')";
+   $BatchCreateGenerateRun=sqlsrv_query($conntest,$BatchCreateGenerate);
+
+   if($BatchCreateGenerateRun==true)
+   {
+    $queryGetLastID = "SELECT TOP 1 Id FROM DMCPrint order by Id DESC";
+    $getLastIDRun = sqlsrv_query($conntest, $queryGetLastID);
+    
+    if ($getLastIDRun) {
+        $row = sqlsrv_fetch_array($getLastIDRun, SQLSRV_FETCH_ASSOC);
+        $lastInsertedID = $row['Id'] ?? null;
+    }
+    foreach($ResultIDs as $key => $id)
+    {
+         $queryUpdate = "UPDATE  ResultPreparation  SET BatchID='$lastInsertedID', DMCSerialNo='$SrNoLatter$SrNoFrom',DMCStatus='1',DMCGeneratedBy='$EmployeeID',DMCGenerateOn='$timeStamp' Where Id='$id'";
+        $runqueryUpdate=sqlsrv_query($conntest,$queryUpdate);
+       
+        $SrNoFrom++;
+    }
+   }
+
+        sqlsrv_close($conntest);        
+}
+elseif($code==470)
+{
+    $ID=$_POST['ID'];
+    $ResultIDs=$_POST['ResultIDs'];
+    foreach($ResultIDs as $key => $id)
+    {
+         $queryUpdate = "UPDATE  ResultPreparation  SET  DMCStatus='2',DMCVerifiedBy='$EmployeeID',DMCVerifiedOn='$timeStamp' Where Id='$id'";
+         $runqueryUpdate=sqlsrv_query($conntest,$queryUpdate);
+    }
+    $queryCheckStatus = "SELECT COUNT(*) AS PendingCount FROM ResultPreparation WHERE BatchID = '$ID' AND DMCStatus != '2'";
+    $checkStatusRun = sqlsrv_query($conntest, $queryCheckStatus);
+
+    if ($checkStatusRun) {
+        $row = sqlsrv_fetch_array($checkStatusRun, SQLSRV_FETCH_ASSOC);
+        $pendingCount = $row['PendingCount'] ?? 1; 
+        if ($pendingCount == 0) {
+            $queryUpdateDMCPrint = "UPDATE DMCPrint  SET Status = '2', VerifiedBy = '$EmployeeID', VerifiedOn = '$timeStamp' WHERE Id = '$ID'";
+            $updateDMCPrintRun = sqlsrv_query($conntest, $queryUpdateDMCPrint);
+        }
+        } else {
+            echo "";
+        }
+
+                sqlsrv_close($conntest);        
+        }
    else
    {
    
