@@ -548,7 +548,7 @@ $(function() {
             type: 'POST',
             success: function(data) {
                 spinner.style.display = 'none';
-               // console.log(data);
+               console.log(data);
                 if (data != "") {
 
                     $("#Batch").html("");

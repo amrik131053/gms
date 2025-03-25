@@ -249,7 +249,7 @@ for($i=1;$i<=12;$i++)
                   <div id="live_data">
                   
 
-                  </div>
+                  </div> 
                 </div>
                 <div class="card-footer">
                   
@@ -287,6 +287,7 @@ for($i=1;$i<=12;$i++)
             type:'POST',
             success:function(data)
             { 
+              console.log(data);
 
              if(data != "")
                 {
@@ -478,7 +479,7 @@ function savepmarks(id)
    // var vmarks=document.getElementById('vmarks_'+id).value
    //  var fmarks=document.getElementById('fmarks_'+id).value
      var ecat=document.getElementById('ecat').value;
-  
+    var  sem = document.getElementById('Semester').value;
 
     if(emarks!='')
     {
@@ -495,7 +496,7 @@ document.getElementById('marks_'+id).value='';
       url:'action.php',
       type:'post',
       data:{
-        id:id,emarks:emarks,marks:marks,ecat:ecat,code:'361.1'
+        id:id,emarks:emarks,marks:marks,sem:sem,ecat:ecat,code:'361.1'
       },
       success:function(response)
       {

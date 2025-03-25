@@ -37781,16 +37781,19 @@ $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName
 }
 elseif($code==455.1)
   {
+
    $id=$_POST['ID'];
    $Examination=$_POST['Examination']; 
    $Semester=$_POST['Semester']; 
-      $sgroup=$_POST['sgroup']; 
+   $sgroup=$_POST['sgroup']; 
    $gradevaluetotal=0;
    $totalcredit=0;
+   $nccount=0;
    $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by SubjectCode ASC";  
    $list_resultamrik = sqlsrv_query($conntest,$amrik);  
    $sr=0;
    $credit='';
+   
    while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
             { 
                 // $Examination=$row7['Examination']; 
@@ -37817,6 +37820,14 @@ elseif($code==455.1)
                 $credit=$row7c['NoOFCredits'];
                }
 
+  $amrikco = "SELECT * FROM MasterCourseStructure where  Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective='O'";  
+$list_resultamrikco = sqlsrv_query($conntest,$amrikco);  
+
+while($row7co = sqlsrv_fetch_array($list_resultamrikco, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7co['NoOFCredits'];
+         }
+
           if(is_numeric($credit)){$credit=$credit;}else{$credit=0;}
                $totalcredit=$totalcredit+$credit;
                $SubjectNameArray[]=$SubjectName=$row7['SubjectName'];
@@ -37839,7 +37850,7 @@ elseif($code==455.1)
         }
        $ESe= $row7['ESE']; 
         $grace=0;
-       $nccount=0;
+      
       include 'result-pages/grade_calculator.php';
         $totalFinal;
         $SubjectGradeArray[]=$SubjectGrade=$grade;
@@ -37855,7 +37866,7 @@ elseif($code==455.1)
         {
         if($grade=='F' || $grade=='US')
         {
-        $nccount++;
+      $nccount= $nccount+1;
         }
         }
         $gradevaluetotal;
@@ -37864,9 +37875,23 @@ elseif($code==455.1)
         }
 
     }
-    $sgpa=$gradevaluetotal/$totalcredit;
-            $sgpa= number_format($sgpa,2);  
-   echo   $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
+
+    if($nccount>0)
+    {
+   $sgpa='NC';   
+    }
+    else
+    {
+ $sgpa=$gradevaluetotal/$totalcredit;
+ $sgpa= number_format($sgpa,2); 
+
+    }
+    
+            
+
+
+
+      $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
 VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0','$sgroup');";
 $result = sqlsrv_query($conntest,$insertResult);
 if ($result === false) {

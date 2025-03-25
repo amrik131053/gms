@@ -6061,7 +6061,7 @@ mysqli_close($conn);
 
    $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN SubjectAllotment on  
    SubjectAllotment.courseid = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND
-    SubjectAllotment.EmployeeID='$EmployeeID'  ANd (MasterCourseCodes.Status='1'  OR MasterCourseCodes.Status is NULL)order by MasterCourseCodes.Course ASC";
+    SubjectAllotment.EmployeeID='$EmployeeID'  AND  SubjectAllotment.status='1'   ANd (MasterCourseCodes.Status='1'  OR MasterCourseCodes.Status is NULL)order by MasterCourseCodes.Course ASC";
    // $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)order by Course ASC";
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
@@ -10626,6 +10626,10 @@ mysqli_close($conn);
        
          <i class="fa fa-eye text-success fa-lg" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')" data-toggle="modal" 
             data-target="#modal-lg-view-question" ></i>
+
+            <form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$Batch;?>>">
+<input type="hidden"  name='SubjectCode' value="<?=$SubjectCode;?>">
+<input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
         
       </td>
    </tr>
@@ -13596,9 +13600,9 @@ sqlsrv_close($conntest);
   {
 $course= $_POST['course'];
 $College= $_POST['College'];
-$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+$sql = "SELECT DISTINCT mcs.Batch as saBatch  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.CollegeID='$College' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+AND mcs.CollegeID='$College' ANd mcs.AcademicType='T' ANd sa.Status='1'  And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
 ?>
  <option value="">Batch</option>
@@ -13618,7 +13622,7 @@ $College= $_POST['College'];
 $Batch= $_POST['Batch'];
 $sql = "SELECT DISTINCT sa.Semester as saSemester  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.CollegeID='$College' and mcs.Batch='$Batch' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+AND mcs.CollegeID='$College' and mcs.Batch='$Batch' ANd mcs.AcademicType='T' ANd sa.Status='1' And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
 ?>
 <option value="">Semester</option>
@@ -13637,7 +13641,7 @@ sqlsrv_close($conntest);
 
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-echo  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+ $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE 
  mcs.SemesterID='$sem' ANd mcs.Batch='$batch'  And sa.EmployeeID='$EmployeeID'"; 
 ?>
@@ -13658,7 +13662,7 @@ sqlsrv_close($conntest);
   {
 $course= $_POST['course'];
 $College= $_POST['College'];
-$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+echo $sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
 AND mcs.CollegeID='$College' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
@@ -21454,10 +21458,17 @@ if ($type == 1) {
         $optionC = str_replace("'", " ",$_POST['QuestionC' . $i]);
         $optionD = str_replace("'", " ",$_POST['QuestionD' . $i]);
         
+        $clean="SELECT * FROM question_bank WHERE NOT EXISTS (SELECT 1 FROM question_bank_details WHERE question_bank.Id = question_bank_details.question_id)";
+        $getclean=mysqli_query($conn,$clean);
+
+
+
         if ($EmployeeID > 0) {
     $insQry ="INSERT INTO question_bank(SubjectCode,CollegeID, Type,Unit,Semester,Batch,CourseID,Category,UpdatedBy,Exam_Session,date_time) 
-         VALUES ('$subCode','$CollegeID','$type','$unit','$sem','$batch','$courseId','$category','$EmployeeID','$current_session','$timeStampS');";
+         VALUES ('$subCode','$CollegeID','$type','$unit','$sem','$batch','$courseId','$category','$EmployeeID','$current_session','$timeStampS')";
+
    // $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+
             $insQryRun = mysqli_query($conn, $insQry);
             if ($insQryRun===true) {
                $getQid="SELECT id as qid FROM question_bank ORDER BY id DESC LIMIT 1";
@@ -23338,9 +23349,9 @@ elseif($code==344)
 elseif($code==345)
 {
 $exit_date = date('d-M-Y');
-   $exit_time = date('h:i:s a');
-   $visitid = $_POST['id'];
- $sql = "UPDATE visitor_entry SET exit_date = '$exit_date', exit_time = '$exit_time', status = 'Checked Out' WHERE id = '$visitid' ORDER by status";
+$exit_time = date('h:i:s a');
+$visitid = $_POST['id'];
+$sql = "UPDATE visitor_entry SET exit_date = '$exit_date', exit_time = '$exit_time',status ='Checked Out' WHERE id = '$visitid' ORDER by status";
    mysqli_query($conn,$sql);
    mysqli_close($conn);
 }
@@ -23830,7 +23841,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
                    {
                      $clr="";
                      $ResultStatus="";
-                       $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['SemesterID']."' 
+                     $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['SemesterID']."' 
                      and CourseID='".$row['CourseID']."' and CollegeID='".$row['CollegeID']."' and Examination='".$row['Examination']."' and Batch='".$row['Batch']."' and Type='Regular'
                      GROUP BY ResultStatus ORDER BY ResultStatus ";
                     $resultgetColor = sqlsrv_query($conntest,$getColor);
@@ -23976,8 +23987,8 @@ elseif($Status==8)
  elseif($code==356)
    {
   $id = $_POST['id'];
-  $ResultStatus = $_POST['resultStatus'];
-  $MinDeclareType = $_POST['MinDeclareType'];
+  //$ResultStatus = $_POST['resultStatus'];
+  //$MinDeclareType = $_POST['MinDeclareType'];
   
   $list_sqlw5 ="SELECT * from ExamForm Where ID='$id'";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
@@ -24021,6 +24032,20 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CollegeID=$row6['CollegeID'];
           }
 
+
+$DeclareType='';
+$MinDeclareType='';
+ $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$SemesterID' 
+                     and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$examination' and Batch='$batch' and Type='$type'
+                     GROUP BY ResultStatus ORDER BY ResultStatus ";
+                    $resultgetColor = sqlsrv_query($conntest,$getColor);
+                    if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
+                    {
+                      echo  $DeclareType=$rowresultgetColor['MaxDeclareType'];
+                       echo $MinDeclareType=$rowresultgetColor['MinDeclareType'];
+                       echo $ResultStatus=$rowresultgetColor['MaxDeclareType'];
+
+                    }
 ?>
 
 
@@ -24072,9 +24097,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 <tr>
    <th>SrNo</th>
   <th width="60%">Subject Name</th>
-  <th width="12%">Subject Code</th><th>Credit</th>
+  <th width="12%">Subject Code</th>
   <th width="8%">Int</th>
-  <th width="8%">CA1&CA2</th>
+  <th width="8%">CA1/CA2</th>
     <th width="8%">CA3</th>
      <th width="8%">Att</th>
     <th width="8%">MST1</th>
@@ -24083,7 +24108,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
      <th width="8%">ESE</th>
 <th width="8%">Total</th>
 <th width="8%">Grade</th>
-<th width="8%">Grade Point</th>
+<th width="8%">Grade Point</th><th>Credit</th><th>GP*C</th>
  
 </tr>
 
@@ -24098,6 +24123,8 @@ if($list_resultamrik === false)
 }
 $sr=0;
 $credit=0;
+$nccount=0;
+$gpc=0;
 $totalcredit=0;
 $gradevaluetotal=0;
 while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
@@ -24105,13 +24132,23 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
             
 $SubjectCode=$row7['SubjectCode'];
 
-            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode'";  
+            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective!='O'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
          }
+
+        $amrikco = "SELECT * FROM MasterCourseStructure where  Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective='O'";  
+$list_resultamrikco = sqlsrv_query($conntest,$amrikco);  
+
+while($row7co = sqlsrv_fetch_array($list_resultamrikco, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7co['NoOFCredits'];
+         }
+
+
    if(is_numeric($credit)){$credit=$credit;}else{$credit=0;}
 
                $totalcredit=$totalcredit+$credit;
@@ -24128,7 +24165,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
    <td >
       <?=$row7['SubjectCode'];?>
    </td>
-   <td><?= $credit;?></td>
+  
 
   <td><?php echo $row7['ExternalExam'];?>
     </td>
@@ -24173,18 +24210,21 @@ echo $msttotal=$mst1;
 
 <td>
 <?php  $grace=0;
-$nccount=0;?>
+
+?>
 <?php include 'result-pages/grade_calculator.php';?> 
- 
+
+
 
   <?=$totalFinal;?>
 <?php
+
      if($credit>0)
         {
         $gradevalue=$gardep*$credit;
         if($gradevalue>0)
         {
-        $gradevaluetotal=$gradevaluetotal+$gradevalue;
+       $gradevaluetotal=$gradevaluetotal+$gradevalue;
         }
         else
         {
@@ -24208,26 +24248,42 @@ $nccount=0;?>
  
  <?=  $gardep;?>
 </td>
+ <td><?= $credit;?></td>
+
+ <td><?= $gp=$gardep*$credit;?>  </td>
+
+ <?php $gpc=$gp+$gpc;?>
 </tr>
 
-  <?php }
+  <?php  $credit='';
+}
+
+
           $sgpa=$gradevaluetotal/$totalcredit;
-            $sgpa= number_format($sgpa,2);  
+
+         if($nccount>0)
+           {
+             $sgpa='NC';
+           }   
+           else
+           {
+            $sgpa= number_format($sgpa,2);
+           }
             ?>
 
-         <tr><td colspan="11"></td><td>SGPA</td><td><?=$sgpa;?></td> <td>Credit</td><td><?=$totalcredit;?></td></tr>
+         <tr><td colspan="11"></td><td>SGPA</td><td><?=$sgpa;?></td> <td>Credit</td><td><?=$totalcredit;?></td><td><?=$gpc;?></td></tr>
          
 </table>
 
 </div>
 <?php 
 $clrbtn="";
- if($ResultStatus==0)
+ if($DeclareType==0)
 {
 $clrbtn="warning";
 
  }
-else if($ResultStatus<1)
+else if($DeclareType<1)
 {
 $clrbtn="info";
 
@@ -24235,11 +24291,12 @@ $clrbtn="info";
  else
  {
    $clrbtn="primary";
- }
-if($ResultStatus!=1)
+ }?>
+ 
+ <?php 
+if($DeclareType!=1)
 {
-   
-?>
+   ?>
 <button class="btn btn-<?=$clrbtn;?>" onclick="VerifyResultRegular('<?= $id;?>','<?= $examination;?>','<?= $sgroup?>','<?= $SemesterID;?>','<?=$MinDeclareType;?>')">Verify Result</button>
 <?php
 } 
@@ -24612,7 +24669,8 @@ $ecat=$_POST['ecat'];
 $marks=$_POST['marks'];
 $emarks=$_POST['emarks'];
 $semID=$_POST['sem'];
-
+$vmarks=0;
+$fmarks=0;
 if($ecat=='ESE')
 {
 $update='MOOCupdateby'; 
@@ -25778,7 +25836,7 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='W'  order by SubjectCode";
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='W'  order by SubjectCode";
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
