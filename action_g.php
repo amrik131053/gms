@@ -37818,6 +37818,14 @@ elseif($code==455.1)
                 $credit=$row7c['NoOFCredits'];
                }
 
+  $amrikco = "SELECT * FROM MasterCourseStructure where  Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective='O'";  
+$list_resultamrikco = sqlsrv_query($conntest,$amrikco);  
+
+while($row7co = sqlsrv_fetch_array($list_resultamrikco, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7co['NoOFCredits'];
+         }
+
           if(is_numeric($credit)){$credit=$credit;}else{$credit=0;}
                $totalcredit=$totalcredit+$credit;
                $SubjectNameArray[]=$SubjectName=$row7['SubjectName'];

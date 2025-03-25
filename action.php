@@ -24132,13 +24132,23 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
             
 $SubjectCode=$row7['SubjectCode'];
 
-            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode'";  
+            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective!='O'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
          }
+
+        $amrikco = "SELECT * FROM MasterCourseStructure where  Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective='O'";  
+$list_resultamrikco = sqlsrv_query($conntest,$amrikco);  
+
+while($row7co = sqlsrv_fetch_array($list_resultamrikco, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7co['NoOFCredits'];
+         }
+
+
    if(is_numeric($credit)){$credit=$credit;}else{$credit=0;}
 
                $totalcredit=$totalcredit+$credit;
@@ -24245,7 +24255,8 @@ echo $msttotal=$mst1;
  <?php $gpc=$gp+$gpc;?>
 </tr>
 
-  <?php }
+  <?php  $credit='';
+}
 
 
           $sgpa=$gradevaluetotal/$totalcredit;
