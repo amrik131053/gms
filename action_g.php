@@ -31500,10 +31500,14 @@ elseif ($code==386) {
      $Semester=$_POST['Semester'];
      $Department=$_POST['Department'];
      $SubjectCode=$_POST['SubjectCode'];
-         $Section=$_POST['Section'];
-              $Group=$_POST['Group'];
-   $allotSubjectInsert="INSERT into SubjectAllotment (CollegeID,CourseID,Batch,Semester,SubjectCode,EmployeeID,UpdatedBy,Status,UpdateOn,Section,GroupName)
-     Values('$CollegeID','$Course','$Batch','$Semester','$SubjectCode','$EmpID','$EmployeeID','1','$timeStamp','$Section','$Group')";
+     $Section=$_POST['Section'];
+     $Group=$_POST['Group'];
+
+    $examination=$CurrentExamination;
+
+
+   $allotSubjectInsert="INSERT into SubjectAllotment (CollegeID,CourseID,Batch,Semester,SubjectCode,EmployeeID,UpdatedBy,Status,UpdateOn,Section,GroupName,Examination)
+     Values('$CollegeID','$Course','$Batch','$Semester','$SubjectCode','$EmpID','$EmployeeID','1','$timeStamp','$Section','$Group','$examination')";
     $allotSubjectInsertRun=sqlsrv_query($conntest,$allotSubjectInsert);
     if($allotSubjectInsertRun==true)
      {

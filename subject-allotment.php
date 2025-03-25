@@ -125,7 +125,7 @@ function bg(id) {
 
 // Search();
 function searchShowAllSubject() {
-    var code = 385;
+    var code = 385; 
 
     var CollegeID = document.getElementById('College').value;
 
