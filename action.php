@@ -13662,7 +13662,7 @@ sqlsrv_close($conntest);
   {
 $course= $_POST['course'];
 $College= $_POST['College'];
-$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+echo $sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
 AND mcs.CollegeID='$College' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
@@ -24669,7 +24669,8 @@ $ecat=$_POST['ecat'];
 $marks=$_POST['marks'];
 $emarks=$_POST['emarks'];
 $semID=$_POST['sem'];
-
+$vmarks=0;
+$fmarks=0;
 if($ecat=='ESE')
 {
 $update='MOOCupdateby'; 
@@ -25835,7 +25836,7 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='W'  order by SubjectCode";
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='W'  order by SubjectCode";
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
