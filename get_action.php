@@ -8072,7 +8072,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
           }
  ?>
  <tr class="bg-<?=$clr;?>">
-<td><?php if($row['DMCStatus']=='3'){}else{ if($row['DMCStatus']==)   ?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
+<td><?php if($row['DMCStatus']=='3'){}else{    ?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
  <td><?= $row['DMCSerialNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
