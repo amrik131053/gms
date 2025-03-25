@@ -167,7 +167,7 @@ $alertshow=1;
   $ExamformExamininationcr=sqlsrv_num_rows($ExamformExamininationr);
     
 
-    if($ExamformExamininationcr>0 ANd $role_id=='5')
+    if($ExamformExamininationcr>0 ANd $role_id=='28')
     {
 $alertshow=1;
     }
