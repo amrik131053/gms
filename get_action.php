@@ -3218,7 +3218,6 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
    elseif($code==34) //72
    {
    $emp_id=$_GET['user_id'];
-   
     $get_emp_data = sqlsrv_query($conntest,"SELECT IDNo,Name,Designation from Staff WHERE IDNo = '$emp_id'");
    while($row_emp=sqlsrv_fetch_array($get_emp_data))
    {
@@ -3226,13 +3225,11 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
      $designation = $row_emp['Designation'];
    }
    ?>
-
    <div class="modal-body">
-            
-               <div class="form-group" id="">
-                  <h5><b>Role Assigned To :</b> <?=$name;?></h5><br>
-                   <h5><b>Designation :</b> <?=$designation;?></h5><br>
-                  <select class="form-control" name="" id="role_new" required>
+     <div class="form-group" id="">
+        <h5><b>Role Assigned To :</b> <?=$name;?></h5><br>
+         <h5><b>Designation :</b> <?=$designation;?></h5><br>
+        <select class="form-control" name="" id="role_new" required>
    <option>Select Role</option>
    <?php  
       $role_get="SELECT * FROM role_name";
@@ -7858,7 +7855,327 @@ else if ($code == 68) {
 
 }
 
- else
+else if($code==69)
+ {
+ ?>
+
+ <table   class="table table-bordered table-responsive-lg" style='text-align:center;'  >
+  <tr>             
+  <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
+                 <th>Sr No </th>
+                 <th>DMC Sr No </th>
+                 <th>Uni Roll No</th>
+                 <th>IDNo</th>
+                 <th> Name </th>
+                 <th> Father Name </th>
+                 <th> Type </th>
+                 <th> Group </th>
+                 <th>Total Credit </th>
+                 <th> SGPA </th>
+                
+                
+                 </tr>
+  <?php
+  $i=1;
+  $CourseID = $_GET['course'];
+  $CollegeID = $_GET['college'];
+  $Batch=$_GET['batch']; 
+  $semID = $_GET['sem'];
+  $exam = $_GET['examination'];
+      $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
+  and Rp.Examination='$exam' and  Rp.Batch='$Batch' and ResultStatus='1' and DeclareType='1' and Sgpa!='NC'  ";
+     $stmt = sqlsrv_query($conntest,$sql1);
+         $count=0;
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+      {  
+          if( $row['DMCStatus']=='0')
+          {
+         $clr="warning";
+          }
+          else if($row['DMCStatus']>'0')
+          {
+         $clr="success";
+          }
+          else
+          {  
+
+          }
+ ?>
+ <tr class="bg-<?=$clr;?>">
+<td><?php if($row['DMCStatus']>'0'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
+ <td><?= $i++;?></td>
+ <td><?= $row['DMCSerialNo'];?></td>
+ <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
+ <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
+ <td><?= $row['StudentName'];?></td>             
+ <td><?= $row['FatherName'];?></td>             
+ <td><?= $row['Type'];?></td>             
+ <td><?= $row['SGroup'];?></td>             
+ <td><?=$row['TotalCredit'];?></td>
+ <td><?=$row['Sgpa'];?></td>
+
+ 
+</tr>
+ <?php 
+ $clr="";
+ } 
+ ?>
+ <tr>
+   <td colspan="7"></td>
+   <td colspan=""><label for="">Character</label>
+ 
+   <select name="" class="form-control" id="SrNoLatter">
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="D">D</option>
+      <option value="E">E</option>
+      <option value="F">F</option>
+      <option value="G">G</option>
+     
+   </select>
+   </td>
+   <td colspan=""><label for="">GradeCard SrNo From</label>
+   <input type="text" placeholder="Start Number" id="SrNoFrom"  class="form-control"  >
+   </td>
+   <td colspan="1">
+   <label for="">Remakrs</label>
+   <input type="text" placeholder="Remakrs" id="Remakrs"  class="form-control"  >
+   </td>
+   <!-- <td colspan="1">
+   <label for="">Print On</label>   
+   <input type="hidden" id="decDate"  class="form-control"  ></td> -->
+   <td colspan="1">
+   <label for="">&nbsp;</label>  <br>    
+   <input   type="submit" name="submit" value="Generate" onclick="generateDMC();" class="btn btn-success "  ></td>
+ </tr>
+ </table>
+ <?php 
+ }
+else if($code==70)
+ {
+ ?>
+            <table class="table table-bordered table-responsive-lg" style='text-align:center;'  >
+                <tr>             
+                 <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
+                 <th>Sr No </th>
+                 <th>GradeCard SrNo </th>
+                 <th>Uni Roll No</th>
+                 <th>IDNo</th>
+                 <th> Name </th>
+                 <th> Father Name </th>
+                 <th> Type </th>
+                 <th> Group </th>
+                 <th>Total Credit </th>
+                 <th> SGPA </th>
+              
+                 </tr>
+            <?php
+            $i=1;
+            $CourseID = $_GET['course'];
+            $CollegeID = $_GET['college'];
+            $Batch=$_GET['batch']; 
+            $semID = $_GET['sem'];
+            $exam = $_GET['examination'];
+            $id = $_GET['id'];
+                  $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
+            and Rp.Examination='$exam' and  Rp.Batch='$Batch' and ResultStatus='1' and DeclareType='1' and (DMCStatus='1' or  DMCStatus = '2') and BatchID='$id'    ";
+               $stmt = sqlsrv_query($conntest,$sql1);
+                     $count=0;
+                  while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+                  {  
+                  if( $row['DMCStatus']=='1')
+                  {
+                  $clr="warning";
+                  }
+                  else if($row['DMCStatus']=='2')
+                  {
+                  $clr="success";
+                  }
+                  else
+                  {  
+                  }
+               ?>
+               <tr class="bg-<?=$clr;?>">
+               <td><?php if($row['DMCStatus']=='2'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
+               <td><?= $i++;?></td>
+               <td><?= $row['DMCSerialNo'];?></td>
+               <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
+               <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
+               <td><?= $row['StudentName'];?></td>             
+               <td><?= $row['FatherName'];?></td>             
+               <td><?= $row['Type'];?></td>             
+               <td><?= $row['SGroup'];?></td>             
+               <td><?=$row['TotalCredit'];?></td>
+               <td><?=$row['Sgpa'];?></td>
+               
+               
+               </tr>
+               <?php 
+               $clr="";
+               } 
+ ?>
+ <tr>
+   <td colspan="10"></td>
+  
+   <td colspan="1">
+   <label for="">&nbsp;</label>  <br>    
+   <input   type="submit" name="submit" value="Verified" onclick="DMCVerified(<?=$id;?>);" class="btn btn-success "  ></td>
+ </tr>
+ </table>
+ <?php 
+ }
+else if($code==71)
+ {
+ ?>
+ <table   class="table table-bordered table-responsive-lg" style='text-align:center;'  >
+  <tr>             
+  <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
+                 <th>Sr No </th>
+                 <th>GradeCard SrNo </th>
+                 <th>Uni Roll No</th>
+                 <th>IDNo</th>
+                 <th> Name </th>
+                 <th> Father Name </th>
+                 <th> Type </th>
+                 <th> Group </th>
+                 <th>Total Credit </th>
+                 <th> SGPA </th>
+            
+                 <th> Action</th>   
+                 </tr>
+  <?php
+  $i=1;
+  $id = $_GET['id'];
+  $CourseID = $_GET['course'];
+  $CollegeID = $_GET['college'];
+  $Batch=$_GET['batch']; 
+  $semID = $_GET['sem'];
+  $exam = $_GET['examination'];
+$sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
+  and Rp.Examination='$exam' and  Rp.Batch='$Batch' and ResultStatus='1' and DeclareType='1' and (DMCStatus='3' or  DMCStatus = '2') and BatchID='$id'   ";
+     $stmt = sqlsrv_query($conntest,$sql1);
+         $count=0;
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+      {  
+       
+          if( $row['DMCStatus']=='2')
+          {
+          $clr="warning";
+          }
+          else if($row['DMCStatus']=='3')
+          {
+          $clr="success";
+          }
+          else
+          {  
+          }
+ ?>
+ <tr class="bg-<?=$clr;?>">
+<td><?php if($row['DMCStatus']=='3'){}else{ if($row['DMCStatus']==)   ?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
+ <td><?= $i++;?></td>
+ <td><?= $row['DMCSerialNo'];?></td>
+ <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
+ <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
+ <td><?= $row['StudentName'];?></td>             
+ <td><?= $row['FatherName'];?></td>             
+ <td><?= $row['Type'];?></td>             
+ <td><?= $row['SGroup'];?></td>             
+ <td><?=$row['TotalCredit'];?></td>
+ <td><?=$row['Sgpa'];?></td>
+
+ <td colspan="1">    
+   <input   type="submit" name="submit" value="Print" onclick="DMCPrint(<?= $row['Id'];?>,<?= $row['BatchID'];?>);" class="btn btn-primary "  ></td>
+</tr>
+ <?php 
+ $clr="";
+ } 
+ ?>
+ <tr>
+   <td colspan="11"></td>
+  
+   <td colspan="1">
+   <label for="">&nbsp;</label>  <br>    
+   <input   type="submit" name="submit" value="ALl Print" onclick="DMCPrint('NA','');" class="btn btn-success "  ></td>
+ </tr>
+ </table>
+ <?php 
+      }
+      else if($code==72)
+      {
+       $sql1 = "SELECT GenerateOn,Id,Remarks,CollegeID,CourseID,Batch,Semester,Examination,Type,SGroup FROM DMCPrint WHERE Status='1'";
+     $stmt = sqlsrv_query($conntest,$sql1);
+         $count=0;
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+      {  
+         
+          $GenerateOn=$row['GenerateOn']->format('d-m-Y');
+          $Batch=$row['Batch'];
+          $Semester=$row['Semester'];
+          $Examination=$row['Examination'];
+          $Type=$row['Type'];
+          $SGroup=$row['SGroup'];
+          $Remarks=$row['Remarks'];
+          $get_College="SELECT DISTINCT CollegeName FROM MasterCourseCodes where CollegeID='".$row['CollegeID']."' ";
+          $get_CollegeRun=sqlsrv_query($conntest,$get_College);
+          if($get_CollegeRow=sqlsrv_fetch_array($get_CollegeRun,SQLSRV_FETCH_ASSOC))
+          {
+             $CollegeName=$get_CollegeRow['CollegeName'];
+           }
+         $get_Course="SELECT DISTINCT Course FROM MasterCourseCodes where CourseID='".$row['CourseID']."' ";
+         $get_CourseRun=sqlsrv_query($conntest,$get_Course);
+          if($get_CourseRow=sqlsrv_fetch_array($get_CourseRun,SQLSRV_FETCH_ASSOC))
+          {
+            $Course=$get_CourseRow['Course'];
+          }
+          ?>
+      <div class="card card-body bg-warning  " onclick="searchDmcRecordOnClick(<?=$row['Id'];?>,<?=$row['CollegeID'];?>,<?=$row['CourseID'];?>,<?=$Batch;?>,<?=$Semester;?>,'<?=$Type;?>','<?=$SGroup;?>','<?=$Examination;?>');">
+         <?php 
+   echo $Course.'-'.$Batch.'-'.$Semester.'-'.$Type.'-'.$SGroup.'-'.$Examination.'-('.$Remarks.') Generate On '.$GenerateOn;
+
+?>
+      </div>
+          <?php
+      } 
+      }
+      else if($code==73)
+      {
+       $sql1 = "SELECT GenerateOn,Id,Remarks,CollegeID,CourseID,Batch,Semester,Examination,Type,SGroup FROM DMCPrint WHERE Status='2'";
+     $stmt = sqlsrv_query($conntest,$sql1);
+         $count=0;
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+      {  
+         $GenerateOn=$row['GenerateOn']->format('d-m-Y');
+          $Batch=$row['Batch'];
+          $Semester=$row['Semester'];
+          $Examination=$row['Examination'];
+          $Type=$row['Type'];
+          $SGroup=$row['SGroup'];
+          $Remarks=$row['Remarks'];
+          $get_College="SELECT DISTINCT CollegeName FROM MasterCourseCodes where CollegeID='".$row['CollegeID']."' ";
+          $get_CollegeRun=sqlsrv_query($conntest,$get_College);
+          if($get_CollegeRow=sqlsrv_fetch_array($get_CollegeRun,SQLSRV_FETCH_ASSOC))
+          {
+             $CollegeName=$get_CollegeRow['CollegeName'];
+           }
+         $get_Course="SELECT DISTINCT Course FROM MasterCourseCodes where CourseID='".$row['CourseID']."' ";
+         $get_CourseRun=sqlsrv_query($conntest,$get_Course);
+          if($get_CourseRow=sqlsrv_fetch_array($get_CourseRun,SQLSRV_FETCH_ASSOC))
+          {
+            $Course=$get_CourseRow['Course'];
+          }
+          ?>
+      <div class="card card-body bg-warning  " onclick="searchDmcRecordOnClick(<?=$row['Id'];?>,<?=$row['CollegeID'];?>,<?=$row['CourseID'];?>,<?=$Batch;?>,<?=$Semester;?>,'<?=$Type;?>','<?=$SGroup;?>','<?=$Examination;?>');">
+         <?php 
+   echo $Course.'-'.$Batch.'-'.$Semester.'-'.$Type.'-'.$SGroup.'-'.$Examination.'-('.$Remarks.') Generate On '.$GenerateOn;
+
+?>
+      </div>
+          <?php
+      } 
+      }
+
+      else
        {
    
        }
