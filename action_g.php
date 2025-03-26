@@ -37816,7 +37816,7 @@ elseif($code==455.1)
            $sr++;
    $SubjectCode=$row7['SubjectCode'];
    
-               $amrikc = "SELECT * FROM MasterCourseStructure where  Batch='".$row7['Batch']."' ANd SubjectCode='$SubjectCode'";  
+               $amrikc = "SELECT * FROM MasterCourseStructure where  CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective!='O'";  
    $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
    
    while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )

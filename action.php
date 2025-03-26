@@ -13654,15 +13654,13 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
 <?php 
 }
-
 sqlsrv_close($conntest);
-
-  }
-   elseif ($code ==200.5)
-  {
+}
+elseif ($code ==200.5)
+{
 $course= $_POST['course'];
 $College= $_POST['College'];
-echo $sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
 AND mcs.CollegeID='$College' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
