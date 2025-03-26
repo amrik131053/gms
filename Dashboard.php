@@ -304,7 +304,7 @@ if($rowCount>0)
 
 <div class="row">
 <?php 
-if($EmployeeID!='170601')
+if($EmployeeID!='172022')
 {
   $qry="SELECT  Incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='$EmployeeID' and CategoryID='1' GROUP BY Incharge";
 
@@ -518,10 +518,51 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 }
 }
 }
-?></div>
+?>
+ 
+
+
+</section><div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+              <div class="card bg-light">
+                <div class="card-header  border-bottom-0">
+                Alloted Subjects
+                </div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-12">
+                      <h2 class="lead"><b></b></h2>
+                    
+                       
+
+<?php   $sql = "SELECT  Distinct Course,sa.Batch,SemesterID,sa.SubjectCode ,AcademicType FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE sa.EmployeeID='$EmployeeID' AND Examination='$CurrentExamination'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+ 
+ <?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+   <p class="text-muted text-sm">  <?= $row1['Course'];?>-<?= $row1['Batch'];?>-<?= $row1['SemesterID'];?>-<?= $row1['SubjectCode'];?>-(<?= $row1['AcademicType'];?>)</p><hr>
+<?php 
+} ?>
+
+                       
+                        
+                      </ul>
+                    </div>
+                    <div class="col-5 text-center">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  
+                </div>
+              </div>
+            </div></div>
 
    </div>
-</section>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
 
