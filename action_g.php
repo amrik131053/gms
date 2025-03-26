@@ -37816,7 +37816,7 @@ elseif($code==455.1)
            $sr++;
    $SubjectCode=$row7['SubjectCode'];
    
-               $amrikc = "SELECT * FROM MasterCourseStructure where  CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective!='O'";  
+            echo    $amrikc = "SELECT * FROM MasterCourseStructure where  CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$Batch' ANd SubjectCode='$SubjectCode' AND Elective!='O'";  
    $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
    
    while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -37824,7 +37824,7 @@ elseif($code==455.1)
                 $credit=$row7c['NoOFCredits'];
                }
 
-  $amrikco = "SELECT * FROM MasterCourseStructure where  Batch='$batch' ANd SubjectCode='$SubjectCode' AND Elective='O'";  
+$amrikco = "SELECT * FROM MasterCourseStructure where  Batch='$Batch' ANd SubjectCode='$SubjectCode' AND Elective='O'";  
 $list_resultamrikco = sqlsrv_query($conntest,$amrikco);  
 
 while($row7co = sqlsrv_fetch_array($list_resultamrikco, SQLSRV_FETCH_ASSOC) )
