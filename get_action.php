@@ -7007,18 +7007,20 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
   $Batch=$_GET['batch']; 
   $semID = $_GET['sem'];
   $exam = $_GET['examination'];
+  $type = $_GET['type'];
    $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
-  and Rp.Examination='$exam' and  Rp.Batch='$Batch' ";
+  and Rp.Examination='$exam' and  Rp.Batch='$Batch' and Type='$type' ";
      $stmt = sqlsrv_query($conntest,$sql1);
          $count=0;
       while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
       {  
 
          $IDNo=$row['IDNo'];
+         $MinDeclareType=0;
           $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM
           ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['Semester']."' 
          and CourseID='".$row['CourseID']."' and CollegeID='".$row['CollegeID']."' and Examination='".$row['Examination']."' 
-         and Batch='".$row['Batch']."' and Type='Regular'
+         and Batch='".$row['Batch']."' and Type='".$row['Type']."'
          GROUP BY ResultStatus ORDER BY ResultStatus ";
         $resultgetColor = sqlsrv_query($conntest,$getColor);
         if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
@@ -7070,7 +7072,7 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
          if(($role_id=='2' || $role_id=='28') && $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
          {
             ?>
-<button class="btn btn-danger"  onclick="backtoverifiedResult(<?= $row['Id'];?>,<?= $row['IDNo'];?>,'<?=$MinDeclareType;?>');"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+<button class="btn btn-danger"  onclick="backtoverifiedResult('<?= $row['Id'];?>','<?=$row['IDNo'];?>','<?=$MinDeclareType;?>');"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
 
             <?php 
          }

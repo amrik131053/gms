@@ -247,6 +247,7 @@ function deleteResultOne(id,IDNo)
 }
 function backtoverifiedResult(id,IDNo,DeclareType)
 {
+    alert(id+'-'+IDNo+'-'+DeclareType);
     var r = confirm("Do you really want to back this result?");
           if(r == true) 
            {
@@ -261,7 +262,7 @@ function backtoverifiedResult(id,IDNo,DeclareType)
               },
               success: function(response) 
               {
-            //    console.log(response);
+               console.log(response);
                spinner.style.display='none';
                   if (response=='1')
                            {
@@ -407,7 +408,7 @@ function backtoverifiedResult(id,IDNo,DeclareType)
   var  batch = document.getElementById('Batch').value;
   var  sem = document.getElementById('Semester').value; 
   var  examination = document.getElementById('Examination').value;
-  //  var  type = document.getElementById('Type').value;
+   var  type = document.getElementById('Type').value;
   if(college!=''&& batch!='' && sem!='' && examination!='')
   {
    var   spinner= document.getElementById("ajax-loader");
@@ -422,7 +423,7 @@ function backtoverifiedResult(id,IDNo,DeclareType)
            //Examination_theory_types();
         }
     }
-    xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+"&examination="+examination+"&code="+62,true);
+    xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+"&examination="+examination+"&type="+type+"&code="+62,true);
     xmlhttp.send();
 }
 else
