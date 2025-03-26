@@ -6475,9 +6475,10 @@ else if($code=='56')
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
  
-$sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
+ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
   WHERE ExamForm.CollegeID='$CollegeID' and ExamForm.CourseID='$CourseID' and ExamForm.SemesterId='$semID' and ExamForm.Batch='$Batch'  and
  ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' ANd ExamForm.Status='8' AND ExamFormSubject.ExternalExam='Y' order by Admissions.IDNo ASC";
+
     $stmt = sqlsrv_query($conntest,$sql1);
    if ($stmt === false) {
       $errors = sqlsrv_errors();
@@ -6511,34 +6512,40 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
        $CollegeID=$rowAdm['CollegeID'];
        $CourseID=$rowAdm['CourseID'];
        $Batch=$rowAdm['Batch'];
+}
+       $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$semID' and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$exam' and Batch='$Batch' and Type='Reappear'  GROUP BY ResultStatus ORDER BY ResultStatus ";
 
-        $getColor="SELECT ResultStatus FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$semID' and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$exam' and Batch='$Batch' and Type='Reappear'
-        order by IDNo ASC ";
+
+         
+
+
        $resultgetColor = sqlsrv_query($conntest,$getColor);
        if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
        {
           
-       if($rowresultgetColor['ResultStatus']=='0')
+       if($rowresultgetColor['MaxDeclareType']=='0')
        {
-          $clr="primary";
+           $clr="primary";
+
           $status=2;
        }
-      else if($rowresultgetColor['ResultStatus']=='1')
+      else if($rowresultgetColor['MaxDeclareType']=='1')
       {
       $clr="success";
       $status=2;
        }
-         else{
+         else
+         {
             
             $status=1;
        }
       }
-   }
+   
 
 ?>
 <tr class="bg-<?=$clr;?>" >
 
-<td><?php if($MSTatus!=1){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
+<td><?php if($rowresultgetColor['MaxDeclareType']!='0'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
 <td><?= $i++;?>
 <input type="hidden"  value="<?= $row['ID'];?>"  id="ExamSubjectID"> 
 <input type="hidden" value="<?= $row['IDNo'];?>"  id="ids<?= $row['ID'];?>" > 
@@ -6562,7 +6569,7 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
          group by CE1,CE2,CE3,Attendance,ID";
        }
        else{
-         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,ID as EID  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Examination='May 2024' and IDNo='".$row['IDNo']."'
+         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,ID as EID  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Examination='$exam' and IDNo='".$row['IDNo']."'
         group by CE1,CE2,CE3,Attendance,ID";
 
        }
@@ -7029,12 +7036,7 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
            $MinDeclareType=$rowresultgetColor['MinDeclareType'];
         }
 
-
-
-
-
-
-          if( $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
+ if( $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
           {
          $clr="success";
           }

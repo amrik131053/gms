@@ -24295,7 +24295,8 @@ $clrbtn="info";
 if($DeclareType!=1)
 {
    ?>
-<button class="btn btn-<?=$clrbtn;?>" onclick="VerifyResultRegular('<?= $id;?>','<?= $examination;?>','<?= $sgroup?>','<?= $SemesterID;?>','<?=$MinDeclareType;?>')">Verify Result</button>
+<button class="btn btn-<?=$clrbtn;?>" onclick="VerifyResultRegular('<?= $id;?>','<?= $examination;?>','<?= $sgroup?>','<?= $SemesterID;?>','<?=$MinDeclareType;?>')">Verify Result
+</button>
 <?php
 } 
 

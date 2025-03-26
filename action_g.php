@@ -36917,7 +36917,7 @@ $todaydate=$_POST['startDate'];
   $gradevaluetotalold=0;
   $gradevaluetotal=0;
   $nccount=0;
-      $query = "SELECT top(1)* FROM Admissions inner join ResultGKU as rd on Admissions.UniRollNo=rd.UniRollNo   Where   Admissions.IDNo='$ID'  and Semester='$Semester'  order by  rd.ID Desc  ";
+      $query = "SELECT top(1)* FROM Admissions inner join ResultGKU as rd on Admissions.UniRollNo=rd.UniRollNo Where  Admissions.IDNo='$ID'  and Semester='$Semester'  order by  rd.ID Desc  ";
 
              $result = sqlsrv_query($conntest,$query);
              while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
@@ -36927,6 +36927,11 @@ $todaydate=$_POST['startDate'];
                $UniRollNo= $row['UniRollNo'];
                $ResultID= $row['Id'];
                $Type= $row['Type'];
+               $CollegeID=$row['CollegeID'];
+                         $CourseID=$row['CourseID'];
+                         $Batch=$row['Batch'];
+
+                        
              ?>
                 <table class="table">
                     <tr style="background:#223260;color:white;">
@@ -36941,10 +36946,13 @@ $todaydate=$_POST['startDate'];
                     </tr>
                     <tr>
 
+
+
+
                         <td><?=$IDNo;?>/<?=$UniRollNo;?></td>
                         <td><?=$row['Id'];?></td>
-                        <td><?=$row['Semester'];?></td>
-                        <td><?=$row['Examination'];?></td>
+                        <td><?= $SemesterID=$row['Semester'];?></td>
+                        <td><?=$examination=$row['Examination'];?></td>
                         <td><?=$row['Sgpa']?></td>
                         <td><?= $totalcredit= $row['TotalCredit'];?></td>
                         <td><?=$row['Type'];?></td>
@@ -36990,6 +36998,9 @@ $sgpan='';
                // $UniRollNo= $row1['Subject'];
                // $Type= $row1['Type'];
              ?>
+
+
+
 
                             <tr>
                                 <td><?=$row1['Id'];?></td>
@@ -37142,13 +37153,11 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
         }
         $mst2= 0;
         $grace=0;
-        
         $gardep=0;
         $grade=0;
         $totalFinal=0;
         $showmarks=0;
         
-   
       } 
       else{
         $CE1=0;
@@ -37158,7 +37167,6 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
         $ESe=0;
         $mst2= 0;
         $grace=0;
-        
         $gardep=0;
         $grade=0;
         $totalFinal=0;
@@ -37279,17 +37287,31 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
                                 <td>
                                 <td> SGPA : <?=$sgpan;?></td>
                                 <td colspan="2">
-                                    <?php  
-     if($buttoncount>0){?>
-     <button class="btn btn-warning">Update End Semester Marks</button><?php } else{?><button
-                                        class="btn btn-primary"
-                                        onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify
+                                    
+
+
+<?php 
+$DeclareType='';
+$MinDeclareType='';
+ $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$SemesterID'and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$examination' and Batch='$Batch' and Type='$Type' GROUP BY ResultStatus ORDER BY ResultStatus ";
+
+
+                    $resultgetColor = sqlsrv_query($conntest,$getColor);
+                    if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
+                    {
+                       $DeclareType=$rowresultgetColor['MaxDeclareType'];
+                       $MinDeclareType=$rowresultgetColor['MinDeclareType'];
+                       $ResultStatus=$rowresultgetColor['MaxDeclareType'];
+
+                    }?>
+                         <?php  
+     if($DeclareType>0){} else
+     {?><button class="btn btn-primary"
+        onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify
                                         Result</button> <?php }?> </td>
                             </tr>
                             <?php
-
-
-}
+                        }
 
 
   elseif($code==453)
@@ -37304,8 +37326,7 @@ $group=$_POST['group'];
 $subCodesArray=$_POST['subCodesArray'];
     foreach ($subCodesArray as $key => $value)
     {
-          $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE  ID='$value'
-        group by CE1,CE2,CE3,Attendance  ";
+        echo   $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE  ID='$value'        group by CE1,CE2,CE3,Attendance  ";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -37520,7 +37541,7 @@ elseif($code==455)
                       
   }
 
- $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
+ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -37547,7 +37568,7 @@ elseif($code==455)
                 }
                 else
                 {
-                    $gradevalueold=0; 
+                 $gradevalueold=0; 
                 }
                          
               }
