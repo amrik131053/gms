@@ -67,6 +67,20 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="leaveModal" tabindex="-1" aria-labelledby="leaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leaveModalLabel">Leave Attachment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center" id="leaveFileContainer">
+                <!-- File content (Image or PDF) will be inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <p id="ajax-loader"></p>
    <script type="text/javascript">
@@ -289,6 +303,11 @@ function cocessionSubmit(form) {
              {
               ErrorToast("you can't apply back date leave.",'bg-warning');
             }
+            else if (response == 8) {
+                    ErrorToast('size must be less than 500kb', 'bg-warning');
+                } else if (response == 7) {
+                    ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                } 
              else
               {
                 ErrorToast('Please try after sometime.','bg-danger');
@@ -712,6 +731,22 @@ var spinner=document.getElementById('ajax-loader');
       }
       }
 
+      function viewLeaveFileHRside(path) {
+    
+    var extension = path.split('.').pop().toLowerCase();
+
+    if (extension === "pdf") {
+        document.getElementById("leaveFileContainer").innerHTML =
+            `<iframe src="http://erp.gku.ac.in:86//Images/Staff/LeaveFileAttachment/${path}" width="100%" height="500px"></iframe>`;
+    } else {
+
+        document.getElementById("leaveFileContainer").innerHTML =
+            `<img src="http://erp.gku.ac.in:86//Images/Staff/LeaveFileAttachment/${path}" class="img-fluid" alt="Leave File" style="max-height: 500px;">`;
+    }
+
+    var myModal = new bootstrap.Modal(document.getElementById("leaveModal"));
+    myModal.show();
+}
 
       function showEmpReport()
                                {

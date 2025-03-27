@@ -70,7 +70,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
        include "connection/connection_web.php"; 
        
       }
-     if($code==272 || $code==276)
+     if($code==272 || $code==276 || $code=='339')
      {
         include "connection/ftp-erp.php";
       }
@@ -22787,7 +22787,10 @@ else{
    {
       echo "Already Added: ".$balnceAdded;
    }
-      
+      if($printleave!='')
+      {
+         ?><i class='fa fa-eye' onclick="viewLeaveFileHRside('<?=$FilePathLeave;?>')"></i><?php
+      }
       ?>
 </b>
 </td>
@@ -22901,11 +22904,11 @@ elseif($code=='336')
 
 </div>
 <br>
-<form action="action.php" method="post" >
+<form action="action.php" method="post">
 <div class="row">
     
 
-    <div class="col-lg-3">
+    <div class="col-lg-2">
        <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
 
     <input type="text" name="EmpID"  value="" onblur="empdatashow(this.value)"  class="form-control">
@@ -22915,7 +22918,7 @@ elseif($code=='336')
 
 </div>
 
-  <div class="col-lg-3">
+  <div class="col-lg-2">
      <label>Leave Duration<span class="text-danger">&nbsp;*</span></label>
  <select class="form-control" name="leaveShort" id="leaveShort">
                         <option value="">Leave Duration</option>
@@ -22926,7 +22929,7 @@ elseif($code=='336')
                         
                     </select>
 </div>
-               <div class="col-lg-3">
+               <div class="col-lg-1">
                <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
     
@@ -22946,16 +22949,19 @@ elseif($code=='336')
                 </div>
               
                
-               <div class="col-lg-3" id="SingleDate">
+               <div class="col-lg-2" id="SingleDate">
                <label>Date<span class="text-danger">&nbsp;*</span></label>
                    <input type="date" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d');?>" >
                 </div>
               
-              
+                <div class="col-lg-2">
+     <label>Attachment<span class="text-danger">&nbsp;*</span></label>
+ <input type="file" class="form-control" name="file_attachment">
+</div> 
             
                
                <div class="col-lg-3">
-             <br>
+               <label>&nbsp;<span class="text-danger">&nbsp;</span></label><br>
                <input type="button" onclick="cocessionSubmit(this.form);" name="leaveButtonSubmit" class="btn btn-success" value="Submit">
                 </div>
 </div>
@@ -23015,7 +23021,7 @@ elseif($code=='336')
             
                
                <div class="col-lg-3">
-             <br>
+               <label><span class="text-danger">&nbsp;</span></label> <br>
                <input type="button" onclick="cocessionvacaSubmit(this.form);" name="leaveButtoncSubmit" class="btn btn-success" value="Submit">
                 </div>
 </div>
@@ -23129,17 +23135,13 @@ $EmpID=$_POST['EmpID'];
 $LeaveType=$_POST['LeaveType'];
 $leaveStartDate=$_POST['leaveDate'];
 $leaveShort=$_POST['leaveShort'];
- 
-
 if($leaveShort==1){
-
    $LeaveDurationsTime='0';
 }
 else
 {
    $LeaveDurationsTime=$leaveShort;
 }
-
  $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and LeaveTypeId='$LeaveType' and Status!='Approved' and Status!='Reject'";
 $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                     $leaveexistCount=sqlsrv_num_rows($countX);
@@ -23150,9 +23152,43 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                     else
                     {
 
-               
-  $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy)
- VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department(Miss Punch Update)','1','$LeaveDurationsTime','0','0','0','Approved','$EmployeeID')";
+                     function getFileExtension($file_name) {
+                        return strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+                     }
+                     $string = bin2hex(openssl_random_pseudo_bytes(4));
+                     $file_name = $_FILES['file_attachment']['name'];
+                      $file_tmp = $_FILES['file_attachment']['tmp_name'];
+                     $file_size = $_FILES['file_attachment']['size'];
+                     $file_extension = getFileExtension($file_name);
+                     $max_file_size = 500 * 1024; 
+                     $flagSuccess1=0;
+                     $flagSuccess=0;
+                     if ($file_size > $max_file_size) {
+                        echo "8";
+                     }
+                     else{
+                        $flagSuccess1=1;
+                     }
+                     $allowed_extensions = array('jpg', 'jpeg', 'png', 'pdf');
+                     
+                     if (!in_array($file_extension, $allowed_extensions)) {
+                        echo "7";
+                     }
+                     else{
+                        $flagSuccess=1;
+                     }
+                     if($flagSuccess1==1 && $flagSuccess==1)
+                     {
+                        $ApplyDate=date('Y-m-d');
+                      $file_name = $EmpID."_byHR_".$ApplyDate."_".$string."_".basename($_FILES['file_attachment']['name']);
+                       $target_dir = $file_name;
+                         $destdir = 'LeaveFileAttachment';
+                         ftp_chdir($conn_id, "Images/Staff/LeaveFileAttachment/") or die("Could not change directory");
+                         ftp_pasv($conn_id,true);
+                     ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
+                           
+  $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy,FilePath)
+ VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department(Miss Punch Update)','1','$LeaveDurationsTime','0','0','0','Approved','$EmployeeID','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
@@ -23162,9 +23198,11 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                 {
                     echo "0";
                 }
+               }
               
                 
 }
+ftp_close($conn_id);
 sqlsrv_close($conntest);
  }
 elseif ($code==340)
