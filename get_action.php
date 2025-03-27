@@ -8180,7 +8180,8 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
       }
       else if ($code == 74) {
          $id = $_GET['id'];
-         $sql_att23="SELECT * FROM ApplyLeaveGKU  WHERE  Id='$id'"; 
+         $eid = $_GET['eid'];
+          $sql_att23="SELECT * FROM ApplyLeaveGKU  WHERE  Id='$id' and StaffId='$eid'"; 
          $res = sqlsrv_query($conntest, $sql_att23);
          while ($data = sqlsrv_fetch_array($res)) { 
             $LeaveID=$data['Id'];

@@ -22791,14 +22791,12 @@ else{
       {
          ?>
          
-        
-         <input type="button" data-toggle="modal"
-                                        onclick="viewLeaveFileHRside(<?=$LeaveID;?>);" data-target="#leaveModal"
-                                        class="btn btn-primary" value="View">
-         <!-- <a href='<?=$BasURL;?>/Images/Staff/LeaveFileAttachment/<?=$FilePathLeave;?>'
-                                target='_blank' class="nav-link leaveViewColor">
-                                <b><?=$printleave;?> View File</b> &nbsp;&nbsp;&nbsp;<i
-                                    class="fa fa-eye fa-lg text-success"></i> -->
+         <i class="fa fa-eye" data-toggle="modal"
+                                        onclick="viewLeaveFileHRside('<?=$LeaveID;?>','<?=$IDNo;?>');" data-target="#leaveModal"
+                                        class="btn btn-primary"></i>
+
+   
+         
         <?php
       }
       ?>
@@ -23200,6 +23198,12 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
   $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,CreatedBy,FilePath)
  VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department(Miss Punch Update)','1','$LeaveDurationsTime','0','0','0','Approved','$EmployeeID','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
+  $escapedQuery1 = str_replace("'", "''", $InsertLeave);
+    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                VALUES('$EmpID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
+  
                 if($InsertLeaveRun==true)
                 {
                     echo "1";

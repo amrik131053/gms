@@ -16973,6 +16973,11 @@ elseif($code==221)
    
     $insertHoliday="DELETE FROM ApplyLeaveGKU  WHERE Id='$id' and StaffId='$EmployeeID'";
     $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
+
+    $escapedQuery1 = str_replace("'", "''", $insertHoliday);
+    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                VALUES('$EmployeeID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
     if($insertHolidayRun==true)
       {
         echo "1";
@@ -17486,6 +17491,12 @@ ftp_close($conn_id);
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
+  $escapedQuery1 = str_replace("'", "''", $InsertLeave);
+  $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+              VALUES('$EmpID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+               sqlsrv_query($conntest,$update1);
+               
   if($InsertLeaveRun==true)
   {
       echo "1";
@@ -17507,6 +17518,13 @@ else{
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
+
+  $escapedQuery1 = str_replace("'", "''", $InsertLeave);
+    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                VALUES('$EmpID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
+
 
 
 if($LeaveType<3 || $LeaveType==26){
