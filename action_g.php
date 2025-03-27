@@ -22008,6 +22008,10 @@ sqlsrv_close($conntest);
 
 elseif($code==270)  // search student 
 {
+    $RefConsultantNo="";
+    $RefConsultantNoStaff="";
+    $RefConsultantNo = $_POST['RefConsultantNo'];
+    $RefConsultantNoStaff = $_POST['RefConsultantNoStaff'];
     $StudentName = $_POST['StudentName'];
     $Session = $_POST['Session'];
     $CollegeID = $_POST['CollegeName'];
@@ -22046,31 +22050,44 @@ elseif($code==270)  // search student
     <tbody>
         <?php 
       $sr=1;
+$IDNos=[];
+$IDNos1=[];
 
-   // $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo=$EmployeeID";
+    if($RefConsultantNo!='')
+    {
+        $getData=" SELECT * from MasterConsultantRef where RefIDNo='$RefConsultantNo' and Type!='Staff'";
+        $resultgetData = sqlsrv_query($conntest,$getData);
+       while($rowresultgetData = sqlsrv_fetch_array($resultgetData, SQLSRV_FETCH_ASSOC) )
+       {
+        $IDNos[]=$rowresultgetData['StudentIDNo'];
+       }
+    }
+    if($RefConsultantNoStaff!='')
+    {
+          $getData1=" SELECT * from MasterConsultantRef where RefIDNo='$RefConsultantNoStaff' and Type='Staff'";
+        $resultgetData1 = sqlsrv_query($conntest,$getData1);
+       while($rowresultgetData1 = sqlsrv_fetch_array($resultgetData1, SQLSRV_FETCH_ASSOC) )
+       {
+        $IDNos1[]=$rowresultgetData1['StudentIDNo'];
+       }
+    }
 
-    //   $query = "SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CollegeID = UserAccessLevel.CollegeID   WHERE 1 = 1";
-      $query = "SELECT  *  from Admissions  WHERE 1 = 1";
-
+    $query = "SELECT  *  from Admissions  WHERE 1 = 1";
       if ($CollegeID != '') {
           $query .= " AND  CollegeID='$CollegeID'";
       }
-      
       if ($CourseID != '') {
           $query .= " AND  CourseID ='$CourseID'";
       }
-      
       if ($Batch != '') {
           $query .= " AND  Batch='$Batch'";
       }
-      
       if ($Status != '') {
           $query .= " AND  Status='$Status'";
       }
       if ($admissiontype != '') {
           $query .= " AND  AdmissionType='$admissiontype'";
       }
-      
       if ($Session != '') {
           $query .= " AND  Session='$Session'";
       }
@@ -22080,16 +22097,20 @@ elseif($code==270)  // search student
       if ($StudentName != '') {
         $query .= " AND  StudentName like '%$StudentName%'";
     }
-    // if ($StudentName != '') {
-    // $query .= "AND UserAccessLevel.IDNo='$EmployeeID'";
-
-    // }
-    if ($LateralEntry != '') {
-    $query .= "AND  LateralEntry='$LateralEntry' order by ClassRollNo";
+    if ($RefConsultantNo!='') {
+        $IDNosString = implode("','", $IDNos); 
+        $query .= " AND IDNo IN ('$IDNosString')";
     }
+    if ($RefConsultantNoStaff!='') {
+        $IDNosString1 = implode("','", $IDNos1); 
+        $query .= " AND IDNo IN ('$IDNosString1')";
+    }
+    if ($LateralEntry != '') {
+    $query .= "AND  LateralEntry='$LateralEntry'";
+}
+$query .= " order by ClassRollNo";
 
-
-      $query;
+// echo $query;
 
 
        $result = sqlsrv_query($conntest,$query);

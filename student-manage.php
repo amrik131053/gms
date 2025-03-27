@@ -273,21 +273,8 @@ function updateGroup(student_id) {
 
 function searchStudentCollegeWise() {
     var Session = document.getElementById('session1').value;
-    // var session2 = document.getElementById('session2').value;
-    // var session3 = document.getElementById('session3').value;
-    // if (session1 != '' && session2 != '' && session3!='') {
-
-
-    //     var Session = session1 + '-' + session2 + '-' + session3;
-    // } 
-    //     else if(session1 != '' && session2 != '')
-    //     {
-    //  var Session = session1 + '-' + session2 ;
-    //     }
-    // else
-    //      {
-    //         var Session = "";
-    //     }
+    var RefConsultantNo = document.getElementById('RefConsultantNo') ? document.getElementById('RefConsultantNo').value : '';
+    var RefConsultantNoStaff = document.getElementById('RefConsultantNoStaff') ? document.getElementById('RefConsultantNoStaff').value : '';
     var StudentName = document.getElementById('StudentName1').value;
     var CollegeName = document.getElementById('CollegeName1').value;
     var Course = document.getElementById('Course1').value;
@@ -296,7 +283,7 @@ function searchStudentCollegeWise() {
     var Eligibility = document.getElementById('Eligibility').value;
     var admissiontype = document.getElementById('admissiontype').value;
     var Lateral = document.getElementById('Lateral').value;
-    if (CollegeName != '') {
+    if (CollegeName != ''  ||  RefConsultantNo!='' || RefConsultantNoStaff!='') {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 270;
@@ -312,10 +299,12 @@ function searchStudentCollegeWise() {
                 Eligibility: Eligibility,
                 LateralEntry: Lateral,
                 StudentName: StudentName,
+                RefConsultantNo: RefConsultantNo,
+                RefConsultantNoStaff: RefConsultantNoStaff,
                 Status: Status,admissiontype:admissiontype
             },
             success: function(response) {
-                //console.log(response);
+                // console.log(response);
                 spinner.style.display = 'none';
                 document.getElementById("show_record1").innerHTML = response;
                 document.getElementById('show_record').innerHTML = "";
@@ -987,6 +976,36 @@ function exportLockedBasicExcel() {
         alert("Select ");
     }
 }
+function exportAllSearchRecord() {
+    var exportCode = 39.1;
+    var Session = document.getElementById('session1').value;
+    var RefConsultantNo = document.getElementById('RefConsultantNo') ? document.getElementById('RefConsultantNo').value : '';
+    var RefConsultantNoStaff = document.getElementById('RefConsultantNoStaff') ? document.getElementById('RefConsultantNoStaff').value : '';
+    var StudentName = document.getElementById('StudentName1').value;
+    var CollegeName = document.getElementById('CollegeName1').value;
+    var Course = document.getElementById('Course1').value;
+    var Batch = document.getElementById('Batch').value;
+    var Status = document.getElementById('Status').value;
+    var Eligibility = document.getElementById('Eligibility').value;
+    var admissiontype = document.getElementById('admissiontype').value;
+    var Lateral = document.getElementById('Lateral').value;
+    if (CollegeName != ''  ||  RefConsultantNo!='' || RefConsultantNoStaff!='') {
+        window.open("export.php?exportCode=" + 
+        exportCode +"&RefConsultantNoStaff="+RefConsultantNoStaff+
+                    "&RefConsultantNo="+RefConsultantNo+
+                    "&StudentName="+StudentName+
+                    "&CollegeName="+CollegeName+
+                    "&Course1="+Course+
+                    "&Batch="+Batch+
+                    "&session1="+Session+
+                    "&Status="+Status+
+                    "&Eligibility="+Eligibility+
+                    "&Lateral="+Lateral+
+                    "&admissiontype="+admissiontype, '_blank');
+    } else {
+        alert("Select ");
+    }
+}
 
 function export_daily_data(CollegeID,CourseID) {
     var exportCode = 73;
@@ -1119,9 +1138,9 @@ function copyToClipboard(text) {
                     </div>
                 </div>
                 <div class="card-body p-2">
-                    <form action="export.php" method="post">
-                        <input type="hidden" value="39" name="exportCode">
-                        <input type="hidden" value="<?=$role_id;?>" name="role_id">
+                    <!-- <form action="export.php" method="post">
+                        <input type="hidden" value="39" name="exportCode"> -->
+                        <input type="hidden" value="<?=$role_id;?>" id="role_id">
                         <div class="col-lg-12" id="unhide" style="display:none;">
                             <label>Name</label>
                             <input type="text" class="form-control" name="StudentName1" id="StudentName1"
@@ -1198,6 +1217,7 @@ function copyToClipboard(text) {
 
                                     <select id="Lateral" name="Lateral" class="form-control">
 
+                                        <option value=''>Select </option>
                                         <option value='No'>No </option>
                                         <option value='Yes'>Yes </option>
 
@@ -1236,7 +1256,7 @@ function copyToClipboard(text) {
                            <div class="col-lg-12 col-12">
                             <div class="form-group">
                                 <label>Admission Type </label>
-                                <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                               
                                 <select class="form-control" id="admissiontype" name="admissiontype">
 
                                    <option value="">Normal</option>
@@ -1249,6 +1269,66 @@ function copyToClipboard(text) {
 
                             </div>
                         </div>
+
+                           <!-- <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                                <label>Reference </label>
+                                <select class="form-control" id="RefConsultantNo" name="RefConsultantNo">
+                                   <option value="">Select</option>
+                                   <?php         
+                        $sqlCounsultnt="SELECT DISTINCT MasterConsultant.Name,MasterConsultant.ID from MasterConsultant inner join MasterConsultantRef ON MasterConsultant.ID=MasterConsultantRef.RefIDNo Where MasterConsultant.Status='1' 
+                        ORDER By MasterConsultant.Name Desc";
+                    $stmt2sqlCounsultnt = sqlsrv_query($conntest,$sqlCounsultnt);
+                    while($rowCounsultant = sqlsrv_fetch_array($stmt2sqlCounsultnt, SQLSRV_FETCH_ASSOC))
+                     {   
+                       $Name = $rowCounsultant['Name']; 
+                       $ID = $rowCounsultant['ID']; 
+                       ?>
+                         <option value="<?=$ID;?>"><?=$Name;?></option>
+                        <?php }
+                       ?>
+
+
+                                </select>
+                            </div>
+                        </div> -->
+                        <?php if($role_id==2 || $role_id==21 )
+                                            {?>
+                        <div class="col-lg-12 col-12">
+    <div class="form-group">
+        <label>Type</label><br>
+        <input type="radio" name="refType" id="staffRadio" value="staff" onclick="toggleRefInput('S');"> Staff
+        <input type="radio" name="refType" id="consultantRadio" value="consultant" onclick="toggleRefInput('C');" checked> Consultant
+    </div>
+
+    <div class="form-group" id="staffInputDiv" style="display: none;">
+        <label>Staff Reference</label>
+        <input type="text" class="form-control" id="RefConsultantNoStaff" name="RefConsultantNoStaff">
+    </div>
+
+    <div class="form-group" id="consultantDropdownDiv">
+        <label>Consultant Reference</label>
+        <select class="form-control" id="RefConsultantNo" name="RefConsultantNo">
+            <option value="">Select</option>
+            <?php         
+                $sqlConsultant = "SELECT DISTINCT MasterConsultant.Name, MasterConsultant.ID 
+                                  FROM MasterConsultant 
+                                  INNER JOIN MasterConsultantRef ON MasterConsultant.ID = MasterConsultantRef.RefIDNo 
+                                  WHERE MasterConsultant.Status = '1' 
+                                  ORDER BY MasterConsultant.Name DESC";
+
+                $stmt2sqlConsultant = sqlsrv_query($conntest, $sqlConsultant);
+                while ($rowConsultant = sqlsrv_fetch_array($stmt2sqlConsultant, SQLSRV_FETCH_ASSOC)) {   
+                    $Name = $rowConsultant['Name']; 
+                    $ID = $rowConsultant['ID']; 
+            ?>
+                <option value="<?=$ID;?>"><?=$Name;?></option>
+            <?php } ?>
+        </select>
+    </div>
+</div>
+<?php }?>
+
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
                                 <br>
@@ -1256,7 +1336,7 @@ function copyToClipboard(text) {
                                     onclick="searchStudentCollegeWise();">Search</button>
 
 
-                                <button type="submit" class="btn btn-success  float-right">
+                                <button type="button" onclick="exportAllSearchRecord()"  class="btn btn-success  float-right">
 
                                     <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i>
 
@@ -1275,7 +1355,7 @@ function copyToClipboard(text) {
                                 <?php }?>
                             </div>
                         </div>
-                    </form>
+                    
 
                 </div>
                 <!-- /.card-body -->
@@ -1378,3 +1458,25 @@ else
 
 <!-- Modal -->
 <?php include "footer.php"; ?>
+
+
+<script>
+
+    function toggleRefInput(val) {
+            if(val=='C')
+            {
+                document.getElementById('RefConsultantNoStaff').value="";
+            }
+            else{
+                document.getElementById('RefConsultantNo').value="";     
+            }
+        let isStaff = document.getElementById('staffRadio').checked;
+        document.getElementById('staffInputDiv').style.display = isStaff ? 'block' : 'none';
+        document.getElementById('consultantDropdownDiv').style.display = isStaff ? 'none' : 'block';
+    }
+
+    // Ensure correct display on page load
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     toggleRefInput();
+    // });
+</script>

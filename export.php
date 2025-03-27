@@ -4769,6 +4769,301 @@ $SrNo++;
     echo $exportstudy;
     $fileName="Student Report ";
 }
+else if($exportCode==39.1)
+{
+    
+    $CollegeName="";
+    $CourseName="";
+    $RefConsultantNoStaff = isset($_GET['RefConsultantNoStaff']) ? $_GET['RefConsultantNoStaff'] : '';
+    $RefConsultantNo = isset($_GET['RefConsultantNo']) ? $_GET['RefConsultantNo'] : '';
+    $IDNos = [];
+    $IDNos1 = [];
+    if ($RefConsultantNo !== '') {
+        $getData = "SELECT * FROM MasterConsultantRef WHERE RefIDNo = '$RefConsultantNo' AND Type != 'Staff'";
+        $resultgetData = sqlsrv_query($conntest, $getData);
+        while ($rowresultgetData = sqlsrv_fetch_array($resultgetData, SQLSRV_FETCH_ASSOC)) {
+            $IDNos[] = $rowresultgetData['StudentIDNo'];
+        }
+    }
+
+    if ($RefConsultantNoStaff !== '') {
+        $getData1 = "SELECT * FROM MasterConsultantRef WHERE RefIDNo = '$RefConsultantNoStaff' AND Type = 'Staff'";
+        $resultgetData1 = sqlsrv_query($conntest, $getData1);
+        while ($rowresultgetData1 = sqlsrv_fetch_array($resultgetData1, SQLSRV_FETCH_ASSOC)) {
+            $IDNos1[] = $rowresultgetData1['StudentIDNo'];
+        }
+    }
+    $CollegeID = $_GET['CollegeName'] ?? '';
+    $CourseID = $_GET['Course1'] ?? '';
+    $Batch = $_GET['Batch'] ?? '';
+    $Session = $_GET['session1'] ?? '';
+    $Status = $_GET['Status'] ?? '';
+    $Eligibility = $_GET['Eligibility'] ?? '';
+    $LateralEntry = $_GET['Lateral'] ?? '';
+    $admissiontype = $_GET['admissiontype'] ?? '';
+    
+
+   if($CourseID!='')
+   {
+    $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ANd CourseID='$CourseID' ";
+   }
+   else{
+    $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ";
+   
+   }
+    $list_cllegename = sqlsrv_query($conntest,$collegename);
+                      
+                  
+                    if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+                       {
+     
+                       // print_r($row);
+                    $CollegeName=$row_college['CollegeName'] ;
+                    if($CourseID!='')
+                    {
+                    $CourseName=$row_college['Course'] ;
+                    }
+                    else{
+                        $CourseName="All" ;
+
+                    }
+                    
+            }
+$SrNo=1;
+$subCount=28;
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<thead>  
+<tr>
+";
+
+$exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
+</tr><tr>";
+$exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&nbsp;&nbsp;".$Batch."</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style='text-align:center;'>  Course:&nbsp;&nbsp;".$CourseName."</b></th>        
+</tr>
+          
+    <tr style='background-color:black; color:white;'>
+    <th>SrNo</th>
+    <th>IDNo </th>
+    <th>ClassRoll No </th>
+    <th>UniRoll No </th>
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Mother Name </th>
+    <th>DOB </th>
+    <th>Mobile No </th>
+
+    <th>Aadhar Card No </th>
+    <th>Category </th>
+    <th>Religion </th>
+     <th>Gender</th>
+    <th>EmailID </th>
+    <th>College </th>
+    <th>Course </th>
+    <th>Batch </th>
+    <th>Eligible </th>
+    <th>Country </th>
+    <th>State </th>
+    <th>District </th>
+    <th>Nationality </th>
+     <th>ABC ID </th>
+      <th>OTR</th>
+    <th>Remarks </th>
+    <th>Status</th>
+    <th>Locked</th>
+    <th>Comments</th>
+
+    </tr>
+        </thead>";
+
+
+        $SrNo=1;
+        $query = "SELECT * FROM Admissions WHERE 1 = 1";
+  
+        if ($CollegeID != '') {
+            $query .= " AND CollegeID='$CollegeID'";
+        }
+        
+        if ($CourseID != '') {
+            $query .= " AND CourseID ='$CourseID'";
+        }
+        
+        if ($Batch != '') {
+            $query .= " AND Batch='$Batch'";
+        }
+        
+        if ($Status != '') {
+            $query .= " AND Status='$Status'";
+        }
+        
+        if ($Session != '') {
+            $query .= " AND Session='$Session'";
+        }
+        if ($Eligibility != '') {
+            $query .= " AND Eligibility='$Eligibility'";
+        }
+        if ($LateralEntry != '') {
+            $query .= " AND LateralEntry='$LateralEntry'";
+        }
+        if ($RefConsultantNo!='') {
+            $IDNosString = implode("','", $IDNos); 
+            $query .= " AND IDNo IN ('$IDNosString')";
+        }
+        if ($RefConsultantNoStaff!='') {
+            $IDNosString1 = implode("','", $IDNos1); 
+            $query .= " AND IDNo IN ('$IDNosString1')";
+        }
+          if ($admissiontype != '') {
+            $query .= " AND AdmissionType='$admissiontype'  Order By ClassRollNo ";
+        }
+
+       
+         $result = sqlsrv_query($conntest,$query);
+         while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo=$row['IDNo'];
+            $ClassRollNo=$row['ClassRollNo'];
+            $UniRollNo=$row['UniRollNo'];
+            $StudentName=$row['StudentName'];
+            $FatherName=$row['FatherName'];
+            $MotherName=$row['MotherName'];
+            $StudentMobileNo=$row['StudentMobileNo'];
+            $AdharCardNo=$row['AadhaarNo'];
+            $EmailID=$row['EmailID'];
+            $CollegeName=$row['CollegeName'];
+            $Course=$row['Course'];
+            $Batch=$row['Batch'];
+            $Ereason=$row['EligibilityReason'];
+            $CommentsDetail=$row['CommentsDetail'];
+            $Country=$row['country'];
+            $State=$row['State'];
+             $OTR=$row['OTR'];
+$ABCID=$row['ABCID'];
+
+if($row['DOB']!='')
+{
+   $DOB=$row['DOB']->format('d-m-Y');
+}
+else
+{
+    $DOB='';
+}
+
+            $StatusType=$row['StatusType'];
+            $District=$row['District'];
+            $Nationality=$row['Nationality'];
+            $Refrence=$row['FeeWaiverScheme'];
+            $Category=$row['Category'];
+            $Religion=$row['Religion'];
+            $gender=$row['Sex'];
+             $locked=$row['Locked'];
+            if($StatusType>0)
+            {
+                $StatusType='Provisional';
+
+            }
+            else
+            {
+                $StatusType='';
+
+            }
+
+
+ if($locked>0)
+            {
+                $lockedtype='Yes';
+
+            }
+            else
+            {
+                $lockedtype='No';
+
+            }
+
+
+            if($row['EligibilityReason']!='' && $row['Eligibility']==1)
+            {
+
+                $Eligibility="Provisional Eligible";
+                $clr="blue";
+            }
+            else if($row['Eligibility']==1)
+            {
+
+                $Eligibility="Eligible";
+                $clr="green";
+            }
+            else{
+                $Eligibility="Not Eligible";
+                $clr="yellow";
+                
+            }
+
+
+            if($row['Status']==1)
+            {
+
+                $status=$StatusType." Active";
+
+                $clr1="green";
+            }
+            else
+            {
+                $status=$StatusType." Left";
+                $clr1="red";
+            }
+
+            if($role_id==22)
+            {
+                $CommentsDetail=$CommentsDetail;
+            }
+
+            else{
+                $CommentsDetail="";
+            }
+
+         
+         $exportstudy.="<tr>
+
+         <td>{$SrNo}</td>
+         <td>{$IDNo}</td>
+         <td>{$ClassRollNo}</td>
+         <td>{$UniRollNo}</td>
+         <td>{$StudentName}</td>
+         <td>{$FatherName}</td>
+         <td>{$MotherName}</td>
+         <td>{$DOB}</td>
+         <td>{$StudentMobileNo}</td>
+         <td>{$AdharCardNo}</td>
+         <td>{$Category}</td>
+          <td>{$Religion}</td>
+           <td>{$gender}</td>
+         <td>{$EmailID}</td>
+         <td>{$CollegeName}</td>
+         <td>{$Course}</td>
+         <td>{$Batch}</td>
+         <td style='background-color:".$clr.";'>{$Eligibility}</td>     
+         <td>{$Country}</td>     
+         <td>{$State}</td>     
+         <td>{$District}</td>     
+         <td>{$Nationality}</td>
+          <td>{$OTR}</td>    
+         <td>{$ABCID}</td>   
+         <td>{$Ereason}</td>     
+         <td style='background-color:".$clr1.";'>{$status}</td>     
+         
+         <td>{$lockedtype}</td>     
+         <td>{$CommentsDetail}</td>     
+     </tr>";
+
+
+$SrNo++;
+         }
+         
+
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Report ";
+}
 
 else if($exportCode==40)
 {
