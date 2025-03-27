@@ -532,10 +532,10 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                 </div>
                 <div class="card-body pt-0">
                   <div class="row">
-                    <div class="col-12">
-                      <h2 class="lead"><b>T -Theory  P- Practical   W -workshop/Training   S-Seminar</b></h2>
+                    <div class="col-12">     <hr>
+                      <h6  style="color: red;">(T)-Theory (P)- Practical  (W)-Workshop/Training   (S)-Seminar</h6>
                     
-                       
+                       <hr>
 
 <?php   $sql = "SELECT  Distinct Course,sa.Batch,SemesterID,sa.SubjectCode ,AcademicType FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE sa.EmployeeID='$EmployeeID' AND Examination='$CurrentExamination'";
