@@ -33001,6 +33001,7 @@ elseif ($code=='417') {
 elseif($code=='418')
 {
 $UniRollNo=$_POST['rollNo'];
+$permisisonstatus=$_POST['permisisonstatus'];
 $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM Admissions  Where (ClassRollNo='$UniRollNo' or UniRollNo='$UniRollNo' or IDNo='$UniRollNo')";
                          $get_student_details_run=sqlsrv_query($conntest,$query);
                          if($row_student=sqlsrv_fetch_array($get_student_details_run))
@@ -33009,9 +33010,16 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                     <div class="row">
                         <table class="table" style='font-size:12px;'>
 
-                            <?php //WHERE Validupto >= '$dateToday'
+                            <?php //WHERE 
       $dateToday = date('Y-m-d');
-      $query1 = "SELECT id,SemId, ExamType, Month, Year, Validupto FROM ExamPermission    where  IDNo = '".$row_student['IDNo']."'";
+      $query1 = "SELECT id,SemId, ExamType, Month, Year, Validupto FROM ExamPermission    where 1=1 "; 
+       if($permisisonstatus!='')
+       {
+   $query1.= "AND Validupto >= '$dateToday'";
+       }
+      $query1.="AND  IDNo = '".$row_student['IDNo']."'";
+
+
       $query111=sqlsrv_query($conntest,$query1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $countIF=sqlsrv_num_rows($query111);
       if($countIF>0)
@@ -33022,22 +33030,36 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                                 <th>Type</th>
                                 <th>Examination</th>
                                 <th>End Date</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr><?php 
       }
                                     
                                      while($rowAleady=sqlsrv_fetch_array($query111))
                                      {
+                                      
+                                       if($rowAleady['Validupto']->format('Y-m-d')>date('Y-m-d'))
+                                       {
+                                        $color='#3CB371';
+                                       }
+                                       else
+                                       {
+                                         $color='#E9967A';
+                                       }
+
+
                                         ?>
-                            <tr>
+                            <tr  style="background-color: <?=$color;?>" >
                                 <td><?=$rowAleady['SemId'];?></td>
                                 <td><?=$rowAleady['ExamType'];?></td>
                                 <td><?=$rowAleady['Month']." ".$rowAleady['Year'];?></td>
-                                <td><?=$rowAleady['Validupto']->format('d-m-Y');?></td>
+
+
+                                <td><input type="date" name="" value="<?= $rowAleady['Validupto']->format('Y-m-d');?>" onchange="updateperdate(<?=$rowAleady['id'];?>,this.value)">
+                            </td>
                                 <td>
 
-                                    <i class="fa fa-trash text-danger"
-                                        onclick="deleteSepecialPermissions(<?=$rowAleady['id'];?>)"></i>
+                                    <!-- <i class="fa fa-trash text-danger"
+                                        onclick="deleteSepecialPermissions(<?=$rowAleady['id'];?>)"></i> -->
 
                                     </td>
                             </tr>

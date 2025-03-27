@@ -243,6 +243,8 @@
 
                         <div class="btn-group w-100 mb-2">
                             <!-- <span style="float:right;"> -->
+                                <select class="form-control form-control-sm" id='permisisonstatus'><option value="">All</option>
+                                    <option value="1">Active</option></select>
 
                             <input type="text" class="form-control form-control-sm" placeholder="RollNo/IDNO"
                                 id="UniRollNo">
@@ -517,8 +519,35 @@ else{
 }
 }
 
+function updateperdate(id,vdate)
+{
+   
+
+  var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '30';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag:code,id:id,vdate:vdate
+        },
+        success: function(response) {
+          //  console.log(response);
+            spinner.style.display = 'none';
+            searchStduentForSepecial();
+            
+        }
+    });
+
+
+}
+
+
 function searchStduentForSepecial() {
     var uniRollNo = document.getElementById('UniRollNo').value;
+ var permisisonstatus = document.getElementById('permisisonstatus').value;
+
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code = '418';
@@ -527,7 +556,7 @@ function searchStduentForSepecial() {
         type: 'POST',
         data: {
             code: code,
-            rollNo: uniRollNo
+            rollNo: uniRollNo,permisisonstatus:permisisonstatus
         },
         success: function(response) {
             spinner.style.display = 'none';
@@ -609,7 +638,7 @@ function showPhD() {
     });
 }
 
-function updatePermissons(id, type) {
+function updatePermissons(id,type) {
     var MonthEdit = document.getElementById('MonthEdit').value;
     var YearEdit = document.getElementById('YearEdit').value;
     var Examination = MonthEdit + '' + YearEdit;
