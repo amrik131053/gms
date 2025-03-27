@@ -519,7 +519,7 @@ else{
 }
 }
 
-function updateperdate(id,vdate)
+function updateperdate(id,vdate,idno)
 {
    
 
@@ -530,10 +530,10 @@ function updateperdate(id,vdate)
         url: 'action_a.php',
         type: 'POST',
         data: {
-            flag:code,id:id,vdate:vdate
+            flag:code,id:id,vdate:vdate,idno:idno
         },
         success: function(response) {
-          //  console.log(response);
+           console.log(response);
             spinner.style.display = 'none';
             searchStduentForSepecial();
             

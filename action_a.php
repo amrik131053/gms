@@ -3364,8 +3364,18 @@ while($get_row=sqlsrv_fetch_array($getslist))
    { 
         $id=$_POST['id']; 
        $date4=$_POST['vdate']; 
+        $idno=$_POST['idno']; 
               $update_study="UPDATE  ExamPermission SET ValidUpTo='$date4' WHERE id='$id'";
                $update_study_run=sqlsrv_query($conntest,$update_study);  
+               
+
+               $desc= 'date changed exampermisison- '.$id;
+                $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
+
+        
+
+
          if ($update_study_run==true) 
          {
             echo "1";
