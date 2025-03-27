@@ -16973,6 +16973,11 @@ elseif($code==221)
    
     $insertHoliday="DELETE FROM ApplyLeaveGKU  WHERE Id='$id' and StaffId='$EmployeeID'";
     $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
+
+    $escapedQuery1 = str_replace("'", "''", $insertHoliday);
+    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                VALUES('$EmployeeID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
     if($insertHolidayRun==true)
       {
         echo "1";
@@ -17437,7 +17442,7 @@ else
 function getFileExtension($file_name) {
     return strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 }
- $string = bin2hex(openssl_random_pseudo_bytes(4));
+ $string = bin2hex(openssl_random_pseudo_bytes(10));
 $file_name = $_FILES['leaveFile']['name'];
 $file_tmp = $_FILES['leaveFile']['tmp_name'];
 $file_size = $_FILES['leaveFile']['size'];
@@ -17464,7 +17469,7 @@ else{
 }
 if($flagSuccess1==1 && $flagSuccess==1)
 {
-$file_name = $EmpID."_".$ApplyDate."_".$string."_".basename($_FILES['leaveFile']['name']);
+$file_name = $EmpID."_".$ApplyDate.'_'.$startTimeStamp."_".$string."_".basename($_FILES['leaveFile']['name']);
    $target_dir = $file_name;
      $destdir = 'LeaveFileAttachment';
      ftp_chdir($conn_id, "Images/Staff/LeaveFileAttachment/") or die("Could not change directory");
@@ -17486,6 +17491,12 @@ ftp_close($conn_id);
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
+  $escapedQuery1 = str_replace("'", "''", $InsertLeave);
+  $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+              VALUES('$EmpID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+               sqlsrv_query($conntest,$update1);
+               
   if($InsertLeaveRun==true)
   {
       echo "1";
@@ -17507,6 +17518,13 @@ else{
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name','$EmployeeID')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
+
+  $escapedQuery1 = str_replace("'", "''", $InsertLeave);
+    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                VALUES('$EmpID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
+
 
 
 if($LeaveType<3 || $LeaveType==26){

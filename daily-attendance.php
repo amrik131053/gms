@@ -731,21 +731,19 @@ var spinner=document.getElementById('ajax-loader');
       }
       }
 
-      function viewLeaveFileHRside(path) {
-    
-    var extension = path.split('.').pop().toLowerCase();
-
-    if (extension === "pdf") {
-        document.getElementById("leaveFileContainer").innerHTML =
-            `<iframe src="http://erp.gku.ac.in:86//Images/Staff/LeaveFileAttachment/${path}" width="100%" height="500px"></iframe>`;
-    } else {
-
-        document.getElementById("leaveFileContainer").innerHTML =
-            `<img src="http://erp.gku.ac.in:86//Images/Staff/LeaveFileAttachment/${path}" class="img-fluid" alt="Leave File" style="max-height: 500px;">`;
+function viewLeaveFileHRside(id,eid) {
+    var code = 74;
+    var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+         spinner.style.display='none';
+            document.getElementById("leaveFileContainer").innerHTML = xmlhttp.responseText;
+        }
     }
-
-    var myModal = new bootstrap.Modal(document.getElementById("leaveModal"));
-    myModal.show();
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code+ "&eid=" + eid, true);
+    xmlhttp.send();
 }
 
       function showEmpReport()
