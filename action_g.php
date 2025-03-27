@@ -9815,8 +9815,8 @@ mysqli_close($conn);
         if (mysqli_num_rows($result) > 0) {
             echo "3"; 
         } else {
-            $insert_consultant = "INSERT INTO MasterConsultant (Name, Mobile, Address, Organisation, Status) OUTPUT INSERTED.ID VALUES (?, ?, ?, ?, '1')";
-            $stmt1 = sqlsrv_prepare($conntest, $insert_consultant, [$name, $mobile, $address, $o]);
+            $insert_consultant = "INSERT INTO MasterConsultant (Name, Mobile, Address, Organisation, Status,Email) OUTPUT INSERTED.ID VALUES (?, ?, ?, ?, '1',?)";
+            $stmt1 = sqlsrv_prepare($conntest, $insert_consultant, [$name, $mobile, $address, $o,$email]);
             if (sqlsrv_execute($stmt1)) {
                 if ($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)) {
                     $masterConsultantId = $row['ID'];
@@ -32988,9 +32988,9 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                     <div class="row">
                         <table class="table" style='font-size:12px;'>
 
-                            <?php 
+                            <?php //WHERE Validupto >= '$dateToday'
       $dateToday = date('Y-m-d');
-      $query1 = "SELECT id,SemId, ExamType, Month, Year, Validupto FROM ExamPermission  WHERE Validupto >= '$dateToday'  AND IDNo = '".$row_student['IDNo']."'";
+      $query1 = "SELECT id,SemId, ExamType, Month, Year, Validupto FROM ExamPermission    where  IDNo = '".$row_student['IDNo']."'";
       $query111=sqlsrv_query($conntest,$query1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $countIF=sqlsrv_num_rows($query111);
       if($countIF>0)
@@ -33013,8 +33013,12 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                                 <td><?=$rowAleady['ExamType'];?></td>
                                 <td><?=$rowAleady['Month']." ".$rowAleady['Year'];?></td>
                                 <td><?=$rowAleady['Validupto']->format('d-m-Y');?></td>
-                                <td><i class="fa fa-trash text-danger"
-                                        onclick="deleteSepecialPermissions(<?=$rowAleady['id'];?>)"></i></td>
+                                <td>
+
+                                    <i class="fa fa-trash text-danger"
+                                        onclick="deleteSepecialPermissions(<?=$rowAleady['id'];?>)"></i>
+
+                                    </td>
                             </tr>
                             <?php 
                                      }

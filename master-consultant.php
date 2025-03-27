@@ -157,13 +157,14 @@ function consultantupdate()
         var consultant_o = document.getElementById("organisation-e").value;
         var consultant_id = document.getElementById("consultant_id").value;
            var status_e = document.getElementById("status-e").value;  
+            var email_e = document.getElementById("email-e").value;
 
     if (consultant_m!='' && consultant_a!=null && consultant_o!=null ) 
     {
 var code=26.7;
       $.ajax({
     url: 'action_a.php',
-    data: {consultant_m:consultant_m,consultant_a:consultant_a,consultant_o:consultant_o,flag:code,consultant_id:consultant_id,status_e:status_e},
+    data: {consultant_m:consultant_m,consultant_a:consultant_a,consultant_o:consultant_o,flag:code,consultant_id:consultant_id,status_e:status_e,email_e:email_e},
     type: 'POST',
     success: function(response)
      {

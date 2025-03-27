@@ -2543,14 +2543,16 @@ elseif($code==26.5)
 
     
 
-    ?> <table class="table table-head-fixed text-nowrap">
+    ?> <table class="table table-striped">
                         <thead>
                            <tr>
                               <th>#</th>
                               <th>Name</th>
                               <th>Mobile</th>
+                                <th>Email</th>
                               <th>Address</th>
                               <th>Organisation</th>
+                            
 
                               <th>Action</th>
                            </tr>
@@ -2579,8 +2581,9 @@ elseif($code==26.5)
 
                         ?>
 
-                     <tr style="background-color: <?=$color;?>"><td><?= $sr++;?></td><td><?=$row['Name'];?> <b>(<?=$row['ID'];?>)</b></td><td><?=$row['Mobile'];?></td><td><?=$row['Address'];?></td>
+                     <tr style="background-color: <?=$color;?>"><td><?= $sr++;?></td><td><?=$row['Name'];?> <b>(<?=$row['ID'];?>)</b></td><td><?=$row['Mobile'];?></td>  <td><?=$row['Email'];?></td><td><?=$row['Address'];?></td>
                         <td><?=$row['Organisation'];?></td>
+                       
                         <!-- <td><?php echo ($row['Status'] == 1) ? 'Active' : 'Inactive'; ?></td> -->
                         <td><i class="fa fa-edit" onclick="edit_consultant(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i></td>
                     </tr>
@@ -2601,7 +2604,7 @@ $get_consultant="SELECT * FROM MasterConsultant where  ID='$id'";
                      $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
                      while($row=sqlsrv_fetch_array($get_consultant_run))
                      {?>
-<div class="col-md-12    col-lg-12  col-sm-12   ">
+<div class="col-md-12    col-lg-12  col-sm-12">
             <div class="card card-info">
                
              
@@ -2625,7 +2628,8 @@ $get_consultant="SELECT * FROM MasterConsultant where  ID='$id'";
                     <label>Organisation</label>
                      <input type="text" class="form-control" id="organisation-e" value="<?=$row['Organisation'];?>">
                   </div>
-                  </div> <div class="col-lg-6">
+                  </div>
+                   <div class="form-group row">   <div class="col-lg-6">
                        <label>Status</label>
                     <select class="form-control" id="status-e">
                           <option value='<?=$row['Status'];?>'><?php echo ($row['Status'] == 1) ? 'Active' : 'Inactive'; ?></option>
@@ -2636,7 +2640,10 @@ $get_consultant="SELECT * FROM MasterConsultant where  ID='$id'";
                  
                      
                   </div>
-
+               <div class="col-lg-6">
+                    <label>Email</label>
+                     <input type="text" class="form-control" id="email-e" value="<?=$row['Email'];?>">
+                  </div>
 
                     
                </div>
@@ -2666,10 +2673,10 @@ elseif($code==26.7)
       $consultant_a=$_POST['consultant_a'];
        $consultant_o=$_POST['consultant_o'];
         $status_e=$_POST['status_e'];
-     
+             $email_e=$_POST['email_e'];
 
 
- $get_consultant="Update  MasterConsultant set Mobile='$consultant_m',Address='$consultant_a',Organisation='$consultant_o' ,Status='$status_e' where  ID='$id'"; 
+ $get_consultant="Update  MasterConsultant set Mobile='$consultant_m',Address='$consultant_a',Organisation='$consultant_o' ,Status='$status_e',Email='$email_e' where  ID='$id'"; 
 
  $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
                     
