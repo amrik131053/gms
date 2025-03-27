@@ -37,7 +37,7 @@ if($row_count_join>0)
              }
 
 }
- $sql_att23="SELECT  Name,ShortName,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime,LeaveTypes.Id as leavetypes,
+  $sql_att23="SELECT  FilePath,Name,ShortName,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime,LeaveTypes.Id as leavetypes,
             CASE 
                WHEN StartDate < '$start' THEN '$start'
                ELSE StartDate 
@@ -60,6 +60,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
             while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
             
+            $FilePathLeave=$row['FilePath'];
             $leavetypeid=$row['leavetypes'];
             $leaveName=$row['Name'];
             $leaveShortName=$row['ShortName'];
