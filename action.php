@@ -22789,7 +22789,17 @@ else{
    }
       if($printleave!='')
       {
-         ?><i class='fa fa-eye' onclick="viewLeaveFileHRside('<?=$FilePathLeave;?>')"></i><?php
+         ?>
+         
+        
+         <input type="button" data-toggle="modal"
+                                        onclick="viewLeaveFileHRside(<?=$LeaveID;?>);" data-target="#leaveModal"
+                                        class="btn btn-primary" value="View">
+         <!-- <a href='<?=$BasURL;?>/Images/Staff/LeaveFileAttachment/<?=$FilePathLeave;?>'
+                                target='_blank' class="nav-link leaveViewColor">
+                                <b><?=$printleave;?> View File</b> &nbsp;&nbsp;&nbsp;<i
+                                    class="fa fa-eye fa-lg text-success"></i> -->
+        <?php
       }
       ?>
 </b>

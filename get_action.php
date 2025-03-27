@@ -8178,7 +8178,21 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
           <?php
       } 
       }
-
+      else if ($code == 74) {
+         $id = $_GET['id'];
+         $sql_att23="SELECT * FROM ApplyLeaveGKU  WHERE  Id='$id'"; 
+         $res = sqlsrv_query($conntest, $sql_att23);
+         while ($data = sqlsrv_fetch_array($res)) { 
+            $LeaveID=$data['Id'];
+            $FilePathLeave=$data['FilePath'];
+            ?>
+            <h3><?=$FilePathLeave;?></h3>
+            <embed class="pdf" 
+            src="http://erp.gku.ac.in:86//Images/Staff/LeaveFileAttachment/<?=$FilePathLeave;?>"
+                  width="100%" height="600">
+                        <?php
+         }
+      }
       else
        {
    
