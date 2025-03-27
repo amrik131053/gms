@@ -56,15 +56,30 @@ class ExamFormController extends Controller
         if ($responseAllExamForms->successful()) {
             $AllExamForms = $responseAllExamForms->json()['data']??[];
         }
-        // if ($responseSemesterExamForms->successful()) {
-        //     $responseSemester = $responseSemesterExamForms->json()['data']??[];
-        // }
+   
         if ($responseGroupExamForms->successful()) {
             $responseGroup = $responseGroupExamForms->json()['data']??[];
         }
+        // if ($responseSemesterExamForms->successful()) {
+        //     $responseSemester = $responseSemesterExamForms->json()['data']??[];
+        // }
+// --------------------------
         if ($responseSemesterExamForms->successful()) {
-            $responseSemester = $responseSemesterExamForms->json()['data']??[];
+            $responseSemester = $responseSemesterExamForms->json()['data1'] ?? [];
+            $length = count($responseSemester);
+            if ($length > 0) {
+                $formattedSemester = []; 
+                for ($i = 0; $i < $length; $i++) {
+                    $formattedSemester[] = [
+                        'SemesterID' => $responseSemester[$i]['SemID']
+                    ];
+                }
+                $responseSemester = $formattedSemester; 
+            } else {
+                $responseSemester = $responseSemesterExamForms->json()['data'] ?? [];
+            }
         }
+        // ----------------------------
         // dd($AllExamForms);
         $eID='1';
         return View('ExamForm', compact('eID','DataButtonsExam', 'DataAfterPermissions','AllExamForms','responseSemester','responseGroup'));
@@ -96,9 +111,26 @@ class ExamFormController extends Controller
         if ($responseGroupExamForms->successful()) {
             $responseGroup = $responseGroupExamForms->json()['data']??[];
         }
+        // if ($responseSemesterExamForms->successful()) {
+        //     $responseSemester = $responseSemesterExamForms->json()['data']??[];
+        // }
+        // --------------------------
         if ($responseSemesterExamForms->successful()) {
-            $responseSemester = $responseSemesterExamForms->json()['data']??[];
+            $responseSemester = $responseSemesterExamForms->json()['data1'] ?? [];
+            $length = count($responseSemester);
+            if ($length > 0) {
+                $formattedSemester = []; 
+                for ($i = 0; $i < $length; $i++) {
+                    $formattedSemester[] = [
+                        'SemesterID' => $responseSemester[$i]['SemID']
+                    ];
+                }
+                $responseSemester = $formattedSemester; 
+            } else {
+                $responseSemester = $responseSemesterExamForms->json()['data'] ?? [];
+            }
         }
+        // ----------------------------
         $eID='3';
         return View('ExamForm', compact('eID','DataButtonsExam', 'DataAfterPermissions','AllExamForms','responseSemester','responseGroup'));
     }
@@ -129,9 +161,27 @@ class ExamFormController extends Controller
         if ($responseGroupExamForms->successful()) {
             $responseGroup = $responseGroupExamForms->json()['data']??[];
         }
+        // if ($responseSemesterExamForms->successful()) {
+        //     $responseSemester = $responseSemesterExamForms->json()['data']??[];
+            
+        // }
+        // --------------------------
         if ($responseSemesterExamForms->successful()) {
-            $responseSemester = $responseSemesterExamForms->json()['data']??[];
+            $responseSemester = $responseSemesterExamForms->json()['data1'] ?? [];
+            $length = count($responseSemester);
+            if ($length > 0) {
+                $formattedSemester = []; 
+                for ($i = 0; $i < $length; $i++) {
+                    $formattedSemester[] = [
+                        'SemesterID' => $responseSemester[$i]['SemID']
+                    ];
+                }
+                $responseSemester = $formattedSemester; 
+            } else {
+                $responseSemester = $responseSemesterExamForms->json()['data'] ?? [];
+            }
         }
+        // ----------------------------
         $eID='5';
         return View('ExamForm', compact('eID','DataButtonsExam', 'DataAfterPermissions','AllExamForms','responseSemester','responseGroup'));
     }
@@ -163,8 +213,21 @@ class ExamFormController extends Controller
             $responseGroup = $responseGroupExamForms->json()['data']??[];
         }
         if ($responseSemesterExamForms->successful()) {
-            $responseSemester = $responseSemesterExamForms->json()['data']??[];
+            $responseSemester = $responseSemesterExamForms->json()['data1'] ?? [];
+            $length = count($responseSemester);
+            if ($length > 0) {
+                $formattedSemester = []; 
+                for ($i = 0; $i < $length; $i++) {
+                    $formattedSemester[] = [
+                        'SemesterID' => $responseSemester[$i]['SemID']
+                    ];
+                }
+                $responseSemester = $formattedSemester; 
+            } else {
+                $responseSemester = $responseSemesterExamForms->json()['data'] ?? [];
+            }
         }
+        // dd($responseSemester);
         $eID='2';
         return View('ExamForm', compact('eID','DataButtonsExam', 'DataAfterPermissions','AllExamForms','responseSemester','responseGroup'));
     }
@@ -192,9 +255,26 @@ class ExamFormController extends Controller
           if ($responseAllExamForms->successful()) {
             $AllExamForms = $responseAllExamForms->json()['data']??[];
         }
+        // if ($responseSemesterExamForms->successful()) {
+        //     $responseSemester = $responseSemesterExamForms->json()['data']??[];
+        // }
+        // --------------------------
         if ($responseSemesterExamForms->successful()) {
-            $responseSemester = $responseSemesterExamForms->json()['data']??[];
+            $responseSemester = $responseSemesterExamForms->json()['data1'] ?? [];
+            $length = count($responseSemester);
+            if ($length > 0) {
+                $formattedSemester = []; 
+                for ($i = 0; $i < $length; $i++) {
+                    $formattedSemester[] = [
+                        'SemesterID' => $responseSemester[$i]['SemID']
+                    ];
+                }
+                $responseSemester = $formattedSemester; 
+            } else {
+                $responseSemester = $responseSemesterExamForms->json()['data'] ?? [];
+            }
         }
+        // ----------------------------
         if ($responseGroupExamForms->successful()) {
             $responseGroup = $responseGroupExamForms->json()['data']??[];
         }
@@ -226,9 +306,26 @@ class ExamFormController extends Controller
           if ($responseAllExamForms->successful()) {
             $AllExamForms = $responseAllExamForms->json()['data']??[];
         }
-          if ($responseSemesterExamForms->successful()) {
-            $responseSemester = $responseSemesterExamForms->json()['data']??[];
+        //   if ($responseSemesterExamForms->successful()) {
+        //     $responseSemester = $responseSemesterExamForms->json()['data']??[];
+        // }
+        // --------------------------
+        if ($responseSemesterExamForms->successful()) {
+            $responseSemester = $responseSemesterExamForms->json()['data1'] ?? [];
+            $length = count($responseSemester);
+            if ($length > 0) {
+                $formattedSemester = []; 
+                for ($i = 0; $i < $length; $i++) {
+                    $formattedSemester[] = [
+                        'SemesterID' => $responseSemester[$i]['SemID']
+                    ];
+                }
+                $responseSemester = $formattedSemester; 
+            } else {
+                $responseSemester = $responseSemesterExamForms->json()['data'] ?? [];
+            }
         }
+        // ----------------------------
         if ($responseGroupExamForms->successful()) {
             $responseGroup = $responseGroupExamForms->json()['data']??[];
         }
