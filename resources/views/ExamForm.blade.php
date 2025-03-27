@@ -28,7 +28,7 @@
                 
                 <div class="card-status-top bg-primary"></div>
                     <div class="card-header">
-                        <h4 class="card-title">Exam Form</h4>
+                        <h4 class="card-title">{{$DataAfterPermissions['examtype'] ?? ''}} Exam Form</h4>
                     </div>
                     
                     <input type="hidden" id="typeForm" name="typeForm" value="{{$DataButtonsExam ?? ''}}">
