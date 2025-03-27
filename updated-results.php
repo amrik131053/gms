@@ -473,7 +473,7 @@ function ViewResultStudent(ID){
 if(resultNum!='' && decDate!='' )
 {
 var spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
+    spinner.style.display='block';
   var code = 457;
         $.ajax({
             url: 'action_g.php',
