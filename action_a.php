@@ -3360,7 +3360,21 @@ while($get_row=sqlsrv_fetch_array($getslist))
     
     sqlsrv_close($conntest);
    }
-         
-
+     else if($code==30)
+   { 
+        $id=$_POST['id']; 
+       $date4=$_POST['vdate']; 
+              $update_study="UPDATE  ExamPermission SET ValidUpTo='$date4' WHERE id='$id'";
+               $update_study_run=sqlsrv_query($conntest,$update_study);  
+         if ($update_study_run==true) 
+         {
+            echo "1";
+         }
+         else
+         {
+            echo "0";
+         }
+         sqlsrv_close($conntest); 
+    }
 
 }
