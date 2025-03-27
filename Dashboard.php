@@ -522,7 +522,10 @@ while ($dataIncharge=mysqli_fetch_array($resl))
  
 
 
-</section><div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+</section>
+
+<?php if($role_id=='11')
+{?><div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
               <div class="card bg-light">
                 <div class="card-header  border-bottom-0">
                 Alloted Subjects
@@ -530,7 +533,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                 <div class="card-body pt-0">
                   <div class="row">
                     <div class="col-12">
-                      <h2 class="lead"><b></b></h2>
+                      <h2 class="lead"><b>T -Theory  P- Practical   W -workshop/Training   S-Seminar</b></h2>
                     
                        
 
@@ -563,6 +566,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
             </div></div>
 
    </div>
+ <?php }?>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
 
