@@ -4830,7 +4830,7 @@ else if($exportCode==39.1)
                     
             }
 $SrNo=1;
-$subCount=28;
+$subCount=30;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>  
 <tr>
@@ -4869,10 +4869,14 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
       <th>OTR</th>
     <th>Remarks </th>
     <th>Status</th>
-    <th>Locked</th>
-    <th>Comments</th>
-
-    </tr>
+    <th>Locked</th>";
+    if($role_id==2 || $role_id==21)    {
+  $exportstudy.="<th style='background-color:black; color:white;'>Comment detail</th>
+     <th>Refrence</th>
+      <th>Team</th>
+      <th>Consultant</th>";
+    }
+   $exportstudy.="</tr>
         </thead>";
 
 
@@ -4936,18 +4940,16 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $CommentsDetail=$row['CommentsDetail'];
             $Country=$row['country'];
             $State=$row['State'];
-             $OTR=$row['OTR'];
-$ABCID=$row['ABCID'];
-
-if($row['DOB']!='')
-{
-   $DOB=$row['DOB']->format('d-m-Y');
-}
-else
-{
-    $DOB='';
-}
-
+            $OTR=$row['OTR'];
+            $ABCID=$row['ABCID'];
+            if($row['DOB']!='')
+            {
+            $DOB=$row['DOB']->format('d-m-Y');
+            }
+            else
+            {
+                $DOB='';
+            }
             $StatusType=$row['StatusType'];
             $District=$row['District'];
             $Nationality=$row['Nationality'];
@@ -4955,31 +4957,23 @@ else
             $Category=$row['Category'];
             $Religion=$row['Religion'];
             $gender=$row['Sex'];
-             $locked=$row['Locked'];
+            $locked=$row['Locked'];
             if($StatusType>0)
             {
                 $StatusType='Provisional';
-
             }
             else
             {
                 $StatusType='';
-
             }
-
-
- if($locked>0)
+            if($locked>0)
             {
                 $lockedtype='Yes';
-
             }
             else
             {
                 $lockedtype='No';
-
             }
-
-
             if($row['EligibilityReason']!='' && $row['Eligibility']==1)
             {
 
@@ -4997,13 +4991,9 @@ else
                 $clr="yellow";
                 
             }
-
-
             if($row['Status']==1)
             {
-
                 $status=$StatusType." Active";
-
                 $clr1="green";
             }
             else
@@ -5011,19 +5001,14 @@ else
                 $status=$StatusType." Left";
                 $clr1="red";
             }
-
             if($role_id==22)
             {
                 $CommentsDetail=$CommentsDetail;
             }
-
             else{
                 $CommentsDetail="";
             }
-
-         
          $exportstudy.="<tr>
-
          <td>{$SrNo}</td>
          <td>{$IDNo}</td>
          <td>{$ClassRollNo}</td>
@@ -5051,9 +5036,37 @@ else
          <td>{$Ereason}</td>     
          <td style='background-color:".$clr1.";'>{$status}</td>     
          
-         <td>{$lockedtype}</td>     
-         <td>{$CommentsDetail}</td>     
-     </tr>";
+         <td>{$lockedtype}</td> ";
+         if($role_id==2 || $role_id==21)    {
+        $exportstudy.=" <td>{$CommentsDetail}</td>";
+            $query3 = "SELECT Name, IDNo FROM MasterConsultantRef AS mcr INNER JOIN Staff AS s ON mcr.RefIDNo = s.IDNo WHERE mcr.StudentIDNo = '$IDNo' AND mcr.Type = 'Staff'";
+            $result3 = sqlsrv_query($conntest, $query3);
+            while ($row3 = sqlsrv_fetch_array($result3, SQLSRV_FETCH_ASSOC)) {
+                $idno = $row3['IDNo'];
+                $name = $row3['Name'];
+                $exportstudy .= "{$idno} ({$name})<br>";
+            }
+
+            $exportstudy.="</td><td>";
+            $query2 = "Select * from  MasterConsultantRef as mcr inner join Staff as s on mcr.RefIDNo=s.IDNo where StudentIDNo='$IDNo' AND mcr.Type='Staff'";
+            $result2 = sqlsrv_query($conntest,$query2);
+            while($row2 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            {      
+                $idnoR = $row2['ID'];
+                $nameR = $row2['Name'];
+                $exportstudy .= "{$idnoR} ({$nameR})<br>";
+            }
+            $exportstudy.="</td><td>";
+             $query2 = "Select * from  MasterConsultantRef as mcr inner join MasterConsultant as s on mcr.RefIDNo=s.ID where StudentIDNo='$IDNo' AND mcr.Type='Consultant'";
+            $result2 = sqlsrv_query($conntest,$query2);
+            while($row21 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            {      
+                $idnoC = $row21['ID'];
+                $nameC = $row21['Name'];
+                $exportstudy .= "{$nameC}<br>";
+            } 
+        }  
+    $exportstudy.=" </tr>";
 
 
 $SrNo++;
