@@ -1311,7 +1311,7 @@ function copyToClipboard(text) {
         <select class="form-control" id="RefConsultantNo" name="RefConsultantNo">
             <option value="">Select</option>
             <?php         
-                $sqlConsultant = "SELECT DISTINCT MasterConsultant.Name, MasterConsultant.ID 
+                $sqlConsultant = "SELECT DISTINCT MasterConsultant.Name, MasterConsultant.ID, MasterConsultant.Mobile,MasterConsultant.Address
                                   FROM MasterConsultant 
                                   INNER JOIN MasterConsultantRef ON MasterConsultant.ID = MasterConsultantRef.RefIDNo 
                                   WHERE MasterConsultant.Status = '1' 
@@ -1321,8 +1321,11 @@ function copyToClipboard(text) {
                 while ($rowConsultant = sqlsrv_fetch_array($stmt2sqlConsultant, SQLSRV_FETCH_ASSOC)) {   
                     $Name = $rowConsultant['Name']; 
                     $ID = $rowConsultant['ID']; 
+                    $Mobile = $rowConsultant['Mobile']; 
+                       $Address = $rowConsultant['Address']; 
+
             ?>
-                <option value="<?=$ID;?>"><?=$Name;?></option>
+                <option value="<?=$ID;?>"><?=$Name;?> - Mob: <?=$Mobile;?>- Address: <?=$Address;?></option>
             <?php } ?>
         </select>
     </div>

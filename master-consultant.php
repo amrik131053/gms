@@ -128,18 +128,22 @@
    </div>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
 
    function edit_consultant(id)
    
 {  
-   //alert(id);
+  
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+     //alert(id);
 var code='26.6';
 $.ajax({
 url:'action_a.php',
 data:{flag:code,id:id},
 type:'POST',
 success:function(data){
+      spinner.style.display = 'none';
 document.getElementById('consultant-data-edit').innerHTML=data;
 }
 });
@@ -161,6 +165,9 @@ function consultantupdate()
 
     if (consultant_m!='' && consultant_a!=null && consultant_o!=null ) 
     {
+        var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+     //alert(id);
 var code=26.7;
       $.ajax({
     url: 'action_a.php',
@@ -170,6 +177,7 @@ var code=26.7;
      {
     console.log(response);
     if (response==1) {
+       spinner.style.display = 'none';
          SuccessToast('Successfully Updated');
          ViewConsultant();
    }
