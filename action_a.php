@@ -21,6 +21,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 
       }
 
+
    $CurrentExaminationGetDate=date('Y-m-d');
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -65,7 +66,11 @@ window.location.href = "index.php";
         {
             include "connection/ftp-erp.php";
         }
-
+if($code=='26.7')
+{
+   include "connection/connection_web.php"; 
+   
+  }
 
 // HR/Admin Upload Staff Documents
 if($code==1)
@@ -2669,18 +2674,63 @@ elseif($code==26.7)
       
 
     $id=$_POST['consultant_id'];
-     $consultant_m=$_POST['consultant_m'];
-      $consultant_a=$_POST['consultant_a'];
-       $consultant_o=$_POST['consultant_o'];
-        $status_e=$_POST['status_e'];
-             $email_e=$_POST['email_e'];
-
+    $consultant_m=$_POST['consultant_m'];
+    $consultant_a=$_POST['consultant_a'];
+    $consultant_o=$_POST['consultant_o'];
+    $status_e=$_POST['status_e'];
+    $email_e=$_POST['email_e'];
 
  $get_consultant="Update  MasterConsultant set Mobile='$consultant_m',Address='$consultant_a',Organisation='$consultant_o' ,Status='$status_e',Email='$email_e' where  ID='$id'"; 
 
+ $desc= 'Consultant Update';
+
+                 $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
+
  $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+
+
+
+
+$status=0;
+    
+$get_econsultant="Update  users set mobile_number='$consultant_m',address='$consultant_a',email='$email_e' where   erp_id='$id'"; 
+
+ $user_run=mysqli_query($conn_online_pre_regist,$get_econsultant);
+
+   
+   $sql = "SELECT * FROM users WHERE erp_id='$id'";
+
+
+     $user_run=mysqli_query($conn_online_pre_regist,$sql);
+
+     mysqli_query($conn_online_pre_regist,$sql);
+
+   
+      
+    
+          while ($user_row=mysqli_fetch_array($user_run))  {
+                $receviername = $user_row['name'];
+                $recevieremail = $user_row['email'];
+                      $password = $user_row['password'];
+                      $subject='Login Details';
+            }
+            $status = 1;
+    
+        if($status == 1)
+        {
+           
+ob_start();
+ include "email/preregtemp.php";
+$body = ob_get_clean();
+              include "email/email_code_forgotpassword.php";
+        }
+$conn->close();
+
+
+
                     
-echo 1;
+//echo 1;
 
 }
 elseif($code==26.8)
@@ -3364,8 +3414,18 @@ while($get_row=sqlsrv_fetch_array($getslist))
    { 
         $id=$_POST['id']; 
        $date4=$_POST['vdate']; 
+        $idno=$_POST['idno']; 
               $update_study="UPDATE  ExamPermission SET ValidUpTo='$date4' WHERE id='$id'";
                $update_study_run=sqlsrv_query($conntest,$update_study);  
+               
+
+               $desc= 'date changed exampermisison- '.$id;
+                $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
+                 sqlsrv_query($conntest,$update1);
+
+        
+
+
          if ($update_study_run==true) 
          {
             echo "1";

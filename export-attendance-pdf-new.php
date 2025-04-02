@@ -211,7 +211,7 @@ for($as=$subcount;$as<7;$as++)
    $ExternalExam[$as]='';
 }
 
-$list_sql = "SELECT  ExamForm.ID,ExamForm.AcceptType,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Snap,Admissions.Sex
+$list_sql = "SELECT  ExamForm.ID,ExamForm.AcceptType,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Snap,Admissions.Sex,Admissions.ABCID
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8' AND  Admissions.Status='1' ORDER BY Admissions.UniRollNo";
         $j=100;
        
@@ -229,6 +229,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
                 $ClassRollNos[]=$row['ClassRollNo'];
                  $Examid[]=$row['ID'];
                  $StudentNames[] =$row['StudentName'];
+                  $ABCID[] =$row['ABCID'];
                  $Snap[] =$row['Snap'];
                  $Gender[] =$row['Sex'];    
                   $accepttype[] =$row['AcceptType'];           
@@ -297,7 +298,7 @@ $pr='';
               $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
           }
         $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-    
+
 
 
 
@@ -311,15 +312,15 @@ $pdf->SetTextColor(255,0,0);
         $pdf->Cell(35.4,14,$pr,1,0,'C',0);
         $pdf->Cell(35.4,14,$pr,1,0,'C',0);
         $pdf->Cell(28.6,14,$pr,1,0,'C',0);
+
+        
+
     $pdf->SetTextColor(0,0,0);    
         if($subcount<2)
-        {
-           
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            
-           
-
-        }
+          {
+         
+           $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+           }
         else if($subcount<3)
         {
             
@@ -381,7 +382,8 @@ $pdf->SetTextColor(255,0,0);
             
         }
         
-        
+         $pdf->SetXY(66,$y);  
+$pdf->MultiCell(17,6,$ABCID[$i],2,'C'); 
         $y = $y + 14;
     }
 

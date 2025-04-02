@@ -33437,7 +33437,7 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                                 <td><?=$rowAleady['Month']." ".$rowAleady['Year'];?></td>
 
 
-                                <td><input type="date" name="" value="<?= $rowAleady['Validupto']->format('Y-m-d');?>" onchange="updateperdate(<?=$rowAleady['id'];?>,this.value)">
+                                <td><input type="date" name="" value="<?= $rowAleady['Validupto']->format('Y-m-d');?>" onchange="updateperdate(<?=$rowAleady['id'];?>,this.value,<?=$row_student['IDNo'];?>)">
                             </td>
                                 <td>
 
