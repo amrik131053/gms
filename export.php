@@ -11724,7 +11724,7 @@ $exportstudy.="<th>Total Credit</th><th>SGPA</th>";
 $exportstudy.="</tr>";
 
 
- $sql1 = "SELECT  *  FROM ResultPreparation WHERE Examination='$Examination' and CollegeID='$College' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester'";
+ $sql1 = "SELECT  *  FROM ResultPreparation WHERE Examination='$Examination' and CollegeID='$College' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester' AND DeclareType='1'";
  $stmt = sqlsrv_query($conntest,$sql1);
 
  
