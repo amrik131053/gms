@@ -251,8 +251,8 @@
                             <button class="btn btn-sm ">
                                 <button class="btn btn-success btn-sm" onclick="searchStduentForSepecial();"><i
                                         class="fa fa-search"></i></button>
-                                <!-- <button class="btn btn-danger  btn-sm" data-toggle="modal"
-                                    data-target="#modalAssignAllpER"><i class="fa fa-plus"></i></button> -->
+                                <button class="btn btn-danger  btn-sm" data-toggle="modal"
+                                    data-target="#modalAssignBulkUpload"><i class="fa fa-plus"></i></button>
                             </button>
 
                             <!-- </span> -->
@@ -323,6 +323,100 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalAssignBulkUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body" id="edit_start_end_date_load">
+            <div class="col-lg-12">
+                           <form action="action_g.php" method="post" enctype="multipart/form-data">
+                           <input type="hidden" name="code" value="94">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="SemesterSepecial" id="SemesterSepecial">
+                                            <?php  for ($i=1; $i<15 ; $i++) 
+                                { ?>
+                                            <option value="<?=$i;?>"><?=$i;?></option>
+
+                                            <?php }  ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Type</label>
+                                        <select class="form-control" name="TypeSepcial" id="TypeSepcial">
+                                            <option value="Regular">Regular</option>
+                                            <option value="Reappear">Reappear</option>
+                                            <option value="Improvement">Improvement</option>
+                                            <option value="Additional">Additional</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="">Month</label>
+                                        <select class="form-control" name="MonthSepecial" id="MonthSepecial">
+
+                                            <option value="January">January</option>
+                                            <option value="February">February</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">September</option>
+                                            <option value="October">October</option>
+                                            <option value="November">November</option>
+                                            <option value="December">December</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="">Year</label>
+                                        <select class="form-control" name="YearSepecial" id="YearSepecial">
+
+                                            <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+                                        { ?>
+                                            <option value="<?=$i;?>"><?=$i;?></option>
+
+                                            <?php }  ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>End Date</label>
+                                        <input type="date" name="validDate" id="validDate" class="form-control">
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>File</label>
+                                        <input type="file" name="file_exl" id="file_exl" class="form-control">
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>Action</label><br>
+                                        <input type="submit"  class="btn btn-success" value="Upload">
+                                    </div>
+                              </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+            </div>
+
+
+
+
 <div class="modal fade" id="modalAssignAllpER" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
