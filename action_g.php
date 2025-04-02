@@ -39184,42 +39184,28 @@ elseif($code==470)
                 sqlsrv_close($conntest);        
         }
 
-        elseif($code==471) // temp master course code update old to new
+        elseif($code==471)
         {
-               
-                       $CollegeID=$_POST['CollegeID'];
-                       $Course=$_POST['Course'];
-                       $Batch=$_POST['Batch'];
-                       $Semester=$_POST['Semester'];
-                   
-        
-        $file = $_FILES['file_exl']['tmp_name'];
-        $handle = fopen($file, 'r');
-        $c = 0;
+            $SemesterSepecial=$_REQUEST['SemesterSepecial'];
+            $TypeSepcial=$_REQUEST['TypeSepcial'];
+            $MonthSepecial=$_REQUEST['MonthSepecial'];
+            $YearSepecial=$_REQUEST['YearSepecial'];
+            $validDate=$_REQUEST['validDate'];
+                $file = $_FILES['file_exl']['tmp_name'];
+                $handle = fopen($file, 'r');
+                $c = 0;
         while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
         {
-              $oldSubjectcode= $filesop[0];
-              $newSubjectcode = $filesop[1];
-              if ($Semester!='') 
-              {
-                  echo    $update_study="UPDATE  MasterCourseStructure SET SubjectCode='$newSubjectcode' WHERE  CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and  SemesterID='$Semester' and SubjectCode='$oldSubjectcode'";
-               }else
-        
-               {
-                 echo    $update_study="UPDATE  MasterCourseStructure SET SubjectCode='$newSubjectcode' WHERE  CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch'  and  SubjectCode='$oldSubjectcode'";
-        
-               }
-                  echo "<br>";
-              $update_study_run=sqlsrv_query($conntest,$update_study);  
-          if ($update_study_run==true) 
+            $UniRollNo=$filesop[0];
+            $get_pending="SELECT * FROM Admissions where UniRollNo='$UniRollNo' and Status='1'";
+            $get_pending_run=sqlsrv_query($conntest,$get_pending);
+          if($row_pending=sqlsrv_fetch_array($get_pending_run))
           {
-             echo "success";
-          }
-          else
-          {
-           echo"no";
-          }
-           
+            $IDNo=$row_pending['IDNo'];
+          } 
+             $updatePermisions="INSERT into ExamPermission (IDNo,UniRollNo,SemId,ExamType,Month,Year,Validupto) 
+            VALUES('$IDNo','$UniRollNo','$SemesterSepecial','$TypeSepcial','$MonthSepecial','$YearSepecial','$validDate') ";
+                $updatePermisions_run=sqlsrv_query($conntest,$updatePermisions);
         }
         sqlsrv_close($conntest);
         }
