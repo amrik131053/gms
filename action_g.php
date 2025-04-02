@@ -33383,9 +33383,19 @@ elseif ($code=='417') {
 }
 elseif($code=='418')
 {
-$UniRollNo=$_POST['rollNo'];
+$UniRollNo=trim($_POST['rollNo']);
 $permisisonstatus=$_POST['permisisonstatus'];
+
+
+if($_POST['rollNo'] !=''  && is_numeric($_POST['rollNo'])) 
+{                  
 $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM Admissions  Where (ClassRollNo='$UniRollNo' or UniRollNo='$UniRollNo' or IDNo='$UniRollNo')";
+}
+else {
+    $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM Admissions  Where ClassRollNo='$UniRollNo' or UniRollNo='$UniRollNo'";
+ 
+}
+
                          $get_student_details_run=sqlsrv_query($conntest,$query);
                          if($row_student=sqlsrv_fetch_array($get_student_details_run))
                          {

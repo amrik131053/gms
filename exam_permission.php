@@ -237,7 +237,7 @@
                 <div class="card card-info">
                     <div class="card-header ">
                         <h3 class="card-title">Special Permission</h3>
-
+<button class="btn btn-warning" onclick="format();">Format</button>
                     </div>
                     <div class="card-body  ">
 
@@ -508,6 +508,12 @@
 
 <!-- Modal -->
 <script type="text/javascript">
+
+
+function format() 
+           {
+            window.location.href = 'http://gurukashiuniversity.co.in/gms/formats/bulkexamform.csv';
+           }
 $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
     showRegular();
