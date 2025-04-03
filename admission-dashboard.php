@@ -8,15 +8,43 @@
             <div class="card-header">
                 <div class="row">
                 <div class="col-lg-6">
-                <select id="Batch" class="form-control form-control-range" onchange="loadDashboard();">
+              
+  <select id="Session" name="session1" class="form-control" onchange="loadDashboard();">
+                                      <option value="2025-26-A">2025-26-A</option>
+                                        <?php         
+
+ $sql="SELECT DISTINCT Session from Admissions ORDER By Session Desc";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $session = $row['Session']; 
+                        
+                        ?>
+                                        <option value="<?=$session;?>"><?=$session;?></option>
+                                        <?php }
+                        ?>
+
+
+                                    </select>
+
+<!-- 
+                 <select id="Batch" class="form-control form-control-range" onchange="loadDashboard();">
+                    
+
                     <option value="<?php echo date('Y');?>"><?php echo date('Y');?></option>
                     <?php 
                               for($i=2011;$i<=2030;$i++)
                                  {?>
                     <option value="<?=$i?>"><?=$i?></option>
+
+
                     <?php }
                                   ?>
-                </select>
+
+                 </select> -->
+
+
+
  
                                  </div>
                                  <div class="col-lg-6">
@@ -37,7 +65,7 @@
 
 
 
-                <div class="col-md-3 col-sm-6 col-12">
+                <div class="col-md-2 col-sm-6 col-12">
                     <div class="info-box bg-info shadow-lg">
                         <span class="info-box-icon" id="TotalStudentCount">
 
@@ -58,7 +86,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                            <a  href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                            <a  href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         
                         <!-- /.info-box-content -->
@@ -74,7 +102,7 @@
 
 
 
-                <div class="col-md-3 col-sm-6 col-12">
+                <div class="col-md-2 col-sm-6 col-12">
                     <div class="info-box bg-primary shadow-lg">
                         <span class="info-box-icon" id="TotalActiveCount">
                             <div class="text-center" id="div-loader" >
@@ -96,7 +124,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                        <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                        <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         <!-- /.info-box-content -->
                         <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
@@ -107,6 +135,38 @@
                     <!-- /.info-box -->
                 </div>
 
+     <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box bg-danger shadow-lg">
+                        <span class="info-box-icon" id="TotalLeftCount">
+                            <div class="text-center" id="div-loader" >
+                                                            
+                            </div>
+                             <div class="spinner-border" role="status" id="spiner_a">
+                                </div>
+
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Left</span>
+                            <!-- <span class="info-box-number">Book Issued  </span> -->
+
+                            <div class="progress">
+
+                                <div class="progress-bar" style="width: 100%;"></div>
+                            </div>
+                            <span class="progress-description">
+                                &nbsp;
+                            </span>
+                        <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('0','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                        </div>
+                        <!-- /.info-box-content -->
+                        <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
+                                style='color:white;'>
+                                <i class="fa fa-download fa-lg" onclick="exportTotalScordingToStatus('0','');"></i></button>
+                        </a>
+                    </div>
+                    <!-- /.info-box -->
+                </div>
 
 
 
@@ -116,7 +176,7 @@
 
 
 
-                <div class="col-md-3 col-sm-6 col-12">
+                <div class="col-md-2 col-sm-6 col-12">
                     <div class="info-box bg-success shadow-lg">
                         <span class="info-box-icon" id="TotalEligibleCount">
                            
@@ -136,7 +196,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','1');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','1');" style="float:right;" ><b style="color:white!important;font-size:14px;">Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         <!-- /.info-box-content -->
                         <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
@@ -147,7 +207,7 @@
                     <!-- /.info-box -->
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-12">
+                <div class="col-md-2 col-sm-6 col-12">
                     <div class="info-box bg-warning shadow-lg">
                        <span class="info-box-icon" id="TotalNotEligible">
                            
@@ -170,7 +230,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','0');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','0');" style="float:right;" ><b style="color:white!important;font-size:14px;">Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         <!-- /.info-box-content -->
                         <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
@@ -308,7 +368,7 @@
 
     function exportTotalScordingToStatus(Status,Eligible) {
     var exportCode = 44;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
 
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral, '_blank');
@@ -317,19 +377,19 @@
 
 function exportTotalScordingToCollege(CollegeID,Status,Eligible) {
     var exportCode = 45;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral+ "&CollegeID=" + CollegeID, '_blank');
 }
 function exportTotalScordingToCollegeSumy(CollegeID,Status,Eligible) {
     var exportCode = 46;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral+ "&CollegeID=" + CollegeID, '_blank');
 }
 function exportTotalScordingToStatusSummary(Status,Eligible) {
     var exportCode = 47;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral, '_blank');
 }
@@ -337,7 +397,7 @@ function exportTotalScordingToStatusSummary(Status,Eligible) {
 
   function loadDashboard() {
       $('#div-loader').show();
-        var Batch = document.getElementById("Batch").value;
+        var Batch = document.getElementById("Session").value;
         var Lateral = document.getElementById("Lateral").value;
            var subjects=document.getElementsByClassName('checkbox');
         var len_subject= subjects.length;
@@ -378,6 +438,7 @@ loadCollegeCount(a,Batch,Lateral);
                 document.getElementById("TotalActiveCount").textContent = data[1];
                 document.getElementById("TotalNotEligible").textContent = data[2];
                 document.getElementById("TotalEligibleCount").textContent = data[3];
+                  document.getElementById("TotalLeftCount").textContent = data[4];
                 
 
                
