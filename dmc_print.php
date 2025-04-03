@@ -60,7 +60,7 @@ $BatchID=$_GET['BatchID'];
 
     .downtd3 {
         border: 2px solid black;
-        width: 17%;
+        width: 8%;
         /* Ensures each column takes equal width */
         text-align: center;
         padding: 3px;
@@ -187,7 +187,7 @@ while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
                     </tr>
                     <tr>
                         <td class="uptd">Father's Name: <?=$row['FatherName'];?></td>
-                        <td class="uptd">Year of Admission: <?=$row['Batch'];?></td>
+                        <td class="uptd">Year of Admission: <?=$row['YearOfAdmission'];?></td>
                     </tr>
                     <tr>
                         <td class="uptd">Mother's Name: <?=$row['MotherName'];?></td>
@@ -226,6 +226,7 @@ while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
                     <td class="downtd3"><?= $creditold = $row1['SubjectCredit']?></td>
                     <td class="downtd3"><?=$row1['SubjectGrade'];?></td>
                     <td class="downtd3"><?= $oldgradepoint = $row1['SubjectGradePoint'];?></td>
+                    
                 </tr>
                 <?php $SrNo++; } ?>
 
