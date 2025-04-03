@@ -6489,7 +6489,8 @@ else if($code=='56')
       $subCode=$row['SubjectCode']; 
       $subjecttype=$row['SubjectType']; 
       // $UniRollNo=$row['UniRollNo']; 
-      $IDNo=$row['IDNo']; 
+      $IDNo=$row['IDNo'];
+     
       $clr="";
       $status=0;
       $MSTatus=0;
@@ -6518,11 +6519,12 @@ else if($code=='56')
 
          
 
-
+$rrrrr=0;
        $resultgetColor = sqlsrv_query($conntest,$getColor);
        if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
        {
-          
+          $rrrrr=$rowresultgetColor['MaxDeclareType'];
+
        if($rowresultgetColor['MaxDeclareType']=='0')
        {
            $clr="primary";
@@ -6545,7 +6547,7 @@ else if($code=='56')
 ?>
 <tr class="bg-<?=$clr;?>" >
 
-<td><?php if($rowresultgetColor['MaxDeclareType']!='0'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
+<td><?php if($rrrrr!='0'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
 <td><?= $i++;?>
 <input type="hidden"  value="<?= $row['ID'];?>"  id="ExamSubjectID"> 
 <input type="hidden" value="<?= $row['IDNo'];?>"  id="ids<?= $row['ID'];?>" > 
