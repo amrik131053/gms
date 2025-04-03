@@ -237,7 +237,7 @@
                 <div class="card card-info">
                     <div class="card-header ">
                         <h3 class="card-title">Special Permission</h3>
-
+<button class="btn btn-warning" onclick="format();">Format</button>
                     </div>
                     <div class="card-body  ">
 
@@ -251,8 +251,8 @@
                             <button class="btn btn-sm ">
                                 <button class="btn btn-success btn-sm" onclick="searchStduentForSepecial();"><i
                                         class="fa fa-search"></i></button>
-                                <!-- <button class="btn btn-danger  btn-sm" data-toggle="modal"
-                                    data-target="#modalAssignAllpER"><i class="fa fa-plus"></i></button> -->
+                                <button class="btn btn-danger  btn-sm" data-toggle="modal"
+                                    data-target="#modalAssignBulkUpload"><i class="fa fa-plus"></i></button>
                             </button>
 
                             <!-- </span> -->
@@ -323,6 +323,101 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalAssignBulkUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bulk Upload</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body">
+            <div class="col-lg-12">
+            <form id="submit_exam_form_bulk" method="post" enctype="multipart/form-data" action="action_g.php">
+                         
+                           <input type="hidden" name="code" value="471">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="SemesterSepecial" id="SemesterSepecial" required>
+                                            <?php  for ($i=1; $i<15 ; $i++) 
+                                { ?>
+                                            <option value="<?=$i;?>"><?=$i;?></option>
+
+                                            <?php }  ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Type</label>
+                                        <select class="form-control" name="TypeSepcial" id="TypeSepcial" required>
+                                            <option value="Regular">Regular</option>
+                                            <option value="Reappear">Reappear</option>
+                                            <option value="Improvement">Improvement</option>
+                                            <option value="Additional">Additional</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="">Month</label>
+                                        <select class="form-control" name="MonthSepecial" id="MonthSepecial" required>
+
+                                            <option value="January">January</option>
+                                            <option value="February">February</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">September</option>
+                                            <option value="October">October</option>
+                                            <option value="November">November</option>
+                                            <option value="December">December</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="">Year</label>
+                                        <select class="form-control" name="YearSepecial" id="YearSepecial" required>
+
+                                            <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+                                        { ?>
+                                            <option value="<?=$i;?>"><?=$i;?></option>
+
+                                            <?php }  ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>End Date</label>
+                                        <input type="date" name="validDate" id="validDate" class="form-control" required>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>File</label>
+                                        <input type="file" name="file_exl" id="file_exl" class="form-control" required>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>Action</label><br>
+                                        <input type="submit"  class="btn btn-success" value="Upload">
+                                    </div>
+                              </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+            </div>
+
+
+
+
 <div class="modal fade" id="modalAssignAllpER" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -413,6 +508,12 @@
 
 <!-- Modal -->
 <script type="text/javascript">
+
+
+function format() 
+           {
+            window.location.href = 'http://gurukashiuniversity.co.in/gms/formats/bulkexamform.csv';
+           }
 $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
     showRegular();
@@ -966,6 +1067,32 @@ function open_examination_permision() {
         }
     });
 }
+
+
+
+$(document).ready(function(e) { // image upload form submit
+    $("#submit_exam_form_bulk").on('submit', (function(e) {
+        e.preventDefault();
+
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        $.ajax({
+            url: "action_g.php",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log(data);
+                spinner.style.display = 'none';
+                    SuccessToast('Successfully Uploaded');
+                    $('#modalAssignBulkUpload').modal('hide');
+        
+            },
+        });
+    }));
+});
 </script>
 
 <?php include "footer.php";  ?>

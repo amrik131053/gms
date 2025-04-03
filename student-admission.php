@@ -21,6 +21,9 @@
                               <a class="btn btn-primary" id="btn3"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="creditcardAdmission(),bg(this.id);"> Credit Card </a>
+                              <a class="btn btn-primary" id="btn6"
+                            style="background-color:#223260; color: white; border: 5px solid;"
+                            onclick="preRegistrationAdmission(),bg(this.id);">Pre Registration </a>
                             
                     </div>
                    
@@ -202,6 +205,22 @@ function creditcardAdmission() {
         }
     });
 }
+function preRegistrationAdmission() {
+    var code = 367.1;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("admissionForm").innerHTML = response;
+        }
+    });
+}
 
 function searchStudentOnRollNo() {
     var rollNo = document.getElementById('rollNo').value;
@@ -342,6 +361,93 @@ function creditcardsearch() {
         });
     } else {
         ErrorToast('Please Enter RollNo', 'bg-warning');
+    }
+}
+
+function preRegsearch() {
+    var rollNo = document.getElementById('rollNo').value;
+    if (rollNo != '') {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '368.1';
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                code: code,
+                registrationNumber: rollNo
+            },
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                spinner.style.display = 'none';
+                var data = JSON.parse(response);
+              
+                document.getElementById("CourseIntersted").value = data[0];
+                document.getElementById("Name").value = data[1];
+                document.getElementById("FatherName").value = data[2];
+                document.getElementById("MobileNumber").value = data[3];
+                document.getElementById("AdharCardNo").value = data[4];
+                // document.getElementById("CategoryByStudent").value = data[5];
+                document.getElementById("category").value = data[5];
+                let categorySelect = document.getElementById("category");
+if (![...categorySelect.options].some(option => option.value === data[5])) {
+    categorySelect.value = "";
+}
+                document.getElementById("User_id").value = data[6];
+    //             if (data[0] == '101') {
+    //     $('#AdharCard').show();
+    //     $('#IDNoNationlity').hide();
+    //     $('#PassportNo').hide();
+    //     document.getElementById('IDNoNationlity').value = "";
+    //     document.getElementById('PassportNumber').value = "";
+    //     document.getElementById("AdharCardNo").value = data[4];
+    //       document.getElementById("Nationality").value ='Indian';
+    // } else if (data[0] == 'NRI') {
+    //     $('#PassportNo').show();
+    //     $('#AdharCard').hide();
+    //     $('#IDNoNationlity').hide();
+    //     document.getElementById("PassportNumber").value = data[4];
+    //     document.getElementById('IDNoNationlity').value = "";
+    //     document.getElementById('AdharCardNo').value = "";
+    //     document.getElementById('IDNumber').value = "";
+    // } else if (data[0] == 'Nepal') {
+    //     $('#IDNoNationlity').show();
+    //     $('#AdharCard').hide();
+    //     $('#PassportNo').hide();
+    //     document.getElementById("IDNoNationlity").value = data[4];
+    //     document.getElementById('AdharCardNo').value = "";
+    //     document.getElementById('PassportNumber').value = "";
+    // } else if (data[0] == 'Bhutan') {
+    //     $('#IDNoNationlity').show();
+    //     $('#AdharCard').hide();
+    //     $('#PassportNo').hide();
+    //     document.getElementById("IDNoNationlity").value = data[4];
+    //     document.getElementById('AdharCardNo').value = "";
+    //     document.getElementById('PassportNumber').value = "";
+    // }
+                
+    //             document.getElementById("Dob").value = data[5];
+    //             document.getElementById("Gender").value = data[6];
+    //             document.getElementById("category").value = data[7];
+    //               document.getElementById("feecategory").value = data[8];
+    //                document.getElementById("scholaship").value = data[9];
+    //                 document.getElementById("Session").value = data[10];
+    //                 document.getElementById("CollegeID").value = data[11];
+    //                 document.getElementById("Course").value = data[12];
+    //                 document.getElementById("Department").value = data[13];
+    //                             document.getElementById("LateralEntry").value = data[14];
+    //                 document.getElementById("CourseName").value = data[15];
+    //                 document.getElementById("CollegeName").value = data[16];
+    //                 document.getElementById("Batch").value = data[17];
+   
+                    document.getElementById("EmIDConsultant1").value = data[6];
+                  document.getElementById("refoffer").value = data[8];   
+                    
+
+            }
+        });
+    } else {
+        ErrorToast('Please Enter Registration No', 'bg-warning');
     }
 }
 
