@@ -39166,7 +39166,7 @@ elseif($code==469)
     }
     foreach($ResultIDs as $key => $id)
     {
-         $queryUpdate = "UPDATE  ResultPreparation  SET BatchID='$lastInsertedID', DMCSerialNo='$SrNoLatter$SrNoFrom',DMCStatus='1',DMCGeneratedBy='$EmployeeID',DMCGenerateOn='$timeStamp' Where Id='$id'";
+         $queryUpdate = "UPDATE  ResultPreparation  SET BatchID='$lastInsertedID', GradeCardSrNo='$SrNoLatter$SrNoFrom',DMCStatus='1',DMCGeneratedBy='$EmployeeID',DMCGenerateOn='$timeStamp' Where Id='$id'";
         $runqueryUpdate=sqlsrv_query($conntest,$queryUpdate);
        
         $SrNoFrom++;
