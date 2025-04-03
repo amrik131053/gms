@@ -16013,7 +16013,8 @@ sqlsrv_query($conntest,$update12);
                                 <th>Employee</th>
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
-                                <th>Winter Vacation</th>
+
+                                <th>Duty Leave</th>
                                
                             </tr>
                         </thead>
@@ -16037,10 +16038,11 @@ sqlsrv_query($conntest,$update12);
             }
             if ($row['LeaveType_Id'] == '1') {
                 $employeeData[$employeeId]['Leave1'] = $row['Balance'];
+                
             } elseif ($row['LeaveType_Id'] == '2') {
                 $employeeData[$employeeId]['Leave2'] = $row['Balance'];
             }
-            elseif ($row['LeaveType_Id'] == '26') {
+            elseif ($row['LeaveType_Id'] == '12') {
                 $employeeData[$employeeId]['Leave3'] = $row['Balance'];
             }
         }
@@ -16112,7 +16114,7 @@ sqlsrv_query($conntest,$update12);
            } elseif ($row['LeaveType_Id'] == '2') {
                $employeeData[$employeeId]['Leave2'] = $row['Balance'];
            }
-           elseif ($row['LeaveType_Id'] == '26') {
+           elseif ($row['LeaveType_Id'] == '12') {
                $employeeData[$employeeId]['Leave3'] = $row['Balance'];
            }
            else
@@ -17146,7 +17148,7 @@ else
                                 </option>
                                 <?php
      }
-     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26'"; 
+     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26' and Id!='12'"; 
      $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
                  while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
                 {
@@ -17641,11 +17643,36 @@ elseif($code==227)
 {
     $LeaveID=$_POST['LeaveID'];
 
+   $sele="SELECT * from ApplyLeaveGKU  Where Id='$LeaveID'";
+
+        $LeaveseleRun=sqlsrv_query($conntest,$sele);
+       if($row_staff = sqlsrv_fetch_array($LeaveseleRun, SQLSRV_FETCH_ASSOC) )
+    {
+    $StartDate=$row_staff['StartDate'];
+    $EndDate=$row_staff['EndDate'];
+    $ApplyDate=$row_staff['ApplyDate'];
+    $Status=$row_staff['Status'];
+    $StaffId=$row_staff['StaffId'];
+     $Id=$row_staff['Id'];
+        $LeaveDuration=$row_staff['LeaveDuration'];
+         $LeaveDurationTime=$row_staff['LeaveDurationTime'];
+                $LeaveTypeId=$row_staff['LeaveTypeId'];
+
+        }
+
+
+
           $LeaveUpdate="DELETE  FROM ApplyLeaveGKU  Where Id='$LeaveID' ";
         $LeaveUpdateRun=sqlsrv_query($conntest,$LeaveUpdate);
         if($LeaveUpdateRun==true)
         {
            echo "1";
+
+
+              $escapedQuery1 = str_replace("'", "''", $query);
+   $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+               VALUES('$loginId', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+   sqlsrv_query($conntest,$update1);
         }
         else
         {
@@ -17670,6 +17697,17 @@ sqlsrv_query($conntest,$updateLeaveBalance);
     {
    $employeeIdc=$rowc['IDNo'];
     $updateLeaveBalancec="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc','0','2') ";
+sqlsrv_query($conntest,$updateLeaveBalancec);
+
+
+    }
+
+     $staffc="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=12)";
+    $stmtc=sqlsrv_query($conntest,$staffc,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    while($rowc=sqlsrv_fetch_array($stmtc))
+    {
+   $employeeIdc=$rowc['IDNo'];
+    $updateLeaveBalancec="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc','0','12') ";
 sqlsrv_query($conntest,$updateLeaveBalancec);
 
 
