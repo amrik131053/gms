@@ -4917,7 +4917,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $query .= " AND IDNo IN ('$IDNosString1')";
         }
           if ($admissiontype != '') {
-            $query .= " AND AdmissionType='$admissiontype'  Order By ClassRollNo ";
+            $query .= " AND AdmissionType='$admissiontype'  Order By ClassRollNo ASC ";
         }
 
        
