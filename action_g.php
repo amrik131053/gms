@@ -15629,7 +15629,7 @@ else
                     <td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal"
                             data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
                         &nbsp;
-                        <?php if($role_id==2 || $role_id==18) {?>
+                        <?php if($role_id==2 || $role_id==27) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
