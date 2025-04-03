@@ -4917,9 +4917,9 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $query .= " AND IDNo IN ('$IDNosString1')";
         }
           if ($admissiontype != '') {
-            $query .= " AND AdmissionType='$admissiontype'  Order By ClassRollNo ASC ";
+            $query .= " AND AdmissionType='$admissiontype'";
         }
-
+        $query .= " Order By ClassRollNo ASC ";
        
          $result = sqlsrv_query($conntest,$query);
          while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
@@ -11761,7 +11761,7 @@ $exportstudy.="<th>Total Credit</th><th>SGPA</th>";
 $exportstudy.="</tr>";
 
 
- $sql1 = "SELECT  *  FROM ResultPreparation WHERE Examination='$Examination' and CollegeID='$College' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester' AND DeclareType='1'";
+ $sql1 = "SELECT  *  FROM ResultPreparation WHERE Examination='$Examination' and CollegeID='$College' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester' AND DeclareType='1' AND ResultNo='$resultNo'";
  $stmt = sqlsrv_query($conntest,$sql1);
 
  
