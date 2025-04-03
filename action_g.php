@@ -9466,7 +9466,7 @@ $dist_count = 0;
 
     $stmt1->close();
 
-    $sql2 = "SELECT State, District, COUNT(*) AS `dist` FROM offer_latter WHERE District = ? AND Batch = '2024'";
+    $sql2 = "SELECT State, District, COUNT(*) AS `dist` FROM offer_latter WHERE District = ? AND Batch = '2025'";
     $stmt2 = $conn->prepare($sql2);
     $stmt2->bind_param("s", $District);
     $stmt2->execute();
@@ -12267,7 +12267,7 @@ $fileName=$image_name.'.PNG';
       else
       {
           
-$degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 30 "; 
+$degree="SELECT * FROM offer_latter  where Batch='2025' order by Id DESC limit 30 "; 
                 $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
                   {
