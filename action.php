@@ -21456,7 +21456,7 @@ if ($type == 1) {
         $optionC = str_replace("'", " ",$_POST['QuestionC' . $i]);
         $optionD = str_replace("'", " ",$_POST['QuestionD' . $i]);
         
-        $clean="SELECT * FROM question_bank WHERE NOT EXISTS (SELECT 1 FROM question_bank_details WHERE question_bank.Id = question_bank_details.question_id)";
+        $clean="DELETE FROM question_bank WHERE NOT EXISTS (SELECT 1 FROM question_bank_details WHERE question_bank.Id = question_bank_details.question_id)";
         $getclean=mysqli_query($conn,$clean);
 
 
@@ -23802,13 +23802,19 @@ $c++;
 
 
 
-               $list_sql = "SELECT Admissions.ClassRollNo,   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' AND Admissions.Status='1' ORDER BY ExamForm.ID DESC"; 
+                $list_sql = "SELECT ExamForm.SemesterID,
+ExamForm.CourseID,
+ExamForm.CollegeID,
+ExamForm.Batch,  Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where (Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno') ANd ExamForm.Type='Regular' AND Admissions.Status='1' ORDER BY ExamForm.ID DESC"; 
 }
 else if ($_POST['rollNo'] !='') 
 {
- $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' AND Admissions.Status='1' ORDER BY ExamForm.ID DESC"; 
+  $list_sql = "SELECT ExamForm.SemesterID,
+ExamForm.CourseID,
+ExamForm.CollegeID,
+ExamForm.Batch,  Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+               FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where (Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' )AND Admissions.Status='1' ANd ExamForm.Type='Regular' ORDER BY ExamForm.ID DESC"; 
 }
 
  else
@@ -23835,7 +23841,7 @@ $list_sql = "SELECT ExamForm.SemesterID,
 ExamForm.CourseID,
 ExamForm.CollegeID,
 ExamForm.Batch,  Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ORDER BY Admissions.$OrderBy";
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ANd Type='Regular' ORDER BY Admissions.$OrderBy";
 }
 else
 {
@@ -23843,19 +23849,11 @@ else
 ExamForm.CourseID,
 ExamForm.CollegeID,
 ExamForm.Batch,   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ORDER BY Admissions.UniRollNo";
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' AND Admissions.Status='1' ANd Type='Regular' ORDER BY Admissions.UniRollNo";
 }
 }
 
-else 
 
-{
-    $list_sql = "SELECT TOP 150 ExamForm.SemesterID,
-ExamForm.CourseID,
-ExamForm.CollegeID,
-ExamForm.Batch, Admissions.ClassRollNo,  ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  Admissions.Status='1'ORDER BY ExamForm.ID DESC"; 
-}
 ?>
 
 <table class="table table-bordered" id="example">
@@ -23894,6 +23892,8 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  where  A
                      $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='".$row['IDNo']."' and Semester='".$row['SemesterID']."' 
                      and CourseID='".$row['CourseID']."' and CollegeID='".$row['CollegeID']."' and Examination='".$row['Examination']."' and Batch='".$row['Batch']."' and Type='Regular'
                      GROUP BY ResultStatus ORDER BY ResultStatus ";
+
+
                     $resultgetColor = sqlsrv_query($conntest,$getColor);
                     if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
                     {

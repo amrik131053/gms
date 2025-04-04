@@ -16077,7 +16077,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Employee</th>
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
-                                <th>Winter Vacation</th>
+                                <th>Duty Leave</th>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16090,49 +16090,38 @@ sqlsrv_query($conntest,$update12);
                             <?php 
        $emp_id = $_POST['empid'];
        $Sr = 1;
-       if (!empty($emp_id)) {
-           $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo WHERE Staff.IDNo = '$emp_id'";
-       } else {
-           $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo";
-       }
+       // if (!empty($emp_id)) {
+       //     $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo WHERE Staff.IDNo = '$emp_id'";
+       // } else {
+       //     $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo";
+       // }
+
+
+$getAllLeaves ="SELECT 
+    Staff.IDNo,
+    Staff.Name,
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '1' THEN LeaveBalances.Balance ELSE 0 END) AS Casual,
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '2' THEN LeaveBalances.Balance ELSE 0 END) AS Compansatory,
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '12' THEN LeaveBalances.Balance ELSE 0 END) AS Duty
+FROM Staff
+INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo
+WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
+
+
+
+
        $getAllLeavesRun = sqlsrv_query($conntest, $getAllLeaves);
-       $employeeData = [];
+       // $employeeData = [];
        while ($row = sqlsrv_fetch_array($getAllLeavesRun, SQLSRV_FETCH_ASSOC)) {
            $employeeId = $row['IDNo'];
        
-           if (!isset($employeeData[$employeeId])) {
-               $employeeData[$employeeId] = [
-                   'Name' => $row['Name'],
-                   'Leave1' => 0,
-                   'Leave2' => 0,
-                   'Leave3' => 0,
-                   'IDNo' => $row['IDNo'],
-               ];
-           }
-           if ($row['LeaveType_Id'] == '1') {
-               $employeeData[$employeeId]['Leave1'] = $row['Balance'];
-           } elseif ($row['LeaveType_Id'] == '2') {
-               $employeeData[$employeeId]['Leave2'] = $row['Balance'];
-           }
-           elseif ($row['LeaveType_Id'] == '12') {
-               $employeeData[$employeeId]['Leave3'] = $row['Balance'];
-           }
-           else
-{
-    $employeeData[$employeeId]['Leave2'] = '0';
-    $employeeData[$employeeId]['Leave1'] = "0";
-    $employeeData[$employeeId]['Leave3'] = "0";
-}
-       }
-       
-       foreach ($employeeData as $employeeId => $data) {
-           ?>
-                            <tr>
+          ?>
+               <tr>
                                 <td><?= $Sr; ?></td>
-                                <td><b>(<?= $data['Name']; ?>)<?= $data['IDNo']; ?></b></td>
-                                <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
-                                <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
-                                <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
+                                <td><b>(<?= $row['Name']; ?>)<?= $row['IDNo']; ?></b></td>
+                                <td class="editable" data-field="Leave1"><?= $row['Casual']; ?></td>
+                                <td class="editable" data-field="Leave2"><?= $row['Compansatory']; ?></td>
+                                <td class="editable" data-field="Leave3"><?= $row['Duty']; ?></td>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16142,7 +16131,7 @@ sqlsrv_query($conntest,$update12);
                                         <button type="button" class="edit-btn btn btn-primary  btn-sm"
                                             onclick="editRow(this)"><i class="fa fa-edit"></i></button>
                                         <button type="button" class="save-btn btn btn-success  btn-sm"
-                                            onclick="saveRow(this,<?= $data['IDNo']; ?>)" style="display: none;"><i
+                                            onclick="saveRow(this,<?= $row['IDNo']; ?>)" style="display: none;"><i
                                                 class="fa fa-check"></i></button>
                                         <button type="button" class="cancel-btn btn btn-danger  btn-sm"
                                             onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times">
@@ -16150,10 +16139,16 @@ sqlsrv_query($conntest,$update12);
                                     </div>
                                 </td>
                             <?php }?>
+                            </tr><?php 
+       }
+       
+         ?>
+                         
+                                
                             </tr>
                             <?php
            $Sr++;
-       }
+       
      ?>
                         </tbody>
                     </table>
@@ -16198,17 +16193,17 @@ sqlsrv_query($conntest,$updateLeaveBalance1);
 
 }
 
-$checkLeaveBlacne3="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+$checkLeaveBlacne3="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='12' ";
 $existrow3=sqlsrv_query($conntest,$checkLeaveBlacne3,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne3=sqlsrv_num_rows($existrow3);
 if($countblacne3>0)
 {
-    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave3'WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave3'WHERE Employee_Id='$employeeId' and LeaveType_Id='12' ";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 }
 else
 {
-   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave3','26')";
+   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave3','12')";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 
 
@@ -37396,7 +37391,8 @@ $todaydate=$_POST['startDate'];
    $ID=$_POST['ID'];
   $subCode=$_POST['SubCode'];
   $Semester=$_POST['Semester'];
-  $Examination=$_POST['Examination'];
+ $Examination=$_POST['Examination'];
+  $Examinationn=$_POST['Examination'];
   $srNo=1;
   $newcredit=0;
   $gradevaluetotalold=0;
@@ -37606,8 +37602,8 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
              {
         $resubjectcode=$row1['SubjectCode'];
        $credit=$row1['SubjectCredit'];
-       $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
-        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+  $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  SemesterID='$Semester'ANd  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -37776,9 +37772,9 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
 
 
 <?php 
-$DeclareType='';
+$DeclareType=0;
 $MinDeclareType='';
- $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$SemesterID'and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$examination' and Batch='$Batch' and Type='$Type' GROUP BY ResultStatus ORDER BY ResultStatus ";
+  $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$SemesterID'and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$Examinationn' and Batch='$Batch' and Type='$Type' GROUP BY ResultStatus ORDER BY ResultStatus ";
 
 
                     $resultgetColor = sqlsrv_query($conntest,$getColor);
@@ -37788,12 +37784,17 @@ $MinDeclareType='';
                        $MinDeclareType=$rowresultgetColor['MinDeclareType'];
                        $ResultStatus=$rowresultgetColor['MaxDeclareType'];
 
-                    }?>
-                         <?php  
-     if($DeclareType>0){} else
-     {?><button class="btn btn-primary"
+                    }
+
+     if($DeclareType!=1) 
+        {?>
+        <button class="btn btn-primary"
         onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify
-                                        Result</button> <?php }?> </td>
+                                        Result</button> <?php }
+                                        else {
+                                           echo $DeclareType;
+                                        }?>
+      </td>
                             </tr>
                             <?php
                         }
@@ -38001,6 +38002,7 @@ elseif($code==455)
    $ID=$_POST['ID'];
   $Semester=$_POST['Semester'];
   $Examination=$_POST['Examination'];
+    $Examinationn=$_POST['Examination'];
   $srNo=1;
   $newcredit=0;
   $gradevaluetotalold=0;
@@ -38070,7 +38072,7 @@ elseif($code==455)
        $credit=$row1['SubjectCredit'];
 
        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
-        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examinationn' ANd SemesterID='$Semester' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -38237,7 +38239,7 @@ elseif($code==455)
 
 
        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
-        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND SemesterID='$Semester' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
