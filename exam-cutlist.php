@@ -131,7 +131,7 @@
                                 </select>
 
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-12">
+                            <div class="col-lg-1 col-md-2 col-sm-12">
                                 <label>Examination</label>
                                 <select id="Examination" class="form-control form-control-sm" >
                                     <option value="">Select</option>
@@ -153,14 +153,40 @@
 
                                 </select>
 
+
+
+
                             </div>
 
-                            <div class="col-lg-2 col-md-2 col-sm-13">
+                              <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label>Status</label>
+                                <select id="Status" class="form-control form-control-sm" >
+                                    <option value="1">Active</option>
+                                    <option value="0">Left</option>
+                                   
+
+
+                                </select>
+
+                            </div>
+
+
+   <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label>Order By</label>
+                                <select id="OrderBy" class="form-control form-control-sm" >
+                                    <option value="ClassRollNo">Class RollNo</option>
+                                   
+                                    <option value="UniRollNo">Uni RollNo</option>
+                                    
+
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
-                                <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                               
-                                
-                                                    &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
+                                <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
                                                     class="fa fa-file-excel"></i></button> 
                                                        
                                 <button class="btn btn-danger btn-sm " onclick="exportCutListPdf()"><i
@@ -259,6 +285,8 @@ function fetchCutList() {
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
+    var Status = document.getElementById('Status').value;
+    var OrderBy = document.getElementById('OrderBy').value;
     
     if (College != '') {
         var spinner = document.getElementById("ajax-loader");
@@ -271,8 +299,8 @@ function fetchCutList() {
                 College: College,
                 Course: Course,
                 Batch: Batch,
-                Semester: Semester,
-                Type: Type,
+                Semester: Semester,OrderBy:OrderBy,
+                Type: Type,Status:Status,
                 Group: Group,
                 Examination: Examination,sub_data:sub_data
             },
@@ -381,11 +409,14 @@ function exportCutListExcel() {
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
+     var Status = document.getElementById('Status').value;
+    var OrderBy = document.getElementById('OrderBy').value;
+
     var Examination = document.getElementById('Examination').value;
     if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+ "&Status=" + Status+ "&OrderBy=" + OrderBy, '_blank');
 
     } else {
        
@@ -400,11 +431,14 @@ function exportCutListPdf() {
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value; 
     var Group = document.getElementById('Group').value;
+     var Status = document.getElementById('Status').value;
+    var OrderBy = document.getElementById('OrderBy').value;
+    
     var Examination = document.getElementById('Examination').value;
     if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
         window.open("export-cutlist-pdf-new.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+ "&Status=" + Status+ "&OrderBy=" + OrderBy, '_blank');
 
     } else {
         ErrorToast('All input required','bg-warning');

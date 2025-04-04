@@ -22386,7 +22386,8 @@ $Course = $_POST['Course'];
   $Type = $_POST['Type'];
     $Group = $_POST['Group'];
         $Examination = $_POST['Examination'];
-
+        $OrderBy = $_POST['OrderBy'];
+                $Status = $_POST['Status'];
 
 // $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
 //  ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
@@ -22398,7 +22399,7 @@ $Course = $_POST['Course'];
 $list_sql="SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
 ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
 ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='1'";
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='$Status'";
 if($College!=''){
     $list_sql.= "AND ExamForm.CollegeID='$College' ";
  }
@@ -22420,8 +22421,8 @@ $list_sql.= "AND ExamForm.Sgroup='$Group'";
  if($Examination!=''){
   $list_sql.= "ANd ExamForm.Examination='$Examination'"; 
  }
-  $list_sql.= "ORDER BY ExamForm.Status ASC";
-// echo $list_sql;
+  $list_sql.= "ORDER BY ExamForm.Status  ASC , Admissions.$OrderBy ASC";
+ //echo $list_sql;
 }
 else{
     $rollNo = $_POST['rollNo'];
