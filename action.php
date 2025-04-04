@@ -12373,14 +12373,15 @@ else
       <td><?=$question_count_selection_row['question_count'];?></td>
       <!-- <td><?=$question_pending_row['question_count'];?></td> -->
       <?php
-      if ($EmployeeID!='131053')
+      if ($role_id==2 ||$role_id== 13 ||$role_id==16||$role_id== 5 ||$role_id==28)
        {
-      $sql="SELECT COUNT(*) AS qc from question_count left join question_bank as qb ON SUBSTRING(number, 1, 1)=Unit AND SUBSTRING(number, 2, 1)=Type AND SUBSTRING(number, 3, 1)=Category  WHERE SubjectCode='$SubjectCode' and CourseID='$CourseID' and Batch='$Batch' AND Semester='$Semester' AND Exam_Session='$current_session' and UpdatedBy='$EmployeeID' and number=".$question_count_selection_row['number']." GROUP BY Unit,TYPE,Category";
+   $sql="SELECT COUNT(*) AS qc from question_count left join question_bank as qb ON SUBSTRING(number, 1, 1)=Unit AND SUBSTRING(number, 2, 1)=Type AND SUBSTRING(number, 3, 1)=Category  WHERE SubjectCode='$SubjectCode' and CourseID='$CourseID' and Batch='$Batch' AND Semester='$Semester' AND Exam_Session='$current_session' and number=".$question_count_selection_row['number']." GROUP BY Unit,TYPE,Category";
         
       }
       else
       {
-      $sql="SELECT COUNT(*) AS qc from question_count left join question_bank as qb ON SUBSTRING(number, 1, 1)=Unit AND SUBSTRING(number, 2, 1)=Type AND SUBSTRING(number, 3, 1)=Category  WHERE SubjectCode='$SubjectCode' and CourseID='$CourseID' and Batch='$Batch' AND Semester='$Semester' AND Exam_Session='$current_session' and number=".$question_count_selection_row['number']." GROUP BY Unit,TYPE,Category";
+      
+       $sql="SELECT COUNT(*) AS qc from question_count left join question_bank as qb ON SUBSTRING(number, 1, 1)=Unit AND SUBSTRING(number, 2, 1)=Type AND SUBSTRING(number, 3, 1)=Category  WHERE SubjectCode='$SubjectCode' and CourseID='$CourseID' and Batch='$Batch' AND Semester='$Semester' AND Exam_Session='$current_session' and UpdatedBy='$EmployeeID' and number=".$question_count_selection_row['number']." GROUP BY Unit,TYPE,Category";
 
       }
       $res=mysqli_query($conn,$sql);
@@ -12964,10 +12965,12 @@ elseif($code==194.1)
             
             <i class="fa fa-eye fa-lg" style="color:green;" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')"  ></i>&nbsp;&nbsp;
          
-<form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
+
+<!-- <form action="questions.php" method="post" target="_blank">
+   <input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
 <input type="hidden"  name='SubjectCode' value="<?=$data['SubjectCode']?>">
 <input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
-
+ -->
 
             <!-- <i class="fa fa-edit fa-lg text-dark" id="editIcon<?=$sr;?>"  onclick="editAllQuestion('<?=$sr;?>','<?=$SubjectCode?>')"  ></i>&nbsp;&nbsp; -->
          
@@ -13806,18 +13809,18 @@ elseif($code==202)
 
 
 
-               $list_sql = "SELECT Admissions.ClassRollNo,   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+               $list_sql = "SELECT Admissions.ClassRollNo,   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
                FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
 }
 else if ($_POST['rollNo'] !='') 
 {
- $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+ $list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
                FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
 }
 
  else
             {
-               $list_sql = "SELECT TOP 150  Admissions.ClassRollNo, ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+               $list_sql = "SELECT TOP 150  Admissions.ClassRollNo, ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
             }
 
@@ -13834,7 +13837,7 @@ $Course = $_POST['Course'];
         $Examination = $_POST['Examination'];
 
 
-$list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+$list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
 
 }
@@ -13842,7 +13845,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 else 
 
 {
-    $list_sql = "SELECT TOP 150 Admissions.ClassRollNo,  ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+    $list_sql = "SELECT TOP 150 Admissions.ClassRollNo,  ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
 }
 ?>
@@ -13877,6 +13880,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
                 while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                    {
                 $Status= $row['Status'];
+                $AcceptType= $row['AcceptType'];
                 $issueDate=$row['SubmitFormDate'];
                 ?>
                 <tr>
@@ -13956,6 +13960,10 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
 elseif($Status==8)
                 {
                   echo "<b style='color:green'>Accepted</b>";
+                  if($AcceptType>0)
+                  {
+                     echo "<p style='color:red'><b>(Provisional)</b></p>";
+                  }
                 }   ?>        
 </center>
                </td>
