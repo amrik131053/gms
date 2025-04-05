@@ -20830,7 +20830,7 @@ elseif($code==267) //update student
                            {
                             ?>
                                                     <button type="button" onclick="basicLock()"
-                                                        class="btn btn-success"><i class="fa fa-lock"
+                                                        class="btn btn-warning"><i class="fa fa-unlock"
                                                             aria-hidden="true"></i></button><?php
                            }
                            elseif(($role_id=='28' || $role_id=='2')&& $row1['BasicLocked']==1)
@@ -20844,7 +20844,7 @@ elseif($code==267) //update student
                            {
                             ?>
                                                     <button type="button"
-                                                        class="btn btn-danger"><i class="fa fa-lock"
+                                                        class="btn btn-success"><i class="fa fa-lock"
                                                             aria-hidden="true"></i></button><?php
                            }else
                            {?>
