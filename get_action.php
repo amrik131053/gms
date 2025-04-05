@@ -6549,7 +6549,7 @@ $rrrrr=0;
 ?>
 <tr class="bg-<?=$clr;?>" >
 
-<td><?php if($MSTatus!='0'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
+<td><?php if($MSTatus>1){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
 <td><?= $i++;?>
 <input type="hidden"  value="<?= $row['ID'];?>"  id="ExamSubjectID"> 
 <input type="hidden" value="<?= $row['IDNo'];?>"  id="ids<?= $row['ID'];?>" > 

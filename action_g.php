@@ -20740,7 +20740,7 @@ elseif($code==267) //update student
 
                                                     <?php  } else
                                             {
-                                                ?><input type="text" class="form-control" name="StudentName"
+                                                ?><input type="text" class="form-control  <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="StudentName"
                                                         placeholder="Enter name" value="<?=$row1['StudentName'];?>"
                                                         readonly><?php 
                                             }
@@ -20758,7 +20758,7 @@ elseif($code==267) //update student
                                                         value="<?=$row1['FatherName'];?>">
                                                     <?php  } else
                                             {
-                                                ?><input type="text" class="form-control" name="fatherName"
+                                                ?><input type="text" class="form-control  <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="fatherName"
                                                         placeholder="Enter father's name"
                                                         value="<?=$row1['FatherName'];?>" readonly><?php 
                                             }
@@ -20833,13 +20833,26 @@ elseif($code==267) //update student
                                                         class="btn btn-success"><i class="fa fa-lock"
                                                             aria-hidden="true"></i></button><?php
                            }
-                           elseif(($role_id=='15' || $role_id=='2')&& $row1['BasicLocked']==1)
+                           elseif(($role_id=='28' || $role_id=='2')&& $row1['BasicLocked']==1)
                            {
                             ?>
                                                     <button type="button" onclick="basicUnLock(<?=$row1['IDNo'];?>)"
                                                         class="btn btn-danger"><i class="fa fa-unlock"
                                                             aria-hidden="true"></i></button><?php
                            }
+                           elseif($row1['BasicLocked']==1)
+                           {
+                            ?>
+                                                    <button type="button"
+                                                        class="btn btn-danger"><i class="fa fa-lock"
+                                                            aria-hidden="true"></i></button><?php
+                           }else
+                           {?>
+                             <button type="button" onclick="basicLock()"
+                                                        class="btn btn-warning"><i class="fa fa-unlock"
+                                                            aria-hidden="true"></i></button>
+                          <?php  }
+                           
                            ?>
                                                 </div>
                                                 <div class="col-md-12 col-lg-3">
@@ -21954,12 +21967,24 @@ include "connection/ftp-erp.php";
    }
 
 
-   $query = "UPDATE Admissions SET ";
-   $query .= "StudentName ='$name', ";
-   $query .= "FatherName ='$fatherName', ";
-   $query .= "MotherName ='$motherName', ";
-   $query .= "DOB ='$dob', ";
-   $query .= "Sex ='$gender', ";
+  $checklock="SELECT * from Admissions where IDNo='$loginId'";
+
+  $check_lock_run=sqlsrv_query($conntest,$checklock);  
+
+   if($row6 = sqlsrv_fetch_array($check_lock_run, SQLSRV_FETCH_ASSOC) )
+    {
+    $BasicLocked=$row6["BasicLocked"];
+    $Locked=$row6["Locked"];
+    }
+
+   if($BasicLocked>0)
+   {
+     $query = "UPDATE Admissions SET ";
+     //$query .= "StudentName ='$name', ";
+    //$query .= "FatherName ='$fatherName', ";
+    // $query .= "MotherName ='$motherName', ";
+    //$query .= "DOB ='$dob', ";
+    //$query .= "Sex ='$gender', ";
    $query .= "Category ='$category', ";
    $query .= "BloodGroup ='$BloodGroup', ";
    $query .= "AadhaarNo ='$adhaar', ";
@@ -21996,6 +22021,61 @@ include "connection/ftp-erp.php";
    $query .= "AdmissionType='$admissiontype'";
    $query .= "WHERE IDNo ='$loginId'";
   $query;
+
+   }
+   else if($Locked>0)
+   {
+   $query = "UPDATE Admissions SET ";
+    $query .= "Locked ='$ulocked', ";
+    $query .= "WHERE IDNo ='$loginId'";
+  $query;
+   }
+   else
+   {
+    $query = "UPDATE Admissions SET ";
+    if($role_id=='2' ||$role_id=='15')
+    {
+    $query .= "StudentName ='$name', ";
+    $query .= "FatherName ='$fatherName', ";
+    $query .= "AadhaarNo ='$adhaar', ";
+    }
+   $query .= "MotherName ='$motherName', ";
+   $query .= "DOB ='$dob', ";
+   $query .= "Sex ='$gender', ";
+   $query .= "Category ='$category', ";
+   $query .= "BloodGroup ='$BloodGroup', ";
+   $query .= "Religion ='$Religion', ";
+   $query .= "ABCID ='$abcid', ";
+ // contact
+   $query .= "EmailID ='$personalEmail', ";
+   $query .= "OfficialEmailID ='$officialEmail', ";
+   $query .= "StudentMobileNo ='$mobileNumber', ";
+   $query .= "FatherMobileNo ='$whatsappNumber', ";
+   $query .= "AddressLine1 ='$addressLine1', ";
+   $query .= "AddressLine2 ='$addressLine2', ";
+   $query .= "PermanentAddress ='$permanentAddress', ";
+   $query .= "CorrespondanceAddress ='$correspondenceAddress', ";
+   $query .= "Nationality ='$Nationality_1', ";
+   $query .= "country ='$CountryID', ";
+   $query .= "District ='$districtID', ";
+   $query .= "State ='$State', ";
+   $query .= "PO ='$postOffice', ";
+   $query .= "PIN ='$pinCode', ";
+   $query .= "Status ='$employmentStatus', ";
+   $query .= "StatusType ='$statustype', ";
+   $query .= "Batch='$batch', ";   
+   $query .= "Eligibility ='$eligible', ";
+   $query .= "Locked ='$ulocked', ";
+   $query .= "Quota ='$modeofadmission', ";
+   $query .= "ScolarShip ='$scholaship',";
+   $query .= "EligibilityReason='$provisional',";
+   $query .= "EligibilityRemarks='$EligibilityRemarks',";
+   $query .= "CommentsDetail='$specialcomment',";
+   $query .= "AdmissionType='$admissiontype'";
+   $query .= "WHERE IDNo ='$loginId'";
+   $query;
+     }
+
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
 
@@ -37727,7 +37807,7 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
             }
             else {
 
-               echo  $sgpan= number_format($sgpa,2);
+               $sgpan= number_format($sgpa,2);
             }
 
              
@@ -37813,7 +37893,7 @@ $group=$_POST['group'];
 $subCodesArray=$_POST['subCodesArray'];
     foreach ($subCodesArray as $key => $value)
     {
-        echo   $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE  ID='$value'        group by CE1,CE2,CE3,Attendance  ";
+           $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE  ID='$value'        group by CE1,CE2,CE3,Attendance  ";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -39120,8 +39200,14 @@ elseif($code==467)
     $gender=$_POST['gender'];
     $aadharNo=$_POST['aadharNo'];
     $loginId=$_POST['loginId'];
-    $desc= "UPDATE Admissions SET StudentName".$StudentName.'FatherName'.$fatherName.'motherName'.$motherName.'dob'.$dob.'gender'.$gender.'aadharNo'.$aadharNo;
+    
+    $desc= "Locked : StudentName".$StudentName.'FatherName'.$fatherName.'motherName'.$motherName.'dob'.$dob.'gender'.$gender.'aadharNo'.$aadharNo;
+
+
+
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
+
+
     $update_query=sqlsrv_query($conntest,$update1);
     $basiclocked="UPDATE Admissions SET BasicLocked='1' where IDNo='$loginId'";
     $basiclockedRun=sqlsrv_query($conntest,$basiclocked);
@@ -39137,7 +39223,7 @@ elseif($code==467)
 elseif($code==468)
 {
     $loginId=$_POST['loginId'];
-    $desc= "UPDATE Admissions SET 'BasicLocked.0";
+    $desc= " Student Basic Unlocked";
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
     $basiclocked="UPDATE Admissions SET BasicLocked='0' where IDNo='$loginId'";

@@ -12602,7 +12602,11 @@ elseif($code==194)
          <td>
             
             <i class="fa fa-eye fa-lg" style="color:green;" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')"  ></i>&nbsp;&nbsp;
-            <i class="fa fa-trash fa-lg text-danger" onclick="deleteAllQuestion('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>',<?=$data['UpdatedBy'];?>)"  ></i>&nbsp;&nbsp;
+            <?php if($role_id==2 ||$role_id==28)
+            {?><i class="fa fa-trash fa-lg text-danger" onclick="deleteAllQuestion('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>',<?=$data['UpdatedBy'];?>)"  >
+
+            <?php }?>
+            </i>&nbsp;&nbsp;
             
 <form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
 <input type="hidden"  name='SubjectCode' value="<?=$data['SubjectCode']?>">
