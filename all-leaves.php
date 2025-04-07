@@ -475,6 +475,7 @@ function show_text_box_pages(id) {
                <select class="form-control" name="Type"  id="Type" required>
                <option value="1">Casual</option>
                <option value="2">Compansatory</option>
+               <option value="12">Duty Leave</option>
                </select>
                 </div>
               

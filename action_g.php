@@ -16013,7 +16013,8 @@ sqlsrv_query($conntest,$update12);
                                 <th>Employee</th>
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
-                                <th>Winter Vacation</th>
+
+                                <th>Duty Leave</th>
                                
                             </tr>
                         </thead>
@@ -16037,10 +16038,11 @@ sqlsrv_query($conntest,$update12);
             }
             if ($row['LeaveType_Id'] == '1') {
                 $employeeData[$employeeId]['Leave1'] = $row['Balance'];
+                
             } elseif ($row['LeaveType_Id'] == '2') {
                 $employeeData[$employeeId]['Leave2'] = $row['Balance'];
             }
-            elseif ($row['LeaveType_Id'] == '26') {
+            elseif ($row['LeaveType_Id'] == '12') {
                 $employeeData[$employeeId]['Leave3'] = $row['Balance'];
             }
         }
@@ -16075,7 +16077,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Employee</th>
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
-                                <th>Winter Vacation</th>
+                                <th>Duty Leave</th>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16088,49 +16090,38 @@ sqlsrv_query($conntest,$update12);
                             <?php 
        $emp_id = $_POST['empid'];
        $Sr = 1;
-       if (!empty($emp_id)) {
-           $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo WHERE Staff.IDNo = '$emp_id'";
-       } else {
-           $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo";
-       }
+       // if (!empty($emp_id)) {
+       //     $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo WHERE Staff.IDNo = '$emp_id'";
+       // } else {
+       //     $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo";
+       // }
+
+
+$getAllLeaves ="SELECT 
+    Staff.IDNo,
+    Staff.Name,
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '1' THEN LeaveBalances.Balance ELSE 0 END) AS Casual,
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '2' THEN LeaveBalances.Balance ELSE 0 END) AS Compansatory,
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '12' THEN LeaveBalances.Balance ELSE 0 END) AS Duty
+FROM Staff
+INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo
+WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
+
+
+
+
        $getAllLeavesRun = sqlsrv_query($conntest, $getAllLeaves);
-       $employeeData = [];
+       // $employeeData = [];
        while ($row = sqlsrv_fetch_array($getAllLeavesRun, SQLSRV_FETCH_ASSOC)) {
            $employeeId = $row['IDNo'];
        
-           if (!isset($employeeData[$employeeId])) {
-               $employeeData[$employeeId] = [
-                   'Name' => $row['Name'],
-                   'Leave1' => 0,
-                   'Leave2' => 0,
-                   'Leave3' => 0,
-                   'IDNo' => $row['IDNo'],
-               ];
-           }
-           if ($row['LeaveType_Id'] == '1') {
-               $employeeData[$employeeId]['Leave1'] = $row['Balance'];
-           } elseif ($row['LeaveType_Id'] == '2') {
-               $employeeData[$employeeId]['Leave2'] = $row['Balance'];
-           }
-           elseif ($row['LeaveType_Id'] == '26') {
-               $employeeData[$employeeId]['Leave3'] = $row['Balance'];
-           }
-           else
-{
-    $employeeData[$employeeId]['Leave2'] = '0';
-    $employeeData[$employeeId]['Leave1'] = "0";
-    $employeeData[$employeeId]['Leave3'] = "0";
-}
-       }
-       
-       foreach ($employeeData as $employeeId => $data) {
-           ?>
-                            <tr>
+          ?>
+               <tr>
                                 <td><?= $Sr; ?></td>
-                                <td><b>(<?= $data['Name']; ?>)<?= $data['IDNo']; ?></b></td>
-                                <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
-                                <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
-                                <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
+                                <td><b>(<?= $row['Name']; ?>)<?= $row['IDNo']; ?></b></td>
+                                <td class="editable" data-field="Leave1"><?= $row['Casual']; ?></td>
+                                <td class="editable" data-field="Leave2"><?= $row['Compansatory']; ?></td>
+                                <td class="editable" data-field="Leave3"><?= $row['Duty']; ?></td>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16140,7 +16131,7 @@ sqlsrv_query($conntest,$update12);
                                         <button type="button" class="edit-btn btn btn-primary  btn-sm"
                                             onclick="editRow(this)"><i class="fa fa-edit"></i></button>
                                         <button type="button" class="save-btn btn btn-success  btn-sm"
-                                            onclick="saveRow(this,<?= $data['IDNo']; ?>)" style="display: none;"><i
+                                            onclick="saveRow(this,<?= $row['IDNo']; ?>)" style="display: none;"><i
                                                 class="fa fa-check"></i></button>
                                         <button type="button" class="cancel-btn btn btn-danger  btn-sm"
                                             onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times">
@@ -16148,10 +16139,16 @@ sqlsrv_query($conntest,$update12);
                                     </div>
                                 </td>
                             <?php }?>
+                            </tr><?php 
+       }
+       
+         ?>
+                         
+                                
                             </tr>
                             <?php
            $Sr++;
-       }
+       
      ?>
                         </tbody>
                     </table>
@@ -16196,17 +16193,17 @@ sqlsrv_query($conntest,$updateLeaveBalance1);
 
 }
 
-$checkLeaveBlacne3="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+$checkLeaveBlacne3="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='12' ";
 $existrow3=sqlsrv_query($conntest,$checkLeaveBlacne3,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne3=sqlsrv_num_rows($existrow3);
 if($countblacne3>0)
 {
-    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave3'WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave3'WHERE Employee_Id='$employeeId' and LeaveType_Id='12' ";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 }
 else
 {
-   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave3','26')";
+   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave3','12')";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 
 
@@ -17146,7 +17143,7 @@ else
                                 </option>
                                 <?php
      }
-     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26'"; 
+     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26' and Id!='12'"; 
      $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
                  while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
                 {
@@ -17641,11 +17638,36 @@ elseif($code==227)
 {
     $LeaveID=$_POST['LeaveID'];
 
+   $sele="SELECT * from ApplyLeaveGKU  Where Id='$LeaveID'";
+
+        $LeaveseleRun=sqlsrv_query($conntest,$sele);
+       if($row_staff = sqlsrv_fetch_array($LeaveseleRun, SQLSRV_FETCH_ASSOC) )
+    {
+    $StartDate=$row_staff['StartDate'];
+    $EndDate=$row_staff['EndDate'];
+    $ApplyDate=$row_staff['ApplyDate'];
+    $Status=$row_staff['Status'];
+    $StaffId=$row_staff['StaffId'];
+     $Id=$row_staff['Id'];
+        $LeaveDuration=$row_staff['LeaveDuration'];
+         $LeaveDurationTime=$row_staff['LeaveDurationTime'];
+                $LeaveTypeId=$row_staff['LeaveTypeId'];
+
+        }
+
+
+
           $LeaveUpdate="DELETE  FROM ApplyLeaveGKU  Where Id='$LeaveID' ";
         $LeaveUpdateRun=sqlsrv_query($conntest,$LeaveUpdate);
         if($LeaveUpdateRun==true)
         {
            echo "1";
+
+
+              $escapedQuery1 = str_replace("'", "''", $query);
+   $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+               VALUES('$loginId', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+   sqlsrv_query($conntest,$update1);
         }
         else
         {
@@ -17670,6 +17692,17 @@ sqlsrv_query($conntest,$updateLeaveBalance);
     {
    $employeeIdc=$rowc['IDNo'];
     $updateLeaveBalancec="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc','0','2') ";
+sqlsrv_query($conntest,$updateLeaveBalancec);
+
+
+    }
+
+     $staffc="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=12)";
+    $stmtc=sqlsrv_query($conntest,$staffc,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    while($rowc=sqlsrv_fetch_array($stmtc))
+    {
+   $employeeIdc=$rowc['IDNo'];
+    $updateLeaveBalancec="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc','0','12') ";
 sqlsrv_query($conntest,$updateLeaveBalancec);
 
 
@@ -20707,7 +20740,7 @@ elseif($code==267) //update student
 
                                                     <?php  } else
                                             {
-                                                ?><input type="text" class="form-control" name="StudentName"
+                                                ?><input type="text" class="form-control  <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="StudentName"
                                                         placeholder="Enter name" value="<?=$row1['StudentName'];?>"
                                                         readonly><?php 
                                             }
@@ -20725,7 +20758,7 @@ elseif($code==267) //update student
                                                         value="<?=$row1['FatherName'];?>">
                                                     <?php  } else
                                             {
-                                                ?><input type="text" class="form-control" name="fatherName"
+                                                ?><input type="text" class="form-control  <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="fatherName"
                                                         placeholder="Enter father's name"
                                                         value="<?=$row1['FatherName'];?>" readonly><?php 
                                             }
@@ -20797,16 +20830,29 @@ elseif($code==267) //update student
                            {
                             ?>
                                                     <button type="button" onclick="basicLock()"
-                                                        class="btn btn-success"><i class="fa fa-lock"
+                                                        class="btn btn-warning"><i class="fa fa-unlock"
                                                             aria-hidden="true"></i></button><?php
                            }
-                           elseif(($role_id=='15' || $role_id=='2')&& $row1['BasicLocked']==1)
+                           elseif(($role_id=='28' || $role_id=='2')&& $row1['BasicLocked']==1)
                            {
                             ?>
                                                     <button type="button" onclick="basicUnLock(<?=$row1['IDNo'];?>)"
                                                         class="btn btn-danger"><i class="fa fa-unlock"
                                                             aria-hidden="true"></i></button><?php
                            }
+                           elseif($row1['BasicLocked']==1)
+                           {
+                            ?>
+                                                    <button type="button"
+                                                        class="btn btn-success"><i class="fa fa-lock"
+                                                            aria-hidden="true"></i></button><?php
+                           }else
+                           {?>
+                             <button type="button" onclick="basicLock()"
+                                                        class="btn btn-warning"><i class="fa fa-unlock"
+                                                            aria-hidden="true"></i></button>
+                          <?php  }
+                           
                            ?>
                                                 </div>
                                                 <div class="col-md-12 col-lg-3">
@@ -21921,12 +21967,24 @@ include "connection/ftp-erp.php";
    }
 
 
-   $query = "UPDATE Admissions SET ";
-   $query .= "StudentName ='$name', ";
-   $query .= "FatherName ='$fatherName', ";
-   $query .= "MotherName ='$motherName', ";
-   $query .= "DOB ='$dob', ";
-   $query .= "Sex ='$gender', ";
+  $checklock="SELECT * from Admissions where IDNo='$loginId'";
+
+  $check_lock_run=sqlsrv_query($conntest,$checklock);  
+
+   if($row6 = sqlsrv_fetch_array($check_lock_run, SQLSRV_FETCH_ASSOC) )
+    {
+    $BasicLocked=$row6["BasicLocked"];
+    $Locked=$row6["Locked"];
+    }
+
+   if($BasicLocked>0)
+   {
+     $query = "UPDATE Admissions SET ";
+     //$query .= "StudentName ='$name', ";
+    //$query .= "FatherName ='$fatherName', ";
+    // $query .= "MotherName ='$motherName', ";
+    //$query .= "DOB ='$dob', ";
+    //$query .= "Sex ='$gender', ";
    $query .= "Category ='$category', ";
    $query .= "BloodGroup ='$BloodGroup', ";
    $query .= "AadhaarNo ='$adhaar', ";
@@ -21963,6 +22021,61 @@ include "connection/ftp-erp.php";
    $query .= "AdmissionType='$admissiontype'";
    $query .= "WHERE IDNo ='$loginId'";
   $query;
+
+   }
+   else if($Locked>0)
+   {
+   $query = "UPDATE Admissions SET ";
+    $query .= "Locked ='$ulocked', ";
+    $query .= "WHERE IDNo ='$loginId'";
+  $query;
+   }
+   else
+   {
+    $query = "UPDATE Admissions SET ";
+    if($role_id=='2' ||$role_id=='15')
+    {
+    $query .= "StudentName ='$name', ";
+    $query .= "FatherName ='$fatherName', ";
+    $query .= "AadhaarNo ='$adhaar', ";
+    }
+   $query .= "MotherName ='$motherName', ";
+   $query .= "DOB ='$dob', ";
+   $query .= "Sex ='$gender', ";
+   $query .= "Category ='$category', ";
+   $query .= "BloodGroup ='$BloodGroup', ";
+   $query .= "Religion ='$Religion', ";
+   $query .= "ABCID ='$abcid', ";
+ // contact
+   $query .= "EmailID ='$personalEmail', ";
+   $query .= "OfficialEmailID ='$officialEmail', ";
+   $query .= "StudentMobileNo ='$mobileNumber', ";
+   $query .= "FatherMobileNo ='$whatsappNumber', ";
+   $query .= "AddressLine1 ='$addressLine1', ";
+   $query .= "AddressLine2 ='$addressLine2', ";
+   $query .= "PermanentAddress ='$permanentAddress', ";
+   $query .= "CorrespondanceAddress ='$correspondenceAddress', ";
+   $query .= "Nationality ='$Nationality_1', ";
+   $query .= "country ='$CountryID', ";
+   $query .= "District ='$districtID', ";
+   $query .= "State ='$State', ";
+   $query .= "PO ='$postOffice', ";
+   $query .= "PIN ='$pinCode', ";
+   $query .= "Status ='$employmentStatus', ";
+   $query .= "StatusType ='$statustype', ";
+   $query .= "Batch='$batch', ";   
+   $query .= "Eligibility ='$eligible', ";
+   $query .= "Locked ='$ulocked', ";
+   $query .= "Quota ='$modeofadmission', ";
+   $query .= "ScolarShip ='$scholaship',";
+   $query .= "EligibilityReason='$provisional',";
+   $query .= "EligibilityRemarks='$EligibilityRemarks',";
+   $query .= "CommentsDetail='$specialcomment',";
+   $query .= "AdmissionType='$admissiontype'";
+   $query .= "WHERE IDNo ='$loginId'";
+   $query;
+     }
+
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
 
@@ -22353,7 +22466,8 @@ $Course = $_POST['Course'];
   $Type = $_POST['Type'];
     $Group = $_POST['Group'];
         $Examination = $_POST['Examination'];
-
+        $OrderBy = $_POST['OrderBy'];
+                $Status = $_POST['Status'];
 
 // $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
 //  ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
@@ -22365,7 +22479,7 @@ $Course = $_POST['Course'];
 $list_sql="SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
 ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
 ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='1'";
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='$Status'";
 if($College!=''){
     $list_sql.= "AND ExamForm.CollegeID='$College' ";
  }
@@ -22387,8 +22501,8 @@ $list_sql.= "AND ExamForm.Sgroup='$Group'";
  if($Examination!=''){
   $list_sql.= "ANd ExamForm.Examination='$Examination'"; 
  }
-  $list_sql.= "ORDER BY ExamForm.Status ASC";
-// echo $list_sql;
+  $list_sql.= "ORDER BY ExamForm.Status  ASC , Admissions.$OrderBy ASC";
+ //echo $list_sql;
 }
 else{
     $rollNo = $_POST['rollNo'];
@@ -30832,7 +30946,7 @@ elseif($code==368)
 {
     $rollNo = $_POST['rollNo'];
 
- $degree="SELECT * FROM offer_latter   WHERE (Batch='2024' OR (Batch='2023'ANd Lateral='Yes')) AND RefNo='$rollNo' order by Id DESC limit 1"; 
+ $degree="SELECT * FROM offer_latter   WHERE (Batch='2025' OR (Batch='2024'ANd Lateral='Yes')) AND RefNo='$rollNo' order by Id DESC limit 1"; 
 
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
@@ -37358,7 +37472,8 @@ $todaydate=$_POST['startDate'];
    $ID=$_POST['ID'];
   $subCode=$_POST['SubCode'];
   $Semester=$_POST['Semester'];
-  $Examination=$_POST['Examination'];
+ $Examination=$_POST['Examination'];
+  $Examinationn=$_POST['Examination'];
   $srNo=1;
   $newcredit=0;
   $gradevaluetotalold=0;
@@ -37568,8 +37683,8 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
              {
         $resubjectcode=$row1['SubjectCode'];
        $credit=$row1['SubjectCredit'];
-       $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
-        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+  $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  SemesterID='$Semester'ANd  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -37692,7 +37807,7 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
             }
             else {
 
-               echo  $sgpan= number_format($sgpa,2);
+               $sgpan= number_format($sgpa,2);
             }
 
              
@@ -37738,9 +37853,9 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
 
 
 <?php 
-$DeclareType='';
+$DeclareType=0;
 $MinDeclareType='';
- $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$SemesterID'and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$examination' and Batch='$Batch' and Type='$Type' GROUP BY ResultStatus ORDER BY ResultStatus ";
+  $getColor="SELECT ResultStatus,MAX(DeclareType) AS MaxDeclareType,MIN(DeclareType) AS MinDeclareType FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$SemesterID'and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$Examinationn' and Batch='$Batch' and Type='$Type' GROUP BY ResultStatus ORDER BY ResultStatus ";
 
 
                     $resultgetColor = sqlsrv_query($conntest,$getColor);
@@ -37750,12 +37865,17 @@ $MinDeclareType='';
                        $MinDeclareType=$rowresultgetColor['MinDeclareType'];
                        $ResultStatus=$rowresultgetColor['MaxDeclareType'];
 
-                    }?>
-                         <?php  
-     if($DeclareType>0){} else
-     {?><button class="btn btn-primary"
+                    }
+
+     if($DeclareType!=1) 
+        {?>
+        <button class="btn btn-primary"
         onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify
-                                        Result</button> <?php }?> </td>
+                                        Result</button> <?php }
+                                        else {
+                                           echo $DeclareType;
+                                        }?>
+      </td>
                             </tr>
                             <?php
                         }
@@ -37773,7 +37893,7 @@ $group=$_POST['group'];
 $subCodesArray=$_POST['subCodesArray'];
     foreach ($subCodesArray as $key => $value)
     {
-        echo   $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE  ID='$value'        group by CE1,CE2,CE3,Attendance  ";
+           $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE  ID='$value'        group by CE1,CE2,CE3,Attendance  ";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -37963,6 +38083,7 @@ elseif($code==455)
    $ID=$_POST['ID'];
   $Semester=$_POST['Semester'];
   $Examination=$_POST['Examination'];
+    $Examinationn=$_POST['Examination'];
   $srNo=1;
   $newcredit=0;
   $gradevaluetotalold=0;
@@ -38032,7 +38153,7 @@ elseif($code==455)
        $credit=$row1['SubjectCredit'];
 
        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
-        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examinationn' ANd SemesterID='$Semester' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -38199,7 +38320,7 @@ elseif($code==455)
 
 
        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
-        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND SemesterID='$Semester' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -39079,8 +39200,14 @@ elseif($code==467)
     $gender=$_POST['gender'];
     $aadharNo=$_POST['aadharNo'];
     $loginId=$_POST['loginId'];
-    $desc= "UPDATE Admissions SET StudentName".$StudentName.'FatherName'.$fatherName.'motherName'.$motherName.'dob'.$dob.'gender'.$gender.'aadharNo'.$aadharNo;
+    
+    $desc= "Locked : StudentName".$StudentName.'FatherName'.$fatherName.'motherName'.$motherName.'dob'.$dob.'gender'.$gender.'aadharNo'.$aadharNo;
+
+
+
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
+
+
     $update_query=sqlsrv_query($conntest,$update1);
     $basiclocked="UPDATE Admissions SET BasicLocked='1' where IDNo='$loginId'";
     $basiclockedRun=sqlsrv_query($conntest,$basiclocked);
@@ -39096,7 +39223,7 @@ elseif($code==467)
 elseif($code==468)
 {
     $loginId=$_POST['loginId'];
-    $desc= "UPDATE Admissions SET 'BasicLocked.0";
+    $desc= " Student Basic Unlocked";
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
     $basiclocked="UPDATE Admissions SET BasicLocked='0' where IDNo='$loginId'";

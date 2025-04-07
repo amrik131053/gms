@@ -940,7 +940,7 @@ function basicUnLock(loginId) {
             code: code,loginId:loginId
         },
         success: function(response) {
-            //console.log(response);
+            console.log(response);
             if (response==1) {
 
                 SuccessToast('Successfuly UnLocked');
@@ -1348,7 +1348,7 @@ function copyToClipboard(text) {
 
                                 </button>
                       </br></br>
-                                <?php if($role_id==2 || $role_id==15)
+                                <?php if($role_id==2 || $role_id==15 || $role_id==5|| $role_id==28)
                                             {?>
                                 <button type="button" onclick="exportLockedBasicExcel()" class="btn btn-success btn-sm">
 

@@ -46,7 +46,7 @@ function uncheckall()
 
 
    <label>College</label>
-       <select  name="College" id='College' onchange="courseByCollegeexam(this.value)" class="form-control" required="">
+       <select  name="College" id='College' onchange="courseByCollegeexam(this.value)" class="form-control form-control-sm" required="">
                 <option value=''>Select Course</option>
                 
                   <?php
@@ -83,7 +83,7 @@ function uncheckall()
    
           
  <label>Course</label>
-              <select name="Course" id="Course" class="form-control">
+              <select name="Course" id="Course" class="form-control form-control-sm">
                 <option value=''>Select Course</option>
                 
               </select>
@@ -97,7 +97,7 @@ function uncheckall()
 
 
               <label>Batch</label>
-            <select name="batch"  class="form-control" id="Batch" required="">
+            <select name="batch"  class="form-control form-control-sm" id="Batch" required="">
               <option value="">Batch</option>
              <!--           <?php 
 //for($i=2013;$i<=2030;$i++)
@@ -112,7 +112,7 @@ function uncheckall()
 
  <div class="col-lg-1 col-md-4 col-sm-3">
 <label> Semester</label>
-            <select   id='Semester' class="form-control" required="">
+            <select   id='Semester' class="form-control form-control-sm" required="">
               <option value="">Sem</option>
             <?php 
 for($i=1;$i<=12;$i++)
@@ -127,11 +127,11 @@ for($i=1;$i<=12;$i++)
 
 
 
-     <div class="col-md-2">
+     <div class="col-md-1">
             <div class="form-group">
               <label>Subject</label>
-              <select name="subject" id="Subject" class="form-control" required="">
-                <option value="">subject</option>
+              <select name="subject" id="Subject" class="form-control form-control-sm" required="">
+                <option value="">Subject</option>
 
                 
               </select>
@@ -141,7 +141,7 @@ for($i=1;$i<=12;$i++)
             <div class="col-md-1">
             <div class="form-group">
               <label>Type</label>
-              <select name="ecat" id="ecat" class="form-control" required="">
+              <select name="ecat" id="ecat" class="form-control form-control-sm" required="">
                 <option value="">Select</option>
                 <option value="CE1">CA-1  & CA2</option>
                  <!-- <option value="CE2">CA-2</option> -->
@@ -159,7 +159,7 @@ for($i=1;$i<=12;$i++)
   <div class="col-md-1">
             <div class="form-group">
               <label>Group</label>
-                    <select  id="group" name="group" class="form-control" required="">
+                    <select  id="group" name="group" class="form-control form-control-sm" required="">
                  <option value="">Group</option>
                        <?php
    $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
@@ -186,7 +186,7 @@ for($i=1;$i<=12;$i++)
 
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Examination</label>
-              <select  id="Examination" class="form-control" required="">
+              <select  id="Examination" class="form-control form-control-sm" required="">
                  <option value="<?=$CurrentExamination;?>"><?=$CurrentExamination;?></option>
                       <!--  <?php
    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
@@ -207,6 +207,19 @@ for($i=1;$i<=12;$i++)
               </select>
 
 </div>
+
+ <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label>Order By</label>
+                                <select id="OrderBy" class="form-control form-control-sm" >
+                                    <option value="ClassRollNo">Class RollNo</option>
+                                   
+                                    <option value="UniRollNo">Uni RollNo</option>
+                                    
+
+
+                                </select>
+
+                            </div>
 
 
  <div class="col-lg-1 col-md-4 col-sm-3" style="text-align: center;">
@@ -319,8 +332,9 @@ function select_mst()
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
       var  group = document.getElementById('group').value;
-
+      var  OrderBy = document.getElementById('OrderBy').value;
     var distributiontheory = document.getElementById('ecat').value;
+
 
   if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
  {
@@ -336,7 +350,7 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types(); 
         }
     } 
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+51,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&OrderBy="+OrderBy+"&code="+51,true);
         xmlhttp.send();
  }
 else 

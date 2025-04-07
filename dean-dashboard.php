@@ -7,8 +7,8 @@
         <div class="container-fluid">
             <div class="card-header">
                 <div class="row">
-                <div class="col-lg-6">
-                <select id="Batch" class="form-control form-control-range" onchange="loadDashboard();">
+                <div class="col-lg-6"> 
+        <!--         <select id="Batch" class="form-control form-control-range" onchange="loadDashboard();">
                     <option value="<?php echo date('Y');?>"><?php echo date('Y');?></option>
                     <?php 
                               for($i=2011;$i<=2030;$i++)
@@ -17,6 +17,27 @@
                     <?php }
                                   ?>
                 </select>
+ -->
+
+
+
+  <select id="Session" name="session1" class="form-control" onchange="loadDashboard();">
+                                      <option value="2025-26-A">2025-26-A</option>
+                                        <?php         
+
+ $sql="SELECT DISTINCT Session from Admissions ORDER By Session Desc";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $session = $row['Session']; 
+                        
+                        ?>
+                                        <option value="<?=$session;?>"><?=$session;?></option>
+                                        <?php }
+                        ?>
+
+
+                                    </select>
 
                                  </div>
                                  <div class="col-lg-6">
@@ -164,7 +185,7 @@
 
     function exportTotalScordingToStatus(Status,Eligible) {
     var exportCode = 44;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
 
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral, '_blank');
@@ -175,13 +196,13 @@
 
 function exportTotalScordingToCollege(CollegeID,Status,Eligible) {
     var exportCode = 45;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral+ "&CollegeID=" + CollegeID, '_blank');
 }
 function exportTotalScordingToCollegeSumy(CollegeID,Status,Eligible) {
     var exportCode = 46;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral+ "&CollegeID=" + CollegeID, '_blank');
 
@@ -192,7 +213,7 @@ function exportTotalScordingToCollegeSumy(CollegeID,Status,Eligible) {
 
 function exportTotalScordingToStatusSummary(Status,Eligible) {
     var exportCode = 47;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral, '_blank');
 }
@@ -208,7 +229,7 @@ function exportTotalScordingToStatusSummary(Status,Eligible) {
 
     function loadDashboard() {
       $('#div-loader').show();
-        var Batch = document.getElementById("Batch").value;
+        var Batch = document.getElementById("Session").value;
         var Lateral = document.getElementById("Lateral").value;
         var subjects=document.getElementsByClassName('checkbox');
         var len_subject= subjects.length;

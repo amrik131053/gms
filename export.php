@@ -5087,6 +5087,8 @@ $Semester=$_GET['Semester'];
 $Type=$_GET['Type'];
 $Group=$_GET['Group'];
 $Examination=$_GET['Examination'];
+     $OrderBy = $_GET['OrderBy'];
+                $Status = $_GET['Status'];
 
 $SrNo=1;
 $Subjects=array();
@@ -5179,7 +5181,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
 
 
  $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
-    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8' and  Admissions.Status='1'  ORDER BY Admissions.UniRollNo ";
+    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8' and  Admissions.Status='$Status'  ORDER BY Admissions.$OrderBy ";
         
         
                 $j=0;

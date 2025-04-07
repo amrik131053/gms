@@ -110,7 +110,7 @@ for($i=1;$i<=12;$i++)
 
 
 
-     <div class="col-md-2">
+     <div class="col-md-1">
             <div class="form-group">
               <label>Subject</label>
               <select name="subject" id="Subject" class="form-control" required="">
@@ -189,7 +189,18 @@ for($i=1;$i<=12;$i++)
               </select>
 
 </div>
+ <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label>Order By</label>
+                                <select id="OrderBy" class="form-control" >
+                                    <option value="ClassRollNo">Class RollNo</option>
+                                   
+                                    <option value="UniRollNo">Uni RollNo</option>
+                                    
 
+
+                                </select>
+
+                            </div>
 
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
@@ -339,7 +350,7 @@ function select_mst()
   var subject = document.getElementById('Subject').value;
   var  examination = document.getElementById('Examination').value;
   var  group = document.getElementById('group').value;
-
+  var  OrderBy = document.getElementById('OrderBy').value;
     var distributiontheory = document.getElementById('ecat').value;
 
   if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
@@ -356,8 +367,8 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+43,true);
-        xmlhttp.send();
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&OrderBy="+OrderBy+"&code="+43,true);
+        xmlhttp.send();  
  }
 else
 {

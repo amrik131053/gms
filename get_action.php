@@ -3793,6 +3793,7 @@ else if($code=='43')
  $subject = $_GET['subject'];
  $ecat = $_GET['DistributionTheory'];
  $group = $_GET['group'];
+  $OrderBy = $_GET['OrderBy'];
 ?>
 
 <!-- <form action="post_action.php" method="post"> -->
@@ -3852,8 +3853,8 @@ else if($code=='43')
  $subjectcode = $_GET['subject'];
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
-
- $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
+ $OrderBy = $_GET['OrderBy'];
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group','$OrderBy')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
@@ -4772,6 +4773,7 @@ else if($code=='51')
  $subject = $_GET['subject'];
  $ecat = $_GET['DistributionTheory'];
  $group = $_GET['group'];
+  $OrderBy = $_GET['OrderBy'];
  $start=0;
 if($ecat=='CE1')
 {
@@ -4859,8 +4861,9 @@ $start=3;
  $subjectcode = $_GET['subject'];
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
+   $OrderBy = $_GET['OrderBy'];
 
- $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group','$OrderBy')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
@@ -6547,7 +6550,7 @@ $rrrrr=0;
 ?>
 <tr class="bg-<?=$clr;?>" >
 
-<td><?php if($rrrrr!='0'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
+<td><?php if($MSTatus>1){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
 <td><?= $i++;?>
 <input type="hidden"  value="<?= $row['ID'];?>"  id="ExamSubjectID"> 
 <input type="hidden" value="<?= $row['IDNo'];?>"  id="ids<?= $row['ID'];?>" > 

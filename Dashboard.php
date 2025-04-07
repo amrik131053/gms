@@ -16,7 +16,13 @@ while($permission_data=mysqli_fetch_array($permission_res))
 {
    $permissionCount++;
 }
+
+$clean="DELETE FROM question_bank WHERE NOT EXISTS (SELECT 1 FROM question_bank_details WHERE question_bank.Id = question_bank_details.question_id)";
+        $getclean=mysqli_query($conn,$clean);
+
 }
+
+
 ?>
 <style type="text/css">
       #whatsapp-floating-button {
