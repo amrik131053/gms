@@ -175,7 +175,7 @@ $key1=1;
  while ($rows = mysqli_fetch_array($list_resultsub)) 
  {
  
-    $resulrs1="SELECT *  from ResultOnlineGKU where  UniRollNo='".$rows['classrollno']."' and  ResultNo='$ResultNo' AND  DeclareDate='$DeclareDate'  and Examination='$Examination' and Semester='$Semester' and Type='$Type'";
+    echo $resulrs1="SELECT *  from ResultOnlineGKU where  UniRollNo='".$rows['classrollno']."' and  ResultNo='$ResultNo' AND  DeclareDate='$DeclareDate'  and Examination='$Examination' and Semester='$Semester' and Type='$Type'";
     $list_resultsub1 = sqlsrv_query($conntest, $resulrs1);
     $key1=1;
      while ($rows1 = sqlsrv_fetch_array($list_resultsub1, SQLSRV_FETCH_ASSOC)) 

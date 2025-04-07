@@ -30946,7 +30946,7 @@ elseif($code==368)
 {
     $rollNo = $_POST['rollNo'];
 
- $degree="SELECT * FROM offer_latter   WHERE (Batch='2024' OR (Batch='2023'ANd Lateral='Yes')) AND RefNo='$rollNo' order by Id DESC limit 1"; 
+ $degree="SELECT * FROM offer_latter   WHERE (Batch='2025' OR (Batch='2024'ANd Lateral='Yes')) AND RefNo='$rollNo' order by Id DESC limit 1"; 
 
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
