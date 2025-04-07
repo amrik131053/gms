@@ -286,10 +286,10 @@
 
 
    <p style="line-height: 140%;"><strong>Login URL:</strong>
-                                                                    https://gku.ac.in/pre-registration/public/admin/login</p>                                                                   
+   https://pre.gku.ac.in/admin/login</p>                                                                   
 
    <p style="line-height: 140%;"><strong>Student Registration Form:</strong>
-                                                                   https://gku.ac.in/pre-registration/public/</p>
+                                              https://pre.gku.ac.in/</p>
 
 
                                                             </div>
