@@ -2707,9 +2707,11 @@ $get_econsultant="Update  users set mobile_number='$consultant_m',address='$cons
      mysqli_query($conn_online_pre_regist,$sql);
 
    
-      
+
     
           while ($user_row=mysqli_fetch_array($user_run))  {
+
+
                 $receviername = $user_row['name'];
                 $recevieremail = $user_row['email'];
                       $password = $user_row['password'];
@@ -2723,9 +2725,11 @@ $get_econsultant="Update  users set mobile_number='$consultant_m',address='$cons
 ob_start();
  include "email/preregtemp.php";
 $body = ob_get_clean();
-              include "email/email_code_forgotpassword.php";
+              include "email/email_code_adm.php";
         }
 $conn->close();
+
+
 
 
 

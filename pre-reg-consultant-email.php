@@ -24,9 +24,9 @@ $status=0;
         {
            
 ob_start();
-include 'email/forgotemailtemplate.php';
+include 'email/preregtemp.php';
 $body = ob_get_clean();
-            include "email/preregtemp.php";
+            include "email/email_code_adm.php";
         }
 $conn->close();
 ?>

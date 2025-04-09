@@ -40,18 +40,18 @@ include "connection/connection.php";
 
 
 
-$gg="SELECT * FROM Staff where JobStatus='1' ";
-$ggrun=sqlsrv_query($conntest,$gg);
-while($row=sqlsrv_fetch_array($ggrun))
-{
-    $Id=$row['IDNo'];
-    $name=$row['Name'];
-     $email=$row['EmailID'];
-      $contact=$row['ContactNo'];
-echo $update="Update employee_master set name='$name',email='$email',phone='$contact' where emp_id='$Id'";
- $get_session_run=mysqli_query($conn_spoc,$update);
+// $gg="SELECT * FROM Staff where JobStatus='1' ";
+// $ggrun=sqlsrv_query($conntest,$gg);
+// while($row=sqlsrv_fetch_array($ggrun))
+// {
+//     $Id=$row['IDNo'];
+//     $name=$row['Name'];
+//      $email=$row['EmailID'];
+//       $contact=$row['ContactNo'];
+// echo $update="Update employee_master set name='$name',email='$email',phone='$contact' where emp_id='$Id'";
+//  $get_session_run=mysqli_query($conn_spoc,$update);
 
-}
+// }
 
 // $gg="SELECT IDNo FROM Staff ";
 // $ggrun=sqlsrv_query($conntest,$gg);
@@ -128,5 +128,56 @@ echo $update="Update employee_master set name='$name',email='$email',phone='$con
 
 // }
 // }
+if(isset($_POST['submitPass'])){
+    $PasswordSet=$_POST['PasswordSet'];
+    $EmployeeID=$_POST['EmployeeID'];
+    $OfficialEmailID=$_POST['OfficialEmailID'];
+    $EmailID=$_POST['EmailID'];
+$getDefalutMenu="UPDATE  UserMaster  SET Password='$PasswordSet' Where UserName='$EmployeeID' and ApplicationName='Campus' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
+$getDefalutMenu112="UPDATE  Staff  SET OfficialEmailID='$OfficialEmailID',EmailID='$EmailID' Where IDNo='$EmployeeID' ";
+$getDefalutMenu112Run=sqlsrv_query($conntest,$getDefalutMenu112);
+
+if($getDefalutMenuRun==true)
+{
+    echo "Lock";
+}
+else{
+    echo "0";
+}
+}
+if(isset($_POST['submitPassReset'])){
+    $PasswordSet=$_POST['PasswordSet'];
+    $EmployeeID=$_POST['EmployeeID'];
+    $OfficialEmailIDSet=$_POST['OfficialEmailIDSet'];
+    $EmailIDSet=$_POST['EmailIDSet'];
+$getDefalutMenu="UPDATE  UserMaster  SET Password='$PasswordSet' Where UserName='$EmployeeID' and ApplicationName='Campus' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
+$getDefalutMenu11="UPDATE  Staff  SET OfficialEmailID='$OfficialEmailIDSet',EmailID='$EmailIDSet' Where IDNo='$EmployeeID' ";
+$getDefalutMenu11Run=sqlsrv_query($conntest,$getDefalutMenu11);
+if($getDefalutMenuRun==true)
+{
+    echo "Unlock";
+}
+else{
+    echo "0";
+}
+}
 
 ?>
+<form action="#" method="post">
+<input type="text" value="171714" name="EmployeeID">
+<input type="text" value="Manoj@19821" name="PasswordSet">
+<input type="text" value="hodpharmacy@gku.ac.in" name="OfficialEmailID">
+<input type="text" value="drmanoj1711714@gku.ac.in" name="EmailID">
+    <button type="submit" name="submitPass" >Lock</button>
+</form>
+<form action="#" method="post">
+<input type="text" value="171714" name="EmployeeID">
+<input type="text" value="Manoj@1982" name="PasswordSet">
+<input type="text" value="hod.pharmacy@gku.ac.in" name="OfficialEmailIDSet">
+<input type="text" value="drmanoj171714@gku.ac.in" name="EmailIDSet">
+    <button type="submit" name="submitPassReset" >Unlock</button>
+</form>
