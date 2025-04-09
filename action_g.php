@@ -4969,6 +4969,7 @@ else { ?>
                      <option value='Office Order'>Office Order</option>
                     <option value='Promotion Letter'>Promotion Letter</option>
                     <option value='Warning Letter'>Warning Letter</option>
+                    <option value='Suspension Letter'>Suspension Letter</option>
                    
                     
                     
