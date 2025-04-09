@@ -1,6 +1,6 @@
 
 <?php
- 
+ ini_set('max_execution_time', '0');
 session_start();
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 $EmployeeID=$_SESSION['usr'];

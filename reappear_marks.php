@@ -1,6 +1,6 @@
 
 <?php 
-
+ ini_set('max_execution_time', '0');
   include "header.php";   
 ?>
 
@@ -16,6 +16,7 @@ function checkall()
             inputs[i].checked = true;
 
       }
+     
       document.getElementById("check").style.display = "none";
        
       document.getElementById("check1").style.display = "block";
