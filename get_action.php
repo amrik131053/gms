@@ -1,14 +1,13 @@
 <?php
-<<<<<<< HEAD
- ini_set('max_execution_time', '0');
+ini_set('max_execution_time', '0');
 session_start();
-=======
+
  session_start();
  ini_set('display_errors', 1);
  error_reporting(E_ALL);
  header('Content-Type: application/json');
  
->>>>>>> bd449abc8cb0b15b9a62a8d5e44f6deeb0224806
+
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 $EmployeeID=$_SESSION['usr'];
    include "connection/connection.php";
