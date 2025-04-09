@@ -499,6 +499,59 @@ function generateDMC() {
     }
 }
 
+function CheckNumberOnBlur(enteredNumber) {
+    const lastNumberRaw = document.getElementById('LastSrNumber').value; // e.g. "C305"
+    const errorElem = document.getElementById("SrNoError");
+    const inputElem = document.getElementById("SrNoFrom");
+
+    errorElem.innerText = "";
+
+    if (!enteredNumber) return;
+
+    // Extract numeric part
+    const lastNumber = parseInt(lastNumberRaw.replace(/[^\d]/g, '')); // from "C305" -> 305
+    const enteredNumeric = parseInt(enteredNumber.replace(/[^\d]/g, '')); // e.g. "C306" -> 306
+
+    if (isNaN(enteredNumeric)) {
+        errorElem.innerText = "Please enter a valid DMC number.";
+        inputElem.value = "";
+        return;
+    }
+
+    if (enteredNumeric <= lastNumber) {
+        errorElem.innerText = "Number must be greater than the last DMC number: " + lastNumberRaw;
+        inputElem.value = "";
+        return;
+    }
+
+    // AJAX to check if DMC number exists
+    $.ajax({
+        url: 'get_action.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            code: '69.1',
+            dmc_no: enteredNumber
+        },
+        success: function(response) {
+            console.log(response);
+            if (response.exists) {
+                errorElem.innerText = "This DMC number already exists!";
+                inputElem.value = "";
+            }
+        },
+        error: function(xhr, status, error) {
+            errorElem.innerText = "Error checking DMC number.";
+            console.error("AJAX Error:", error);
+        }
+    });
+}
+
+
+
+
+
+
 function exportCutListExcelgraden() {
     // alert();
     var exportCode = 71;

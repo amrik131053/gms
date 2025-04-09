@@ -1,7 +1,9 @@
-
 <?php
+ session_start();
+ ini_set('display_errors', 1);
+ error_reporting(E_ALL);
+ header('Content-Type: application/json');
  
-session_start();
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 $EmployeeID=$_SESSION['usr'];
    include "connection/connection.php";
@@ -21,7 +23,7 @@ $EmployeeID=$_SESSION['usr'];
       // echo "inter net off";
    }
        $CurrentExaminationGetDate=date('Y-m-d'); 
-      $code=$_GET['code'];
+      $code=$_REQUEST['code'];
       if ($code==1)
        {
         $id=$_GET['id'];
@@ -7891,6 +7893,16 @@ else if($code==69)
   $Batch=$_GET['batch']; 
   $semID = $_GET['sem'];
   $exam = $_GET['examination'];
+   $sql_DMCNo="SELECT MAX(Rp.GradeCardSrNo) AS TopGradeCardSrNo
+FROM ResultPreparation AS Rp
+INNER JOIN Admissions AS Adm ON Adm.IDNo = Rp.IDNo;
+
+";
+      $sql_DMCNoRun = sqlsrv_query($conntest,$sql_DMCNo);
+     if($rowRun = sqlsrv_fetch_array($sql_DMCNoRun,SQLSRV_FETCH_ASSOC))
+     {  
+$DMCSrNo=$rowRun['TopGradeCardSrNo'];
+     }
       $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
   and Rp.Examination='$exam' and  Rp.Batch='$Batch' and ResultStatus='1' and DeclareType='1' and Sgpa!='NC'  ";
      $stmt = sqlsrv_query($conntest,$sql1);
@@ -7913,7 +7925,7 @@ else if($code==69)
  <tr class="bg-<?=$clr;?>">
 <td><?php if($row['DMCStatus']>'0'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
- <td><?= $row['DMCSerialNo'];?></td>
+ <td><?= $row['GradeCardSrNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
  <td><?= $row['StudentName'];?></td>             
@@ -7933,20 +7945,24 @@ else if($code==69)
    <td colspan="7"></td>
    <td colspan=""><label for="">Character</label>
  
-   <select name="" class="form-control" id="SrNoLatter">
-      <option value="A">A</option>
-      <option value="B">B</option>
+   <select class="form-control" id="SrNoLatter">
+      <!-- <option value="A">A</option>
+      <option value="B">B</option> -->
       <option value="C">C</option>
-      <option value="D">D</option>
+      <!-- <option value="D">D</option>
       <option value="E">E</option>
       <option value="F">F</option>
-      <option value="G">G</option>
+      <option value="G">G</option> -->
      
    </select>
    </td>
-   <td colspan=""><label for="">GradeCard SrNo From</label>
-   <input type="text" placeholder="Start Number" id="SrNoFrom"  class="form-control"  >
-   </td>
+   <td>
+  <label for="">GradeCard From</label>
+  <input type="text" placeholder="Start Number" id="SrNoFrom" class="form-control" onblur="CheckNumberOnBlur(this.value)">
+  <input type="hidden" id="LastSrNumber" value="<?= $DMCSrNo; ?>">
+  <small id="SrNoError" class="text-danger"></small>
+</td>
+
    <td colspan="1">
    <label for="">Remakrs</label>
    <input type="text" placeholder="Remakrs" id="Remakrs"  class="form-control"  >
@@ -7961,6 +7977,18 @@ else if($code==69)
  </table>
  <?php 
  }
+elseif ($code=='69.1') {
+   $dmcNo = $_POST['dmc_no'];
+      $query = "SELECT COUNT(*) as count FROM ResultPreparation WHERE GradeCardSrNo = '$dmcNo'";
+    $result = sqlsrv_query($conntest, $query);
+
+    if ($row = sqlsrv_fetch_array($result)) {
+        echo json_encode(['exists' => $row['count'] > 0]);
+    } else {
+        echo json_encode(['exists' => false]);
+    }
+}
+
 else if($code==70)
  {
  ?>
@@ -8008,7 +8036,7 @@ else if($code==70)
                <tr class="bg-<?=$clr;?>">
                <td><?php if($row['DMCStatus']=='2'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
                <td><?= $i++;?></td>
-               <td><?= $row['DMCSerialNo'];?></td>
+               <td><?= $row['GradeCardSrNo'];?></td>
                <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
                <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
                <td><?= $row['StudentName'];?></td>             
@@ -8083,7 +8111,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  <tr class="bg-<?=$clr;?>">
 <td><?php if($row['DMCStatus']=='3'){}else{    ?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
- <td><?= $row['DMCSerialNo'];?></td>
+ <td><?= $row['GradeCardSrNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
  <td><?= $row['StudentName'];?></td>             
@@ -8093,8 +8121,13 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  <td><?=$row['TotalCredit'];?></td>
  <td><?=$row['Sgpa'];?></td>
 
- <td colspan="1">    
-   <input   type="submit" name="submit" value="Print" onclick="DMCPrint(<?= $row['Id'];?>,<?= $row['BatchID'];?>);" class="btn btn-primary "  ></td>
+ <td colspan="1">   
+   <?php
+   if($row['DMCStatus']!='3'){?> 
+   <input   type="submit" name="submit" value="Print" onclick="DMCPrint(<?= $row['Id'];?>,<?= $row['BatchID'];?>);" class="btn btn-primary "  >
+<?php }?>
+</td>
+
 </tr>
  <?php 
  $clr="";
@@ -8201,7 +8234,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
       }
       else if($code==75)
       {
-       $sql1 = "SELECT PrintedOn,Id,Remarks,CollegeID,CourseID,Batch,Semester,Examination,Type,SGroup FROM DMCPrint WHERE Status='3'";
+        $sql1 = "SELECT PrintedOn,Id,Remarks,CollegeID,CourseID,Batch,Semester,Examination,Type,SGroup FROM DMCPrint WHERE Status='3'";
      $stmt = sqlsrv_query($conntest,$sql1);
          $count=0;
       while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
@@ -8280,7 +8313,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  <tr class="bg-<?=$clr;?>">
 <td><?php if($row['DMCStatus']=='3'){}else{    ?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
- <td><?= $row['DMCSerialNo'];?></td>
+ <td><?= $row['GradeCardSrNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
  <td><?= $row['StudentName'];?></td>             

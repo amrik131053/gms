@@ -173,7 +173,7 @@ while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 <body>
     <div>
         <!-- <p class="srno">Sr. No.</p> -->
-        <p class="gcsno">Grade Card Serial No. C78990 <?=$row['GradeCardSrNo'];?></p>
+        <p class="gcsno">Grade Card Serial No. <?=$row['GradeCardSrNo'];?></p>
         <div style="margin-top: 25%;">
             <div>
                 <p class="heading1"><?= strtoupper($row['Course']); ?></p>
@@ -249,27 +249,23 @@ while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 </div>
 
 </body>
-
 <?php
-  $queryCheckStatus = "SELECT COUNT(*) AS PendingCount FROM ResultPreparation WHERE BatchID = '$BatchID' AND DMCStatus != '3'";
-$checkStatusRun = sqlsrv_query($conntest, $queryCheckStatus);
-
-if ($checkStatusRun) {
-    $row = sqlsrv_fetch_array($checkStatusRun, SQLSRV_FETCH_ASSOC);
-    $pendingCount = $row['PendingCount'] ?? 1; 
-    if ($pendingCount == 0) {
-         $queryUpdateDMCPrint1 = "UPDATE DMCPrint  SET Status = '3', PrintedBy = '$EmployeeID', PrintedOn = '$timeStamp' WHERE Id = '$BatchID'";
-         sqlsrv_query($conntest, $queryUpdateDMCPrint1);
+if (!empty($id)) {
+    foreach ($id as $value) {
+        $queryUpdateSelected = "UPDATE ResultPreparation   SET DMCStatus = '3', DMCprintedBy = '$EmployeeID',  DMCprintedOn = '$timeStamp'  WHERE ID = '$value'";
+        sqlsrv_query($conntest, $queryUpdateSelected);
     }
-    else{
-         $queryUpdateDMCPrint = "UPDATE ResultPreparation  SET DMCStatus = '3', DMCprintedBy = '$EmployeeID', DMCprintedOn = '$timeStamp' WHERE ID = '$value'";
-        sqlsrv_query($conntest, $queryUpdateDMCPrint); 
+    $queryPendingCheck = "SELECT COUNT(*) AS PendingCount  FROM ResultPreparation  WHERE BatchID = '$BatchID' AND DMCStatus != '3'";
+    $result = sqlsrv_query($conntest, $queryPendingCheck);
+    if ($result && ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))) {
+        $pendingCount = $row['PendingCount'] ?? 1;
+        if ($pendingCount == 0) {
+            $queryUpdateDMCPrint = "UPDATE DMCPrint SET Status = '3',PrintedBy = '$EmployeeID',PrintedOn = '$timeStamp' WHERE Id = '$BatchID'";
+            sqlsrv_query($conntest, $queryUpdateDMCPrint);
+        }
     }
-    } else {
-        echo "";
-    }
-    ?>
-<?php         
+}         
 }
  
-}?>
+}
+?>
