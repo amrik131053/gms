@@ -396,7 +396,7 @@ function searchDmcRecord() {
     var batch = document.getElementById('Batch').value;
     var sem = document.getElementById('Semester').value;
     var examination = document.getElementById('Examination').value;
-    //  var  type = document.getElementById('Type').value;
+     var  type = document.getElementById('Type').value;
     if (college != '' && batch != '' && sem != '' && examination != '') {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
@@ -409,7 +409,7 @@ function searchDmcRecord() {
             }
         }
         xmlhttp.open("GET", "get_action.php?college=" + college + "&course=" + course + "&batch=" + batch + "&sem=" +
-            sem + "&examination=" + examination + "&code=" + 69, true);
+            sem + "&examination=" + examination+ "&type=" + type + "&code=" + 69, true);
         xmlhttp.send();
     } else {
         alert("Please Select Appropriate data ");

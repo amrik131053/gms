@@ -7893,6 +7893,7 @@ else if($code==69)
   $Batch=$_GET['batch']; 
   $semID = $_GET['sem'];
   $exam = $_GET['examination'];
+  $type = $_GET['type'];
    $sql_DMCNo="SELECT MAX(Rp.GradeCardSrNo) AS TopGradeCardSrNo
 FROM ResultPreparation AS Rp
 INNER JOIN Admissions AS Adm ON Adm.IDNo = Rp.IDNo;
@@ -7904,7 +7905,7 @@ INNER JOIN Admissions AS Adm ON Adm.IDNo = Rp.IDNo;
 $DMCSrNo=$rowRun['TopGradeCardSrNo'];
      }
       $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
-  and Rp.Examination='$exam' and  Rp.Batch='$Batch' and ResultStatus='1' and DeclareType='1' and Sgpa!='NC'  ";
+  and Rp.Examination='$exam' and  Rp.Batch='$Batch' and Rp.Type='$type' and ResultStatus='1' and DeclareType='1' and Sgpa!='NC'  ";
      $stmt = sqlsrv_query($conntest,$sql1);
          $count=0;
       while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
