@@ -86,7 +86,7 @@ $id = explode(",", $sel);
         background: #f1f1f1;
         text-align: right;
         padding: 10px 0;
-        font-size: 12px;
+        font-size: 10px;
         
     }
     .footer {
@@ -104,10 +104,14 @@ $id = explode(",", $sel);
 
     .header {
         top: 0;
+        right:11px;
+        position: fixed;
     }
 
+    
     .footer {
         bottom: 0;
+        right:11px;
     }
 
     .content {
@@ -159,10 +163,9 @@ foreach ($id as $key => $value) {
         if ($key > 0) echo '<div class="page-break"></div>';
 ?>
 
-      <div class="header">
-        <b>Grade Card Serial No. <?= $gradeCardNo; ?></b>
+<div style="text-align: right; font-weight: bold; font-size: 12px; margin-bottom: 10px;margin-right: 9px;">
+        Grade Card Serial No. <?= $row['GradeCardSrNo']; ?>
     </div>
-
     <!-- ✅ Footer -->
     <div class="footer">
    <b> Controller of Examinations</b>
@@ -226,6 +229,7 @@ foreach ($id as $key => $value) {
    
 <?php 
     } // end while
+ 
 } // end foreach
 
 foreach ($id as $value) {
