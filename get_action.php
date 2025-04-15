@@ -1,9 +1,12 @@
 <?php
- session_start();
+ini_set('max_execution_time', '0');
+session_start();
+
  ini_set('display_errors', 1);
  error_reporting(E_ALL);
  header('Content-Type: application/json');
  
+
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 $EmployeeID=$_SESSION['usr'];
    include "connection/connection.php";

@@ -12970,11 +12970,11 @@ elseif($code==194.1)
             <i class="fa fa-eye fa-lg" style="color:green;" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')"  ></i>&nbsp;&nbsp;
          
 
-<!-- <form action="questions.php" method="post" target="_blank">
+ <form action="questions.php" method="post" target="_blank">
    <input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
 <input type="hidden"  name='SubjectCode' value="<?=$data['SubjectCode']?>">
 <input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
- -->
+
 
             <!-- <i class="fa fa-edit fa-lg text-dark" id="editIcon<?=$sr;?>"  onclick="editAllQuestion('<?=$sr;?>','<?=$SubjectCode?>')"  ></i>&nbsp;&nbsp; -->
          

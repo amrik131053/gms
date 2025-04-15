@@ -421,7 +421,7 @@ $_SESSION['RequiredData']=$alertMessage;
                     <?php
                   $ids = join("','",$array_aa); 
                   $q = mysqli_query($conn,"SELECT permissions.id as pid, submenu, mainmenu,menu_name, page_link FROM permissions INNER 
-join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id IN ('$ids') and type = 'Menu' ORDER BY master_menu.priorityorder ASC, permissions.submenu ASC");
+join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id IN ('$ids') and type = 'Menu' ORDER BY master_menu.priorityorder ASC, permissions.priorityorder ASC");
 
 
 
