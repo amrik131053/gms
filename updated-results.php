@@ -397,7 +397,7 @@ function backtoverifiedResult(id,IDNo,DeclareType)
                 ErrorToast('Please Select Examination', 'bg-warning');
             }
 
-        }
+        } 
 
 
         function select_mst() 
@@ -453,7 +453,8 @@ function ViewResultStudent(ID){
             }
         });
 }
-  function publishResult(ID){
+  function publishResult(){
+
     var sgroup = document.getElementById('group').value;
     var resultNum = document.getElementById('resultNum').value;
     var  decDate = document.getElementById('decDate').value;
@@ -480,7 +481,63 @@ var spinner= document.getElementById("ajax-loader");
             type: 'POST',
             data: {
                 code: code,
-                ID: ID,
+                
+                resultNum:resultNum,
+                decDate:decDate,
+                sgroup:sgroup,
+                ResultDeclareType:ResultDeclareType,
+                ResultIDs:subjectIDs
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                // console.log(response)
+                // if(response==1){
+                    SuccessToast('Successfully Publish');
+                    select_mst();
+                // }
+                // else{
+                //     ErrorToast('try Again','bg-danger');
+                // }
+                
+            }
+        });
+    }
+    else{
+        ErrorToast('Please enter ResultNo/declareDate ','bg-warning');
+
+    }
+    }
+}
+//allready published
+function publishResult1(){
+
+    var sgroup = document.getElementById('group').value;
+    var resultNum = document.getElementById('resultNum').value;
+    var  decDate = document.getElementById('decDate').value;
+    var  ResultDeclareType = document.getElementById('ResultDeclareType').value;
+    var verifiy = document.getElementsByClassName('v_check');
+            var len_student = verifiy.length;
+            var subjectIDs = [];
+            for (i = 0; i < len_student; i++) {
+                if (verifiy[i].checked === true) {
+                    subjectIDs.push(verifiy[i].value);
+                }
+            }
+            if ((typeof subjectIDs[0] == 'undefined')) {
+                // alert('');
+                ErrorToast(' Select atleast one Student', 'bg-warning');
+            } else {
+if(resultNum!='' && decDate!='' )
+{
+var spinner= document.getElementById("ajax-loader");
+    spinner.style.display='block';
+  var code = 457.1;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                
                 resultNum:resultNum,
                 decDate:decDate,
                 sgroup:sgroup,

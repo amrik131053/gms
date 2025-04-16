@@ -7122,6 +7122,9 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
    <td colspan="1">
    <label for="">&nbsp;</label>  <br>    
    <input   type="submit" name="submit" value="Publish" onclick="publishResult();" class="btn btn-success "  ></td>
+      <td colspan="1">
+   <label for="">&nbsp;</label>  <br>    
+   <input   type="submit" name="submit" value="Already Published" onclick="publishResult1();" class="btn btn-warning "  ></td>
  </tr>
  </table>
  <?php 
