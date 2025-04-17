@@ -39667,7 +39667,7 @@ echo "1";
 elseif($code==456)
 {
    $ID=$_POST['ID'];
-   $query = "SELECT * FROM Admissions inner join ResultPreparation as rd on Admissions.IDNo=rd.IDNo   Where  rd.Id='$ID'  order by  rd.ID Desc  ";
+    $query = "SELECT * FROM Admissions inner join ResultPreparation as rd on Admissions.IDNo=rd.IDNo   Where  rd.Id='$ID'  order by  rd.ID Desc  ";
    $result = sqlsrv_query($conntest,$query);
    while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
    {
@@ -39710,6 +39710,113 @@ $decdate=$row['Timestamp']->format('d-m-Y h:i:s');
                                         <?= $decdate;?></td>
                                     <td><?=$row['VerifiedBy'];?></td>
 
+                                    <?php         
+}?>
+                                    <table class="table">
+                                        <tr style="background:#223260;color:white;">
+                                            <th>#</th>
+                                            <th>Subject Name</th>
+                                            <th>Subject Code</th>
+                                            <th>Grade</th>
+                                            <th>Grade Point</th>
+                                            <th>Total Credit</th>
+
+                                        </tr>
+
+                                        <?php  $query1 = "SELECT * FROM ResultPreparationDetail Where ResultID='$ResultID'";
+$SrNo=1;
+   $result1 = sqlsrv_query($conntest,$query1);
+   while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+   {
+    // echo $row['IDNo'];
+     // $IDNo= $row1['IDNo'];
+     // $UniRollNo= $row1['Subject'];
+     // $Type= $row1['Type'];
+   ?>
+
+                                        <tr>
+                                            <td><?=$SrNo;?></td>
+                                            <td><?=$row1['SubjectName'];?></td>
+                                            <td><?=$row1['SubjectCode'];?></td>
+                                            <td><?=$row1['SubjectGrade'];?></td>
+                                            <td><?= $oldgradepoint= $row1['SubjectGradePoint'];?></td>
+                                            <td><?= $creditold= $row1['SubjectCredit']?></td>
+
+                                            </td>
+
+                                        </tr>
+                                        <?php
+$SrNo++;
+}?>
+                                    </table>
+                                    <?php 
+sqlsrv_close($conntest);        
+}
+elseif($code==456.1)
+{
+   $ID=$_POST['ID'];
+    $query = "SELECT * FROM Admissions inner join ResultPreparation as rd on Admissions.IDNo=rd.IDNo   Where  rd.Id='$ID'  order by  rd.ID Desc  ";
+   $result = sqlsrv_query($conntest,$query);
+   while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+   {
+    // echo $row['IDNo'];
+     $IDNo= $row['IDNo'];
+     $UniRollNo= $row['UniRollNo'];
+     $ResultID= $row['Id'];
+     $Type= $row['Type'];
+
+     $VerifiedBy=$row['VerifiedBy'];
+     $DMCGeneratedBy=$row['DMCGeneratedBy'];
+     $DMCGenerateOn=$row['DMCGenerateOn']->format('d-m-Y');
+     $DMCVerifiedBy=$row['DMCVerifiedBy'];
+     $DMCVerifiedOn=$row['DMCVerifiedOn']->format('d-m-Y');
+     $DMCprintedBy=$row['DMCprintedBy'];
+     $DMCprintedOn=$row['DMCprintedOn']->format('d-m-Y');
+   ?>
+                            <table class="table table-responsive">
+                                <tr style="background:#223260;color:white;">
+                                    <!-- <th>#</th> -->
+                                    <th>UniRollNo</th>
+                                    <th>Semester</th>
+                                    <th>Examination</th>
+                                    <th>SGPA</th>
+                                    <th>Total Credit</th>
+                                    <th>Type</th>
+                                    <th>Result Verify By</th>
+                                    <th>Result Verify Date</th>
+                                    <th>DMC GeneratedBy By</th>
+                                    <th>DMC Generate Date</th>
+                                    <th>DMC Verified By</th>
+                                    <th>DMC Verified Date</th>
+                                    <th>DMC printed By</th>
+                                    <th>DMC printed Date</th>
+                                </tr>
+                                <tr>
+
+                                    <td><?=$UniRollNo;?></td>
+                                    <!-- <td><?=$row['Id'];?></td> -->
+                                    <td><?=$row['Semester'];?></td>
+                                    <td><?=$row['Examination'];?></td>
+                                    <td><?=$row['Sgpa']?></td>
+                                    <td><?= $totalcredit= $row['TotalCredit'];?></td>
+                                    <td><?=$row['Type'];?></td>
+                                    <td>
+                                        <?php if($row['Timestamp']!='')
+{
+$decdate=$row['Timestamp']->format('d-m-Y h:i:s');
+}else
+{
+ $decdate='';
+}
+?>
+                                        <?= $decdate;?></td>
+                                    <td><?=$row['VerifiedBy'];?></td>
+                                    <td><?=$row['DMCGeneratedBy'];?></td>
+                                    <td><?=$row['DMCGenerateOn']->format('d-m-Y');?></td>
+                                    <td><?=$row['DMCVerifiedBy'];?></td>
+                                    <td><?=$row['DMCVerifiedOn']->format('d-m-Y');?></td>
+                                    <td><?=$row['DMCprintedBy'];?></td>
+                                    <td><?=$row['DMCprintedOn']->format('d-m-Y');?></td>
                                     <?php         
 }?>
                                     <table class="table">
@@ -40593,6 +40700,53 @@ elseif($code==470)
         }
         sqlsrv_close($conntest);
         }
+
+        elseif($code == 472) {
+            $ID = $_POST['ID'];
+            $Srno = $_POST['Srno'];
+            $checkQuery = "SELECT COUNT(*) AS count FROM ResultPreparation WHERE DMCSerialNo = '$Srno' AND Id != '$ID'";
+            $checkResult = sqlsrv_query($conntest, $checkQuery);
+            $checkRow = sqlsrv_fetch_array($checkResult, SQLSRV_FETCH_ASSOC);
+            
+            if ($checkRow['count'] > 0) {
+                echo "Duplicate Serial Number:".$Srno;
+            } else {
+                 $query1 = "UPDATE ResultPreparation SET DMCSerialNo = '$Srno' WHERE Id = '$ID' ";
+                sqlsrv_query($conntest, $query1);
+        
+                $escapedQuery1 = str_replace("'", "''", $query1);
+                $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                            VALUES('$ID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                $update_query = sqlsrv_query($conntest, $update1);
+        
+                if ($update_query === false) {
+                    die(print_r(sqlsrv_errors(), true));
+                } else {
+                    echo "1"; 
+                }
+            }
+            sqlsrv_close($conntest);
+        }
+        elseif($code == 473) {
+            $ID = $_POST['ID'];
+           
+                $query1 = "UPDATE ResultPreparation SET DMCSerialNoStatus = '1' WHERE BatchID = '$ID' and (DMCSerialNo!='' or DMCSerialNo!=Null)";
+                sqlsrv_query($conntest, $query1);
+        
+                $escapedQuery1 = str_replace("'", "''", $query1);
+                $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                            VALUES('$ID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                $update_query = sqlsrv_query($conntest, $update1);
+        
+                if ($update_query === false) {
+                    die(print_r(sqlsrv_errors(), true));
+                } else {
+                    echo "1"; 
+                }
+            
+            sqlsrv_close($conntest);
+        }
+        
    else
    {
    
