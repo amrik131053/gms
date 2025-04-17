@@ -7963,7 +7963,7 @@ $DMCSrNo=$rowRun['TopGradeCardSrNo'];
    <td>
   <label for="">GradeCard From</label>
   <input type="text" placeholder="Start Number" id="SrNoFrom" class="form-control" onblur="CheckNumberOnBlur(this.value)">
-  <input type="hidden" id="LastSrNumber" value="<?= $DMCSrNo; ?>">
+  <input type="text" id="LastSrNumber" value="<?= $DMCSrNo; ?>">
   <small id="SrNoError" class="text-danger"></small>
 </td>
 
