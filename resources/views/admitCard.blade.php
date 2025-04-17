@@ -83,7 +83,7 @@
                                     @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="5" class="text-center text-danger">University Roll Number has not been issued yet. Please contact the Registration Branch for assistance</td>
+                                        <td colspan="5" class="text-center text-danger">Admit Card Not Generete yet. please Check Prevoius Exam Form Status</td>
                                     </tr>
                                     @endif
 
