@@ -38687,6 +38687,94 @@ elseif($code==457)
         } 
         sqlsrv_close($conntest);        
 }
+elseif($code==457.1)
+{
+   $sgroup=$_POST['sgroup'];
+   $resultNum=$_POST['resultNum'];
+   $decDate=$_POST['decDate'];
+   $ResultDeclareType=$_POST['ResultDeclareType'];
+
+    $ResultIDs=$_POST['ResultIDs'];
+    foreach($ResultIDs as $key => $id)
+    {
+        $query = "SELECT * FROM Admissions inner join ResultPreparation as rd on Admissions.IDNo=rd.IDNo   Where  rd.Id='$id'  order by  rd.ID Desc  ";
+        $result = sqlsrv_query($conntest,$query);
+        if($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+        {
+          $ResultID=$row['Id'];
+          $UniRollNo=$row['UniRollNo'];
+          $IDNo=$row['IDNo'];
+          $Semester=$row['Semester'];
+          $Sgpa=$row['Sgpa'];
+          $totalcredit=$row['TotalCredit'];
+          $CourseID=$row['CourseID'];
+          $CollegeID=$row['CollegeID'];
+          $Examination=$row['Examination'];
+          $Batch=$row['Batch'];
+          $Type=$row['Type'];
+          $ResultColumn=$row['ResultColumn'];
+        //   $DeclareType=$row['DeclareType'];
+
+          $getResultID="SELECT TOP(1)* FROM ResultGKU ORDER by Id DESC ";
+          $getResultIDRun = sqlsrv_query($conntest,$getResultID);
+          if($rowgetResultIDRun = sqlsrv_fetch_array($getResultIDRun, SQLSRV_FETCH_ASSOC) )
+          {
+             $resultIDNew=$rowgetResultIDRun['Id']+1;
+          }
+          $insertResult="INSERT into ResultGKU (Id,UniRollNo,IDNo,Semester,Sgpa,TotalCredit,Examination,Type,ResultColumn,DeclareType,ResultNo,DeclareDate) 
+          VALUES('$resultIDNew','$UniRollNo','$IDNo','$Semester','$Sgpa',' $totalcredit','$Examination','$Type','$ResultColumn','$ResultDeclareType','$resultNum','$decDate');";
+    // $result = sqlsrv_query($conntest,$insertResult);
+     if ($result === false) {
+        $errors = sqlsrv_errors();
+        echo "Error: " . print_r($errors, true);
+    } 
+        }
+        $getResultID1="SELECT TOP(1)* FROM ResultGKU ORDER by Id DESC ";
+        $getResultIDRun1 = sqlsrv_query($conntest,$getResultID1);
+        if($rowgetResultIDRun1 = sqlsrv_fetch_array($getResultIDRun1, SQLSRV_FETCH_ASSOC) )
+        {
+           $resultIDNew1=$rowgetResultIDRun1['Id'];
+        }
+
+         $query1 = "SELECT * FROM ResultPreparationDetail Where ResultID='$ResultID'";
+        $result1 = sqlsrv_query($conntest,$query1);
+        while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+        {
+            // $ResultID=$row1['ResultID'];
+            $SubjectName=$row1['SubjectName'];
+            $SubjectCode=$row1['SubjectCode'];
+            $InternalGrade=$row1['InternalGrade'];
+            $ExternalGrade=$row1['ExternalGrade'];
+            $SubjectGrade=$row1['SubjectGrade'];
+            $SubjectCredit=$row1['SubjectCredit'];
+            $UniRollNo=$row1['UniRollNo'];
+            $SubjectGradePoint=$row1['SubjectGradePoint'];
+
+              $insertResultDetails = "INSERT INTO ResultDetailGKU(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
+                                  VALUES ('$resultIDNew1','$SubjectName','$SubjectCode','$SubjectGrade','$SubjectCredit','$UniRollNo','$SubjectGradePoint')";
+            //$result2 = sqlsrv_query($conntest, $insertResultDetails);
+
+         
+        }
+
+         $queryUpdate = "UPDATE  ResultPreparation  SET  DeclareDate='$decDate',ResultNo='$resultNum',ResultStatus='1' Where Id='$id'";
+        $runqueryUpdate=sqlsrv_query($conntest,$queryUpdate);
+        if ($runqueryUpdate === false) {
+            $errors = sqlsrv_errors();
+            echo "Error: " . print_r($errors, true);
+        } 
+    }
+         $publishResult="INSERT into ResultDeclared(CollegeID,CourseID,Batch,Semester,Type,SGroup,Examination,ResultNo,DeclareDate,PublishDate,PublishBy)
+        VALUES('$CollegeID','$CourseID','$Batch','$Semester','$Type','$sgroup','$Examination','$resultNum','$decDate','$timeStamp','$EmployeeID')";
+        $runqueryUpdate=sqlsrv_query($conntest,$publishResult);
+        if ($runqueryUpdate === false) {
+            $errors = sqlsrv_errors();
+            echo "Error: " . print_r($errors, true);
+        } 
+        sqlsrv_close($conntest);        
+}
+
+
 elseif($code==458) // sic pendig complaint 
 {
 

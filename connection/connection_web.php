@@ -7,8 +7,17 @@ $connection_web_in_website= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','
 $conn_recruitment= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_recruitment');
 
  $conn_online= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_online');
+ 
  $conn_online_odl= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_online_degree_new_admisison');
- $conn_online_pre_regist= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_pre_registration');
+
+ $conn_online_pre_regist= new mysqli('82.25.122.83:3306', 'u765202286_prepmguri','Gurpreet@pnm12','u765202286_pre_reg');
+
+
+
+
+
+
+
 // $servername1 = "10.0.8.10";
 // $username1 = "as";
 // $password1 = "Bathinda@123";

@@ -9,6 +9,7 @@ include "connection/connection.php";
 
 $univ_rollno = $_GET['id_array'];
 $BatchID = $_GET['BatchID'];
+$Abbrevation=$_GET['Abbrevation'];
 
 function convertSemesterToWords($semester) {
     $words = [
@@ -163,9 +164,14 @@ foreach ($id as $key => $value) {
         if ($key > 0) echo '<div class="page-break"></div>';
 ?>
 
-<div style="text-align: right; font-weight: bold; font-size: 12px; margin-bottom: 10px;margin-right: 9px;">
+<div style="text-align: right; font-weight: bold; font-size: 14px; margin-bottom: 10px; margin-right: 9px;  display: inline-block; float: right;">
+    <div style="text-align: left" >
+        <?php if($row['RegistrationNo'] != '') { ?>
+            Registration No. <?= $row['RegistrationNo']; ?><br>
+        <?php } ?>
         Grade Card Serial No. <?= $row['GradeCardSrNo']; ?>
     </div>
+</div>
     <!-- ✅ Footer -->
     <div class="footer">
    <b> Controller of Examinations</b>
@@ -179,15 +185,15 @@ foreach ($id as $key => $value) {
             </div>
             <table>
                 <tr>
-                    <td class="uptd">Name: <?= $row['StudentName']; ?></td>
+                    <td class="uptd">Name: <?= ucwords(strtolower($row['StudentName'])); ?></td>
                     <td class="uptd">University Roll No. <?= $row['UniRollNo']; ?></td>
                 </tr>
                 <tr>
-                    <td class="uptd">Father's Name: <?= $row['FatherName']; ?></td>
+                    <td class="uptd">Father's Name: <?= ucwords(strtolower($row['FatherName'])); ?></td>
                     <td class="uptd">Year of Admission: <?= $row['YearOfAdmission']; ?></td>
                 </tr>
                 <tr>
-                    <td class="uptd">Mother's Name: <?= $row['MotherName']; ?></td>
+                    <td class="uptd">Mother's Name: <?= ucwords(strtolower($row['MotherName'])); ?></td>
                     <td class="uptd"><?= $row['Examination']; ?> Examination</td>
                 </tr>
             </table>
@@ -195,10 +201,10 @@ foreach ($id as $key => $value) {
             <table>
                 <tr>
                     <td class="downtd1">Subject Code</td>
-                    <td class="downtd2">Subject</td>
-                    <td class="downtd3">Number of Credits</td>
-                    <td class="downtd3">Grade</td>
-                    <td class="downtd3">Grade Point Value Per Credit</td>
+                    <td class="downtd3">Subject</td>
+                    <td class="downtd1">Number of Credits</td>
+                    <td class="downtd1">Grade</td>
+                    <td class="downtd1">Grade Point Value Per Credit</td>
                 </tr>
                 <?php
                 $query1 = "SELECT * FROM ResultPreparationDetail WHERE ResultID = '$ResultID'";
@@ -208,20 +214,32 @@ foreach ($id as $key => $value) {
                 <tr>
                     <td class="downtd1"><?= $row1['SubjectCode']; ?></td>
                     <td class="downtd2"><?= $row1['SubjectName']; ?></td>
-                    <td class="downtd3"><?= $row1['SubjectCredit']; ?></td>
+                    <td class="downtd3"><?php  if($row1['SubjectCredit']>0)
+                    {
+                        echo $row1['SubjectCredit'];
+                    }
+                    else
+                    {
+echo  "NC";
+                        
+                        }?></td>
+                    
                     <td class="downtd3"><?= $row1['SubjectGrade']; ?></td>
                     <td class="downtd3"><?= $row1['SubjectGradePoint']; ?></td>
                 </tr>
                 <?php } ?>
-                <tr>
-                    <td class="downtd1" colspan="2">Total Number of Credits</td>
+                <tr >
+                    <td class="downtd1" colspan="2" style="height: 40px;">Total Number of Credits</td>
                     <td class="downtd3"><?= $row['TotalCredit']; ?></td>
                     <td class="downtd3">SGPA</td>
                     <td class="downtd3"><?= $row['Sgpa']; ?></td>
                 </tr>
             </table>
-            <p style="margin-left: 16px; font-weight: 600;">
+            <p style="margin-left: 10px; font-weight: 600;">
                 Date of issue: <?= date('d F Y'); ?>
+            </p>
+             <p style="margin-left: 10px; font-weight: 600;">
+              <?=$Abbrevation;?>
             </p>
         </div>
         </div>

@@ -18,8 +18,11 @@ $mail = new PHPMailer(true);
 				$mail->isSMTP();
 				$mail->Host       = 'smtp.gmail.com';
 				$mail->SMTPAuth   = true;
-				 $mail->Username   = 'noreplygkuni@gmail.com';  
-				$mail->Password   = 'gmrwqljyjjnjkgsz';                        
+
+				 $mail->Username   = 'spocgku@gmail.com';                 
+				$mail->Password   = 'ysnssrugbnzoeiht';     
+				//  $mail->Username   = 'noreplygkuni@gmail.com';  
+				// $mail->Password   = 'gmrwqljyjjnjkgsz';                        
 				// $mail->Password   = 'ysnssrugbnzoeiht';                        
 				//  $mail->Username   = 'noreplygkuniitdepartment@gmail.com';                 
 				// $mail->Password   = 'evvpchesvgsppzny';                        

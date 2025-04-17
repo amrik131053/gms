@@ -7122,6 +7122,9 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
    <td colspan="1">
    <label for="">&nbsp;</label>  <br>    
    <input   type="submit" name="submit" value="Publish" onclick="publishResult();" class="btn btn-success "  ></td>
+      <td colspan="1">
+   <label for="">&nbsp;</label>  <br>    
+   <input   type="submit" name="submit" value="Already Published" onclick="publishResult1();" class="btn btn-warning "  ></td>
  </tr>
  </table>
  <?php 
@@ -7882,6 +7885,7 @@ else if($code==69)
                  <th>IDNo</th>
                  <th> Name </th>
                  <th> Father Name </th>
+                   <th> Mother Name </th>
                  <th> Type </th>
                  <th> Group </th>
                  <th>Total Credit </th>
@@ -7933,7 +7937,8 @@ $DMCSrNo=$rowRun['TopGradeCardSrNo'];
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
  <td><?= $row['StudentName'];?></td>             
- <td><?= $row['FatherName'];?></td>             
+ <td><?= $row['FatherName'];?></td>          
+  <td><?= $row['MotherName'];?></td>       
  <td><?= $row['Type'];?></td>             
  <td><?= $row['SGroup'];?></td>             
  <td><?=$row['TotalCredit'];?></td>
@@ -8005,6 +8010,7 @@ else if($code==70)
                  <th>IDNo</th>
                  <th> Name </th>
                  <th> Father Name </th>
+                 <th> Mother Name </th>
                  <th> Type </th>
                  <th> Group </th>
                  <th>Total Credit </th>
@@ -8044,7 +8050,7 @@ else if($code==70)
                <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
                <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
                <td><?= $row['StudentName'];?></td>             
-               <td><?= $row['FatherName'];?></td>             
+               <td><?= $row['FatherName'];?></td>   <td><?= $row['MotherName'];?></td>                 
                <td><?= $row['Type'];?></td>             
                <td><?= $row['SGroup'];?></td>             
                <td><?=$row['TotalCredit'];?></td>
@@ -8078,6 +8084,7 @@ else if($code==71)
                  <th>IDNo</th>
                  <th> Name </th>
                  <th> Father Name </th>
+                    <th> Mother Name </th>
                  <th> Type </th>
                  <th> Group </th>
                  <th>Total Credit </th>
@@ -8119,7 +8126,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
  <td><?= $row['StudentName'];?></td>             
- <td><?= $row['FatherName'];?></td>             
+ <td><?= $row['FatherName'];?></td>    <td><?= $row['MotherName'];?></td>                           
  <td><?= $row['Type'];?></td>             
  <td><?= $row['SGroup'];?></td>             
  <td><?=$row['TotalCredit'];?></td>
@@ -8138,11 +8145,14 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  } 
  ?>
  <tr>
-   <td colspan="11"></td>
+   <td colspan="11"> <label><input type="checkbox" class="abbre" name="abbrivations[]" value="NC - Non Credit"> &nbsp;&nbsp;NC- Non Credit&nbsp;</label>,
+  <label><input type="checkbox" class="abbre" name="abbrivations[]" value="S-Statisfactory"> &nbsp;&nbsp;S-Statisfactory&nbsp;</label>,
+  <label><input type="checkbox" class="abbre" name="abbrivations[]" value="NA-Not Applicable">&nbsp;&nbsp;NA -Not Applicable&nbsp;</label>
+</td>
   
    <td colspan="1">
-   <label for="">&nbsp;</label>  <br>    
-   <input   type="submit" name="submit" value="ALl Print" onclick="DMCPrint('NA','');" class="btn btn-success "  ></td>
+   <label for="">&nbsp;</label>   
+   <input   type="submit" name="submit" value="Print ALL" onclick="DMCPrint('NA','');" class="btn btn-success "  ></td>
  </tr>
  </table>
  <?php 

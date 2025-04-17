@@ -188,7 +188,7 @@ for($i=1;$i<=12;$i++)
                                 Pending</span>
                             <!-- <span class="mr-2"><i class="fa fa-stop text-white" style="border:1px solid black;"
                                     aria-hidden="true"></i> Pending</span> -->
-                            <span><i class="fa fa-stop text-success" aria-hidden="true"></i> Printed</span>
+                            <span><i class="fa fa-stop text-success" aria-hidden="true"></i>Printed</span>
                         </div>&nbsp;
                         <div id="live_data_record">
 
@@ -485,6 +485,18 @@ function ViewResultStudent(ID) {
 function DMCPrint(id,BatchID) {
     var BatchID=document.getElementById('batchIDSet').value;
     var verifiy = document.getElementsByClassName('v_check');
+    var abbrevations = document.getElementsByClassName('abbre');
+
+    ablength=abbrevations.length;
+ 
+    var abbrevationsarray = [];
+
+    for (z = 0; z < ablength; z++) {
+        if (abbrevations[z].checked === true) {
+            abbrevationsarray.push(abbrevations[z].value);
+        }
+    }
+
     var len_student = verifiy.length;
     var subjectIDs = [];
     for (i = 0; i < len_student; i++) {
@@ -492,8 +504,9 @@ function DMCPrint(id,BatchID) {
             subjectIDs.push(verifiy[i].value);
         }
     }
+    //console.log(abbrevationsarray);
     if(id!='NA'){
-        window.open('dmc_print.php?id_array='+id+ "&BatchID=" + BatchID,'_blank');    
+        window.open('dmc_print.php?id_array='+id+ "&BatchID=" + BatchID+"&Abbrevation="+abbrevationsarray,'_blank');    
     }
     else
     {
@@ -501,7 +514,7 @@ function DMCPrint(id,BatchID) {
         ErrorToast(' Select atleast one Student', 'bg-warning');
     } else {
       
-        window.open('dmc_print.php?id_array='+subjectIDs+ "&BatchID=" + BatchID,'_blank');    
+        window.open('dmc_print.php?id_array='+subjectIDs+ "&BatchID=" + BatchID+"&Abbrevation="+abbrevationsarray,'_blank');    
     }
    }
 }
