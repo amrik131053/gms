@@ -79,7 +79,7 @@ function searchPrintedDMC() {
            //Examination_theory_types();
        }
    }
-   xmlhttp.open("GET", "get_action.php?code=" + 75, true);
+   xmlhttp.open("GET", "get_action.php?code=" + 75.1, true);
    xmlhttp.send();
 
 }
@@ -98,7 +98,7 @@ xmlhttp.onreadystatechange = function() {
     }
 }
 xmlhttp.open("GET", "get_action.php?college=" + college + "&course=" + course + "&batch=" + batch + "&sem=" +
-    sem + "&examination=" + examination+ "&type=" + type + "&SGroup=" + SGroup+ "&id=" + id  + "&code=" + 76, true);
+    sem + "&examination=" + examination+ "&type=" + type + "&SGroup=" + SGroup+ "&id=" + id  + "&code=" + 76.1, true);
 xmlhttp.send();
 
 
@@ -121,6 +121,87 @@ function ViewResultStudent(ID) {
             //  loadMainCount();
         }
     });
+}
+
+function applySerialNumbers() {
+    let start = parseInt(document.getElementById('startSerial').value);
+    if (isNaN(start)) {
+        alert('Please enter a valid starting serial number');
+        return;
+    }
+
+    let inputs = document.querySelectorAll('.dmc_srno_input');
+
+    inputs.forEach((input, index) => {
+        let serial = start + index;
+        input.value = serial;
+        let onchangeAttr = input.getAttribute('onchange');
+        let match = onchangeAttr.match(/updateDmcSrno\([^,]+,\s*(\d+)\)/);
+        if (match && match[1]) {
+            let id = match[1];
+            updateDmcSrno(serial, id);
+        } else {
+            console.warn("ID not found in onchange attribute:", onchangeAttr);
+        }
+    });
+}
+
+
+
+function updateDmcSrno(Srno,ID) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = 472;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            Srno: Srno,
+            ID: ID
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            console.log(response);
+            if(response==1)
+           {
+            SuccessToast('Successfully Update');
+           }
+          else{
+            ErrorToast(response, 'bg-warning');
+          }
+            // document.getElementById("ViewResultData").innerHTML = response;
+            //  loadMainCount();
+        }
+    });
+}
+function finalLock(ID) {
+    var r = confirm("Do you really want to lock");
+    if (r == true) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = 473;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            ID: ID
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            console.log(response);
+            if(response==1)
+           {
+            SuccessToast('Successfully Lock');
+           }
+          else{
+            ErrorToast(response, 'bg-warning');
+          }
+    
+        }
+    });
+}
 }
 
 function DMCPrint(id,BatchID) {
@@ -146,6 +227,7 @@ function DMCPrint(id,BatchID) {
     }
    }
 }
+
 
 
 </script>

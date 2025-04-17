@@ -445,7 +445,7 @@ function searchDmcRecord() {
 function ViewResultStudent(ID) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
-    var code = 456;
+    var code = 456.1;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
