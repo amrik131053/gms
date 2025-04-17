@@ -7083,7 +7083,8 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
          }
          if(($role_id=='2' || $role_id=='28') && $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
          {
-            ?>
+         
+         ?>
 <button class="btn btn-danger"  onclick="backtoverifiedResult('<?= $row['Id'];?>','<?=$row['IDNo'];?>','<?=$MinDeclareType;?>');"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
 
             <?php 

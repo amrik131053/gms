@@ -109,17 +109,14 @@ $printhalf='(SH)';
     
  $leavecount=1;
 
-
  }
-
 
  }
 
  else
  {
 
-
-  if($leavedurationtime>0)
+  if($leavedurationtime>0 && $leavedurationtime<1)
 { 
   $leavecount_n=$leavecount-$leavedurationtime;
  
@@ -127,7 +124,7 @@ $printhalf='(SH)';
  else
  {
     
- $leavecount_n=0-1;
+ //$leavecount_n=0-1;
 
  }
 
@@ -342,7 +339,7 @@ if($holidaycount>0)
    $totaldeduction=0; 
 }
 
- $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
+ $countdayn=$mydaycount+$holidaycount+$leavecount-$totaldeduction;
 
 if($countdayn<=1)
 {

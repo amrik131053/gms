@@ -289,10 +289,11 @@ function fetchCutList() {
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
     if (Examination != '') {
-    // alert(Status);
+
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = '325.1'; 
+        var code = '325.3'; 
+             
         $.ajax({
             url: 'action_g.php',
             data: {
@@ -327,7 +328,7 @@ function searchStudentOnRollNo() {
     var rollNo = document.getElementById('rollNo').value;
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = '325.1';
+        var code = '325.3';
         $.ajax({
             url: 'action_g.php',
             data: {
@@ -428,37 +429,6 @@ function pverify(ExamFromID)
 
 
 
-function reverify(ExamFromID)
- {
-    // var r = confirm("Do you really want to Verifiy");
-    // if (r == true) {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 429;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                ExamFromID: ExamFromID
-            },
-            success: function(response) {
-                // console.log(response);
-                spinner.style.display = 'none';
-                if (response == 1) {
-                    SuccessToast('Successfully Verify');
-                    edit_stu(ExamFromID);                            
-                    $('.bd-example-modal-xl').modal('hide');
-                    fetchCutList();
-                  
-                } else {
-                    ErrorToast('Try Again', 'bg-danger');
-                }
-
-            }
-        });
-  //  }
-}
 
 function verify(ExamFromID)
  {
@@ -466,7 +436,7 @@ function verify(ExamFromID)
     // if (r == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 328.1;
+        var code = 328.3;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
@@ -475,7 +445,7 @@ function verify(ExamFromID)
                 ExamFromID: ExamFromID
             },
             success: function(response) {
-                 //console.log(response);
+                 console.log(response);
                 spinner.style.display = 'none';
 
                 if (response ==1) {
@@ -499,23 +469,6 @@ function verify(ExamFromID)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function reject(ExamFromID) {
    
     var remark = document.getElementById("remarkReject").value;
@@ -527,7 +480,7 @@ function reject(ExamFromID) {
             
             var spinner = document.getElementById("ajax-loader");
             spinner.style.display = 'block';
-            var code = 329.1;
+            var code = 329.3;
             $.ajax({
                 url: 'action_g.php',
                 type: 'POST',
@@ -561,43 +514,6 @@ function reject(ExamFromID) {
 
 
 
-function examAccountCount() {  // for count show
-    var code = 324.1;
-    var College = document.getElementById('College').value;
-    var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
-    var Semester = document.getElementById('Semester').value;
-    var Type = document.getElementById('Type').value;
-    var Group = document.getElementById('Group').value;
-    var Examination = document.getElementById('Examination').value;
-    var Status = document.getElementById('Status').value;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'post',
-            data: {
-                code: code,
-                College: College,
-                Course: Course,
-                Batch: Batch,
-                Semester: Semester,
-                Type: Type,
-                Group: Group,
-                Status: Status,
-                Examination: Examination
-            },
-            success: function(response) {
-                // console.log(response);
-                var data = JSON.parse(response);
-          
-                document.getElementById("pendingCount").textContent = data[0];
-                document.getElementById("rejectCount").textContent = data[1];
-                document.getElementById("verifiedCount").textContent = data[2];
-            },
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-            }
-        });
-}
 
 
 
@@ -619,7 +535,7 @@ function pendingCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 29.1;
+        var code = 29.7;
         // alert(code);
         $.ajax({
             url: 'action_a.php',
@@ -649,7 +565,7 @@ function rejectCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 29.2;
+        var code = 29.8;
         // alert(code);
         $.ajax({
             url: 'action_a.php',
@@ -678,7 +594,7 @@ function verifiedCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 29.3;
+        var code = 29.9;
         // alert(code);
         $.ajax({
             url: 'action_a.php',
@@ -726,7 +642,7 @@ function setcurrentExamination()
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">No Dues Certificate</h5>
+                <h5 class="modal-title" id="exampleModalLabel">No Dues Certificate Registration</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

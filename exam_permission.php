@@ -95,7 +95,7 @@
                         <select  id="noduesexamination" name="examination" class="btn btn-default btn-xs">
                  <option value="">Examination</option>
                        <?php
-   $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+   $sql="SELECT TOP(1) Examination from ExamForm Order by Examination DesC ";
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {      
