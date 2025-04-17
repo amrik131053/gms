@@ -83,7 +83,7 @@
                                     @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="5" class="text-center text-danger">Admit Card Not Generete yet. please Check Prevoius Exam Form Status</td>
+                                        <td colspan="5" class="text-center text-danger">Admit Card not generated yet. Please check the previous exam form status.</td>
                                     </tr>
                                     @endif
 
