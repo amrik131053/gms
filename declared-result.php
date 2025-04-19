@@ -314,7 +314,7 @@ function exportCutListExcelgraden(id) {
     var Examination = document.getElementById('Examination' + id).value;
     var ResultNo = document.getElementById('ResultNo' + id).value;
 
-alert(ResultNo);
+
 
     if (College != '' && Course != '' && Batch != '' && Semester != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
