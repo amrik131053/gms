@@ -46,6 +46,7 @@ class AdmitCardController extends Controller
                     'SubmitFormDate'=>$currentDateFormatted,
                     'Image'=>$resultsData1['Image'],
                     'SignaturePath'=>$resultsData1['SignaturePath'],
+                    'ABCID'=>$resultsData1['ABCID'],
                     'SubjectsResult'=>$resultsData
         ];   
         $pdf = PDF::loadView('ViewAdmitCard', ['data' => $data]);

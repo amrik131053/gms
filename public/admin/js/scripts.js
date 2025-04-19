@@ -513,10 +513,8 @@ function viewExamForm(id) {
         hideLoader(); 
     });
 }
-
 function viewNoDuesModal(id) {
     showLoader();
-    // alert(id);
     fetch('/fetch-no-dues-record', {
         method: 'POST',
         headers: {
@@ -531,27 +529,55 @@ function viewNoDuesModal(id) {
         const tableBody = document.getElementById('viewNoDuesTable');
         tableBody.innerHTML = '';
         console.log(data);
+
         if (data.length > 0) {
-           
-                let row = document.createElement('tr');
+            const departments = ['Library', 'Account', 'Registration'];
+
+            departments.forEach(dept => {
+                const status = parseInt(data[0][dept]); // 1, 0, or -1
+                const verifiedBy = data[0][`${dept}VerifiedName`] || '--';
+                const verifiedDateRaw = data[0][`${dept}VerifiedDate`];
+                const verifiedDate = verifiedDateRaw 
+                    ? new Date(verifiedDateRaw).toLocaleString('en-GB') 
+                    : '--';
+
+                const rejectedBy = data[0][`${dept}RejectedName`] || null;
+                const rejectedDateRaw = data[0][`${dept}RejectDate`];
+                const rejectedDate = rejectedDateRaw 
+                    ? new Date(rejectedDateRaw).toLocaleString('en-GB') 
+                    : '--';
+                const rejectReason = data[0][`${dept}RejectReason`] || '--';
+
+                let statusBadge = '';
+                let byWhom = '--';
+                let date = '--';
+                let reason = '';
+
+                if (status === -1) {
+                    statusBadge = `<span class="badge bg-danger text-white">Rejected</span>`;
+                    byWhom = rejectedBy || '--';
+                    date = rejectedDate;
+                    reason = rejectReason;
+                } else if (status === 1) {
+                    statusBadge = `<span class="badge bg-success text-white">Verified</span>`;
+                    byWhom = verifiedBy;
+                    date = verifiedDate;
+                } else {
+                    statusBadge = `<span class="badge bg-warning text-dark">Pending</span>`;
+                }
+
+                const row = document.createElement('tr');
                 row.innerHTML = `
-                <tr>
-                    <td>${data[0]['ExamFormID']}</td>
-                    <td>${data[0]['AccountVerifiedBy']}</td>
-                    <td>${data[0]['IDNo']}</td></tr>
-                <tr>
-                    <td>${data[0]['ExamFormID']}</td>
-                    <td>${data[0]['AccountVerifiedBy']}</td>
-                    <td>${data[0]['IDNo']}</td></tr>
-                <tr>
-                    <td>${data[0]['ExamFormID']}</td>
-                    <td>${data[0]['AccountVerifiedBy']}</td>
-                    <td>${data[0]['IDNo']}</td></tr>
+                    <td>${dept}</td>
+                    <td>${byWhom}</td>
+                    <td>${date}</td>
+                    <td>${statusBadge}<br><b class='text-danger'>${reason}</b></td>
+               
                 `;
                 tableBody.appendChild(row);
-            
+            });
         } else {
-            tableBody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">No subjects available</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">No records found</td></tr>';
         }
 
         // Show the modal
@@ -560,9 +586,79 @@ function viewNoDuesModal(id) {
     })
     .catch(error => {
         console.error('Error:', error);
-        hideLoader(); 
+        hideLoader();
     });
 }
+
+// function viewNoDuesModal(id) {
+//     showLoader();
+//     fetch('/fetch-no-dues-record', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//         },
+//         body: JSON.stringify({ ID: id })
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         hideLoader();
+//         const tableBody = document.getElementById('viewNoDuesTable');
+//         tableBody.innerHTML = '';
+//         console.log(data);
+
+//         if (data.length > 0) {
+//             const departments = ['Library', 'Account', 'Registration'];
+
+//             departments.forEach(dept => {
+//                 const verified = data[0][dept];
+//                 const verifiedBy = data[0][`${dept}VerifiedName`] || '--';
+//                 const verifiedDateRaw = data[0][`${dept}VerifiedDate`];
+//                 const verifiedDate = verifiedDateRaw 
+//                     ? new Date(verifiedDateRaw).toLocaleString('en-GB') 
+//                     : '--';
+
+//                 const rejectedBy = data[0][`${dept}RejectedBy`] || null;
+//                 const rejectedDateRaw = data[0][`${dept}RejectDate`];
+//                 const rejectedDate = rejectedDateRaw 
+//                     ? new Date(rejectedDateRaw).toLocaleString('en-GB') 
+//                     : '--';
+//                 const rejectReason = data[0][`${dept}RejectReason`] || '--';
+
+//                 let statusBadge = '';
+//                 if (rejectedBy) {
+//                     statusBadge = `<span class="badge bg-danger" style="color:white">Rejected</span>`;
+//                 } else if (verified) {
+//                     statusBadge = `<span class="badge bg-success" style="color:white">Verified</span>`;
+//                 } else {
+//                     statusBadge = `<span class="badge bg-warning" style="color:white">Pending</span>`;
+//                 }
+
+//                 const row = document.createElement('tr');
+//                 row.innerHTML = `
+//                     <td>${dept}</td>
+//                     <td>${verifiedBy}</td>
+//                     <td>${rejectedBy ? rejectedDate : verifiedDate}</td>
+//                     <td>${statusBadge}<br><small class='text-danger'>${rejectedBy ? rejectReason : ''}</small></td>
+                    
+//                 `;
+//                 tableBody.appendChild(row);
+//             });
+//         } else {
+//             tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">No records found</td></tr>';
+//         }
+
+//         // Show the modal
+//         let examModal = new bootstrap.Modal(document.getElementById('noDuesModal'));
+//         examModal.show();
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         hideLoader();
+//     });
+// }
+
+
 // function viewExamForm(id) {
 //     showLoader();
 //     fetch('/fetch-exam-form', {

@@ -93,7 +93,7 @@
             
             <td style="text-align: center; width: 100%;">
                 <div class="header">
-                    <h2>PROVISIONAL ADMIT CARD FOR (<strong>{{ $data['Examination'] }}</strong>) EXAMINATION</h2>
+                    <h2>ADMIT CARD FOR (<strong>{{ $data['Examination'] }}</strong>) EXAMINATION</h2>
                 </div>
             </td>
            
@@ -105,8 +105,8 @@
             <td rowspan="3" style="text-align: left; width: 15%;text-align: center;"><p>Affix the latest photo of the candidate here,<br> duly attested by the college/department dean with a stamp.
          </p>
             </td>
-            <td colspan="2" style="text-align: left; width: 30%;"><b>Name:</b> {{ $data['StudentName'] }}</td>
-            <td colspan="1" style="text-align: left; width: 30%;"><b>Roll No:</b> {{ $data['UniRollNo'] }}</td>
+            <td colspan="2" style="text-align: left; width: 30%;"><b>&nbsp;Name:</b> {{ $data['StudentName'] }}</td>
+            <td colspan="1" style="text-align: left; width: 30%;"><b>&nbsp;Roll No:</b> {{ $data['UniRollNo'] }}</td>
             <td rowspan="3" style="text-align: center; width: 15%; padding: 1px !important;">
     <img src="{{ isset($data['Image']) ? 'http://erp.gku.ac.in:86/Images/Students/'.$data['Image'] : 'default-image-url.jpg' }}" 
          width="70" 
@@ -117,12 +117,13 @@
 
         </tr>
         <tr>
-            <td colspan="2" style="text-align: left; "><b>Father Name:</b> {{ $data['FatherName'] }}</td>
-            <td colspan="1" style="text-align: left; "><b>Course:</b> {{ $data['Course'] }}</td>
+            <td colspan="2" style="text-align: left; "><b>&nbsp;Father Name:</b> {{ $data['FatherName'] }}</td>
+            <td colspan="1" style="text-align: left; "><b>&nbsp;Course:</b> {{ $data['Course'] }}</td>
         </tr>
         <tr>
-            <td colspan="2 " style="text-align: left; "><b>Semester:</b> {{ $data['Semester'] }}({{ $data['Type'] }})</td>
-            <td colspan="1" style="text-align: left;"><b>Batch:</b> {{ $data['Batch'] }}</td>
+            <td colspan="1 " style="text-align: left; "><b>&nbsp;Semester:</b> {{ $data['Semester'] }}({{ $data['Type'] }})</td>
+            <td colspan="1" style="text-align: left;"><b>&nbsp;Batch:</b> {{ $data['Batch'] }}</td>
+            <td colspan="1" style="text-align: left;"><b>&nbsp;ABC ID:</b> {{ $data['ABCID'] }}</td>
         </tr>
     </table>
 <center><b style="font-size:12px;padding:5px;">Subjects in which appearing</b></center><br>
@@ -203,8 +204,8 @@ by him/her are correct. Nothing is due to towards this student</td>
 </th>
     </tr>
     <tr>
-        <th style="text-align: left; width: 33%;">Library</th>
-        <th style="text-align: center; width: 33%;">Dean</th>
+        <th style="text-align: left; width: 33%;">Dean</th>
+        <th style="text-align: center; width: 33%;">&nbsp;</th>
         
     </th>
     <th style="text-align: right; width: 33%;">

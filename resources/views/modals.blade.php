@@ -87,7 +87,7 @@
         </div>
     </div>
       <div class="modal fade" id="noDuesModal" tabindex="-1" aria-labelledby="noDuesModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog  modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="noDuesModalLabel">No Dues Details</h5>
@@ -99,7 +99,7 @@
                             <thead >
                                 <tr>
                                     <th style="background-color:#223260;color:white;">Department Name</th>
-                                    <th style="background-color:#223260;color:white;">Verified By</th>
+                                    <th style="background-color:#223260;color:white;">Verified/Rejected By</th>
                                     <th style="background-color:#223260;color:white;">Date On</th>
                                     <th style="background-color:#223260;color:white;">Status</th>
                                   
