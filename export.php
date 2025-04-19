@@ -5087,8 +5087,8 @@ $Semester=$_GET['Semester'];
 $Type=$_GET['Type'];
 $Group=$_GET['Group'];
 $Examination=$_GET['Examination'];
-     $OrderBy = $_GET['OrderBy'];
-                $Status = $_GET['Status'];
+$OrderBy = $_GET['OrderBy'];
+$Status = $_GET['Status'];
 
 $SrNo=1;
 $Subjects=array();

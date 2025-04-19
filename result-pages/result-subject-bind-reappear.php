@@ -46,7 +46,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
 
 
 $subjects_sql="select  DIstinct SubjectCode,SubjectName from ResultPreparation inner join 
-ResultPreparationDetail on ResultPreparation.Id=ResultPreparationDetail.ResultID where  CollegeID='$College' ANd CourseID='$Course'  ANd Semester='$Semester'  ANd Examination='$Examination'";
+ResultPreparationDetail on ResultPreparation.Id=ResultPreparationDetail.ResultID where  CollegeID='$College' ANd CourseID='$Course'  ANd Semester='$Semester'  ANd Examination='$Examination' ANd Type='$Type'";
 
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
