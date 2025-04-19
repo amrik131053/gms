@@ -46,7 +46,7 @@
 
 
 
-
+ 
 
                                 <label>Batch</label>
                                 <select name="batch" class="form-control" id="Batch" required="">
@@ -92,7 +92,7 @@
 
 
 
-                            <div class="col-lg-6    col-md-4 col-sm-3">
+                            <div class="col-lg-4    col-md-4 col-sm-3">
                                 <label>Group</label>
                                 <select id="Group" class="form-control" required="">
                                     <option value="">Group</option>
@@ -112,10 +112,10 @@
                                                             ?>
 
 
-                                </select>
+                                </select> 
 
                             </div>
-                            <div class="col-lg-6 col-md-4 col-sm-3">
+                            <div class="col-lg-4 col-md-4 col-sm-3">
                                 <label>Examination</label>
                                 <select id="Examination" class="form-control" required="">
                                     <option value="">Examination</option>
@@ -139,6 +139,28 @@
 
                             </div>
 
+   <div class="col-lg-4 col-md-2 col-sm-12">
+                                <label>Order By</label>
+                                <select id="OrderBy" class="form-control" >
+                                    <option value="ClassRollNo">Class RollNo</option>
+                                   
+                                    <option value="UniRollNo">Uni RollNo</option>
+                                    
+
+
+                                </select>
+
+                            </div>
+<div class="col-lg-4 col-md-2 col-sm-12">
+    <label>Status</label>
+                              <select id="Status" class="form-control form-control-sm" >
+                                    <option value="1">Active</option>
+                                    <option value="0">Left</option>
+                                   
+
+
+                                </select>
+</div>
                             <div class="col-lg-12 col-md-12 col-sm-13">
                                 <div class="form-group-xs  ">
                                     <br>
@@ -485,10 +507,12 @@ function exportCutListExcel() {
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
+        var OrderBy = document.getElementById('OrderBy').value;
+                var Status = document.getElementById('Status').value;
     if (College != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+"&OrderBy=" + OrderBy+"&Status=" + Status, '_blank');
 
     } else {
         alert("Select ");
@@ -503,10 +527,12 @@ function exportCutListPdf() {
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
+        var OrderBy = document.getElementById('OrderBy').value;
+                        var Status = document.getElementById('Status').value;
     if (College != '') {
         window.open("export-cutlist-pdf-new.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+"&OrderBy=" + OrderBy+"&Status=" + Status, '_blank');
 
     } else {
         alert("Select ");

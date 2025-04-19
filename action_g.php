@@ -27302,11 +27302,13 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     Verify</button> -->
 <?php }?>
 
-<?php if($final>0 &&  $final<3){?>
+<?php if($NoDuesStatus>0 &&$final>0 && $final<3){?>
+
 <textarea class=" form-control " name="" id="remarkReject"></textarea>
 <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
     a value minimum 5 characters.</small><br>
 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger">Reject</button>
+
 <?php }?>
 
 
