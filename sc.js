@@ -1801,6 +1801,7 @@ var code=390;
  data:{code:code,id:id},
  success:function(res)
  {
+  // console.log(res);
   spinner.style.display = 'none';
  }
 });

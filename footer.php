@@ -151,7 +151,7 @@ function show_notification(id)
   });
  }
 load_unseen_notification();
-//  checkSessions();
+ checkSessions();
 // });
 
 // setInterval(function(){pushNotify();}, 8000);
@@ -226,6 +226,7 @@ function checkSessions() {
    
    success:function(res)
    {
+    // console.log(res);
     if(res==0)
     {
       window.location.href = 'index.php';
