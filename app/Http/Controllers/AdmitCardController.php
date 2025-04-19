@@ -36,8 +36,11 @@ class AdmitCardController extends Controller
                $resultsData=$resultsData['data2'];
                $data = [
                     'UniRollNo'=>$resultsData1['UniRollNo'],
+                    'ClassRollNo'=>$resultsData1['ClassRollNo'],
+                    'IDNo'=>$resultsData1['IDNo'],
                     'StudentName'=>$resultsData1['StudentName'],
                     'FatherName'=>$resultsData1['FatherName'],
+                    'MotherName'=>$resultsData1['MotherName'],
                     'Batch'=>$resultsData1['Batch'],
                     'Course'=>$resultsData1['Course'],
                     'Semester'=>$resultsData[0]['SemesterId'],

@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
-           
+   
         }
         .container {
             width: 100%;
@@ -16,7 +16,7 @@
         }
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            /* margin-bottom: 5px; */
         }
         .header img {
             width: 100px;
@@ -24,19 +24,19 @@
         }
         .header h1 {
             font-size: 20px;
-            margin: 5px 0;
+            /* margin: 5px 0; */
         }
         .header h2 {
             font-size: 12px;
-            padding: 2px;
+            /* padding: 2px; */
         }
         .admit-card-info, .subjects-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .admit-card-info td {
-            padding: 5px;
+            padding: 1px;
         }
         .admit-card-info td:first-child {
             font-weight: bold;
@@ -75,58 +75,59 @@
         border-collapse: collapse;
     }
     .signature-table td {
-        padding: 5px;
-       
+        padding: 5px;   
     }
 </style>
-
 </head>
 <body>
 <div class="container">
- <table class="subjects-table">
-        <tr>
-            <td style="text-align: left; width: 100%;">
+
+    <table class="subjects-table">
+    <tr>
+            <td colspan="5" style="text-align: left; width: 100%;">
                 <img src="admin/img/logo-join.png" alt="Left Logo" width="100%" height="70">
             </td>
         </tr>
-        <tr>
-            
-            <td style="text-align: center; width: 100%;">
+    <tr>
+            <td colspan="5" style="text-align: center; width: 100%;">
                 <div class="header">
                     <h2>ADMIT CARD FOR (<strong>{{ $data['Examination'] }}</strong>) EXAMINATION</h2>
+                    <!-- <p>{{ $data['UniRollNo'] }}</p> -->
                 </div>
             </td>
-           
         </tr>
-    </table>
-    <table class="subjects-table">
-       
         <tr>
-            <td rowspan="3" style="text-align: left; width: 15%;text-align: center;"><p>Affix the latest photo of the candidate here,<br> duly attested by the college/department dean with a stamp.
-         </p>
+            <td rowspan="4" style="text-align: left; width: 15%;text-align: center;font-size:10px;margin:0px;">
+                <span>Affix the latest photo of the candidate here,<br> duly attested by the college/department dean with a stamp.
+</span>
             </td>
-            <td colspan="2" style="text-align: left; width: 30%;"><b>&nbsp;Name:</b> {{ $data['StudentName'] }}</td>
-            <td colspan="1" style="text-align: left; width: 30%;"><b>&nbsp;Roll No:</b> {{ $data['UniRollNo'] }}</td>
-            <td rowspan="3" style="text-align: center; width: 15%; padding: 1px !important;">
-    <img src="{{ isset($data['Image']) ? 'http://erp.gku.ac.in:86/Images/Students/'.$data['Image'] : 'default-image-url.jpg' }}" 
-         width="70" 
-         height="100" 
-         alt="Student Image" 
-         style="display: block; margin: 0; padding: 0;">
-</td>
+            <td colspan="2" style="text-align: left; width: 35%;"><b>&nbsp;Name:</b> {{ $data['StudentName'] }}</td>
+            <td colspan="1" style="text-align: left; width: 35%;"><b>&nbsp;Roll No:</b> {{ $data['UniRollNo'] }}</td>
+            <td rowspan="4" style="text-align: center; width: 15%;">
+                <img src="{{ isset($data['Image']) ? 'http://erp.gku.ac.in:86/Images/Students/'.$data['Image'] : 'default-image-url.jpg' }}" 
+                    width="90" 
+                    height="100" 
+                    alt="Student Image" 
+                    >
+            </td>
 
         </tr>
         <tr>
             <td colspan="2" style="text-align: left; "><b>&nbsp;Father Name:</b> {{ $data['FatherName'] }}</td>
-            <td colspan="1" style="text-align: left; "><b>&nbsp;Course:</b> {{ $data['Course'] }}</td>
+            <td colspan="1" style="text-align: left; "><b>&nbsp;Mother Name:</b> {{ $data['MotherName'] }}</td>
         </tr>
         <tr>
-            <td colspan="1 " style="text-align: left; "><b>&nbsp;Semester:</b> {{ $data['Semester'] }}({{ $data['Type'] }})</td>
-            <td colspan="1" style="text-align: left;"><b>&nbsp;Batch:</b> {{ $data['Batch'] }}</td>
+            <td colspan="2 " style="text-align: left; "><b>&nbsp;Semester:</b> {{ $data['Semester'] }}({{ $data['Type'] }})  {{ $data['Batch'] }}</td>
+            <!-- <td colspan="1" style="text-align: left;"><b>&nbsp;Batch:</b> {{ $data['Batch'] }}</td> -->
             <td colspan="1" style="text-align: left;"><b>&nbsp;ABC ID:</b> {{ $data['ABCID'] }}</td>
         </tr>
+        <tr>
+            <td colspan="3 " style="text-align: left; "><b>&nbsp;Course:</b> {{ $data['Course'] }}</td>
+            <!-- <td colspan="1" style="text-align: left;"><b>&nbsp;Batch:</b> {{ $data['Batch'] }}</td> -->
+            <!-- <td colspan="1" style="text-align: left;"><b>&nbsp;IDNo:</b> {{ $data['IDNo'] }}</td> -->
+        </tr>
     </table>
-<center><b style="font-size:12px;padding:5px;">Subjects in which appearing</b></center><br>
+<!-- <center><b style="font-size:12px;padding:0px;">Subjects in which appearing</b></center> -->
     <table class="subjects-table">
         <thead>
         <tr>
@@ -149,40 +150,34 @@
         </tr>
     @endif
 @endforeach
-
         </tbody>
     </table>
-
-   
  <table class="subjects-table">
-        
         <tr>
             <td colspan="5" style="text-align: justify;">I have read all the regulations and it's amendments in regard to examination. I found myself eligible to appear in examination. In case university declare me
-ineligible due to any wrong information submitted in examination form by me, i shall be responsible for its consequences.I will follow all the norms set by
-university regarding covid -19</td>
-           
-        </tr>
-        
-       
-    </table>
-    <table class="subjects-table">
-        
-        <tr>
-        <th colspan="3" style="text-align: left; vertical-align: middle;">
-        @if($data['SignaturePath']!='')
-<br>
+ineligible due to any wrong information submitted in examination form by me, i shall be responsible for its consequences.<br><span><b>Note:</b> Check your Name, Father's Name, Mother's Name, and ABC ID carefully.
+If you find any discrepancy, contact the Registration Branch at the earliest.</span>  </td>      
+</tr>
+<tr>
+<td colspan="3" style="text-align: left; vertical-align: middle; padding: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <strong style="white-space: nowrap;">Candidate Sign:</strong>
+        @if($data['SignaturePath'] != '')
+            <img src="{{ 'http://erp.gku.ac.in:86/Images/Signature/'.$data['SignaturePath'] }}" 
+                 alt="Signature" 
+                 style="height: 40px; width: 150px; padding: 2px;">
+        @else
+            <span style="color: red;"></span>
         @endif
+    </div>
+</td>
 
-    Candidate Sign:<img src="{{ isset($data['SignaturePath']) ? 'http://erp.gku.ac.in:86/Images/Signature/'.$data['SignaturePath'] : '' }}" 
-         alt="" 
-         style=" height: 40; width: 170; padding-top: 5px;">
-</th>
 
-           <th colspan="2">Date: {{$data['SubmitFormDate']}}</th>
+           <td colspan="2"><b>Date: {{$data['SubmitFormDate']}}</b></td>
         </tr>
-        
-       
     </table>
+    
+
     <table class="subjects-table">
         
         <tr>
@@ -204,7 +199,7 @@ by him/her are correct. Nothing is due to towards this student</td>
 </th>
     </tr>
     <tr>
-        <th style="text-align: left; width: 33%;">Dean</th>
+        <th style="text-align: left; width: 33%;">Dean/HOD</th>
         <th style="text-align: center; width: 33%;">&nbsp;</th>
         
     </th>
