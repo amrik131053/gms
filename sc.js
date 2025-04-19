@@ -1789,3 +1789,20 @@ function scrollable() {
     isScrollingDown = !isScrollingDown; // Toggle direction
 }
 
+
+
+function sessionAlllogout(id) {
+  var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+var code=390;
+ $.ajax({
+ url:"action_g.php",
+ method:"POST",
+ data:{code:code,id:id},
+ success:function(res)
+ {
+  // console.log(res);
+  spinner.style.display = 'none';
+ }
+});
+}
