@@ -2339,7 +2339,7 @@ mysqli_close($conn);
                }
                elseif($get_row['status']==2)
                {
-               $status_user_side="<b class='bg-danger'>Reject</b>";
+               $status_user_side="<b class='bg-danger'>Not Available</b>";
                }
                elseif($get_row['status']==3)
                {
