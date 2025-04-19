@@ -156,52 +156,52 @@ load_unseen_notification();
 
 // setInterval(function(){pushNotify();}, 8000);
 
-        function pushNotify() {
-          if (!("Notification" in window)) {
-                // checking if the user's browser supports web push Notification
-                // alert("Web browser does not support desktop notification");
-            }
-            if (Notification.permission !== "granted")
-                Notification.requestPermission();
-            else {
-                $.ajax({
-                url : "push-notify.php",
-                type: "POST",
-                success: function(data, textStatus, jqXHR) {
-                    // if PHP call returns data process it and show notification
-                    // if nothing returns then it means no notification available for now
-                  if ($.trim(data)){
-                        var data = jQuery.parseJSON(data);
-                        // console.log(data);
-                        notification = createNotification( data.title,  data.icon,  data.body, data.url,data.id);
+        // function pushNotify() {
+        //   if (!("Notification" in window)) {
+        //         // checking if the user's browser supports web push Notification
+        //         // alert("Web browser does not support desktop notification");
+        //     }
+        //     if (Notification.permission !== "granted")
+        //         Notification.requestPermission();
+        //     else {
+        //         $.ajax({
+        //         url : "push-notify.php",
+        //         type: "POST",
+        //         success: function(data, textStatus, jqXHR) {
+        //             // if PHP call returns data process it and show notification
+        //             // if nothing returns then it means no notification available for now
+        //           if ($.trim(data)){
+        //                 var data = jQuery.parseJSON(data);
+        //                 // console.log(data);
+        //                 notification = createNotification( data.title,  data.icon,  data.body, data.url,data.id);
 
-                        // closes the web browser notification automatically after 5 secs
-                        // setTimeout(function() {
+        //                 // closes the web browser notification automatically after 5 secs
+        //                 // setTimeout(function() {
 
-                        // }, 1000);
-                    }
-                          seen_webnotification(data.id);
+        //                 // }, 1000);
+        //             }
+        //                   seen_webnotification(data.id);
 
-                },
-                error: function(jqXHR, textStatus, errorThrown) {}
-                });
-            }
-        };
+        //         },
+        //         error: function(jqXHR, textStatus, errorThrown) {}
+        //         });
+        //     }
+        // };
 
-        function createNotification(title, icon, body, url,id) {
-            var notification = new Notification(title, {
-                icon: icon,
-                body: body,
-            });
+        // function createNotification(title, icon, body, url,id) {
+        //     var notification = new Notification(title, {
+        //         icon: icon,
+        //         body: body,
+        //     });
           
-            // url that needs to be opened on clicking the notification
-            // finally everything boils down to click and visits right
-            notification.onclick = function() {
-                window.open(url);
+        //     // url that needs to be opened on clicking the notification
+        //     // finally everything boils down to click and visits right
+        //     notification.onclick = function() {
+        //         window.open(url);
                 
-            };
-            return notification;
-        }
+        //     };
+        //     return notification;
+        // }
 function seen_webnotification(id) {
    var code=33;
    $.ajax({
