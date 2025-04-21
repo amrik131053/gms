@@ -26474,7 +26474,7 @@ else
 <table class="table table-bordered" id="example">
     <thead>
         <tr style="font-size:14px;">
-            <!-- <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th> -->
+            <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
             <th>#</th>
             <th>Uni Roll No</th>
             <th>Name</th>
@@ -26534,8 +26534,8 @@ else
            
              ?>
         <tr style="background-color:<?=$trColor;?>;font-size:14px;">
-            <!-- td><?php if($Status=='0'){ ?><input type="checkbox" class="checkbox v_check"
-                    value="<?= $row['ID'];?>"><?php }?></td> -->
+            <td><?php if($Status=='0'){ ?><input type="checkbox" class="checkbox v_check"
+                    value="<?= $row['ID'];?>"><?php }?> </td>
             <td><?= $count++;?></td>
 
 
@@ -26597,10 +26597,10 @@ if($Status==-1)
         </tr>
         <?php 
          }?>
-       <!--  <tr>
+       <tr>
             <td colspan="13"> <button type="submit" id="type" onclick="verifyAll();" name="update"
                     class="btn btn-success " style="float:right;">Verify</button></td>
-        </tr> -->
+        </tr> 
 
     </tbody>
 </table>
@@ -26824,6 +26824,44 @@ elseif($code==326)
         $desc= "UPDATE  ExamForm  SET Status: Verified,AccountantVerificationDate: ".$timeStampS;
  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
+  }
+  if ($getDefalutMenuRun==true) {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+  sqlsrv_close($conntest);
+}
+elseif($code==326.1)
+{
+  $ids=$_POST['subjectIDs'];
+  foreach($ids as $key => $id)
+  {
+     
+ 
+
+       $getDefalutMenu="UPDATE  MasterNodues  SET RegistrationVerifiedDate='$timeStampS',RegistrationVerifiedBy='$id',Registration='1' Where ID='$id'";
+
+   $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
+   $getStudentID="SELECT IDNo FROM MasterNodues WHERE ID='$id'";
+   $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+   if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+       $IDNo=$row['IDNo'];
+       
+   }
+
+    $desc= "No Dues  SET Status: Verified,AccountantVerificationDate: ".$timeStampS."-M No Dues ID".$id;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
+
+  
+
+
+
+
   }
   if ($getDefalutMenuRun==true) {
      echo "1";
@@ -27226,6 +27264,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $Comments = $row6['CommentsDetail'];
             $CourseID=$row6['CourseID'];
             $CollegeID=$row6['CollegeID'];
+            $Eligibility=$row6['Eligibility'];
+            $Reason=$row6['EligibilityReason'];
           }
 
 ?>
@@ -27279,6 +27319,17 @@ $stmt1 = sqlsrv_query($conntest,$sql);
         <tr>
             <td><b>Comment:</b></td>
             <td colspan="10"><?php echo $Comments;?></td>
+        </tr><tr>
+            <td><b>Eligibility:</b></td>
+            <td colspan="10"><?php if ($Eligibility>0)  {
+   
+   echo $Reason." Eligible";
+    } 
+    else
+    {
+
+      echo "Not Eligible";
+   } ?>  </td>
         </tr>
 
     </table>
@@ -27289,8 +27340,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
     if($NoDuesStatus==0 OR $NoDuesStatus==''){?>
 
-<!-- <label class='text-danger text-sm'>Reject Remarks</label> -->
-<textarea class=" form-control " name="" id="remarkReject"> Fee Pending</textarea>
+<label class='text-danger text-sm'>Reject Remarks</label>
+<textarea class=" form-control " name="" id="remarkReject"> </textarea>
 <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
     a value minimum 5 characters.</small><br>
 
