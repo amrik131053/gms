@@ -26446,9 +26446,9 @@ $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
 if ($Status != '')
  {
 
-    if ($Status== 0)
+    if ($Status==0 && $Status=='')
     {
- $list_sql.=" ";
+ $list_sql.="AND MasterNodues.Registration='$Status ";
     }
     else
     {
@@ -26457,7 +26457,7 @@ if ($Status != '')
  }
  
 $list_sql.="  ORDER BY MasterNodues.Registration ASC";
-
+//echo $list_sql;
 }
 else
 {
@@ -26534,8 +26534,8 @@ else
            
              ?>
         <tr style="background-color:<?=$trColor;?>;font-size:14px;">
-            <td><?php if($Status=='0'){ ?><input type="checkbox" class="checkbox v_check"
-                    value="<?= $row['ID'];?>"><?php }?> </td>
+            <td><?php if($Status=='0' OR $Status==''){ ?><input type="checkbox" class="checkbox v_check"
+                    value="<?= $row['ID'];?>"><?php }?>  </td>
             <td><?= $count++;?></td>
 
 
@@ -27239,6 +27239,8 @@ elseif($code==327.1)
             $Status=$row5['Status'];
 
           $NoDuesStatus=$row5['NoDuesStatus'];
+          $NoDuesStatus=$row5['NoDuesStatus'];
+
            $NoDuesLibrary=$row5['NoDuesLibrary'];
             $NoDuesRegistration=$row5['NoDuesRegistration'];
 
@@ -27331,11 +27333,47 @@ $stmt1 = sqlsrv_query($conntest,$sql);
       echo "Not Eligible";
    } ?>  </td>
         </tr>
+         <tr>
+            <td colspan="10"><b>Books Detail</b></td>
+           
+        </tr>
+        <?php 
+         $sr=1;
+ $sql_att="SELECT * from IssueRegister where IDNo='$IDNo'";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+           $AccessionNo=$row_staff_att['AccessionNo'];      
+           $IssueDate=$row_staff_att['IssueDate']->format('d-M-Y');      
+           $IDNo=$row_staff_att['IDNo'];      
+           $Title=$row_staff_att['Title'];      
+           $Author=$row_staff_att['Author'];      
+           $CollegeName=$row_staff_att['CollegeName'];      
+           $Category=$row_staff_att['Category'];  
+           $LastReturnDate=$row_staff_att['LastReturnDate']->format('d-M-Y');  
+           ?>
+<tr>
+<td><?=$sr;?></td>
+<td><?=$AccessionNo;?></td>
+<td><?=$IssueDate;?></td>
+<td><?=$Title;?></td>
+<td><?=$Author;?></td>
+<!-- <td><?=$Category;?></td> -->
+<td><?=$LastReturnDate;?></td>
+           </tr>
+
+
+<?php 
+   $sr++; 
+   // $aaa[]=$row_staff_att;      
+}?>
 
     </table>
 </div>
 <br>
-<?php  
+         <?php 
+
 
 
     if($NoDuesStatus==0 OR $NoDuesStatus==''){?>
@@ -27353,7 +27391,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     Verify</button> -->
 <?php }?>
 
-<?php if($NoDuesStatus>0 &&$final>0 && $final<3){?>
+<?php if($NoDuesStatus>0 && $final>0 && $final<3){?>
 
 <textarea class=" form-control " name="" id="remarkReject"></textarea>
 <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
@@ -27363,8 +27401,10 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 <?php }?>
 
 
-<?php if($NoDuesStatus==-1){?>
-<p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
+<?php echo "dasd".$NoDuesStatus;
+if($NoDuesStatus==-1){?>
+
+<p style="color:red;font-size: 20px">Rejected   Due to <u> <?=$AccountantRejectReason;?></u></p>
 <br>
 <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
 
@@ -27523,6 +27563,755 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
     sqlsrv_close($conntest);
    }
+
+elseif($code==327.2)
+   {
+  $id = $_POST['id'];
+  $list_sqlw5 ="SELECT  MasterNodues.Account as NoDuesStatus,MasterNodues.Library as NoDuesLibrary,MasterNodues.Registration as NoDuesRegistration,MasterNodues.ID as IDnodues, * from MasterNodues  inner join ExamForm on MasterNodues.ExamFormID=ExamForm.ID  Where  MasterNodues.ID='$id'";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+             $IDNo=$row5['IDNo'];
+             $type=$row5['Type'];
+             $examination=$row5['Examination'];
+             $examinationss=$row5['Examination'];
+             $sgroup= $row5['SGroup'];
+             $receipt_date=$row5['ReceiptDate'];
+             $receipt_no=$row5['ReceiptNo'];
+             $Semester=$row5['Semesterid'];
+             $AcceptType = $row5['AcceptType'];
+             $formid=$row5['IDnodues'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+            {
+              $rdateas='';        
+            } 
+            // $aa[]=$row5;
+     
+           
+            
+
+
+            if($row5['SubmitFormDate']!=''){ $FormSubmitDate=$row5['SubmitFormDate']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
+
+          
+            $AccountVerifiedBy=$row5['AccountVerifiedBy'];
+            if($row5['AccountVerifiedDate']!=''){ $AccountVerifiedDate=$row5['AccountVerifiedDate']->format('d-m-Y H:i:s');}else{ $AccountVerifiedDate="";}
+
+
+
+            if($row5['AccountRejectDate']!=''){$AccountRejectDate=$row5['AccountRejectDate']->format('d-m-Y H:i:s');}else{$AccountRejectDate="";}
+               $RegistrationRejectReason=$row5['RegistrationRejectReason'];
+                $AccountRejectedBy=$row5['AccountRejectedBy'];
+               
+
+            $Status=$row5['Status'];
+
+          
+          
+
+             $NoDuesStatus=$row5['NoDuesStatus'];
+          
+             $NoDuesLibrary=$row5['NoDuesLibrary'];
+            $NoDuesRegistration=$row5['NoDuesRegistration'];
+
+            $final=$NoDuesStatus+$NoDuesLibrary+$NoDuesRegistration;
+
+       }
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' AND Status='1'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Image'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $Comments = $row6['CommentsDetail'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+            $Eligibility=$row6['Eligibility'];
+            $Reason=$row6['EligibilityReason'];
+          }
+
+?>
+
+<div class="card-body table-responsive table-bordered table-striped">
+
+    <table class="table" style="border:1px solid black">
+        <tr>
+            <td colspan="10">
+                <h4 class="text-center"><b><?=$examination;?></b></h4>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><b>Class Roll No: &nbsp;<?php echo $ClassRollNo;?></td>
+            <td colspan="3"><b>Uni Roll No: &nbsp;<?=$UniRollNo;?></td>
+            <td colspan="3"><b>IDNo: &nbsp;<?=$IDNo;?></td>
+            <td rowspan="2" colspan="1">
+                <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="100" width="100" class="img-thumnail" />';?>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td><b>Name:</b> </td>
+            <td colspan="10"><?=$name;?></td>
+
+        </tr>
+        <tr>
+            <td colspan="1"><b>Father Name:</b></td>
+            <td colspan="1"><?php echo $father_name;?></td>
+            <td colspan="2"><b>Mother Name:</b></td>
+            <td colspan="6"><?=$mother_name;?></td>
+        </tr>
+        <tr>
+            <td><b>College:</b></td>
+            <td><?php echo $college;?></td>
+            <td><b>Course:</b></td>
+            <td colspan="7"><?=$course;?></td>
+        </tr>
+        <tr>
+            <td><b>Examination:</b></td>
+            <td>
+                <?=$examination;?> </td>
+            <td><b>Type:</b></td>
+            <td colspan="4">
+                <?=$type;?> </td>
+            <td><b>Sem:</b></td>
+            <td colspan="3">
+                <?=$Semester;?> </td>
+        </tr>
+        <tr>
+            <td><b>Comment:</b></td>
+            <td colspan="10"><?php echo $Comments;?></td>
+        </tr><tr>
+            <td><b>Eligibility:</b></td>
+            <td colspan="10"><?php if ($Eligibility>0)  {
+   
+   echo $Reason." Eligible";
+    } 
+    else
+    {
+
+      echo "Not Eligible";
+   } ?>  </td>
+        </tr>
+         <tr>
+            <td colspan="10"><b>Books Detail</b></td>
+           
+        </tr>
+        <?php 
+         $sr=1;
+ $sql_att="SELECT * from IssueRegister where IDNo='$IDNo'";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+           $AccessionNo=$row_staff_att['AccessionNo'];      
+           $IssueDate=$row_staff_att['IssueDate']->format('d-M-Y');      
+           $IDNo=$row_staff_att['IDNo'];      
+           $Title=$row_staff_att['Title'];      
+           $Author=$row_staff_att['Author'];      
+           $CollegeName=$row_staff_att['CollegeName'];      
+           $Category=$row_staff_att['Category'];  
+           $LastReturnDate=$row_staff_att['LastReturnDate']->format('d-M-Y');  
+           ?>
+<tr>
+<td><?=$sr;?></td>
+<td><?=$AccessionNo;?></td>
+<td><?=$IssueDate;?></td>
+<td><?=$Title;?></td>
+<td><?=$Author;?></td>
+<!-- <td><?=$Category;?></td> -->
+<td><?=$LastReturnDate;?></td>
+           </tr>
+
+
+<?php 
+   $sr++; 
+   // $aaa[]=$row_staff_att;      
+}?>
+
+    </table>
+</div>
+<br>
+         <?php 
+
+
+
+    if($NoDuesRegistration==0 OR $NoDuesRegistration==''){?>
+
+<label class='text-danger text-sm'>Reject Remarks</label>
+<textarea class=" form-control " name="" id="remarkReject"> </textarea>
+<small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+    a value minimum 5 characters.</small><br>
+
+<button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+<button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
+
+<!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button> -->
+<?php }?>
+
+<?php if($NoDuesRegistration>0 && $final>0 && $final<3){?>
+
+<textarea class=" form-control " name="" id="remarkReject"></textarea>
+<small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+    a value minimum 5 characters.</small><br>
+<button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger">Reject</button>
+
+<?php }?>
+
+
+<?php
+if($NoDuesRegistration==-1){?>
+
+<p style="color:red;font-size: 20px">Rejected   Due to <u> <?=$RegistrationRejectReason;?></u></p>
+<br>
+<button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+<!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button> -->
+<?php }
+
+
+
+ //if($Status>6 && $AcceptType>0){?>
+<!-- <p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
+<br>
+<button type="submit" id="type" onclick="reverify(<?=$formid;?>);" name="update"
+    class="btn btn-danger ">Re-Verify</button> -->
+
+<!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button> -->
+<?php //}
+        // } 
+        // else {
+        //     echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
+        // }
+
+    ?>
+</center>
+<br>
+<div class="table table-responsive" style="height:500px;">
+    <br>
+    <table class="table  table-bordered  table-hover table-head-fixed table-striped" style="border:1px solid black;">
+        <thead>
+            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
+
+            <tr>
+                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
+                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
+                <td colspan="2"></td>
+                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
+            </tr>
+
+
+            <tr>
+                <th>Receipt Date</th>
+                <th>Receipt No</th>
+                <th>Particulars</th>
+                <th>LedgerName</th>
+                <th>Installment</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Remarks</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <?php  $sql8 = "select  * from  Ledger where IDNo='$IDNo' order by DateEntry DESC";
+                                            $stmt8 = sqlsrv_query($conntest,$sql8);
+                                            while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                            
+                                                ?>
+
+            <tr>
+                <td>
+                    <?php
+                                                                                        if($row8['DateEntry']!='')
+                                                                                        {
+                                            
+                                                                                           echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
+                                            
+                                                                                   
+                                                                                    }
+                                                                                    ?>
+
+
+
+                </td>
+                <td><?= $row8['ReceiptNo'];;?></td>
+                <td style="width: 300px"><?= $row8['Particulars'];?></td>
+
+                <td><?= $row8['LedgerName'];?> </td>
+                <td><?= $row8['Semester'];;?></td>
+                <td><?= $row8['Debit'];?></td>
+                <td><?= $row8['Credit'];?></td>
+                <td><?= $row8['Remarks'];?>
+            </tr>
+
+            <?php 
+                                                                                            }?>
+
+
+
+            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
+
+            <tr>
+                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
+                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
+                <td colspan="2"></td>
+                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<table>
+    <tr>
+        <td colspan="10" style="text-align:right; font-size: 16px;">
+    </tr>
+</table>
+<br>
+<center>
+    <?php
+  $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Account' ";
+
+          $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+          
+          if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+          {
+      
+      $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+      $CurrentExaminationLastDate=$getCurrentExamination_row['LastDate']->format('Y-m-d');
+      $CurrentExaminationType=$getCurrentExamination_row['Type'];
+      $CurrentExaminationExamType=$getCurrentExamination_row['ExamType'];
+
+          }
+
+
+//  if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Account' && $CurrentExamination==$examination)
+// { 
+    
+
+
+
+
+
+    sqlsrv_close($conntest);
+   }
+
+
+   elseif($code==327.3)
+   {
+  $id = $_POST['id'];
+  $list_sqlw5 ="SELECT  MasterNodues.Account as NoDuesStatus,MasterNodues.Library as NoDuesLibrary,MasterNodues.Registration as NoDuesRegistration,MasterNodues.ID as IDnodues, * from MasterNodues  inner join ExamForm on MasterNodues.ExamFormID=ExamForm.ID  Where  MasterNodues.ID='$id'";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+             $IDNo=$row5['IDNo'];
+             $type=$row5['Type'];
+             $examination=$row5['Examination'];
+             $examinationss=$row5['Examination'];
+             $sgroup= $row5['SGroup'];
+             $receipt_date=$row5['ReceiptDate'];
+             $receipt_no=$row5['ReceiptNo'];
+             $Semester=$row5['Semesterid'];
+             $AcceptType = $row5['AcceptType'];
+             $formid=$row5['IDnodues'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+            {
+              $rdateas='';        
+            } 
+            // $aa[]=$row5;
+     
+           
+            
+
+
+            if($row5['SubmitFormDate']!=''){ $FormSubmitDate=$row5['SubmitFormDate']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
+
+          
+            $AccountVerifiedBy=$row5['AccountVerifiedBy'];
+            if($row5['AccountVerifiedDate']!=''){ $AccountVerifiedDate=$row5['AccountVerifiedDate']->format('d-m-Y H:i:s');}else{ $AccountVerifiedDate="";}
+
+
+
+            if($row5['AccountRejectDate']!=''){$AccountRejectDate=$row5['AccountRejectDate']->format('d-m-Y H:i:s');}else{$AccountRejectDate="";}
+               $AccountantRejectReason=$row5['LibraryRejectReason'];
+                $AccountRejectedBy=$row5['AccountRejectedBy'];
+               
+
+            $Status=$row5['Status'];
+
+        
+          $NoDuesStatus=$row5['NoDuesStatus'];
+          
+           $NoDuesLibrary=$row5['NoDuesLibrary'];
+            $NoDuesRegistration=$row5['NoDuesRegistration'];
+
+            $final=$NoDuesStatus+$NoDuesLibrary+$NoDuesRegistration;
+
+       }
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' AND Status='1'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Image'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $Comments = $row6['CommentsDetail'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+            $Eligibility=$row6['Eligibility'];
+            $Reason=$row6['EligibilityReason'];
+          }
+
+?>
+
+<div class="card-body table-responsive table-bordered table-striped">
+
+    <table class="table" style="border:1px solid black">
+        <tr>
+            <td colspan="10">
+                <h4 class="text-center"><b><?=$examination;?></b></h4>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><b>Class Roll No: &nbsp;<?php echo $ClassRollNo;?></td>
+            <td colspan="3"><b>Uni Roll No: &nbsp;<?=$UniRollNo;?></td>
+            <td colspan="3"><b>IDNo: &nbsp;<?=$IDNo;?></td>
+            <td rowspan="2" colspan="1">
+                <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="100" width="100" class="img-thumnail" />';?>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td><b>Name:</b> </td>
+            <td colspan="10"><?=$name;?></td>
+
+        </tr>
+        <tr>
+            <td colspan="1"><b>Father Name:</b></td>
+            <td colspan="1"><?php echo $father_name;?></td>
+            <td colspan="2"><b>Mother Name:</b></td>
+            <td colspan="6"><?=$mother_name;?></td>
+        </tr>
+        <tr>
+            <td><b>College:</b></td>
+            <td><?php echo $college;?></td>
+            <td><b>Course:</b></td>
+            <td colspan="7"><?=$course;?></td>
+        </tr>
+        <tr>
+            <td><b>Examination:</b></td>
+            <td>
+                <?=$examination;?> </td>
+            <td><b>Type:</b></td>
+            <td colspan="4">
+                <?=$type;?> </td>
+            <td><b>Sem:</b></td>
+            <td colspan="3">
+                <?=$Semester;?> </td>
+        </tr>
+        <tr>
+            <td><b>Comment:</b></td>
+            <td colspan="10"><?php echo $Comments;?></td>
+        </tr><tr>
+            <td><b>Eligibility:</b></td>
+            <td colspan="10"><?php if ($Eligibility>0)  {
+   
+   echo $Reason." Eligible";
+    } 
+    else
+    {
+
+      echo "Not Eligible";
+   } ?>  </td>
+        </tr>
+         <tr>
+            <td colspan="10"><b>Books Detail</b></td>
+           
+        </tr>
+        <?php 
+         $sr=1;
+ $sql_att="SELECT * from IssueRegister where IDNo='$IDNo'";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+           $AccessionNo=$row_staff_att['AccessionNo'];      
+           $IssueDate=$row_staff_att['IssueDate']->format('d-M-Y');      
+           $IDNo=$row_staff_att['IDNo'];      
+           $Title=$row_staff_att['Title'];      
+           $Author=$row_staff_att['Author'];      
+           $CollegeName=$row_staff_att['CollegeName'];      
+           $Category=$row_staff_att['Category'];  
+           $LastReturnDate=$row_staff_att['LastReturnDate']->format('d-M-Y');  
+           ?>
+<tr>
+<td><?=$sr;?></td>
+<td><?=$AccessionNo;?></td>
+<td><?=$IssueDate;?></td>
+<td><?=$Title;?></td>
+<td><?=$Author;?></td>
+<!-- <td><?=$Category;?></td> -->
+<td><?=$LastReturnDate;?></td>
+           </tr>
+
+
+<?php 
+   $sr++; 
+   // $aaa[]=$row_staff_att;      
+}?>
+
+    </table>
+</div>
+<br>
+         <?php 
+
+
+
+    if($NoDuesStatus==0 OR $NoDuesStatus==''){?>
+
+<label class='text-danger text-sm'>Reject Remarks</label>
+<textarea class=" form-control " name="" id="remarkReject"> </textarea>
+<small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+    a value minimum 5 characters.</small><br>
+
+<button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+<button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
+
+<!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button> -->
+<?php }?>
+
+<?php if($NoDuesStatus>0 && $final>0 && $final<3){?>
+
+<textarea class=" form-control " name="" id="remarkReject"></textarea>
+<small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+    a value minimum 5 characters.</small><br>
+<button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger">Reject</button>
+
+<?php }?>
+
+
+<?php echo "dasd".$NoDuesStatus;
+if($NoDuesStatus==-1){?>
+
+<p style="color:red;font-size: 20px">Rejected   Due to <u> <?=$AccountantRejectReason;?></u></p>
+<br>
+<button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+<!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button> -->
+<?php }
+
+
+
+ //if($Status>6 && $AcceptType>0){?>
+<!-- <p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
+<br>
+<button type="submit" id="type" onclick="reverify(<?=$formid;?>);" name="update"
+    class="btn btn-danger ">Re-Verify</button> -->
+
+<!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button> -->
+<?php //}
+        // } 
+        // else {
+        //     echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
+        // }
+
+    ?>
+</center>
+<br>
+<div class="table table-responsive" style="height:500px;">
+    <br>
+    <table class="table  table-bordered  table-hover table-head-fixed table-striped" style="border:1px solid black;">
+        <thead>
+            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
+
+            <tr>
+                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
+                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
+                <td colspan="2"></td>
+                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
+            </tr>
+
+
+            <tr>
+                <th>Receipt Date</th>
+                <th>Receipt No</th>
+                <th>Particulars</th>
+                <th>LedgerName</th>
+                <th>Installment</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Remarks</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <?php  $sql8 = "select  * from  Ledger where IDNo='$IDNo' order by DateEntry DESC";
+                                            $stmt8 = sqlsrv_query($conntest,$sql8);
+                                            while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                            
+                                                ?>
+
+            <tr>
+                <td>
+                    <?php
+                                                                                        if($row8['DateEntry']!='')
+                                                                                        {
+                                            
+                                                                                           echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
+                                            
+                                                                                   
+                                                                                    }
+                                                                                    ?>
+
+
+
+                </td>
+                <td><?= $row8['ReceiptNo'];;?></td>
+                <td style="width: 300px"><?= $row8['Particulars'];?></td>
+
+                <td><?= $row8['LedgerName'];?> </td>
+                <td><?= $row8['Semester'];;?></td>
+                <td><?= $row8['Debit'];?></td>
+                <td><?= $row8['Credit'];?></td>
+                <td><?= $row8['Remarks'];?>
+            </tr>
+
+            <?php 
+                                                                                            }?>
+
+
+
+            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
+
+            <tr>
+                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
+                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
+                <td colspan="2"></td>
+                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<table>
+    <tr>
+        <td colspan="10" style="text-align:right; font-size: 16px;">
+    </tr>
+</table>
+<br>
+<center>
+    <?php
+  $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Account' ";
+
+          $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+          
+          if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+          {
+      
+      $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+      $CurrentExaminationLastDate=$getCurrentExamination_row['LastDate']->format('Y-m-d');
+      $CurrentExaminationType=$getCurrentExamination_row['Type'];
+      $CurrentExaminationExamType=$getCurrentExamination_row['ExamType'];
+
+          }
+
+
+//  if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Account' && $CurrentExamination==$examination)
+// { 
+    
+
+
+
+
+
+    sqlsrv_close($conntest);
+   }
+
+
    else if($code==328)
    {
        $ExamFromID=$_POST['ExamFromID'];
