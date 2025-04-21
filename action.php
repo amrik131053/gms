@@ -8556,7 +8556,7 @@ elseif ($code==125)
     <?php
    // $sqlCourse = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE CollegeID='$collegeId'  ORDER BY Course ";
 
-$sqlCourse = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)order by Course ASC";
+$sqlCourse = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$collegeId'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)order by Course ASC";
 
 
 

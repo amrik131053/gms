@@ -238,14 +238,14 @@ $pdf->SetXY($X, $Y+30);
 $pdf->SetXY($X, $Y);
 $pdf->Cell(90, 7, 'BANK NAME', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFC Bank', 1, 1, 'L');
+$pdf->Cell(100, 7, 'Kotak Mahindra Bank', 1, 1, 'L');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
 $pdf->SetFont('Times', '', 11);
 $pdf->Cell(90, 7, 'BANK ADDRESS', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'Talwandi Sabo, Punjab -151302', 1, 1, 'L');
+$pdf->Cell(100, 7, 'SAS Nagar, Mohali,160059 Punjab', 1, 1, 'L');
 
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
@@ -261,7 +261,7 @@ $Y=$pdf->GETY();
 $pdf->SetFont('Times', '', 11);
 $pdf->Cell(90, 7, 'ACCOUNT NUMBER', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, '50100033779951', 1, 1, 'L');
+$pdf->Cell(100, 7, '9349731866', 1, 1, 'L');
 
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
@@ -269,7 +269,7 @@ $Y=$pdf->GETY();
 $pdf->SetFont('Times', '', 11);
 $pdf->Cell(90, 7, 'SWIFT CODE', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFCINBB', 1, 1, 'L');
+$pdf->Cell(100, 7, 'KKBKINBB', 1, 1, 'L');
 
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
@@ -277,7 +277,7 @@ $Y=$pdf->GETY();
 $pdf->SetFont('Times', '', 11);
 $pdf->Cell(90, 7, 'IFSC / MICR', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFC0001322/151240102', 1, 1, 'L');
+$pdf->Cell(100, 7, 'KKBK0000254', 1, 1, 'L');
 
 
 $X=$pdf->GETX();
@@ -309,3 +309,48 @@ mysqli_query($conn,$upd);
 }
 $pdf->Output();
 ?>
+
+
+$pdf->SetXY($X, $Y);
+$pdf->Cell(90, 7, 'BANK NAME', 1, 1, 'L');
+$pdf->SetXY(90+$X, $Y);
+$pdf->Cell(100, 7, 'Kotak Mahindra Bank', 1, 1, 'L');
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
+
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(90, 7, 'BANK ADDRESS', 1, 1, 'L');
+$pdf->SetXY(90+$X, $Y);
+$pdf->Cell(100, 7, 'SAS Nagar, Mohali,160059 Punjab', 1, 1, 'L');
+
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
+
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(90, 7, 'ACCOUNT NAME', 1, 1, 'L');
+$pdf->SetXY(90+$X, $Y);
+$pdf->Cell(100, 7, 'Guru Kashi University', 1, 1, 'L');
+
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
+
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(90, 7, 'ACCOUNT NUMBER', 1, 1, 'L');
+$pdf->SetXY(90+$X, $Y);
+$pdf->Cell(100, 7, '9349731866', 1, 1, 'L');
+
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
+
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(90, 7, 'SWIFT CODE', 1, 1, 'L');
+$pdf->SetXY(90+$X, $Y);
+$pdf->Cell(100, 7, 'KKBKINBB', 1, 1, 'L');
+
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
+
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(90, 7, 'IFSC', 1, 1, 'L');
+$pdf->SetXY(90+$X, $Y);
+$pdf->Cell(100, 7, 'KKBK0000254', 1, 1, 'L');

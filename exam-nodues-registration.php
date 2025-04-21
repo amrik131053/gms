@@ -202,7 +202,7 @@ function verifyAll()
 {
   var verifiy=document.getElementsByClassName('v_check');
 var len_student= verifiy.length; 
-  var code=326;
+  var code=326.1; 
   var subjectIDs=[];  
        
      for(i=0;i<len_student;i++)
@@ -227,7 +227,7 @@ var len_student= verifiy.length;
          type:'POST',
          success:function(data) {
             spinner.style.display='none';
-            // console.log(data);
+             console.log(data);
             if (data==1) 
             {
                 SuccessToast('Successfully Verified');
