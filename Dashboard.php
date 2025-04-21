@@ -17,48 +17,52 @@ while($permission_data=mysqli_fetch_array($permission_res))
    $permissionCount++;
 }
 
-$clean="DELETE FROM question_bank WHERE NOT EXISTS (SELECT 1 FROM question_bank_details WHERE question_bank.Id = question_bank_details.question_id)";
-        $getclean=mysqli_query($conn,$clean);
+// clean questions not exist in another table
+
+// $clean="DELETE FROM question_bank WHERE NOT EXISTS (SELECT 1 FROM question_bank_details WHERE question_bank.Id = question_bank_details.question_id)";
+//         $getclean=mysqli_query($conn,$clean);
 
 }
 
 
 ?>
 <style type="text/css">
-      #whatsapp-floating-button {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  background-color: ;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 99999;
+#whatsapp-floating-button {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: ;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 99999;
 }
 </style>
 <div id="whatsapp-floating-button">
-    <a href="https://api.whatsapp.com/send/?phone=917814679220" title="Chat on whatsapp"> <img src="whatsapp.png" alt="WhatsApp" width="50" height="50">
-</a>
-  </div>
+    <a href="https://api.whatsapp.com/send/?phone=917814679220" title="Chat on whatsapp"> <img src="whatsapp.png"
+            alt="WhatsApp" width="50" height="50">
+    </a>
+</div>
 <section class="content">
 
-   <div class="container-fluid">
-   
-      <div class="row">
+    <div class="container-fluid">
+
+        <div class="row">
 
 
 
-      <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box bg-success shadow-lg">
-              <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-success shadow-lg">
+                    <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text"><?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate)); ?></span>
-                <span class="info-box-number"> <?php  
+                    <div class="info-box-content">
+                        <span
+                            class="info-box-text"><?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate)); ?></span>
+                        <span class="info-box-number"> <?php  
                     $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$todaydate 01:00:00.000'  AND 
 '$todaydate 23:59:00.000' AND EMpCOde='$EmployeeID' ";
@@ -69,107 +73,120 @@ $stmt = sqlsrv_query($conntest,$sql_att);
             $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }?> </span>
-<b> In:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>  &nbsp;&nbsp;
-            <b> Out:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>
-                <div class="progress">
-                  <div class="progress-bar" style="width:<?php ECHO ((date('H')*60*60+date('i')*60+date('s')-32400)/(61200-32400)) * 100 ?>%;"></div>
+                        <b> In:</b>
+                        <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>
+                        &nbsp;&nbsp;
+                        <b> Out:</b>
+                        <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>
+                        <div class="progress">
+                            <div class="progress-bar"
+                                style="width:<?php ECHO ((date('H')*60*60+date('i')*60+date('s')-32400)/(61200-32400)) * 100 ?>%;">
+                            </div>
+                        </div>
+                        <span class="progress-description">
+                            &nbsp;
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <a href="attendence-calendar.php" class="small-box-footer"><button type="submit" class="btn btn-sm "
+                            style='color:white;'>
+                            <i class="fas fa-eye fa-lg"></i></button>
+                    </a>
                 </div>
-                <span class="progress-description">
-                &nbsp;
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-              <a href="attendence-calendar.php" class="small-box-footer"><button type="submit" class="btn btn-sm " style='color:white;'>
-                 <i class="fas fa-eye fa-lg"></i></button>
-              </a>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
 
 
 
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box bg-info shadow-lg">
-              <span class="info-box-icon"><i class="fa fa-signal " style='color:white;'></i></span>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-info shadow-lg">
+                    <span class="info-box-icon"><i class="fa fa-signal " style='color:white;'></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text" style='color:white;'><?php echo $timeStamp =date("F-Y",strtotime($todaydate));?></span>
-                <span class="info-box-number" id='paiddays' style='color:white;'>  </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text"
+                            style='color:white;'><?php echo $timeStamp =date("F-Y",strtotime($todaydate));?></span>
+                        <span class="info-box-number" id='paiddays' style='color:white;'> </span>
 
-                <div class="progress">
-                  <div class="progress-bar" id="progressPaidDays" style="width: 0%;" ></div>
-                 
+                        <div class="progress">
+                            <div class="progress-bar" id="progressPaidDays" style="width: 0%;"></div>
+
+                        </div>
+
+                        <span class="progress-description">
+                            <!-- 100%; Increase in 30 Days -->
+                            &nbsp; <div class="spinner-border spinner-border-sm" role="status" id="div-loader-paid-days"
+                                style='display:none;'>
+
+                            </div>
+
+                        </span>
+
+                    </div>
+                    <!-- /.info-box-content -->
+                    <form action="attendance-pdf-summary.php" method="POST" target="_blank">
+
+                        <input type="hidden" name="exportCode" value="31">
+
+                        <input type="hidden" name="month" value="<?= date('m');?>">
+
+                        <input type="hidden" name="EmployeeId" value="<?=$EmployeeID;?>">
+                        <input type="hidden" name="year" value="<?= date('Y');?>">
+
+                        <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm">
+
+                                <i class="fas fa-download fa-lg" style='color:white;'></i>
+                            </Button>
+
+                    </form>
+
+                    </a>
+
                 </div>
-               
-                <span class="progress-description">
-                  <!-- 100%; Increase in 30 Days -->
-                  &nbsp; <div class="spinner-border spinner-border-sm" role="status" id="div-loader-paid-days" style='display:none;'>
+                <!-- /.info-box -->
 
-</div>
-
-                </span>
-                
-              </div>
-              <!-- /.info-box-content -->
-              <form action="attendance-pdf-summary.php" method="POST" target="_blank">
-
-  <input type="hidden" name="exportCode" value="31">
-
-  <input type="hidden" name="month" value="<?= date('m');?>">
-
-    <input type="hidden" name="EmployeeId" value="<?=$EmployeeID;?>">
-    <input type="hidden" name="year" value="<?= date('Y');?>">
-
-    <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm">
-
-    <i class="fas fa-download fa-lg" style='color:white;'></i>
-              </Button>
-
-              </form>
-              
-              </a>
-              
             </div>
-            <!-- /.info-box -->
-            
-          </div>
 
 
 
-          <!-- ./col -->
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box bg-warning shadow-lg">
-              <span class="info-box-icon"><i class="fa fa-clock" aria-hidden="true" style='color:white;'></i></span>
+            <!-- ./col -->
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-warning shadow-lg">
+                    <span class="info-box-icon"><i class="fa fa-clock" aria-hidden="true"
+                            style='color:white;'></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text" style='color:white;'><?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?></span>
-                <span class="info-box-number" style='color:white;'><?= $day = date('l', strtotime($todaydate));?>  </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text"
+                            style='color:white;'><?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?></span>
+                        <span class="info-box-number"
+                            style='color:white;'><?= $day = date('l', strtotime($todaydate));?> </span>
 
-                <div class="progress">
-                  <div class="progress-bar" style="width:<?php ECHO ((date('H')*60*60+date('i')*60+date('s')-32400)/(61200-32400)) * 100 ?>%;"></div>
+                        <div class="progress">
+                            <div class="progress-bar"
+                                style="width:<?php ECHO ((date('H')*60*60+date('i')*60+date('s')-32400)/(61200-32400)) * 100 ?>%;">
+                            </div>
+                        </div>
+                        <span class="progress-description">
+                            &nbsp;
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <a href="#" class="small-box-footer">
+                        <i class="fas fa-eye text-warning"></i>
+                        &nbsp;
+                    </a>
                 </div>
-                <span class="progress-description">
-                &nbsp;
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-              <a href="#" class="small-box-footer">
-               <i class="fas fa-eye text-warning" ></i>
-               &nbsp;
-              </a>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
 
 
 
-          
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box bg-danger shadow-lg">
-              <span class="info-box-icon"><i class="fa fa-book"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text"><?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-danger shadow-lg">
+                    <span class="info-box-icon"><i class="fa fa-book"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text"><?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
 
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -178,27 +195,28 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 }     
                        echo $bcount;
                        ?></span>
-                <span class="info-box-number">Book Issued  </span>
+                        <span class="info-box-number">Book Issued </span>
 
-                <div class="progress">
-                  
-                  <div class="progress-bar" style="width: 100%;"></div>
+                        <div class="progress">
+
+                            <div class="progress-bar" style="width: 100%;"></div>
+                        </div>
+                        <span class="progress-description">
+                            &nbsp;
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <a href="books-issued.php" class="small-box-footer"><button type="submit" class="btn btn-sm "
+                            style='color:white;'>
+                            <i class="fas fa-eye fa-lg"></i></button>
+                    </a>
                 </div>
-                <span class="progress-description">
-                &nbsp;
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-              <a href="books-issued.php" class="small-box-footer"><button type="submit" class="btn btn-sm " style='color:white;'>
-                <i class="fas fa-eye fa-lg"></i></button>
-              </a>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-          </div>
         </div>
         <!-- /.row -->
 
-<?php 
+        <?php 
 
 $Stock="SELECT * FROM stock_summary where Corrent_owner='$EmployeeID'";
 $reslut_Stock=mysqli_query($conn,$Stock);
@@ -208,14 +226,14 @@ if($rowCount>0)
 ?>
 
 
-<div class="row">
-         <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Category</span>
-                  <span class="info-box-number">
-                  <?php
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box shadow-lg">
+                    <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Category</span>
+                        <span class="info-box-number">
+                            <?php
                      $count_c=0;
                        $Category="SELECT DISTINCT CategoryID FROM stock_summary WHERE Corrent_owner='$EmployeeID'";
                      $reslut=mysqli_query($conn,$Category);
@@ -225,20 +243,20 @@ if($rowCount>0)
                        }  
                        echo $count_c;
                        ?>
-                  </span>
-               </div>
-               <!-- /.info-box-content -->
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-         </div>
-         <!-- /.col -->
-         <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Locations</span>
-                  <span class="info-box-number">
-                  <?php
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box shadow-lg">
+                    <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Locations</span>
+                        <span class="info-box-number">
+                            <?php
                      $count_l=0;
                        $location="SELECT DISTINCT LocationID FROM stock_summary WHERE Corrent_owner='$EmployeeID'";
                      $reslut_location=mysqli_query($conn,$location);
@@ -248,19 +266,19 @@ if($rowCount>0)
                        }  
                        echo $count_l;
                        ?>
-                  </span>
-               </div>
-               <!-- /.info-box-content -->
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-         </div>
-         <!-- /.col -->
-         <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Articles</span>
-                  <span class="info-box-number"><?php
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box shadow-lg">
+                    <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Articles</span>
+                        <span class="info-box-number"><?php
                      $count_a=0;
                        $Articles="SELECT DISTINCT ArticleCode FROM stock_summary WHERE Corrent_owner='$EmployeeID'";
                      $reslut_Articles=mysqli_query($conn,$Articles);
@@ -270,18 +288,18 @@ if($rowCount>0)
                        }  
                        echo $count_a;
                        ?></span>
-               </div>
-               <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-         </div>
-         <!-- /.col -->
-         <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Total Stock</span>
-                  <span class="info-box-number">   <?php
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box shadow-lg">
+                    <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Stock</span>
+                        <span class="info-box-number"> <?php
                      $count_s=0;
                        $Stock="SELECT * FROM stock_summary where Corrent_owner='$EmployeeID'";
                      $reslut_Stock=mysqli_query($conn,$Stock);
@@ -291,25 +309,25 @@ if($rowCount>0)
                        }  
                        echo $count_s;
                        ?></span>
-               </div>
-               <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-         </div>
-         <!-- /.col -->
-      </div>
-
-
-
- 
+            <!-- /.col -->
+        </div>
 
 
 
 
 
 
-<div class="row">
-<?php 
+
+
+
+
+        <div class="row">
+            <?php 
 if($EmployeeID!='172022')
 {
   $qry="SELECT  Incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='$EmployeeID' and CategoryID='1' GROUP BY Incharge";
@@ -340,46 +358,52 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 ?>
 
 
-   <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-              <div class="card bg-light">
-                <div class="card-header  border-bottom-0">
-                  IT Incharge (<?=$BlockName?>)
-                </div>
-                <div class="card-body pt-0">
-                  <div class="row">
-                    <div class="col-7">
-                      <h2 class="lead"><b><?=$Emp_Name?></b></h2>
-                      <p class="text-muted text-sm"> <?=$Designation?> /
-                       <?=$Department?> </p>
-                      <ul class="ml-4 mb-0 fa-ul text-muted">
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> <?=$EmailID?></li>
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span> Phone: <?=$ContactNo?></li>
-                        <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
-                        <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
-                      </ul>
+            <div class="col-12 col-sm-6 col-md-3 align-items-stretch">
+                <div class="card ">
+                    <div class="card-header  border-bottom-0">
+                        IT Incharge (<?=$BlockName?>)
                     </div>
-                    <div class="col-5 text-center">
-                      <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <h2 class="lead"><b><?=$Emp_Name?></b></h2>
+                                <p class="text-muted text-sm"> <?=$Designation?> /
+                                    <?=$Department?> </p>
+                                <ul class="ml-4 mb-0 fa-ul text-muted">
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span>
+                                        <?=$EmailID?></li>
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span>
+                                        Phone: <?=$ContactNo?></li>
+                                    <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
+                                    <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
+                                </ul>
+                            </div>
+                            <div class="col-5 text-center">
+                                <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt=""
+                                    style="height: 120px; width: 120px" class="img-circle img-fluid">
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <div class="card-footer">
-                  <div class="text-right">
-                     <button class="btn btn-xs btn-success">
-                    <small><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>" style='color: white;'>Call</a></i></small>
-                        
-                     </button> 
-                     <button class="btn btn-xs btn-primary">
-                    <small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>" style='color: white;'>Send Mail</a></i></small>
-                        
-                     </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <button class="btn btn-xs btn-success">
+                                <small><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"
+                                            style='color: white;'>Call</a></i></small>
 
-<?php 
+                            </button>
+                            <button class="btn btn-xs btn-primary">
+                                <small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"
+                                            style='color: white;'>Send Mail</a></i></small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+
+            <?php 
 }
+
 }
 $qry="SELECT DISTINCT electrical_incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='$EmployeeID' and CategoryID='2'";
 $resl=mysqli_query($conn,$qry);
@@ -409,45 +433,50 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 ?>
 
 
-   <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-              <div class="card bg-light">
-                <div class="card-header  border-bottom-0">
-                  Electrical Incharge (<?=$BlockName?>)
-                </div>
-                <div class="card-body pt-0">
-                  <div class="row">
-                    <div class="col-7">
-                      <h2 class="lead"><b><?=$Emp_Name?></b></h2>
-                      <p class="text-muted text-sm"> <?=$Designation?> /
-                       <?=$Department?> </p>
-                      <ul class="ml-4 mb-0 fa-ul text-muted">
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> <?=$EmailID?></li>
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span> Phone: <?=$ContactNo?></li>
-                        <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
-                        <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
-                      </ul>
+            <div class="col-12 col-sm-6 col-md-3  align-items-stretch">
+                <div class="card ">
+                    <div class="card-header  border-bottom-0">
+                        Electrical Incharge (<?=$BlockName?>)
                     </div>
-                    <div class="col-5 text-center">
-                      <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-7">
+                                <h2 class="lead"><b><?=$Emp_Name?></b></h2>
+                                <p class="text-muted text-sm"> <?=$Designation?> /
+                                    <?=$Department?> </p>
+                                <ul class="ml-4 mb-0 fa-ul text-muted">
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span>
+                                        <?=$EmailID?></li>
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span>
+                                        Phone: <?=$ContactNo?></li>
+                                    <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
+                                    <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
+                                </ul>
+                            </div>
+                            <div class="col-5 text-center">
+                                <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt=""
+                                    style="height: 120px; width: 120px" class="img-circle img-fluid">
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <button class="btn btn-xs btn-success">
+                                <small><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"
+                                            style='color: white;'>Call</a></i></small>
+
+                            </button>
+                            <button class="btn btn-xs btn-primary">
+                                <small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"
+                                            style='color: white;'>Send Mail</a></i></small>
+
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                  <div class="text-right">
-                     <button class="btn btn-xs btn-success">
-                    <small><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>" style='color: white;'>Call</a></i></small>
-                        
-                     </button> 
-                     <button class="btn btn-xs btn-primary">
-                    <small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>" style='color: white;'>Send Mail</a></i></small>
-                        
-                     </button>
-                  </div>
-                </div>
-              </div>
             </div>
 
-<?php 
+            <?php 
 
 }
 }
@@ -480,231 +509,236 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 ?>
 
 
-   <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-              <div class="card bg-light">
-                <div class="card-header  border-bottom-0">
-                  Infrastructure Incharge (<?=$BlockName?>)
-                </div>
-                <div class="card-body pt-0">
-                  <div class="row">
-                    <div class="col-7">
-                      <h2 class="lead"><b><?=$Emp_Name?></b></h2>
-                      <p class="text-muted text-sm"> <?=$Designation?> /
-                       <?=$Department?> </p>
-                      <ul class="ml-4 mb-0 fa-ul text-muted">
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> <?=$EmailID?></li>
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span> Phone: <?=$ContactNo?></li>
-                        <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
-                        <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
-                      </ul>
+            <div class="col-12 col-sm-6 col-md-3  align-items-stretch">
+                <div class="card ">
+                    <div class="card-header  border-bottom-0">
+                        Infrastructure Incharge (<?=$BlockName?>)
                     </div>
-                    <div class="col-5 text-center">
-                      <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-7">
+                                <h2 class="lead"><b><?=$Emp_Name?></b></h2>
+                                <p class="text-muted text-sm"> <?=$Designation?> /
+                                    <?=$Department?> </p>
+                                <ul class="ml-4 mb-0 fa-ul text-muted">
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span>
+                                        <?=$EmailID?></li>
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span>
+                                        Phone: <?=$ContactNo?></li>
+                                    <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
+                                    <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
+                                </ul>
+                            </div>
+                            <div class="col-5 text-center">
+                                <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt=""
+                                    style="height: 120px; width: 120px" class="img-circle img-fluid">
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <button class="btn btn-xs btn-success">
+                                <small><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"
+                                            style='color: white;'>Call</a></i></small>
+
+                            </button>
+                            <button class="btn btn-xs btn-primary">
+                                <small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"
+                                            style='color: white;'>Send Mail</a></i></small>
+
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                  <div class="text-right">
-                     <button class="btn btn-xs btn-success">
-                    <small><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>" style='color: white;'>Call</a></i></small>
-                        
-                     </button> 
-                     <button class="btn btn-xs btn-primary">
-                    <small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>" style='color: white;'>Send Mail</a></i></small>
-                        
-                     </button>
-                  </div>
-                </div>
-              </div>
-              
+
+            </div>
             </div>
 
-<?php 
+            <?php 
 }
 }
 }
 }
 ?>
- 
 
 
-</section>
+
 
 <?php if($role_id=='11')
-{?><div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-              <div class="card bg-light">
-                <div class="card-header  border-bottom-0">
-                Alloted Subjects
-                </div>
-                <div class="card-body pt-0">
-                  <div class="row">
-                    <div class="col-12">     <hr>
-                      <h6  style="color: red;">(T)-Theory (P)- Practical  (W)-Workshop/Training   (S)-Seminar</h6>
-                    
-                       <hr>
+{?><div class="col-12 col-sm-6 col-md-3  align-items-stretch">
+    <div class="card">
+        <div class="card-header  border-bottom-0">
+            Alloted Subjects
+        </div>
+        <div class="card-body pt-0">
+            <div class="row">
+                <div class="col-12">
+                    <hr>
+                    <h6 style="color: red;">(T)-Theory (P)- Practical (W)-Workshop/Training (S)-Seminar</h6>
 
-<?php   $sql = "SELECT  Distinct Course,sa.Batch,SemesterID,sa.SubjectCode ,AcademicType FROM MasterCourseStructure as mcs 
+                    <hr>
+
+                    <?php   $sql = "SELECT  Distinct Course,sa.Batch,SemesterID,sa.SubjectCode ,AcademicType FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE sa.EmployeeID='$EmployeeID' AND Examination='$CurrentExamination'";
 $stmt2 = sqlsrv_query($conntest,$sql);
 ?>
- 
- <?php 
+
+                    <?php 
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
 ?>
-   <p class="text-muted text-sm">  <?= $row1['Course'];?>-<?= $row1['Batch'];?>-<?= $row1['SemesterID'];?>-<?= $row1['SubjectCode'];?>-(<?= $row1['AcademicType'];?>)</p><hr>
-<?php 
+                    <p class="text-muted text-sm">
+                        <?= $row1['Course'];?>-<?= $row1['Batch'];?>-<?= $row1['SemesterID'];?>-<?= $row1['SubjectCode'];?>-(<?= $row1['AcademicType'];?>)
+                    </p>
+                    <hr>
+                    <?php 
 } ?>
 
-                       
-                        
-                      </ul>
-                    </div>
-                    <div class="col-5 text-center">
-                      
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer">
-                  
-                </div>
-              </div>
-            </div></div>
 
-   </div>
- <?php }?>
+
+                    </ul>
+                </div>
+                <div class="col-5 text-center">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+<?php }?>
+
+</section>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
+function it_instructor() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    // alert(id);
+    var code = 280;
+    $.ajax({
+        url: 'action.php',
+        type: 'post',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("it_instructor").innerHTML = response;
+        }
+    });
+}
+
+function Infrastructure() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    // alert(id);
+    var code = 281;
+    $.ajax({
+        url: 'action.php',
+        type: 'post',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("Infrastructure").innerHTML = response;
+        }
+    });
+}
+
+function Electrical() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    // alert(id);
+    var code = 282;
+    $.ajax({
+        url: 'action.php',
+        type: 'post',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("Electrical").innerHTML = response;
+        }
+    });
+}
+
+function LocationOwners() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    // alert(id);
+    var code = 283;
+    $.ajax({
+        url: 'action.php',
+        type: 'post',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("LocationOwners").innerHTML = response;
+        }
+    });
+}
 
 
+function paiddays() {
+    var spinner = document.getElementById("div-loader-paid-days");
+    var EmployeeId = <?php echo $EmployeeID;?>
+
+    const dateToday = new Date();
 
 
-
-                        function it_instructor()
-                               {
-                                  var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-                                // alert(id);
-                              var code=280;
-                                 $.ajax(
-                                 {
-                                    url: 'action.php',
-                                    type: 'post',
-                                    data:{code:code},
-                                    success:function(response)
-                                    {
-                                       spinner.style.display='none';
-                                       document.getElementById("it_instructor").innerHTML=response;
-                                    }
-                                 });
-                           }  
-
-                            function Infrastructure()
-                               {
-                                  var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-                                // alert(id);
-                              var code=281;
-                                 $.ajax(
-                                 {
-                                    url: 'action.php',
-                                    type: 'post',
-                                    data:{code:code},
-                                    success:function(response)
-                                    {
-                                       spinner.style.display='none';
-                                       document.getElementById("Infrastructure").innerHTML=response;
-                                    }
-                                 });
-                           } 
-
-                           function Electrical()
-                               {
-                                  var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-                                // alert(id);
-                              var code=282;
-                                 $.ajax(
-                                 {
-                                    url: 'action.php',
-                                    type: 'post',
-                                    data:{code:code},
-                                    success:function(response)
-                                    {
-                                       spinner.style.display='none';
-                                       document.getElementById("Electrical").innerHTML=response;
-                                    }
-                                 });
-                           }   
-
-                             function LocationOwners()
-                               {
-                                  var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-                                // alert(id);
-                              var code=283;
-                                 $.ajax(
-                                 {
-                                    url: 'action.php',
-                                    type: 'post',
-                                    data:{code:code},
-                                    success:function(response)
-                                    {
-                                       spinner.style.display='none';
-                                       document.getElementById("LocationOwners").innerHTML=response;
-                                    }
-                                 });
-                           }
-
-
-                            function paiddays()
-                               {
-                                  var spinner=document.getElementById("div-loader-paid-days");
-                                  var EmployeeId=<?php echo $EmployeeID;?>
-
-const dateToday = new Date();
-
-   
-    const currentMonth = dateToday.getMonth()+1;
+    const currentMonth = dateToday.getMonth() + 1;
     const years = dateToday.getFullYear();
 
-  //  alert(currentMonth);
+    //  alert(currentMonth);
 
-     spinner.style.display='block';
-                                // alert(id);
-                              var code=334;
-                                 $.ajax(
-                                 {
-                                    url: 'action.php',
-                                    type: 'post',
-                                    data:{code:code,month:currentMonth,year:years,EmployeeId:EmployeeId},
-                                    success:function(response)
-                                    {
-                                      
-                                       spinner.style.display='none';
-                                       document.getElementById("paiddays").innerHTML=response;
-                                       
-                                       const myArray1 = response.split(" out");
-                                       const myArray2 = myArray1[0].split(" Days: ");
-                                       const daysInSeptember = getDays(new Date().getFullYear(), 7); 
-                                       var pro=myArray2[1]/daysInSeptember*100;
-                                      
-                                       document.getElementById("progressPaidDays").style.width =pro+'%' ;
-                                    }
-                                 });
-                           }
+    spinner.style.display = 'block';
+    // alert(id);
+    var code = 334;
+    $.ajax({
+        url: 'action.php',
+        type: 'post',
+        data: {
+            code: code,
+            month: currentMonth,
+            year: years,
+            EmployeeId: EmployeeId
+        },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+            document.getElementById("paiddays").innerHTML = response;
+
+            const myArray1 = response.split(" out");
+            const myArray2 = myArray1[0].split(" Days: ");
+            const daysInSeptember = getDays(new Date().getFullYear(), 7);
+            var pro = myArray2[1] / daysInSeptember * 100;
+
+            document.getElementById("progressPaidDays").style.width = pro + '%';
+        }
+    });
+}
 
 
 
 
-                 $(window).on('load', function() {
-                  
-        $('#modal-lg-notification').modal('show');
+$(window).on('load', function() {
 
-paiddays();
-    });   
-    const getDays = (year, month) => {
+    $('#modal-lg-notification').modal('show');
+
+    paiddays();
+});
+const getDays = (year, month) => {
     return new Date(year, month, 0).getDate();
-};       
-                        </script>
-<?php include "footer.php"; ?> 
+};
+</script>
+<?php include "footer.php"; ?>
