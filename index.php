@@ -71,7 +71,7 @@ include "fastival.php";
                         </div>
                         <input type="number" name="user" class="form-control input_user"
                             value="<?php if(isset($_COOKIE["user_login"])) { echo $_COOKIE["user_login"]; } ?>"
-                            placeholder="Employee ID" required>
+                            placeholder="Employee ID" autocomplete="username" required>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -79,7 +79,7 @@ include "fastival.php";
                         </div>
                         <input type="password"
                             value="<?php if(isset($_COOKIE["userpassword"])) { echo $_COOKIE["userpassword"]; } ?>"
-                            name="pass" class="form-control input_pass" placeholder="Password" required>
+                            name="pass" class="form-control input_pass" placeholder="Password" autocomplete="new-password" required>
 
                     </div>
                     <div class="form-group">

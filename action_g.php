@@ -12013,7 +12013,7 @@ $stmt1 = mysqli_query($conn,$sql1);
 {
 $count=$row1['count'];
 }
-$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='$State' and District='$District' AND Batch='2024'";
+$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='$State' and District='$District' AND Batch='2025'";
  $result = mysqli_query($conn,$sql);
  while($row=mysqli_fetch_array($result))
 {
