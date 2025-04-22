@@ -27400,11 +27400,10 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 
 <?php }?>
 
-
-<?php echo "dasd".$NoDuesStatus;
+<?php 
 if($NoDuesStatus==-1){?>
 
-<p style="color:red;font-size: 20px">Rejected   Due to <u> <?=$AccountantRejectReason;?></u></p>
+<p style="color:red;font-size: 20px">Rejected Due to <u> <?=$AccountantRejectReason;?></u></p>
 <br>
 <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
 
@@ -34307,7 +34306,8 @@ $semester=$row['Semester'];
 $exam=$row['Examination'];
 $type=$row['Type'];
 $idno=$row['IDNo'];
-       $acceptstatus="SELECT AcceptType,Status from ExamForm  where  Semesterid='$semester' ANd Examination='$exam' ANd Type='$type' ANd IDNo='$idno'";
+$accepttype='';
+  $acceptstatus="SELECT AcceptType,Status from ExamForm  where  Semesterid='$semester' ANd Examination='$exam' ANd Type='$type' ANd IDNo='$idno'";
  $result1 = sqlsrv_query($conntest,$acceptstatus);
        while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
        {

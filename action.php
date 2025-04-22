@@ -12546,6 +12546,7 @@ elseif($code==194)
          $time =$data['exam_time'];
          $instruction =$data['instructions'];
          $subjectCode=$data['subject_code'];
+          $Exam_Session=$data['Exam_Session'];
 
          $sqlSubject = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID=".$data['course'];
          $resultSubject = sqlsrv_query($conntest,$sqlSubject);
@@ -12610,6 +12611,10 @@ elseif($code==194)
             
 <form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
 <input type="hidden"  name='SubjectCode' value="<?=$data['SubjectCode']?>">
+<input type="hidden"  name='Semester' value="<?=$data['Semester']?>">
+<input type="hidden"  name='Exam_Session' value="<?=$data['Exam_Session']?>">
+
+
 <input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
 
 
@@ -12912,7 +12917,8 @@ elseif($code==194.1)
          $time =$data['exam_time'];
          $instruction =$data['instructions'];
          $subjectCode=$data['subject_code'];
-
+         $Exam_Session=$data['Exam_Session'];
+         
          $sqlSubject = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID=".$data['course'];
          $resultSubject = sqlsrv_query($conntest,$sqlSubject);
          if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
@@ -12973,6 +12979,8 @@ elseif($code==194.1)
  <form action="questions.php" method="post" target="_blank">
    <input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
 <input type="hidden"  name='SubjectCode' value="<?=$data['SubjectCode']?>">
+<input type="hidden"  name='Semester' value="<?=$data['Semester']?>">
+<input type="hidden"  name='Exam_Session' value="<?=$data['Exam_Session']?>">
 <input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
 
 
