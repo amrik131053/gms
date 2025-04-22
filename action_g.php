@@ -26676,7 +26676,7 @@ else
 <table class="table table-bordered" id="example">
     <thead>
         <tr style="font-size:14px;">
-            <!-- <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th> -->
+            <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
             <th>#</th>
             <th>Uni Roll No</th>
             <th>Name</th>
@@ -26736,8 +26736,8 @@ else
            
              ?>
         <tr style="background-color:<?=$trColor;?>;font-size:14px;">
-            <!-- td><?php if($Status=='0'){ ?><input type="checkbox" class="checkbox v_check"
-                    value="<?= $row['ID'];?>"><?php }?></td> -->
+            <td><?php if($Status=='0' OR $Status==''){ ?><input type="checkbox" class="checkbox v_check"
+                    value="<?= $row['ID'];?>"><?php }?></td> 
             <td><?= $count++;?></td>
 
 
@@ -26799,10 +26799,10 @@ if($Status==-1)
         </tr>
         <?php 
          }?>
-        <!-- <tr>
+       <tr>
             <td colspan="13"> <button type="submit" id="type" onclick="verifyAll();" name="update"
                     class="btn btn-success " style="float:right;">Verify</button></td>
-        </tr> -->
+        </tr>
 
     </tbody>
 </table>
@@ -26872,7 +26872,44 @@ $update_query=sqlsrv_query($conntest,$update1);
   }
   sqlsrv_close($conntest);
 }
+elseif($code==326.2)
+{
+  $ids=$_POST['subjectIDs'];
+  foreach($ids as $key => $id)
+  {
+   
+ 
 
+       $getDefalutMenu="UPDATE  MasterNodues  SET   LibraryVerifiedDate='$timeStampS',LibraryVerifiedBy='$id',Library='1' Where ID='$id'";
+
+   $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
+   $getStudentID="SELECT IDNo FROM MasterNodues WHERE ID='$id'";
+   $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+   if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+       $IDNo=$row['IDNo'];
+       
+   }
+
+    $desc= "No Dues  SET Status: Verified,Library: ".$timeStampS."-M No Dues ID".$id;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
+
+  
+
+
+
+
+  }
+  if ($getDefalutMenuRun==true) {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+  sqlsrv_close($conntest);
+}
 elseif($code==327)
    {
   $id = $_POST['id'];
@@ -27937,7 +27974,7 @@ if($NoDuesRegistration==-1){?>
     sqlsrv_close($conntest);
    }
 
-
+//library modal
    elseif($code==327.3)
    {
   $id = $_POST['id'];
@@ -28110,10 +28147,42 @@ $stmt = sqlsrv_query($conntest,$sql_att);
            </tr>
 
 
+ 
+
+
 <?php 
    $sr++; 
    // $aaa[]=$row_staff_att;      
 }?>
+
+<tr>
+<?php 
+         $sr=1;
+ $sql_att="SELECT sum(Fine) as fine from FineRegister where IDNo='$IDNo' AND FineStatus is NULL";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+           $Fine=$row_staff_att['fine'];      
+           
+           ?>
+
+<td><b>Fine Detail</b></td>
+<td><b><p style="color:red"><?= $Fine;?>/-</p><b></td>
+
+
+          
+
+
+
+
+
+<?php 
+   $sr++; 
+   // $aaa[]=$row_staff_att;      
+}?>
+ </tr>
+
 
     </table>
 </div>
@@ -28147,7 +28216,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 <?php }?>
 
 
-<?php echo "dasd".$NoDuesStatus;
+<?php 
 if($NoDuesStatus==-1){?>
 
 <p style="color:red;font-size: 20px">Rejected   Due to <u> <?=$AccountantRejectReason;?></u></p>
@@ -28176,106 +28245,7 @@ if($NoDuesStatus==-1){?>
     ?>
 </center>
 <br>
-<div class="table table-responsive" style="height:500px;">
-    <br>
-    <table class="table  table-bordered  table-hover table-head-fixed table-striped" style="border:1px solid black;">
-        <thead>
-            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
-                                            
-                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
-                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
-                                            {
-                                                
-                                                $tdebit=$rowww['totaldebit'];
-                                            $tcredit=$rowww['totalcredit'];
-                                            
-                                              }
-                                             
-                                              $amount=$tdebit-$tcredit;
-                                                ?>
 
-            <tr>
-                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
-                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
-                <td colspan="2"></td>
-                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
-            </tr>
-
-
-            <tr>
-                <th>Receipt Date</th>
-                <th>Receipt No</th>
-                <th>Particulars</th>
-                <th>LedgerName</th>
-                <th>Installment</th>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Remarks</th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            <?php  $sql8 = "select  * from  Ledger where IDNo='$IDNo' order by DateEntry DESC";
-                                            $stmt8 = sqlsrv_query($conntest,$sql8);
-                                            while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
-                                            {
-                                            
-                                                ?>
-
-            <tr>
-                <td>
-                    <?php
-                                                                                        if($row8['DateEntry']!='')
-                                                                                        {
-                                            
-                                                                                           echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
-                                            
-                                                                                   
-                                                                                    }
-                                                                                    ?>
-
-
-
-                </td>
-                <td><?= $row8['ReceiptNo'];;?></td>
-                <td style="width: 300px"><?= $row8['Particulars'];?></td>
-
-                <td><?= $row8['LedgerName'];?> </td>
-                <td><?= $row8['Semester'];;?></td>
-                <td><?= $row8['Debit'];?></td>
-                <td><?= $row8['Credit'];?></td>
-                <td><?= $row8['Remarks'];?>
-            </tr>
-
-            <?php 
-                                                                                            }?>
-
-
-
-            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
-                                            
-                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
-                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
-                                            {
-                                                
-                                                $tdebit=$rowww['totaldebit'];
-                                            $tcredit=$rowww['totalcredit'];
-                                            
-                                              }
-                                             
-                                              $amount=$tdebit-$tcredit;
-                                                ?>
-
-            <tr>
-                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
-                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
-                <td colspan="2"></td>
-                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 <table>
     <tr>
         <td colspan="10" style="text-align:right; font-size: 16px;">
