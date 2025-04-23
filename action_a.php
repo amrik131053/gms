@@ -62,7 +62,7 @@ window.location.href = "index.php";
         $currentMonthInt=date('n');
         $code=$_POST['flag'];
      
-        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8)
+        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8 || $code==33)
         {
             include "connection/ftp-erp.php";
         }
@@ -3866,5 +3866,152 @@ while($get_row=sqlsrv_fetch_array($getslist))
          }
          sqlsrv_close($conntest); 
     }
+    elseif ($code==31) {
+?>
+<table class="table">
+    <tr>
+        <th>Srno</th>
+        <th>Document Name</th>
+        <th>College Name</th>
+        <th>Status</th>
+    </tr>
 
+<?php
+    $collegeid = $_POST['collegeid'];
+    $sqldr = "SELECT DISTINCT MasterDocumentsRequired.DocumentID,MasterCourseCodes.CollegeName,
+        MasterDocumentsRequired.DocumentsRequired,
+        MasterDocumentsRequired.SerialNo,
+        MasterDocumentsRequired.IsActive 
+        FROM MasterDocumentsRequired 
+        INNER JOIN MasterCourseCodes
+        ON MasterCourseCodes.CollegeID = MasterDocumentsRequired.CollegeID 
+        WHERE MasterDocumentsRequired.CollegeID = '$collegeid' 
+        ORDER BY MasterDocumentsRequired.SerialNo ASC";
+
+    $stmt1dr = sqlsrv_query($conntest, $sqldr);
+    while($row8 = sqlsrv_fetch_array($stmt1dr, SQLSRV_FETCH_ASSOC)) {
+        $DocumentID = $row8['DocumentID'];
+        $serial_no = $row8['SerialNo'];
+        $DocumentsRequired = $row8['DocumentsRequired'];
+        $CollegeID = $row8['CollegeName'];
+        $IsActive = $row8['IsActive'];
+?>
+    <tr>
+        <td><?= $serial_no; ?></td>
+        <td><?= $DocumentsRequired; ?></td>
+        <td><?= $CollegeID; ?></td>
+        <td>
+            <label class="switch">
+                <input type="checkbox" class="toggle-status" data-serial="<?= $DocumentID; ?>" <?= $IsActive == 1 ? 'checked' : ''; ?>>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+<?php } ?>
+</table>
+
+<?php  
+        # code...
+    }
+    else if($code==32)
+    {
+        $DocumentID = $_POST['DocumentID'];
+        $is_active = $_POST['is_active'];
+        $sql = "UPDATE MasterDocumentsRequired SET IsActive = ? WHERE DocumentID = ?";
+        $params = array($is_active, $DocumentID);
+        $stmt = sqlsrv_query($conntest, $sql, $params);
+        if ($stmt) {
+            echo "1";
+        } else {
+            echo "0";
+        }
+    }
+    elseif($code==33)
+{
+  $DocumentType=$_POST['DocumentType'];    
+  $IDNo=$_POST['IDNo'];    
+$file_name = $_FILES['file_'.$DocumentType]['name'];
+$file_tmp = $_FILES['file_'.$DocumentType]['tmp_name'];
+$file_size =$_FILES['file_'.$DocumentType]['size'];
+$file_type = $_FILES['file_'.$DocumentType]['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['file_'.$DocumentType]['type'], $allowedTypes))
+    {
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+$file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['file_'.$DocumentType]['name']);
+$destdir = '/StudentDocument';
+    ftp_chdir($conn_id, "/StudentDocument") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+    $insertExp="UPDATE DocumentStatus SET Original='$file_name' where IDNo='$IDNo' and  SerialNo='$DocumentType'";
+$result = sqlsrv_query($conntest, $insertExp);
+if($result==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+    }
+    else
+    {
+        echo "2"; // size 500kb
+    }
+}
+else{
+    echo "3";
+}
+    sqlsrv_close($conntest);
+}
+
+elseif($code==34)
+{
+    $idno=$_POST['idno'];
+    $srno=$_POST['srno'];
+    $desc= " Student Cerificate Verified:".$srno;
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
+    $basiclocked="UPDATE DocumentStatus SET VerifyBy='$EmployeeID',VerifyDate='$timeStamp',Action='1' where IDNo='$idno' and SerialNo='$srno'";
+    $basiclockedRun=sqlsrv_query($conntest,$basiclocked);
+    if($basiclockedRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+
+}
+elseif($code==35)
+{
+    $idno=$_POST['idno'];
+    $srno=$_POST['srno'];
+    $reason=$_POST['reason'];
+    $desc= " Student Cerificate Verified:".$srno;
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
+    $basiclocked="UPDATE DocumentStatus SET RejectBy='$EmployeeID',Remarks='$reason',RejectDate='$timeStamp',Action='2' where IDNo='$idno' and SerialNo='$srno'";
+    $basiclockedRun=sqlsrv_query($conntest,$basiclocked);
+    if($basiclockedRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+
+}
 }

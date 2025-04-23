@@ -845,6 +845,45 @@ function changecourse(id) {
     });
 }
 
+function uploadDocuments(form) {
+   var DocumentType = document.getElementById('DocumentType').value;
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    var idNo = formData.get('IDNo');
+    // alert(form);
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            console.log(response);
+            if (response == 1) {
+                updateStudent(idNo);
+                SuccessToast('Successfully Uploaded');
+            } else if (response === 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else if (response == 2) {
+                ErrorToast('Please Upload size must be less than 500kb', 'bg-warning');
+                document.getElementById("panerror_"+DocumentType).innerHTML = 'Please Upload size must be less than 500kb';
+
+            } else if (response == 3) {
+                ErrorToast('Please Upload must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                document.getElementById("panerror_"+DocumentType).innerHTML = 'Please Upload must be in jpg/jpeg/png/pdf format';
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
 
 
 function syncdocuments(idno) {
@@ -872,6 +911,18 @@ function syncdocuments(idno) {
 
 }
 
+function view_uploaded_document_Student(id, documentP) {
+    var code = 77;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("documentData").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code + "&document=" + documentP, true);
+    xmlhttp.send();
+}
 
 function generateSmartCardForStudent(id) {
     //alert(id);
@@ -953,6 +1004,58 @@ function basicUnLock(loginId) {
         }
     });
 }
+}
+function verifiedCerificate(idno,srno) {
+    if (confirm("Really want to Verified") == true) {
+
+    var code = 34;
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,idno:idno,srno:srno
+        },
+        success: function(response) {
+            // console.log(response);
+            if (response==1) {
+                SuccessToast('Successfuly Verified');
+                updateStudent(idno);
+            } else 
+            {
+                ErrorToast('Try Again','bg-warning');
+            }
+
+        }
+    });
+}
+}
+function rejectCerificate(idno, srno) {
+    let reason = prompt("Please enter the reason for rejection:");
+
+    if (reason !== null && reason.trim() !== "") {
+        var code = 35;
+
+        $.ajax({
+            url: 'action_a.php',
+            type: 'POST',
+            data: {
+                flag: code,
+                idno: idno,
+                srno: srno,
+                reason: reason
+            },
+            success: function(response) {
+                if (response == 1) {
+                    SuccessToast('Successfully Rejected');
+                    updateStudent(idno);
+                } else {
+                    ErrorToast('Try Again', 'bg-warning');
+                }
+            }
+        });
+    } else if (reason !== null) {
+        ErrorToast('Rejection reason is required', 'bg-danger');
+    }
 }
 
 
@@ -1105,6 +1208,7 @@ function copyToClipboard(text) {
 </div>
 
 
+
 <div class="modal fade" id="UpdateDesignationModalCenter21" tabindex="-1" role="dialog"
     aria-labelledby="UpdateDesignationModalCenter21" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -1124,6 +1228,7 @@ function copyToClipboard(text) {
         </div>
     </div>
 </div>
+
 
 <!-- Main content -->
 <section class="content">
@@ -1482,4 +1587,35 @@ else
     // document.addEventListener("DOMContentLoaded", function() {
     //     toggleRefInput();
     // });
+</script>
+
+
+<div class="modal fade" id="UploadImageDocumentStudent">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="documentData">
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    $(document).on('hidden.bs.modal', '.modal', function () {
+    if ($('.modal:visible').length) {
+        $('body').addClass('modal-open'); 
+    }
+});
+
 </script>

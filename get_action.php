@@ -8489,6 +8489,25 @@ Final Lock
  </table>
  <?php 
       }
+
+      else if ($code == 77) {
+
+         $id = $_GET['id'];
+         $document = $_GET['document'];
+         $sql = "SELECT Original from DocumentStatus WHERE IDNo= $id and SerialNo='$document' ";
+         $res = sqlsrv_query($conntest, $sql);
+         while ($data = sqlsrv_fetch_array($res)) { 
+            
+               ?>
+               <embed class="pdf" 
+                     src=
+      "http://erp.gku.ac.in:86/StudentDocument/<?=$data['Original']?>"
+                  width="100%" height="600">
+                           <?php
+            
+           
+         }
+      }
       else
        {
    

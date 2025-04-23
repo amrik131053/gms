@@ -21417,17 +21417,23 @@ else
                                                     <table class="table  table-bordered">
 
                                                         <tr>
-                                                            <td><b>Documents</b></td>
-                                                            <td><b>Status</b></td>
+                                                            <th>Documents</th>
+                                                            <th>Status</th>
+                                                            <th>View</th>
+                                                            <th>File</th>
+                                                          
 
-
-                                                            <?php $sql = "select  * from  DocumentStatus where IDNo='".$row1['IDNo']."'";
+                                                            <?php   $sql = "select  * from  DocumentStatus where IDNo='".$row1['IDNo']."'";
 $stmt1 = sqlsrv_query($conntest,$sql);
 while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 {
+// $DocumentID=$row7['DocumentID'];
 $dicrequired= $row7['DocumentsRequired'];
+$IDNo= $row7['IDNo'];
 $docstatus= $row7['Status'];
 $SerialNo= $row7['SerialNo'];
+$FileLink= $row7['Original'];
+$Status= $row7['Action'];
     ?>
                                                         <tr>
                                                             <td><?=$dicrequired;?></td>
@@ -21449,6 +21455,74 @@ $SerialNo= $row7['SerialNo'];
 
                                                                 </select>
                                                             </td>
+                                                            <td>
+                                                            <?php 
+                     $ext = pathinfo($BasURL.'StudentDocument/'.$FileLink, PATHINFO_EXTENSION);
+                    if ($ext == 'pdf' || $ext == 'PDF' ) {
+                        // echo '<img src="'.$BasURL.'/StudentDocument'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
+                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        ?>
+                        <br>
+                             <button class="btn btn-primary btn-xs" type="button"
+                                                                    data-toggle="modal"
+                                                                    data-target="#UploadImageDocumentStudent"
+                                                                    onclick="view_uploaded_document_Student(<?=$row7['IDNo'];?>,'<?=$SerialNo;?>');">
+                                                                    <i class="fa fa-eye"></i>&nbsp;&nbsp;Preview
+                                                                </button>
+                                                                <button class="btn btn-success btn-xs" type="button" onclick="verifiedCerificate(<?=$row7['IDNo'];?>,'<?=$SerialNo;?>');" >Verify</button>
+                                                                <button class="btn btn-danger btn-xs" type="button" onclick="rejectCerificate(<?=$row7['IDNo'];?>,'<?=$SerialNo;?>');" >Reject</button>
+                                                                <?php
+                    }else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
+                        echo '<img src="'.$BasURL.'StudentDocument/'.$FileLink.'" alt="'.$dicrequired.'" width="100" height="100">';
+                        // echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                       
+                        ?>
+                        <br>
+                        <button class="btn btn-primary btn-xs" type="button"
+                                                                    data-toggle="modal"
+                                                                    data-target="#UploadImageDocumentStudent"
+                                                                    onclick="view_uploaded_document_Student(<?=$row7['IDNo'];?>,'<?=$SerialNo;?>');">
+                                                                    <i class="fa fa-eye"></i>&nbsp;&nbsp;Preview
+                                                                </button>
+                                                                <button class="btn btn-success btn-xs" type="button" onclick="verifiedCerificate(<?=$row7['IDNo'];?>,'<?=$SerialNo;?>');" >Verify</button>
+                                                                <button class="btn btn-danger btn-xs" type="button" onclick="rejectCerificate(<?=$row7['IDNo'];?>,'<?=$SerialNo;?>');" >Reject</button>
+                                                                <?php
+                    }
+                     else {
+                        // echo '<i class="fa fa-file text-danger" aria-hidden="true" style="font-size:60px;"></i>';
+                    }
+                    if($Status==1)
+                    {
+                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+
+                    }
+                    elseif($Status==2)
+                    {
+                        echo '<i class="fa fa-times-circle text-danger" style="font-size:40px;"></i>';
+                    }
+                    ?>
+                    
+                                                            </td>
+                                                            <td>
+                                                            <form action="action_g.php" method="POST"
+                                                                    enctype="multipart/form-data">
+                                                                    <input type="hidden" name="flag" value="33">
+                                                                    <input type="hidden" name="DocumentType" id="DocumentType" value="<?=$SerialNo;?>">
+                                                                    <input type="hidden" name="IDNo" id="IDNo" value="<?=$IDNo;?>">
+                                                                    
+                                                                    <input type="file" class="form-control-file"
+                                                                        name="file_<?=$SerialNo;?>">
+                                                                    <small style="color: green">*Document Size must be
+                                                                        less than 500kb.</small><br>
+                                                                    <strong id="panerror_<?=$SerialNo;?>"
+                                                                        style="color: red"></strong><br>
+                                                                    <input class="btn btn-success btn-xs"
+                                                                        onclick="uploadDocuments(this.form);"
+                                                                        value="Upload">
+                                                                </form>
+                                                                
+                                                                </td>
+                                                           
 
                                                         </tr>
 
@@ -25122,7 +25196,7 @@ $CollegeID= $row7['CollegeID'];
 $StudentName= $row7['StudentName'];
 }
 
- $sqldr = "SELECT * FROM MasterDocumentsRequired WHERE CollegeID='$CollegeID' order by SerialNo" ;
+ $sqldr = "SELECT * FROM MasterDocumentsRequired WHERE CollegeID='$CollegeID' and IsActive='1' order by SerialNo" ;
 
 $stmt1dr = sqlsrv_query($conntest,$sqldr);
 while($row8 = sqlsrv_fetch_array($stmt1dr, SQLSRV_FETCH_ASSOC) )
