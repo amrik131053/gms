@@ -341,7 +341,7 @@ include "header.php";
               <label>Consultant</label>  
               <select  id="Consultant_"  class="form-control" >
                      <option value=''>Select Consultant</option>
-                      <?php  $get_consultant="SELECT * FROM MasterConsultant where Status>0"; 
+                      <?php  $get_consultant="SELECT * FROM MasterConsultant"; 
 
                      $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
                      while($row=sqlsrv_fetch_array($get_consultant_run))
