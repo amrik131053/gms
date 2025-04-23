@@ -202,7 +202,7 @@ function verifyAll()
 {
   var verifiy=document.getElementsByClassName('v_check');
 var len_student= verifiy.length; 
-  var code=326;
+  var code=326.2;
   var subjectIDs=[];  
        
      for(i=0;i<len_student;i++)
@@ -350,7 +350,7 @@ function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-    var code = 327.1;
+    var code = 327.3;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',

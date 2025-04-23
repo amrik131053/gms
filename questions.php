@@ -7,7 +7,8 @@ $nowtime = strtotime($ctime);
 
 $subjectcode=$_POST['SubjectCode'];
 $batch=$_POST['Batch'];
-
+$Exam_Session=$_POST['Exam_Session'];
+$Semester=$_POST['Semester'];
 ?>
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
   <html lang="en" class="notranslate" translate="no">
@@ -95,9 +96,9 @@ $batch=$_POST['Batch'];
                         <?php
                        
                         $count=1;
-                        $qry=" Select *,REGEXP_REPLACE(Question,'style=".'[\\d\\D]*?'."','') AS sanitized_question  from  question_bank  inner join question_type on question_type.id=question_bank.Type inner join question_category 
+                     $qry=" Select *,REGEXP_REPLACE(Question,'style=".'[\\d\\D]*?'."','') AS sanitized_question  from  question_bank  inner join question_type on question_type.id=question_bank.Type inner join question_category 
  on question_category.id=question_bank.Category inner join question_bank_details 
- on question_bank.id=question_bank_details.question_id   where SubjectCode='$subjectcode' ANd Batch='$batch' order by Unit";
+ on question_bank.id=question_bank_details.question_id   where SubjectCode='$subjectcode' ANd Batch='$batch' ANd question_bank.Exam_session='$Exam_Session'  ANd Semester='$Semester' order by Unit";
                         $run=mysqli_query($conn,$qry);
                         while($row=mysqli_fetch_array($run))
                         { 

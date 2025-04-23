@@ -349,7 +349,7 @@ function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-    var code = 327.1;
+    var code = 327.2;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',

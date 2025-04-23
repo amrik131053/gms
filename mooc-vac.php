@@ -122,7 +122,7 @@
       <th>Download</th>
       </tr>
 <?php  
-$query = "SELECT  * from vacmooc  order by id desc limit 50";
+$query = "SELECT  * from vacmooc  where IDNo='9618228941' order by id desc limit 50";
    
 
        $result = mysqli_query($conn,$query);
