@@ -2669,7 +2669,6 @@ $get_consultant="SELECT * FROM MasterConsultant where  ID='$id'";
 }
 }
 elseif($code==26.7)
-
    { 
       
 
@@ -2687,6 +2686,8 @@ elseif($code==26.7)
                  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
                  sqlsrv_query($conntest,$update1);
 
+        
+
  $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
 
 
@@ -2694,39 +2695,47 @@ elseif($code==26.7)
 
 $status=0;
     
-$get_econsultant="Update  users set mobile_number='$consultant_m',address='$consultant_a',email='$email_e' where   erp_id='$id'"; 
+ $get_econsultant="UPDATE  users SET mobile_number='$consultant_m',islogin='$status_e',address='$consultant_a',email='$email_e' where   erp_id='$id'"; 
 
  $user_run=mysqli_query($conn_online_pre_regist,$get_econsultant);
 
    
-   $sql = "SELECT * FROM users WHERE erp_id='$id'";
+   $sql = "SELECT * FROM users WHERE erp_id='$id' and islogin='1'";
 
 
      $user_run=mysqli_query($conn_online_pre_regist,$sql);
 
-     mysqli_query($conn_online_pre_regist,$sql);
+     if($user_run==true)
+     {
+        echo "1";
+     }
+     else{
+        echo "0";
+     }
+    //  mysqli_query($conn_online_pre_regist,$sql);
 
    
 
     
-          while ($user_row=mysqli_fetch_array($user_run))  {
+          if ($user_row=mysqli_fetch_array($user_run))  {
 
 
                 $receviername = $user_row['name'];
                 $recevieremail = $user_row['email'];
                       $password = $user_row['password'];
                       $subject='Login Details';
-            }
-            $status = 1;
+           
     
-        if($status == 1)
-        {
+        // if($status == 1)
+        // {
            
 ob_start();
  include "email/preregtemp.php";
 $body = ob_get_clean();
               include "email/email_code_adm.php";
-        }
+        // }
+    }
+   
 $conn->close();
 
 
