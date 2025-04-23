@@ -13,6 +13,7 @@ use App\Http\Controllers\AdmitCardController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\GrievanceController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Middleware\CheckAuthentication;
  
 // Auth Routes
@@ -105,3 +106,8 @@ Route::get('searchBooks', [LibraryController::class, 'libraryBooks'])->name('sea
 
 Route::get('libraryDetails', [LibraryController::class, 'libraryDetailsBooks'])->name('libraryDetailsBooks')->middleware(CheckAuthentication::class);
 Route::get('libraryBooksReturn', [LibraryController::class, 'libraryBooksReturnAction'])->name('libraryBooksReturn')->middleware(CheckAuthentication::class);
+
+//document uploads
+Route::get('documents', [DocumentController::class, 'showDocumentPage'])->name('showDocumentPage')->middleware(CheckAuthentication::class);
+
+Route::post('/upload-document', [DocumentController::class, 'upload'])->name('documentupload');
