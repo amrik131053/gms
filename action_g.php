@@ -4489,7 +4489,7 @@ else { ?>
                                                 class="form-control" required>
                                                 <option value=''>Select Faculty</option>
                                                 <?php
-                                        $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                                         $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                             while($row12 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                                             {   
@@ -40651,13 +40651,14 @@ elseif($code==456.1)
      $ResultID= $row['Id'];
      $Type= $row['Type'];
 
-     $VerifiedBy=$row['VerifiedBy'];
-     $DMCGeneratedBy=$row['DMCGeneratedBy'];
-     $DMCGenerateOn=$row['DMCGenerateOn']->format('d-m-Y');
-     $DMCVerifiedBy=$row['DMCVerifiedBy'];
-     $DMCVerifiedOn=$row['DMCVerifiedOn']->format('d-m-Y');
-     $DMCprintedBy=$row['DMCprintedBy'];
-     $DMCprintedOn=$row['DMCprintedOn']->format('d-m-Y');
+     $VerifiedBy = $row['VerifiedBy'];
+     $DMCGeneratedBy = $row['DMCGeneratedBy'];
+     $DMCGenerateOn = !empty($row['DMCGenerateOn']) ? $row['DMCGenerateOn']->format('d-m-Y') : '';
+     $DMCVerifiedBy = $row['DMCVerifiedBy'];
+     $DMCVerifiedOn = !empty($row['DMCVerifiedOn']) ? $row['DMCVerifiedOn']->format('d-m-Y') : '';
+     $DMCprintedBy = $row['DMCprintedBy'];
+     $DMCprintedOn = !empty($row['DMCprintedOn']) ? $row['DMCprintedOn']->format('d-m-Y') : '';
+     
    ?>
                             <table class="table table-responsive">
                                 <tr style="background:#223260;color:white;">
