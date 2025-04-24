@@ -31667,11 +31667,11 @@ $getTransactionIDstmt = sqlsrv_query($conntest,$getTransactionIDsql);
 
 if ($Nationality == 'NRI') 
 {
-     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' "; 
+     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' and Status='1' "; 
 } 
 else
 {
-     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' "; 
+     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' and Status='1' "; 
 }
  
  $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
