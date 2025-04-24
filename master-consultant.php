@@ -176,8 +176,8 @@ var code=26.7;
     success: function(response)
      {
     console.log(response);
+    spinner.style.display = 'none';
     if (response==1) {
-       spinner.style.display = 'none';
          SuccessToast('Successfully Updated');
          ViewConsultant();
    }

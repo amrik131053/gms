@@ -4489,7 +4489,7 @@ else { ?>
                                                 class="form-control" required>
                                                 <option value=''>Select Faculty</option>
                                                 <?php
-                                        $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                                         $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                             while($row12 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                                             {   
@@ -9823,7 +9823,7 @@ mysqli_close($conn);
                     $masterConsultantId = $row['ID'];
                 }
                 if ($masterConsultantId) {
-                    $insert_consultant_web = "INSERT INTO users (name, email, password, mobile_number, address, role, erp_id) VALUES (?, ?, ?, ?, ?, 'admin', ?)";
+                    $insert_consultant_web = "INSERT INTO users (name, email, password, mobile_number, address, role, erp_id,islogin) VALUES (?, ?, ?, ?, ?, 'admin', ?,'1')";
                     $stmt2 = mysqli_prepare($conn_online_pre_regist, $insert_consultant_web);
                     mysqli_stmt_bind_param($stmt2, "sssssi", $name, $email, $password, $mobile, $address, $masterConsultantId);
         
@@ -30797,7 +30797,7 @@ if($Status==6)
             <label>Select</label>
             <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
                 <option value="">Select</option>
-                <?php $get_consultant="SELECT * FROM MasterConsultant where Status>0";
+                <?php $get_consultant="SELECT * FROM MasterConsultant ";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
@@ -31128,7 +31128,7 @@ if($Status==6)
             <label>Select</label>
             <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
                 <option value="">Select</option>
-                <?php $get_consultant="SELECT * FROM MasterConsultant where Status>0";
+                <?php $get_consultant="SELECT * FROM MasterConsultant";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
@@ -31568,11 +31568,11 @@ $getTransactionIDstmt = sqlsrv_query($conntest,$getTransactionIDsql);
 
 if ($Nationality == 'NRI') 
 {
-     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' "; 
+     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' and Status='1' "; 
 } 
 else
 {
-     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' "; 
+     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' and Status='1' "; 
 }
  
  $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -40552,13 +40552,14 @@ elseif($code==456.1)
      $ResultID= $row['Id'];
      $Type= $row['Type'];
 
-     $VerifiedBy=$row['VerifiedBy'];
-     $DMCGeneratedBy=$row['DMCGeneratedBy'];
-     $DMCGenerateOn=$row['DMCGenerateOn']->format('d-m-Y');
-     $DMCVerifiedBy=$row['DMCVerifiedBy'];
-     $DMCVerifiedOn=$row['DMCVerifiedOn']->format('d-m-Y');
-     $DMCprintedBy=$row['DMCprintedBy'];
-     $DMCprintedOn=$row['DMCprintedOn']->format('d-m-Y');
+     $VerifiedBy = $row['VerifiedBy'];
+     $DMCGeneratedBy = $row['DMCGeneratedBy'];
+     $DMCGenerateOn = !empty($row['DMCGenerateOn']) ? $row['DMCGenerateOn']->format('d-m-Y') : '';
+     $DMCVerifiedBy = $row['DMCVerifiedBy'];
+     $DMCVerifiedOn = !empty($row['DMCVerifiedOn']) ? $row['DMCVerifiedOn']->format('d-m-Y') : '';
+     $DMCprintedBy = $row['DMCprintedBy'];
+     $DMCprintedOn = !empty($row['DMCprintedOn']) ? $row['DMCprintedOn']->format('d-m-Y') : '';
+     
    ?>
                             <table class="table table-responsive">
                                 <tr style="background:#223260;color:white;">
