@@ -7999,6 +7999,63 @@ elseif ($code=='69.1') {
     }
 }
 
+else if($code==69.2)
+ {
+ ?>
+
+ <table   class="table table-bordered table-responsive-lg" style='text-align:center;'  >
+  <tr>             
+                 <th>Sr No </th>
+                 <th>Subject Name</th>
+                 <th>Subject Name Updated</th>
+                 <th>Subject code</th>
+                 <th> SGPA </th>
+     </tr>
+  <?php
+  $i=1;
+  $CourseID = $_GET['course'];
+  $CollegeID = $_GET['college'];
+  $Batch=$_GET['batch']; 
+  $semID = $_GET['sem'];
+  $exam = $_GET['examination'];
+  $type = $_GET['type'];
+   
+
+ 
+$sql1 = "SELECT SubjectName,SubjectCode from  ResultPreparation as Rp inner join ResultPreparationDetail as rpd ON Rp.ID=rpd.ResultID WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
+  and Rp.Examination='$exam' and  Rp.Batch='$Batch' and Rp.Type='$type' and ResultStatus='1' and DeclareType='1' and Sgpa!='NC'  ";
+     $stmt = sqlsrv_query($conntest,$sql1);
+         $count=0;
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+      {  
+         ?>
+
+<tr>             
+
+                 <th><?=$i++;?></th>
+                 <th><?= $row['SubjectName'];?></th>
+                 <th> <input type="text" value="<?=$row['SubjectName'];?>"  id="subject_<?= $i;?>" class="form-control"></th>
+               <th><?= $row['SubjectCode'];?><input type="hidden" value="<?=$row['SubjectCode'];?>"  id="subjectcode_<?= $i;?>" class="form-control"> </th>
+                 
+                 <th> <button  class="btn btn-success btn-sm" onclick="update(<?=$i?>)">Update</button></th>
+                
+                
+                 </tr>
+
+
+         <?php
+
+
+         }  
+ 
+ $clr="";
+ 
+ ?>
+
+ </table>
+ <?php 
+}
+
 else if($code==70)
  {
  ?>
