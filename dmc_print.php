@@ -180,7 +180,16 @@ foreach ($id as $key => $value) {
     <div class="content">
         <div>
             <div style="margin-top: 25%;">
-                <p class="heading1"><?= strtoupper($row['Course']); ?></p>
+               <?php  if($row['DMCCourse']!='')
+               {?>
+                 <p class="heading1"><?= strtoupper($row['DMCCourse']); ?></p>
+              <?php  }
+               else
+               { ?>
+<p class="heading1"><?= strtoupper($row['Course']); ?></p>
+
+            <?php   }?>
+                
                 <p class="heading2">STATEMENT OF GRADES: <?= convertSemesterToWords($row['Semester']); ?> SEMESTER</p>
             </div>
             <table>

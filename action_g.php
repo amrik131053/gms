@@ -27919,106 +27919,7 @@ if($NoDuesRegistration==-1){?>
     ?>
 </center>
 <br>
-<div class="table table-responsive" style="height:500px;">
-    <br>
-    <table class="table  table-bordered  table-hover table-head-fixed table-striped" style="border:1px solid black;">
-        <thead>
-            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
-                                            
-                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
-                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
-                                            {
-                                                
-                                                $tdebit=$rowww['totaldebit'];
-                                            $tcredit=$rowww['totalcredit'];
-                                            
-                                              }
-                                             
-                                              $amount=$tdebit-$tcredit;
-                                                ?>
 
-            <tr>
-                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
-                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
-                <td colspan="2"></td>
-                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
-            </tr>
-
-
-            <tr>
-                <th>Receipt Date</th>
-                <th>Receipt No</th>
-                <th>Particulars</th>
-                <th>LedgerName</th>
-                <th>Installment</th>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Remarks</th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            <?php  $sql8 = "select  * from  Ledger where IDNo='$IDNo' order by DateEntry DESC";
-                                            $stmt8 = sqlsrv_query($conntest,$sql8);
-                                            while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
-                                            {
-                                            
-                                                ?>
-
-            <tr>
-                <td>
-                    <?php
-                                                                                        if($row8['DateEntry']!='')
-                                                                                        {
-                                            
-                                                                                           echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
-                                            
-                                                                                   
-                                                                                    }
-                                                                                    ?>
-
-
-
-                </td>
-                <td><?= $row8['ReceiptNo'];;?></td>
-                <td style="width: 300px"><?= $row8['Particulars'];?></td>
-
-                <td><?= $row8['LedgerName'];?> </td>
-                <td><?= $row8['Semester'];;?></td>
-                <td><?= $row8['Debit'];?></td>
-                <td><?= $row8['Credit'];?></td>
-                <td><?= $row8['Remarks'];?>
-            </tr>
-
-            <?php 
-                                                                                            }?>
-
-
-
-            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
-                                            
-                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
-                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
-                                            {
-                                                
-                                                $tdebit=$rowww['totaldebit'];
-                                            $tcredit=$rowww['totalcredit'];
-                                            
-                                              }
-                                             
-                                              $amount=$tdebit-$tcredit;
-                                                ?>
-
-            <tr>
-                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
-                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
-                <td colspan="2"></td>
-                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 <table>
     <tr>
         <td colspan="10" style="text-align:right; font-size: 16px;">
@@ -40786,11 +40687,23 @@ $decdate=$row['Timestamp']->format('d-m-Y h:i:s');
                                         <?= $decdate;?></td>
                                     <td><?=$row['VerifiedBy'];?></td>
                                     <td><?=$row['DMCGeneratedBy'];?></td>
-                                    <td><?=$row['DMCGenerateOn']->format('d-m-Y');?></td>
+                                    <td> <?php if($row['DMCGenerateOn']!='') {
+                                        echo $row['DMCGenerateOn']->format('d-m-Y');} else
+                                        { echo "";
+                                            } ?></td>
                                     <td><?=$row['DMCVerifiedBy'];?></td>
-                                    <td><?=$row['DMCVerifiedOn']->format('d-m-Y');?></td>
+
+                                    
+
+                                    <td><?php if($row['DMCVerifiedOn']!='') {
+                                        echo $row['DMCVerifiedOn']->format('d-m-Y');} else
+                                        { echo "";
+                                            } ?></td>
                                     <td><?=$row['DMCprintedBy'];?></td>
-                                    <td><?=$row['DMCprintedOn']->format('d-m-Y');?></td>
+                                    <td><?php if($row['DMCprintedOn']!='') {
+                                        echo $row['DMCprintedOn']->format('d-m-Y');} else
+                                        { echo "";
+                                            } ?></td>
                                     <?php         
 }?>
                                     <table class="table">
@@ -40833,6 +40746,48 @@ $SrNo++;
                                     <?php 
 sqlsrv_close($conntest);        
 }
+
+elseif($code==456.2)
+{
+$SubjectCode=$_POST['SubjectCode'];
+$Subject=$_POST['Subject'];
+
+ $insertResult="UPDATE ResultPreparationDetail SET SubjectName='$Subject' where SubjectCode='$SubjectCode'";
+ $result = sqlsrv_query($conntest,$insertResult);
+    
+}
+elseif($code==456.3)
+{
+$CollegeID=$_POST['CollegeID'];
+$CourseID=$_POST['CourseID'];
+
+ $data="SELECT Distinct DMCCourse,CourseID from ResultPreparation where CollegeID='$CollegeID' ANd CourseID='$CourseID'";
+ $result = sqlsrv_query($conntest,$data);
+        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+        {
+          ?>
+<label>Course Name</label>
+<input type="text" class="form-control" name="" id='newupdatedcourse' value="<?= $row['DMCCourse'];?>"><br>
+<input type="hidden" class="form-control" name="" id='newupdatedcourseid' value="<?= $row['CourseID'];?>">
+
+<button onclick="updatecoursename()" class="btn btn-primary">Update</button>
+
+          <?php 
+}
+}
+elseif($code==456.4)
+{
+$newupdatedcourseid=$_POST['newupdatedcourseid'];
+$newupdatedcourse=$_POST['newupdatedcourse'];
+
+$insertResult="UPDATE ResultPreparation SET DMCCourse='$newupdatedcourse' where CourseID='$newupdatedcourseid'";
+
+ $result = sqlsrv_query($conntest,$insertResult);
+       
+
+    
+}
+
 elseif($code==457)
 {
    $sgroup=$_POST['sgroup'];
