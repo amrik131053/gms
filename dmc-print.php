@@ -190,7 +190,7 @@ for($i=1;$i<=12;$i++)
                                     aria-hidden="true"></i> Pending</span> -->
                             <span><i class="fa fa-stop text-success" aria-hidden="true"></i>Printed</span>
                         </div>&nbsp;
-                        <div id="live_data_record">
+                        <div id="live_data_record" class="table-responsive">
 
 
                         </div>
@@ -462,6 +462,8 @@ xmlhttp.send();
 
 
 }
+
+
 function ViewResultStudent(ID) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -517,6 +519,44 @@ function DMCPrint(id,BatchID) {
         window.open('dmc_print.php?id_array='+subjectIDs+ "&BatchID=" + BatchID+"&Abbrevation="+abbrevationsarray,'_blank');    
     }
    }
+}
+function DMCPrintDuplicate(id,BatchID) {
+
+    alert('Duplicate Print Soon....');
+//     var BatchID=document.getElementById('batchIDSet').value;
+//     var verifiy = document.getElementsByClassName('v_check');
+//     var abbrevations = document.getElementsByClassName('abbre');
+
+//     ablength=abbrevations.length;
+ 
+//     var abbrevationsarray = [];
+
+//     for (z = 0; z < ablength; z++) {
+//         if (abbrevations[z].checked === true) {
+//             abbrevationsarray.push(abbrevations[z].value);
+//         }
+//     }
+
+//     var len_student = verifiy.length;
+//     var subjectIDs = [];
+//     for (i = 0; i < len_student; i++) {
+//         if (verifiy[i].checked === true) {
+//             subjectIDs.push(verifiy[i].value);
+//         }
+//     }
+//     //console.log(abbrevationsarray);
+//     if(id!='NA'){
+//         window.open('dmc_print_duplicate.php?id_array='+id+ "&BatchID=" + BatchID+"&Abbrevation="+abbrevationsarray,'_blank');    
+//     }
+//     else
+//     {
+//     if ((typeof subjectIDs[0] == 'undefined')) {
+//         ErrorToast(' Select atleast one Student', 'bg-warning');
+//     } else {
+      
+//         window.open('dmc_print.php?id_array='+subjectIDs+ "&BatchID=" + BatchID+"&Abbrevation="+abbrevationsarray,'_blank');    
+//     }
+//    }
 }
 
 function exportCutListExcelgraden() {

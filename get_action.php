@@ -8139,7 +8139,7 @@ else if($code==71)
                  <th>Sr No </th>
                  <th>GradeCard SrNo </th>
                  <th>Uni Roll No</th>
-                 <th>IDNo</th>
+                 <!-- <th>IDNo</th> -->
                  <th> Name </th>
                  <th> Father Name </th>
                     <th> Mother Name </th>
@@ -8178,11 +8178,11 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
           }
  ?>
  <tr class="bg-<?=$clr;?>">
-<td><?php if($row['DMCStatus']=='3'){}else{    ?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
+<td><?php if($row['DMCSerialNo']!=''){}else{    ?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
  <td><?= $row['GradeCardSrNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
- <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
+ <!-- <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td> -->
  <td><?= $row['StudentName'];?></td>             
  <td><?= $row['FatherName'];?></td>    <td><?= $row['MotherName'];?></td>                           
  <td><?= $row['Type'];?></td>             
@@ -8192,9 +8192,13 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
 
  <td colspan="1">   
    <?php
-   if($row['DMCStatus']!='3'){?> 
+   if($row['DMCSerialNo']==''){?> 
    <input   type="submit" name="submit" value="Print" onclick="DMCPrint(<?= $row['Id'];?>,<?= $row['BatchID'];?>);" class="btn btn-primary "  >
-<?php }?>
+<?php }
+ if($row['Duplicate']==1){?> 
+   <input   type="submit" name="submit" value="Print" onclick="DMCPrintDuplicate(<?= $row['Id'];?>,<?= $row['BatchID'];?>);" class="btn btn-primary "  >
+<?php }
+?>
 </td>
 
 </tr>
@@ -8385,7 +8389,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
                  <th>Sr No </th>
                  <th>GradeCard SrNo </th>
                  <th>Uni Roll No</th>
-                 <th>IDNo</th>
+                 <!-- <th>IDNo</th> -->
                  <th> Name </th>
                  <th> Father Name </th>
                  <th> Type </th>
@@ -8423,7 +8427,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  <td><?= $i++;?></td>
  <td><?= $row['GradeCardSrNo'];?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
- <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td>
+ <!-- <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['IDNo'];?></td> -->
  <td><?= $row['StudentName'];?></td>             
  <td><?= $row['FatherName'];?></td>             
  <td><?= $row['Type'];?></td>             
@@ -8432,7 +8436,7 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  <td><?=$row['Sgpa'];?></td>
 
  <td colspan="1">    
-   <input   type="submit" name="submit" value="Print" onclick="DMCPrint(<?= $row['Id'];?>,<?= $row['BatchID'];?>);" class="btn btn-primary "  ></td>
+   <input   type="submit" name="submit" value="Print" onclick="DMCPrintDuplicate(<?= $row['Id'];?>,<?= $row['BatchID'];?>);" class="btn btn-primary "  ></td>
 </tr>
  <?php 
  $clr="";
