@@ -12522,7 +12522,7 @@ elseif($code==194)
    }
    elseif ($searchingValue=='EmployeeId') 
    {
-      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
+      $sql="SELECT distinct  Exam_Session,SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
       $flag=1;
    }
    elseif ($searchingValue=='PaperId') 
@@ -12893,7 +12893,7 @@ elseif($code==194.1)
    }
    elseif ($searchingValue=='EmployeeId') 
    {
-      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
+      $sql="SELECT distinct  Exam_Session,SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
       $flag=1;
    }
    elseif ($searchingValue=='PaperId') 

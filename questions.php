@@ -4,7 +4,7 @@ ini_set('max_execution_time', '0');
 include 'connection/connection.php';
 $ctime = date("d-m-Y");
 $nowtime = strtotime($ctime);
-
+ 
 $subjectcode=$_POST['SubjectCode'];
 $batch=$_POST['Batch'];
 $Exam_Session=$_POST['Exam_Session'];
