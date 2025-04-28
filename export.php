@@ -1993,11 +1993,11 @@ else
            <th>Designation</th>
           <th>Email</th> 
           <th>Offical Email</th> 
-          <th>Phone</th>
+          <th>Phone</th> <th>AdharcardNo</th>
            <th>PAN NO</th>
            <th>Permanent Address</th>
            <th>Correspondence Address</th>
-            <th>AdharcardNo</th>
+           
            
             <th>Date Of Joining</th>
           <th>Ph.D</th>
