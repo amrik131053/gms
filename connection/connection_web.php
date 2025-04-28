@@ -10,11 +10,7 @@ $conn_recruitment= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123
  
  $conn_online_odl= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_online_degree_new_admisison');
 
- $conn_online_pre_regist= new mysqli('82.25.122.83:3306', 'u765202286_prepmguri','Gurpreet@pnm12','u765202286_pre_reg');
-
-
-
-
+ $conn_online_pre_regist= new mysqli('185.206.161.149:3306', 'u758234764_prepmguri','Gurpreet@pnm12','u758234764_pre_reg');
 
 
 

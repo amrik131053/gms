@@ -10524,8 +10524,8 @@ mysqli_close($conn);
       $current_session=$get_row['id'];    // code...
       }
    
-          $showQuestionQry="SELECT Distinct SubjectCode,CourseID,Batch,Semester,lock_status,count(*) as totalQuestions FROM question_bank AS qb INNER JOIN question_category AS qc ON qb.Category=qc.id INNER JOIN
-                      question_type AS qt ON qb.`Type`=qt.id INNER JOIN question_session as qs ON qb.Exam_Session=qs.id WHERE UpdatedBy='$EmployeeID' and qs.session_status='1' group by SubjectCode,CourseID,Batch,Semester ";
+          $showQuestionQry="SELECT Distinct SubjectCode,CourseID,Batch,Semester,lock_status,count(*) as totalQuestions,Exam_Session FROM question_bank AS qb INNER JOIN question_category AS qc ON qb.Category=qc.id INNER JOIN
+                      question_type AS qt ON qb.`Type`=qt.id INNER JOIN question_session as qs ON qb.Exam_Session=qs.id WHERE UpdatedBy='$EmployeeID' and qs.session_status='1' group by SubjectCode,CourseID,Batch,Semester,Exam_Session ";
                          $showQuestionRun=mysqli_query($conn,$showQuestionQry);
                          while($showQuestionData=mysqli_fetch_array($showQuestionRun))
                          {
@@ -10533,6 +10533,7 @@ mysqli_close($conn);
                           $SubjectCode=$showQuestionData['SubjectCode'];
                           $Batch=$showQuestionData['Batch'];
                           $Semester=$showQuestionData['Semester'];
+                          $Exam_Session=$showQuestionData['Exam_Session'];
                           
                           // $question_count_selection="Select * from question_count ";
                           // $question_count_selection_run=mysqli_query($conn,$question_count_selection);
@@ -10627,8 +10628,11 @@ mysqli_close($conn);
          <i class="fa fa-eye text-success fa-lg" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')" data-toggle="modal" 
             data-target="#modal-lg-view-question" ></i>
 
-            <form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$Batch;?>>">
+            <form action="questions.php" method="post" target="_blank">
+               <input type="hidden"  name="Batch" value="<?=$Batch;?>">
 <input type="hidden"  name='SubjectCode' value="<?=$SubjectCode;?>">
+<input type="hidden"  name='Exam_Session' value="<?=$Exam_Session;?>">
+<input type="hidden"  name='Semester' value="<?=$Semester;?>">
 <input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
         
       </td>
@@ -12522,7 +12526,7 @@ elseif($code==194)
    }
    elseif ($searchingValue=='EmployeeId') 
    {
-      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
+      $sql="SELECT distinct  Exam_Session,SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
       $flag=1;
    }
    elseif ($searchingValue=='PaperId') 
@@ -12893,7 +12897,7 @@ elseif($code==194.1)
    }
    elseif ($searchingValue=='EmployeeId') 
    {
-      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
+      $sql="SELECT distinct  Exam_Session,SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
       $flag=1;
    }
    elseif ($searchingValue=='PaperId') 

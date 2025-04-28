@@ -118,7 +118,7 @@ $key1=1;
 // $key1++;
 
 // }
-$subject2="SELECT  Distinct SubjectCode from MasterCourseStructure  where CollegeID='$CollegeID' ANd CourseID='$CourseID' ANd Batch='$Batch' ANd SemesterID='$Semester'  ";
+$subject2="SELECT  Distinct SubjectCode from MasterCourseStructure  where CollegeID='$CollegeID' ANd CourseID='$CourseID' ANd Batch='$Batch' ANd SemesterID='$Semester' order by SubjectCode ASC  ";
 $list_resultsubs = sqlsrv_query($conntest, $subject2);
 $key2=$key1;
  while ($rowss = sqlsrv_fetch_array($list_resultsubs, SQLSRV_FETCH_ASSOC)) {
@@ -154,7 +154,7 @@ $list_sql1="SELECT  * FROM ResultGKU
 INNER JOIN Admissions ON ResultGKU.UniRollNo = Admissions.UniRollNo
 where Admissions.CollegeID='$College' AND Admissions.CourseID='$Course'AND Admissions.Batch='$Batch' 
 AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
-ANd ResultGKU.Examination='$Examination' ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'    ORDER BY Admissions.UniRollNo";
+ANd ResultGKU.Examination='$Examination' ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'";
  $list_result1 = sqlsrv_query($conntest, $list_sql1);
  while ($row1 = sqlsrv_fetch_array($list_result1, SQLSRV_FETCH_ASSOC)) {
  $UniRollNo=$row1["UniRollNo"];
@@ -239,7 +239,7 @@ $CourseNameU=strtoupper($CourseName);
 
 
 
-$subjectresult="Select  * from ResultDetailGKU  where ResultID='$rID' order By SubjectCode";
+$subjectresult="Select  * from ResultDetailGKU  where ResultID='$rID' ORDER BY SubjectCode ASC ";
 $list_resultsubject = sqlsrv_query($conntest, $subjectresult);
 
  while($rowsubjects = sqlsrv_fetch_array($list_resultsubject, SQLSRV_FETCH_ASSOC)) {

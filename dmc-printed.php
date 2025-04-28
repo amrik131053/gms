@@ -103,6 +103,10 @@ xmlhttp.send();
 
 
 }
+
+function DMCPrintDuplicate(id,BatchID) {
+    alert('Duplicate Print Soon....');
+}
 function ViewResultStudent(ID) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
