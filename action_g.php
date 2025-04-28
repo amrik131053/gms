@@ -113,7 +113,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp-erp.php";
 }
-if($code=='135' || $code=='368.1' || $code=='357' || $code=='368.2')
+if($code=='135' || $code=='368.1' || $code=='357' || $code=='368.2' || $code=='133')
 {
    include "connection/connection_web.php"; 
    
@@ -9419,7 +9419,7 @@ elseif($code==132)
                   $Nationality = $degree_row1['country'];
                   $State = $degree_row1['state'];
                   $District = $degree_row1['district'];
-                  $Consultant = $degree_row1['Consultant'];
+                  $Consultant = $degree_row1['erp_id'];
                  $Category= $degree_row1['category'];
             }
             $months = $_POST['months'];
@@ -9438,7 +9438,7 @@ elseif($code==132)
             $MotherName = $_POST['MotherName'];
             $ID_Proof_No=$AdharCardNo.$PassportNo;
 
-            $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
+            $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0' ";
             $check_exit_run=mysqli_query($conn,$check_exit);
             $numof_exit=mysqli_num_rows($check_exit_run);
             if ($numof_exit>0) {
@@ -9496,8 +9496,8 @@ elseif($code==132)
 
 
 
- echo $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`,`Accommodation`, `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) VALUES ('$Name','$FatherName','$MotherName','$Accommodation','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
-// $insert_record_run = mysqli_query($conn, $insert_record);
+  $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`,`Accommodation`, `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) VALUES ('$Name','$FatherName','$MotherName','$Accommodation','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
+$insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
    echo "1";
@@ -27919,7 +27919,106 @@ if($NoDuesRegistration==-1){?>
     ?>
 </center>
 <br>
+<div class="table table-responsive" style="height:500px;">
+    <br>
+    <table class="table  table-bordered  table-hover table-head-fixed table-striped" style="border:1px solid black;">
+        <thead>
+            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
 
+            <tr>
+                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
+                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
+                <td colspan="2"></td>
+                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
+            </tr>
+
+
+            <tr>
+                <th>Receipt Date</th>
+                <th>Receipt No</th>
+                <th>Particulars</th>
+                <th>LedgerName</th>
+                <th>Installment</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Remarks</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <?php  $sql8 = "select  * from  Ledger where IDNo='$IDNo' order by DateEntry DESC";
+                                            $stmt8 = sqlsrv_query($conntest,$sql8);
+                                            while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                            
+                                                ?>
+
+            <tr>
+                <td>
+                    <?php
+                                                                                        if($row8['DateEntry']!='')
+                                                                                        {
+                                            
+                                                                                           echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
+                                            
+                                                                                   
+                                                                                    }
+                                                                                    ?>
+
+
+
+                </td>
+                <td><?= $row8['ReceiptNo'];;?></td>
+                <td style="width: 300px"><?= $row8['Particulars'];?></td>
+
+                <td><?= $row8['LedgerName'];?> </td>
+                <td><?= $row8['Semester'];;?></td>
+                <td><?= $row8['Debit'];?></td>
+                <td><?= $row8['Credit'];?></td>
+                <td><?= $row8['Remarks'];?>
+            </tr>
+
+            <?php 
+                                                                                            }?>
+
+
+
+            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>
+
+            <tr>
+                <td colspan="2" style="color: red;"><b>Total Debit : <?=$tdebit;?></b></td>
+                <td style="color: red;"><b>Total Credit : <?=$tcredit;?></td>
+                <td colspan="2"></td>
+                <td style="color: red;" colspan="4"><b>Balance : <?=$amount;?></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <table>
     <tr>
         <td colspan="10" style="text-align:right; font-size: 16px;">
@@ -32978,12 +33077,13 @@ elseif($code==368.2)
     $registrationNumber = $_POST['registrationNumber'];
 
 //    $degree="SELECT * FROM users inner join  WHERE   registration_number='$registrationNumber' order by Id DESC limit 1"; 
-$degree = "
+ $degree = "
 SELECT 
     u.*,
     c.name AS country_name,
     s.name AS state_name,
     d.name AS district_name
+    
 FROM users u
 LEFT JOIN countries c ON u.country = c.id
 LEFT JOIN states s ON u.state = s.id
@@ -33008,11 +33108,11 @@ if ($degree_row = mysqli_fetch_array($degree_run)) {
     $value[10] = $degree_row['id'];
     $value[11] = $degree_row['registration_number'];
     // $value[12] = $degree_row['erp_id'];
-    $degree1="SELECT * FROM users   WHERE  id='".$degree_row['user_id']."' order by Id DESC limit 1"; 
+    $degree1="SELECT * FROM users    WHERE  id='".$degree_row['user_id']."' order by Id DESC limit 1"; 
     $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
     if ($degree_row1=mysqli_fetch_array($degree_run1)) 
     {
-        $value[12]=$degree_row1['erp_id'];  
+        $value[12]=$degree_row1['name'];  
     }
 }
 
@@ -40687,23 +40787,11 @@ $decdate=$row['Timestamp']->format('d-m-Y h:i:s');
                                         <?= $decdate;?></td>
                                     <td><?=$row['VerifiedBy'];?></td>
                                     <td><?=$row['DMCGeneratedBy'];?></td>
-                                    <td> <?php if($row['DMCGenerateOn']!='') {
-                                        echo $row['DMCGenerateOn']->format('d-m-Y');} else
-                                        { echo "";
-                                            } ?></td>
+                                    <td><?=$row['DMCGenerateOn']->format('d-m-Y');?></td>
                                     <td><?=$row['DMCVerifiedBy'];?></td>
-
-                                    
-
-                                    <td><?php if($row['DMCVerifiedOn']!='') {
-                                        echo $row['DMCVerifiedOn']->format('d-m-Y');} else
-                                        { echo "";
-                                            } ?></td>
+                                    <td><?=$row['DMCVerifiedOn']->format('d-m-Y');?></td>
                                     <td><?=$row['DMCprintedBy'];?></td>
-                                    <td><?php if($row['DMCprintedOn']!='') {
-                                        echo $row['DMCprintedOn']->format('d-m-Y');} else
-                                        { echo "";
-                                            } ?></td>
+                                    <td><?=$row['DMCprintedOn']->format('d-m-Y');?></td>
                                     <?php         
 }?>
                                     <table class="table">
@@ -40746,48 +40834,6 @@ $SrNo++;
                                     <?php 
 sqlsrv_close($conntest);        
 }
-
-elseif($code==456.2)
-{
-$SubjectCode=$_POST['SubjectCode'];
-$Subject=$_POST['Subject'];
-
- $insertResult="UPDATE ResultPreparationDetail SET SubjectName='$Subject' where SubjectCode='$SubjectCode'";
- $result = sqlsrv_query($conntest,$insertResult);
-    
-}
-elseif($code==456.3)
-{
-$CollegeID=$_POST['CollegeID'];
-$CourseID=$_POST['CourseID'];
-
- $data="SELECT Distinct DMCCourse,CourseID from ResultPreparation where CollegeID='$CollegeID' ANd CourseID='$CourseID'";
- $result = sqlsrv_query($conntest,$data);
-        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
-        {
-          ?>
-<label>Course Name</label>
-<input type="text" class="form-control" name="" id='newupdatedcourse' value="<?= $row['DMCCourse'];?>"><br>
-<input type="hidden" class="form-control" name="" id='newupdatedcourseid' value="<?= $row['CourseID'];?>">
-
-<button onclick="updatecoursename()" class="btn btn-primary">Update</button>
-
-          <?php 
-}
-}
-elseif($code==456.4)
-{
-$newupdatedcourseid=$_POST['newupdatedcourseid'];
-$newupdatedcourse=$_POST['newupdatedcourse'];
-
-$insertResult="UPDATE ResultPreparation SET DMCCourse='$newupdatedcourse' where CourseID='$newupdatedcourseid'";
-
- $result = sqlsrv_query($conntest,$insertResult);
-       
-
-    
-}
-
 elseif($code==457)
 {
    $sgroup=$_POST['sgroup'];

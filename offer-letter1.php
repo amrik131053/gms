@@ -522,13 +522,13 @@ include "header.php";
 
             <div class="col-lg-12"> <label>&nbsp;</label>
                <p id="submit_record_button_message" style='float:left; color:red;font-size:18px;'></p>
-              
+             
  <?php if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
                                             { ?>
 
 
 
-               <button class="btn btn-primary " id="submit_record_button" onclick="submit_record()" disabled style='float:right;'>Submit</button>
+               <button class="btn btn-primary " id="submit_record_button" onclick="submit_record()"  style='float:right;'>Submit</button>
            <?php }
            ?>
             </div>
