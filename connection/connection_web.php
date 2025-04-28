@@ -14,8 +14,6 @@ $conn_recruitment= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123
 
 
 
-
-
 // $servername1 = "10.0.8.10";
 // $username1 = "as";
 // $password1 = "Bathinda@123";
