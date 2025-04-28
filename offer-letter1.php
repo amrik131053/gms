@@ -259,7 +259,7 @@ include "header.php";
             </div>
            
               
- 
+
 
       </div>
 
@@ -277,15 +277,6 @@ include "header.php";
              <div class="col-lg-12 col-md-12 col-sm-12" >
             <div class="card card-info " id="myCollapsible">
                <div class="card-header">
-               <span>
-            <button class="btn btn-sm ">
-                <input type="search" class="form-control form-control-sm" name="rollNo" id="rollNo"
-                    placeholder="Search Reference No">
-            </button>
-            <button type="button" onclick="searchPreRefNumber();" class="btn btn-success btn-sm">
-                Search
-            </button>
-        </span>
               <div class="card-tools">
                      
                         <div class="input-group input-group-sm">
@@ -319,7 +310,7 @@ include "header.php";
          <div class="row">
                 <div class="col-lg-2">
               <label>Nationality</label>  
-              <!-- <select class="form-control" id="Nationality_" onchange="fetch_state(this.value);ShowHideDiv_address(this.value);">
+              <select class="form-control" id="Nationality_" onchange="fetch_state(this.value);ShowHideDiv_address(this.value);">
                  <option value="">Country</option>
                  <?php 
                   $get_country="SELECT * FROM countries ";
@@ -330,36 +321,44 @@ include "header.php";
                   <?php }
 
                  ?>
-              </select> -->
-             <input type="text" class="form-control" id="Nationality_" onchange="ShowHideDiv_address(this.value);" readonly>
+              </select>
+             
             </div> 
             <div class="col-lg-2">
                <label>State</label>  
-             <!-- <select class="form-control" id="State_" onchange="fetch_district(this.value);">
+             <select class="form-control" id="State_" onchange="fetch_district(this.value);">
                  <option value="">State</option> 
-              </select> -->
-              <input type="text" class="form-control" onchange="fetch_district(this.value);" id="State_" readonly>
+              </select>
            </div>
            <div class="col-lg-2">
                <label>District</label>  
-             <!-- <select class="form-control" id="District" onchange="admisssion_complete(this.value);">
+             <select class="form-control" id="District" onchange="admisssion_complete(this.value);">
                  <option value="">District</option>
-              </select> -->
-              <input type="text" class="form-control" onchange="admisssion_complete(this.value);" id="District" readonly >
+              </select>
            </div>
 
             <div class="col-lg-2">
               <label>Consultant</label>  
-              <input type="text" id="Consultant_"  class="form-control" readonly >
-             
+              <select  id="Consultant_"  class="form-control" >
+                     <option value=''>Select Consultant</option>
+                      <?php  $get_consultant="SELECT * FROM MasterConsultant"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
+                     {?>
+
+                     <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+                     
+                     <?php }?>
+                 </select>
             </div>
             <div class="col-lg-2">
                <label>Student Name</label>
-               <input type="text" value="" id="Name" class="form-control" readonly > 
+               <input type="text" value="" id="Name" class="form-control" > 
             </div>
             <div class="col-lg-2">
                <label>Father Name</label>
-               <input type="text" value="" id="FatherName" class="form-control" readonly > 
+               <input type="text" value="" id="FatherName" class="form-control" > 
             </div>
             <div class="col-lg-2">
                <label>Mother Name</label>
@@ -376,15 +375,15 @@ include "header.php";
             </div> 
             <div class="col-lg-3" style="display: none;" id="AdharCardNo_div">
                <label>Adhar Card No</label>
-               <input type="number" class="form-control" id="AdharCardNo" readonly >
+               <input type="number" class="form-control" id="AdharCardNo" >
             </div>
             <div class="col-lg-3" style="display: none;" id="PassportNo_div">
-               <label>Passport No/Adhar Card No</label>
-              <input type="text" class="form-control" id="PassportNo" readonly>
+               <label>Passport No</label>
+              <input type="text" class="form-control" id="PassportNo">
             </div>
             <div class="col-lg-2">
                <label>Accommodation</label>
-               <select id="Accommodation" class="form-control" >
+               <select id="Accommodation" class="form-control">
                   <option value="">Select</option>
                   <option value="AC">AC</option>
                   <option value="Non-AC">Non-AC</option>
@@ -453,29 +452,32 @@ include "header.php";
               </div>
               <div class="col-lg-2">
                <label>Mobile No</label> <br>
-                  <input type='text'  id="MobileNo"  class="form-control" pattern="{0-9}[10]" required readonly >
+                  <input type='text'  id="MobileNo"  class="form-control" pattern="{0-9}[10]" required >
                     
               </div>
 
 <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Category</label>
-          <input type="text" class="form-control" id="category" readonly >
-          <!-- <select class="form-control" id="category">
+          <select class="form-control" id="category">
               <option value="">Select</option>
               <option>SC</option>
               <option>ST</option>
               <option>OBC</option>
 
               <option>General</option>
-          </select> -->
+          </select>
       </div>
+
             <div class="col-lg-3">
+              
                   <select  id="Batch"  class="form-control" required hidden>
                      <option value='2025'>2025</option>
                      <option value='2024'>2024</option>
                        <option value='2023'>2023</option>
                  </select>
               </div> 
+
+
          <!--    <div class="col-lg-2">
               <label>Session</label>   -->
               <select class="form-control" id="session" hidden>
@@ -522,13 +524,13 @@ include "header.php";
 
             <div class="col-lg-12"> <label>&nbsp;</label>
                <p id="submit_record_button_message" style='float:left; color:red;font-size:18px;'></p>
-             
+              
  <?php if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
                                             { ?>
 
 
 
-               <button class="btn btn-primary " id="submit_record_button" onclick="submit_record()"  style='float:right;'>Submit</button>
+               <button class="btn btn-primary " id="submit_record_button" onclick="submit_record()" disabled style='float:right;'>Submit</button>
            <?php }
            ?>
             </div>
@@ -1071,25 +1073,23 @@ else
 }
 }
 function submit_record() {
-
-  var rollNo = document.getElementById('rollNo').value;
-//   var Name = document.getElementById('Name').value;
-//   var FatherName = document.getElementById('FatherName').value;
+  var Name = document.getElementById('Name').value;
+  var FatherName = document.getElementById('FatherName').value;
   // var MotherName = document.getElementById('MotherName').value;
   var Gender = document.getElementById('Gender').value;
-   // var MobileNo = document.getElementById('MobileNo').value;
+   var MobileNo = document.getElementById('MobileNo').value;
    var DOB = document.getElementById('DOB').value;
-   // var Category = document.getElementById('category').value;
+   var Category = document.getElementById('category').value;
   var CollegeName = document.getElementById('CollegeName1').value;
   var Department = document.getElementById('Department1').value;
   var Course = document.getElementById('Course1').value;
    var Batch = document.getElementById('Batch').value;
   var PinCode = document.getElementById('Pincode').value;
-//   var Nationality = document.getElementById('Nationality_').value;
-//   var State = document.getElementById('State_').value;
-//   var District = document.getElementById('District').value;
+  var Nationality = document.getElementById('Nationality_').value;
+  var State = document.getElementById('State_').value;
+  var District = document.getElementById('District').value;
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
-//   var Consultant = document.getElementById('Consultant_').value;
+  var Consultant = document.getElementById('Consultant_').value;
   //var duration = document.getElementById('duration').value;
    var months = document.getElementById('months').value;
   var session = document.getElementById('session').value;
@@ -1100,28 +1100,28 @@ function submit_record() {
   
   
 
-if(Accommodation!='' && MotherName!='' && Gender!='' && session!=''  &&months!='')
+if(State!='' && Accommodation!='' && MotherName!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && Consultant!='' &&months!='')
+ 
 {
    if(AdharCardNo!='' || PassportNo!='')
    {
   var code = 133;
   var data = {
-   rollNo:rollNo,
-   //  Name: Name,
-   //  FatherName: FatherName,
+    Name: Name,
+    FatherName: FatherName,
     months:months,
     // MotherName: MotherName,
     Gender: Gender,
-   //  MobileNo: MobileNo,
+    MobileNo: MobileNo,
     CollegeName: CollegeName,
     Department: Department,
     Course: Course,
     Batch: Batch,
     PinCode: PinCode,
-   //  Nationality: Nationality,
-   //  State: State,
-   //  District: District,
-   //  Consultant: Consultant,
+    Nationality: Nationality,
+    State: State,
+    District: District,
+    Consultant: Consultant,
     Lateral: Lateral,
     MotherName: MotherName,
     Accommodation: Accommodation,
@@ -1129,7 +1129,7 @@ if(Accommodation!='' && MotherName!='' && Gender!='' && session!=''  &&months!='
     session: session,
     AdharCardNo: AdharCardNo,
     PassportNo: PassportNo,
-   //  Category:Category,
+    Category:Category,
     code: code
   };
  
@@ -1334,24 +1334,24 @@ $("#Course1").html(data);
 }
 });
 }
-// function ShowHideDiv_address(id)
-// {
-//    alert(id);
-//    if (id=='101')
-//     {
-//    $('#AdharCardNo_div').show('Slow');
-//    $('#PassportNo_div').hide('Slow');
-//    document.getElementById('PassportNo').value="";
-//     }
-//     else
-//     {
-//    $('#PassportNo_div').show('Slow');
-//     $('#AdharCardNo_div').hide('Slow');
-//     document.getElementById('AdharCardNo').value="";
+function ShowHideDiv_address(id)
+{
+   // alert(id);
+   if (id=='101')
+    {
+   $('#AdharCardNo_div').show('Slow');
+   $('#PassportNo_div').hide('Slow');
+   document.getElementById('PassportNo').value="";
+    }
+    else
+    {
+   $('#PassportNo_div').show('Slow');
+    $('#AdharCardNo_div').hide('Slow');
+    document.getElementById('AdharCardNo').value="";
 
-//     }
+    }
 
-// }
+}
 function ShowHideDiv_feetype(id)
 {
    // alert(id);
@@ -1586,58 +1586,6 @@ function admisssion_complete1(district)
 });
 
 }
-
-
-function searchPreRefNumber() {
-    var rollNo = document.getElementById('rollNo').value;
-    if (rollNo != '') {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = '368.2';
-        $.ajax({
-            url: 'action_g.php',
-            data: {
-                code: code,
-                registrationNumber: rollNo
-            },
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-                spinner.style.display = 'none';
-                var data = JSON.parse(response);
-                document.getElementById("Name").value = data[0];
-                document.getElementById("Nationality_").value=data[6];
-                if (data[6]=='101')
-                  {
-                  $('#AdharCardNo_div').show('Slow');
-                  $('#PassportNo_div').hide('Slow');
-                  document.getElementById('PassportNo').value="";
-                  }
-                  else
-                  {
-                  $('#PassportNo_div').show('Slow');
-                  $('#AdharCardNo_div').hide('Slow');
-                  document.getElementById('AdharCardNo').value="";
-                  }
-                  document.getElementById("State_").value=data[7];
-                  document.getElementById("District").value=data[8];
-                  document.getElementById("Consultant_").value=data[12];
-                  document.getElementById("FatherName").value=data[2];
-                  if (data[6]=='101'){
-                     document.getElementById("AdharCardNo").value=data[3];
-                  }
-                  else{
-                     document.getElementById("PassportNo").value=data[3];
-                  }
-                  document.getElementById("MobileNo").value=data[4];
-                  document.getElementById("category").value=data[9];
-            }
-        });
-    } else {
-        ErrorToast('Please Enter Registration No', 'bg-warning');
-    }
-}
-
 </script>
 <?php
 include "footer.php";
