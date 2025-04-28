@@ -350,7 +350,8 @@ include "header.php";
 
             <div class="col-lg-2">
               <label>Consultant</label>  
-              <input type="text" id="Consultant_"  class="form-control" readonly >
+              <input type="hidden" id="Consultant_"  class="form-control" readonly >
+              <input type="text" id="Consultant_name"  class="form-control" readonly >
              
             </div>
             <div class="col-lg-2">
@@ -1620,6 +1621,7 @@ function searchPreRefNumber() {
                   // document.getElementById("State_").value=data[7];
                   // document.getElementById("District").value=data[8];
                   document.getElementById("Consultant_").value=data[12];
+                  document.getElementById("Consultant_name").value=data[13];
                   document.getElementById("FatherName").value=data[2];
                   if (data[6]=='101'){
                      document.getElementById("AdharCardNo").value=data[3];

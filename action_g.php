@@ -33118,6 +33118,7 @@ if ($degree_row = mysqli_fetch_array($degree_run)) {
     if ($degree_row1=mysqli_fetch_array($degree_run1)) 
     {
         $value[12]=$degree_row1['erp_id'];  
+        $value[13]=$degree_row1['name'];  
     }
 }
 
