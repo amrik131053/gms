@@ -319,7 +319,7 @@ include "header.php";
          <div class="row">
                 <div class="col-lg-2">
               <label>Nationality</label>  
-              <!-- <select class="form-control" id="Nationality_" onchange="fetch_state(this.value);ShowHideDiv_address(this.value);">
+              <select class="form-control" id="Nationality_" onchange="fetch_state(this.value);">
                  <option value="">Country</option>
                  <?php 
                   $get_country="SELECT * FROM countries ";
@@ -330,22 +330,22 @@ include "header.php";
                   <?php }
 
                  ?>
-              </select> -->
-             <input type="text" class="form-control" id="Nationality_" onchange="ShowHideDiv_address(this.value);" readonly>
+              </select>
+             <!-- <input type="text" class="form-control" id="Nationality_" onchange="ShowHideDiv_address(this.value);" readonly> -->
             </div> 
             <div class="col-lg-2">
                <label>State</label>  
-             <!-- <select class="form-control" id="State_" onchange="fetch_district(this.value);">
+             <select class="form-control" id="State_" onchange="fetch_district(this.value);">
                  <option value="">State</option> 
-              </select> -->
-              <input type="text" class="form-control" onchange="fetch_district(this.value);" id="State_" readonly>
+              </select>
+              <!-- <input type="text" class="form-control" onchange="fetch_district(this.value);" id="State_" readonly> -->
            </div>
            <div class="col-lg-2">
                <label>District</label>  
-             <!-- <select class="form-control" id="District" onchange="admisssion_complete(this.value);">
+             <select class="form-control" id="District" onchange="admisssion_complete(this.value);">
                  <option value="">District</option>
-              </select> -->
-              <input type="text" class="form-control" onchange="admisssion_complete(this.value);" id="District" readonly >
+              </select>
+              <!-- <input type="text" class="form-control" onchange="admisssion_complete(this.value);" id="District" readonly > -->
            </div>
 
             <div class="col-lg-2">
@@ -1079,17 +1079,17 @@ function submit_record() {
   var Gender = document.getElementById('Gender').value;
    // var MobileNo = document.getElementById('MobileNo').value;
    var DOB = document.getElementById('DOB').value;
-   // var Category = document.getElementById('category').value;
+   var Category = document.getElementById('category').value;
   var CollegeName = document.getElementById('CollegeName1').value;
   var Department = document.getElementById('Department1').value;
   var Course = document.getElementById('Course1').value;
    var Batch = document.getElementById('Batch').value;
   var PinCode = document.getElementById('Pincode').value;
-//   var Nationality = document.getElementById('Nationality_').value;
-//   var State = document.getElementById('State_').value;
-//   var District = document.getElementById('District').value;
+  var Nationality = document.getElementById('Nationality_').value;
+  var State = document.getElementById('State_').value;
+  var District = document.getElementById('District').value;
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
-//   var Consultant = document.getElementById('Consultant_').value;
+  var Consultant = document.getElementById('Consultant_').value;
   //var duration = document.getElementById('duration').value;
    var months = document.getElementById('months').value;
   var session = document.getElementById('session').value;
@@ -1118,10 +1118,10 @@ if(Accommodation!='' && MotherName!='' && Gender!='' && session!=''  &&months!='
     Course: Course,
     Batch: Batch,
     PinCode: PinCode,
-   //  Nationality: Nationality,
-   //  State: State,
-   //  District: District,
-   //  Consultant: Consultant,
+    Nationality: Nationality,
+    State: State,
+    District: District,
+    Consultant: Consultant,
     Lateral: Lateral,
     MotherName: MotherName,
     Accommodation: Accommodation,
@@ -1129,7 +1129,7 @@ if(Accommodation!='' && MotherName!='' && Gender!='' && session!=''  &&months!='
     session: session,
     AdharCardNo: AdharCardNo,
     PassportNo: PassportNo,
-   //  Category:Category,
+    Category:Category,
     code: code
   };
  
@@ -1512,15 +1512,13 @@ success:function(data){
    {
       document.getElementById("submit_record_button").disabled = false;
       document.getElementById("submit_record_button_message").innerHTML ="";
-console.log(data);
+// console.log(data);
    }
-
    else if(data=='0')
    {
       document.getElementById("submit_record_button").disabled = true;
       document.getElementById("submit_record_button_message").innerHTML ="admissions already  completed for this district";
-
-      console.log(data);
+      // console.log(data);
    }
    else{
 
@@ -1606,7 +1604,7 @@ function searchPreRefNumber() {
                 spinner.style.display = 'none';
                 var data = JSON.parse(response);
                 document.getElementById("Name").value = data[0];
-                document.getElementById("Nationality_").value=data[6];
+               //  document.getElementById("Nationality_").value=data[6];
                 if (data[6]=='101')
                   {
                   $('#AdharCardNo_div').show('Slow');
@@ -1619,8 +1617,8 @@ function searchPreRefNumber() {
                   $('#AdharCardNo_div').hide('Slow');
                   document.getElementById('AdharCardNo').value="";
                   }
-                  document.getElementById("State_").value=data[7];
-                  document.getElementById("District").value=data[8];
+                  // document.getElementById("State_").value=data[7];
+                  // document.getElementById("District").value=data[8];
                   document.getElementById("Consultant_").value=data[12];
                   document.getElementById("FatherName").value=data[2];
                   if (data[6]=='101'){
