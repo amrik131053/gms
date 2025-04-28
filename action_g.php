@@ -26315,18 +26315,21 @@ $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
  if ($Examination != '') {
  $list_sql.=" AND ExamForm.Examination='$Examination' ";
  }
+
 if ($Status != '')
  {
 
-    if ($Status== 0)
+    if ($Status==0 && $Status=='')
     {
- $list_sql.=" ";
+ $list_sql.="AND MasterNodues.Account='$Status'";
     }
     else
     {
     $list_sql.=" AND MasterNodues.Account='$Status' ";
    }
  }
+
+
  
 $list_sql.="  ORDER BY MasterNodues.Account ASC";
 
@@ -26390,7 +26393,7 @@ else
              }
              if($Status==-1)
              {
-               $trColor="#cc0000";
+               $trColor="#cd5757";
 
              }
              elseif($Status==0)
