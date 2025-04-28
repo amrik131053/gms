@@ -6414,7 +6414,66 @@ if ($check_flow_row['status']<4) {
       }
       mysqli_close($conn);
          } 
-    elseif($code==78)
+    elseif($code==78.1)
+      {
+         $College=$_POST['College'];
+         $Course=$_POST['Course'];
+         $Batch=$_POST['Batch'];
+          
+                    $degree="SELECT * FROM degree_print where CollegeID='$College' and CourseID='$Course'  ANd Batch='$Batch' order by Id ASC  ";                     
+                   
+                     $degree_run=mysqli_query($conn,$degree);
+                     $srNo=1;
+                     while ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                    $uni=$degree_row['UniRollNo'];
+                    $dateupload=strtotime($degree_row['upload_date']);
+                    $upload_date=date( 'd-m-Y',$dateupload);
+                    $cgpa = isset($degree_row['CGPA']) ? (float) $degree_row['CGPA'] : 0;
+                    $formattedCGPA = number_format($cgpa, 2);
+                    $get_pending="SELECT * FROM Admissions where UniRollNo='$uni'";
+                    $get_pending_run=sqlsrv_query($conntest,$get_pending);
+                  if($row_pending=sqlsrv_fetch_array($get_pending_run))
+                  {
+                    $UniRollNo=$row_pending['UniRollNo'];
+                    $StudentName=$row_pending['StudentName'];
+                    $FatherName=$row_pending['FatherName'];
+                    $Sex=$row_pending['Sex'];
+                    $IDNo=$row_pending['IDNo'];
+                  } 
+
+                  ?>
+<tr>
+    <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>"></td>
+    <td><?=$srNo;?></td>
+    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b
+            style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+    <td><?=$StudentName;?></td>
+    <td><?=$FatherName;?></td>
+    <td><?=$degree_row['Examination'];?></td>
+    <td><?=$degree_row['Course'];?></td>
+    <td><?=$degree_row['Stream'];?></td>
+    <td><?=$formattedCGPA;?></td>
+    <td><?=$degree_row['QrCourse'];?></td>
+    <td><?=$Sex;?></td>
+    <td><?=$degree_row['Type'];?></td>
+    <td><?=$upload_date;?></td>
+    <td><button onclick="edit_student(<?=$degree_row['id'];?>);" data-toggle="modal" data-target="#for_edit"
+            class="btn btn-success btn-xs "><i class="fa fa-edit"></i></button></td>
+</tr>
+
+<?php 
+                  $srNo++;
+                    }
+                    ?>
+
+<?php 
+                    //   print_r($data);
+                    sqlsrv_close($conntest);
+                    mysqli_close($conn);
+      }
+
+         elseif($code==78)
       {
          $up_date=$_POST['upload_date'];
          $by_search_college=$_POST['by_search_college'];
