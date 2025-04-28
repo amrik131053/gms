@@ -179,7 +179,7 @@ foreach ($id as $key => $value) {
 
     <div class="content">
         <div>
-            <div style="margin-top: 25%;">
+            <div style="margin-top: 28%;">
                <?php  if($row['DMCCourse']!='')
                {?>
                  <p class="heading1"><?= strtoupper($row['DMCCourse']); ?></p>
