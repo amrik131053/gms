@@ -8207,9 +8207,9 @@ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON A
  } 
  ?>
  <tr>
-   <td colspan="11"> <label><input type="checkbox" class="abbre" name="abbrivations[]" value="NC - Non Credit"> &nbsp;&nbsp;NC- Non Credit&nbsp;</label>,
-  <label><input type="checkbox" class="abbre" name="abbrivations[]" value="S-Statisfactory"> &nbsp;&nbsp;S-Statisfactory&nbsp;</label>,
-  <label><input type="checkbox" class="abbre" name="abbrivations[]" value="NA-Not Applicable">&nbsp;&nbsp;NA -Not Applicable&nbsp;</label>
+   <td colspan="11"> <label><input type="checkbox" class="abbre" name="abbrivations[]" value=" NC - Non Credit"> &nbsp;&nbsp;NC- Non Credit&nbsp;</label>,
+  <label><input type="checkbox" class="abbre" name="abbrivations[]" value=" S-Statisfactory"> &nbsp;&nbsp;S-Statisfactory&nbsp;</label>,
+  <label><input type="checkbox" class="abbre" name="abbrivations[]" value=" NA-Not Applicable">&nbsp;&nbsp;NA -Not Applicable&nbsp;</label>
 </td>
   
    <td colspan="1">

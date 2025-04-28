@@ -1993,10 +1993,12 @@ else
            <th>Designation</th>
           <th>Email</th> 
           <th>Offical Email</th> 
-          <th>Phone</th>
+          <th>Phone</th> <th>AdharcardNo</th>
+           <th>PAN NO</th>
+           <th>Permanent Address</th>
+           <th>Correspondence Address</th>
            
-            <th>AdharcardNo</th>
-            <th>PAN NO</th>
+           
             <th>Date Of Joining</th>
           <th>Ph.D</th>
           
@@ -2018,6 +2020,11 @@ else
       $OfficialEmailID = $row['OfficialEmailID'];
       $phone = $row['MobileNo'];
       $adhar = $row['AadhaarCard'];
+      $PermanentAddress = $row['PermanentAddress'];
+      $CorrespondenceAddress = $row['CorrespondanceAddress'];
+      $District = $row['District'];
+      $State = $row['State'];
+
       $pan = $row['PANNo'];
           $doj = $row['DateOfJoining']->format('d-m-Y');
       $Phd = $row['Phd'];
@@ -2035,7 +2042,12 @@ else
                 <td>{$OfficialEmailID}</td>
                 <td>{$phone}</td>
                  <td>{$adhar}</td>
-                  <td>{$pan}</td>
+                   <td>{$pan}</td>
+                 <td>{$PermanentAddress}</td>
+                 <td>{$CorrespondenceAddress}</td>
+                 <td>{$District}</td>
+                 <td>{$State}</td>
+                                
                    <td>{$doj}</td>
                 <td>{$Phd}</td>
             </tr>";

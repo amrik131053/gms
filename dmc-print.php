@@ -439,7 +439,7 @@ function searchDmcRecord() {
        }
    }
    xmlhttp.open("GET", "get_action.php?code=" + 73, true);
-   xmlhttp.send();
+   xmlhttp.send(); 
 
 }
 searchDmcRecord();
