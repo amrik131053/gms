@@ -493,7 +493,7 @@ $accepttype='';
 <input type="hidden"  value="<?= $CollegeID;?>" id="post_collgeId">
 <input type="hidden"  value="<?= $CourseID;?>" id="post_courseid">
 <input type="hidden"  value="<?= $Batch;?>" id="Batch">
-<input type="text"  value="<?= $id;?>" id="eid">
+<input type="hidden"  value="<?= $id;?>" id="eid">
 <input type="hidden" value="" id="post_sgpa">
 
 <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify;  ;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
@@ -567,7 +567,7 @@ $Batch=$_POST['Batch'];
                     $Title='d';
 
 
-                echo     $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`, `CollegeCsv`, `Course1`, `QrCourse`, `Title`,`CollegeID`,`CourseID`,`Batch`) 
+               $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`, `CollegeCsv`, `Course1`, `QrCourse`, `Title`,`CollegeID`,`CourseID`,`Batch`) 
                  VALUES ('$UniRollNo', '$SGPA', '$Name', '$Fname', '$UniRollNo', '$Course', '$Examination', '$ExtraRow', '$DType', '$Stream', '$timeStamp','$Outof', '$CollegeCsv', '$CourseD', '$QRCourse', '$Title','$CollegeID','$CourseID','$Batch')";
         
         
