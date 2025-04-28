@@ -255,7 +255,7 @@ for($i=1;$i<=12;$i++)
             
 
      </div>
-                        <div id="updatecoursename">
+                        <div id="updatecoursename1">
 
 
                         </div>
@@ -368,7 +368,7 @@ var CollegeID = document.getElementById('College1').value;
         },
         success: function(response) {
 
- document.getElementById("updatecoursename").innerHTML = response;
+ document.getElementById("updatecoursename1").innerHTML = response;
 
             spinner.style.display = 'none';
            

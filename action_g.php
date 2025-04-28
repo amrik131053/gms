@@ -40842,6 +40842,47 @@ $SrNo++;
                                     <?php 
 sqlsrv_close($conntest);        
 }
+
+ elseif($code==456.2)
+ {
+ $SubjectCode=$_POST['SubjectCode'];
+ $Subject=$_POST['Subject'];
+ 
+  $insertResult="UPDATE ResultPreparationDetail SET SubjectName='$Subject' where SubjectCode='$SubjectCode'";
+  $result = sqlsrv_query($conntest,$insertResult);
+     
+ }
+ elseif($code==456.3)
+ {
+ $CollegeID=$_POST['CollegeID'];
+ $CourseID=$_POST['CourseID'];
+ 
+  $data="SELECT Distinct DMCCourse,CourseID from ResultPreparation where CollegeID='$CollegeID' ANd CourseID='$CourseID'";
+  $result = sqlsrv_query($conntest,$data);
+         while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+         {
+           ?>
+ <label>Course Name</label>
+ <input type="text" class="form-control" name="" id='newupdatedcourse' value="<?= $row['DMCCourse'];?>"><br>
+ <input type="hidden" class="form-control" name="" id='newupdatedcourseid' value="<?= $row['CourseID'];?>">
+ 
+ <button onclick="updatecoursename()" class="btn btn-primary">Update</button>
+ 
+           <?php 
+ }
+ }
+ elseif($code==456.4)
+ {
+ $newupdatedcourseid=$_POST['newupdatedcourseid'];
+ $newupdatedcourse=$_POST['newupdatedcourse'];
+ 
+ $insertResult="UPDATE ResultPreparation SET DMCCourse='$newupdatedcourse' where CourseID='$newupdatedcourseid'";
+ 
+  $result = sqlsrv_query($conntest,$insertResult);
+        
+ 
+     
+ }
 elseif($code==457)
 {
    $sgroup=$_POST['sgroup'];
