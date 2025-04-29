@@ -97,6 +97,10 @@ if ($row=mysqli_fetch_array($get_student_details_run))
 {
     $intership=" + 1 Year Internship";
 }
+else
+{
+     $intership='';
+}
 
 
 
