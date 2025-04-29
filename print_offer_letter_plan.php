@@ -222,10 +222,7 @@ $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
 
-if($Course=='158')
-{
-    $intership="+ 1 year Internship";
-}
+
 
 $pdf->SetFont('Times', '', 10);
 $pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'   as is given below: ',0, 'L');
