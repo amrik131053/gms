@@ -221,8 +221,14 @@ $pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' 
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
+
+if($Course=='158')
+{
+    $intership="+ 1 year Internship";
+}
+
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'  as is given below: ',0, 'L');
+$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'   as is given below: ',0, 'L');
 $pdf->SetFont('Times', '', 10);
   // It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'.
 // $pdf->SetFont('Times', 'B', 10);

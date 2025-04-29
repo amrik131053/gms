@@ -196,6 +196,10 @@ $ms="Ms.";    // code...
 
 }
 // $pdf->SetXY(155, 100);
+if($Course=='158')
+{
+    $intership="+ One Year Internship";
+}
 
 
 //$pdf->Image('offer_letter.jpeg', 0, 0, 210);
@@ -221,7 +225,7 @@ $pdf->MultiCell(190, 10, 'BONAFIDE CERTIFICATE', 0, 'C');
 $pdf->SetFont('Times', '', 12);
 
 //The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University.
-$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.''.$Leet_Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.'. The student will abide by  university rules and regulations . This letter is valid for admission and is being issued with the approval of Worthy Vice-Chancellor. Further University will assist in placement to eligible Candidate.',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.''.$Leet_Duration.$intership.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.'. The student will abide by  university rules and regulations . This letter is valid for admission and is being issued with the approval of Worthy Vice-Chancellor. Further University will assist in placement to eligible Candidate.',0, 'J');
 $pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a approved by UGC, New Delhi University under section 2f and empowered to confer degrees as per the section 22(1) of the UGC Act,1956.The University is accredited  with Grade A++ by National Assessment & Accreditation Council (NAAC).',0, 'J');
  //This Letter is valid for Two weeks only.
 $X=$pdf->GETX();

@@ -93,6 +93,13 @@ if ($row=mysqli_fetch_array($get_student_details_run))
   {
     $PrintDate='';
   }
+  if($Course=='158')
+{
+    $intership=" + 1 Year Internship";
+}
+
+
+
   $Duration=$row['Duration'];
   $Duration_leet=$row['Duration'];
 
@@ -103,7 +110,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Leet_Duration="".$Duration_leet." Years Lateral Entry)";
   }
   else{
-    $Leet_Duration=$Duration." Years)";
+    $Leet_Duration=$Duration." Years".$intership.")";
   }
 
      $Months=$row['months'];
@@ -223,7 +230,7 @@ $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'  as is given below: ',0, 'L');
+$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.'('.$Leet_Duration.''. $mduration.'  as is given below: ',0, 'L');
 $pdf->SetFont('Times', '', 10);
   // It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'.
 // $pdf->SetFont('Times', 'B', 10);
