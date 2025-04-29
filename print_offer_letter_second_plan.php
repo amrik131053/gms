@@ -200,6 +200,10 @@ if($Course=='158')
 {
     $intership="+ One Year Internship";
 }
+else
+{
+  $intership='';  
+}
 
 
 //$pdf->Image('offer_letter.jpeg', 0, 0, 210);
