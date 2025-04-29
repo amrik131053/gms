@@ -613,14 +613,14 @@ $Y=$pdf->GETY();
 
 $pdf->SetXY($X, $Y);
 
-$pdf->Cell(190, 4,'Bank Name         :   Indian Bank', 0, 'L');
+$pdf->Cell(190, 4,'Bank Name          :   Indian Bank', 0, 'L');
 $pdf->SetXY($X, $Y+5);
 $pdf->Cell(190, 4,'AccountNo          :   6058205486', 0, 'L');
 
 $pdf->SetXY($X, $Y+10);
-$pdf->Cell(190, 4,'IFSC Code          :    IDIB000F009', 0, 'L');
+$pdf->Cell(190, 4,'IFSC Code           :    IDIB000F009', 0, 'L');
 $pdf->SetXY($X, $Y+15);
-$pdf->Cell(190, 4,'Branch               :   Fatehgarh Naubad,Talwandi Sabo ', 0, 'L');
+$pdf->Cell(190, 4,'Branch                :   Fatehgarh Naubad,Talwandi Sabo ', 0, 'L');
 $pdf->SetXY($X, $Y+20);
 $pdf->Cell(190, 4,'Account Name    :   Guru Kashi University', 0, 'L');
 $X=$pdf->GETX();
