@@ -304,7 +304,7 @@ $pdf->SetXY($X,10+$Y);
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X,$Y+30);
-$pdf-> Image('dist/img/sign-offer.png',$X+159, $Y+20,24,20.5);
+$pdf-> Image('dist/img/sign-offer.png',$X+159, $Y+20,38,20.5);
 $pdf-> Image('dist/img/sign.png',$X+155, $Y+5,30,26.5);
 // $pdf->Image('dist/img/sign.png', $X+155, $Y+1, 30);
 $pdf->SetFont('Times', 'B', 11);
