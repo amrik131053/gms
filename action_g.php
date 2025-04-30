@@ -40825,10 +40825,12 @@ elseif($code==456.1)
                                     <th>SGPA</th>
                                     <th>Total Credit</th>
                                     <th>Type</th>
-                                    <th>Result Verify By</th>
-                                    <th>Result Verify Date</th>
                                     <th>DMC GeneratedBy By</th>
                                     <th>DMC Generate Date</th>
+                                     <th>Result Verify Date</th>
+                                    <th>Result Verify By</th>
+                                   
+                                    
                                     <th>DMC Verified By</th>
                                     <th>DMC Verified Date</th>
                                     <th>DMC printed By</th>
@@ -40855,11 +40857,31 @@ $decdate=$row['Timestamp']->format('d-m-Y h:i:s');
                                         <?= $decdate;?></td>
                                     <td><?=$row['VerifiedBy'];?></td>
                                     <td><?=$row['DMCGeneratedBy'];?></td>
-                                    <td><?=$row['DMCGenerateOn']->format('d-m-Y');?></td>
-                                    <td><?=$row['DMCVerifiedBy'];?></td>
-                                    <td><?=$row['DMCVerifiedOn']->format('d-m-Y');?></td>
-                                    <td><?=$row['DMCprintedBy'];?></td>
-                                    <td><?=$row['DMCprintedOn']->format('d-m-Y');?></td>
+                                    <td>
+                                       <?php if($row['DMCGenerateOn']!='')
+                                       {
+                                       echo  $row['DMCGenerateOn']->format('d-m-Y');
+                                       }?>
+                                           
+                                       </td>
+                                    <td>
+                                        <?=$row['DMCVerifiedBy'];?></td>
+                                    <td>
+
+<?php if($row['DMCVerifiedOn']!='')
+                                       {
+                                       echo  $row['DMCVerifiedOn']->format('d-m-Y');
+                                       }?>
+
+                                       </td>
+                                    <td>
+                                        <?=$row['DMCprintedBy'];?></td>
+                                    <td>
+                                        <?php if($row['DMCprintedOn']!='')
+                                       {
+                                       echo  $row['DMCprintedOn']->format('d-m-Y');
+                                       }?>
+                                       </td>
                                     <?php         
 }?>
                                     <table class="table">
