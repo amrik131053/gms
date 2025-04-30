@@ -26915,11 +26915,11 @@ else
             echo $issueDate;?>
 
             </td>
-            <td><?php 
+            <td><?php
 
 if($Status==-1)
              {
-               echo "<b>Rejected</b>";
+               echo "<b>Rejected </b>";
 
              }
              
@@ -28334,10 +28334,11 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 </div>
 <br>
          <?php 
+  
 
 
 
-    if($NoDuesStatus==0 OR $NoDuesStatus==''){?>
+    if($NoDuesLibrary==0 OR $NoDuesLibrary==''){?>
 
 <label class='text-danger text-sm'>Reject Remarks</label>
 <textarea class=" form-control " name="" id="remarkReject"> </textarea>
@@ -28352,7 +28353,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
     Verify</button> -->
 <?php }?>
 
-<?php if($NoDuesStatus>0 && $final>0 && $final<3){?>
+<?php if($NoDuesLibrary>0 && $final>0 && $final<3){?>
 
 <textarea class=" form-control " name="" id="remarkReject"></textarea>
 <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
@@ -28363,7 +28364,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 
 
 <?php 
-if($NoDuesStatus==-1){?>
+if($NoDuesLibrary==-1){?>
 
 <p style="color:red;font-size: 20px">Rejected   Due to <u> <?=$AccountantRejectReason;?></u></p>
 <br>
