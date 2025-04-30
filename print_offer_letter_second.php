@@ -190,7 +190,10 @@ if($Course=='158')
 {
     $intership="+ One Year Internship";
 }
-
+else
+{
+  $intership='';  
+}
 
 
 $ge1="son";
