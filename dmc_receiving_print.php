@@ -32,7 +32,7 @@ $pdf->AddPage();
 $pdf->SetFont('Times', '', 8);
 
 // Define table structure
-$header = array('Sr No','DMC SrNo', 'Grade Card No', 'Class RollNo','Uni RollNo','Name', 'Signature');
+$header = array('Sr No','Uni RollNo','Name','DMC SrNo', 'Grade Card No', 'Class RollNo', 'Signature');
 $cellWidth = 60;
 $cellHeight = 10;
 
@@ -86,6 +86,8 @@ $GetSmartCardDetailsRun2 = sqlsrv_query($conntest, $sql12);
 
 if ($row2 = sqlsrv_fetch_array($GetSmartCardDetailsRun2, SQLSRV_FETCH_ASSOC)) {
     $DMCprintedOn = $row2['DMCprintedOn']->format('d-m-Y');
+    $Examination = $row2['Examination'];
+    $Semester = $row2['Semester'];
     $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row2['CourseID']."' and Session='".$row2['Session']."' and Batch='".$row2['Batch']."' ";
     $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
     if($row2getCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
@@ -104,12 +106,18 @@ $pdf-> Image('dist\img\naac-logo.jpg',160,2,40,10);
 $pdf->SetXY(3, 10);
 $pdf->SetFont('Times', 'b', 15);
 $pdf->Multicell(205,10, 'DMC Receiving Sheet',0,'C');
-$pdf->SetXY(53, 20);
+$pdf->SetXY(53, 19);
 $pdf->SetFont('Times', 'b', 10);
 $pdf->Multicell(150,10, $CourseShortName1,0,'R');
+$pdf->SetXY(153, 26);
+$pdf->SetFont('Times', 'b', 10);
+$pdf->Multicell(50,5, "Semester: ".$Semester,0,'R');
 $pdf->SetXY(3, 20);
 $pdf->SetFont('Times', 'b', 10);
-$pdf->Multicell(50,10, "Print On: ".$DMCprintedOn,0,'L');
+$pdf->Multicell(50,5, "Print On: ".$DMCprintedOn,0,'L');
+$pdf->SetXY(3, 25);
+$pdf->SetFont('Times', 'b', 10);
+$pdf->Multicell(50,5, "Examination: ".$Examination,0,'L');
 $pdf->SetFont('Times', 'b', 10);
  $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.BatchID='$id' and Rp.DMCSerialNoStatus='1'";
 $GetSmartCardDetailsRun = sqlsrv_query($conntest, $sql1);
@@ -131,13 +139,13 @@ while ($row = sqlsrv_fetch_array($GetSmartCardDetailsRun, SQLSRV_FETCH_ASSOC)) {
     }
     $pdf->SetXY(3, $rowY);
     $pdf->Cell(10, $cellHeight, $Srno, 1, 0, 'C', 0);
-    $pdf->Cell(20, $cellHeight, $DMCSerialNo, 1, 0, 'C', 0);
-    $pdf->Cell(25, $cellHeight, $GradeCardSrNo, 1, 0, 'C', 0);
-    $pdf->Cell(30, $cellHeight, $ClassRollNo, 1, 0, 'C', 0);
     $pdf->Cell(30, $cellHeight, $UniRollNo, 1, 0, 'C', 0);
     $pdf->SetFont('Times', 'b', 8);
     $pdf->Cell($cellWidth, $cellHeight, $StudentName, 1, 0, 'C', 0);
     $pdf->SetFont('Times', 'b', 10);
+    $pdf->Cell(20, $cellHeight, $DMCSerialNo, 1, 0, 'C', 0);
+    $pdf->Cell(25, $cellHeight, $GradeCardSrNo, 1, 0, 'C', 0);
+    $pdf->Cell(30, $cellHeight, $ClassRollNo, 1, 0, 'C', 0);
     // $pdf->Cell($cellWidth, $cellHeight, $CourseShortName, 1, 0, 'C', 0);
     // $pdf->Cell(30, $cellHeight, $DMCprintedOn, 1, 0, 'C', 0);
     $pdf->Cell(25, $cellHeight, '', 1, 0, 'C', 0);
