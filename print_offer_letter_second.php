@@ -188,7 +188,7 @@ else
 
 if($Course=='158')
 {
-    $intership="+ One Year Internship";
+    $intership="+ Internship";
 }
 else
 {

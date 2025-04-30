@@ -88,7 +88,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
 
  if($Course=='158')
 {
-    $intership=" + 1 Year Internship";
+    $intership=" + Internship";
 }
 else
 {
