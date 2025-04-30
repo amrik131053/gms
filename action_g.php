@@ -6414,7 +6414,66 @@ if ($check_flow_row['status']<4) {
       }
       mysqli_close($conn);
          } 
-    elseif($code==78)
+    elseif($code==78.1)
+      {
+         $College=$_POST['College'];
+         $Course=$_POST['Course'];
+         $Batch=$_POST['Batch'];
+          
+                    $degree="SELECT * FROM degree_print where CollegeID='$College' and CourseID='$Course'  ANd Batch='$Batch' order by Id ASC  ";                     
+                   
+                     $degree_run=mysqli_query($conn,$degree);
+                     $srNo=1;
+                     while ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                    $uni=$degree_row['UniRollNo'];
+                    $dateupload=strtotime($degree_row['upload_date']);
+                    $upload_date=date( 'd-m-Y',$dateupload);
+                    $cgpa = isset($degree_row['CGPA']) ? (float) $degree_row['CGPA'] : 0;
+                    $formattedCGPA = number_format($cgpa, 2);
+                    $get_pending="SELECT * FROM Admissions where UniRollNo='$uni'";
+                    $get_pending_run=sqlsrv_query($conntest,$get_pending);
+                  if($row_pending=sqlsrv_fetch_array($get_pending_run))
+                  {
+                    $UniRollNo=$row_pending['UniRollNo'];
+                    $StudentName=$row_pending['StudentName'];
+                    $FatherName=$row_pending['FatherName'];
+                    $Sex=$row_pending['Sex'];
+                    $IDNo=$row_pending['IDNo'];
+                  } 
+
+                  ?>
+<tr>
+    <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>"></td>
+    <td><?=$srNo;?></td>
+    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b
+            style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+    <td><?=$StudentName;?></td>
+    <td><?=$FatherName;?></td>
+    <td><?=$degree_row['Examination'];?></td>
+    <td><?=$degree_row['Course'];?></td>
+    <td><?=$degree_row['Stream'];?></td>
+    <td><?=$formattedCGPA;?></td>
+    <td><?=$degree_row['QrCourse'];?></td>
+    <td><?=$Sex;?></td>
+    <td><?=$degree_row['Type'];?></td>
+    <td><?=$upload_date;?></td>
+    <td><button onclick="edit_student(<?=$degree_row['id'];?>);" data-toggle="modal" data-target="#for_edit"
+            class="btn btn-success btn-xs "><i class="fa fa-edit"></i></button></td>
+</tr>
+
+<?php 
+                  $srNo++;
+                    }
+                    ?>
+
+<?php 
+                    //   print_r($data);
+                    sqlsrv_close($conntest);
+                    mysqli_close($conn);
+      }
+
+         elseif($code==78)
       {
          $up_date=$_POST['upload_date'];
          $by_search_college=$_POST['by_search_college'];
@@ -26856,11 +26915,11 @@ else
             echo $issueDate;?>
 
             </td>
-            <td><?php 
+            <td><?php
 
 if($Status==-1)
              {
-               echo "<b>Rejected</b>";
+               echo "<b>Rejected </b>";
 
              }
              
@@ -28275,10 +28334,11 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 </div>
 <br>
          <?php 
+  
 
 
 
-    if($NoDuesStatus==0 OR $NoDuesStatus==''){?>
+    if($NoDuesLibrary==0 OR $NoDuesLibrary==''){?>
 
 <label class='text-danger text-sm'>Reject Remarks</label>
 <textarea class=" form-control " name="" id="remarkReject"> </textarea>
@@ -28293,7 +28353,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
     Verify</button> -->
 <?php }?>
 
-<?php if($NoDuesStatus>0 && $final>0 && $final<3){?>
+<?php if($NoDuesLibrary>0 && $final>0 && $final<3){?>
 
 <textarea class=" form-control " name="" id="remarkReject"></textarea>
 <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
@@ -28304,7 +28364,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 
 
 <?php 
-if($NoDuesStatus==-1){?>
+if($NoDuesLibrary==-1){?>
 
 <p style="color:red;font-size: 20px">Rejected   Due to <u> <?=$AccountantRejectReason;?></u></p>
 <br>
@@ -40766,10 +40826,12 @@ elseif($code==456.1)
                                     <th>SGPA</th>
                                     <th>Total Credit</th>
                                     <th>Type</th>
-                                    <th>Result Verify By</th>
-                                    <th>Result Verify Date</th>
                                     <th>DMC GeneratedBy By</th>
                                     <th>DMC Generate Date</th>
+                                     <th>Result Verify Date</th>
+                                    <th>Result Verify By</th>
+                                   
+                                    
                                     <th>DMC Verified By</th>
                                     <th>DMC Verified Date</th>
                                     <th>DMC printed By</th>
@@ -40796,11 +40858,31 @@ $decdate=$row['Timestamp']->format('d-m-Y h:i:s');
                                         <?= $decdate;?></td>
                                     <td><?=$row['VerifiedBy'];?></td>
                                     <td><?=$row['DMCGeneratedBy'];?></td>
-                                    <td><?=$row['DMCGenerateOn']->format('d-m-Y');?></td>
-                                    <td><?=$row['DMCVerifiedBy'];?></td>
-                                    <td><?=$row['DMCVerifiedOn']->format('d-m-Y');?></td>
-                                    <td><?=$row['DMCprintedBy'];?></td>
-                                    <td><?=$row['DMCprintedOn']->format('d-m-Y');?></td>
+                                    <td>
+                                       <?php if($row['DMCGenerateOn']!='')
+                                       {
+                                       echo  $row['DMCGenerateOn']->format('d-m-Y');
+                                       }?>
+                                           
+                                       </td>
+                                    <td>
+                                        <?=$row['DMCVerifiedBy'];?></td>
+                                    <td>
+
+<?php if($row['DMCVerifiedOn']!='')
+                                       {
+                                       echo  $row['DMCVerifiedOn']->format('d-m-Y');
+                                       }?>
+
+                                       </td>
+                                    <td>
+                                        <?=$row['DMCprintedBy'];?></td>
+                                    <td>
+                                        <?php if($row['DMCprintedOn']!='')
+                                       {
+                                       echo  $row['DMCprintedOn']->format('d-m-Y');
+                                       }?>
+                                       </td>
                                     <?php         
 }?>
                                     <table class="table">

@@ -86,6 +86,14 @@ if ($row=mysqli_fetch_array($get_student_details_run))
                       
      }
 
+ if($Course=='158')
+{
+    $intership=" + 1 Year Internship";
+}
+else
+{
+     $intership='';
+}
 
   
        if($PrintDatew!='')
@@ -105,7 +113,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Leet_Duration="".$Duration_leet." Years Lateral Entry)";
   }
   else{
-    $Leet_Duration=$Duration." Years)";
+    $Leet_Duration=$Duration." Years".$intership.")";
   }
 
      $Months=$row['months'];
@@ -221,8 +229,11 @@ $pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' 
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
+
+
+
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'  as is given below: ',0, 'L');
+$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'   as is given below: ',0, 'L');
 $pdf->SetFont('Times', '', 10);
   // It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'.
 // $pdf->SetFont('Times', 'B', 10);
@@ -616,15 +627,14 @@ $pdf->SetFont('Times', '', 11);
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
-$pdf->SetXY($X, $Y);
-$pdf->Cell(190, 4,'Bank Name         :   Kotak Mahindra Bank', 0, 'L');
+$pdf->Cell(190, 4,'Bank Name          :   Indian Bank', 0, 'L');
 $pdf->SetXY($X, $Y+5);
-$pdf->Cell(190, 4,'AccountNo          :   9349731866', 0, 'L');
+$pdf->Cell(190, 4,'AccountNo          :   6058205486', 0, 'L');
 
 $pdf->SetXY($X, $Y+10);
-$pdf->Cell(190, 4,'IFSC Code          :    KKBK0000254', 0, 'L');
+$pdf->Cell(190, 4,'IFSC Code           :    IDIB000F009', 0, 'L');
 $pdf->SetXY($X, $Y+15);
-$pdf->Cell(190, 4,'Branch                :   SAS Nagar, Mohali,160059 Punjab', 0, 'L');
+$pdf->Cell(190, 4,'Branch                :   Fatehgarh Naubad,Talwandi Sabo ', 0, 'L');
 $pdf->SetXY($X, $Y+20);
 $pdf->Cell(190, 4,'Account Name    :   Guru Kashi University', 0, 'L');
 $X=$pdf->GETX();

@@ -4877,8 +4877,8 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>State </th>
     <th>District </th>
     <th>Nationality </th>
-     <th>ABC ID </th>
-      <th>OTR</th>
+     <th>OTR</th> <th>ABC ID </th>
+     
     <th>Remarks </th>
     <th>Status</th>
     <th>Locked</th>";

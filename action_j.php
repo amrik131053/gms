@@ -541,8 +541,9 @@ elseif($code==33)
  {
                   $IDNo = $_POST['IDNo'];
                   $UniRollNo = trim($_POST['UniRollNo']);
-                  $Name = $_POST['Name'];
-                  $Fname = $_POST['Fname'];
+                  $Name = ucwords(strtolower($_POST['Name']));
+                  $Fname = ucwords(strtolower($_POST['Fname']));
+                 
                   $Mname = $_POST['Mname'];
                   $College = $_POST['College'];
                   $Course = $_POST['Course'];

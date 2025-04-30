@@ -31,7 +31,7 @@
                   </div>
                   <div class="card-tools">
                      </div>
-                     <div class="input-group input-group-sm col-lg-6">
+                     <div class="input-group input-group-sm col-lg-8">
               
               <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo/Name">
                                    
@@ -61,10 +61,48 @@
 <?php 
                }?>
              </select>
-                                   
+  
+
+
 <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="date_by_search()">
 &nbsp;
 &nbsp;
+<select name="College" id='College' onchange="courseByCollege(this.value)"
+                                    class="form-control form-control-sm" >
+                                    <option value=''>Select College</option>
+                                    <?php
+
+                                    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where UserAccessLevel.IDNo='$EmployeeID'";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                        $college = $row1['CollegeName']; 
+                                        $CollegeID = $row1['CollegeID'];
+                                        ?>
+                                    <option value="<?=$CollegeID;?>"><?= $college;?></option>
+                                    <?php    }
+
+                                    ?>
+                                </select>
+                                
+                        
+                              
+                                <select name="Course" id="Course" class="form-control form-control-sm">
+                                    <option value=''>Select Course</option>
+
+                                </select>
+                                   <select name="batch" class="form-control form-control-sm" id="Batch" >
+                                    <option value="">Select</option>
+                                    <?php 
+                                    for($i=2013;$i<=2030;$i++)
+                                    {?>
+                                    <option value="<?=$i?>"><?=$i?></option>
+                                    <?php }
+                                                ?>
+
+                                </select>
+    <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="college_by_search()">
+&nbsp;                      
 &nbsp;
 <select class="form-control" id="code">
 <option value="">Select Type</option>
@@ -189,6 +227,39 @@ function verifiy_select() {
             $('#select_all1').prop('checked', false);
         }
     });
+
+}
+
+
+function college_by_search()
+{
+ var spinner = document.getElementById("ajax-loader");
+ spinner.style.display = 'block';
+ var code = 78.1;
+ var searchQuery = '';
+
+ var College=document.getElementById('College').value;
+ var Course=document.getElementById('Course').value;
+ var Batch=document.getElementById('Batch').value;
+  // alert(by_search_StreamName);
+ $.ajax({
+     url: 'action_g.php',
+     type: 'POST',
+     data: {
+         code: code,
+         College: College,
+         Course: Course,
+         Batch: Batch
+     },
+     success: function(data) {
+        document.getElementById('show_record').innerHTML=data;
+         spinner.style.display = 'none';
+
+},
+     error: function() {     
+         // spinner.style.display = 'none';
+     }
+ });
 
 }
 

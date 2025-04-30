@@ -93,6 +93,17 @@ if ($row=mysqli_fetch_array($get_student_details_run))
   {
     $PrintDate='';
   }
+  if($Course=='158')
+{
+    $intership=" + 1 Year Internship";
+}
+else
+{
+     $intership='';
+}
+
+
+
   $Duration=$row['Duration'];
   $Duration_leet=$row['Duration'];
 
@@ -103,7 +114,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Leet_Duration="".$Duration_leet." Years Lateral Entry)";
   }
   else{
-    $Leet_Duration=$Duration." Years)";
+    $Leet_Duration=$Duration." Years".$intership.")";
   }
 
      $Months=$row['months'];
@@ -223,7 +234,7 @@ $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'  as is given below: ',0, 'L');
+$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.'('.$Leet_Duration.''. $mduration.'  as is given below: ',0, 'L');
 $pdf->SetFont('Times', '', 10);
   // It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'.
 // $pdf->SetFont('Times', 'B', 10);
@@ -612,14 +623,15 @@ $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
 $pdf->SetXY($X, $Y);
-$pdf->Cell(190, 4,'Bank Name         :   Kotak Mahindra Bank', 0, 'L');
+
+$pdf->Cell(190, 4,'Bank Name          :   Indian Bank', 0, 'L');
 $pdf->SetXY($X, $Y+5);
-$pdf->Cell(190, 4,'AccountNo          :   9349731866', 0, 'L');
+$pdf->Cell(190, 4,'AccountNo          :   6058205486', 0, 'L');
 
 $pdf->SetXY($X, $Y+10);
-$pdf->Cell(190, 4,'IFSC Code          :   KKBK0000254', 0, 'L');
+$pdf->Cell(190, 4,'IFSC Code           :    IDIB000F009', 0, 'L');
 $pdf->SetXY($X, $Y+15);
-$pdf->Cell(190, 4,'Branch                :   SAS Nagar, Mohali,160059 Punjab', 0, 'L');
+$pdf->Cell(190, 4,'Branch                :   Fatehgarh Naubad,Talwandi Sabo ', 0, 'L');
 $pdf->SetXY($X, $Y+20);
 $pdf->Cell(190, 4,'Account Name    :   Guru Kashi University', 0, 'L');
 $X=$pdf->GETX();
@@ -628,7 +640,7 @@ $Y=$pdf->GETY();
 
 
 
-$pdf-> Image('dist/img/sign-offer.png',$X-30, $Y+5,24,20.5);
+$pdf-> Image('dist/img/sign-offer.png',$X-30, $Y+5,38,20.5);
 $pdf-> Image('dist/img/sign.png',$X-30, $Y-12,30,26.5);
 
 // $pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
