@@ -31781,7 +31781,7 @@ if($ifexitIDNo<1)
     if($admisisontype==4)
     {
 
-            $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeID' and CourseID='$Course' ANd Session='$session'";
+            $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeID' and CourseID='$Course' ANd Session='$Session'";
             $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
             if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
@@ -31794,7 +31794,7 @@ if($ifexitIDNo<1)
 
          $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
         mysqli_query($conn_online_pre_regist,$upd1); 
-         $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`, `Gender`, `CollegeName`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$MotherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
+         $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `Gender`, `CollegeName`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$Session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
 
 $insert_record_run = mysqli_query($conn, $insert_record);
 
@@ -32918,7 +32918,7 @@ else if($code==367.1)
 
         <!-- <div class="col-lg-3 col-md-3 col-sm-12"> -->
             <!-- <label>Consultant ID</label> -->
-            <input type='hidden' id="User_id" class="form-control" readonly required>
+            <input type='text' id="User_id" class="form-control" readonly required>
         <!-- </div> -->
 
         <!-- <div class="col-lg-3 col-md-3 col-sm-12">
