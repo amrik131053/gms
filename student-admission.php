@@ -18,9 +18,9 @@
                         <a class="btn btn-primary" id="btn2"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="oldAdmission(),bg(this.id);"> Old Admission </a>
-                              <a class="btn btn-primary" id="btn3"
+                             <!--  <a class="btn btn-primary" id="btn3"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="creditcardAdmission(),bg(this.id);"> Credit Card </a>
+                            onclick="creditcardAdmission(),bg(this.id);"> Credit Card </a> -->
                               <a class="btn btn-primary" id="btn6"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="preRegistrationAdmission(),bg(this.id);">Pre Registration </a>
@@ -433,7 +433,25 @@ if (![...categorySelect.options].some(option => option.value === data[5])) {
     //                document.getElementById("scholaship").value = data[9];
     //                 document.getElementById("Session").value = data[10];
     //                 document.getElementById("CollegeID").value = data[11];
-    //                 document.getElementById("Course").value = data[12];
+
+              const courseSelect = document.getElementById("Course");
+              const option = new Option(data[12], data[9], true, true);
+              courseSelect.appendChild(option);
+              courseSelect.value = data[9];
+
+
+              const collegeSelect = document.getElementById("CollegeID");
+              const optionc = new Option(data[10], data[11], true, true);
+              collegeSelect.appendChild(optionc);
+              collegeSelect.value = data[11];
+
+
+               const deptSelect = document.getElementById("Department");
+              const optiond = new Option(data[14], data[13], true, true);
+              deptSelect.appendChild(optiond);
+              deptSelect.value = data[13];
+
+                   //document.getElementById("Course").value = data[9];
     //                 document.getElementById("Department").value = data[13];
     //                             document.getElementById("LateralEntry").value = data[14];
     //                 document.getElementById("CourseName").value = data[15];

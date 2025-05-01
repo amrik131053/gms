@@ -9472,7 +9472,7 @@ elseif($code==132)
             $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
             if ($degree_row1=mysqli_fetch_array($degree_run1)) 
             {
-                  $Name = $degree_row1['email'];
+                  $Name = $degree_row1['name'];
                   $FatherName = $degree_row1['father_name'];
                   $MobileNo = $degree_row1['mobile_number'];
                   //    $Consultant = $degree_row1['erp_id'];
@@ -30814,12 +30814,12 @@ if($Status==6)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -31145,12 +31145,12 @@ if($Status==6)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -31777,11 +31777,27 @@ if($ifexitIDNo<1)
     {
          $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
         mysqli_query($conn,$upd);  
-    }
+ }
     if($admisisontype==4)
     {
+
+            $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeID' and CourseID='$Course' ANd Session='$session'";
+            $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+            if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
+
+                $duration=$row_collegecourse_name['Duration'];
+                
+                
+
+
+            }
+
          $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
-        mysqli_query($conn_online_pre_regist,$upd1);  
+        mysqli_query($conn_online_pre_regist,$upd1); 
+         $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`, `Gender`, `CollegeName`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$MotherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
+
+$insert_record_run = mysqli_query($conn, $insert_record);
+
     }
 
  $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry' and Batch='$Batch' AND SerieseType='$serieseType'";
@@ -32528,12 +32544,12 @@ else if($code==367)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -32808,12 +32824,12 @@ else if($code==367.1)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -32856,7 +32872,7 @@ else if($code==367.1)
         <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Session</label>
             <select class="form-control" id="Session" onchange="fetchCollege();">
-                <option value="">Select</option>
+               <option value="2025-26-A">2025-26-A</option>
                 <?php 
 
                       $get_country="SELECT DISTINCT Session FROM MasterCourseCodes where Isopen='1' ANd ((OpenDate>'$todaydate') OR (OpenDate is NULL))";
@@ -33124,8 +33140,8 @@ elseif($code==368.1)
         $value[2]=$degree_row['father_name'];
         $value[3]=$degree_row['mobile_number'];
         $value[4]=$degree_row['aadhaar_number'];
-        $value[5]=$degree_row['category'];;
-        
+        $value[5]=$degree_row['category'];
+             
          $degree1="SELECT * FROM users   WHERE  id='".$degree_row['user_id']."' order by Id DESC limit 1"; 
             $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
             if ($degree_row1=mysqli_fetch_array($degree_run1)) 
@@ -33134,8 +33150,23 @@ elseif($code==368.1)
             }
          $value[7]=$degree_row['id'];
          $value[8]=$degree_row['registration_number'];
+ $value[9]=$degree_row['course_id'];
 
 }
+
+ $coursedata="Select * from MasterCourseCodes inner join MasterDepartment on MasterCourseCodes.DepartmentId=MasterDepartment.ID where CourseID='$value[9]'";
+$stmtdata = sqlsrv_query($conntest,$coursedata);
+if($row11 = sqlsrv_fetch_array($stmtdata, SQLSRV_FETCH_ASSOC) )
+{
+$value[10]=$row11['CollegeName'];
+$value[11]=$row11['CollegeID'];
+$value[12]=$row11['Course'];
+$value[13]=$row11['DepartmentId'];
+$value[14]=$row11['Department'];
+}
+
+
+
     echo json_encode($value);
     sqlsrv_close($conntest);
     mysqli_close($conn);
