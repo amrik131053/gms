@@ -32755,7 +32755,7 @@ else if($code==367.1)
         <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Nationality</label>
             <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
-                <option value="">Select</option>
+                
                 <option value="Indian">Indian</option>
                 <option value="NRI">Other</option>
                 <option value="Nepal">Nepal</option>
