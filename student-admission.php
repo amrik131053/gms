@@ -645,7 +645,7 @@ function getFeeDetails() {
         type: 'POST',
         success: function(response) {
             spinner.style.display = 'none';
-            // console.log(response);
+             console.log(response);
             var data = JSON.parse(response);
             document.getElementById("feeparticulr").value = data[0];
             document.getElementById("feeTotalDebit").value = data[1];

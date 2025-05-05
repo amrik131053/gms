@@ -388,7 +388,8 @@ function add_addrole()
    spinner.style.display = 'block';
    var id= document.getElementById("user_id").value;
       var add_addroleid= document.getElementById("add_addroleid").value;
-   
+   if(id!='')
+   {
 
    var code=184.1; 
    $.ajax({
@@ -403,6 +404,7 @@ function add_addrole()
           SuccessToast('Successfully  Added');
       }
    });
+}
 }
 
 

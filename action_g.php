@@ -31061,14 +31061,9 @@ if($Status==6)
             <label>Semester</label>
             <select id="SemesterForFee" class="form-control" onchange="getFeeDetails();">
                 <option value="">Select</option>
-
-
                 <option value="1">First</option>
-
-                <option value="1">First/Aug</option>
-
-                <option value="1">First/Jan</option>
-
+               <!--  <option value="1">First/Aug</option>
+                <option value="1">First/Jan</option> -->
                 <option value="3">Third</option>
                 <option value="5">Fifth</option>
 
@@ -31618,8 +31613,20 @@ $Session=$_POST['Session'];
 $FeeCategory=$_POST['FeeCategory'];
 $SemesterForFee=$_POST['SemesterForFee'];
 $Batch=$_POST['Batch'];
- $sql = "SELECT  DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE 
- CourseID='$Course' and CollegeID='$College' and Batch='$Batch' and Semester='$SemesterForFee' ";
+
+$sqlf = "SELECT  FeeCategoryID   FROM MasterFeeCategory  WHERE   CollegeId='$College'  ANd FeeCategory='$FeeCategory' ";
+$stmtf = sqlsrv_query($conntest,$sqlf);  
+    if($rowf = sqlsrv_fetch_array($stmtf, SQLSRV_FETCH_ASSOC) )
+{
+    $FeeCategoryID=$rowf['FeeCategoryID'];
+   
+}
+
+
+
+
+$sql = "SELECT  DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE 
+ CourseID='$Course' and CollegeID='$College' and Batch='$Batch' and Semester='$SemesterForFee' ANd FeeCategory='$FeeCategoryID' ";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
@@ -32865,22 +32872,7 @@ else if($code==367.1)
     <!-- <hr style="background-color:#002149">  -->
     <div class="row">
 
-        <div class="col-lg-3 col-md-3 col-sm-12">
-            <label>Fee Category</label>
-            <select class="form-control" id="feecategory">
-                <option value="">Select</option>
-                <?php 
-                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
-                      $get_country_run=sqlsrv_query($conntest,$get_country);
-                      while($row_Session=sqlsrv_fetch_array($get_country_run))
-                      {
-                        ?>
-                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
-                <?php }
-                     ?>
-            </select>
-
-        </div>
+       
 
         <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Scholarship</label>
@@ -32960,11 +32952,26 @@ else if($code==367.1)
                 <option value="">Select</option>
             </select>
         </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+            <label>Fee Category</label>
+            <select class="form-control" id="feecategory">
+                <option value="">Select</option>
+                <?php 
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {
+                        ?>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
+                <?php }
+                     ?>
+            </select>
 
+        </div>
 
         <!-- <div class="col-lg-3 col-md-3 col-sm-12"> -->
             <!-- <label>Consultant ID</label> -->
-            <input type='text' id="User_id" class="form-control" readonly required>
+            <input type='hidden' id="User_id" class="form-control" readonly  required>
         <!-- </div> -->
 
         <!-- <div class="col-lg-3 col-md-3 col-sm-12">
