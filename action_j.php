@@ -66,8 +66,552 @@ window.location.href = "index.php";
         {
             include "connection/ftp-erp.php";
         }
+ // Mobile Stock //
+        elseif($code==25.3)
 
-// prepare Degree
+   {
+     ?><div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Add Article</b>
+        
+       </div>
+        </div>
+           
+              <label>Name of Article</label>
+              <select class="form-control" id="ArticleName">
+                <option value>Select</option>
+                <option>Mobile</option>
+                <option>SIM</option>
+            </select>
+                <!-- <input type="text" name="ArticleName" id='ArticleName'placeholder="Name of Article"  class="form-control"> -->
+
+<!-- <label>Description</label>
+                <input type="text" name="ArticleSpecification" id='ArticleSpecification' placeholder="Specification"  class="form-control"> -->
+<br>
+<button onclick="submitarticle()"  class="btn btn-primary">Add</button>
+              </div>
+
+
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Manage Article</b>
+</div>
+         <div id="showarticle"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+         </div>
+
+  <?php 
+  sqlsrv_close($conntest); 
+}
+
+elseif($code==25.4)
+
+   {
+ $ArticleName=$_POST['ArticleName'];
+ $ArticleSpecification=$_POST['ArticleSpecification'];
+   
+ $update1="insert into mobilestockarticle(Name,Description,CreatedBy,CreatedDate,Status)Values
+    ('$ArticleName','$ArticleSpecification','$EmployeeID','$timeStampS','0')";
+
+
+
+
+$addrun=mysqli_query($connection_s,$update1);
+
+mysqli_close($connection_s);
+echo "1";
+      }
+
+
+
+elseif($code==25.5)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+         $get_group="SELECT * FROM mobilestockarticle";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            $status=$row['Status'];
+            if($status=='1'){
+              $show='ON';
+              $color='';            
+            }
+            else
+            {
+                $show='OFF';   
+                $color='red';          
+            }
+            ?>
+        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><input type="text" class="form-control" id='arname<?=$row['ID'];?>' value="<?=$row['Name'];?>" onblur='chnageName(<?=$row['ID'];?>)'></b>
+            </th>
+            <th><b><?=$row['Description'];?></b></th>
+             <th><b><?=$row['CreatedBy'];?></b></th>
+             <th><b><?=$row['CreatedDate'];?></b></th>
+            <th>
+
+                <div class="form-check form-switch">
+                    <select class="form-control" id='toggleForm<?=$row['ID'];?>' onchange="updateStatus(<?=$row['ID'];?>)" style="color: <?=$color;?>">
+                         <option value="<?=$status;?>"><?=$show;?></option>
+  <option value="1">ON</option>
+   <option value="0">OFF</option>
+                    </select>
+   
+ 
+</div></th>
+        </tr>
+        <?php 
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+      elseif($code==25.6)
+
+   {
+ $id=$_POST['id'];
+$status=$_POST['status'];
+
+ $asd="Update mobilestockarticle set Status='$status' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+
+
+mysqli_close($connection_s);
+
+echo "1";
+      }
+
+// Add Stock //
+      elseif($code==25.7)
+
+   {
+     ?>
+     <div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Add Stock</b>
+        
+       </div>
+        </div>
+           
+              <label>Name of Article</label>
+              <select class="form-control" id='articlecode' onchange="showdiv(this.value);">
+                <option value="">Select</option>
+              <?php $get_group="SELECT * FROM mobilestockarticle";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {?>
+            <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+            <?php }?>
+
+</select>
+           
+<div id="showMobile" style="display: none;">
+    <label>Mobile Model</label>
+<input type="text" id="mobile_model" class="form-control" name="Mobile Model">
+ <label>Brand</label>
+<input type="text" id="brand" class="form-control" name="brand">
+ <label>Configration</label>
+<input type="text" id="configuration" class="form-control" name="configuration">
+</div>
+<div id="showSIM" style="display: none;">
+    <label>SIM Number</label>
+<input type="text" id="sim_number" class="form-control" name="sim_number">
+
+</div>
+<!-- <div id="articlecode">
+
+<label>Quantity</label>
+                <input type="number"  id='quantity' placeholder=""  class="form-control">
+</div> -->
+
+<br>
+<button onclick="submitstock()"  class="btn btn-primary">Add</button>
+              </div>
+
+
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id="showstock">
+        </div>        
+        </div>  
+        </div> 
+
+  <?php 
+  sqlsrv_close($conntest); 
+}
+
+elseif($code==25.8)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Model</th>
+            <th>Brand</th>
+            <th>Configration</th>
+            <th>Sim Number</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+          $get_group="SELECT * FROM  mobilestockadd  as ms inner join mobilestockarticle as ma  on ma.ID=ms.ArticleID";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['Name'];?>(<?=$row['ID'];?>)</b>
+            </th>
+             <th><b><?=$row['mobile_model'];?></b></th>
+             <th><b><?=$row['brand'];?></b></th>
+             <th><b><?=$row['configuration'];?></b></th>
+             <th><b><?=$row['sim_number'];?></b></th>
+          
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+
+     elseif($code == 25.9) {
+
+    $articlecode = $_POST['articlecode'];
+    // $quantity = $_POST['quantity']; // commented out, but if needed, you can include this
+    $mobile_model = $_POST['mobile_model'];
+    $brand = $_POST['brand'];
+    $configuration = $_POST['configuration'];
+    $sim_number = $_POST['sim_number'];
+
+    $result_z = mysqli_query($connection_s, 
+        "INSERT INTO mobilestockadd 
+        (ArticleID, mobile_model, brand, configuration, sim_number)
+        VALUES ('$articlecode', '$mobile_model', '$brand', '$configuration', '$sim_number')"
+    );
+
+    // Optional: check if insert was successful
+    if ($result_z) {
+       
+    } else {
+        echo "Error: " . mysqli_error($connection_s);
+    }
+
+    mysqli_close($connection_s);
+}
+
+
+elseif($code==26)
+
+
+   {
+
+    $code_access=$_POST['code_access'];?>
+<div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Issue Request</b>
+        
+       </div>
+       <script>
+
+            </script><br>
+               <div class="btn-group input-group-sm" style="text-align:center;">
+
+ <input type="radio"   id="ossm1"  onclick="emc1_hide();" name="Employee"   checked="" value="0" required="" hidden>  
+
+                       <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                       <input type="radio"  id="ossm"  name="Employee"   required=""  onclick="emc1_show();" value="1" name="empc1" hidden>  
+
+                       <!-- <label for="ossm" class="btn btn-xs">Other</label> -->
+    </div>
+                      <!-- <div class="col-md-12" style="display: none;" id="lect_div">   
+                        <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                      <select class="form-control" id='emptype'>
+                         
+                          <option value="Guest">Guest</option>
+                            <option value="Field Team">FieldTeam</option>
+                              <option value="Consultant">Consultant</option>
+                                <option value="Other">Other</option>
+
+                      </select>   
+  <label>Name <span style="color: red">*</span></label>
+  <input type="text" name="name_visitor" id="empNames" class="form-control">
+  
+  <label>Detail <span style="color: red">*</span></label>
+  <input type="text"  id="empDetail" class="form-control">
+ 
+  
+  </div> -->
+
+  <div class="col-md-12"  id="lect_div1">
+ <label>Employee ID</label>
+<input type="text" class="form-control" name="" id='empID' onblur="emp_detail_verify1(this.value)" >
+<span id='emp-data' style="font-weight:bold"></span><br>
+<label>Article Type</label>
+
+<select class="form-control" id="empName" onchange="bus(this.value)"> 
+<option value>Select</option>
+
+<?php  
+$getDrop="SELECT * FROM mobilestockarticle where status='1'";
+$getDropRun=mysqli_query($connection_s,$getDrop);
+while($row=mysqli_fetch_array($getDropRun))
+{
+?>
+<option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+<?php }?>
+<!-- <input type="text" class="form-control"  placeholder="Number" id='empDescription' > -->
+
+<br>
+                         
+</select>
+<label>Article Discription</label>
+<select class="form-control" id="mobileData" > 
+
+</select>
+
+</div>
+<br>       
+<br>
+<button onclick="IssueStock()"  class="btn btn-primary">Issue Stock</button>
+              </div>
+
+    </div>
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id="issuedstocklist"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+         </div>
+
+  <?php 
+  sqlsrv_close($conntest); 
+
+      }
+
+elseif($code==26.1)
+
+   {
+ $id=$_POST['id'];
+$ArticleName=$_POST['ArticleName'];
+
+$get_group="SELECT * FROM mobilestockarticle where  ID='$id'";   
+
+$sr=1;
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+ $oldname=$row['Name'];
+
+}
+ $asd="Update mobilestockarticle set Name='$ArticleName' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+ $update1="insert into trackchnages(userID,newname,oldname,createddate)Values('$EmployeeID','$ArticleName','$oldname','$timeStamp')";
+
+$addrun=mysqli_query($connection_s,$update1);
+
+mysqli_close($connection_s);
+
+
+      }
+
+
+   elseif($code==26.2)
+
+   {
+ $empID=$_POST['empid'];
+  $empName=$_POST['empName'];
+  $nameEmp=$_POST['name'];
+   
+   $mobileData=$_POST['mobileData'];
+   
+$insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy)Values
+                                        ('$empID','$nameEmp','$mobileData','$empName','$timeStamp','$EmployeeID')";
+
+$addrun=mysqli_query($connection_s,$insert);
+
+
+      }
+
+    elseif($code==26.3)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+             
+            <th>Employee</th>
+           <th>Type</th>
+            <th>Model/Sim No</th>
+              <th>Issued By</th>
+              <th>View</th>
+
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+          $get_group="SELECT *,mobilestockarticle.Name as AName,mobilestockledger.Name as EName FROM  mobilestockledger inner join mobilestockadd ON mobilestockledger.StockID=mobilestockadd.ID inner join mobilestockarticle ON mobilestockarticle.ID=mobilestockadd.ArticleID order by mobilestockledger.ID desc limit 10";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+         
+            <th>
+                <b><?=$row['EName'];?>(<?=$row['IDNo'];?>)</b>
+            </th>
+            <th>
+                <b><?=$row['AName'];?></b>
+            </th>
+           
+             
+               <th><b><?=$row['mobile_model'];?><?=$row['sim_number'];?></b></th>
+                <th><b><?=$row['CreatedBy'];?></b></th>
+
+                   <th><b><i class="fa fa-eye" onclick="viewlist(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i>
+ </b></th>
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+
+elseif($code==26.4)
+
+   { 
+
+    $id=$_POST['id'];
+
+    ?>
+<table class="table">
+    <thead>
+        <tr> <th colspan="5" style="text-align: center;">
+                Request Number :<b><?=$id;?></b>
+            </th></tr>
+        <tr>
+            <th>#</th>
+              
+            <th>Name</th>
+            <th>Quantity</th>
+          
+
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+       
+        <?php 
+         $sr=1;
+          $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestmobilestock AS  rs inner join mobilestockarticle AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            
+            <th>
+                <b><?=$row['aName'];?>(<?=$row['AId'];?>)</b>
+            </th>
+           
+             <th><b><?=$row['quantity'];?></b></th>
+            
+                   
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+<?php
+      }
+// prepare Degree //
 if($code==31)
                {
                 $sub_data=$_POST['sub_data']; 
@@ -592,6 +1136,23 @@ elseif($code==33.1)
 
         $result = sqlsrv_query($conntest,$Status);
  }
+ elseif($code==34)
+    
+ {
+                 
+                    $id=$_POST['id'];
+          ?>
+          <option value="">Select</option>
+          <?php         
+  $Status="SELECT * FROM mobilestockadd where ArticleID='$id'";
+  $StatusRu=mysqli_query($connection_s,$Status);
+while($row=mysqli_fetch_array($StatusRu))
+{
+    ?>
+<option value="<?=$row['ID'];?>"><?=$row['mobile_model'];?><?=$row['sim_number'];?></option>
+    <?php
+ }
+}
 
 }
 
