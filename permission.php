@@ -30,8 +30,11 @@
             &nbsp;
             <button type="button" class="btn btn-primary btn-xs" onclick="role_drop()" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Assign LMS Role</button>
             &nbsp;
-            &nbsp;
-            <button type="button" class="btn btn-primary btn-xs" onclick="erp_role_drop()" data-toggle="modal" data-target="#erp_exampleModal" data-whatever="@mdo">Assign ERP Role</button>
+           
+            <!--<button type="button" class="btn btn-primary btn-xs" onclick="erp_role_drop()" data-toggle="modal" data-target="#erp_exampleModal" data-whatever="@mdo">Assign ERP Role</button>-->
+
+             <button type="button" class="btn btn-primary btn-xs" onclick="multi_role_drop()" data-toggle="modal" data-target="#erp_exampleModal-mul" data-whatever="@mdo">Multiple Role</button>
+
             &nbsp;
             <button type="button" class="btn btn-success btn-xs" onclick="view_all_permission()"> Special Permissions</button>
 </div>
@@ -96,6 +99,31 @@
       </div>
    </div>
 </div>
+
+
+
+  <div class="modal fade bd-example-modal-xl"  id='erp_exampleModal-mul' tabindex="-1" role="dialog" 
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Multi Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="multi_role_drop_dwon">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary" onclick="add_addrole()">Save changes</button> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script type="text/javascript">
 //   function emp_role()
@@ -332,5 +360,51 @@ function erp_role_drop()
       }
    });
 }
+
+
+
+function multi_role_drop()
+{
+   var spinner = document.getElementById("ajax-loader");
+   spinner.style.display = 'block';
+   var id= document.getElementById("user_id").value;
+   var code=181.1; 
+   $.ajax({
+      url: 'action_g.php',
+      type: 'POST',
+      data: {
+         code:code,id:id
+      },
+      success: function(response) {
+         // console.log(response);
+         spinner.style.display = 'none';
+         document.getElementById("multi_role_drop_dwon").innerHTML = response;
+      }
+   });
+}
+function add_addrole()
+{
+   var spinner = document.getElementById("ajax-loader");
+   spinner.style.display = 'block';
+   var id= document.getElementById("user_id").value;
+      var add_addroleid= document.getElementById("add_addroleid").value;
+   
+
+   var code=184.1; 
+   $.ajax({
+      url: 'action_g.php',
+      type: 'POST',
+      data: {
+         code:code,id:id,add_addroleid:add_addroleid
+      },
+      success: function(response) {
+          console.log(response);
+         spinner.style.display = 'none';
+          SuccessToast('Successfully  Added');
+      }
+   });
+}
+
+
 </script>
 <?php include "footer.php";  ?>

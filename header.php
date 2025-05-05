@@ -122,6 +122,8 @@ $_SESSION['RequiredData']=$alertMessage;
 
 
 
+
+
    
                  $role_get="SELECT * FROM role WHERE role_id='$role_id'";
            $role_run=mysqli_query($conn,$role_get);
@@ -416,7 +418,26 @@ $_SESSION['RequiredData']=$alertMessage;
                                 </p>
                             </a>
                         </li>
+                        <?php }
+
+                        $staff="SELECT *  FROM  AdditionalRole Where IDNo='$EmployeeID'";
+    $stmt = sqlsrv_query($conntest,$staff);  
+if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        
+ {
+                 ?>
+
+                        <li class="nav-item has-treeview menu-open">
+              <a href="" onclick="manage_role()" data-toggle="modal"  data-target=".bd-example-modal-xl" class="nav-link ">
+                                <i class="nav-icon fas fa-user-alt"></i>
+                                <p>
+                                    Manage Role
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
                         <?php }?>
+
                     </ul>
                     <?php
                   $ids = join("','",$array_aa); 
@@ -491,6 +512,68 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
             </div>
             <!-- /.sidebar -->
         </aside>
+
+        <div class="modal fade bd-example-modal-xl-vv" tabindex="-1" role="dialog" 
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Manage Your Default Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="role_body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary" onclick="update_addrole()">Save changes</button> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function manage_role()
+    {
+       var code = 474;
+        // alert(code);
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code
+                },
+            success: function(response) {
+                // console.log(response);
+                document.getElementById("role_body").innerHTML = response;
+
+            }
+        });
+    }
+
+    
+
+    function update_addrole()
+    {
+         var chnagerole = document.getElementById('chnagerole').value;
+       var code = 474.1;
+        // alert(code);
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,chnagerole:chnagerole
+                },
+            success: function(response) {
+               //  console.log(response);
+                location.reload(true);
+
+            }
+        });
+    }
+</script>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <br>

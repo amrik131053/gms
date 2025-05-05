@@ -198,7 +198,7 @@ $ms="Ms.";    // code...
 // $pdf->SetXY(155, 100);
 if($Course=='158')
 {
-    $intership="+ One Year Internship";
+    $intership="+ Internship";
 }
 else
 {

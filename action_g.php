@@ -9472,7 +9472,7 @@ elseif($code==132)
             $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
             if ($degree_row1=mysqli_fetch_array($degree_run1)) 
             {
-                  $Name = $degree_row1['email'];
+                  $Name = $degree_row1['name'];
                   $FatherName = $degree_row1['father_name'];
                   $MobileNo = $degree_row1['mobile_number'];
                   //    $Consultant = $degree_row1['erp_id'];
@@ -13572,7 +13572,7 @@ $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
 $countPerms=0;
 while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
 {
-    echo "hhh".$getUserMasterRunRow['RightsLevel'];
+    //echo "hhh".$getUserMasterRunRow['RightsLevel'];
 ?>
         <tr>
             <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
@@ -13683,6 +13683,24 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 <?php 
 sqlsrv_close($conntest);     
 }
+
+elseif($code==181.1)
+{?>
+      <select class="form-control" id='add_addroleid'><?php
+            
+          
+           $role_get="SELECT * FROM role_name ";
+           $role_run=mysqli_query($conn,$role_get);
+          
+           while($row_role_get=mysqli_fetch_array($role_run))
+           {?>
+           <option value="<?= $row_role_get['id']?>"><?= $row_role_get['role_name']?></option>
+           <?php
+           }
+ 
+?></select>
+<?php }
+
 elseif($code==182)
 {
 $empid = $_POST['empid'];
@@ -13724,6 +13742,24 @@ $LoginType = $_POST['LoginType'];
 $RightsLevel = $_POST['RightsLevel'];
 $CollegeName = $_POST['college'];
  $insert_record="INSERT into UserMaster(UserName,Password,LoginType,RightsLevel,ApplicationType,ApplicationName,CollegeName)values('$empid','$empid','$LoginType','$RightsLevel','Web','Campus','$CollegeName');";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+sqlsrv_close($conntest);
+}
+elseif($code==184.1)
+{
+$empid = trim($_POST['id']);
+
+$RightsLevel = $_POST['add_addroleid'];
+
+ echo $insert_record="INSERT into AdditionalRole(IDNo,RoleID,StartDate,EndDate,Status)values('$empid','$RightsLevel','$timeStamp','$timeStamp','1');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -27622,7 +27658,7 @@ if($NoDuesStatus==-1){?>
                                             while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
                                             {
                                                 
-                                                $tdebit=$rowww['totaldebit'];
+                                            $tdebit=$rowww['totaldebit'];
                                             $tcredit=$rowww['totalcredit'];
                                             
                                               }
@@ -27640,6 +27676,7 @@ if($NoDuesStatus==-1){?>
 
             <tr>
                 <th>Receipt Date</th>
+                <th>Bank  Date</th>
                 <th>Receipt No</th>
                 <th>Particulars</th>
                 <th>LedgerName</th>
@@ -27674,6 +27711,15 @@ if($NoDuesStatus==-1){?>
 
 
                 </td>
+                <td><?php
+                                                                                        if($row8['DateEntrySubmission']!='')
+                                                                                        {
+                                            
+                                                                                           echo  $row8['DateEntrySubmission']->format('d-m-Y h:i:s'); 
+                                            
+                                                                                   
+                                                                                    }
+                                                                                    ?></td>
                 <td><?= $row8['ReceiptNo'];;?></td>
                 <td style="width: 300px"><?= $row8['Particulars'];?></td>
 
@@ -30814,12 +30860,12 @@ if($Status==6)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -31145,12 +31191,12 @@ if($Status==6)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -31777,11 +31823,27 @@ if($ifexitIDNo<1)
     {
          $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
         mysqli_query($conn,$upd);  
-    }
+ }
     if($admisisontype==4)
     {
+
+            $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeID' and CourseID='$Course' ANd Session='$Session'";
+            $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+            if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
+
+                $duration=$row_collegecourse_name['Duration'];
+                
+                
+
+
+            }
+
          $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
-        mysqli_query($conn_online_pre_regist,$upd1);  
+        mysqli_query($conn_online_pre_regist,$upd1); 
+         $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `Gender`, `CollegeName`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$Session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
+
+$insert_record_run = mysqli_query($conn, $insert_record);
+
     }
 
  $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry' and Batch='$Batch' AND SerieseType='$serieseType'";
@@ -32528,12 +32590,12 @@ else if($code==367)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -32739,7 +32801,7 @@ else if($code==367.1)
         <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Nationality</label>
             <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
-                <option value="">Select</option>
+                
                 <option value="Indian">Indian</option>
                 <option value="NRI">Other</option>
                 <option value="Nepal">Nepal</option>
@@ -32808,12 +32870,12 @@ else if($code==367.1)
             <select class="form-control" id="feecategory">
                 <option value="">Select</option>
                 <?php 
-                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country="SELECT DISTINCT FeeCategory FROM MasterFeeCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+                <option value="<?=$row_Session['FeeCategory'];?>"><?=$row_Session['FeeCategory'];?></option>
                 <?php }
                      ?>
             </select>
@@ -32856,7 +32918,7 @@ else if($code==367.1)
         <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Session</label>
             <select class="form-control" id="Session" onchange="fetchCollege();">
-                <option value="">Select</option>
+               <option value="2025-26-A">2025-26-A</option>
                 <?php 
 
                       $get_country="SELECT DISTINCT Session FROM MasterCourseCodes where Isopen='1' ANd ((OpenDate>'$todaydate') OR (OpenDate is NULL))";
@@ -32902,7 +32964,7 @@ else if($code==367.1)
 
         <!-- <div class="col-lg-3 col-md-3 col-sm-12"> -->
             <!-- <label>Consultant ID</label> -->
-            <input type='hidden' id="User_id" class="form-control" readonly required>
+            <input type='text' id="User_id" class="form-control" readonly required>
         <!-- </div> -->
 
         <!-- <div class="col-lg-3 col-md-3 col-sm-12">
@@ -33124,8 +33186,8 @@ elseif($code==368.1)
         $value[2]=$degree_row['father_name'];
         $value[3]=$degree_row['mobile_number'];
         $value[4]=$degree_row['aadhaar_number'];
-        $value[5]=$degree_row['category'];;
-        
+        $value[5]=$degree_row['category'];
+             
          $degree1="SELECT * FROM users   WHERE  id='".$degree_row['user_id']."' order by Id DESC limit 1"; 
             $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
             if ($degree_row1=mysqli_fetch_array($degree_run1)) 
@@ -33134,8 +33196,23 @@ elseif($code==368.1)
             }
          $value[7]=$degree_row['id'];
          $value[8]=$degree_row['registration_number'];
+ $value[9]=$degree_row['course_id'];
 
 }
+
+ $coursedata="Select * from MasterCourseCodes inner join MasterDepartment on MasterCourseCodes.DepartmentId=MasterDepartment.ID where CourseID='$value[9]'";
+$stmtdata = sqlsrv_query($conntest,$coursedata);
+if($row11 = sqlsrv_fetch_array($stmtdata, SQLSRV_FETCH_ASSOC) )
+{
+$value[10]=$row11['CollegeName'];
+$value[11]=$row11['CollegeID'];
+$value[12]=$row11['Course'];
+$value[13]=$row11['DepartmentId'];
+$value[14]=$row11['Department'];
+}
+
+
+
     echo json_encode($value);
     sqlsrv_close($conntest);
     mysqli_close($conn);
@@ -41853,7 +41930,42 @@ elseif($code==470)
             
             sqlsrv_close($conntest);
         }
-        
+            elseif($code == 474) {
+            
+ ?>
+
+
+           <select class="form-control" id='chnagerole'><?php
+            $get_addrole="SELECT * FROM AdditionalRole where IDNo='$EmployeeID' and Status='1'";
+            $get_addrole_run=sqlsrv_query($conntest,$get_addrole);
+          while($row_addrole=sqlsrv_fetch_array($get_addrole_run))
+          {
+            $AddRoleID=$row_addrole['RoleID'];
+          
+           $role_get="SELECT * FROM role_name WHERE id='$AddRoleID'";
+           $role_run=mysqli_query($conn,$role_get);
+          
+           while($row_role_get=mysqli_fetch_array($role_run))
+           {?>
+           <option value="<?= $row_role_get['id']?>"><?= $row_role_get['role_name']?></option>
+           <?php
+           }
+       }
+?></select><?php
+            
+            
+            sqlsrv_close($conntest);
+        }
+         elseif($code == 474.1) {
+              $chnagerole = $_POST['chnagerole'];
+   
+                
+     $update_addrole="Update Staff set RoleID='$chnagerole' where IDNo='$EmployeeID'";
+         
+            $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
+       
+          sqlsrv_close($conntest);
+        }
    else
    {
    
