@@ -27622,7 +27622,7 @@ if($NoDuesStatus==-1){?>
                                             while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
                                             {
                                                 
-                                                $tdebit=$rowww['totaldebit'];
+                                            $tdebit=$rowww['totaldebit'];
                                             $tcredit=$rowww['totalcredit'];
                                             
                                               }
@@ -27640,6 +27640,7 @@ if($NoDuesStatus==-1){?>
 
             <tr>
                 <th>Receipt Date</th>
+                <th>Bank  Date</th>
                 <th>Receipt No</th>
                 <th>Particulars</th>
                 <th>LedgerName</th>
@@ -27674,6 +27675,15 @@ if($NoDuesStatus==-1){?>
 
 
                 </td>
+                <td><?php
+                                                                                        if($row8['DateEntrySubmission']!='')
+                                                                                        {
+                                            
+                                                                                           echo  $row8['DateEntrySubmission']->format('d-m-Y h:i:s'); 
+                                            
+                                                                                   
+                                                                                    }
+                                                                                    ?></td>
                 <td><?= $row8['ReceiptNo'];;?></td>
                 <td style="width: 300px"><?= $row8['Particulars'];?></td>
 
