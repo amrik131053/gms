@@ -13572,7 +13572,7 @@ $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
 $countPerms=0;
 while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
 {
-    echo "hhh".$getUserMasterRunRow['RightsLevel'];
+    //echo "hhh".$getUserMasterRunRow['RightsLevel'];
 ?>
         <tr>
             <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
@@ -13683,6 +13683,24 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 <?php 
 sqlsrv_close($conntest);     
 }
+
+elseif($code==181.1)
+{?>
+      <select class="form-control" id='add_addroleid'><?php
+            
+          
+           $role_get="SELECT * FROM role_name ";
+           $role_run=mysqli_query($conn,$role_get);
+          
+           while($row_role_get=mysqli_fetch_array($role_run))
+           {?>
+           <option value="<?= $row_role_get['id']?>"><?= $row_role_get['role_name']?></option>
+           <?php
+           }
+ 
+?></select>
+<?php }
+
 elseif($code==182)
 {
 $empid = $_POST['empid'];
@@ -13724,6 +13742,24 @@ $LoginType = $_POST['LoginType'];
 $RightsLevel = $_POST['RightsLevel'];
 $CollegeName = $_POST['college'];
  $insert_record="INSERT into UserMaster(UserName,Password,LoginType,RightsLevel,ApplicationType,ApplicationName,CollegeName)values('$empid','$empid','$LoginType','$RightsLevel','Web','Campus','$CollegeName');";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+sqlsrv_close($conntest);
+}
+elseif($code==184.1)
+{
+$empid = trim($_POST['id']);
+
+$RightsLevel = $_POST['add_addroleid'];
+
+ echo $insert_record="INSERT into AdditionalRole(IDNo,RoleID,StartDate,EndDate,Status)values('$empid','$RightsLevel','$timeStamp','$timeStamp','1');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -41894,7 +41930,42 @@ elseif($code==470)
             
             sqlsrv_close($conntest);
         }
-        
+            elseif($code == 474) {
+            
+ ?>
+
+
+           <select class="form-control" id='chnagerole'><?php
+            $get_addrole="SELECT * FROM AdditionalRole where IDNo='$EmployeeID' and Status='1'";
+            $get_addrole_run=sqlsrv_query($conntest,$get_addrole);
+          while($row_addrole=sqlsrv_fetch_array($get_addrole_run))
+          {
+            $AddRoleID=$row_addrole['RoleID'];
+          
+           $role_get="SELECT * FROM role_name WHERE id='$AddRoleID'";
+           $role_run=mysqli_query($conn,$role_get);
+          
+           while($row_role_get=mysqli_fetch_array($role_run))
+           {?>
+           <option value="<?= $row_role_get['id']?>"><?= $row_role_get['role_name']?></option>
+           <?php
+           }
+       }
+?></select><?php
+            
+            
+            sqlsrv_close($conntest);
+        }
+         elseif($code == 474.1) {
+              $chnagerole = $_POST['chnagerole'];
+   
+                
+     $update_addrole="Update Staff set RoleID='$chnagerole' where IDNo='$EmployeeID'";
+         
+            $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
+       
+          sqlsrv_close($conntest);
+        }
    else
    {
    

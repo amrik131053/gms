@@ -1522,7 +1522,7 @@ function submit_special_per(id)
 
 
 
-
+ 
 function emp_role_all(id)
 {
         var code=35; //76
