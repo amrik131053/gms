@@ -427,8 +427,9 @@ if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
  {
                  ?>
 
+
                         <li class="nav-item has-treeview menu-open">
-              <a href="" onclick="manage_role()" data-toggle="modal"  data-target=".bd-example-modal-xl" class="nav-link ">
+              <a href="" onclick="manage_role()" data-toggle="modal"  data-target=".bd-example-modal-xl-vv" class="nav-link ">
                                 <i class="nav-icon fas fa-user-alt"></i>
                                 <p>
                                     Manage Role
