@@ -513,7 +513,7 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
             <!-- /.sidebar -->
         </aside>
 
-        <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" 
+        <div class="modal fade bd-example-modal-xl-vv" tabindex="-1" role="dialog" 
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
