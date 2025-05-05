@@ -13563,6 +13563,54 @@ $count++;
     $fileName="Staff Phd Report";
 
 }
+elseif($exportCode==84.1)
+{
+  
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+       
+          <th>Name</th>
+          <th>Type</th>
+       
+           <th>Remarks</th>
+           <th>Issued By</th>
+           <th>Stocks</th>
+         </tr>
+        </thead>";
+      $count=1;
+      $sql12 = "SELECT *,mobilestockarticle.Name AS Mname,mobilestockledger.Name as EName FROM mobilestockadd INNER JOIN mobilestockledger ON mobilestockadd.ID=mobilestockledger.StockID INNER JOIN mobilestockarticle ON mobilestockarticle.ID=mobilestockledger.ArticleID ";
+      $res111 = mysqli_query($connection_s, $sql12);
+      $SrNo = 1;
+      while ($data1 = mysqli_fetch_array($res111))
+       { 
+        $id=$data1['ID'];
+            $exportMeter.="<tr>     
+                           <td>{$count}</td>
+                          
+                            <td>{$data1['EName']}-{$data1['IDNo']}</td>
+                            <td>{$data1['Mname']}</td>
+                          
+                            <td>{$data1['mobile_model']}{$data1['sim_number']}  </td>
+                            <td>{$data1['CreatedBy']}</td><td><table  class='table' border='1'>";
+                            $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestmobilestock AS  rs inner join mobilestockarticle AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+                            $get_group_run=mysqli_query($connection_s,$get_group);
+                                while($row=mysqli_fetch_array($get_group_run))
+                                {
+                            $exportMeter.="<tr><td>{$row['Name']}({$row['quantity']})</td></tr>";
+
+                                }
+                           
+             $exportMeter.="</table></td></tr>";
+$count++;
+    }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Staff Phd Report";
+
+}
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
