@@ -7081,7 +7081,7 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
           {
              
          }
-         if(($role_id=='2' || $role_id=='28') && $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
+         if(($role_id=='2' || $role_id=='28'|| $role_id=='5') && $row['ResultStatus']=='1' &&  $row['DeclareType']=='1')
          {
          
          ?>
