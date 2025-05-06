@@ -32977,9 +32977,9 @@ else if($code==367.1)
         <!-- <div class="col-lg-3 col-md-3 col-sm-12"> -->
             <!-- <label>Consultant ID</label> -->
             <input type='hidden' id="User_id" class="form-control" readonly  required>
-             <input type='text' id="nNationality" class="form-control" readonly  required>
-              <input type='text' id="nState" class="form-control" readonly  required>
-               <input type='text' id="nDistrict" class="form-control" readonly  required>
+             <input type='hidden' id="nNationality" class="form-control" readonly  required>
+              <input type='hidden' id="nState" class="form-control" readonly  required>
+               <input type='hidden' id="nDistrict" class="form-control" readonly  required>
 
         <!-- </div> -->
 
