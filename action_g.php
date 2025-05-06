@@ -31843,7 +31843,7 @@ if($ifexitIDNo<1)
          $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
           mysqli_query($conn_online_pre_regist,$upd1); 
 
-  $degree="SELECT * FROM users   WHERE  registration_number='$registrationNumber'" 
+  $degree="SELECT * FROM users   WHERE  registration_number='$registrationNumber'" ;
             $degree_run=mysqli_query($conn_online_pre_regist,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
             {
