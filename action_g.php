@@ -31839,15 +31839,20 @@ if($ifexitIDNo<1)
             if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
                 $duration=$row_collegecourse_name['Duration'];
-                
-                
-
-
-            }
-
+                 }
          $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
-        mysqli_query($conn_online_pre_regist,$upd1); 
-         $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `Gender`, `CollegeName`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$Session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
+          mysqli_query($conn_online_pre_regist,$upd1); 
+
+  $degree="SELECT * FROM users   WHERE  registration_number='$registrationNumber'" 
+            $degree_run=mysqli_query($conn_online_pre_regist,$degree);
+            while ($degree_row=mysqli_fetch_array($degree_run)) 
+            {
+       
+        $State=$degree_row['state'];
+        $District=$degree_row['district'];
+        $Nationality=$degree_row['country'];
+             }
+   $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `Gender`, `CollegeName`, `Course`, `Lateral`,  `Nationality`, `State`,`District`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$State','$District','$Session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
 
 $insert_record_run = mysqli_query($conn, $insert_record);
 
@@ -32972,6 +32977,10 @@ else if($code==367.1)
         <!-- <div class="col-lg-3 col-md-3 col-sm-12"> -->
             <!-- <label>Consultant ID</label> -->
             <input type='hidden' id="User_id" class="form-control" readonly  required>
+             <input type='text' id="nNationality" class="form-control" readonly  required>
+              <input type='text' id="nState" class="form-control" readonly  required>
+               <input type='text' id="nDistrict" class="form-control" readonly  required>
+
         <!-- </div> -->
 
         <!-- <div class="col-lg-3 col-md-3 col-sm-12">
@@ -33197,13 +33206,23 @@ elseif($code==368.1)
              
          $degree1="SELECT * FROM users   WHERE  id='".$degree_row['user_id']."' order by Id DESC limit 1"; 
             $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
+
             if ($degree_row1=mysqli_fetch_array($degree_run1)) 
             {
+                 
                 $value[6]=$degree_row1['erp_id'];  
             }
          $value[7]=$degree_row['id'];
          $value[8]=$degree_row['registration_number'];
  $value[9]=$degree_row['course_id'];
+
+  $value[15]=$degree_row['state'];
+
+  $value[16]=$degree_row['district'];
+
+    $value[17]=$degree_row['country'];
+
+
 
 }
 

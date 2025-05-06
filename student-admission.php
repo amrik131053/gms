@@ -451,9 +451,12 @@ if (![...categorySelect.options].some(option => option.value === data[5])) {
               deptSelect.appendChild(optiond);
               deptSelect.value = data[13];
 
-                   //document.getElementById("Course").value = data[9];
-    //                 document.getElementById("Department").value = data[13];
-    //                             document.getElementById("LateralEntry").value = data[14];
+
+              
+
+                      document.getElementById("nNationality").value = data[17];
+                     document.getElementById("nState").value = data[15];
+                                document.getElementById("nDistrict").value = data[16];
     //                 document.getElementById("CourseName").value = data[15];
     //                 document.getElementById("CollegeName").value = data[16];
     //                 document.getElementById("Batch").value = data[17];
@@ -713,6 +716,7 @@ function adharPassChnage(id) {
 document.getElementById('Session').value = "";
     
 }
+
 function onchnagereff(ref) {
     document.getElementById('refvalue').value = ref;
     var refvalueCount = document.getElementById('refvalueCount').value;
@@ -735,6 +739,7 @@ function onchnagereff(ref) {
         $('#accordingToReffStudent').hide();
     }
 }
+
 function submitNewAdmissions() {
     var Nationality = document.getElementById('Nationality').value;
     if (Nationality == 'Indian') {
@@ -747,23 +752,26 @@ function submitNewAdmissions() {
         var idproof = document.getElementById('IDNumber').value;
     }
      var admisisontype = document.getElementById('admisisontype').value;
- var refoffer = document.getElementById('refoffer').value;
+     var refoffer = document.getElementById('refoffer').value;
+     var Name = document.getElementById('Name').value;
+     var FatherName = document.getElementById('FatherName').value;
+     var MobileNumber = document.getElementById('MobileNumber').value;
+     var Dob = document.getElementById('Dob').value;
+     var Gender = document.getElementById('Gender').value;
+     var category = document.getElementById('category').value;
+     var feecategory = document.getElementById('feecategory').value;
+     var scholaship = document.getElementById('scholaship').value;
+     var Session = document.getElementById('Session').value;
+     var CollegeID = document.getElementById('CollegeID').value;
+     var Course = document.getElementById('Course').value;
+     var LateralEntry = document.getElementById('LateralEntry').value;
+     var Batch = document.getElementById('Batch').value;
+     var Comments = document.getElementById('Comments').value;
+     var admissiontype = document.getElementById('admissiontype').value;
 
-    var Name = document.getElementById('Name').value;
-    var FatherName = document.getElementById('FatherName').value;
-    var MobileNumber = document.getElementById('MobileNumber').value;
-    var Dob = document.getElementById('Dob').value;
-    var Gender = document.getElementById('Gender').value;
-    var category = document.getElementById('category').value;
-    var feecategory = document.getElementById('feecategory').value;
-    var scholaship = document.getElementById('scholaship').value;
-    var Session = document.getElementById('Session').value;
-    var CollegeID = document.getElementById('CollegeID').value;
-    var Course = document.getElementById('Course').value;
-    var LateralEntry = document.getElementById('LateralEntry').value;
-    var Batch = document.getElementById('Batch').value;
-    var Comments = document.getElementById('Comments').value;
-    var admissiontype = document.getElementById('admissiontype').value;
+
+
+
 
 
     var refvalue = document.getElementById('refvalue').value;

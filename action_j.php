@@ -81,17 +81,14 @@ window.location.href = "index.php";
         </div>
            
               <label>Name of Article</label>
-              <select class="form-control" id="ArticleName">
-                <option value>Select</option>
-                <option>Mobile</option>
-                <option>SIM</option>
-            </select>
-                <!-- <input type="text" name="ArticleName" id='ArticleName'placeholder="Name of Article"  class="form-control"> -->
+          
+                
+               <input type="text" name="ArticleName" id="ArticleName" placeholder="Name of Article"  class="form-control">
 
-<!-- <label>Description</label>
-                <input type="text" name="ArticleSpecification" id='ArticleSpecification' placeholder="Specification"  class="form-control"> -->
+<label>Description</label>
+                <input type="text" name="ArticleSpecification" id='ArticleSpecification' placeholder="Specification"  class="form-control">  
 <br>
-<button onclick="submitarticle()"  class="btn btn-primary">Add</button>
+<button onclick="submitarticle()" class="btn btn-primary">Add</button>
               </div>
 
 

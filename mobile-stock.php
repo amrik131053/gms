@@ -372,6 +372,7 @@ function submitarticle() {
     var ArticleName = document.getElementById('ArticleName').value;
     var ArticleSpecification = document.getElementById('ArticleSpecification').value;
    
+
     if (ArticleName != '' ) {
         var code = 25.4;
 
@@ -391,8 +392,8 @@ function submitarticle() {
                 spinner.style.display = 'none';
                 if (response == 1) {
                     SuccessToast('Successfully Submit');
-                     show_article();
-                     AddStock();
+                    Addarticle();
+                     
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
                 }
@@ -447,7 +448,7 @@ var status=document.getElementById('toggleForm'+id).value;
             //console.log(response);
             spinner.style.display = 'none';
             show_article();
-            AddStock();
+            //AddStock();
             
         }
     });
@@ -520,8 +521,8 @@ function submitstock() {
         success: function(response) {
             spinner.style.display = 'none';
             document.getElementById("table_load").innerHTML = response;
-           // AddStock();
-          //show_stock();
+            AddStock();
+          show_stock();
 
         }
     });
