@@ -31391,9 +31391,9 @@ if($Status==6)
 
                 <option value="1">First</option>
 
-                <option value="1">First/Aug</option>
+               <!--  <option value="1">First/Aug</option>
 
-                <option value="1">First/Jan</option>
+                <option value="1">First/Jan</option> -->
 
                 <option value="3">Third</option>
                 <option value="5">Fifth</option>
@@ -31614,7 +31614,7 @@ $FeeCategory=$_POST['FeeCategory'];
 $SemesterForFee=$_POST['SemesterForFee'];
 $Batch=$_POST['Batch'];
 
-$sqlf = "SELECT  FeeCategoryID   FROM MasterFeeCategory  WHERE   CollegeId='$College'  ANd FeeCategory='$FeeCategory' ";
+ $sqlf = "SELECT  FeeCategoryID   FROM MasterFeeCategory  WHERE   CollegeId='$College'  ANd FeeCategory='$FeeCategory' ";
 $stmtf = sqlsrv_query($conntest,$sqlf);  
     if($rowf = sqlsrv_fetch_array($stmtf, SQLSRV_FETCH_ASSOC) )
 {
@@ -33088,9 +33088,9 @@ else if($code==367.1)
 
                 <option value="1">First</option>
 
-                <option value="1">First/Aug</option>
+               <!--  <option value="1">First/Aug</option>
 
-                <option value="1">First/Jan</option>
+                <option value="1">First/Jan</option> -->
 
                 <option value="3">Third</option>
                 <option value="5">Fifth</option>
