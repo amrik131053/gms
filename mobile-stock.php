@@ -54,7 +54,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">View</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -63,6 +63,8 @@
         ...
       </div>
       <div class="modal-footer">
+
+       
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
        
       </div>
@@ -129,6 +131,34 @@
 
 
 <script type="text/javascript">
+
+
+function return_stock(id,stockid)
+{
+
+
+ var spinner = document.getElementById('ajax-loader');
+
+           var code=26.5;
+           $.ajax({
+              url:'action_j.php',
+              type:'POST',
+              data:{
+                 flag:code,id:id,stockid:stockid
+              },
+              success: function(response) 
+              {
+                console.log(response);
+                   spinner.style.display = 'none';
+
+            SuccessToast('Successfully Submit');
+              
+//Issue();
+              }
+           });
+
+
+}
 
 function exportExcel() {
     var exportCode = 84.1;
@@ -256,7 +286,7 @@ else
 
 
 
-function viewlist(id) { 
+function viewlist(id,stock) { 
 
 
  var code = 26.4;
@@ -267,11 +297,11 @@ function viewlist(id) {
         url: 'action_j.php',
         type: 'POST',
         data: {
-            flag: code,id:id
+            flag: code,id:id,stock:stock
         },
         success: function(response) {
             spinner.style.display = 'none';
-
+console.log(response);
             document.getElementById("viewlistdiv").innerHTML = response;
 
             

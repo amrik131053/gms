@@ -13580,7 +13580,7 @@ elseif($exportCode==84.1)
          </tr>
         </thead>";
       $count=1;
-      $sql12 = "SELECT *,mobilestockarticle.Name AS Mname,mobilestockledger.Name as EName FROM mobilestockadd INNER JOIN mobilestockledger ON mobilestockadd.ID=mobilestockledger.StockID INNER JOIN mobilestockarticle ON mobilestockarticle.ID=mobilestockledger.ArticleID ";
+      $sql12 = "SELECT *,mobilestockarticle.Name AS Mname,mobilestockledger.Name as EName FROM mobilestockadd INNER JOIN mobilestockledger ON mobilestockadd.ID=mobilestockledger.StockID INNER JOIN mobilestockarticle ON mobilestockarticle.ID=mobilestockledger.ArticleID where mobilestockledger.Status=0 ";
       $res111 = mysqli_query($connection_s, $sql12);
       $SrNo = 1;
       while ($data1 = mysqli_fetch_array($res111))
@@ -13593,22 +13593,17 @@ elseif($exportCode==84.1)
                             <td>{$data1['Mname']}</td>
                           
                             <td>{$data1['mobile_model']}{$data1['sim_number']}  </td>
-                            <td>{$data1['CreatedBy']}</td><td><table  class='table' border='1'>";
-                            $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestmobilestock AS  rs inner join mobilestockarticle AS ma on rs.item_code=ma.ID  where reference_no='$id'";
-                            $get_group_run=mysqli_query($connection_s,$get_group);
-                                while($row=mysqli_fetch_array($get_group_run))
-                                {
-                            $exportMeter.="<tr><td>{$row['Name']}({$row['quantity']})</td></tr>";
-
-                                }
+                            <td>{$data1['CreatedBy']}</td>
+                              <td>{$data1['CreatedDate']}</td>";
+                            
                            
-             $exportMeter.="</table></td></tr>";
+             $exportMeter.="</tr>";
 $count++;
     }
     $exportMeter.="</table>";
     //echo $exportMeterHeader;
     echo $exportMeter;
-    $fileName="Staff Phd Report";
+    $fileName="Mobile Stock";
 
 }
 

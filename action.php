@@ -9045,9 +9045,9 @@ elseif ($code==135)
                 <th>Subject Name</th>
                 <th>Subject Code</th>
                 <th>Batch</th>
-                <!-- <th>Session</th> -->
-                <th>Action</th>
-                <th>Paper Id</th>
+                <th>Q Bank Session</th>
+                               <th colspan="3">Action</th>
+               
           
             </tr>
         </thead>
@@ -9055,11 +9055,11 @@ elseif ($code==135)
         $sr=0;
         if ($examSession=='New') 
         {
-           $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='1'  ";
+           $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch,session_name,exam_session FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='1'  ";
         }
         elseif ($examSession=='Old') 
         {
-             $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='0' ";
+           $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch,session_name ,exam_session FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode' and CourseID='$courseId' and session_status='0' ";
         }
         $res=mysqli_query($conn,$sql);
         while($data=mysqli_fetch_array($res))
@@ -9072,7 +9072,7 @@ elseif ($code==135)
                         $CourseName=$rowSubject["Course"]; 
                         $SubjectName=$rowSubject["SubjectName"]; 
                     }
-            
+            $exam_session= $data['exam_session'];
                          ?>
                 <tr>
                 <td><?=1?></td>
@@ -9080,21 +9080,35 @@ elseif ($code==135)
                 <td><?=$SubjectName?>(<?=$subjectCode?>)</td>
                 <td><?=$data['Batch']?></td>
                 <td><?=$data['Semester']?></td>
-                <!-- <td><?=$data['session_name']?></td> -->
+                 <td><?=$data['session_name']?></td> 
                 <td>
-
+               
 <table>
                   <?php
-                   $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                   
+
+                  if ($examSession=='Old') 
+                  {
+$checkGenerateQry="Select * ,question_paper.id as qid from question_paper inner join question_session on question_paper.session=question_session.Id where  exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                  }else
+                  {
+                     $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                  }
+
+
+
                     $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
                     while ($data1=mysqli_fetch_array($checkGenerateRes)) 
                     {
-                     $qid=$data1['id'];
+                     $qid=$data1['qid'];
                      $data2=1;
                     $print= $data1['generated_on'];
+                     $sessionname= $data1['session_name'];
                    
                         ?>
-<tr>
+<tr> 
+   <td> <?=$sessionname;?>
+</td>
 <td>
    <?php 
 //    if (strpos($SubjectName,"hindi")!==false || strpos($SubjectName,"punjabi")!==false)
@@ -9110,7 +9124,7 @@ elseif ($code==135)
                         
                         <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" >
 
-                          <?php echo  $print;?>   
+                          <?php echo  $print."For". $sessionname;?>   
 
                         </i>
 
@@ -9152,7 +9166,7 @@ elseif ($code==135)
             </tr>
          <?php }?>
          </table>
- <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
+ <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>',<?=$exam_session?>)">Generate</button>
 
          </td></tr>
                 <?php
@@ -9194,9 +9208,13 @@ mysqli_close($conn);
 elseif ($code==138)
 {
     $SubjectCode=$_POST['SubjectCode'];
-    $Semester=$_POST['Semester'];
+    $Semester=$_POST['Semester']; 
     $CourseID=$_POST['CourseID'];
     $examName=$_POST['examName'];
+    $current_session_o=$_POST['examSession'];
+
+
+
     $current_session;
     $questionSessionTrack='';
     
@@ -9371,12 +9389,12 @@ else
 
             if($unit>4)
             {
-       $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count ";
+  $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session_o' order by Rand() limit $count ";
             }
             
             else
             {
-         $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count";
+         $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session_o' order by Rand() limit $count";
             }
         
          $questionBankRes1=mysqli_query($conn,$questionBankQry1);

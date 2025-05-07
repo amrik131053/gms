@@ -150,7 +150,7 @@
             }
         });
     }
-    function generateQuestionPaper(SubjectCode,Semester,CourseID,examName) 
+    function generateQuestionPaper(SubjectCode,Semester,CourseID,examName,examSession) 
     {
         var code=138; 
         var spinner=document.getElementById("ajax-loader");
@@ -161,7 +161,7 @@
             url:'action.php',
             type:'post',
             data:{
-                code:code,SubjectCode:SubjectCode,Semester:Semester,CourseID:CourseID,examName:examName
+                code:code,SubjectCode:SubjectCode,Semester:Semester,CourseID:CourseID,examName:examName,examSession:examSession
             },
             success: function(response)
             {
@@ -228,7 +228,9 @@
         }
         if (examName!='') 
         {
+
         var examSession=document.getElementById('examSession').value;
+        
  var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
         // alert(examName+examSession+courseName);

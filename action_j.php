@@ -291,13 +291,13 @@ elseif($code==25.8)
             <th>Brand</th>
             <th>Configration</th>
             <th>Sim Number</th>
-            
+             <th>Status</th>
         </tr>
     </thead>
     <tbody>
         <?php 
          $sr=1;
-          $get_group="SELECT * FROM  mobilestockadd  as ms inner join mobilestockarticle as ma  on ma.ID=ms.ArticleID";
+          $get_group="SELECT  *,ms.Status as mtatus FROM  mobilestockadd  as ms inner join mobilestockarticle as ma  on ma.ID=ms.ArticleID";
      $get_group_run=mysqli_query($connection_s,$get_group);
          while($row=mysqli_fetch_array($get_group_run))
          {
@@ -311,6 +311,16 @@ elseif($code==25.8)
              <th><b><?=$row['brand'];?></b></th>
              <th><b><?=$row['configuration'];?></b></th>
              <th><b><?=$row['sim_number'];?></b></th>
+             <th><b>
+                <?php if($row['mtatus']=='1')
+             {
+                echo "Issued";
+             }
+             else
+                {
+
+                }
+            ?></b></th>
           
              
           
@@ -336,8 +346,8 @@ elseif($code==25.8)
 
     $result_z = mysqli_query($connection_s, 
         "INSERT INTO mobilestockadd 
-        (ArticleID, mobile_model, brand, configuration, sim_number)
-        VALUES ('$articlecode', '$mobile_model', '$brand', '$configuration', '$sim_number')"
+        (ArticleID, mobile_model, brand, configuration, sim_number,Status)
+        VALUES ('$articlecode', '$mobile_model', '$brand', '$configuration', '$sim_number','0')"
     );
 
     // Optional: check if insert was successful
@@ -408,7 +418,7 @@ elseif($code==26)
 <option value>Select</option>
 
 <?php  
-$getDrop="SELECT * FROM mobilestockarticle where status='1'";
+$getDrop="SELECT * FROM mobilestockarticle where status='1' ";
 $getDropRun=mysqli_query($connection_s,$getDrop);
 while($row=mysqli_fetch_array($getDropRun))
 {
@@ -493,11 +503,15 @@ mysqli_close($connection_s);
    
    $mobileData=$_POST['mobileData'];
    
-$insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy)Values
-                                        ('$empID','$nameEmp','$mobileData','$empName','$timeStamp','$EmployeeID')";
+$insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status)Values
+                                        ('$empID','$nameEmp','$mobileData','$empName','$timeStamp','$EmployeeID','0')";
+
+
 
 $addrun=mysqli_query($connection_s,$insert);
 
+$Status="UPDATE mobilestockadd set Status='1' where ID='$mobileData'";
+  $StatusRu=mysqli_query($connection_s,$Status);
 
       }
 
@@ -522,7 +536,7 @@ $addrun=mysqli_query($connection_s,$insert);
     <tbody>
         <?php 
          $sr=1;
-          $get_group="SELECT *,mobilestockarticle.Name as AName,mobilestockledger.Name as EName FROM  mobilestockledger inner join mobilestockadd ON mobilestockledger.StockID=mobilestockadd.ID inner join mobilestockarticle ON mobilestockarticle.ID=mobilestockadd.ArticleID order by mobilestockledger.ID desc limit 10";
+          $get_group="SELECT *,mobilestockarticle.Name as AName,mobilestockledger.Name as EName,mobilestockledger.ID as ledid FROM  mobilestockledger inner join mobilestockadd ON mobilestockledger.StockID=mobilestockadd.ID inner join mobilestockarticle ON mobilestockarticle.ID=mobilestockadd.ArticleID  where mobilestockledger.Status='0' order by mobilestockledger.ID desc limit 10";
      $get_group_run=mysqli_query($connection_s,$get_group);
          while($row=mysqli_fetch_array($get_group_run))
          {
@@ -541,7 +555,7 @@ $addrun=mysqli_query($connection_s,$insert);
                <th><b><?=$row['mobile_model'];?><?=$row['sim_number'];?></b></th>
                 <th><b><?=$row['CreatedBy'];?></b></th>
 
-                   <th><b><i class="fa fa-eye" onclick="viewlist(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i>
+                   <th><b><i class="fa fa-eye" onclick="viewlist(<?=$row['ledid'];?>)" data-toggle="modal" data-target="#exampleModal"></i>
  </b></th>
              
           
@@ -564,50 +578,80 @@ elseif($code==26.4)
 
     ?>
 <table class="table">
-    <thead>
-        <tr> <th colspan="5" style="text-align: center;">
-                Request Number :<b><?=$id;?></b>
-            </th></tr>
-        <tr>
-            <th>#</th>
-              
-            <th>Name</th>
-            <th>Quantity</th>
-          
-
-           
-            
-        </tr>
-    </thead>
+   
     <tbody>
        
         <?php 
          $sr=1;
-          $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestmobilestock AS  rs inner join mobilestockarticle AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+    $get_group="SELECT *,mobilestockarticle.Name AS articalName ,mobilestockledger.Name as sName,mobilestockledger.StockID as stockid,mobilestockledger.ID as stockupid From mobilestockledger inner join mobilestockadd on mobilestockledger.StockID=mobilestockadd.ID 
+inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID where mobilestockledger.ID='$id'";
      $get_group_run=mysqli_query($connection_s,$get_group);
          while($row=mysqli_fetch_array($get_group_run))
          {
             
             ?>        <tr>
-            <th><?=$sr;?></th>
+            <th>Name :</th>
             
             <th>
-                <b><?=$row['aName'];?>(<?=$row['AId'];?>)</b>
+                <b><?=$row['sName'];?>(<?=$row['IDNo'];?>)</b>
             </th>
-           
-             <th><b><?=$row['quantity'];?></b></th>
+           </tr>
+              <tr>
+            <th>Type :</th>
+            
+            <th>
+                <b><?=$row['articalName'];?></b>
+            </th>
+           </tr>
+
+ <tr>
+            <th>SIM No :</th>
+            
+            <th>
+                <b><?=$row['sim_number'];?></b>
+            </th>
+           </tr>
+
+           <tr>
+             <th><b>Mobile Detail :</b></th>
+             <th><b><?=$row['mobile_model'];?>/ <?=$row['brand'];?> <?= $row['configuration'];?></b></th>
             
                    
           
         </tr>
         <?php
+        $stockid=$row['stockid'];
+        $ledgerid=$row['stockupid'];
+
+        
          $sr++; }
            ?>
+       <tr><td colspan="2"> <button type="button" class="btn btn-success" onclick="return_stock(<?=$ledgerid;?>,<?=$stockid;?>)" >Return</button></td></tr> 
     </tbody>
 </table>
 
 <?php
       }
+
+      elseif($code==26.5)
+
+   {
+ $id=$_POST['id'];
+  $stock=$_POST['stockid'];
+ 
+
+ $asd="UPDATE mobilestockledger set Status='1' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+ $asd1="UPDATE mobilestockadd set Status='0' where ID='$stock'";
+   
+$addrun1=mysqli_query($connection_s,$asd1);
+
+
+
+echo 1;
+    }
 // prepare Degree //
 if($code==31)
                {
@@ -1141,7 +1185,7 @@ elseif($code==33.1)
           ?>
           <option value="">Select</option>
           <?php         
-  $Status="SELECT * FROM mobilestockadd where ArticleID='$id'";
+ $Status="SELECT * FROM mobilestockadd where ArticleID='$id' ANd Status!='1'";
   $StatusRu=mysqli_query($connection_s,$Status);
 while($row=mysqli_fetch_array($StatusRu))
 {
