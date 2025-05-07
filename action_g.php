@@ -21491,7 +21491,7 @@ else{
 
                                                     <?php 
 
-                                                    if($EmployeeID=='131027' ANd $Batch='2025')
+                                                    if($EmployeeID=='131027' ANd $Batch=='2025')
                                                     {?>
 <textarea class="form-control" name='specialcomment'><?= $row1['CommentsDetail'];?></textarea>
                                                    
