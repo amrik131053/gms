@@ -9089,10 +9089,10 @@ elseif ($code==135)
 
                   if ($examSession=='Old') 
                   {
-$checkGenerateQry="Select * ,question_paper.id as qid from question_paper inner join question_session on question_paper.session=question_session.Id where  exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+ $checkGenerateQry="Select * ,question_paper.id as qid,question_session.session_name as session_name from question_paper inner join question_session on question_paper.session=question_session.Id where  exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
                   }else
                   {
-                     $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                     $checkGenerateQry="Select * ,question_paper.id as qid,question_session.session_name as session_name  from question_paper  inner join question_session on question_paper.session=question_session.Id where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
                   }
 
 
