@@ -382,9 +382,7 @@ elseif($code==26)
 
  <input type="radio"   id="ossm1"  onclick="emc1_hide();" name="Employee"   checked="" value="0" required="" hidden>  
 
-                       <label for="ossm1" class="btn  btn-xs"> Employee</label>
-
-                       <input type="radio"  id="ossm"  name="Employee"   required=""  onclick="emc1_show();" value="1" name="empc1" hidden>  
+   <input type="radio"  id="ossm"  name="Employee"   required=""  onclick="emc1_show();" value="1" name="empc1" hidden>  
 
                        <!-- <label for="ossm" class="btn btn-xs">Other</label> -->
     </div>

@@ -13593,8 +13593,7 @@ elseif($exportCode==84.1)
                             <td>{$data1['Mname']}</td>
                           
                             <td>{$data1['mobile_model']}{$data1['sim_number']}  </td>
-                            <td>{$data1['CreatedBy']}</td>
-                              <td>{$data1['CreatedDate']}</td>";
+                            <td>{$data1['CreatedBy']}</td>";
                             
                            
              $exportMeter.="</tr>";

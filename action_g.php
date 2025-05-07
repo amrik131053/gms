@@ -21490,11 +21490,17 @@ else{
                                                 <div class="col-lg-12">
 
                                                     <?php 
-if($role_id==2 OR $EmployeeID=='121129')
+
+                                                    if($EmployeeID=='131027' ANd $Batch='2025')
+                                                    {?>
+<textarea class="form-control" name='specialcomment'><?= $row1['CommentsDetail'];?></textarea>
+                                                   
+                                                   <?php }
+
+else if($role_id==2 )
     {
         ?>
-                                                    <textarea class="form-control"
-                                                        name='specialcomment'><?= $row1['CommentsDetail'];?></textarea>
+     <textarea class="form-control" name='specialcomment'><?= $row1['CommentsDetail'];?></textarea>
                                                     <?php }
 else
     {?>
