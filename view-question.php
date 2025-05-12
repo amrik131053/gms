@@ -653,7 +653,7 @@ code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,
               }
            });
    
-   }
+   } 
    
    
    function view_question(SubjectCode,CourseID,Batch,Semester)

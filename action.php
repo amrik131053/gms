@@ -9005,7 +9005,7 @@ mysqli_close($conn);
          $Batch=$_POST['batch'];
        $Semester=$_POST['sem'];
       $sr=0;
-      for($i=1;$i<=4;$i++)
+      for($i=1;$i<=5;$i++)
       {
       ?>    
             <div class="card collapsed-card" id="card<?=$i?>">
@@ -10713,7 +10713,7 @@ mysqli_close($conn);
                      <select  id='unit' class="form-control" required="" onchange="">
                         <option value="">Select</option>
                         <?php 
-                           for($i=1;$i<=4;$i++)
+                           for($i=1;$i<=5;$i++)
                            {?>
                         <option value="<?=$i?>"><?=$i?></option>
                         <?php }
