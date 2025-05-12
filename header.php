@@ -443,7 +443,7 @@ if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                     <?php
                   $ids = join("','",$array_aa); 
                   $q = mysqli_query($conn,"SELECT permissions.id as pid, submenu, mainmenu,menu_name, page_link FROM permissions INNER 
-join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id IN ('$ids') and type = 'Menu' ORDER BY master_menu.priorityorder ASC, permissions.priorityorder ASC");
+join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id IN ('$ids') and type = 'Menu' and (portal_type='4' OR portal_type='0') ORDER BY master_menu.priorityorder ASC, permissions.priorityorder ASC");
 
 
 

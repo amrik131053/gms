@@ -20766,7 +20766,7 @@ if($role_id=='2' || $role_id=='22')
 
 elseif($code==267) //update student
 {
-    $code_access = $_POST['code_access'];
+  $code_access = $_POST['code_access'];
   $DateOfBirth="01-01-1900";
   $empID=$_POST['empID'];
   $query = "SELECT  * FROM Admissions   where IDNo='$empID'";
@@ -20781,6 +20781,7 @@ elseif($code==267) //update student
      $Eligibility = $row1['Eligibility'];
      $Reason = $row1['Reason'];
      $Batch=$row1['Batch'];  
+     $Session=$row1['Session'];  
     $validUpto='NA';
     $IDNo=$row1['IDNo'];
     $OTR=$row1['OTR'];
@@ -21491,7 +21492,7 @@ else{
 
                                                     <?php 
 
-                                                    if($EmployeeID=='131027' ANd $Batch=='2025')
+                                                    if($EmployeeID=='131027' ANd $Session=='2025-26-A')
                                                     {?>
 <textarea class="form-control" name='specialcomment'><?= $row1['CommentsDetail'];?></textarea>
                                                    
@@ -22219,12 +22220,17 @@ include "connection/ftp-erp.php";
    else
    {
     $query = "UPDATE Admissions SET ";
-    if($role_id=='2' ||$role_id=='15')
+    if($role_id=='2' )
     {
     $query .= "StudentName ='$name', ";
     $query .= "FatherName ='$fatherName', ";
     $query .= "AadhaarNo ='$adhaar', ";
     }
+    if($role_id=='21' ||$role_id=='15')
+    {
+    $query .= "StudentName ='$name', ";
+    $query .= "FatherName ='$fatherName', ";
+     }
    $query .= "MotherName ='$motherName', ";
    $query .= "DOB ='$dob', ";
    $query .= "Sex ='$gender', ";

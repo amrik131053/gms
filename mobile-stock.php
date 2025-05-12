@@ -108,11 +108,7 @@
                                                              if ($code_access=='000') 
                              { 
                                 ?>
-                                <script>
-                               $( window ).on("load", function() {
-                                 //Issue();
-});
-                                </script>
+                              
 
                                 
                         <?php }?>
@@ -127,6 +123,12 @@
                 <!-- /.container-fluid -->
 
 </section>
+  <script>
+                               $( window ).on("load", function() {
+                                 Issue();
+                                  $('#btn4').toggleClass("bg-success");
+});
+                                </script>
 <p id="ajax-loader"></p>
 
 
@@ -216,6 +218,7 @@ function emc1_show() {
               {
                   
                  document.getElementById("emp-data").innerHTML=response;
+                 document.getElementById("empdata").value=response;
                  document.getElementById("empName").value=response;
 
               }
@@ -243,16 +246,17 @@ function bus(id)
            });
 }
 
-function IssueStock()
+function Issue11Stock()
 {
 
 var empID = document.getElementById('empID').value;
 var empName = document.getElementById('empName').value;
 var mobileData = document.getElementById('mobileData').value;
-
+var nameEmp = document.getElementById('name').value;
+var remarks= document.getElementById('remarks').value;
 var name = document.getElementById('emp-data').innerHTML;
 var code=26.2;
-// alert(name);
+alert(name);
 if(empID!='' && empName!='' && mobileData!='')
 {
 
@@ -262,11 +266,13 @@ if(empID!='' && empName!='' && mobileData!='')
         url: 'action_j.php',
         type: 'POST',
         data: {
-            empid:empID,
+            empID:empID,
             flag:code,
             empName:empName,
             mobileData:mobileData,
-            name:name
+            nameEmp:name,
+            remarks:remarks,
+            name:emp-data
         },
         success: function(response) {
            // console.log(response);
@@ -398,45 +404,68 @@ function Issuedstock() {
 }
 
 
-function submitarticle() {
-    var ArticleName = document.getElementById('ArticleName').value;
-    var ArticleSpecification = document.getElementById('ArticleSpecification').value;
+function IssueStock(form) {
+    alert("sdsfsf");
+    var empID = form.empID.value.trim();
+    var empdata=form.empdata.value.trim();
+    var empName = form.empName.value.trim();
+    var mobileData = form.mobileData.value.trim();
+    var remarks = form.remarks.value.trim();
+    var fileInput = form.fileatt;
+
+    var nameElement = document.getElementById("nameElementId");
+    var name = nameElement ? nameElement.innerText.trim() : "";
    
 
-    if (ArticleName != '' ) {
-        var code = 25.4;
-
-        var spinner = document.getElementById('ajax-loader');
-        spinner.style.display = 'block';
-        $.ajax({
-            url: 'action_j.php',
-            type: 'POST',
-            data: {
-                flag:code,
-                ArticleName:ArticleName,
-                ArticleSpecification:ArticleSpecification,
-                
-            },
-            success: function(response) {
-//console.log(response);
-                spinner.style.display = 'none';
-                if (response == 1) {
-                    SuccessToast('Successfully Submit');
-                    Addarticle();
-                     
-                } else {
-                    ErrorToast('Try Again', 'bg-danger');
-                }
-            }
-        });
-    } else {
-        ErrorToast('Please Input All Required Filed', 'bg-warning');
+    if (empID === "") {
+        ErrorToast('Please Enter empID.', 'bg-warning');
+        return;
+    }
+    if (empName === "") {
+        ErrorToast('Please Enter empName.', 'bg-warning');
+        return;
+    }
+    if (mobileData === "") {
+        ErrorToast('Please Enter mobileData.', 'bg-warning');
+        return;
+    }
+    if (remarks === "") {
+        ErrorToast('Please Enter remarks.', 'bg-warning');
+        return;
+    }
+    if (fileInput.files.length === 0) {
+        ErrorToast('Please choose a file.', 'bg-warning');
+        return;
     }
 
+    var formData = new FormData(form);
 
-
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+         
+            if (response == '1') {
+                SuccessToast('Successfully Uploaded');
+                form.empName.value = "";
+                form.mobileData.value = "";
+                form.remarks.value = "";
+                form.fileatt.value = null; // resets file input
+            } else if (response.includes('10.0.10.11')) {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else {
+                ErrorToast('Unexpected response: ' + response, 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log("AJAX error:", error);
+            ErrorToast('AJAX request failed.', 'bg-danger');
+        }
+    });
 }
-
 
 
 function show_article() {
@@ -577,7 +606,179 @@ function showdiv(value) {
     $('#showSIM').hide();
   }
 
+function  forward_set_id(id)
+{
+ document.getElementById("Token_No").value=id;
 
+}
+function forward_task()
+{
+  var forward_remarks = document.getElementById("forward_remarks").value;
+  var Token_No = document.getElementById("Token_No").value;
+  var team_id = document.getElementById("forward_team_div").value;
+  var other_id = document.getElementById("forward_other_div").value;
+  var assignTo=team_id+other_id;
+  var end_date = document.getElementById("forward_end_date").value;
+ // var spinner=document.getElementById("ajax-loader");
+ //   spinner.style.display='block';
+           var code=13;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,assignTo:assignTo,end_date:end_date,Token_No:Token_No,forward_remarks:forward_remarks
+              },
+              success: function(response) 
+              {
+                  // spinner.style.display='none';
+                // console.log(response);
+                if (response==1) {
+                  SuccessToast('Success');
+                     $("#ForwardTaskModal").modal('hide');
+                  my_task();
+                }
+                else if(response==2)
+                {
+                   ErrorToast('Already assign','bg-warning');
+                }
+                else
+                {
+
+                }
+                 
+              }
+           });
+}
+      function task_submit_with_daily_report(id) 
+     {
+ var spinner=document.getElementById("ajax-loader");
+  var change_status=document.getElementById(id+"_change_status1").value;
+alert(id);
+   spinner.style.display='block';
+           var code=19;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,change_status:change_status,id:id
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+                  spinner.style.display='none';
+                  show_task_after_chnage();
+                  my_task();
+                  task_timeline(id);
+
+              }
+           });
+   } 
+    function show_task_after_chnage() 
+     {
+
+           var code=20;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                 document.getElementById("task_show_after_onchange").innerHTML=response;
+              }
+           });
+   }
+function my_task()
+{
+ 
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=11;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                  spinner.style.display='none';
+                 document.getElementById("data_show").innerHTML=response;
+              }
+           });
+}
+function assign_task()
+{
+ 
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=12;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+               {
+                  spinner.style.display='none';
+                 document.getElementById("data_show").innerHTML=response;
+              }
+           });
+}
+function task_timeline(Token_No)
+{
+ // alert(Token_No);
+ var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=14;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,Token_No:Token_No
+              },
+              success: function(response) 
+              {
+                  spinner.style.display='none';
+             
+                 document.getElementById("view_timeline_data").innerHTML=response;
+              }
+           });
+}
+function submit_marks(ID)
+{
+ // alert(Token_No);
+  var Marks = document.getElementById("marks").value;
+  var Remarks = document.getElementById("remarks").value;
+  
+           var code=15;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,ID:ID,Marks:Marks,Remarks:Remarks
+              },
+              success: function(response) 
+              {
+                  
+                if (response==1) {
+                  SuccessToast('Success');
+                    $("#ViewTaskModal").modal('hide');
+                  my_task();
+                }
+                else
+                {
+                 document.getElementById("view_timeline_data").innerHTML=response;
+                }
+              }
+           });
+}
+
+window.onload = function() {
+  my_task();
+};
 }
 </script>
 </br>
