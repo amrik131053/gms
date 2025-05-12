@@ -13634,7 +13634,7 @@ sqlsrv_close($conntest);
 
   }
   elseif ($code ==200.2)
-  {
+  { 
 $course= $_POST['course'];
 $College= $_POST['College'];
 $sql = "SELECT DISTINCT mcs.Batch as saBatch  FROM MasterCourseStructure as mcs 
