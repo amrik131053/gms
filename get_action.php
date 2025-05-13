@@ -3304,6 +3304,7 @@ elseif($code==36)
              <th>Main Menu</th>
              <th>Sub Menu</th>
              <th>Link</th>
+             <th>Type</th>
              <th>Action</th>
           </tr>
           <tr>
@@ -3348,20 +3349,21 @@ elseif($code==36)
 
 
             </td>
-
-
-
-
              <td>
-
                <label for="name" class="control-label">
                                        <p class="page_submenu<?=$id;?>"><?=$row['submenu'];?></p>
                                     </label></td>
-
-
              <td><label for="name" class="control-label">
                                        <p class="page_sublink<?=$id;?>"><?=$row['page_link'];?></p>
                                     </label></td>
+                                    <td>
+               <select class="" id="mainu_type<?=$row['id'];?>" onchange="update_mainu_type(this.value,'<?=$row['id'];?>');">
+               <option value="0" <?php if($row['portal_type'] == 0) echo 'selected'; ?>>Common</option>
+               <option value="1" <?php if($row['portal_type'] == 1) echo 'selected'; ?>>Account</option>
+               <option value="2" <?php if($row['portal_type'] == 2) echo 'selected'; ?>>Exam</option>
+               <option value="4" <?php if($row['portal_type'] == 4) echo 'selected'; ?>>UMS</option>
+            </select>
+                                    </td>
              <td><div class="controls">
                                              <i class="fa fa-edit" id="page_edit<?=$id;?>" onclick="show_text_box_pages(<?=$id;?>);"></i>
                                              <div class="btn-group" role="group" aria-label="Basic example">
@@ -3378,6 +3380,7 @@ style='display:none ;'><i class="fa fa-times"  >     </i>
 
                                   </div>
                                  </td>
+
                                 
           </tr>
         
@@ -3403,6 +3406,17 @@ style='display:none ;'><i class="fa fa-times"  >     </i>
 
           <td><input type="text" class="form-control" id="submenu"></td>
           <td><input type="text" class="form-control" id="sub_link"></td>
+          <td>
+                                    <select class="form-control" id="mainu_type"   >
+ <option value="0">Common</option>
+ <option value="1">Account</option>
+ <option value="2">Exam</option>
+ <option value="4">UMS</option>
+     
+               </select>
+
+
+                                    </td>
           <td><input type="button" onclick="new_page_submit()" class="btn btn-success" value="Submit"></td>
        </tr>
        </table><?php 
@@ -3466,7 +3480,8 @@ elseif($code==39)
      }
      $submenu_name=$_GET['submenu_name'];
      $sublink=$_GET['link'];
-       $submenu_update="INSERT INTO permissions(mainmenu,submenu,page_link,master_id,type) VALUES('$menu_name','$submenu_name','$sublink','$id','Menu')";
+     $mainu_type=$_GET['mainu_type'];
+        $submenu_update="INSERT INTO permissions(mainmenu,submenu,page_link,master_id,type,portal_type) VALUES('$menu_name','$submenu_name','$sublink','$id','Menu','$mainu_type')";
    $submenu_run=mysqli_query($conn,$submenu_update);
    if ($submenu_run)
     {

@@ -41994,15 +41994,20 @@ elseif($code==470)
             
             sqlsrv_close($conntest);
         }
-         elseif($code == 474.1) {
-              $chnagerole = $_POST['chnagerole'];
-   
-                
-     $update_addrole="Update Staff set RoleID='$chnagerole' where IDNo='$EmployeeID'";
-         
-            $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
-       
+         elseif($code == 474.1) 
+         {
+      $chnagerole = $_POST['chnagerole'];     
+         $update_addrole="Update Staff set RoleID='$chnagerole' where IDNo='$EmployeeID'";
+         $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
           sqlsrv_close($conntest);
+        }
+         elseif($code == 475) 
+         {
+        $id = $_POST['id'];     
+        $mainu_id = $_POST['mainu_id'];     
+        $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
+        $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
+        sqlsrv_close($conntest);
         }
    else
    {
