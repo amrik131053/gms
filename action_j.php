@@ -411,7 +411,7 @@ elseif($code==26)
  <label>Employee ID</label>
 <input type="text" class="form-control" name="empid" id='empID' onblur="emp_detail_verify1(this.value)" >
 <span id='emp-data'  style="font-weight:bold"></span><br>
-<input type="hidden" id="empdata" name="name">
+<input type="hidden" id="empdata" name="emp_name">
 <label>Article Type</label>
 <select class="form-control" name="empName" id="empName" onchange="bus(this.value)"> 
 <option value>Select</option>
@@ -502,7 +502,7 @@ if ($code=='26.2')
  
     $empID = $_POST['empid'];
     $empName = $_POST['empName'];
-    $empdata = $_POST['name'];
+    $empdata = $_POST['emp_name'];
     $mobileData = $_POST['mobileData'];
     $remarks=$_POST['remarks'];
     $photo = $_FILES["fileatt"]["name"];
@@ -532,7 +532,7 @@ $destdir = '/Images/mobilestock';
     else {
         $ImageName = "";
     }
-          $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
+           $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
                                         ('$empID','$empdata','$mobileData','$empName','$timeStamp','$EmployeeID','0','$ImageName','$remarks')";
 
     $addrun=mysqli_query($connection_s,$insert);
