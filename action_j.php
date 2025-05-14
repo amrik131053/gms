@@ -671,7 +671,7 @@ inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID 
                 <label>Employee ID</label>
                 <input type="text" class="form-control" name="empid" id='empID' onblur="emp_detail_verify1(this.value)" >
                 <span id='emp-data'  style="font-weight:bold"></span><br>
-                <input type="text" id="empdata" name="name"> 
+                <input type="hidden" id="empdata" name="name"> 
                 <label>Discription</label>
                 <input type="text" class="form-control" name="remarks" id='remarks' >
                 <label>Attachment</label>
