@@ -118,6 +118,29 @@ ini_set('max_execution_time', '0');
    </div>
    <!-- /.container-fluid -->
 </section>
+<div class="modal fade" id="viewLactureMOdel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="exampleModalLabel">View Material</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="view_material_data">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary" onclick="forward_task();">Submit</button> -->
+            </div>
+        </div>
+    </div>
+</div>
 <script>
    function collegeByDepartment3(College) {
 
@@ -162,6 +185,47 @@ $.ajax({
     }
 });
 }
+
+function view_lacture_modal(id) {
+   var code=244.1;
+       var spinner=document.getElementById('ajax-loader');
+       spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("view_material_data").innerHTML=response;
+            }
+         });
+
+   // 
+}
+
+
+function handleVerification(id, action) {
+    if (confirm("Are you sure you want to " + action + " this file?")) {
+        fetch('action_g.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `code=244.2&id=${id}&action=${action}`
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert(result);
+            SearchReport();
+            // location.reload(); // Reload page to reflect changes
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
 function SearchReport()
           {
       
