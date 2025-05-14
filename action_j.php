@@ -27,7 +27,6 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
 <script type="text/javascript">
-
 window.location.href = "index.php";
 </script>
 <?php }
@@ -61,9 +60,9 @@ window.location.href = "index.php";
        }
         $currentMonthString=date('F');
         $currentMonthInt=date('n');
-        $code=$_POST['flag'];
+         $code=$_POST['flag'];
      
-        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8)
+        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8|| $code==26.2 || $code==28)
         {
             include "connection/ftp-erp.php";
         }
@@ -406,14 +405,13 @@ elseif($code==26)
  
   
   </div> -->
- 
 <form action="action_j.php" method="post" enctype="multipart/form-data">
     <input type="hidden" value="26.2" name="flag">
   <div class="col-md-12"  id="lect_div1">
  <label>Employee ID</label>
 <input type="text" class="form-control" name="empid" id='empID' onblur="emp_detail_verify1(this.value)" >
 <span id='emp-data'  style="font-weight:bold"></span><br>
-<input type="hidden" id="empdata" name="name">
+<input type="hidden" id="empdata" name="emp_name">
 <label>Article Type</label>
 <select class="form-control" name="empName" id="empName" onchange="bus(this.value)"> 
 <option value>Select</option>
@@ -443,7 +441,8 @@ while($row=mysqli_fetch_array($getDropRun))
 </div>
 <br>       
 <br>
-<button onclick="IssueStock()"  class="btn btn-primary">Issue Stock</button>
+<button type="button" onclick="IssueStock(this.form)" class="btn btn-primary">Issue Stock</button>
+
               </div>
 </form>
     </div>
@@ -498,11 +497,12 @@ mysqli_close($connection_s);
 
       }
 
-else if ($code == 26.2)
+if ($code=='26.2')
  {
+ 
     $empID = $_POST['empid'];
     $empName = $_POST['empName'];
-    $empdata = $_POST['name'];
+    $empdata = $_POST['emp_name'];
     $mobileData = $_POST['mobileData'];
     $remarks=$_POST['remarks'];
     $photo = $_FILES["fileatt"]["name"];
@@ -520,30 +520,19 @@ else if ($code == 26.2)
             exit;
         }
 
-        $ImageName = $empID . '_' . $string . '.' . $file_type;
-        $upload_dir = 'upload/';
-        $upload_file = $upload_dir . $ImageName;
+  $ImageName = $empID . '_' . $string . '.' . $file_type;
 
-        // if (file_exists($upload_file)) {
-          
-        //     exit;
-        // }
-
-        if (move_uploaded_file($photoTmp, $upload_file)) {
-            ?>
-            <script type="text/javascript">
-alert("Sucess ");
-window.location.href = 'mobile-stock.php';
-</script>
-<?php
-        } else {
-          
-            exit;
-        }
-    } else {
+$destdir = '/Images/mobilestock';
+    ftp_chdir($conn_id, "/Images/mobilestock") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $ImageName, $photoTmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+       
+    } 
+    else {
         $ImageName = "";
     }
-        $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
+           $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
                                         ('$empID','$empdata','$mobileData','$empName','$timeStamp','$EmployeeID','0','$ImageName','$remarks')";
 
     $addrun=mysqli_query($connection_s,$insert);
@@ -647,16 +636,15 @@ inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID 
            </tr>
 
  <tr>
-            <th>SIM No :</th>
+            <th> Details :</th>
             
             <th>
-                <b><?=$row['sim_number'];?></b>
+                <b><?=$row['sim_number'];?><?=$row['mobile_model'];?>/ <?=$row['brand'];?> <?= $row['configuration'];?></b>
             </th>
            </tr>
 
            <tr>
-             <th><b>Mobile Detail :</b></th>
-             <th><b><?=$row['mobile_model'];?>/ <?=$row['brand'];?> <?= $row['configuration'];?></b></th>
+            
             
                    
           
@@ -664,12 +652,14 @@ inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID 
         <?php
         $stockid=$row['stockid'];
         $ledgerid=$row['stockupid'];
+        $link=$row['file'];
 
         
          $sr++; }
            ?>
        <tr><td colspan="2"> <button type="button" class="btn btn-success" onclick="return_stock(<?=$ledgerid;?>,<?=$stockid;?>)" >Return</button>
-        <button type="button" class="btn btn-primary" onclick="toggleDiv()">Transfar</button>
+       <a href="http://erp.gku.ac.in:86//Images/mobilestock/<?=$link;?>" target="_blank"><button type="button" class="btn btn-warning">View File</button></a>
+       <button type="button" class="btn btn-primary" onclick="toggleDiv()">Transfar</button>
     <!-- Transfar Stock -->
      <div id="myDiv">
        <form action="action_j.php" method="post" enctype="multipart/form-data">
@@ -689,26 +679,17 @@ inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID 
             </div>
                     <br>       
                     <br>
-            <button onclick="update()"  class="btn btn-primary">Issue</button>
+            <button onclick="transferStock(this.form)"  class="btn btn-primary">Issue</button>
             </div>
             </form>
-            </div>
-        <!-- <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal"
-                        onclick="transfar()">
-                        <i class="fa fa-share fa-sm" aria-hidden="true"></i> -->
-                    </td></tr> 
-</tbody>
+            </div></td>
+                  </tr>
+                    
+                    
+
+                    
+    </tbody>
 </table>
-
-<style>
-
-    #myDiv {
-      display: none; /* Initially hidden */
-      padding: 20px;
-      
-    }
-  </style>
-
 
 <?php
       }
@@ -1278,7 +1259,7 @@ elseif($code==25.7)
 
    {
      ?>
-     <div class="row">
+     <!-- <div class="row">
          <div class="col-lg-3">
         <div class="card">
         <div class="card-header">
@@ -1286,65 +1267,28 @@ elseif($code==25.7)
          <b>Add Stock</b>
         
        </div>
-        </div>
+        </div> -->
            
-              <label>Name of Article</label>
-              <select class="form-control" id='articlecode' onchange="showdiv(this.value);">
-                <option value="">Select</option>
-              <?php $get_group="SELECT * FROM mobilestockarticle";
-         $get_group_run=mysqli_query($connection_s,$get_group);
-         while($row=mysqli_fetch_array($get_group_run))
-         {?>
-            <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
-            <?php }?>
+              
 
-</select>
-           
-<div id="showMobile" style="display: none;">
-    <label>Mobile Model</label>
-<input type="text" id="mobile_model" class="form-control" name="Mobile Model">
- <label>Brand</label>
-<input type="text" id="brand" class="form-control" name="brand">
- <label>Configration</label>
-<input type="text" id="configuration" class="form-control" name="configuration">
-</div>
-<div id="showSIM" style="display: none;">
-    <label>SIM Number</label>
-<input type="text" id="sim_number" class="form-control" name="sim_number">
 
-</div>
 <!-- <div id="articlecode">
 
 <label>Quantity</label>
                 <input type="number"  id='quantity' placeholder=""  class="form-control">
 </div> -->
 
-<br>
-<button onclick="submitstock()"  class="btn btn-primary">Add</button>
-              </div>
 
-
-
-               <div class="col-lg-9">
-                    <div class="card">
-        <div class="card-header">
-       
-         <b>Master Stock</b>
-</div>
-         <div id="showstock">
-        </div>        
-        </div>  
-        </div> 
 
   <?php 
-  sqlsrv_close($conntest); 
- 
+  
 }
+
 else if ($code == 28)
  {
     $empID = $_POST['empid'];
     $id = $_POST['id'];
-    $empName = $_POST['empName'];
+    // $empName = $_POST['empName'];
     $empdata = $_POST['name'];
     // $mobileData = $_POST['mobileData'];
     $remarks=$_POST['remarks'];
@@ -1354,7 +1298,7 @@ else if ($code == 28)
     $date = date('Y-m-d');
     $time = date('h:i:s');
     $string = bin2hex(openssl_random_pseudo_bytes(4));
-
+    
     if ($photo) {
         $photoTmp = $_FILES["fileatt"]["tmp_name"];
         $file_type = strtolower(pathinfo($photo, PATHINFO_EXTENSION));
@@ -1365,38 +1309,31 @@ else if ($code == 28)
             exit;
         }
 
-        $ImageName = $empID . '_' . $string . '.' . $file_type;
-        $upload_dir = 'upload/';
-        $upload_file = $upload_dir . $ImageName;
+  $ImageName = $empID . '_' . $string . '.' . $file_type;
 
-        // if (file_exists($upload_file)) {
-          
-        //     exit;
-        // }
-
-        if (move_uploaded_file($photoTmp, $upload_file)) {
-            ?>
-            <script type="text/javascript">
-alert("Sucess ");
-window.location.href = 'mobile-stock.php';
-</script>
-<?php
-        } else {
-          
-            exit;
-        }
-    } else {
+$destdir = '/Images/mobilestock';
+    ftp_chdir($conn_id, "/Images/mobilestock") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $ImageName, $photoTmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+       
+    } 
+    else {
         $ImageName = "";
     }
-         $insert="UPDATE mobilestockledger SET IDNo='$empID',Name='$empdata',StockID='$stockid',ArticleID='$ledgerid',CreatedDate='$timeStamp',CreatedBy='$EmployeeID',Status='0',file='$ImageName',Remarks='$remarks'WHERE ID='$id'";
+    
+         $insert="UPDATE mobilestockledger SET IDNo='$empID',file='$ImageName',Name='$empdata',StockID='$stockid',ArticleID='$ledgerid',CreatedDate='$timeStamp',CreatedBy='$EmployeeID',Status='0',file='$ImageName',Remarks='$remarks'WHERE ID='$id'";
          
 
     $addrun=mysqli_query($connection_s,$insert);
-
+    ?>
+    <script type="text/javascript">
+window.location.href = 'mobile-stock.php';
+</script>
+<?php
 
 
       }
 
 }
-
 

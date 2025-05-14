@@ -179,7 +179,6 @@ function return_stock(id,stockid)
 
 }
 
-
 function exportExcel() {
     var exportCode = 84.1;
  
@@ -237,7 +236,7 @@ function emc1_show() {
                   
                  document.getElementById("emp-data").innerHTML=response;
                  document.getElementById("empdata").value=response;
-                 document.getElementById("empid").value=response;
+                 document.getElementById("empName").value=response;
 
               }
            });
@@ -427,10 +426,6 @@ function Issuedstock() {
 // });
 
 function IssueStock(form) {
-<<<<<<< HEAD
-    //alert(empName);
-=======
->>>>>>> 8c8bc9c004569ec789de83251f2b013c20794821
     var empID = form.empID.value.trim();
     var empdata=form.empdata.value.trim();
     var empName = form.empName.value.trim();
@@ -663,7 +658,6 @@ function submitstock() {
 </script>
 
  <script>
-
 function showdiv(value) {
 
 // alert(value);
@@ -847,94 +841,10 @@ function submit_marks(ID)
               }
            });
 }
-function toggleDiv() {
-    alert(hhjk);
-    var div = document.getElementById("myDiv");
-    if (div.style.display === "none") {
-      div.style.display = "block";
-    } else {
-      div.style.display = "none";
-    }
-  }
+
 window.onload = function() {
   my_task();
 };
-}
-document.addEventListener("DOMContentLoaded", function () {
-    window.toggleDiv = function () {
-      var div = document.getElementById("myDiv");
-      if (div.style.display === "none" || div.style.display === "") {
-        div.style.display = "block";
-      } else {
-        div.style.display = "none";
-      }
-    };
-  });
-
-
-//update stock function //
-function update(form) {
-    
-
-    var empID = form.empID.value.trim();
-    var empdata=form.empdata.value.trim();
-    var empName = form.empName.value.trim();
-    // var mobileData = form.mobileData.value.trim();
-    var remarks = form.remarks.value.trim();
-    var fileInput = form.fileatt;
-
-    var nameElement = document.getElementById("nameElementId");
-    var name = nameElement ? nameElement.innerText.trim() : "";
-   
-
-    if (empID === "") {
-        ErrorToast('Please Enter empID.', 'bg-warning');
-        return;
-    }
-    if (empName === "") {
-        ErrorToast('Please Enter empName.', 'bg-warning');
-        return;
-    }
-    // if (mobileData === "") {
-    //     ErrorToast('Please Enter mobileData.', 'bg-warning');
-    //     return;
-    // }
-    if (remarks === "") {
-        ErrorToast('Please Enter remarks.', 'bg-warning');
-        return;
-    }
-    if (fileInput.files.length === 0) {
-        ErrorToast('Please choose a file.', 'bg-warning');
-        return;
-    }
-
-    var formData = new FormData(form);
-
-    $.ajax({
-        url: form.action,
-        type: form.method,
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-         
-            // if (response == '1') {
-            //     SuccessToast('Successfully Updated');
-            //     form.empName.value = "";
-            //     form.mobileData.value = "";
-            //     form.remarks.value = "";
-            //     form.fileatt.value = null; // resets file input
-            // } else if (response.includes('10.0.10.11')) {
-            //     ErrorToast('FTP Server Off', 'bg-warning');
-            // } else {
-            //     ErrorToast('Unexpected response: ' + response, 'bg-danger');
-            // }
-        },
-        error: function(xhr, status, error) {
-            console.log("AJAX error:", error);
-            ErrorToast('AJAX request failed.', 'bg-danger');
-        }
-    });
 }
 </script>
 </br>
