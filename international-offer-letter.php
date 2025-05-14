@@ -410,7 +410,7 @@ include "header.php";
          <!--    <div class="col-lg-2">
               <label>Session</label>   -->
               <select class="form-control" id="session" hidden>
-                <option value="2025-26-J">2025-26-J</option>
+                <option value="2025-26-A">2025-26-A</option>
                  <option value="">Select</option>
            <!--       <option value="2022-23">2022-23</option>
                  <option value="2023-24">2023-24</option>
