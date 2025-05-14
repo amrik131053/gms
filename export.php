@@ -883,7 +883,7 @@ elseif ($exportCode == 13)
 
  // $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  AND session='$session' and hostel_student_summary.status='0'  order by hostel_student_summary.status  ASC ";
 
-$sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$hostel'   AND session='$session' and hostel_student_summary.status='0'  order by hostel_student_summary.status ASC ";
+ $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$hostel'   AND session='$session' and hostel_student_summary.status='0'  order by hostel_student_summary.status ASC ";
 
     $res=mysqli_query($conn,$sql);
     while($data=mysqli_fetch_array($res))
@@ -892,6 +892,9 @@ $sql="SELECT * from stock_summary inner join location_master on stock_summary.Lo
         $RoomNo=$data['RoomNo'];
          $studentID=$data['student_id'];
         $RoomNo=$data['RoomNo'];
+        $Check_in_date=$data['check_in_date'];
+
+       $Checkindate=date("d-M-Y",strtotime($Check_in_date));
         $result1 =   "SELECT  * FROM Admissions where IDNo='$studentID'"; 
 
 
@@ -932,6 +935,7 @@ $sql="SELECT * from stock_summary inner join location_master on stock_summary.Lo
          <td>{$FatherMobileNo}</td>
          <td>{$Course}</td>
          <td>{$Semester}</td>
+         <td>{$Checkindate}</td>
          </tr>";
 
 

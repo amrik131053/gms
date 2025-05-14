@@ -613,6 +613,8 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 </div>
 <?php }?>
 
+
+
 </section>
 <p id="ajax-loader"></p>
 <script type="text/javascript">

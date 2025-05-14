@@ -57,7 +57,7 @@ window.location.href = "index.php";
    $permissions_array = ""; 
    $r[]= ""; 
    $p[]= ""; 
-      $id=""; 
+      $id="0"; 
 
  $staff="SELECT Name,ShiftID,Snap,personalIdentificationMark,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID,FatherName,
  MotherName,DateOfBirth,Gender,PANNo,EmailID,OfficialEmailID,MobileNo,WhatsAppNumber,EmergencyContactNo,
@@ -141,18 +141,22 @@ $_SESSION['RequiredData']=$alertMessage;
            $array_aa=array_unique((array_merge($r,$p)));
        $urls=array('dashboard.php','not_found.php','bulk_assign.php','password-change.php');
  
-       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
+      $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
    
        if (!in_array($file,$urls))
         { 
-        $result1 = mysqli_query($conn,"SELECT id from permissions WHERE page_link = '$file'");
+          
+    $result1 = mysqli_query($conn,"SELECT id from permissions WHERE page_link = '$file' ANd  (portal_type='4' OR portal_type='0')");
        while($row1=mysqli_fetch_array($result1))
        {
-            $id = $row1['id'];
+           $id = $row1['id'];
        }
+     
        if(!in_array($id,$array_aa))
        {
+       // print_r($array_aa);
+       
         header('Location:not_found.php');
        } 
        else if($passSecureFlag==1)
