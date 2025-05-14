@@ -1259,7 +1259,7 @@ elseif($code==25.7)
 
    {
      ?>
-     <div class="row">
+     <!-- <div class="row">
          <div class="col-lg-3">
         <div class="card">
         <div class="card-header">
@@ -1267,58 +1267,21 @@ elseif($code==25.7)
          <b>Add Stock</b>
         
        </div>
-        </div>
+        </div> -->
            
-              <label>Name of Article</label>
-              <select class="form-control" id='articlecode' onchange="showdiv(this.value);">
-                <option value="">Select</option>
-              <?php $get_group="SELECT * FROM mobilestockarticle";
-         $get_group_run=mysqli_query($connection_s,$get_group);
-         while($row=mysqli_fetch_array($get_group_run))
-         {?>
-            <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
-            <?php }?>
+              
 
-</select>
-           
-<div id="showMobile" style="display: none;">
-    <label>Mobile Model</label>
-<input type="text" id="mobile_model" class="form-control" name="Mobile Model">
- <label>Brand</label>
-<input type="text" id="brand" class="form-control" name="brand">
- <label>Configration</label>
-<input type="text" id="configuration" class="form-control" name="configuration">
-</div>
-<div id="showSIM" style="display: none;">
-    <label>SIM Number</label>
-<input type="text" id="sim_number" class="form-control" name="sim_number">
 
-</div>
 <!-- <div id="articlecode">
 
 <label>Quantity</label>
                 <input type="number"  id='quantity' placeholder=""  class="form-control">
 </div> -->
 
-<br>
-<button onclick="submitstock()"  class="btn btn-primary">Add</button>
-              </div>
 
-
-
-               <div class="col-lg-9">
-                    <div class="card">
-        <div class="card-header">
-       
-         <b>Master Stock</b>
-</div>
-         <div id="showstock">
-        </div>        
-        </div>  
-        </div> 
 
   <?php 
-  sqlsrv_close($conntest); 
+  
 }
 
 else if ($code == 28)
