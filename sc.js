@@ -1549,7 +1549,7 @@ function emp_role_all(id)
 }
 
 
-
+ 
 
   function un_check(id)
   {
@@ -1575,6 +1575,8 @@ function emp_role_all(id)
   xmlhttp.send();
 
   }
+
+
 
   function show_text_box_pages(id)
   {
@@ -1710,6 +1712,7 @@ function new_page_submit()
 
       var submenu = $('#submenu').val();
       var sublink = $('#sub_link').val();
+      var mainu_type = $('#mainu_type').val();
    
                var code=39; 
   var xmlhttp = new XMLHttpRequest();
@@ -1717,6 +1720,7 @@ function new_page_submit()
   {
     if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
+      console.log(xmlhttp.responseText);
       if (xmlhttp.responseText==0)
        {
          ErrorToast('Error','bg-danger' );
@@ -1730,7 +1734,7 @@ function new_page_submit()
       show_menu_pages(menu);
     }
   }
-  xmlhttp.open("GET", "get_action.php?menu_id=" + menu+"&submenu_name="+submenu+"&link="+sublink+"&code="+code, true);
+  xmlhttp.open("GET", "get_action.php?menu_id=" + menu+"&submenu_name="+submenu+"&link="+sublink+"&mainu_type="+mainu_type+"&code="+code, true);
   xmlhttp.send();
 }
 
@@ -1768,6 +1772,26 @@ if (lastTab) {
 }
 }
 
+
+function update_mainu_type(id,mainu_id) {
+  var spinner = document.getElementById("ajax-loader");
+  spinner.style.display = 'block';
+  var code = 475;
+  $.ajax({
+      url: 'action_g.php',
+      type: 'POST',
+      data: {
+          code: code,
+          id: id,
+          mainu_id:mainu_id
+      },
+      success: function(response) {
+           console.log(response);
+          spinner.style.display = 'none';
+         
+      }
+  });
+}
 
 
 

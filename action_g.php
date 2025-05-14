@@ -2347,7 +2347,7 @@ mysqli_close($conn);
                }
                elseif($get_row['status']==4)
                {
-               $status_user_side="<b class='bg-warning'>Approved by Registrar</b>";
+               $status_user_side="<b class='bg-warning'>Approved by Authority</b>";
                }
                elseif($get_row['status']==5)
                {
@@ -2357,7 +2357,7 @@ mysqli_close($conn);
                 elseif($get_row['status']==6)
                {
                   
-               $status_user_side="<b class='bg-warning'>Forward To Registrar</b>";
+               $status_user_side="<b class='bg-warning'>Forward To Authority</b>";
                }
                else
                {
@@ -19491,7 +19491,7 @@ $DepartmentID=$_POST['Department'];
 $Batch=$_POST['Batch'];
 
 $SrNo=1;
-      $CheckStudyMaterial="SELECT sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+      $CheckStudyMaterial="SELECT sm.id as s_id,sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
        StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where 1=1";
        if($CollegeID!='')
        {
@@ -19506,7 +19506,7 @@ $SrNo=1;
        $CheckStudyMaterial.="AND sm.batch='$Batch'";
        }
        
-      $CheckStudyMaterial.="group by sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+      $CheckStudyMaterial.="group by sm.id,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
     $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
     while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
     {
@@ -19517,6 +19517,7 @@ $SrNo=1;
      {
          $ColegeName=$row1['CollegeName'];
          $Courseid=$row1['Course'];
+         
      }
 $semid=$row['semid'];
 $batch=$row['batch'];
@@ -19524,6 +19525,7 @@ $StaffID=$row['IDNo'];
 $StaffName=$row['Name'];
 $SubjectCode=$row['SubjectCode'];
 $nooflect=$row['nooflect'];
+$s_id=$row['s_id'];
 $DocumentType=$row['DocumentType'];
 ?>
                         <tr>
@@ -19536,7 +19538,12 @@ $DocumentType=$row['DocumentType'];
                             <td><?=$DocumentType;?></td>
                             <td><b><?=$StaffID;?><b></td>
                             <td><b><?=$StaffName;?></b></td>
-                            <td><?=$nooflect;?></td>
+                            <td><b><?=$nooflect;?></b></td>
+                            <td>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#viewLactureMOdel"
+                            onclick="view_lacture_modal('<?=$s_id;?>');"><i class="fa fa-eye"></i></button>
+                            
+                           </td>
                         </tr>
                         <?php 
     $SrNo++;
@@ -19551,6 +19558,88 @@ $DocumentType=$row['DocumentType'];
                 sqlsrv_close($conntest);
                
 }
+elseif ($code==244.1) {
+    $id = $_POST['id'];
+    $CheckStudyMaterial = "SELECT * from StudyMaterial Where id='$id'";
+    $CheckStudyMaterialRun = sqlsrv_query($conntest, $CheckStudyMaterial);
+    
+    while ($row = sqlsrv_fetch_array($CheckStudyMaterialRun, SQLSRV_FETCH_ASSOC)) {
+        $file = $row['CourseFile'];
+        $file_url = "http://erp.gku.ac.in:86/StudyMaterial/$file";
+        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+        // echo "<p><strong>File:</strong> $file</p>";
+?>
+<div class="row card">
+    <?php
+        if ($extension == 'pdf') {
+            echo "<embed class='pdf' src='$file_url' width='100%' height='600'>";
+        } elseif (in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            echo "<img src='$file_url' alt='Study Material Image' style='max-width:100%; height:auto;'>";
+        } elseif (in_array($extension, ['ppt', 'pptx'])) {
+            $google_viewer_url = "https://docs.google.com/gview?url=" . urlencode($file_url) . "&embedded=true";
+            echo "<iframe src='$google_viewer_url' style='width:100%; height:600px;' frameborder='0'></iframe>";
+        } else {
+            echo "<p>Unsupported file format. <a href='$file_url' target='_blank'>Click to download</a></p>";
+        }
+    ?>
+
+    <div class="mt-3 d-flex justify-content-center">
+        <button class="btn btn-success mx-2" onclick="handleVerification('<?=$id?>', 'verify')"> Verify</button>
+        <button class="btn btn-danger mx-2" onclick="handleVerification('<?=$id?>', 'reject')"> Reject</button>
+    </div>
+</div>
+        <?php
+    }
+}
+elseif ($code == 244.2) {
+    $id = $_POST['id'];
+    $action = $_POST['action'];
+
+    // Map action to actual column names
+    $column_map = [
+        'verify' => [
+            'status' => 'VerifyStatus',
+            'by' => 'VerifyBy',
+            'on' => 'VerifyOn',
+            'value' => '1'
+        ],
+        'reject' => [
+            'status' => 'VerifyStatus',
+            'by' => 'RejectBy',
+            'on' => 'RejectOn',
+            'value' => '2'
+        ]
+    ];
+
+    // Check if valid action
+    if (!isset($column_map[$action])) {
+        echo "Invalid action.";
+        exit;
+    }
+
+    // Get mapped columns
+    $status_col = $column_map[$action]['status'];
+    $by_col = $column_map[$action]['by'];
+    $on_col = $column_map[$action]['on'];
+    $status = $column_map[$action]['value'];
+
+    $update = "UPDATE StudyMaterial 
+               SET $status_col = '$status', 
+                   $by_col = '$EmployeeID', 
+                   $on_col = '$timeStamp' 
+               WHERE id = '$id'";
+
+    $runUpdate = sqlsrv_query($conntest, $update);
+
+    if ($runUpdate) {
+        echo "File has been " . ucfirst($action) . "ed.";
+    } else {
+        echo "Failed to update status.";
+    }
+}
+
+
 elseif($code==245)
 {
     ?>
@@ -41994,15 +42083,20 @@ elseif($code==470)
             
             sqlsrv_close($conntest);
         }
-         elseif($code == 474.1) {
-              $chnagerole = $_POST['chnagerole'];
-   
-                
-     $update_addrole="Update Staff set RoleID='$chnagerole' where IDNo='$EmployeeID'";
-         
-            $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
-       
+         elseif($code == 474.1) 
+         {
+      $chnagerole = $_POST['chnagerole'];     
+         $update_addrole="Update Staff set RoleID='$chnagerole' where IDNo='$EmployeeID'";
+         $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
           sqlsrv_close($conntest);
+        }
+         elseif($code == 475) 
+         {
+        $id = $_POST['id'];     
+        $mainu_id = $_POST['mainu_id'];     
+        $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
+        $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
+        sqlsrv_close($conntest);
         }
    else
    {

@@ -439,7 +439,7 @@ where MasterDepartment.Id='$Department' ";
                
             </li>
             <li style="margin-top:-10px;">
-                <strong>Additional Charges:</strong> <b>Exam fees:</b> $50 USD per semester. <b>Electricity charges:</b> Calculated based on actual monthly consumption and billed separately.
+                <strong>Additional Charges:</strong> <b>Exam fees:</b> $100 USD per semester. <b>Electricity charges:</b> Calculated based on actual monthly consumption and billed separately.
                
             </li>
         </ul>

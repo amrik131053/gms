@@ -63,7 +63,7 @@ window.location.href = "index.php";
         $currentMonthInt=date('n');
         $code=$_POST['flag'];
      
-        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8|| $code==28 ||$code==26.2)
+        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8)
         {
             include "connection/ftp-erp.php";
         }
@@ -505,33 +505,50 @@ else if ($code == 26.2)
     $empdata = $_POST['name'];
     $mobileData = $_POST['mobileData'];
     $remarks=$_POST['remarks'];
-
-
+    $photo = $_FILES["fileatt"]["name"];
     $date = date('Y-m-d');
     $time = date('h:i:s');
     $string = bin2hex(openssl_random_pseudo_bytes(4));
 
-    $photo = $_FILES["fileatt"]["name"];
+    if ($photo) {
+        $photoTmp = $_FILES["fileatt"]["tmp_name"];
+        $file_type = strtolower(pathinfo($photo, PATHINFO_EXTENSION));
+        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
 
-    $photoTmp = $_FILES["fileatt"]["tmp_name"];
+        if (!in_array($file_type, $allowed_types)) {
+            echo "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
+            exit;
+        }
 
-    $type = $_FILES['fileatt']['type'];
+        $ImageName = $empID . '_' . $string . '.' . $file_type;
+        $upload_dir = 'upload/';
+        $upload_file = $upload_dir . $ImageName;
 
-    $date=date('Y-m-d');  
-    $string = bin2hex(openssl_random_pseudo_bytes(4));
-    $file_data = file_get_contents($file_tmp);
-    $file_name = $empID."_".strtotime($date)."_".$string."_".basename($_FILES['image']['name']);
-    $destdir = '/Images/mobilestock';
-        ftp_chdir($conn_id, "/Images/mobilestock/") or die("Could not change directory");
-        ftp_pasv($conn_id,true);
-        ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
-        ftp_close($conn_id);
-  echo  $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
+        // if (file_exists($upload_file)) {
+          
+        //     exit;
+        // }
+
+        if (move_uploaded_file($photoTmp, $upload_file)) {
+            ?>
+            <script type="text/javascript">
+alert("Sucess ");
+window.location.href = 'mobile-stock.php';
+</script>
+<?php
+        } else {
+          
+            exit;
+        }
+    } else {
+        $ImageName = "";
+    }
+        $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
                                         ('$empID','$empdata','$mobileData','$empName','$timeStamp','$EmployeeID','0','$ImageName','$remarks')";
 
     $addrun=mysqli_query($connection_s,$insert);
 
-echo $Status="UPDATE mobilestockadd set Status='1' where ID='$mobileData'";
+$Status="UPDATE mobilestockadd set Status='1' where ID='$mobileData'";
   $StatusRu=mysqli_query($connection_s,$Status);
 
       }
@@ -1338,10 +1355,6 @@ else if ($code == 28)
     $time = date('h:i:s');
     $string = bin2hex(openssl_random_pseudo_bytes(4));
 
-
-
-
-
     if ($photo) {
         $photoTmp = $_FILES["fileatt"]["tmp_name"];
         $file_type = strtolower(pathinfo($photo, PATHINFO_EXTENSION));
@@ -1364,7 +1377,7 @@ else if ($code == 28)
         if (move_uploaded_file($photoTmp, $upload_file)) {
             ?>
             <script type="text/javascript">
-alert("Sucess");
+alert("Sucess ");
 window.location.href = 'mobile-stock.php';
 </script>
 <?php
