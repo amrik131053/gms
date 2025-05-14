@@ -60,9 +60,9 @@ window.location.href = "index.php";
        }
         $currentMonthString=date('F');
         $currentMonthInt=date('n');
-        $code=$_POST['flag'];
+         $code=$_POST['flag'];
      
-        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8||$code==26.2)
+        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8|| $code==26.2 || $code==28)
         {
             include "connection/ftp-erp.php";
         }
@@ -441,7 +441,8 @@ while($row=mysqli_fetch_array($getDropRun))
 </div>
 <br>       
 <br>
-<button onclick="IssueStock()"  class="btn btn-primary">Issue Stock</button>
+<button type="button" onclick="IssueStock(this.form)" class="btn btn-primary">Issue Stock</button>
+
               </div>
 </form>
     </div>
@@ -496,10 +497,9 @@ mysqli_close($connection_s);
 
       }
 
-else if ($code == 26.2)
+if ($code=='26.2')
  {
-echo "asdadsad";
-
+ 
     $empID = $_POST['empid'];
     $empName = $_POST['empName'];
     $empdata = $_POST['name'];
@@ -520,19 +520,19 @@ echo "asdadsad";
             exit;
         }
 
- echo $ImageName = $empID . '_' . $string . '.' . $file_type;
+  $ImageName = $empID . '_' . $string . '.' . $file_type;
 
 $destdir = '/Images/mobilestock';
     ftp_chdir($conn_id, "/Images/mobilestock") or die("Could not change directory");
     ftp_pasv($conn_id,true);
-    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_put($conn_id, $ImageName, $photoTmp, FTP_BINARY) or die("Could not upload to $ftp_server");
     ftp_close($conn_id);
        
     } 
     else {
         $ImageName = "";
     }
-        echo $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
+          $insert="insert into mobilestockledger(IDNo,Name,StockID,ArticleID,CreatedDate,CreatedBy,Status,file,Remarks)Values
                                         ('$empID','$empdata','$mobileData','$empName','$timeStamp','$EmployeeID','0','$ImageName','$remarks')";
 
     $addrun=mysqli_query($connection_s,$insert);
@@ -636,16 +636,15 @@ inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID 
            </tr>
 
  <tr>
-            <th>SIM No :</th>
+            <th> Details :</th>
             
             <th>
-                <b><?=$row['sim_number'];?></b>
+                <b><?=$row['sim_number'];?><?=$row['mobile_model'];?>/ <?=$row['brand'];?> <?= $row['configuration'];?></b>
             </th>
            </tr>
 
            <tr>
-             <th><b>Mobile Detail :</b></th>
-             <th><b><?=$row['mobile_model'];?>/ <?=$row['brand'];?> <?= $row['configuration'];?></b></th>
+            
             
                    
           
@@ -653,15 +652,41 @@ inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID 
         <?php
         $stockid=$row['stockid'];
         $ledgerid=$row['stockupid'];
+        $link=$row['file'];
 
         
          $sr++; }
            ?>
        <tr><td colspan="2"> <button type="button" class="btn btn-success" onclick="return_stock(<?=$ledgerid;?>,<?=$stockid;?>)" >Return</button>
-       <!--  <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal"
-                        onclick="assin ()">
-                        <i class="fa fa-share fa-sm" aria-hidden="true"></i>
-                    </a> --></td></tr> 
+       <a href="http://erp.gku.ac.in:86//Images/mobilestock/<?=$link;?>" target="_blank"><button type="button" class="btn btn-warning">View File</button></a>
+       <button type="button" class="btn btn-primary" onclick="toggleDiv()">Transfar</button>
+    <!-- Transfar Stock -->
+     <div id="myDiv">
+       <form action="action_j.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" value="28" name="flag">
+                 <input type="hidden" value="<?=$id;?>" name="id">
+                   <input type="hidden" value="<?=$stockid;?>" name="stockid">
+                     <input type="hidden" value="<?=$ledgerid;?>" name="ledgerid">
+            <div class="col-md-12"  id="lect_div1">
+                <label>Employee ID</label>
+                <input type="text" class="form-control" name="empid" id='empID' onblur="emp_detail_verify1(this.value)" >
+                <span id='emp-data'  style="font-weight:bold"></span><br>
+                <input type="text" id="empdata" name="name"> 
+                <label>Discription</label>
+                <input type="text" class="form-control" name="remarks" id='remarks' >
+                <label>Attachment</label>
+                <input type="file" class="form-control" id="fileAtt" name="fileatt">
+            </div>
+                    <br>       
+                    <br>
+            <button onclick="transferStock(this.form)"  class="btn btn-primary">Issue</button>
+            </div>
+            </form>
+            </div></td>
+                  </tr>
+                    
+                    
+
                     
     </tbody>
 </table>
@@ -1295,5 +1320,57 @@ elseif($code==25.7)
   <?php 
   sqlsrv_close($conntest); 
 }
+
+else if ($code == 28)
+ {
+    $empID = $_POST['empid'];
+    $id = $_POST['id'];
+    // $empName = $_POST['empName'];
+    $empdata = $_POST['name'];
+    // $mobileData = $_POST['mobileData'];
+    $remarks=$_POST['remarks'];
+    $stockid=$_POST['stockid'];
+    $ledgerid=$_POST['ledgerid'];
+    $photo = $_FILES["fileatt"]["name"];
+    $date = date('Y-m-d');
+    $time = date('h:i:s');
+    $string = bin2hex(openssl_random_pseudo_bytes(4));
+    
+    if ($photo) {
+        $photoTmp = $_FILES["fileatt"]["tmp_name"];
+        $file_type = strtolower(pathinfo($photo, PATHINFO_EXTENSION));
+        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (!in_array($file_type, $allowed_types)) {
+            echo "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
+            exit;
+        }
+
+  $ImageName = $empID . '_' . $string . '.' . $file_type;
+
+$destdir = '/Images/mobilestock';
+    ftp_chdir($conn_id, "/Images/mobilestock") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $ImageName, $photoTmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+       
+    } 
+    else {
+        $ImageName = "";
+    }
+    
+         $insert="UPDATE mobilestockledger SET IDNo='$empID',file='$ImageName',Name='$empdata',StockID='$stockid',ArticleID='$ledgerid',CreatedDate='$timeStamp',CreatedBy='$EmployeeID',Status='0',file='$ImageName',Remarks='$remarks'WHERE ID='$id'";
+         
+
+    $addrun=mysqli_query($connection_s,$insert);
+    ?>
+    <script type="text/javascript">
+window.location.href = 'mobile-stock.php';
+</script>
+<?php
+
+
+      }
+
 }
 

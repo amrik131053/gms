@@ -1,6 +1,15 @@
 <?php 
   include "header.php";   
 ?>
+<style>
+
+#myDiv {
+  display: none; /* Initially hidden */
+  padding: 20px;
+  
+}
+</style>
+
 <style type="text/css">
   
 .my
@@ -133,7 +142,15 @@
 
 
 <script type="text/javascript">
-
+function toggleDiv() {
+    // alert(hhjk);
+    var div = document.getElementById("myDiv");
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  }
 
 function return_stock(id,stockid)
 {
@@ -150,7 +167,7 @@ function return_stock(id,stockid)
               },
               success: function(response) 
               {
-                console.log(response);
+                // console.log(response);
                    spinner.style.display = 'none';
 
             SuccessToast('Successfully Submit');
@@ -307,7 +324,7 @@ function viewlist(id,stock) {
         },
         success: function(response) {
             spinner.style.display = 'none';
-console.log(response);
+// console.log(response);
             document.getElementById("viewlistdiv").innerHTML = response;
 
             
@@ -395,7 +412,7 @@ function Issuedstock() {
         },
         success: function(response) {
             spinner.style.display = 'none';
-            console.log(response);
+            // console.log(response);
             document.getElementById("issuedstocklist").innerHTML = response;
 
 
@@ -403,30 +420,27 @@ function Issuedstock() {
     });
 }
 
+// document.querySelector('form').addEventListener('submit', function(e) {
+//     e.preventDefault();
+//     IssueStock(this); 
+// });
 
 function IssueStock(form) {
-    alert("sdsfsf");
     var empID = form.empID.value.trim();
     var empdata=form.empdata.value.trim();
     var empName = form.empName.value.trim();
     var mobileData = form.mobileData.value.trim();
     var remarks = form.remarks.value.trim();
     var fileInput = form.fileatt;
-
     var nameElement = document.getElementById("nameElementId");
     var name = nameElement ? nameElement.innerText.trim() : "";
-   
-
     if (empID === "") {
         ErrorToast('Please Enter empID.', 'bg-warning');
         return;
     }
-    if (empName === "") {
-        ErrorToast('Please Enter empName.', 'bg-warning');
-        return;
-    }
+    
     if (mobileData === "") {
-        ErrorToast('Please Enter mobileData.', 'bg-warning');
+        ErrorToast('Please Enter article discription.', 'bg-warning');
         return;
     }
     if (remarks === "") {
@@ -437,9 +451,7 @@ function IssueStock(form) {
         ErrorToast('Please choose a file.', 'bg-warning');
         return;
     }
-
     var formData = new FormData(form);
-
     $.ajax({
         url: form.action,
         type: form.method,
@@ -447,18 +459,72 @@ function IssueStock(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-         
-            if (response == '1') {
+         console.log(response);
+            // if (response == '1') {
+                Issue();
+                SuccessToast('Successfully Uploaded');
+            //     form.empName.value = "";
+            //     form.mobileData.value = "";
+            //     form.remarks.value = "";
+            //     form.fileatt.value = null; // resets file input
+            // } else if (response.includes('10.0.10.11')) {
+            //     ErrorToast('FTP Server Off', 'bg-warning');
+            // } else {
+            //     ErrorToast('Unexpected response: ' + response, 'bg-danger');
+            // }
+        },
+        error: function(xhr, status, error) {
+            console.log("AJAX error:", error);
+            ErrorToast('AJAX request failed.', 'bg-danger');
+        }
+    });
+}
+function transferStock(form) {
+    var empID = form.empID.value.trim();
+    var empdata=form.empdata.value.trim();
+    var empName = form.empName.value.trim();
+    var mobileData = form.mobileData.value.trim();
+    var remarks = form.remarks.value.trim();
+    var fileInput = form.fileatt;
+    var nameElement = document.getElementById("nameElementId");
+    var name = nameElement ? nameElement.innerText.trim() : "";
+    if (empID === "") {
+        ErrorToast('Please Enter empID.', 'bg-warning');
+        return;
+    }
+    
+    if (mobileData === "") {
+        ErrorToast('Please Enter article discription.', 'bg-warning');
+        return;
+    }
+    if (remarks === "") {
+        ErrorToast('Please Enter remarks.', 'bg-warning');
+        return;
+    }
+    if (fileInput.files.length === 0) {
+        ErrorToast('Please choose a file.', 'bg-warning');
+        return;
+    }
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+        //  console.log(response);
+            // if (response == '1') {
                 SuccessToast('Successfully Uploaded');
                 form.empName.value = "";
                 form.mobileData.value = "";
                 form.remarks.value = "";
-                form.fileatt.value = null; // resets file input
-            } else if (response.includes('10.0.10.11')) {
-                ErrorToast('FTP Server Off', 'bg-warning');
-            } else {
-                ErrorToast('Unexpected response: ' + response, 'bg-danger');
-            }
+            //     form.fileatt.value = null; // resets file input
+            // } else if (response.includes('10.0.10.11')) {
+            //     ErrorToast('FTP Server Off', 'bg-warning');
+            // } else {
+            //     ErrorToast('Unexpected response: ' + response, 'bg-danger');
+            // }
         },
         error: function(xhr, status, error) {
             console.log("AJAX error:", error);
@@ -480,7 +546,7 @@ function show_article() {
         type: 'POST',
         success: function(data) {
             if (data != "") {
-                console.log(data);
+                // console.log(data);
                 $("#showarticle").html("");
                 $("#showarticle").html(data);
             }
