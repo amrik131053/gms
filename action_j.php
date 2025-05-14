@@ -566,7 +566,7 @@ $Status="UPDATE mobilestockadd set Status='1' where ID='$mobileData'";
     <tbody>
         <?php 
          $sr=1;
-          $get_group="SELECT *,mobilestockarticle.Name as AName,mobilestockledger.Name as EName,mobilestockledger.ID as ledid FROM  mobilestockledger inner join mobilestockadd ON mobilestockledger.StockID=mobilestockadd.ID inner join mobilestockarticle ON mobilestockarticle.ID=mobilestockadd.ArticleID  where mobilestockledger.Status='0' order by mobilestockledger.ID desc limit 10";
+          $get_group="SELECT *,mobilestockarticle.Name as AName,mobilestockledger.Name as EName,mobilestockledger.ID as ledid FROM  mobilestockledger inner join mobilestockadd ON mobilestockledger.StockID=mobilestockadd.ID inner join mobilestockarticle ON mobilestockarticle.ID=mobilestockadd.ArticleID  where mobilestockledger.Status='0' order by mobilestockledger.ID desc limit 20";
      $get_group_run=mysqli_query($connection_s,$get_group);
          while($row=mysqli_fetch_array($get_group_run))
          {
