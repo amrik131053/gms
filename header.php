@@ -81,7 +81,7 @@ window.location.href = "index.php";
    }
    else if($ImageStatus==0)
    {
-    $Img='1';
+    $Img='';
    }
    else{
     $Img='1';
