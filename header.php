@@ -81,10 +81,10 @@ window.location.href = "index.php";
    }
    else if($ImageStatus==0)
    {
-    $Img=1;
+    $Img='1';
    }
    else{
-    $Img=1;
+    $Img='1';
    }
 
     $Emp_Department=$row_staff['Department'];
