@@ -140,7 +140,7 @@ $_SESSION['RequiredData']=$alertMessage;
           
            $array_aa=array_unique((array_merge($r,$p)));
 
-       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php');
+       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php');
  
       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
@@ -285,7 +285,7 @@ $_SESSION['RequiredData']=$alertMessage;
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="dashboard.php" class="nav-link"><i class="fa fa-home fa-2x" style="color:#9c0a0f"></i></a>
+                    <a href="Dashboard.php" class="nav-link"><i class="fa fa-home fa-2x" style="color:#9c0a0f"></i></a>
                 </li>
                 <!-- <li class="nav-item d-none d-sm-inline-block">
                <a href="#" class="nav-link">Contact</a>
