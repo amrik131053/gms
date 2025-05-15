@@ -447,10 +447,10 @@ function IssueStock(form) {
         ErrorToast('Please Enter remarks.', 'bg-warning');
         return;
     }
-    if (fileInput.files.length === 0) {
-        ErrorToast('Please choose a file.', 'bg-warning');
-        return;
-    }
+    // if (fileInput.files.length === 0) {
+    //     ErrorToast('Please choose a file.', 'bg-warning');
+    //     return;
+    // }
     var formData = new FormData(form);
     $.ajax({
         url: form.action,
@@ -501,10 +501,10 @@ function transferStock(form) {
         ErrorToast('Please Enter remarks.', 'bg-warning');
         return;
     }
-    if (fileInput.files.length === 0) {
-        ErrorToast('Please choose a file.', 'bg-warning');
-        return;
-    }
+    // if (fileInput.files.length === 0) {
+    //     ErrorToast('Please choose a file.', 'bg-warning');
+    //     return;
+    // }
     var formData = new FormData(form);
     $.ajax({
         url: form.action,
