@@ -19491,7 +19491,7 @@ $DepartmentID=$_POST['Department'];
 $Batch=$_POST['Batch'];
 
 $SrNo=1;
-      $CheckStudyMaterial="SELECT sm.id as s_id,sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+      $CheckStudyMaterial="SELECT sm.VerifyStatus,sm.id as s_id,sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
        StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where 1=1";
        if($CollegeID!='')
        {
@@ -19506,10 +19506,23 @@ $SrNo=1;
        $CheckStudyMaterial.="AND sm.batch='$Batch'";
        }
        
-      $CheckStudyMaterial.="group by sm.id,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+      $CheckStudyMaterial.="group by sm.VerifyStatus,sm.id,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
     $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
     while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
     {
+        $VerifyStatus=$row['VerifyStatus'];
+        if($VerifyStatus==1)
+        {
+           $clr="success";
+       }
+       else if($VerifyStatus==2)
+       {
+          $clr="danger";
+       }
+       else{
+           $clr="warning";
+           
+        }
         $CheckStudyMaterial1="select Course,CollegeName from  
         MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."'";
      $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
@@ -19528,7 +19541,7 @@ $nooflect=$row['nooflect'];
 $s_id=$row['s_id'];
 $DocumentType=$row['DocumentType'];
 ?>
-                        <tr>
+                        <tr style="background-color:<?=$clr;?>">
                             <td><?=$SrNo;?></td>
                             <td><?=$ColegeName;?></td>
                             <td><?=$Courseid;?></td>
@@ -19565,12 +19578,25 @@ elseif ($code==244.1) {
     
     while ($row = sqlsrv_fetch_array($CheckStudyMaterialRun, SQLSRV_FETCH_ASSOC)) {
         $file = $row['CourseFile'];
+        $VerifyStatus = $row['VerifyStatus'];
         $file_url = "http://erp.gku.ac.in:86/StudyMaterial/$file";
         $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-
+ if($VerifyStatus==1)
+ {
+    $clr="success";
+}
+else if($VerifyStatus==2)
+{
+   $clr="danger";
+}
+else{
+    $clr="warning";
+    
+ }
         // echo "<p><strong>File:</strong> $file</p>";
 ?>
-<div class="row card">
+<div class="row card bg-<?=$clr;?>" >
+    <br>
     <?php
         if ($extension == 'pdf') {
             echo "<embed class='pdf' src='$file_url' width='100%' height='600'>";
@@ -36488,6 +36514,7 @@ elseif($code==431)
                         if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
                         {
                         $ImagePath=$row1['Imagepath'];
+                        $ImageStatus=$row1['ImageStatus'];
                         $DateOfBirth=$row1['DateOfBirth'];
                         $DateOfJoining=$row1['DateOfJoining'];
                         $DateOfLeaving=$row1['DateOfLeaving'];
@@ -36498,7 +36525,23 @@ elseif($code==431)
                     <div class="card card-primary card-outline">
                         <div class="card-body  box-profile">
                             <div class="text-center">
-                                <?php echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
+                            <?php 
+                            if($ImageStatus==1)
+                            {
+                            echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
+                            }
+                            else if($ImageStatus==2)
+                            { 
+                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';   
+                            }
+                            else
+                            {
+                            echo '<img class="profile-user-img img-fluid img-circle" width="100" src="#" alt="User profile picture">';
+                           
+                           
+                        }
+                        ?>
+                                <?php //echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                             </div>
                             <center><button class="btn btn-primary btn-xs" data-toggle="modal"
                                     data-target="#uploadPasspoerImage">

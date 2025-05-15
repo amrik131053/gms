@@ -61,7 +61,7 @@ window.location.href = "index.php";
 
  $staff="SELECT Name,ShiftID,Snap,personalIdentificationMark,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID,FatherName,
  MotherName,DateOfBirth,Gender,PANNo,EmailID,OfficialEmailID,MobileNo,WhatsAppNumber,EmergencyContactNo,
- OfficialMobileNo,PostalCode,PermanentAddress,CorrespondanceAddress,Nationality,SalaryAtPresent,SalaryAtPresent,BankAccountNo,BankName,BankIFSC,State,District,PostOffice,Imagepath,BloodGroup
+ OfficialMobileNo,PostalCode,PermanentAddress,CorrespondanceAddress,Nationality,SalaryAtPresent,SalaryAtPresent,BankAccountNo,BankName,BankIFSC,State,District,PostOffice,Imagepath,ImageStatus,BloodGroup
  FROM Staff Where IDNo='$EmployeeID'";
     $stmt = sqlsrv_query($conntest,$staff);  
    while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -69,6 +69,8 @@ window.location.href = "index.php";
     $Emp_Name=$row_staff['Name'];
     $Emp_Image=$row_staff['Snap'];
     $ImagePath=$row_staff['Imagepath'];
+    $ImageStatus=$row_staff['ImageStatus'];
+   
     $Emp_Department=$row_staff['Department'];
     $Emp_Designation=$row_staff['Designation'];
     $Emp_CollegeID=$row_staff['CollegeID'];
@@ -322,20 +324,40 @@ $_SESSION['RequiredData']=$alertMessage;
                 <P class="count"></P>
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-
-                        <?php echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
-
-
-
+                        <?php 
+                        if($ImageStatus==1)
+                        {
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                        }
+                        else if($ImageStatus==2)
+                        { 
+                             echo '<img src="dist/img/rejectbyit.jpg" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                        }
+                        else
+                        {
+                            echo '<img src="#" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                        }
+                        ?>
                         <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
                         <li class="user-header bg-primary">
 
-                            <?php echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
-
-
+                        <?php 
+                        if($ImageStatus==1)
+                        {
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                        }
+                        else if($ImageStatus==2)
+                        { 
+                             echo '<img src="dist/img/rejectbyit.jpg" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                        }
+                        else
+                        {
+                            echo '<img src="#" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                        }
+                        ?>
                             <p>
                                 <?= $Emp_Name;?> - <?= $Emp_Designation;?>
                                 <small>Member Since - <?= $DateOfJoining->format('d-M-Y');?> </small>
@@ -382,7 +404,23 @@ $_SESSION['RequiredData']=$alertMessage;
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-                        <?php echo '<center><img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
+                       
+                        <?php 
+                        if($ImageStatus==1)
+                        {
+                             echo '<center><img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';
+                            }
+                            else if($ImageStatus==2)
+                            { 
+                            echo '<center><img src="dist/img/rejectbyit.jpg" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';
+                            
+                        }
+                        else
+                        {
+                            echo '<center><img src="#" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';
+                           
+                        }
+                        ?>
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?=$Emp_Name;?>(<?=$EmployeeID;?>)</a>
