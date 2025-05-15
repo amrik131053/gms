@@ -70,7 +70,20 @@ window.location.href = "index.php";
     $Emp_Image=$row_staff['Snap'];
     $ImagePath=$row_staff['Imagepath'];
     $ImageStatus=$row_staff['ImageStatus'];
-   
+    $Img=1;
+   if($ImageStatus==2)
+   {
+    $Img="";
+   }
+   else if($ImageStatus=='')
+   {
+    $Img="";
+   }
+   else if($ImageStatus==0)
+   {
+    $Img=1;
+   }
+
     $Emp_Department=$row_staff['Department'];
     $Emp_Designation=$row_staff['Designation'];
     $Emp_CollegeID=$row_staff['CollegeID'];
@@ -101,7 +114,7 @@ window.location.href = "index.php";
         'State' => $row_staff['State'],
         'District' => $row_staff['District'],
         'Post Office' => $row_staff['PostOffice'],
-        'Upload latest Passport Size Image' => $row_staff['Imagepath'],
+        'Upload a photo in passport-size format (clear, front-facing, white background' => $Img,
         'Blood Group' => $row_staff['BloodGroup']
     ];
     $emptyFields = []; 
@@ -119,14 +132,6 @@ window.location.href = "index.php";
 $_SESSION['RequiredData']=$alertMessage;
 }
 
-
-
-
-
-
-
-
-   
                  $role_get="SELECT * FROM role WHERE role_id='$role_id'";
            $role_run=mysqli_query($conn,$role_get);
            while($row_role_get=mysqli_fetch_array($role_run))
@@ -169,9 +174,9 @@ $_SESSION['RequiredData']=$alertMessage;
        if($updatedFlag==1 && $alertMessage!='')
        {
        ?><script>
-         //alert("<?php echo addslashes($alertMessage); ?>");
-         window.location.href='profile.php';
-            </script><?php 
+//alert("<?php echo addslashes($alertMessage); ?>");
+window.location.href = 'profile.php';
+</script><?php 
             $_SESSION['profileIncomplete']=0;
        }
        
@@ -253,29 +258,30 @@ $_SESSION['RequiredData']=$alertMessage;
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<style>  
-        #blink { 
-            font-size: 15px; 
-            font-family: serif; 
-            color: red; 
-            text-align: center; 
-            animation: animate  
-                1.5s linear infinite; 
-        } 
-        @keyframes animate { 
-            0% { 
-                opacity: 0; 
-            } 
-  
-            50% { 
-                opacity: 1; 
-            } 
-  
-            100% { 
-                opacity: 0; 
-            } 
-        } 
-    </style> 
+<style>
+#blink {
+    font-size: 15px;
+    font-family: serif;
+    color: red;
+    text-align: center;
+    animation: animate 1.5s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+</style>
+
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <!-- Navbar -->
@@ -340,7 +346,7 @@ $_SESSION['RequiredData']=$alertMessage;
                         }
                         else
                         {
-                            echo '<img src="#" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                             echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
                         }
                         ?>
                         <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
@@ -349,7 +355,7 @@ $_SESSION['RequiredData']=$alertMessage;
                         <!-- User image -->
                         <li class="user-header bg-primary">
 
-                        <?php 
+                            <?php 
                         if($ImageStatus==1)
                         {
                             echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
@@ -360,7 +366,7 @@ $_SESSION['RequiredData']=$alertMessage;
                         }
                         else
                         {
-                            echo '<img src="#" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
+                             echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
                         }
                         ?>
                             <p>
@@ -409,7 +415,7 @@ $_SESSION['RequiredData']=$alertMessage;
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-                       
+
                         <?php 
                         if($ImageStatus==1)
                         {
@@ -422,7 +428,7 @@ $_SESSION['RequiredData']=$alertMessage;
                         }
                         else
                         {
-                            echo '<center><img src="#" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';
+                            echo '<center><img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';
                            
                         }
                         ?>
@@ -472,7 +478,8 @@ if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 
 
                         <li class="nav-item has-treeview menu-open">
-              <a href="" onclick="manage_role()" data-toggle="modal"  data-target=".bd-example-modal-xl-vv" class="nav-link ">
+                            <a href="" onclick="manage_role()" data-toggle="modal" data-target=".bd-example-modal-xl-vv"
+                                class="nav-link ">
                                 <i class="nav-icon fas fa-user-alt"></i>
                                 <p>
                                     Manage Role
@@ -557,71 +564,69 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
             <!-- /.sidebar -->
         </aside>
 
-        <div class="modal fade bd-example-modal-xl-vv" tabindex="-1" role="dialog" 
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Manage Your Default Role</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="role_body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary" onclick="update_addrole()">Save changes</button> 
+        <div class="modal fade bd-example-modal-xl-vv" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Manage Your Default Role</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="role_body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="update_addrole()">Save changes</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<script>
-    function manage_role()
-    {
-       var code = 474;
-        // alert(code);
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code
+        <script>
+        function manage_role() {
+            var code = 474;
+            // alert(code);
+            $.ajax({
+                url: 'action_g.php',
+                type: 'POST',
+                data: {
+                    code: code
                 },
-            success: function(response) {
-                // console.log(response);
-                document.getElementById("role_body").innerHTML = response;
+                success: function(response) {
+                    // console.log(response);
+                    document.getElementById("role_body").innerHTML = response;
 
-            }
-        });
-    }
+                }
+            });
+        }
 
-    
 
-    function update_addrole()
-    {
-         var chnagerole = document.getElementById('chnagerole').value;
-       var code = 474.1;
-        // alert(code);
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,chnagerole:chnagerole
+
+        function update_addrole() {
+            var chnagerole = document.getElementById('chnagerole').value;
+            var code = 474.1;
+            // alert(code);
+            $.ajax({
+                url: 'action_g.php',
+                type: 'POST',
+                data: {
+                    code: code,
+                    chnagerole: chnagerole
                 },
-            success: function(response) {
-               //  console.log(response);
-                location.reload(true);
+                success: function(response) {
+                    //  console.log(response);
+                    location.reload(true);
 
-            }
-        });
-    }
-</script>
+                }
+            });
+        }
+        </script>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <br>
-              <!-- <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share">
+            <!-- <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share">
                 <small id="blink" ><marquee><b>Download Our Android App on Google Play Store<b></marquee></small>
                 </a> -->
             <p id="ajax-loader"></p>

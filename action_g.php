@@ -31970,7 +31970,7 @@ if($ifexitIDNo<1)
          $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
           mysqli_query($conn_online_pre_regist,$upd1); 
 
-  $degree="SELECT * FROM users   WHERE  registration_number='$registrationNumber'" ;
+  $degree="SELECT * FROM users   WHERE  registration_number='$refoffer'" ;
             $degree_run=mysqli_query($conn_online_pre_regist,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
             {
@@ -36536,17 +36536,20 @@ elseif($code==431)
                             }
                             else
                             {
-                            echo '<img class="profile-user-img img-fluid img-circle" width="100" src="#" alt="User profile picture">';
+                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
                            
                            
                         }
                         ?>
                                 <?php //echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                             </div>
+                            <?php  if($ImageStatus!=1)
+                            {
+                                ?>
                             <center><button class="btn btn-primary btn-xs" data-toggle="modal"
                                     data-target="#uploadPasspoerImage">
                                     <i class="fa fa-edit"></i>Edit Image</button></center>
-
+                           <?php }?>
 
 
 
@@ -37900,9 +37903,19 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                                     <strong id="imgerror"
                                                                         style="color: red"></strong><br>
 
+                                                                        <?php  if($ImageStatus!=1)
+                                                                           {
+                                                                        ?>
                                                                     <input class="btn btn-success btn-xs"
                                                                         onclick="uploadImage(this.form);"
                                                                         value="Upload">
+                                                                        <?php } 
+                                                                        else if($ImageStatus==1)
+                                                                        {
+                                                                             echo "<b class='text-success'>Image Locked</b>";   
+                                                                        }
+                                                                        
+                                                                        ?>
                                                                 </form>
                                                             </td>
                                                             <td>
@@ -39201,7 +39214,7 @@ $destdir = '/Images/Staff';
     ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
     ftp_close($conn_id);
-     $insertExp="UPDATE Staff SET Imagepath='$file_name' where IDNo='$EmployeeID'";
+     $insertExp="UPDATE Staff SET Imagepath='$file_name' ,ImageStatus='0' where IDNo='$EmployeeID'";
     $result = sqlsrv_query($conntest, $insertExp);
     // $file_data = file_get_contents($file_tmp);
 //     $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
