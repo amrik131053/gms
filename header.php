@@ -139,7 +139,8 @@ $_SESSION['RequiredData']=$alertMessage;
            }
           
            $array_aa=array_unique((array_merge($r,$p)));
-       $urls=array('dashboard.php','not_found.php','bulk_assign.php','password-change.php');
+
+       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php');
  
       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
