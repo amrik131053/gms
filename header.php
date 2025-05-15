@@ -57,7 +57,7 @@ window.location.href = "index.php";
    $permissions_array = ""; 
    $r[]= ""; 
    $p[]= ""; 
-      $id=""; 
+      $id="0"; 
 
  $staff="SELECT Name,ShiftID,Snap,personalIdentificationMark,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID,FatherName,
  MotherName,DateOfBirth,Gender,PANNo,EmailID,OfficialEmailID,MobileNo,WhatsAppNumber,EmergencyContactNo,
@@ -141,20 +141,25 @@ $_SESSION['RequiredData']=$alertMessage;
            }
           
            $array_aa=array_unique((array_merge($r,$p)));
-       $urls=array('dashboard.php','not_found.php','bulk_assign.php','password-change.php');
+
+       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php','attendence-calendar.php','profile.php');
  
-       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
+      $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
    
        if (!in_array($file,$urls))
         { 
-        $result1 = mysqli_query($conn,"SELECT id from permissions WHERE page_link = '$file'");
+          
+    $result1 = mysqli_query($conn,"SELECT id from permissions WHERE page_link = '$file' ANd  (portal_type='4' OR portal_type='0')");
        while($row1=mysqli_fetch_array($result1))
        {
-            $id = $row1['id'];
+           $id = $row1['id'];
        }
+     
        if(!in_array($id,$array_aa))
        {
+       // print_r($array_aa);
+       
         header('Location:not_found.php');
        } 
        else if($passSecureFlag==1)
@@ -282,7 +287,7 @@ $_SESSION['RequiredData']=$alertMessage;
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="dashboard.php" class="nav-link"><i class="fa fa-home fa-2x" style="color:#9c0a0f"></i></a>
+                    <a href="Dashboard.php" class="nav-link"><i class="fa fa-home fa-2x" style="color:#9c0a0f"></i></a>
                 </li>
                 <!-- <li class="nav-item d-none d-sm-inline-block">
                <a href="#" class="nav-link">Contact</a>
@@ -396,7 +401,7 @@ $_SESSION['RequiredData']=$alertMessage;
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #223260;">
             <!-- Brand Logo -->
-            <a href="dashboard.php" class="brand-link" style="background-color: white;">
+            <a href="Dashboard.php" class="brand-link" style="background-color: white;">
                 <img src="dist/img/new-logo.jpg" alt="AdminLTE Logo" style="width: 230px;">
             </a>
             <!-- Sidebar -->
@@ -433,7 +438,7 @@ $_SESSION['RequiredData']=$alertMessage;
                         <!-- Add icons to the links using the .nav-icon class
                   with font-awesome or any other icon font library -->
                         <li class="nav-item has-treeview menu-open">
-                            <a href="dashboard.php" class="nav-link ">
+                            <a href="Dashboard.php" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     <!--LMS-->

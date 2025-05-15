@@ -467,7 +467,7 @@ loadCollegeCount(a,Batch,Lateral);
                 Lateral: Lateral
             },
             success: function(response) {
-                // console.log(response);
+                 console.log(response);
                 var data = JSON.parse(response);
                  document.getElementById("TSutdent" + CollegeID).textContent = data[0];
                 document.getElementById("TActive" + CollegeID).textContent = data[1];

@@ -436,7 +436,7 @@ while($row=mysqli_fetch_array($getDropRun))
 <label>Discription</label>
 <input type="text" class="form-control" name="remarks" id='remarks' >
 
-<label>Attachment</label>
+<label>Attachment (Optional)</label>
         <input type="file" class="form-control" id="fileAtt" name="fileatt">
 </div>
 <br>       
@@ -674,7 +674,7 @@ inner JOIN mobilestockarticle ON mobilestockadd.ArticleID=mobilestockarticle.ID 
                 <input type="hidden" id="empdata" name="name"> 
                 <label>Discription</label>
                 <input type="text" class="form-control" name="remarks" id='remarks' >
-                <label>Attachment</label>
+                <label>Attachment (Optional)</label>
                 <input type="file" class="form-control" id="fileAtt" name="fileatt">
             </div>
                     <br>       

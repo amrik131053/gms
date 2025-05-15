@@ -439,7 +439,7 @@ where MasterDepartment.Id='$Department' ";
                
             </li>
             <li style="margin-top:-10px;">
-                <strong>Additional Charges:</strong> <b>Exam fees:</b> $50 USD per semester. <b>Electricity charges:</b> Calculated based on actual monthly consumption and billed separately.
+                <strong>Additional Charges:</strong> <b>Exam fees:</b> $100 USD per semester. <b>Electricity charges:</b> Calculated based on actual monthly consumption and billed separately.
                
             </li>
         </ul>
@@ -473,7 +473,7 @@ where MasterDepartment.Id='$Department' ";
         <div class="signature-section" style="text-align: right; position: relative;">
     <div style="display: inline-block; position: relative;">
         <img src="dist/img/stamp-ied-colored.jpg" alt="Stamp" style="width: 120px; border: 0px solid;">
-        <img src="dist/img/vikas.png" alt="Signature" 
+        <img src="dist/img/signdirector.png" alt="Signature" 
              style="position: absolute; top: 110%; left: 50%; transform: translate(-50%, -50%); width: 150px;">
     </div>
     <p style="margin-top: 20px; text-align: right;">Authorized Signature<br>
