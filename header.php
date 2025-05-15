@@ -79,12 +79,13 @@ window.location.href = "index.php";
    {
     $Img="";
    }
-   else if($ImageStatus==0)
+   else if($ImageStatus==0 || $ImageStatus==1)
+   {
+    $Img='1';
+   }
+   else
    {
     $Img='';
-   }
-   else{
-    $Img='1';
    }
 
     $Emp_Department=$row_staff['Department'];
