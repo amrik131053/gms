@@ -69,7 +69,7 @@ window.location.href = "index.php";
     $Emp_Name=$row_staff['Name'];
     $Emp_Image=$row_staff['Snap'];
     $ImagePath=$row_staff['Imagepath'];
-    $ImageStatus=$row_staff['ImageStatus'];
+    echo $ImageStatus=$row_staff['ImageStatus'];
     $Img=1;
    if($ImageStatus==2)
    {
@@ -448,7 +448,7 @@ window.location.href = 'profile.php';
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     <!--LMS-->
-                                    Dashboard
+                                    Dashboard<?=$ImageStatus;?>
                                     <!-- <i class="right fas fa-angle-left"></i> -->
                                 </p>
                             </a>
