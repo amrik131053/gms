@@ -71,22 +71,37 @@ window.location.href = "index.php";
     $ImagePath=$row_staff['Imagepath'];
      $ImageStatus=$row_staff['ImageStatus'];
   
-   if($ImageStatus==2)
-   {
-    $Img="";
-   }
-   else if($ImageStatus=='')
-   {
-    $Img="";
-   }
-   else if($ImageStatus==0 || $ImageStatus==1)
-   {
-    $Img='1';
-   }
-   else
-   {
-    $Img='';
-   }
+     $Img="";
+     if($ImageStatus=='0')
+        {
+         $Img="1";
+        }
+        else if($ImageStatus=='1')
+        {
+            $Img="1";
+        }
+        else if($ImageStatus=='2')
+        {
+            $Img="";
+        }
+        
+
+//    if($ImageStatus==2)
+//    {
+//     $Img="";
+//    }
+//    else if($ImageStatus=='')
+//    {
+//     $Img="";
+//    }
+//    else if($ImageStatus==0 || $ImageStatus==1)
+//    {
+//     $Img='1';
+//    }
+//    else
+//    {
+//     $Img='';
+//    }
 
     $Emp_Department=$row_staff['Department'];
     $Emp_Designation=$row_staff['Designation'];
