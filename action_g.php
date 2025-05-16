@@ -34677,6 +34677,146 @@ elseif ($code==392) {
     <?php 
    sqlsrv_close($conntest);
 }
+else if ($code == 392.1) {
+    // $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
+    // $limit = 50;
+    // $offset = ($page - 1) * $limit;
+    
+    // // Count total records
+    // $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' and Department!='Class Four'";
+    // $count_stmt = sqlsrv_query($conntest, $count_sql);
+    // $count_row = sqlsrv_fetch_array($count_stmt, SQLSRV_FETCH_ASSOC);
+    // $total_records = $count_row['total'];
+    // $total_pages = ceil($total_records / $limit);
+    
+    // // Fetch current page records
+    // $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' and Department!='Class Four' ORDER BY IDNo DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    // $stmt = sqlsrv_query($conntest, $sql);
+    
+  
+
+
+    $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
+    $limit = 50;
+    $offset = ($page - 1) * $limit;
+
+    $searchIDNo = $_REQUEST['idNo'] ?? '';
+    $searchCondition = "";
+    $params = [];
+
+    if (!empty($searchIDNo)) {
+        $searchCondition = " AND IDNo LIKE ?";
+        $params[] = "%$searchIDNo%";
+    }
+
+    // Count total
+    $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition";
+    $count_stmt = sqlsrv_prepare($conntest, $count_sql, $params);
+    sqlsrv_execute($count_stmt);
+    $count_row = sqlsrv_fetch_array($count_stmt, SQLSRV_FETCH_ASSOC);
+    $total_records = $count_row['total'];
+    $total_pages = ceil($total_records / $limit);
+
+    // Main query
+    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition ORDER BY IDNo DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    $stmt = sqlsrv_prepare($conntest, $sql, $params);
+    sqlsrv_execute($stmt);
+    $sr = $offset + 1;
+    ?>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Image</th>
+                <th>IDNo</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $hasData = false;
+        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+            $hasData = true;
+            $Emp_Image = $row['Imagepath'];
+            $ImageStatus = $row['ImageStatus'];
+            if($ImageStatus==1)
+            {
+                $clr="success";
+            }
+            elseif($ImageStatus==2)
+            {
+                $clr="danger";
+            }
+            else{
+                $clr="";
+            }
+            ?>
+           <tr class="bg-<?=$clr;?>">
+    <td><?= $sr++; ?></td>
+    <td>
+        <div class="img-box">
+            <img class='direct-chat-img' src='<?= $BasURL . 'Images/Staff/' . $Emp_Image ?>' alt='image' style="height:50px;">
+        </div>
+        
+    </td>
+    <td><?= $row['IDNo']; ?></td>
+    <td><?= $row['Name']; ?></td>
+    <td><?= $row['Designation']; ?></td>
+    <td><?= $row['Department']; ?></td>
+    <td><div class="mt-1">
+            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify')">Verify</button>
+            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject')">Reject</button>
+        </div></td>
+</tr>
+
+        <?php } ?>
+    
+        <?php if (!$hasData): ?>
+            <tr><td colspan="6">No data found on this page.</td></tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+    
+    <!-- Pagination Buttons -->
+    <div style="text-align:center;">
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <button class="btn btn-sm <?= ($i == $page) ? 'btn-primary' : 'btn-outline-primary' ?>" onclick="loadStaff(<?= $i ?>)">
+                <?= $i ?>
+            </button>
+        <?php endfor; ?>
+    </div>
+
+<?php
+    sqlsrv_close($conntest);
+}
+elseif ($code==392.2) {
+
+    $id = $_POST['id'] ?? '';
+$action = $_POST['action'] ?? '';
+
+if ($id && in_array($action, ['verify', 'reject'])) {
+    $status = $action === 'verify' ? 1 : 2;
+
+    // Assuming you have a column like ImageStatus (1 = verified, 0 = rejected)
+    $sql = "UPDATE Staff SET ImageStatus = ? WHERE IDNo = ?";
+    $stmt = sqlsrv_prepare($conntest, $sql, [$status, $id]);
+
+    if (sqlsrv_execute($stmt)) {
+        echo "Image has been " . ($action === 'verify' ? "verified." : "rejected.");
+    } else {
+        echo "Failed to update status.";
+    }
+
+    sqlsrv_close($conntest);
+} else {
+    echo "Invalid request.";
+}
+}
+
 elseif ($code==393) {
     $time=time();
     $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
