@@ -34704,10 +34704,15 @@ else if ($code == 392.1) {
     $searchCondition = "";
     $params = [];
 
-    if (!empty($searchIDNo)) {
-        $searchCondition = " AND IDNo LIKE ?";
-        $params[] = "%$searchIDNo%";
-    }
+    $searchCondition = "";
+$params = [];
+
+if (!empty($searchIDNo)) {
+    $searchCondition .= " AND (IDNo LIKE ? OR Name LIKE ?)";
+    $params[] = "%$searchIDNo%";
+    $params[] = "%$searchIDNo%";
+}
+
 
     // Count total
     $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition";
@@ -34746,20 +34751,26 @@ else if ($code == 392.1) {
             if($ImageStatus==1)
             {
                 $clr="success";
+                $text="Verified";
             }
             elseif($ImageStatus==2)
             {
                 $clr="danger";
+                $text="Rejected";
             }
             else{
                 $clr="";
+                $text="";
             }
             ?>
-           <tr class="bg-<?=$clr;?>">
+           <tr>
     <td><?= $sr++; ?></td>
-    <td>
-        <div class="img-box">
-            <img class='direct-chat-img' src='<?= $BasURL . 'Images/Staff/' . $Emp_Image ?>' alt='image' style="height:50px;">
+    
+    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');">
+                    <?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+             
+        <div class="text-<?=$clr;?>">
+           <b ><?=$text;?></b>
         </div>
         
     </td>
@@ -34768,8 +34779,8 @@ else if ($code == 392.1) {
     <td><?= $row['Designation']; ?></td>
     <td><?= $row['Department']; ?></td>
     <td><div class="mt-1">
-            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify')">Verify</button>
-            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject')">Reject</button>
+            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify','<?=$page;?>')">Verify</button>
+            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject','<?=$page;?>')">Reject</button>
         </div></td>
 </tr>
 

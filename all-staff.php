@@ -41,9 +41,45 @@ a.avatar-link{
 <div class="card table-responsive" id="loadOnlineData" >
 
 </div>
-<script>
 
-function verifyImage(idNo, action) {
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="image_view">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary"></button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+         function view_image(id) {
+                     var code = 377;
+                     $.ajax({
+                        url: 'action_g.php',
+                        type: 'post',
+                        data: {
+                           uni: id,
+                           code: code
+                        },
+                        success: function(response) {
+                        //    console.log(response);
+                           document.getElementById("image_view").innerHTML = response;
+                        }
+                     });
+                  }
+function verifyImage(idNo, action, page = 1) {
     if (!confirm("Are you sure you want to " + action + " this image?")) return;
 
     fetch('action_g.php', {
@@ -56,9 +92,10 @@ function verifyImage(idNo, action) {
     .then(res => res.text())
     .then(data => {
         alert(data);
-        loadStaff(); // Refresh the current page
+        loadStaff(page); // Refresh the same page after verification
     });
 }
+
 
 loadStaff(page = 1);
 
