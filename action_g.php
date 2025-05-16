@@ -36662,6 +36662,13 @@ elseif($code==431)
             ?>
             <div class="row">
                 <div class="col-md-3 ">
+                <?php if($_SESSION['RequiredData']!='')
+{?>
+                            <div class="alert" style="background-color:#fa7165;" role="alert">
+                                <small class="blink">Please update the following fields:
+                                    <?php echo $_SESSION['RequiredData'];?></small>
+                            </div>
+                            <?php }?>
                     <div class="card card-primary card-outline">
                         <div class="card-body  box-profile">
                             <div class="text-center">
@@ -38422,9 +38429,9 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                             </div>
                             <?php if($_SESSION['RequiredData']!='')
 {?>
-                            <div class="alert alert-danger" role="alert">
-                                <b class="blink">Please update the following fields:
-                                    <?php echo $_SESSION['RequiredData'];?></b>
+                             <div class="alert" style="background-color:#fa7165;" role="alert">
+                                <small class="blink">Please update the following fields:
+                                    <?php echo $_SESSION['RequiredData'];?></small>
                             </div>
                             <?php }?>
                         </div>
