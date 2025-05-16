@@ -124,7 +124,10 @@
   var srno= document.getElementById("srno").value;
   var idno= document.getElementById("idno").value;
 
-  var examination= document.getElementById("examination_n").value;
+  var month= document.getElementById("MonthSepecial_n").value;
+       var years= document.getElementById("YearSepecial_n").value;
+       var examination=month+' '+years;
+//   var examination= document.getElementById("examination_n").value;
    //alert(examination);
 var result= document.getElementById("result_n").value;
 
