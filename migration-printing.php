@@ -330,7 +330,9 @@ var code="257.4";
     function applyMigration(id)
           {
        var code=468.1;
-       var examination= document.getElementById("examination").value;
+       var month= document.getElementById("MonthSepecial").value;
+       var years= document.getElementById("YearSepecial").value;
+       var examination=month+' '+years;
        var result= document.getElementById("result").value;
        var failDate= document.getElementById("failDate").value;
          var spinner=document.getElementById('ajax-loader');
