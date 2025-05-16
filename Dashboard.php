@@ -1,4 +1,5 @@
 <?php 
+
  include "header.php"; 
  include "dashboard-alert.php"; 
 if(!(ISSET($_SESSION['usr']))) 
@@ -227,7 +228,7 @@ if($rowCount>0)
 
 
         <div class="row">
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box shadow-lg">
                     <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
                     <div class="info-box-content">
@@ -250,7 +251,7 @@ if($rowCount>0)
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box shadow-lg">
                     <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
                     <div class="info-box-content">
@@ -273,7 +274,7 @@ if($rowCount>0)
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box shadow-lg">
                     <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
                     <div class="info-box-content">
@@ -294,7 +295,7 @@ if($rowCount>0)
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box shadow-lg">
                     <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
                     <div class="info-box-content">
@@ -315,7 +316,50 @@ if($rowCount>0)
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box shadow-lg">
+                    <span class="info-box-icon bg-primary"><i class="fa fa-mobile"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Mobile</span>
+                        <span class="info-box-number"> <?php
+                     $count_s=0;
+                       $Stock="SELECT * FROM mobilestockledger where IDNo='$EmployeeID' and ArticleID='1'";
+                     $reslut_Stock=mysqli_query($connection_s,$Stock);
+                     while ($row_Stock=mysqli_fetch_array($reslut_Stock))
+                      {
+                         $count_s++;
+                       }  
+                       echo $count_s;
+                       ?></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box shadow-lg">
+                    <span class="info-box-icon bg-secondary"><i class="fa fa-sim-card"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Sim</span>
+                        <span class="info-box-number"> <?php
+                     $count_s=0;
+                       $Stock="SELECT * FROM mobilestockledger where IDNo='$EmployeeID' and ArticleID='2'";
+                     $reslut_Stock=mysqli_query($connection_s,$Stock);
+                     while ($row_Stock=mysqli_fetch_array($reslut_Stock))
+                      {
+                         $count_s++;
+                       }  
+                       echo $count_s;
+                       ?></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
         </div>
+
+        
+
 
 
 
