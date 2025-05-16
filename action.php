@@ -17653,6 +17653,8 @@ $result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  Class
                      ?>
                   <option value="<?=$examination;?>"><?= $examination;?></option>
                   <?php }?>
+                  <option value="May 2025">May 2025</option>
+
                      </select></li>
                   </li>
                   <li class="nav-item">
