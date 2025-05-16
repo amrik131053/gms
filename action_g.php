@@ -38085,8 +38085,30 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                                     <?php 
                     $ext = pathinfo($BasURL."Images/Staff/".$row1['Imagepath'], PATHINFO_EXTENSION);
                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
-                        echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
-                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+
+
+                       
+
+                        
+                        if($ImageStatus==1)
+                        {
+                           
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                            echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                        }
+                        else if($ImageStatus==2)
+                        { 
+                            
+                             echo '<img src="dist/img/rejectbyit.jpg" alt="Your Image" width="100" height="100">';
+                            //  echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                        }
+                        else
+                        {
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                           
+                        }
+
+
                     }
                     else {
                         echo '<i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>';
