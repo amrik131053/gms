@@ -38074,6 +38074,9 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                                         }
                                                                         
                                                                         ?>
+                                                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#rejectImagesModel">
+    View Sample Rejected Images
+</button>   
                                                                 </form>
                                                             </td>
                                                             <td>
