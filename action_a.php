@@ -3355,8 +3355,7 @@ elseif($code==29)
 {   
 
 $examination=$_POST['examination'];
-$StudentList="SELECT  ID,IDNo FROM ExamForm WHERE ID NOT IN (SELECT ExamFormID FROM MasterNoDues) AND Examination='$examination' ANd Status='8' 
-AND Type='Regular' ANd CourseID!='188' order By ID ASC"; 
+$StudentList="SELECT  ID,IDNo FROM ExamForm WHERE ID NOT IN (SELECT ExamFormID FROM MasterNoDues) AND Examination='$examination' ANd Status='8' ANd CourseID!='188' order By ID ASC"; 
 $getslist=sqlsrv_query($conntest,$StudentList);
 while($get_row=sqlsrv_fetch_array($getslist))
                   {
