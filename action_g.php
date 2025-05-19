@@ -34779,8 +34779,18 @@ if (!empty($searchIDNo)) {
     <td><?= $row['Designation']; ?></td>
     <td><?= $row['Department']; ?></td>
     <td><div class="mt-1">
-            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify','<?=$page;?>')">Verify</button>
-            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject','<?=$page;?>')">Reject</button>
+            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify','<?=$page;?>')"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject','<?=$page;?>')"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+            <?php
+$lockStatus = $row['ProfileLock'] ?? '';
+$buttonLabel = ($lockStatus === 1) ? 'Click to Unlock Profile' : 'Click to Lock Profile';
+$nextAction = ($lockStatus === 1) ? null : '1';
+$btnColor = ($lockStatus === 1) ? 'danger' : 'primary';
+?>
+
+<button class="btn btn-<?=$btnColor;?> btn-sm" onclick="verifyLockProfile('<?= $row['IDNo'] ?>', '<?= $nextAction ?>', '<?= $page; ?>')">
+    <?= $buttonLabel ?>
+</button>
         </div></td>
 </tr>
 
@@ -34811,8 +34821,6 @@ $action = $_POST['action'] ?? '';
 
 if ($id && in_array($action, ['verify', 'reject'])) {
     $status = $action === 'verify' ? 1 : 2;
-
-    // Assuming you have a column like ImageStatus (1 = verified, 0 = rejected)
     $sql = "UPDATE Staff SET ImageStatus = ? WHERE IDNo = ?";
     $stmt = sqlsrv_prepare($conntest, $sql, [$status, $id]);
 
@@ -34827,6 +34835,26 @@ if ($id && in_array($action, ['verify', 'reject'])) {
     echo "Invalid request.";
 }
 }
+elseif ($code == 392.3) {
+    $id = $_POST['id'] ?? '';
+    $action = $_POST['action'] ?? '';
+
+    if (!empty($id) && in_array($action, ['1', null])) {
+        $sql = "UPDATE Staff SET ProfileLock = ? WHERE IDNo = ?";
+        $stmt = sqlsrv_prepare($conntest, $sql, [$action, $id]);
+
+        if ($stmt && sqlsrv_execute($stmt)) {
+            echo ($action === 1) ? "Profile has been locked" : "Profile has been unlocked";
+        } else {
+            echo "Failed to update profile status.";
+        }
+
+        sqlsrv_close($conntest);
+    } else {
+        echo "Invalid request.";
+    }
+}
+
 
 elseif ($code==393) {
     $time=time();
