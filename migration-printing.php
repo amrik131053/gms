@@ -124,7 +124,10 @@
   var srno= document.getElementById("srno").value;
   var idno= document.getElementById("idno").value;
 
-  var examination= document.getElementById("examination_n").value;
+  var month= document.getElementById("MonthSepecial_n").value;
+       var years= document.getElementById("YearSepecial_n").value;
+       var examination=month+' '+years;
+//   var examination= document.getElementById("examination_n").value;
    //alert(examination);
 var result= document.getElementById("result_n").value;
 
@@ -330,7 +333,9 @@ var code="257.4";
     function applyMigration(id)
           {
        var code=468.1;
-       var examination= document.getElementById("examination").value;
+       var month= document.getElementById("MonthSepecial").value;
+       var years= document.getElementById("YearSepecial").value;
+       var examination=month+' '+years;
        var result= document.getElementById("result").value;
        var failDate= document.getElementById("failDate").value;
          var spinner=document.getElementById('ajax-loader');

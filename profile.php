@@ -51,7 +51,10 @@ input[type=radio]:checked+label {
                         <input type="file" class="form-control-file" name="photoIMage">
                         <small style="color: green">*Document must be in .jpg/.jpeg/.png format. &nbsp; *Size must be less than 500kb.</small><br>
                         <strong id="imgerror1" style="color: red"></strong><br>
-                        
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rejectImagesModel">
+    View Sample Rejected Images
+</button>
+
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -59,10 +62,28 @@ input[type=radio]:checked+label {
                     </div>
                 </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
+
+<div class="modal fade" id="rejectImagesModel" tabindex="-1" role="dialog" aria-labelledby="rejectImagesModelLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rejectImagesModelLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+  <img src="dist/img/Photo-symble.jpg" width="100%">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="modal-default-Letters">
     <div class="modal-dialog">
         <div class="modal-content">

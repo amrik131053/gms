@@ -19491,7 +19491,7 @@ $DepartmentID=$_POST['Department'];
 $Batch=$_POST['Batch'];
 
 $SrNo=1;
-      $CheckStudyMaterial="SELECT sm.id as s_id,sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+      $CheckStudyMaterial="SELECT sm.VerifyStatus,sm.id as s_id,sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
        StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where 1=1";
        if($CollegeID!='')
        {
@@ -19506,10 +19506,23 @@ $SrNo=1;
        $CheckStudyMaterial.="AND sm.batch='$Batch'";
        }
        
-      $CheckStudyMaterial.="group by sm.id,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+      $CheckStudyMaterial.="group by sm.VerifyStatus,sm.id,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
     $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
     while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
     {
+        $VerifyStatus=$row['VerifyStatus'];
+        if($VerifyStatus==1)
+        {
+           $clr="success";
+       }
+       else if($VerifyStatus==2)
+       {
+          $clr="danger";
+       }
+       else{
+           $clr="warning";
+           
+        }
         $CheckStudyMaterial1="select Course,CollegeName from  
         MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."'";
      $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
@@ -19528,7 +19541,7 @@ $nooflect=$row['nooflect'];
 $s_id=$row['s_id'];
 $DocumentType=$row['DocumentType'];
 ?>
-                        <tr>
+                        <tr style="background-color:<?=$clr;?>">
                             <td><?=$SrNo;?></td>
                             <td><?=$ColegeName;?></td>
                             <td><?=$Courseid;?></td>
@@ -19565,12 +19578,25 @@ elseif ($code==244.1) {
     
     while ($row = sqlsrv_fetch_array($CheckStudyMaterialRun, SQLSRV_FETCH_ASSOC)) {
         $file = $row['CourseFile'];
+        $VerifyStatus = $row['VerifyStatus'];
         $file_url = "http://erp.gku.ac.in:86/StudyMaterial/$file";
         $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-
+ if($VerifyStatus==1)
+ {
+    $clr="success";
+}
+else if($VerifyStatus==2)
+{
+   $clr="danger";
+}
+else{
+    $clr="warning";
+    
+ }
         // echo "<p><strong>File:</strong> $file</p>";
 ?>
-<div class="row card">
+<div class="row card bg-<?=$clr;?>" >
+    <br>
     <?php
         if ($extension == 'pdf') {
             echo "<embed class='pdf' src='$file_url' width='100%' height='600'>";
@@ -31944,7 +31970,7 @@ if($ifexitIDNo<1)
          $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
           mysqli_query($conn_online_pre_regist,$upd1); 
 
-  $degree="SELECT * FROM users   WHERE  registration_number='$registrationNumber'" ;
+  $degree="SELECT * FROM users   WHERE  registration_number='$refoffer'" ;
             $degree_run=mysqli_query($conn_online_pre_regist,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
             {
@@ -34651,6 +34677,157 @@ elseif ($code==392) {
     <?php 
    sqlsrv_close($conntest);
 }
+else if ($code == 392.1) {
+    // $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
+    // $limit = 50;
+    // $offset = ($page - 1) * $limit;
+    
+    // // Count total records
+    // $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' and Department!='Class Four'";
+    // $count_stmt = sqlsrv_query($conntest, $count_sql);
+    // $count_row = sqlsrv_fetch_array($count_stmt, SQLSRV_FETCH_ASSOC);
+    // $total_records = $count_row['total'];
+    // $total_pages = ceil($total_records / $limit);
+    
+    // // Fetch current page records
+    // $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' and Department!='Class Four' ORDER BY IDNo DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    // $stmt = sqlsrv_query($conntest, $sql);
+    
+  
+
+
+    $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
+    $limit = 50;
+    $offset = ($page - 1) * $limit;
+
+    $searchIDNo = $_REQUEST['idNo'] ?? '';
+    $searchCondition = "";
+    $params = [];
+
+    $searchCondition = "";
+$params = [];
+
+if (!empty($searchIDNo)) {
+    $searchCondition .= " AND (IDNo LIKE ? OR Name LIKE ?)";
+    $params[] = "%$searchIDNo%";
+    $params[] = "%$searchIDNo%";
+}
+
+
+    // Count total
+    $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition";
+    $count_stmt = sqlsrv_prepare($conntest, $count_sql, $params);
+    sqlsrv_execute($count_stmt);
+    $count_row = sqlsrv_fetch_array($count_stmt, SQLSRV_FETCH_ASSOC);
+    $total_records = $count_row['total'];
+    $total_pages = ceil($total_records / $limit);
+
+    // Main query
+    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition ORDER BY IDNo DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    $stmt = sqlsrv_prepare($conntest, $sql, $params);
+    sqlsrv_execute($stmt);
+    $sr = $offset + 1;
+    ?>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Image</th>
+                <th>IDNo</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $hasData = false;
+        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+            $hasData = true;
+            $Emp_Image = $row['Imagepath'];
+            $ImageStatus = $row['ImageStatus'];
+            if($ImageStatus==1)
+            {
+                $clr="success";
+                $text="Verified";
+            }
+            elseif($ImageStatus==2)
+            {
+                $clr="danger";
+                $text="Rejected";
+            }
+            else{
+                $clr="";
+                $text="";
+            }
+            ?>
+           <tr>
+    <td><?= $sr++; ?></td>
+    
+    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');">
+                    <?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+             
+        <div class="text-<?=$clr;?>">
+           <b ><?=$text;?></b>
+        </div>
+        
+    </td>
+    <td><?= $row['IDNo']; ?></td>
+    <td><?= $row['Name']; ?></td>
+    <td><?= $row['Designation']; ?></td>
+    <td><?= $row['Department']; ?></td>
+    <td><div class="mt-1">
+            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify','<?=$page;?>')">Verify</button>
+            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject','<?=$page;?>')">Reject</button>
+        </div></td>
+</tr>
+
+        <?php } ?>
+    
+        <?php if (!$hasData): ?>
+            <tr><td colspan="6">No data found on this page.</td></tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+    
+    <!-- Pagination Buttons -->
+    <div style="text-align:center;">
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <button class="btn btn-sm <?= ($i == $page) ? 'btn-primary' : 'btn-outline-primary' ?>" onclick="loadStaff(<?= $i ?>)">
+                <?= $i ?>
+            </button>
+        <?php endfor; ?>
+    </div>
+
+<?php
+    sqlsrv_close($conntest);
+}
+elseif ($code==392.2) {
+
+    $id = $_POST['id'] ?? '';
+$action = $_POST['action'] ?? '';
+
+if ($id && in_array($action, ['verify', 'reject'])) {
+    $status = $action === 'verify' ? 1 : 2;
+
+    // Assuming you have a column like ImageStatus (1 = verified, 0 = rejected)
+    $sql = "UPDATE Staff SET ImageStatus = ? WHERE IDNo = ?";
+    $stmt = sqlsrv_prepare($conntest, $sql, [$status, $id]);
+
+    if (sqlsrv_execute($stmt)) {
+        echo "Image has been " . ($action === 'verify' ? "verified." : "rejected.");
+    } else {
+        echo "Failed to update status.";
+    }
+
+    sqlsrv_close($conntest);
+} else {
+    echo "Invalid request.";
+}
+}
+
 elseif ($code==393) {
     $time=time();
     $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
@@ -36488,6 +36665,7 @@ elseif($code==431)
                         if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
                         {
                         $ImagePath=$row1['Imagepath'];
+                        $ImageStatus=$row1['ImageStatus'];
                         $DateOfBirth=$row1['DateOfBirth'];
                         $DateOfJoining=$row1['DateOfJoining'];
                         $DateOfLeaving=$row1['DateOfLeaving'];
@@ -36495,15 +36673,41 @@ elseif($code==431)
             ?>
             <div class="row">
                 <div class="col-md-3 ">
+                <?php if($_SESSION['RequiredData']!='')
+{?>
+                            <div class="alert" style="background-color:#fa7165;" role="alert">
+                                <small class="blink">Please update the following fields:
+                                    <?php echo $_SESSION['RequiredData'];?></small>
+                            </div>
+                            <?php }?>
                     <div class="card card-primary card-outline">
                         <div class="card-body  box-profile">
                             <div class="text-center">
-                                <?php echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
+                            <?php 
+                            if($ImageStatus==1)
+                            {
+                            echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
+                            }
+                            else if($ImageStatus==2)
+                            { 
+                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';   
+                            }
+                            else
+                            {
+                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
+                           
+                           
+                        }
+                        ?>
+                                <?php //echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                             </div>
+                            <?php  if($ImageStatus!=1)
+                            {
+                                ?>
                             <center><button class="btn btn-primary btn-xs" data-toggle="modal"
                                     data-target="#uploadPasspoerImage">
                                     <i class="fa fa-edit"></i>Edit Image</button></center>
-
+                           <?php }?>
 
 
 
@@ -37857,9 +38061,22 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                                     <strong id="imgerror"
                                                                         style="color: red"></strong><br>
 
+                                                                        <?php  if($ImageStatus!=1)
+                                                                           {
+                                                                        ?>
                                                                     <input class="btn btn-success btn-xs"
                                                                         onclick="uploadImage(this.form);"
                                                                         value="Upload">
+                                                                        <?php } 
+                                                                        else if($ImageStatus==1)
+                                                                        {
+                                                                             echo "<b class='text-success'>Image Locked</b>";   
+                                                                        }
+                                                                        
+                                                                        ?>
+                                                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#rejectImagesModel">
+    View Sample Rejected Images
+</button>   
                                                                 </form>
                                                             </td>
                                                             <td>
@@ -37871,8 +38088,30 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                                     <?php 
                     $ext = pathinfo($BasURL."Images/Staff/".$row1['Imagepath'], PATHINFO_EXTENSION);
                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
-                        echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
-                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+
+
+                       
+
+                        
+                        if($ImageStatus==1)
+                        {
+                           
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                            echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                        }
+                        else if($ImageStatus==2)
+                        { 
+                            
+                             echo '<img src="dist/img/rejectbyit.jpg" alt="Your Image" width="100" height="100">';
+                            //  echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                        }
+                        else
+                        {
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                           
+                        }
+
+
                     }
                     else {
                         echo '<i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>';
@@ -38226,9 +38465,9 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                             </div>
                             <?php if($_SESSION['RequiredData']!='')
 {?>
-                            <div class="alert alert-danger" role="alert">
-                                <b class="blink">Please update the following fields:
-                                    <?php echo $_SESSION['RequiredData'];?></b>
+                             <div class="alert" style="background-color:#fa7165;" role="alert">
+                                <small class="blink">Please update the following fields:
+                                    <?php echo $_SESSION['RequiredData'];?></small>
                             </div>
                             <?php }?>
                         </div>
@@ -39158,7 +39397,7 @@ $destdir = '/Images/Staff';
     ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
     ftp_close($conn_id);
-     $insertExp="UPDATE Staff SET Imagepath='$file_name' where IDNo='$EmployeeID'";
+     $insertExp="UPDATE Staff SET Imagepath='$file_name' ,ImageStatus='0' where IDNo='$EmployeeID'";
     $result = sqlsrv_query($conntest, $insertExp);
     // $file_data = file_get_contents($file_tmp);
 //     $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
