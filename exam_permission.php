@@ -917,7 +917,7 @@ function edit_start_end_date(id, Semester) {
 function createnodues()
 {
       var examination = document.getElementById('noduesexamination').value;
-      alert(examination);
+     
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
    

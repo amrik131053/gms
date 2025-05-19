@@ -10032,8 +10032,8 @@ mysqli_close($conn);
        sqlsrv_close($conntest);
    }  elseif($code==139)
     {
-      $id=$_POST['id'];
-      $get_student_details="SELECT * FROM offer_latter  where id='$id'";
+     echo  $id=$_POST['id'];
+     echo  $get_student_details="SELECT * FROM offer_latter  where id='$id'";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
 if ($row=mysqli_fetch_array($get_student_details_run))
  {
@@ -10073,17 +10073,17 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
 
     $courseName=$row_course_name['Course'];
 }
-    $State_id=$row['State'];
+    echo "stt : ". $State_id=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
     $ID_Proof_No=$row['ID_Proof_No'];
-    $District_id=$row['District'];
+   echo  $District_id=$row['District'];
      $months=$row['months'];
 
-       $lStatus=$row['Status'];
+      $lStatus=$row['Status'];
        $ReportedStatus=$row['ReportedStatus'];
     
 
@@ -10095,7 +10095,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
     {
     $State=$row_state['name'];
     }
-    $get_district="SELECT name FROM cities  where id='$District_id'";
+   echo  $get_district="SELECT name FROM cities  where id='$District_id'";
     $get_district_run=mysqli_query($conn,$get_district);
     if($row_dist=mysqli_fetch_array($get_district_run))
     {
@@ -36861,7 +36861,7 @@ elseif($code==431)
                                                             <label>Current Salary</label>
                                                             <input type="text" class="form-control" id="salary"
                                                                 placeholder="Enter salary"
-                                                                value="<?=$row1['SalaryAtPresent'];?>">
+                                                                value="<?=$row1['SalaryAtPresent'];?>"readonly>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-2 col-12">
@@ -39018,7 +39018,7 @@ elseif($code==437)
    $query .= "District = '$district_by_post', ";
    $query .= "PostOffice = '$postOffice', ";
    $query .= "BloodGroup = '$bloodGroup', ";
-   $query .= "SalaryAtPresent = '$salary', ";
+   //$query .= "SalaryAtPresent = '$salary', ";
    $query .= "PersonalIdentificationMark = '$personalIdentificationMark' ";
    $query .= "WHERE IDNo = '$loginId'";
 //  echo $query;
