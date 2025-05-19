@@ -36712,20 +36712,24 @@ elseif($code==431)
                         <div class="card-body  box-profile">
                             <div class="text-center">
                             <?php 
-                            if($ImageStatus==1)
-                            {
-                            echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
-                            }
-                            else if($ImageStatus==2)
-                            { 
-                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';   
-                            }
-                            else
-                            {
-                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
-                           
-                           
-                        }
+                 if ($ImageStatus == 1) {
+                    echo '
+                    <div style="position: relative; display: inline-block;">
+                        <img class="profile-user-img img-fluid img-circle"
+                             style="width: 100px; border: 3px solid #28a745;" 
+                             src="'.$BasURL.'Images/Staff/'.$ImagePath.'" 
+                             alt="User profile picture">
+                        <img src="dist/img/bluetick.png" 
+                             style="position: absolute; bottom: 0px; right: -5px; width: 35px; height: 35px;" 
+                             alt="Verified">
+                    </div>';
+                } else if ($ImageStatus == 2) {
+                    echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';
+                } else {
+                    echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';
+                }
+                
+                
                         ?>
                                 <?php //echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                             </div>
