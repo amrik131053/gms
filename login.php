@@ -48,7 +48,7 @@ else
        $lockProfile=$row['ProfileLock'];
      }
 }
-	if($status==1 && $lockProfile==null)
+if ($status == 1 && ($lockProfile === null || $lockProfile === '0' || $lockProfile === 0)) 
 {      
    $_SESSION['usr'] = $user;
    $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='0' where  UserName='$user' and  ApplicationType='Web' and ApplicationName='Campus' ";
