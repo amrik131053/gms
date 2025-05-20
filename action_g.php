@@ -34723,7 +34723,7 @@ if (!empty($searchIDNo)) {
     $total_pages = ceil($total_records / $limit);
 
     // Main query
-    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition ORDER BY ImageStatus DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four'  $searchCondition ORDER BY ImageStatus ASC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
     $stmt = sqlsrv_prepare($conntest, $sql, $params);
     sqlsrv_execute($stmt);
     $sr = $offset + 1;
