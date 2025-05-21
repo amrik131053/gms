@@ -26530,6 +26530,7 @@ if($_POST['sub_data']!='1')
     $Type = $_POST['Type'];
     $Status = $_POST['Status'];
     $Examination = $_POST['Examination'];
+        $Category = $_POST['Category'];
     if($Status=='66')
     {
         $AcceptType=1; 
@@ -26556,6 +26557,11 @@ $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
  }
  if ($Examination != '') {
  $list_sql.=" AND ExamForm.Examination='$Examination' ";
+ }
+  
+
+ if ($Category != '') {
+ $list_sql.=" AND Admissions.Category='$Category' ";
  }
 
 if ($Status != '')
