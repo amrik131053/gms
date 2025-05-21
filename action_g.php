@@ -26574,7 +26574,7 @@ if ($Status != '')
 
 
  
-echo $list_sql.="  ORDER BY MasterNodues.Account ASC";
+ $list_sql.="  ORDER BY MasterNodues.Account ASC";
 
 }
 else
