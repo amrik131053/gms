@@ -3362,8 +3362,8 @@ while($get_row=sqlsrv_fetch_array($getslist))
         $IDNo=$get_row['IDNo'];
          $ID=$get_row['ID'];
 
-        $insertNewRecord="INSERT into  MasterNoDues (IDNo,ExamFormID)
-        VALUES('$IDNo','$ID')";
+        $insertNewRecord="INSERT into  MasterNoDues (IDNo,ExamFormID,Library,Account,Registration)
+        VALUES('$IDNo','$ID','0','0','0')";
 
         sqlsrv_query($conntest,$insertNewRecord);
       }      
