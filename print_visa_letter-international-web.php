@@ -309,152 +309,87 @@ where MasterDepartment.Id='$Department' ";
     </div>
     <span style="margin-top: 10px; text-align: right;">
     <span><b style="text-align: right" >Date: <?= date('d-m-Y'); ?></b></span><br>
-    <span><b style="text-align: right">Refrence No:GKU/IED/2025/00<?=$id;?></b></span>
+    <span><b style="text-align: right">Refrence No:GKU/IED/VL/2025/00<?=$id;?></b></span>
 </span>
 </div>
+      <p style="font-size: 22px;text-align: center;"><u><b> Final Admission/Visa/Acceptance Letter</b></u></p>
       
-        <span>To,<br>
-            <strong><?= $name; ?></strong><br>
-            <!-- <b>Father Name-</b> <?= $FatherName; ?><br> -->
-           <b>Country-</b> <?= $NationalityName; ?>
-        </span><br>
 
-        <span><strong>Subject: Offer of Admission to Guru Kashi University (International Students)</strong></span><br>
+      
         <span>Dear <strong><?= $name; ?></strong>,</span></br>
-        <span>We are pleased to inform you that you have been <strong>conditionally</strong> offered admission to
-            <strong>Guru Kashi University</strong> for the <strong><?= $courseName; ?></strong> commencing on
-            <strong><?= $pstartDate; ?></strong> for the academic session <strong><?= $Session; ?></strong>. This offer
-            is based on your fulfillment of the admission requirements and submission of all necessary documents.</span>
+        <span>Conratulation on seeking your admission at Guru Kashi University,Bathinda,Punjab India. we are pleased to confirm the acceptance of your application as an international Student.
 
-        <table>
-            <tr style="background:black;color:white;margin-top:-10px;">
-                <td>
-                    <h6><b>Program Details:</b></h6>
-                </td>
-            </tr>
-        </table>
-        <table style="font-size:12px;margin-top:-10px;">
+            
+
+        
+        <table style="font-size:15px;margin-top:10px;">
             <tr>
                 <th>Program Name:</th>
                 <td><?= $courseName; ?></td>
-                <th>Level of Study:</th>
-                <td> <?= $Type; ?></td>
+                
             </tr>
             <tr>
-                <th>Duration:</th>
+                <th>Duration of the Course:</th>
                 <td><?= $Duration; ?> Years</td>
-                <th>Faculty/Department:</th>
-                <td> <?= $department; ?></td>
+                
             </tr>
             <tr>
-                <th>Medium of Instruction:</th>
-                <td>English</td>
-                <th></th>
-                <th></th>
+                <th>Course Start Date</th>
+              
+                <td></td>
+             
+              
+              
+            </tr>
+            <tr>
+                <th>Course End Date</th>
+                
+                <td></td>
+             
+              
+              
+            </tr>
+            <tr>
+                <th>Fee  Details</th>
+               
+                <td> $<?= $totalAnual; ?>  PER YEAR    + $400  ONE TIME CHARGES </td>
+             
+              
+              
+            </tr>
+              <tr>
+                <th>Passport Number</th>
+                
+                <td><?=$ID_Proof_No;?></td>
+             
               
               
             </tr>
         </table>
-       
+    <p style="font-size:14;">   <b>Note : </b><i>You are required to pay full fee of first year before arrival & to start your course.</i></p>
 
-        <table style="margin-top:-10px;">
-            <tr style="background:black;color:white;">
-                <td>
-                    <h6><b>Fee Structure:</b></h6>
-                </td>
-            </tr>
-        </table>
-
-        <table style="font-size:12px; margin-top:-10px;">
-            <tr>
-                <th colspan="2" style="text-align: center;width: 50%;"><b>One Time Charges</b></th>
-                
-                <th colspan="2" style="text-align: center;"><b>Fee Per Year</b></th>
-                
-            </tr>
-            <tr>
-               <th>Registration Fee </th>
-                <td style="text-align: center;">$<?= $RegistrationFee; ?></td> 
-               <th>Actual Fee</th>
-               <td style="text-align: center;">$<?= $ActualFee; ?></td>
-            </tr>
-            <tr>
-               <th>Misc. Charges</th>
-                <td style="text-align: center;">$<?= $MessCharges; ?></td> 
-                  <th>Application Fee as per package per year</th>
-                     <td style="text-align: center;">$<?= $TutionFee; ?></td>
-            </tr>
-            <tr>
-                 <th>Other Charges </th>
-                <td style="text-align: center;">$<?= $otherCharges; ?></td>
-                 <th>Hostel Accommodation Fee(AC)</th>
-                <td style="text-align: center;">$<?= $HostelFee; ?></td>
-            </tr>
+<u style="font-size:14;"><b>List of documents that student has to bring along with him/her:</b></u>
+ <p style="font-size:17px ;"> 
+•   Original Admission and Offer letter.<br>
+•   Copy of fee receipt issued by Guru Kashi University or consultant.<br>
+•   General medical certificate & Yellow fever & Covid 19 vaccination certificate.<br>
+•   Original academic documents of school/college.<br>
+•   10 passport size photographs with white background and 6 months’ bank statement (PDF) for FRRO.<br></p>
+<p style="font-size:17px ;"> 
+The admission is offered on the initial scrutiny of application, however if the student is found ineligible after the complete examination of educational documents, then this offered admission will stand cancelled for the specific program. Hostel fee will be 60 USD per month during the foundation program (March to June). Medical Insurance is mandatory before or on arrival. Terms & conditions as mentioned in an offer letter & as per
+ <b>Annexure-A</b> attached with this letter.
+ <br>
+<b>Disclaimer:</b><i> Guru Kashi University reserves the right to cancel admission at any stage, including after visa approval, if any discrepancies or false information are found. The university's decision shall be final and unchallengeable.</i>
 
 
-            
-             <tr>
-                <th>Security Deposit</th>
-                <td style="text-align: center;">$<?= $SecurityDeposit; ?></td>
-         
-                <th></th>
-                 <th></th>
-               
-                
-            </tr>
-             <tr>
-                <th>Total</th>
-                <td style="text-align: center;"><b>$400</b></td>
-         
-                <th>Total Fee per year</th>
-                 <th style="text-align: center;"> $<?= $TutionFee+$HostelFee;?></th>
-                
-            </tr>
-            <tr>
-               
-                <td colspan="3" style="text-align:right;"><strong>Grand Total payable:</strong></td>
-                <td style="text-align: center;"><strong >$<?= $totalAnual; ?></strong></td>
-               
-            </tr>
-        </table>
 
 
-        <!-- <h6><b></b></h6> -->
-        <span class="note"  >Important: This is an Offer Letter only cannot be used to apply for a study visa.</span>
+  
+     
 
-        <h6><b>Terms and Conditions for Final Admission:</b></h6>
 
-        <h6 style="margin-top: -10px;margin-bottom: -1px;"><b>1. Admission Criteria:</b></h6>
-        <span >
-            Final admission will be granted only after the student meets the eligibility requirements set by the
-            Government of Punjab and the Government of India. All necessary documents supporting the student’s
-            eligibility must be submitted as part of the admission process.
-        </span>
 
-        <h6><b>2. Hostel Fees and Accommodation Options:</b></h6>
-        <ul>
-            <li style="margin-top:-10px;"><strong>Hostel fees:</strong> will apply during the foundation program.
-                From the second year onwards, students choosing to live off-campus will receive a reduction in their fee
-                package i.e. <b>$300 USD/year</b> for non-AC accommodation and <b>$500 USD/year</b> for AC accommodation.
-               
-            </li>
-            <li style="margin-top:-10px;">
-                <strong>Additional Charges:</strong> <b>Exam fees:</b> $100 USD per semester. <b>Electricity charges:</b> Calculated based on actual monthly consumption and billed separately.
-               
-            </li>
-        </ul>
-
-        <!-- <h6><b>3. Validity of Offer Letter:</b></h6> -->
-        <span >
-            <b >This offer letter is valid for 15 days from the date of issue.</b>
-        </span><br>
-        <!-- <table>
-            <tr style="background:black;color:white;">
-                <td>
-                    <h6><b>Payment Details:</b></h6>
-                </td>
-            </tr>
-        </table> -->
+      
         <table style="font-size:12px; ">
             <b>Please use the following bank account details to transfer the fee:</b>
             <tr>
@@ -480,7 +415,7 @@ where MasterDepartment.Id='$Department' ";
        IED - International Education Division</p>
 </div>
 
-
+<br><br><br><br>
         <hr>
         <div class="footer">
             <p>IED - International Education Division<br>

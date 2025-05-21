@@ -26522,7 +26522,7 @@ if($_POST['sub_data']!='1')
     $Examination = $_POST['Examination'];
     if($Status=='66')
     {
-        $AcceptType=1;
+        $AcceptType=1; 
     }
     else
     {
@@ -26553,7 +26553,8 @@ if ($Status != '')
 
     if ($Status==0 && $Status=='')
     {
- $list_sql.="AND MasterNodues.Account='$Status'";
+ //$list_sql.="AND MasterNodues.Account='$Status'";
+  $list_sql.=" ";
     }
     else
     {
@@ -26563,7 +26564,7 @@ if ($Status != '')
 
 
  
-$list_sql.="  ORDER BY MasterNodues.Account ASC";
+echo $list_sql.="  ORDER BY MasterNodues.Account ASC";
 
 }
 else
@@ -26757,7 +26758,8 @@ if ($Status != '')
 
     if ($Status==0 && $Status=='')
     {
- $list_sql.="AND MasterNodues.Registration='$Status ";
+         $list_sql.=" ";
+ //$list_sql.="AND MasterNodues.Registration='$Status ";
     }
     else
     {
