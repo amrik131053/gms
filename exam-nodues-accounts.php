@@ -141,8 +141,8 @@
                                 </select>
 
                             </div>
-                             <div class="col-lg-2 col-md-2 col-sm-12">
-                                <label>Examination</label>
+                             <div class="col-lg-1 col-md-2 col-sm-12">
+                                <label>Category</label>
                                 <select id="Category" class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <?php
