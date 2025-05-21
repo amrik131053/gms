@@ -423,6 +423,71 @@ The admission is offered on the initial scrutiny of application, however if the 
                 IED Helpline: 7009396001 | Email: ieddiretor@gku.ac.in | Website: www.gku.ac.in</p>
         </div>
     </div>
+
+<br>
+<br><!-- <div class="logo-section">
+                <img src="dist/img/logo-join.png" alt="Logo">
+   
+            </div> -->
+
+            <div class="content" style="margin-left:10px;margin-right: 10px;">
+                   <img src="dist/img/logo-join.png" alt="Logo" width="800px">
+<p style="font-size: 15px;text-align: center;"><b>ANNEXURE-A</b></p>
+
+<p style="font-size:18px">
+<u>Terms and Conditions:</u><br>
+<b>Admission Confirmation:</b><br>
+
+•   Your admission will be confirmed only upon up on receipt of the initial deposit. Non-payment of the deposit by the specified deadline may result in the correct of your you admission offer.<br>
+•   All required original documents (academic transcripts, certificates, passport copy, etc.) must be submitted to the IED-International Education Division at the time of registration.<br>
+<b>Refund Policy</b><br>
+•   In case of visa rejection 100% of the tuition fee (except the registration fee) will be refunded upon submission of the wise rejection letter from the Indian Embassy<br>
+•   In other cases, refund will be processed based on the university's refund policy, which is available on our website or upon request.<br>
+<b>Hostel and Accommodation:</b><br>
+
+•   Accommodation is available on a first-come, first-served basis and must be reserved in advance<br>
+•   The Hostel Accommodation Fee includes room rent, basic furniture reserved in advance and maintenance charges Electricity charges are not included in the Hostel accommodation fee. They are calculated based on actual monthly consumption and billed separately, to be paid on a monthly basis.<br>
+•   Term Hostel Accommodation AC in the offer letter means refers to the availability and provision of air conditioning as part of the facility<br>
+<b>Health Insurance:</b><br>
+
+•   All international students required to have valid health insurance covering the duration of their stay in India. Proof of insurance must be submitted before the start of the program.<br>
+<b>Visa Requirements:</b><br>
+
+•   Students must possess a valid student visa study at Guru Kashi University it is your responsibility to ensure that your visa is obtained and renewed as required.<br>
+•   The university's International Education Division will assist you with your Foreigners Regional Registration Office (FRRO)Registration upon arrival in India.<br>
+
+<b>Academic Requirement:</b><br>
+
+•   You must maintain a minimum attendance of 75% and adhere to all academic and disciplinary regulations set by the University.<br>
+<b>Disciplinary Regulations:</b><br>
+
+•   The university maintains a strict code of conduct and disciplinary regulations. Any violation of university rules code may result in penalties, including suspension or expulsion.<br>
+<b>Exit and Travel Permissions:</b><br>
+
+•   Students who wish to leave the campus for personal reasons must seek permission from the Hostel Warden at least 24 hours in advance and fill out the required forms....<br>
+<b>Next Steps:</b> Confirm your admission by paying the initial deposit of USD 100 & full fee before your arrival.<br>
+
+<b>Submit the following documents: </b>Copy of your valid passport | Academic transcripts and certificates | Proof of health insurance Visa copy (upon approval). <br>
+Make travel arrangements and inform us of your (Arrival date by sharing your air tickets to arrange airport pickup via <b>WhatsApp app or call at +70093-96001 or send email at iedcoodinator@gku.ac.in</b><br>
+<b>We are excited to welcome you to Guru Kashi University and took forward to your academic success. If you have any questions, please do not hesitate to contact the international Education Division at 70099-55998</b>
+
+  <div class="signature-section" style="text-align: right; position: relative;">
+    <div style="display: inline-block; position: relative;">
+        <img src="dist/img/stamp-ied-colored.jpg" alt="Stamp" style="width: 100px; border: 0px solid;">
+        <img src="dist/img/signdirector.png" alt="Signature" 
+             style="position: absolute; top: 110%; left: 50%; transform: translate(-50%, -50%); width: 150px;">
+    </div>
+    <p style="margin-top: 20px; text-align: right;">Authorized Signature<br>
+       IED - International Education Division</p>
+</div>
+        <hr>
+        <div class="footer">
+            <p>IED - International Education Division<br>
+                Office No. 217, First Floor, Block B, GKU Campus, Sardulgarh Road, Talwandi Sabo, Punjab - 151302<br>
+                IED Helpline: 7009396001 | Email: ieddiretor@gku.ac.in | Website: www.gku.ac.in</p>
+        </div>
+    </div>
+
 </body>
 
 </html>
