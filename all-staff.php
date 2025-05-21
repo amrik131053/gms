@@ -96,6 +96,25 @@ a.avatar-link {
             });
     }
 
+    function verifyLockProfile(idNo, action, page = 1) {
+    if (!confirm("Are you sure you want to " + action + " profile?")) return;
+
+    fetch('action_g.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'code=392.3&id=' + encodeURIComponent(idNo) + '&action=' + encodeURIComponent(action)
+    })
+    .then(res => res.text())
+    .then(data => {
+    console.log(data);
+    SuccessToast(data);
+    loadStaff(page);
+});
+
+}
+
 
     loadStaff(page = 1);
 

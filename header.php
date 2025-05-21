@@ -355,18 +355,21 @@ window.location.href = 'profile.php';
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                         <?php 
-                        if($ImageStatus==1)
-                        {
-                            echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
-                        }
-                        else if($ImageStatus==2)
-                        { 
-                             echo '<img src="dist/img/rejectbyit.jpg" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
-                        }
-                        else
-                        {
-                             echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
-                        }
+                   if ($ImageStatus == 1) {
+                    echo '
+                    <div style="position: relative; display: inline-block;">
+                        <img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2" style="border-radius:50%; border: 2px solid #28a745;" />
+                        <img src="dist/img/bluetick.png" alt="Verified" 
+                             style="position: absolute; top: 10px; right: 0px; width: 20px; height: 20px;" />
+                    </div>';
+                } else if ($ImageStatus == 2) {
+                    echo '
+                    <img src="dist/img/rejectbyit.jpg" class="user-image img-circle elevation-2" style="border-radius:50%;" />';
+                } else {
+                    echo '
+                    <img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2" style="border-radius:50%;" />';
+                }
+                
                         ?>
                         <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
                     </a>

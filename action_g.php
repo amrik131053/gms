@@ -34725,7 +34725,7 @@ if (!empty($searchIDNo)) {
     $total_pages = ceil($total_records / $limit);
 
     // Main query
-    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition ORDER BY IDNo DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition ORDER BY ImageStatus DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
     $stmt = sqlsrv_prepare($conntest, $sql, $params);
     sqlsrv_execute($stmt);
     $sr = $offset + 1;
@@ -34781,8 +34781,18 @@ if (!empty($searchIDNo)) {
     <td><?= $row['Designation']; ?></td>
     <td><?= $row['Department']; ?></td>
     <td><div class="mt-1">
-            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify','<?=$page;?>')">Verify</button>
-            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject','<?=$page;?>')">Reject</button>
+            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify','<?=$page;?>')"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject','<?=$page;?>')"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+            <?php
+$lockStatus = $row['ProfileLock'] ?? '';
+$buttonLabel = ($lockStatus === 1) ? 'Click to Unlock Profile' : 'Click to Lock Profile';
+$nextAction = ($lockStatus === 1) ? null : '1';
+$btnColor = ($lockStatus === 1) ? 'danger' : 'primary';
+?>
+
+<button class="btn btn-<?=$btnColor;?> btn-sm" onclick="verifyLockProfile('<?= $row['IDNo'] ?>', '<?= $nextAction ?>', '<?= $page; ?>')">
+    <?= $buttonLabel ?>
+</button>
         </div></td>
 </tr>
 
@@ -34813,8 +34823,6 @@ $action = $_POST['action'] ?? '';
 
 if ($id && in_array($action, ['verify', 'reject'])) {
     $status = $action === 'verify' ? 1 : 2;
-
-    // Assuming you have a column like ImageStatus (1 = verified, 0 = rejected)
     $sql = "UPDATE Staff SET ImageStatus = ? WHERE IDNo = ?";
     $stmt = sqlsrv_prepare($conntest, $sql, [$status, $id]);
 
@@ -34829,6 +34837,26 @@ if ($id && in_array($action, ['verify', 'reject'])) {
     echo "Invalid request.";
 }
 }
+elseif ($code == 392.3) {
+    $id = $_POST['id'] ?? '';
+    $action = $_POST['action'] ?? '';
+
+    if (!empty($id) && in_array($action, ['1', null])) {
+        $sql = "UPDATE Staff SET ProfileLock = ? WHERE IDNo = ?";
+        $stmt = sqlsrv_prepare($conntest, $sql, [$action, $id]);
+
+        if ($stmt && sqlsrv_execute($stmt)) {
+            echo ($action === 1) ? "Profile has been locked" : "Profile has been unlocked";
+        } else {
+            echo "Failed to update profile status.";
+        }
+
+        sqlsrv_close($conntest);
+    } else {
+        echo "Invalid request.";
+    }
+}
+
 
 elseif ($code==393) {
     $time=time();
@@ -36686,20 +36714,24 @@ elseif($code==431)
                         <div class="card-body  box-profile">
                             <div class="text-center">
                             <?php 
-                            if($ImageStatus==1)
-                            {
-                            echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
-                            }
-                            else if($ImageStatus==2)
-                            { 
-                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';   
-                            }
-                            else
-                            {
-                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
-                           
-                           
-                        }
+                 if ($ImageStatus == 1) {
+                    echo '
+                    <div style="position: relative; display: inline-block;">
+                        <img class="profile-user-img img-fluid img-circle"
+                             style="width: 100px; border: 3px solid #28a745;" 
+                             src="'.$BasURL.'Images/Staff/'.$ImagePath.'" 
+                             alt="User profile picture">
+                        <img src="dist/img/bluetick.png" 
+                             style="position: absolute; bottom: 0px; right: -5px; width: 35px; height: 35px;" 
+                             alt="Verified">
+                    </div>';
+                } else if ($ImageStatus == 2) {
+                    echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';
+                } else {
+                    echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';
+                }
+                
+                
                         ?>
                                 <?php //echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                             </div>
