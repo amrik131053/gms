@@ -3234,7 +3234,7 @@ else { ?>
         }
          elseif($qcode=='qualification')
         {
-            $collegeId=$_POST['CategoryId'];  
+             $collegeId=$_POST['CategoryId'];  
             if($collegeId!='8')
             {
                 $query ="SELECT DISTINCT IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$collegeId'";
@@ -3333,7 +3333,7 @@ else { ?>
                     $color = (sqlsrv_num_rows($get_card_run) > 0) ? "red" : "";
                 ?>
                     <?php if($role_id == 3 || $role_id == 2) { ?>
-                    <?php if($row['depid'] != '81' && $row['CategoryId']!='8') { ?>
+                    <?php if($row['depid'] != '81' && $collegeId!='8') { ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpRecordPdf(<?=$row['IDNo'];?>);"></i>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"

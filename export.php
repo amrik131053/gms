@@ -1940,9 +1940,9 @@ $count++;
 }
 elseif($exportCode==20)
 {
-  $string=$_GET['CollegeId'];
+   $string=$_GET['CollegeId'];
   $parts = explode('=', $string);
-  $ColomName = isset($parts[0]) ? $parts[0] : '';
+   $ColomName = isset($parts[0]) ? $parts[0] : '';
 $value = isset($parts[1]) ? $parts[1] : ''; 
 if($ColomName=='CategoryId')
 {
@@ -1957,7 +1957,8 @@ else if($ColomName=='StandardType')
     else
     {
        
-     $get_category1="SELECT DISTINCT OfficialEmailID,EmailID,MotherName,FatherName,CollegeName,EmailID,Phd,IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
+      $get_category1="SELECT *,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
+    //   $get_category1="SELECT DISTINCT OfficialEmailID,EmailID,MotherName,FatherName,CollegeName,EmailID,Phd,IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
     }
 }
 elseif($ColomName=='JobStatus')
@@ -1980,7 +1981,7 @@ elseif($ColomName=='CollegeId')
 }
 else
 {
-          $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
+    $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
 }
         $get_category_run1=sqlsrv_query($conntest,$get_category1);
        $exportMeter="<table class='table' border='1'>
@@ -2002,7 +2003,8 @@ else
            <th>Permanent Address</th>
            <th>Correspondence Address</th>
            
-           
+           <th>District </th>
+           <th>State</th>
             <th>Date Of Joining</th>
           <th>Ph.D</th>
           
