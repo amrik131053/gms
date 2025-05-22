@@ -118,7 +118,7 @@
                                 </select>
 
                             </div> -->
-                            <div class="col-lg-2 col-md-2 col-sm-12">
+                            <div class="col-lg-1 col-md-2 col-sm-12">
                                 <label>Examination</label>
                                 <select id="Examination" class="form-control form-control-sm" >
                                     <option value="">Select</option>
@@ -133,6 +133,29 @@
                                         
                                         ?>
                                     <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+                                    <?php    }
+
+                                    ?>
+
+
+                                </select>
+
+                            </div>
+                             <div class="col-lg-1 col-md-2 col-sm-12">
+                                <label>Category</label>
+                                <select id="Category" class="form-control form-control-sm" >
+                                    <option value="">Select</option>
+                                    <?php
+                                     $sql="SELECT Distinct Category from Admissions where Category!=''";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
+
+                                        
+                                        $Category = $row1['Category']; 
+                                        
+                                        ?>
+                                    <option value="<?=$Category;?>"><?= $Category;?></option>
                                     <?php    }
 
                                     ?>
@@ -285,6 +308,8 @@ function fetchCutList() {
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Semester = document.getElementById('Semester').value;
+    var Category = document.getElementById('Category').value;
+    
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
@@ -302,7 +327,7 @@ function fetchCutList() {
                 Semester: Semester,
                 Type: Type,
                 Status: Status,
-                Examination: Examination,sub_data:sub_data
+                Examination: Examination,sub_data:sub_data,Category:Category
             },
             type: 'POST',
             success: function(data) {

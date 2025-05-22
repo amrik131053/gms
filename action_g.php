@@ -22277,6 +22277,7 @@ include "connection/ftp-erp.php";
     {
     $BasicLocked=$row6["BasicLocked"];
     $Locked=$row6["Locked"];
+      $ClassRollNo=$row6["ClassRollNo"];
     }
 
    if($BasicLocked>0)
@@ -22382,6 +22383,15 @@ include "connection/ftp-erp.php";
    $query .= "WHERE IDNo ='$loginId'";
    $query;
      }
+
+
+ $insert_record = "UPDATE  offer_latter SET Name='$name', FatherName='$fatherName',  Gender='$gender'where Class_RollNo='$ClassRollNo'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+
+mysqli_close($conn);
+
+
 
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
@@ -26520,9 +26530,10 @@ if($_POST['sub_data']!='1')
     $Type = $_POST['Type'];
     $Status = $_POST['Status'];
     $Examination = $_POST['Examination'];
+        $Category = $_POST['Category'];
     if($Status=='66')
     {
-        $AcceptType=1;
+        $AcceptType=1; 
     }
     else
     {
@@ -26547,13 +26558,19 @@ $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
  if ($Examination != '') {
  $list_sql.=" AND ExamForm.Examination='$Examination' ";
  }
+  
+
+ if ($Category != '') {
+ $list_sql.=" AND Admissions.Category='$Category' ";
+ }
 
 if ($Status != '')
  {
 
     if ($Status==0 && $Status=='')
     {
- $list_sql.="AND MasterNodues.Account='$Status'";
+ //$list_sql.="AND MasterNodues.Account='$Status'";
+  $list_sql.=" ";
     }
     else
     {
@@ -26563,7 +26580,7 @@ if ($Status != '')
 
 
  
-$list_sql.="  ORDER BY MasterNodues.Account ASC";
+ $list_sql.="  ORDER BY MasterNodues.Account ASC";
 
 }
 else
@@ -26757,7 +26774,8 @@ if ($Status != '')
 
     if ($Status==0 && $Status=='')
     {
- $list_sql.="AND MasterNodues.Registration='$Status ";
+         $list_sql.=" ";
+ //$list_sql.="AND MasterNodues.Registration='$Status ";
     }
     else
     {
