@@ -124,8 +124,8 @@
                                 <select id="Examination" class="form-control form-control-sm">
                                     <option value="">Select</option>
                                     <?php
-                                     $sql="SELECT DISTINCt  Examination FROM ResultGKU order by Examination ASC ";
-                                    //  $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                    //  $sql="SELECT DISTINCt  Examination FROM ResultGKU order by Examination ASC ";
+                                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                         while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                             {
