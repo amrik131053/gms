@@ -240,13 +240,12 @@ function exportCutListExcel(Examination,ddate,resultno) {
     var Batch = document.getElementById('Batch').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
-    var Group = document.getElementById('Group').value;
+    // var Group = document.getElementById('Group').value;
     //var Examination = document.getElementById('Examination').value;
-    if (College != '' && Course != '' && Batch != '' && Semester != '' && Type != '' && Group != '' && Examination !=
-        '') {
+    if (College != '' && Course != '' && Batch != '' && Semester != '' && Type != '') {
         window.open("nad-report.php?CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination+ "&DeclareDate=" + ddate+"&ResultNo=" + resultno, '_blank');
+            Type + "&DeclareDate=" + ddate+"&ResultNo=" + resultno, '_blank');
     } else {
 
         ErrorToast('All input required', 'bg-warning');

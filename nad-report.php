@@ -37,8 +37,8 @@
  $ResultNo=$_GET["ResultNo"];
 $SemesterPrint=numberToRomanRepresentation($Semester);
  $Type = $_GET["Type"];
- $Group = $_GET["Group"];
- $Examination = $_GET["Examination"];
+//  $Group = $_GET["Group"];
+//  $Examination = $_GET["Examination"];
  $exportstudy .= "<tr>
    <th>	ORG_NAME	</th>
    <th>	ORG_NAME_L	</th>
@@ -154,7 +154,7 @@ $list_sql1="SELECT  * FROM ResultGKU
 INNER JOIN Admissions ON ResultGKU.UniRollNo = Admissions.UniRollNo
 where Admissions.CollegeID='$College' AND Admissions.CourseID='$Course'AND Admissions.Batch='$Batch' 
 AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
-ANd ResultGKU.Examination='$Examination' ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'";
+ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'";
  $list_result1 = sqlsrv_query($conntest, $list_sql1);
  while ($row1 = sqlsrv_fetch_array($list_result1, SQLSRV_FETCH_ASSOC)) {
  $UniRollNo=$row1["UniRollNo"];
@@ -163,6 +163,7 @@ ANd ResultGKU.Examination='$Examination' ANd ResultGKU.ResultNo='$ResultNo'AND R
  $Gender=$row1["Sex"];
   $FatherName=$row1["FatherName"];
    $MotherName=$row1["MotherName"];
+   $Examination=$row1["Examination"];
 $AadhaarNo=$row1["AadhaarNo"];
 $Batch=$row1["Batch"];
    $Sgpa=$row1["Sgpa"];
