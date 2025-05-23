@@ -124,7 +124,8 @@
                                 <select id="Examination" class="form-control form-control-sm">
                                     <option value="">Select</option>
                                     <?php
-                                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                     $sql="SELECT DISTINCt  Examination FROM ResultGKU order by Examination ASC ";
+                                    //  $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                         while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                             {
@@ -186,7 +187,7 @@
     var Batch = document.getElementById('Batch').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
-    var Group = document.getElementById('Group').value;
+    // var Group = document.getElementById('Group').value;
     //var Examination = document.getElementById('Examination').value;
 
 var code=364;
@@ -204,7 +205,7 @@ var spinner=document.getElementById('ajax-loader');
                Batch:Batch,
                Semester:Semester,
                Type:Type,
-               Group:Group
+            //    Group:Group
          },
             success: function(response) 
             { 
