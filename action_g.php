@@ -23653,12 +23653,27 @@ if($_POST['sub_data']!='1')
     $Type = $_POST['Type'];
     $Status = $_POST['Status'];
     $Examination = $_POST['Examination'];
-$list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+    if($Status=='66')
+    {
+        $AcceptType=1;
+    }
+    else
+    {
+        $AcceptType=0;
+    }
+    
+// $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+// ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
+// Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+// ExamForm.Batch,ExamForm.Type
+// FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+// where  Admissions.Status='1'";
+$list_sql="SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
 ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
 Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
-ExamForm.Batch,ExamForm.Type
+ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
-where  Admissions.Status='1'";
+where Admissions.Status='1' ";
  if ($College != '') 
  {
 $list_sql.=" AND ExamForm.CollegeID='$College' ";
@@ -23679,25 +23694,40 @@ if ($Status != '') {
 if ($Status== '0') {
  $list_sql.=" AND (ExamForm.Status>='0' and  ExamForm.Status!='22') ";
  }
+ elseif($Status=='66')
+ {
+        $list_sql.=" AND (ExamForm.Status>='0' and  ExamForm.Status!='22' ANd AcceptType>'0') ";
+ }
  else
  {  
 $list_sql.=" AND ExamForm.Status='$Status' ";
  }
 }
+
  if ($Status=='') 
  {
 $list_sql.=" AND (ExamForm.Status='0' or ExamForm.Status='-1' or ExamForm.Status='22') ";
  }
 $list_sql.=" ORDER BY ExamForm.Status  ASC";
+
+// echo $list_sql;
 }
-else{
+else
+{
     $rollNo = $_POST['rollNo'];
-     $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+    //  $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+    // ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
+    // Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+    // ExamForm.Batch,ExamForm.Type
+    // FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+    // where Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' and Admissions.Status='1' ";
+    $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
     ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
-    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptType,
     ExamForm.Batch,ExamForm.Type
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
-    where Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' and Admissions.Status='1' ";
+    where (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') AND Admissions.Status='1' ";
+
 
 }
 
@@ -23731,6 +23761,15 @@ else{
              while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                 {
              $Status= $row['Status'];
+             $AcceptType=$row['AcceptType'];
+             if($AcceptType>0)
+             {
+               $pr='(Provisional)';
+             }
+             else
+             {
+              $pr=''; 
+             }
              if($row['SubmitFormDate']!='')
              {
 
@@ -23862,15 +23901,15 @@ elseif($Status==6)
 elseif($Status==8)
              {
                echo "<b style='color:green'>Accepted</b>";
-             }   ?>
+             }  ?> <b style='color:red'><?= $pr;?></b> 
             </td>
             <td>
                 <!-- <i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i> -->
                 <i class="fa fa-eye fa-lg" data-toggle="modal" data-target=".bd-example-modal-xl"
                     onclick="edit_stu(<?= $row['ID'];?>)" style="color:green"></i>&nbsp;&nbsp;
                 <?php 
-if($Status==8)
-{?>
+                if($Status==8)
+                {?>
                 <!-- <i class="fa fa-print fa-lg text-primary"  onclick="fff(<?= $row['ID'];?>)" ></i> -->
                 <?php }?>
 
@@ -24110,6 +24149,9 @@ elseif($row7['Status']==8)
                     class="btn btn-success ">Verify</button>
                 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject"
                     class="btn btn-danger ">Reject</button>
+
+                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button>
                 <?php }?>
                 <?php if($Status==0 && $Status!=22){?>
                 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject"
@@ -24118,6 +24160,8 @@ elseif($row7['Status']==8)
                 <?php if($Status==22){?>
                 <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update"
                     class="btn btn-success ">Verify</button>
+                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button>
                 <?php }?>
             </td>
         </tr>
@@ -26238,6 +26282,7 @@ if($_POST['sub_data']!='1')
     {
         $AcceptType=0;
     }
+    
 
  $list_sql = "SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
 ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
@@ -26268,7 +26313,7 @@ if ($Status== '5') {
  }
  elseif($Status=='66')
  {
-    $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6' ANd AcceptType>'0') ";
+        $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6' ANd AcceptType>'0') ";
  }
 
  else
@@ -26282,7 +26327,7 @@ $list_sql.=" AND (ExamForm.Status='4' or ExamForm.Status='5' or ExamForm.Status=
  }
 $list_sql.="  ORDER BY ExamForm.Status   ASC";
 
-echo $list_sql;
+ $list_sql;
 }
 else
 {
@@ -34876,6 +34921,30 @@ elseif ($code==393) {
        $IDNo=$row['IDNo'];
    }
    $desc= "UPDATE  ExamForm  SET Status:  Provisional Verified,AccountantVerificationDate: ".$timeStampS;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
+   if($getDefalutMenuRun==true)
+   {
+       echo "1";
+   }
+   else
+   {
+       echo "0";
+   }
+   sqlsrv_close($conntest);
+   }
+ else if($code==394.1) //FOR REGISTRATION BRANCH
+   {
+       $ExamFromID=$_POST['ExamFromID'];
+   $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0',AcceptType='1' Where ID='$ExamFromID'";
+   $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+   if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+       $IDNo=$row['IDNo'];
+   }
+   $desc= "UPDATE  ExamForm  SET Status:  Provisional Verified,RegistraionVerifDate: ".$timeStampS;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
 

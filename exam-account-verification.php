@@ -296,7 +296,7 @@ function fetchCutList() {
         $.ajax({
             url: 'action_g.php',
             data: {
-                code: code,
+                 code: code,
                 College: College,
                 Course: Course,
                 Semester: Semester,
