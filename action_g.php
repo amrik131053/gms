@@ -24150,8 +24150,8 @@ elseif($row7['Status']==8)
                 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject"
                     class="btn btn-danger ">Reject</button>
 
-                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
-    Verify</button>
+                    <!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button> -->
                 <?php }?>
                 <?php if($Status==0 && $Status!=22){?>
                 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject"
@@ -24160,8 +24160,8 @@ elseif($row7['Status']==8)
                 <?php if($Status==22){?>
                 <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update"
                     class="btn btn-success ">Verify</button>
-                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
-    Verify</button>
+                    <!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button> -->
                 <?php }?>
             </td>
         </tr>
@@ -26811,7 +26811,7 @@ if ($Status != '')
  }
  
 $list_sql.="  ORDER BY MasterNodues.Registration ASC";
-//echo $list_sql;
+// echo $list_sql;
 }
 else
 {

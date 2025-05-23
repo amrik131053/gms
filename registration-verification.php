@@ -151,7 +151,7 @@
                                     <option value="-1">Pending</option>
                                     <option value="0">Verified</option>
                                     <option value="22">Rejected</option>
-                                    <option value="66">Provisional Verified</option>
+                                    <!-- <option value="66">Provisional Verified</option> -->
                                 </select>
 
                             </div>
