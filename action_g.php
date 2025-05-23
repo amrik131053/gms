@@ -34760,7 +34760,7 @@ if (!empty($searchIDNo)) {
 
 
     // Count total
-    $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' $searchCondition";
+    $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' and IDNo>100000  $searchCondition";
     $count_stmt = sqlsrv_prepare($conntest, $count_sql, $params);
     sqlsrv_execute($count_stmt);
     $count_row = sqlsrv_fetch_array($count_stmt, SQLSRV_FETCH_ASSOC);
@@ -34768,7 +34768,7 @@ if (!empty($searchIDNo)) {
     $total_pages = ceil($total_records / $limit);
 
     // Main query
-    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four'  $searchCondition ORDER BY ImageStatus ASC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' and IDNo>100000  $searchCondition ORDER BY ImageStatus ASC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
     $stmt = sqlsrv_prepare($conntest, $sql, $params);
     sqlsrv_execute($stmt);
     $sr = $offset + 1;
