@@ -491,7 +491,7 @@ window.location.href = 'profile.php';
                         </li>
                         <?php }
 
-                        $staff="SELECT *  FROM  AdditionalRole Where IDNo='$EmployeeID'";
+                        $staff="SELECT *  FROM  AdditionalRole Where IDNo='$EmployeeID' ANd Status='1'";
     $stmt = sqlsrv_query($conntest,$staff);  
 if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
         
