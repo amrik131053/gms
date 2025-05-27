@@ -24167,6 +24167,7 @@ elseif($row7['Status']==8)
                       <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update"
                       class="btn btn-success ">Verify</button>
                 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
+                <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
                     <?php 
                    }?>
                    
@@ -24175,7 +24176,12 @@ elseif($row7['Status']==8)
                     class="btn btn-success ">Verify</button>
                     <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
     Verify</button>
-                <?php }?>
+                <?php }
+                ?>
+                <?php if($Status==8 ){?>
+                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
+                <?php }
+                ?>
             </td>
         </tr>
     </table>
