@@ -4969,6 +4969,7 @@ else { ?>
                     <option value='Warning Letter'>Warning Letter</option>
                     <option value='Suspension Letter'>Suspension Letter</option>
                      <option value='Termination Letter'>Termination Letter</option>
+                     <option value='Committee'>Committee</option>
                    
                     
                     
