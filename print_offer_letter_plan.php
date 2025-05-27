@@ -272,6 +272,7 @@ elseif ($i==2)
    $ss="Second";
    if ($Lateral=='Yes')
  {
+  $Batch=$Batch+1;
 $Batchn=(string)$Batch+1;
    $endye=substr($Batchn, -2);
 
