@@ -42375,7 +42375,7 @@ elseif($code==470)
         while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
         {
             $UniRollNo=$filesop[0];
-            $get_pending="SELECT * FROM Admissions where UniRollNo='$UniRollNo' and Status='1'";
+            $get_pending="SELECT * FROM Admissions where (UniRollNo='$UniRollNo' OR ClassRollNo='$UniRollNo') and Status='1'";
             $get_pending_run=sqlsrv_query($conntest,$get_pending);
           if($row_pending=sqlsrv_fetch_array($get_pending_run))
           {
