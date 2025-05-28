@@ -42460,9 +42460,9 @@ elseif($code==470)
          {
         $id = $_POST['id'];     
         $mainu_id = $_POST['mainu_id'];     
-        $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
-        $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
-        sqlsrv_close($conntest);
+         $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
+       $role_run=mysqli_query($conn,$update_addrole);
+        mysqli_close($conn);
         }
    else
    {
