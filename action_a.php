@@ -3578,7 +3578,7 @@ while($get_row=sqlsrv_fetch_array($getslist))
     $list_sql = "SELECT COUNT(*) as Count
                  FROM MasterNoDues 
                    Inner join ExamForm on MasterNoDues.ExamFormID= ExamForm.ID
-                 WHERE ExamForm.Examination = '$CurrentExamination' AND (MasterNoDues.Registration IS NULL  OR MasterNoDues.Registration='0' ) ";
+                 WHERE ExamForm.Examination = '$CurrentExamination' AND (MasterNoDues.Registration IS NULL  OR MasterNoDues.Registration='0'  ANd CourseID!='188') ";
     if ($College !== '') {
         $list_sql .= " AND ExamForm.CollegeID = '$College'";
     }
@@ -3595,14 +3595,12 @@ while($get_row=sqlsrv_fetch_array($getslist))
         $list_sql .= " AND ExamForm.SemesterID = '$Semester'";
     }
     
-    if ($Examination !== '') {
-        $list_sql .= " AND ExamForm.Examination = '$Examination'";
-    }
+  
     if ($Examination == '') {
         $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
     }
 
- //echo  $list_sql;
+  $list_sql;
 
 
 

@@ -294,11 +294,10 @@ else
 
 
   $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Sex
-   FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8' and  Admissions.Status='$Status' ORDER BY Admissions.$OrderBy ";
+   FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8' and  Admissions.Status='$Status' ORDER BY Admissions.$OrderBy";
         $j=100;
-       
-       
-                $list_result = sqlsrv_query($conntest,$list_sql);
+     
+         $list_result = sqlsrv_query($conntest,$list_sql);
                     $count = 1;
               if($list_result === false)
                 {

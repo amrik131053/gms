@@ -5098,6 +5098,7 @@ $SrNo++;
 
 else if($exportCode==40)
 {
+
     $College=$_GET['CollegeId'];
 $Course=$_GET['Course'];
 $Batch=$_GET['Batch'];
@@ -5252,6 +5253,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
         $exportstudy.="</table>";
         echo $exportstudy;
         $fileName="Cutlist EXamination ".$Examination;
+
     } 
 
 
