@@ -22277,6 +22277,7 @@ include "connection/ftp-erp.php";
     {
     $BasicLocked=$row6["BasicLocked"];
     $Locked=$row6["Locked"];
+     $ClassRollNo=$row6["ClassRollNo"];
     }
 
    if($BasicLocked>0)
@@ -22383,8 +22384,17 @@ include "connection/ftp-erp.php";
    $query;
      }
 
+
+$insert_record = "UPDATE  offer_latter SET Name='$name', FatherName='$fatherName',  Gender='$gender'where Class_RollNo='$ClassRollNo'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+
+mysqli_close($conn);
+
+
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
+
 
 
   $update_studentb="UPDATE Ledger SET StudentName='$name',FatherName='$fatherName',Batch='$batch' where IDNo='$loginId'";
