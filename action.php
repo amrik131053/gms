@@ -22328,7 +22328,7 @@ mysqli_close($conn);
    }
  elseif($code=='332.1') 
    {
-    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025'";
+    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2025'";
  $result = mysqli_query($conn_online,$qry);
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
@@ -22416,7 +22416,7 @@ if($payment_id!=''){?>
       </tr>
             <?php }
 
-    $qry1="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025 Award'";
+    $qry1="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2025'";
  $result1 = mysqli_query($conn_online,$qry1);
     $counter1 = 1; 
         while($row1=mysqli_fetch_array($result1)) 
