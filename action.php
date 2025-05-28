@@ -22888,7 +22888,7 @@ else{
    {
       echo "Already Added: ".$balnceAdded;
       ?>
-      <button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button>
+      <!-- <button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button> -->
       <?php 
 
    }
