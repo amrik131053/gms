@@ -22409,46 +22409,58 @@ mysqli_close($conn);
       $amount=$row['amount'];
       $email = $row['email'];
       $phone = $row['phone'];
-      //  $admissionstatus=$row['merge'];
+       $admissionstatus=$row['merge'];
        
        switch ($purpose) {
-         case 'student':
-            $category_label='Student';
-            break;
-         case 'studentUG':
+       //   case 'student':
+       //      $category_label='Student';
+       //      break;
+       //   case 'studentUG':
               
-               $category_label='Student UG';
-               break;
-         case 'studentPG':
+       //         $category_label='Student UG';
+       //         break;
+       //   case 'studentPG':
               
-               $category_label='Student PG';
-               break;
-        case 'researchScholar':
-            $category_label='Research Scholar';
-            break;
-        case 'faculty_inside':
-            $category_label='Faculty Member';
-            break;
-        case 'industry_persons':
-                $category_label='Industry Persons';
-            break;
-         case 'participants':
-                $category_label='Participant Person';
-            break;
-         case 'project_participation':
+       //         $category_label='Student PG';
+       //         break;
+        // case 'researchScholar':
+        //     $category_label='Research Scholar';
+        //     break;
+        // case 'faculty_inside':
+        //     $category_label='Faculty Member';
+        //     break;
+        // case 'industry_persons':
+        //         $category_label='Industry Persons';
+        //     break;
+        //  case 'participants':
+        //         $category_label='Participant Person';
+        //     break;
+        //  case 'project_participation':
              
-               $category_label='Project Participation';
-               break;
-         case 'school_student':
-               $category_label='School Student';
-           break;
-            case 'international_students':
-               $category_label='International Student';
-           break;
+        //        $category_label='Project Participation';
+        //        break;
+        //  case 'school_student':
+        //        $category_label='School Student';
+        //    break;
+
             case 'gku_faculty':
-               $category_label='GKU Faculty';
-           break;
-         default:
+                    $fee = 1200;
+                    $category_label='Gku Faculty Member';
+                    break;
+                    case 'registration_fee':
+                        $fee = 2000;
+                        $category_label='Registration Fees';
+                        break;
+                    
+                     case 'participants':
+                        $fee = 500;
+                        $category_label='Participant Person';
+                    break;
+                    case 'international_students':
+                        $fee = 4272;
+                        $category_label='International Delegates';
+                    break;
+                   default:
              $category_label = 'Not Available';
      }
   ?>  
