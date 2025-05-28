@@ -3148,7 +3148,7 @@ elseif($exportCode=='27.1')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025'");
+  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2025'");
     $counter = 1; 
        
     $exportMeter="<table class='table' border='1'>
@@ -3310,7 +3310,7 @@ elseif($exportCode=='27.2')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='International Conference April 25-26 2025 Award'");
+  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2525'");
     $counter = 1; 
        
     $exportMeter="<table class='table' border='1'>
