@@ -76,7 +76,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Session=$row['Session'];
      $PrintDate=$row['PrintDate'];
      $PrintDatew=$row['PrintDate'];
-   $Batch=$row['Batch'];
+ $Batch=$row['Batch'];
    $RefNo=$row["RefNo"]; 
      $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
      $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
@@ -130,7 +130,7 @@ if($Lateral=='Yes')
     $Batch=$Batch-1;
   }
 
-    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'ANd batch='$Batch'";
+  $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course' ANd batch='$Batch'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
  {

@@ -32023,6 +32023,11 @@ if($ifexitIDNo<1)
         $District=$degree_row['district'];
         $Nationality=$degree_row['country'];
              }
+
+             if($LateralEntry=='Yes')
+             {
+                $Batch=$Batch+1;
+             }
    $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `Gender`, `CollegeName`, `Course`, `Lateral`,  `Nationality`, `State`,`District`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$State','$District','$Session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
 
 $insert_record_run = mysqli_query($conn, $insert_record);
