@@ -156,8 +156,8 @@
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label>Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="fetchCutList();"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                <!-- <button class="btn btn-success btn-sm " onclick="exportExamForm()"><i
-                                                    class="fa fa-file-excel"></i></button> -->&nbsp;&nbsp;
+                                <button class="btn btn-success btn-sm " onclick="exportExamForm()"><i
+                                                    class="fa fa-file-excel"></i></button>&nbsp;&nbsp;
                                 <!-- <button class="btn btn-danger " onclick="exportCutListPdf()"><i
                                 class="fa fa-file-pdf"></i></button> -->
                                
@@ -369,18 +369,23 @@ function edit_stu(id) {
 
 
 function exportExamForm() {
-    var exportCode = 48;
+    var exportCode = 48.1;
     var College = document.getElementById('College').value;
+
     var Course = document.getElementById('Course').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-   
+    if(College!='' & Examination!='')
+   {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
              "&Semester=" + Semester + "&Type=" +
             Type + "&Status=" + Status + "&Examination=" + Examination, '_blank');
-
+   }
+   else{
+    ErrorToast('College And Examination Required','bg-warning');
+   }
    
 }
 

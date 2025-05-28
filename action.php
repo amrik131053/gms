@@ -22755,7 +22755,7 @@ for ($at=0;$at<$no_of_dates;$at++)
             $intime=$row_staff_att['mytime'];
             $outtime=$row_staff_att['mytime1'];
      $alreadyLeaveExistInRecordTable=0;       
-      $ifLeaveAdded="SELECT * FROM LeaveRecord Where LeaveDate='$start' and LeaveTypeID='2' and EmployeeID='$IDNo'";
+       $ifLeaveAdded="SELECT * FROM LeaveRecord Where LeaveDate='$start' and LeaveTypeID='2' and EmployeeID='$IDNo'";
 $ifLeaveAddedRun=sqlsrv_query($conntest,$ifLeaveAdded,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifLeaveAddedRunCount=sqlsrv_num_rows($ifLeaveAddedRun);
     if($ifLeaveAddedRunCount>0)
@@ -22887,6 +22887,10 @@ else{
    else
    {
       echo "Already Added: ".$balnceAdded;
+      ?>
+      <button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button>
+      <?php 
+
    }
       if($printleave!='')
       {
