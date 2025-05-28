@@ -944,23 +944,58 @@ elseif($code==10)
 elseif($code==11)
 {
 
-$leaveEmplID=$_POST['leaveEmplID'];
-$AgainstDate=$_POST['AgainstDate'];
-$AddBlance=$_POST['AddBlance'];
- $deductionBLance="UPDATE LeaveBalances SET Balance=Balance+$AddBlance where Employee_Id='$leaveEmplID' and LeaveType_Id='2'";
-$deductionBLanceRun=sqlsrv_query($conntest,$deductionBLance);
-if($deductionBLanceRun)
-{
-     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$AgainstDate','$leaveEmplID','2','$AddBlance','$EmployeeID','$timeStamp','0')";
-$insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
-if($insertBLanceRun==true)
-{
-    echo "1";
+    $leaveEmplID = $_POST['leaveEmplID'];
+$AgainstDate = $_POST['AgainstDate'];
+$AddBlance = $_POST['AddBlance'];
+
+$checkExisting = "SELECT COUNT(*) AS count FROM LeaveRecord WHERE LeaveDate='$AgainstDate' AND EmployeeID='$leaveEmplID' AND LeaveTypeID='2'";
+$checkExistingResult = sqlsrv_query($conntest, $checkExisting);
+if ($checkExistingResult === false) {
+    // echo "Error checking existing record: " . sqlsrv_errors();
+} else {
+    $row = sqlsrv_fetch_array($checkExistingResult, SQLSRV_FETCH_ASSOC);
+    $existingCount = $row['count'];
+    if ($existingCount > 0) {
+        // Record already exists
+        echo "2";
+    } else {
+        // Proceed with updating balances and inserting new record
+        $deductionBLance = "UPDATE LeaveBalances SET Balance=Balance+$AddBlance WHERE Employee_Id='$leaveEmplID' AND LeaveType_Id='2'";
+        $deductionBLanceRun = sqlsrv_query($conntest, $deductionBLance);
+        
+        if ($deductionBLanceRun) {
+            $insertBLance = "INSERT INTO LeaveRecord (LeaveDate, EmployeeID, LeaveTypeID, Balance, AddedBy, AddedDate, Monthly) VALUES ('$AgainstDate', '$leaveEmplID', '2', '$AddBlance', '$EmployeeID', '$timeStamp', '0')";
+            $insertBLanceRun = sqlsrv_query($conntest, $insertBLance);
+            
+            if ($insertBLanceRun === true) {
+                echo "1"; // Success
+            } else {
+                echo "0"; // Error inserting
+            }
+        } else {
+            echo "0"; // Error updating balance
+        }
+    }
 }
-else{
-    echo "0";
-}
-}
+
+// $leaveEmplID=$_POST['leaveEmplID'];
+// $AgainstDate=$_POST['AgainstDate'];
+// $AddBlance=$_POST['AddBlance'];
+
+//  $deductionBLance="UPDATE LeaveBalances SET Balance=Balance+$AddBlance where Employee_Id='$leaveEmplID' and LeaveType_Id='2'";
+// $deductionBLanceRun=sqlsrv_query($conntest,$deductionBLance);
+// if($deductionBLanceRun)
+// {
+//      $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$AgainstDate','$leaveEmplID','2','$AddBlance','$EmployeeID','$timeStamp','0')";
+// $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
+// if($insertBLanceRun==true)
+// {
+//     echo "1";
+// }
+// else{
+//     echo "0";
+// }
+// }
 
 }
 elseif($code==12)
@@ -3355,16 +3390,15 @@ elseif($code==29)
 {   
 
 $examination=$_POST['examination'];
-$StudentList="SELECT  ID,IDNo FROM ExamForm WHERE ID NOT IN (SELECT ExamFormID FROM MasterNoDues) AND Examination='$examination' ANd Status='8' 
-AND Type='Regular' ANd CourseID!='188' order By ID ASC"; 
+$StudentList="SELECT  ID,IDNo FROM ExamForm WHERE ID NOT IN (SELECT ExamFormID FROM MasterNoDues) AND Examination='$examination' ANd Status='8' ANd CourseID!='188' order By ID ASC"; 
 $getslist=sqlsrv_query($conntest,$StudentList);
 while($get_row=sqlsrv_fetch_array($getslist))
                   {
         $IDNo=$get_row['IDNo'];
          $ID=$get_row['ID'];
 
-        $insertNewRecord="INSERT into  MasterNoDues (IDNo,ExamFormID)
-        VALUES('$IDNo','$ID')";
+        $insertNewRecord="INSERT into  MasterNoDues (IDNo,ExamFormID,Library,Account,Registration)
+        VALUES('$IDNo','$ID','0','0','0')";
 
         sqlsrv_query($conntest,$insertNewRecord);
       }      

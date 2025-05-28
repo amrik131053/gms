@@ -17642,7 +17642,7 @@ $result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  Class
                      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
                   </li>
                   <li class="nav-item">
-                     <li class="nav-link"><b>Examination : &nbsp;&nbsp;&nbsp;</b>
+                    <li class="nav-link"> <!-- <b>Examination : &nbsp;&nbsp;&nbsp;</b>
                      <select class="btn btn-md" id="examination">
                      <?php
                      $sql="SELECT DISTINCT Examination from ResultGKU Order by Examination ASC ";
@@ -17653,8 +17653,45 @@ $result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  Class
                      ?>
                   <option value="<?=$examination;?>"><?= $examination;?></option>
                   <?php }?>
-                     </select></li>
+                  <option value="May 2025">May 2025</option>
+
+                     </select>
+                     -->
+                     <div class="row">
+                     <div class="col-lg-6">
+                                        <label for="">Month</label>
+                                        <select class="form-control" id="MonthSepecial">
+
+                                            <option value="January">Jan</option>
+                                            <option value="February">Feb</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">Sep</option>
+                                            <option value="October">Oct</option>
+                                            <option value="November">Nov</option>
+                                            <option value="December">Dec</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="">Year</label>
+                                        <select class="form-control" id="YearSepecial">
+
+                                            <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+   { ?>
+                                            <option value="<?=$i;?>"><?=$i;?></option>
+
+                                            <?php }  ?>
+                                        </select>
+                                    </div>
+                     </div>
                   </li>
+                  </li>
+                    
+              
                   <li class="nav-item">
                      <li class="nav-link"><b>Result : &nbsp;&nbsp;&nbsp;</b>
                      <select class="btn btn-md" id="result" onchange="toggleDateField()">
@@ -17901,20 +17938,42 @@ elseif($code=='257.3')
                      <li class="nav-link">
                     <div class="row">
 
-                      <div class="col-lg-6"><b>Examination</b>
-                     <select class="form-control" id="examination_n" name='examination_n'>
-                       <option value="<?= $examination;?>"><?= $examination;?></option>
-                     <?php
-                     $sql="SELECT DISTINCT Examination from ResultGKU Order by Examination ASC ";
-                           $stmt2 = sqlsrv_query($conntest,$sql);
-                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-                           {    
-                     $examination = $row1['Examination'];  
-                     ?>
-                  <option value="<?= $examination;?>"><?= $examination;?></option>
-                  <?php }?>
-                     </select></div>
+                      <div class="col-lg-6">
+                    
+                     
+                     <div class="row">
+                     <div class="col-lg-6">
+                                        <label for="">Month</label>
+                                        <select class="form-control" id="MonthSepecial_n">
 
+                                            <option value="January">Jan</option>
+                                            <option value="February">Feb</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">Sep</option>
+                                            <option value="October">Oct</option>
+                                            <option value="November">Nov</option>
+                                            <option value="December">Dec</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="">Year</label>
+                                        <select class="form-control" id="YearSepecial_n">
+
+                                            <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+   { ?>
+                                            <option value="<?=$i;?>"><?=$i;?></option>
+
+                                            <?php }  ?>
+                                        </select>
+                                    </div>
+                     </div>
+                
+                     </div>
                   <div class="col-lg-6"> 
                      <b>Result</b>
                      <select class="form-control" id="result_n" name='result_n'>
@@ -22696,7 +22755,7 @@ for ($at=0;$at<$no_of_dates;$at++)
             $intime=$row_staff_att['mytime'];
             $outtime=$row_staff_att['mytime1'];
      $alreadyLeaveExistInRecordTable=0;       
-      $ifLeaveAdded="SELECT * FROM LeaveRecord Where LeaveDate='$start' and LeaveTypeID='2' and EmployeeID='$IDNo'";
+       $ifLeaveAdded="SELECT * FROM LeaveRecord Where LeaveDate='$start' and LeaveTypeID='2' and EmployeeID='$IDNo'";
 $ifLeaveAddedRun=sqlsrv_query($conntest,$ifLeaveAdded,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifLeaveAddedRunCount=sqlsrv_num_rows($ifLeaveAddedRun);
     if($ifLeaveAddedRunCount>0)
@@ -22828,6 +22887,10 @@ else{
    else
    {
       echo "Already Added: ".$balnceAdded;
+      ?>
+      <!-- <button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button> -->
+      <?php 
+
    }
       if($printleave!='')
       {

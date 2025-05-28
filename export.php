@@ -1940,9 +1940,9 @@ $count++;
 }
 elseif($exportCode==20)
 {
-  $string=$_GET['CollegeId'];
+   $string=$_GET['CollegeId'];
   $parts = explode('=', $string);
-  $ColomName = isset($parts[0]) ? $parts[0] : '';
+   $ColomName = isset($parts[0]) ? $parts[0] : '';
 $value = isset($parts[1]) ? $parts[1] : ''; 
 if($ColomName=='CategoryId')
 {
@@ -1957,7 +1957,8 @@ else if($ColomName=='StandardType')
     else
     {
        
-     $get_category1="SELECT DISTINCT OfficialEmailID,EmailID,MotherName,FatherName,CollegeName,EmailID,Phd,IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
+      $get_category1="SELECT *,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
+    //   $get_category1="SELECT DISTINCT OfficialEmailID,EmailID,MotherName,FatherName,CollegeName,EmailID,Phd,IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
     }
 }
 elseif($ColomName=='JobStatus')
@@ -1980,7 +1981,7 @@ elseif($ColomName=='CollegeId')
 }
 else
 {
-          $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
+    $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
 }
         $get_category_run1=sqlsrv_query($conntest,$get_category1);
        $exportMeter="<table class='table' border='1'>
@@ -2002,7 +2003,8 @@ else
            <th>Permanent Address</th>
            <th>Correspondence Address</th>
            
-           
+           <th>District </th>
+           <th>State</th>
             <th>Date Of Joining</th>
           <th>Ph.D</th>
           
@@ -6774,6 +6776,212 @@ elseif($Status==8)
 
 
                                        $exportstudy.=" <tr >
+                                       <td>{$IDNo}</td>
+                                       <td>{$CollegeName}</td>
+                                       <td>{$Course}</td>
+                                       <td>{$StudentName}</td>
+                                       <td>{$Gender}</td>
+                                       <td>{$Category}</td>
+                                       <td>{$ClassRollNo}</td>
+                                       <td>{$UniRollno}</td>
+                                       <td>{$FatherName}</td>
+                                       <td>{$MotherName}</td>
+                                       <td>{$EmailID}</td>
+                                       <td>{$StudentMobileNo}</td>
+                                       <td>{$StatusShow}</td>
+                                       <td>{$pr}</td>
+                                       </tr>";
+          }
+
+                    $exportstudy.="</table>";
+                    echo $exportstudy;
+                    $fileName=" Students Exam Form ";
+                     } 
+ else if($exportCode==48.1)
+     {
+        $College = isset($_GET['CollegeId']) ? $_GET['CollegeId'] : '';
+    $Course = isset($_GET['Course']) ? $_GET['Course'] : '';
+    $Semester = isset($_GET['Semester']) ? $_GET['Semester'] : '';
+    $Type = isset($_GET['Type']) ? $_GET['Type'] : '';
+    $Status = isset($_GET['Status']) ? $_GET['Status'] : '';
+    if($Status=='66')
+    {
+        $AcceptType=1;
+    }
+    else
+    {
+        $AcceptType=0;
+    }
+    $Examination = isset($_GET['Examination']) ? $_GET['Examination'] : '';
+            $SrNo=1;
+            $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+            <thead>  
+            <tr>
+            ";
+            $SrNo=1;
+            $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+            <thead>  
+            <tr>
+            ";
+            $exportstudy.="<th style='background-color:black; color:white;'>IDNo</th>
+                <th style='background-color:black; color:white;'>College Name</th>
+                <th style='background-color:black; color:white;'>Course</th>
+              
+                <th style='background-color:black; color:white;'>Student Name</th>
+                <th style='background-color:black; color:white;'>Gender</th>
+                <th style='background-color:black; color:white;'>Category</th>
+                <th style='background-color:black; color:white;'>Class Roll No</th>
+                <th style='background-color:black; color:white;'>UniRollno</th>
+                <th style='background-color:black; color:white;'>Father Name</th>
+                <th style='background-color:black; color:white;'>Mother Name</th>
+                <th style='background-color:black; color:white;'>EmailID</th>
+                <th style='background-color:black; color:white;'>Student Mobile No</th>
+              
+                <th style='background-color:black; color:white;'>Status</th>
+                
+                <th style='background-color:black; color:white;'>Accept Status</th>
+                ";
+                $exportstudy.="</tr></thead>";     
+                $list_sql = "SELECT *,ExamForm.Status as ExamStatus from  MasterNodues  inner join Admissions on Admissions.IDNo=MasterNodues.IDNo  inner join ExamForm on  MasterNodues.ExamFormID= ExamForm.ID  where Admissions.Status='1' ANd Admissions.CourseID!='188' ";
+ if ($College != '') 
+ {
+ $list_sql.=" AND ExamForm.CollegeID='$College' ";
+ }
+ if ($Course != '') {
+$list_sql.="AND ExamForm.CourseID='$Course'  ";
+ }
+ if ($Type != '') {
+$list_sql.="AND ExamForm.Type='$Type' ";
+ }
+ if ($Semester != '') {
+$list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
+ }
+ if ($Examination != '') {
+ $list_sql.=" AND ExamForm.Examination='$Examination' ";
+ }
+if ($Status != '')
+ {
+
+    if ($Status==0 && $Status=='')
+    {
+ $list_sql.="AND MasterNodues.Registration='$Status ";
+    }
+    else
+    {
+    $list_sql.=" AND MasterNodues.Registration='$Status' ";
+   }
+ }
+ 
+$list_sql.="  ORDER BY MasterNodues.Registration ASC";        
+//                 $list_sql = "SELECT   *,ExamForm.Status as ExamStatus
+//                 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+//                 where Admissions.Status='1' ";
+//                  if ($College != '') 
+//                  {
+//                 $list_sql.=" AND ExamForm.CollegeID='$College' ";
+//                  }
+//                  if ($Course != '') {
+//                 $list_sql.="AND ExamForm.CourseID='$Course'  ";
+//                  }
+//                  if ($Type != '') {
+//                 $list_sql.="AND ExamForm.Type='$Type' ";
+//                  }
+//                  if ($Semester != '') {
+//                 $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
+//                  }
+//                  if ($Examination != '') {
+//                  $list_sql.=" AND ExamForm.Examination='$Examination' ";
+//                  }
+//                 if ($Status != '') {
+//                 if ($Status== '5') {
+//                  $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6') ";
+//                  }
+//                  elseif($Status=='66')
+//  {
+//     $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6' ANd AcceptType>'0') ";
+//  }
+//                  else{
+//                     $list_sql.=" AND ExamForm.Status='$Status' ";
+//                  }
+//                 }
+//                  if ($Status=='') 
+//                  {
+//                 $list_sql.=" AND (ExamForm.Status='4' or ExamForm.Status='5' or ExamForm.Status='6') ";
+//                  }
+//                  if ($Examination == '') {
+//                     $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+//                 }
+//                 $list_sql.="  ORDER BY ExamForm.Status   ASC"; 
+             
+// echo $list_sql;
+                                    $list_result = sqlsrv_query($conntest,$list_sql);
+                                    while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                                       {
+                                       // $aa=$row;
+                                    $IDNo=$row['IDNo'];
+                                    $CollegeName=$row['CollegeName'];
+                                    $Course=$row['Course'];
+                                    $StudentName=$row['StudentName'];
+                                    $Gender=$row['Sex'];
+                                    $Category=$row['Category'];
+                                    $ClassRollNo=$row['ClassRollNo'];
+                                    $UniRollno=$row['UniRollNo'];
+                                    $FatherName=$row['FatherName'];
+                                    $MotherName=$row['MotherName'];
+                                    $EmailID=$row['EmailID'];
+                                    $StudentMobileNo=$row['StudentMobileNo'];
+                                    $Status= $row['Registration'];
+                                     if($row['SubmitFormDate']!='')
+                                     {
+                        
+                                         $issueDate=$row['SubmitFormDate']->format('d-m-Y');
+                                     }
+                                     else{
+                                         $issueDate="";
+                                     }
+                                     if($Status==-1)
+                                     {
+                                       $trColor="#cd5757";
+                        
+                                     }
+                                     elseif($Status==0)
+                                     {
+                                         $trColor="#66BEC7";
+                        
+                                     }elseif($Status==1)
+                                     {
+                                         $trColor="#CEEDB6";
+                                     }
+                                     $AcceptTypeRegistration=$row['AcceptTypeRegistration'];
+              if($AcceptTypeRegistration>0)
+              {
+                $pr='(Provisional)';
+              }
+              else
+              {
+               $pr=''; 
+              }
+                  
+              
+              if($Status==-1)
+             {
+               $StatusShow="<b>Rejected</b>";
+
+             }
+             
+             elseif($Status==0)
+             {
+               $StatusShow="<b>Pending</b>";
+             }elseif($Status==1)
+             {
+               $StatusShow='<b>Verified</b>';
+            }
+            else{
+                
+                $StatusShow='';
+             }
+
+                                       $exportstudy.=" <tr  style='background-color:".$trColor."'>
                                        <td>{$IDNo}</td>
                                        <td>{$CollegeName}</td>
                                        <td>{$Course}</td>

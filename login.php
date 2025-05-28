@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("Asia/Kolkata");
 $status=0;
+$lockProfile=null;
 $user=$_POST["user"];
 $pass=$_POST["pass"];
 $u_permissions = "";
@@ -32,7 +33,7 @@ function is_secure_password($password) {
 
 include 'connection/connection.php';
 
-$sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE UserName ='$user' AND Password='$pass' and ApplicationType='Web' and JobStatus=1 ";
+$sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE UserName ='$user' AND Password='$pass' and ApplicationType='Web' and JobStatus=1  ";
 
 $stmt2 = sqlsrv_query($conntest,$sql1);
 
@@ -44,9 +45,10 @@ else
 	 while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
      {
        $status=1;
+       $lockProfile=$row['ProfileLock'];
      }
 }
-	if($status==1)
+if ($status == 1 && $lockProfile!=1) 
 {      
    $_SESSION['usr'] = $user;
    $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='0' where  UserName='$user' and  ApplicationType='Web' and ApplicationName='Campus' ";
@@ -61,6 +63,12 @@ else
    header('Location:password-change.php'); 
   }
 	}
+   else if($lockProfile==1 && $status==1)
+   {
+      echo $_SESSION['incorrect'] = "<p style='color:red;'>Your profile has been temporarily blocked due to multiple attempts to upload images in an incorrect format. Please contact IT Department.</p>";
+	header('Location:index.php');
+   }
+
 else
 {
 	echo $_SESSION['incorrect'] = "<p style='color:red;'>Incorrect Password. Try ERP Password .</p>";

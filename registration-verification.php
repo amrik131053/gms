@@ -151,6 +151,7 @@
                                     <option value="-1">Pending</option>
                                     <option value="0">Verified</option>
                                     <option value="22">Rejected</option>
+                                    <!-- <option value="66">Provisional Verified</option> -->
                                 </select>
 
                             </div>
@@ -348,6 +349,38 @@ function searchStudentOnRollNo() {
         ErrorToast('Please Enter RollNo', 'bg-warning');
     }
   
+}
+
+function pverify(ExamFromID)
+ {
+    var r = confirm("Do you really want to Provisional Verifiy");
+    if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 394.1;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ExamFromID: ExamFromID
+            },
+            success: function(response) {
+                // console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully Verify');
+                    edit_stu(ExamFromID);
+                    $('.bd-example-modal-xl').modal('hide'); 
+                    fetchCutList();
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+   }
 }
 function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");

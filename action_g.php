@@ -3234,7 +3234,7 @@ else { ?>
         }
          elseif($qcode=='qualification')
         {
-            $collegeId=$_POST['CategoryId'];  
+             $collegeId=$_POST['CategoryId'];  
             if($collegeId!='8')
             {
                 $query ="SELECT DISTINCT IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$collegeId'";
@@ -3333,7 +3333,7 @@ else { ?>
                     $color = (sqlsrv_num_rows($get_card_run) > 0) ? "red" : "";
                 ?>
                     <?php if($role_id == 3 || $role_id == 2) { ?>
-                    <?php if($row['depid'] != '81' && $row['CategoryId']!='8') { ?>
+                    <?php if($row['depid'] != '81' || $row['CategoryId']!='8') { ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpRecordPdf(<?=$row['IDNo'];?>);"></i>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
@@ -4954,7 +4954,7 @@ else { ?>
                             <div class="row">
         <div class="col-lg-3 col-12">
             <div class="form-group">
-                <label>Type Of Letter</label>
+                <label>Type of Letter</label>
                 <select class="form-control" name="letter_type_gen" id="letter_type_gen">
                     <option value=''>Select</option>
                     <option value='Appointment Letter'>Appointment Letter</option>
@@ -4962,14 +4962,14 @@ else { ?>
                      <option value='Appreciation Letter'>Appreciation Letter</option>
                       <option value='Experience Letter'>Experience Letter</option>
                     <option value='Joining Letter'>Joining Letter</option>
-                   
-                   
-                    <option value='No Dues Certificate'>No Dues Certificate</option>
+                     <option value='No Dues Certificate'>No Dues Certificate</option>
                     <option value='No Objection Certificate'>No Objection Certificate</option>
                      <option value='Office Order'>Office Order</option>
                     <option value='Promotion Letter'>Promotion Letter</option>
                     <option value='Warning Letter'>Warning Letter</option>
                     <option value='Suspension Letter'>Suspension Letter</option>
+                     <option value='Termination Letter'>Termination Letter</option>
+                     <option value='Committee'>Committee</option>
                    
                     
                     
@@ -10032,8 +10032,8 @@ mysqli_close($conn);
        sqlsrv_close($conntest);
    }  elseif($code==139)
     {
-      $id=$_POST['id'];
-      $get_student_details="SELECT * FROM offer_latter  where id='$id'";
+     echo  $id=$_POST['id'];
+     echo  $get_student_details="SELECT * FROM offer_latter  where id='$id'";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
 if ($row=mysqli_fetch_array($get_student_details_run))
  {
@@ -10073,17 +10073,17 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
 
     $courseName=$row_course_name['Course'];
 }
-    $State_id=$row['State'];
+    echo "stt : ". $State_id=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
     $ID_Proof_No=$row['ID_Proof_No'];
-    $District_id=$row['District'];
+   echo  $District_id=$row['District'];
      $months=$row['months'];
 
-       $lStatus=$row['Status'];
+      $lStatus=$row['Status'];
        $ReportedStatus=$row['ReportedStatus'];
     
 
@@ -10095,7 +10095,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
     {
     $State=$row_state['name'];
     }
-    $get_district="SELECT name FROM cities  where id='$District_id'";
+   echo  $get_district="SELECT name FROM cities  where id='$District_id'";
     $get_district_run=mysqli_query($conn,$get_district);
     if($row_dist=mysqli_fetch_array($get_district_run))
     {
@@ -23653,12 +23653,27 @@ if($_POST['sub_data']!='1')
     $Type = $_POST['Type'];
     $Status = $_POST['Status'];
     $Examination = $_POST['Examination'];
-$list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+    if($Status=='66')
+    {
+        $AcceptTypeRegistration=1;
+    }
+    else
+    {
+        $AcceptTypeRegistration=0;
+    }
+    
+// $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+// ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
+// Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+// ExamForm.Batch,ExamForm.Type
+// FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+// where  Admissions.Status='1'";
+$list_sql="SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
 ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
 Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
-ExamForm.Batch,ExamForm.Type
+ExamForm.Batch,ExamForm.Type,ExamForm.AcceptTypeRegistration
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
-where  Admissions.Status='1'";
+where Admissions.Status='1' ";
  if ($College != '') 
  {
 $list_sql.=" AND ExamForm.CollegeID='$College' ";
@@ -23679,25 +23694,40 @@ if ($Status != '') {
 if ($Status== '0') {
  $list_sql.=" AND (ExamForm.Status>='0' and  ExamForm.Status!='22') ";
  }
+ elseif($Status=='66')
+ {
+        $list_sql.=" AND (ExamForm.Status>='0' and  ExamForm.Status!='22' ANd AcceptTypeRegistration>'0') ";
+ }
  else
  {  
 $list_sql.=" AND ExamForm.Status='$Status' ";
  }
 }
+
  if ($Status=='') 
  {
 $list_sql.=" AND (ExamForm.Status='0' or ExamForm.Status='-1' or ExamForm.Status='22') ";
  }
 $list_sql.=" ORDER BY ExamForm.Status  ASC";
+
+// echo $list_sql;
 }
-else{
+else
+{
     $rollNo = $_POST['rollNo'];
-     $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+    //  $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
+    // ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
+    // Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+    // ExamForm.Batch,ExamForm.Type
+    // FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+    // where Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' and Admissions.Status='1' ";
+    $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
     ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
-    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptTypeRegistration,
     ExamForm.Batch,ExamForm.Type
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
-    where Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' and Admissions.Status='1' ";
+    where (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') AND Admissions.Status='1' ";
+
 
 }
 
@@ -23731,6 +23761,15 @@ else{
              while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                 {
              $Status= $row['Status'];
+             $AcceptTypeRegistration=$row['AcceptTypeRegistration'];
+             if($AcceptTypeRegistration>0)
+             {
+               $pr='(Provisional)';
+             }
+             else
+             {
+              $pr=''; 
+             }
              if($row['SubmitFormDate']!='')
              {
 
@@ -23862,15 +23901,15 @@ elseif($Status==6)
 elseif($Status==8)
              {
                echo "<b style='color:green'>Accepted</b>";
-             }   ?>
+             }  ?> <b style='color:red'><?= $pr;?></b> 
             </td>
             <td>
                 <!-- <i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i> -->
                 <i class="fa fa-eye fa-lg" data-toggle="modal" data-target=".bd-example-modal-xl"
                     onclick="edit_stu(<?= $row['ID'];?>)" style="color:green"></i>&nbsp;&nbsp;
                 <?php 
-if($Status==8)
-{?>
+                if($Status==8)
+                {?>
                 <!-- <i class="fa fa-print fa-lg text-primary"  onclick="fff(<?= $row['ID'];?>)" ></i> -->
                 <?php }?>
 
@@ -24031,6 +24070,15 @@ $sr=0;
 while($row7 = sqlsrv_fetch_array($list_resultexam, SQLSRV_FETCH_ASSOC) )
          { 
             
+            $AcceptTypeRegistration=$row7['AcceptTypeRegistration'];
+            if($AcceptTypeRegistration>0)
+            {
+              $pr='(Provisional)';
+            }
+            else
+            {
+             $pr=''; 
+            }
             $sr++;
             ?>
 
@@ -24089,7 +24137,9 @@ elseif($row7['Status']==7)
 elseif($row7['Status']==8)
   {
     echo "<b style='color:green'>Accepted</b>";
-  } ?></td>
+  } ?>
+  <?=$pr;?>
+</td>
 
 
             <!-- <p id="resuccess"></p> -->
@@ -24110,15 +24160,29 @@ elseif($row7['Status']==8)
                     class="btn btn-success ">Verify</button>
                 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject"
                     class="btn btn-danger ">Reject</button>
+                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
                 <?php }?>
-                <?php if($Status==0 && $Status!=22){?>
-                <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject"
-                    class="btn btn-danger ">Reject</button>
-                <?php }?>
+                <?php if($Status==0 && $Status!=22)
+                   {
+                    ?>
+                      <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update"
+                      class="btn btn-success ">Verify</button>
+                <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
+                <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
+                    <?php 
+                   }?>
+                   
                 <?php if($Status==22){?>
                 <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update"
                     class="btn btn-success ">Verify</button>
-                <?php }?>
+                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
+    Verify</button>
+                <?php }
+                ?>
+                <?php if($Status==8 ){?>
+                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
+                <?php }
+                ?>
             </td>
         </tr>
     </table>
@@ -26238,6 +26302,7 @@ if($_POST['sub_data']!='1')
     {
         $AcceptType=0;
     }
+    
 
  $list_sql = "SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
 ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
@@ -26268,7 +26333,7 @@ if ($Status== '5') {
  }
  elseif($Status=='66')
  {
-    $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6' ANd AcceptType>'0') ";
+        $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6' ANd AcceptType>'0') ";
  }
 
  else
@@ -26282,7 +26347,7 @@ $list_sql.=" AND (ExamForm.Status='4' or ExamForm.Status='5' or ExamForm.Status=
  }
 $list_sql.="  ORDER BY ExamForm.Status   ASC";
 
-echo $list_sql;
+ $list_sql;
 }
 else
 {
@@ -26727,14 +26792,14 @@ if($_POST['sub_data']!='1')
     $Examination = $_POST['Examination'];
     if($Status=='66')
     {
-        $AcceptType=1;
+        $AcceptTypeRegistration=1;
     }
     else
     {
-        $AcceptType=0;
+        $AcceptTypeRegistration=0;
     }
 
-$list_sql = "SELECT Admissions.FatherName,Admissions.ClassRollNo,Admissions.UniRollNo, Admissions.StudentName,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptType,MasterNodues.ID as ID,MasterNodues.Registration,Admissions.Course,ExamForm.Examination,ExamForm.Type
+$list_sql = "SELECT Admissions.FatherName,Admissions.ClassRollNo,Admissions.UniRollNo, Admissions.StudentName,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptTypeRegistration,MasterNodues.ID as ID,MasterNodues.Registration,Admissions.Course,ExamForm.Examination,ExamForm.Type
 ,Admissions.IDNo from  MasterNodues  inner join Admissions on Admissions.IDNo=MasterNodues.IDNo  inner join ExamForm on  MasterNodues.ExamFormID= ExamForm.ID  where Admissions.Status='1' ANd Admissions.CourseID!='188' ";
  if ($College != '') 
  {
@@ -26766,12 +26831,12 @@ if ($Status != '')
  }
  
 $list_sql.="  ORDER BY MasterNodues.Registration ASC";
-//echo $list_sql;
+// echo $list_sql;
 }
 else
 {
     $rollNo = $_POST['rollNo'];
-     $list_sql = "SELECT Admissions.FatherName,Admissions.ClassRollNo,Admissions.UniRollNo, Admissions.StudentName,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptType,MasterNodues.ID as ID,MasterNodues.Registration,Admissions.Course,ExamForm.Examination,ExamForm.Type
+     $list_sql = "SELECT Admissions.FatherName,Admissions.ClassRollNo,Admissions.UniRollNo, Admissions.StudentName,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptTypeRegistration,MasterNodues.ID as ID,MasterNodues.Registration,Admissions.Course,ExamForm.Examination,ExamForm.Type
 ,Admissions.IDNo from  MasterNodues  inner join Admissions on Admissions.IDNo=MasterNodues.IDNo  inner join ExamForm on  MasterNodues.ExamFormID= ExamForm.ID  where Admissions.Status='1' ANd Admissions.CourseID!='188' ANd  (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') ";
 
 }
@@ -26808,8 +26873,8 @@ else
              while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                 {
              $Status= $row['Registration'];
-            $AcceptType=$row['AcceptType'];
-              if($AcceptType>0)
+            $AcceptTypeRegistration=$row['AcceptTypeRegistration'];
+              if($AcceptTypeRegistration>0)
               {
                 $pr='(Provisional)';
               }
@@ -26891,6 +26956,7 @@ if($Status==-1)
              {
                echo '<b>Verified</b>';
              }
+             echo $pr;
 
             ?>
 
@@ -31979,6 +32045,11 @@ if($ifexitIDNo<1)
         $District=$degree_row['district'];
         $Nationality=$degree_row['country'];
              }
+
+             if($LateralEntry=='Yes')
+             {
+                $Batch=$Batch+1;
+             }
    $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `Gender`, `CollegeName`, `Course`, `Lateral`,  `Nationality`, `State`,`District`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`Class_RollNo`)   VALUES ('$Name','$FatherName','$Gender','$CollegeID','$Course','$LateralEntry','$Nationality','$State','$District','$Session','$duration','$AdharCardNo','$EmployeeID','$timeStamp','$Batch','$Dob','$MobileNumber','$category','$ClassRollNoUpdate')";
 
 $insert_record_run = mysqli_query($conn, $insert_record);
@@ -34677,6 +34748,185 @@ elseif ($code==392) {
     <?php 
    sqlsrv_close($conntest);
 }
+else if ($code == 392.1) {
+    // $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
+    // $limit = 50;
+    // $offset = ($page - 1) * $limit;
+    
+    // // Count total records
+    // $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' and Department!='Class Four'";
+    // $count_stmt = sqlsrv_query($conntest, $count_sql);
+    // $count_row = sqlsrv_fetch_array($count_stmt, SQLSRV_FETCH_ASSOC);
+    // $total_records = $count_row['total'];
+    // $total_pages = ceil($total_records / $limit);
+    
+    // // Fetch current page records
+    // $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' and Department!='Class Four' ORDER BY IDNo DESC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    // $stmt = sqlsrv_query($conntest, $sql);
+    
+  
+
+
+    $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
+    $limit = 50;
+    $offset = ($page - 1) * $limit;
+
+    $searchIDNo = $_REQUEST['idNo'] ?? '';
+    $searchCondition = "";
+    $params = [];
+
+    $searchCondition = "";
+$params = [];
+
+if (!empty($searchIDNo)) {
+    $searchCondition .= " AND (IDNo LIKE ? OR Name LIKE ?)";
+    $params[] = "%$searchIDNo%";
+    $params[] = "%$searchIDNo%";
+}
+
+
+    // Count total
+    $count_sql = "SELECT COUNT(*) AS total FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' and IDNo>100000  $searchCondition";
+    $count_stmt = sqlsrv_prepare($conntest, $count_sql, $params);
+    sqlsrv_execute($count_stmt);
+    $count_row = sqlsrv_fetch_array($count_stmt, SQLSRV_FETCH_ASSOC);
+    $total_records = $count_row['total'];
+    $total_pages = ceil($total_records / $limit);
+
+    // Main query
+    $sql = "SELECT * FROM Staff WHERE JobStatus = 1 AND ImagePath != '' AND Department != 'Class Four' and IDNo>100000  $searchCondition ORDER BY ImageStatus ASC OFFSET $offset ROWS FETCH NEXT $limit ROWS ONLY";
+    $stmt = sqlsrv_prepare($conntest, $sql, $params);
+    sqlsrv_execute($stmt);
+    $sr = $offset + 1;
+    ?>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Image</th>
+                <th>IDNo</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $hasData = false;
+        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+            $hasData = true;
+            $Emp_Image = $row['Imagepath'];
+            $ImageStatus = $row['ImageStatus'];
+            if($ImageStatus==1)
+            {
+                $clr="success";
+                $text="Verified";
+            }
+            elseif($ImageStatus==2)
+            {
+                $clr="danger";
+                $text="Rejected";
+            }
+            else{
+                $clr="";
+                $text="";
+            }
+            ?>
+           <tr>
+    <td><?= $sr++; ?></td>
+    
+    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');">
+                    <?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+             
+        <div class="text-<?=$clr;?>">
+           <b ><?=$text;?></b>
+        </div>
+        
+    </td>
+    <td><?= $row['IDNo']; ?></td>
+    <td><?= $row['Name']; ?></td>
+    <td><?= $row['Designation']; ?></td>
+    <td><?= $row['Department']; ?></td>
+    <td><div class="mt-1">
+            <button class="btn btn-success btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'verify','<?=$page;?>')"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="verifyImage('<?= $row['IDNo'] ?>', 'reject','<?=$page;?>')"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+            <?php
+$lockStatus = $row['ProfileLock'] ?? '';
+$buttonLabel = ($lockStatus === 1) ? 'Click to Unlock Profile' : 'Click to Lock Profile';
+$nextAction = ($lockStatus === 1) ? null : '1';
+$btnColor = ($lockStatus === 1) ? 'danger' : 'primary';
+?>
+
+<button class="btn btn-<?=$btnColor;?> btn-sm" onclick="verifyLockProfile('<?= $row['IDNo'] ?>', '<?= $nextAction ?>', '<?= $page; ?>')">
+    <?= $buttonLabel ?>
+</button>
+        </div></td>
+</tr>
+
+        <?php } ?>
+    
+        <?php if (!$hasData): ?>
+            <tr><td colspan="6">No data found on this page.</td></tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+    
+    <!-- Pagination Buttons -->
+    <div style="text-align:center;">
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <button class="btn btn-sm <?= ($i == $page) ? 'btn-primary' : 'btn-outline-primary' ?>" onclick="loadStaff(<?= $i ?>)">
+                <?= $i ?>
+            </button>
+        <?php endfor; ?>
+    </div>
+
+<?php
+    sqlsrv_close($conntest);
+}
+elseif ($code==392.2) {
+
+    $id = $_POST['id'] ?? '';
+$action = $_POST['action'] ?? '';
+
+if ($id && in_array($action, ['verify', 'reject'])) {
+    $status = $action === 'verify' ? 1 : 2;
+    $sql = "UPDATE Staff SET ImageStatus = ? WHERE IDNo = ?";
+    $stmt = sqlsrv_prepare($conntest, $sql, [$status, $id]);
+
+    if (sqlsrv_execute($stmt)) {
+        echo "Image has been " . ($action === 'verify' ? "verified." : "rejected.");
+    } else {
+        echo "Failed to update status.";
+    }
+
+    sqlsrv_close($conntest);
+} else {
+    echo "Invalid request.";
+}
+}
+elseif ($code == 392.3) {
+    $id = $_POST['id'] ?? '';
+    $action = $_POST['action'] ?? '';
+
+    if (!empty($id) && in_array($action, ['1', null])) {
+        $sql = "UPDATE Staff SET ProfileLock = ? WHERE IDNo = ?";
+        $stmt = sqlsrv_prepare($conntest, $sql, [$action, $id]);
+
+        if ($stmt && sqlsrv_execute($stmt)) {
+            echo ($action === 1) ? "Profile has been locked" : "Profile has been unlocked";
+        } else {
+            echo "Failed to update profile status.";
+        }
+
+        sqlsrv_close($conntest);
+    } else {
+        echo "Invalid request.";
+    }
+}
+
+
 elseif ($code==393) {
     $time=time();
     $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
@@ -34697,6 +34947,30 @@ elseif ($code==393) {
        $IDNo=$row['IDNo'];
    }
    $desc= "UPDATE  ExamForm  SET Status:  Provisional Verified,AccountantVerificationDate: ".$timeStampS;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
+   if($getDefalutMenuRun==true)
+   {
+       echo "1";
+   }
+   else
+   {
+       echo "0";
+   }
+   sqlsrv_close($conntest);
+   }
+ else if($code==394.1) //FOR REGISTRATION BRANCH
+   {
+       $ExamFromID=$_POST['ExamFromID'];
+   $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0',AcceptTypeRegistration='1' Where ID='$ExamFromID'";
+   $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+   if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+       $IDNo=$row['IDNo'];
+   }
+   $desc= "UPDATE  ExamForm  SET Status:  Provisional Verified,RegistraionVerifDate: ".$timeStampS;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
 
@@ -36522,24 +36796,35 @@ elseif($code==431)
             ?>
             <div class="row">
                 <div class="col-md-3 ">
+                <?php if($_SESSION['RequiredData']!='')
+{?>
+                            <div class="alert" style="background-color:#fa7165;" role="alert">
+                                <small class="blink">Please update the following fields:
+                                    <?php echo $_SESSION['RequiredData'];?></small>
+                            </div>
+                            <?php }?>
                     <div class="card card-primary card-outline">
                         <div class="card-body  box-profile">
                             <div class="text-center">
                             <?php 
-                            if($ImageStatus==1)
-                            {
-                            echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
-                            }
-                            else if($ImageStatus==2)
-                            { 
-                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';   
-                            }
-                            else
-                            {
-                                echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';  
-                           
-                           
-                        }
+                 if ($ImageStatus == 1) {
+                    echo '
+                    <div style="position: relative; display: inline-block;">
+                        <img class="profile-user-img img-fluid img-circle"
+                             style="width: 100px; border: 3px solid #28a745;" 
+                             src="'.$BasURL.'Images/Staff/'.$ImagePath.'" 
+                             alt="User profile picture">
+                        <img src="dist/img/bluetick.png" 
+                             style="position: absolute; bottom: 0px; right: -5px; width: 35px; height: 35px;" 
+                             alt="Verified">
+                    </div>';
+                } else if ($ImageStatus == 2) {
+                    echo '<img class="profile-user-img img-fluid img-circle" width="100" src="dist/img/rejectbyit.jpg" alt="User profile picture">';
+                } else {
+                    echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';
+                }
+                
+                
                         ?>
                                 <?php //echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                             </div>
@@ -36907,7 +37192,7 @@ elseif($code==431)
                                                             <label>Current Salary</label>
                                                             <input type="text" class="form-control" id="salary"
                                                                 placeholder="Enter salary"
-                                                                value="<?=$row1['SalaryAtPresent'];?>">
+                                                                value="<?=$row1['SalaryAtPresent'];?>"readonly>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-2 col-12">
@@ -37916,6 +38201,9 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                                         }
                                                                         
                                                                         ?>
+                                                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#rejectImagesModel">
+    View Sample Rejected Images
+</button>   
                                                                 </form>
                                                             </td>
                                                             <td>
@@ -37927,8 +38215,30 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                                                                     <?php 
                     $ext = pathinfo($BasURL."Images/Staff/".$row1['Imagepath'], PATHINFO_EXTENSION);
                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
-                        echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
-                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+
+
+                       
+
+                        
+                        if($ImageStatus==1)
+                        {
+                           
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                            echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                        }
+                        else if($ImageStatus==2)
+                        { 
+                            
+                             echo '<img src="dist/img/rejectbyit.jpg" alt="Your Image" width="100" height="100">';
+                            //  echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                        }
+                        else
+                        {
+                            echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                           
+                        }
+
+
                     }
                     else {
                         echo '<i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>';
@@ -38282,9 +38592,9 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= '$EmployeeID' and DeleteStatu
                             </div>
                             <?php if($_SESSION['RequiredData']!='')
 {?>
-                            <div class="alert alert-danger" role="alert">
-                                <b class="blink">Please update the following fields:
-                                    <?php echo $_SESSION['RequiredData'];?></b>
+                             <div class="alert" style="background-color:#fa7165;" role="alert">
+                                <small class="blink">Please update the following fields:
+                                    <?php echo $_SESSION['RequiredData'];?></small>
                             </div>
                             <?php }?>
                         </div>
@@ -39074,7 +39384,7 @@ elseif($code==437)
    $query .= "District = '$district_by_post', ";
    $query .= "PostOffice = '$postOffice', ";
    $query .= "BloodGroup = '$bloodGroup', ";
-   $query .= "SalaryAtPresent = '$salary', ";
+   //$query .= "SalaryAtPresent = '$salary', ";
    $query .= "PersonalIdentificationMark = '$personalIdentificationMark' ";
    $query .= "WHERE IDNo = '$loginId'";
 //  echo $query;
@@ -42150,9 +42460,9 @@ elseif($code==470)
          {
         $id = $_POST['id'];     
         $mainu_id = $_POST['mainu_id'];     
-        $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
-        $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
-        sqlsrv_close($conntest);
+         $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
+       $role_run=mysqli_query($conn,$update_addrole);
+        mysqli_close($conn);
         }
    else
    {

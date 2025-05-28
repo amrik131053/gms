@@ -54,7 +54,7 @@
                <option value="" selected>Select</option>
                <option value="SubjectCode">Subject Code</option>
                <option value="EmployeeId">Employee Id</option>
-             <?php if($role_id=='2')
+             <?php if($role_id=='2' || $role_id=='5')
              {?>
 
                <option value="PaperId">Paper Id</option>

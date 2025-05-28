@@ -166,7 +166,7 @@ $_SESSION['RequiredData']=$alertMessage;
           
            $array_aa=array_unique((array_merge($r,$p)));
 
-       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php','attendence-calendar.php','profile.php');
+       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php','attendence-calendar.php','profile.php','staff-attendance.php','books-issued.php','movement-admin.php');
  
       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
@@ -355,18 +355,21 @@ window.location.href = 'profile.php';
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                         <?php 
-                        if($ImageStatus==1)
-                        {
-                            echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
-                        }
-                        else if($ImageStatus==2)
-                        { 
-                             echo '<img src="dist/img/rejectbyit.jpg" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
-                        }
-                        else
-                        {
-                             echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';
-                        }
+                   if ($ImageStatus == 1) {
+                    echo '
+                    <div style="position: relative; display: inline-block;">
+                        <img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2" style="border-radius:50%; border: 2px solid #28a745;" />
+                        <img src="dist/img/bluetick.png" alt="Verified" 
+                             style="position: absolute; top: 10px; right: 0px; width: 20px; height: 20px;" />
+                    </div>';
+                } else if ($ImageStatus == 2) {
+                    echo '
+                    <img src="dist/img/rejectbyit.jpg" class="user-image img-circle elevation-2" style="border-radius:50%;" />';
+                } else {
+                    echo '
+                    <img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2" style="border-radius:50%;" />';
+                }
+                
                         ?>
                         <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
                     </a>
@@ -488,7 +491,7 @@ window.location.href = 'profile.php';
                         </li>
                         <?php }
 
-                        $staff="SELECT *  FROM  AdditionalRole Where IDNo='$EmployeeID'";
+                        $staff="SELECT *  FROM  AdditionalRole Where IDNo='$EmployeeID' ANd Status='1'";
     $stmt = sqlsrv_query($conntest,$staff);  
 if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
         

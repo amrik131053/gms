@@ -119,6 +119,13 @@ function UpdateLeaveBalnce() {
                showEmpReport();
                SuccessToast('Added Successfully');
             }
+            else if(response==2)
+            {
+               ErrorToast('Already Added ','bg-warning');
+            }
+            else{
+               ErrorToast('try again ','bg-danger');
+            }
             
                // console.log(response);
                spinner.style.display='none';
