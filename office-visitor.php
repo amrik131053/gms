@@ -311,7 +311,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
       {
 
 
-             var code='346';
+             var code='28.1';
             
              var name=document.getElementById("name_visitor").value;
              var mobile=document.getElementById('mobile_visitor').value 

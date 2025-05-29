@@ -26,7 +26,7 @@
          <div class="col-lg-1 col-md-1 col-sm-1">
           <!-- <button class="btn btn-info btn-xs"  onclick="searchadmission()">Search</button> -->
            <button class="btn btn-info btn-xs" onclick="exportadmission()">Export Registration</button> 
-           <button class="btn btn-info btn-xs" onclick="exportadmissionAward()">Export Award</button> 
+           <!-- <button class="btn btn-info btn-xs" onclick="exportadmissionAward()">Export Award</button>  -->
         
       </div>
       </div>

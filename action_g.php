@@ -22277,6 +22277,7 @@ include "connection/ftp-erp.php";
     {
     $BasicLocked=$row6["BasicLocked"];
     $Locked=$row6["Locked"];
+     $ClassRollNo=$row6["ClassRollNo"];
     }
 
    if($BasicLocked>0)
@@ -22383,8 +22384,17 @@ include "connection/ftp-erp.php";
    $query;
      }
 
+
+$insert_record = "UPDATE  offer_latter SET Name='$name', FatherName='$fatherName',  Gender='$gender'where Class_RollNo='$ClassRollNo'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+
+mysqli_close($conn);
+
+
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
+
 
 
   $update_studentb="UPDATE Ledger SET StudentName='$name',FatherName='$fatherName',Batch='$batch' where IDNo='$loginId'";
@@ -42366,7 +42376,7 @@ elseif($code==470)
         while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
         {
             $UniRollNo=$filesop[0];
-            $get_pending="SELECT * FROM Admissions where UniRollNo='$UniRollNo' and Status='1'";
+            $get_pending="SELECT * FROM Admissions where (UniRollNo='$UniRollNo' OR ClassRollNo='$UniRollNo') and Status='1'";
             $get_pending_run=sqlsrv_query($conntest,$get_pending);
           if($row_pending=sqlsrv_fetch_array($get_pending_run))
           {
@@ -42461,9 +42471,9 @@ elseif($code==470)
          {
         $id = $_POST['id'];     
         $mainu_id = $_POST['mainu_id'];     
-        $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
-        $update_addrole_run=sqlsrv_query($conntest,$update_addrole);
-        sqlsrv_close($conntest);
+         $update_addrole="Update permissions set portal_type='$id' where id='$mainu_id'";
+       $role_run=mysqli_query($conn,$update_addrole);
+        mysqli_close($conn);
         }
    else
    {
