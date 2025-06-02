@@ -33,6 +33,7 @@ foreach ($id as $key => $value) {
         $Batch = $row['Batch'];
         $RefNo = $row['RefNo'];
         $Duration=$row['Duration'];
+         $months=$row['months'];
         $CollegeName=$row['CollegeName'];
         $Department=$row['Department'];
         $ID_Proof_No=$row['ID_Proof_No'];
@@ -342,7 +343,7 @@ where MasterDepartment.Id='$Department' ";
             </tr>
             <tr>
                 <th>Duration:</th>
-                <td><?= $Duration; ?> Years</td>
+                <td><?= $Duration; ?> Years   <?php if($months>0){echo $months." Months"; } ;?></td>
                 <th>Faculty/Department:</th>
                 <td> <?= $department; ?></td>
             </tr>

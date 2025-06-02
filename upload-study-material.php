@@ -45,7 +45,7 @@ $(function() {
             },
             type: 'POST',
             success: function(data) {
-                console.log(data);
+                //console.log(data);
                 spinner.style.display = 'none';
                 if (data != "") {
 
