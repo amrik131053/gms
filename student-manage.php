@@ -336,7 +336,7 @@ function updateStudent(empID) {
     syncdocuments(empID);
     var code = 267;
     $.ajax({ 
-        url: 'action_g.php',
+        url: 'action_g.php', 
         type: 'POST',
         data: {
             code: code,
@@ -1081,6 +1081,8 @@ function exportLockedBasicExcel() {
 }
 function exportAllSearchRecord() {
     var exportCode = 39.1;
+      var roleID = document.getElementById('role_id').value;
+      
     var Session = document.getElementById('session1').value;
     var RefConsultantNo = document.getElementById('RefConsultantNo') ? document.getElementById('RefConsultantNo').value : '';
     var RefConsultantNoStaff = document.getElementById('RefConsultantNoStaff') ? document.getElementById('RefConsultantNoStaff').value : '';
@@ -1104,7 +1106,7 @@ function exportAllSearchRecord() {
                     "&Status="+Status+
                     "&Eligibility="+Eligibility+
                     "&Lateral="+Lateral+
-                    "&admissiontype="+admissiontype, '_blank');
+                    "&admissiontype="+admissiontype+"&role_id="+roleID, '_blank');
     } else {
         alert("Select ");
     }
@@ -1238,13 +1240,14 @@ function copyToClipboard(text) {
                 <div class="card-header">
                     <h3 class="card-title">Search Student </h3>
                     <div class="card-tools">
+
                         <button id="expand" class="btn btn-success btn-xs" name="expand" onclick="showDivName();">Search
                             by name</button>
                     </div>
                 </div>
                 <div class="card-body p-2">
                     <!-- <form action="export.php" method="post">
-                        <input type="hidden" value="39" name="exportCode"> -->
+                        <input type="hidden" value="39" id='role_id'"> -->
                         <input type="hidden" value="<?=$role_id;?>" id="role_id">
                         <div class="col-lg-12" id="unhide" style="display:none;">
                             <label>Name</label>

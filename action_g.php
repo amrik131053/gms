@@ -9789,7 +9789,7 @@ mysqli_close($conn);
          $value=$_POST['by_search'];
          if($value!='')
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170573'|| $EmployeeID=='170976' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001'  || $EmployeeID=='170573'|| $EmployeeID=='170976' )
             {
 
                 $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
@@ -20926,7 +20926,7 @@ elseif($code==267) //update student
 
                                     </li>
                                     <?php 
-   if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
+   if ($code_access=='010' || $code_access=='100' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
    {   ?>
                                     <li class="nav-item"><a class="nav-link" href="#reference"
                                             data-toggle="tab">Reference</a>
@@ -22089,7 +22089,7 @@ $tcredit=$rowww['totalcredit'];
 <br>
 
 <div class="modal-footer">
-    <?php 
+    <?php  
    if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
    {                                 
 

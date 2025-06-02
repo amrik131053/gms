@@ -13637,7 +13637,7 @@ sqlsrv_close($conntest);
   { 
 $course= $_POST['course'];
 $College= $_POST['College'];
-$sql = "SELECT DISTINCT mcs.Batch as saBatch  FROM MasterCourseStructure as mcs 
+ echo $sql = "SELECT DISTINCT mcs.Batch as saBatch  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
 AND mcs.CollegeID='$College' ANd mcs.AcademicType='T' ANd sa.Status='1'  And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
@@ -13739,7 +13739,7 @@ elseif ($code ==200.7)
 
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-echo  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+ $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE 
  mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd  mcs.Elective='O'  And sa.EmployeeID='$EmployeeID'"; 
 ?>
@@ -13756,6 +13756,26 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 sqlsrv_close($conntest);
 
   }
+  // study matrial
+   elseif ($code ==200.8)
+  { 
+$course= $_POST['course'];
+$College= $_POST['College'];
+$sql = "SELECT DISTINCT mcs.Batch as saBatch  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.CollegeID='$College' ANd sa.Status='1'  And sa.EmployeeID='$EmployeeID'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+ <option value="">Batch</option>
+ <?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["saBatch"];?>'><?= $row1["saBatch"];?></option>";
+<?php 
+}
+sqlsrv_close($conntest);
+ }
  // multiple update masrks  
  else if($code==201)
 {       
@@ -14352,8 +14372,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 
 <?php 
-
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' order by ExternalExam DESC";  
+$amrik = "SELECT * FROM ExamFormSubject where Examid='$id' order by ExternalExam DESC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
 {

@@ -142,7 +142,7 @@ include "header.php";
                  <label>Consultant</label>
                   <select  id="Consultant"  class="form-control" required>
                      <option value=''>Select Consultant</option>
-                       <?php  $get_consultant="SELECT * FROM MasterConsultant where Status>0"; 
+                       <?php    $get_consultant="SELECT * FROM MasterConsultant where Status>0"; 
 
                      $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
                      while($row=sqlsrv_fetch_array($get_consultant_run))
@@ -356,11 +356,11 @@ include "header.php";
             </div>
             <div class="col-lg-2">
                <label>Student Name</label>
-               <input type="text" value="" id="Name" class="form-control" readonly > 
+               <input type="text" value="" id="Name" class="form-control"  > 
             </div>
             <div class="col-lg-2">
                <label>Father Name</label>
-               <input type="text" value="" id="FatherName" class="form-control" readonly > 
+               <input type="text" value="" id="FatherName" class="form-control"  > 
             </div>
             <div class="col-lg-2">
                <label>Mother Name</label>
@@ -377,11 +377,11 @@ include "header.php";
             </div> 
             <div class="col-lg-3" style="display: none;" id="AdharCardNo_div">
                <label>Adhar Card No</label>
-               <input type="number" class="form-control" id="AdharCardNo" readonly >
+               <input type="number" class="form-control" id="AdharCardNo"  >
             </div>
             <div class="col-lg-3" style="display: none;" id="PassportNo_div">
                <label>Passport No/Adhar Card No</label>
-              <input type="text" class="form-control" id="PassportNo" readonly>
+              <input type="text" class="form-control" id="PassportNo" >
             </div>
             <div class="col-lg-2">
                <label>Accommodation</label>
@@ -454,21 +454,21 @@ include "header.php";
               </div>
               <div class="col-lg-2">
                <label>Mobile No</label> <br>
-                  <input type='text'  id="MobileNo"  class="form-control" pattern="{0-9}[10]" required readonly >
+                  <input type='text'  id="MobileNo"  class="form-control" pattern="" required  >
                     
               </div>
 
 <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Category</label>
-          <input type="text" class="form-control" id="category" readonly >
-          <!-- <select class="form-control" id="category">
+          <!-- <input type="text" class="form-control" id="category" readonly > -->
+   <select class="form-control" id="category">
               <option value="">Select</option>
               <option>SC</option>
               <option>ST</option>
               <option>OBC</option>
 
               <option>General</option>
-          </select> -->
+          </select>
       </div>
             <div class="col-lg-3">
                   <select  id="Batch"  class="form-control" required hidden>
@@ -1073,31 +1073,34 @@ else
 }
 function submit_record() {
 
-  var rollNo = document.getElementById('rollNo').value;
-//   var Name = document.getElementById('Name').value;
-//   var FatherName = document.getElementById('FatherName').value;
-  // var MotherName = document.getElementById('MotherName').value;
-  var Gender = document.getElementById('Gender').value;
-   // var MobileNo = document.getElementById('MobileNo').value;
+  //var rollNo = document.getElementById('rollNo').value;
+   var Name = document.getElementById('Name').value;
+   var FatherName = document.getElementById('FatherName').value;
+   var MotherName = document.getElementById('MotherName').value;
+   var Gender = document.getElementById('Gender').value;
+   var MobileNo = document.getElementById('MobileNo').value;
    var DOB = document.getElementById('DOB').value;
    var Category = document.getElementById('category').value;
-  var CollegeName = document.getElementById('CollegeName1').value;
-  var Department = document.getElementById('Department1').value;
-  var Course = document.getElementById('Course1').value;
+
+   var CollegeName = document.getElementById('CollegeName1').value;
+   var Department = document.getElementById('Department1').value;
+   var Course = document.getElementById('Course1').value;
+
    var Batch = document.getElementById('Batch').value;
-  var PinCode = document.getElementById('Pincode').value;
-  var Nationality = document.getElementById('Nationality_').value;
-  var State = document.getElementById('State_').value;
-  var District = document.getElementById('District').value;
-  var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
-  var Consultant = document.getElementById('Consultant_').value;
-  //var duration = document.getElementById('duration').value;
-   var months = document.getElementById('months').value;
-  var session = document.getElementById('session').value;
-  var AdharCardNo = document.getElementById('AdharCardNo').value;
-  var PassportNo = document.getElementById('PassportNo').value;
-  var MotherName = document.getElementById('MotherName').value;
-  var Accommodation = document.getElementById('Accommodation').value;
+
+   //var PinCode = document.getElementById('Pincode').value;
+   var Nationality = document.getElementById('Nationality_').value;
+   var State = document.getElementById('State_').value;
+   var District = document.getElementById('District').value;
+   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+   //var Consultant = document.getElementById('Consultant_').value;
+   //var duration = document.getElementById('duration').value;
+  // var months = document.getElementById('months').value;
+   //var session = document.getElementById('session').value;
+   var AdharCardNo = document.getElementById('AdharCardNo').value;
+   var PassportNo = document.getElementById('PassportNo').value;
+   var MotherName = document.getElementById('MotherName').value;
+   var Accommodation = document.getElementById('Accommodation').value;
   
   
 
