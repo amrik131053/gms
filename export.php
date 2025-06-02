@@ -10,20 +10,18 @@ $exportCode ='';
 $role_id ='';
 $fileName = 'My File';
 
-if (isset($_POST['role_id']))
+if (isset($_REQUEST['role_id']))
 {
-    $role_id = $_POST['role_id'];
+    $role_id = $_REQUEST['role_id'];
 }
+
 if (isset($_POST['exportCode']))
 {
     $exportCode = $_POST['exportCode'];
-   
-}
+  }
 elseif (isset($_GET['exportCode']))
 {
     $exportCode = $_GET['exportCode'];
-
-
 }
 
 if($exportCode==19 ||$exportCode==27 || $exportCode==27.1 || $exportCode==27.2 ||$exportCode==28||$exportCode==77||$exportCode==78||$exportCode==79||$exportCode==80 ||$exportCode==80.1)
@@ -31,6 +29,7 @@ if($exportCode==19 ||$exportCode==27 || $exportCode==27.1 || $exportCode==27.2 |
        include "connection/connection_web.php"; 
 
    }
+
    $getCurrentExamination="SELECT * FROM ExamDate";
    $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
    if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
@@ -5056,7 +5055,8 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          
          <td>{$lockedtype}</td> ";
          if($role_id==2 || $role_id==21)    {
-        $exportstudy.=" <td>{$CommentsDetail}</td>";
+        $exportstudy.="<td>{$CommentsDetail}</td><td>";
+
             $query3 = "SELECT Name, IDNo FROM MasterConsultantRef AS mcr INNER JOIN Staff AS s ON mcr.RefIDNo = s.IDNo WHERE mcr.StudentIDNo = '$IDNo' AND mcr.Type = 'Staff'";
             $result3 = sqlsrv_query($conntest, $query3);
             while ($row3 = sqlsrv_fetch_array($result3, SQLSRV_FETCH_ASSOC)) {
