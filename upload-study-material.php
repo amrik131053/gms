@@ -34,8 +34,8 @@ $(function() {
 
 
 
-
-        var code = '200.2';
+ 
+        var code = '200.8';
         $.ajax({
             url: 'action.php',
             data: {
@@ -45,6 +45,7 @@ $(function() {
             },
             type: 'POST',
             success: function(data) {
+                console.log(data);
                 spinner.style.display = 'none';
                 if (data != "") {
 
