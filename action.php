@@ -14352,8 +14352,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 
 <?php 
-
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' order by ExternalExam DESC";  
+$amrik = "SELECT * FROM ExamFormSubject where Examid='$id' order by ExternalExam DESC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
 {

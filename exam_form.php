@@ -648,7 +648,7 @@ $(document).ready(function(e) { // image upload form submit
     }));
 });
 
-function edit_stu(id) {
+function edit_stu(id) { 
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
