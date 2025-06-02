@@ -25,7 +25,10 @@ foreach ($id as $key => $value) {
         $Course = $row['Course'];
         $Gender = $row['Gender'];
         $Class_RollNo = $row['Class_RollNo'];
+        $courseStartDate=$row['StartDate'];
+        $courseEndDate=$row['EndDate']; 
         $District = $row['District'];
+            $months=$row['months'];
         $State = $row['State'];
         $Session = $row['Session'];
         $PrintDate = $row['PrintDate'];
@@ -317,7 +320,7 @@ where MasterDepartment.Id='$Department' ";
 
       
         <span>Dear <strong><?= $name; ?></strong>,</span></br>
-        <span>Conratulation on seeking your admission at Guru Kashi University,Bathinda,Punjab India. we are pleased to confirm the acceptance of your application as an international Student.
+        <span>Congratulation on seeking your admission at Guru Kashi University,Bathinda,Punjab India. we are pleased to confirm the acceptance of your application as an international Student.
 
             
 
@@ -330,13 +333,13 @@ where MasterDepartment.Id='$Department' ";
             </tr>
             <tr>
                 <th>Duration of the Course:</th>
-                <td><?= $Duration; ?> Years</td>
+                <td><?= $Duration; ?> Years  <?php if($months>0){echo $months." Months"; } ;?></td>
                 
             </tr>
             <tr>
                 <th>Course Start Date</th>
               
-                <td></td>
+                <td><?= $courseStartDate;?> </td>
              
               
               
@@ -344,7 +347,7 @@ where MasterDepartment.Id='$Department' ";
             <tr>
                 <th>Course End Date</th>
                 
-                <td></td>
+                <td> <?= $courseEndDate;?> </td>
              
               
               
@@ -352,7 +355,7 @@ where MasterDepartment.Id='$Department' ";
             <tr>
                 <th>Fee  Details</th>
                
-                <td> $<?= $totalAnual; ?>  PER YEAR    + $400  ONE TIME CHARGES </td>
+                <td> $<?= $TutionFee+$HostelFee;?>  PER YEAR    + $400  ONE TIME CHARGES </td>
              
               
               

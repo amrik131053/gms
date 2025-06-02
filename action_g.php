@@ -10463,6 +10463,10 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $name=$row['Name'];
     $FatherName=$row['FatherName'];
     $MotherName=$row['MotherName'];
+
+     $ID_Proof_No=$row['ID_Proof_No'];
+ $StartDate=$row['StartDate'];
+  $EndDate=$row['EndDate'];
     $Collegeid=$row['CollegeName'];
     $Course=$row['Course'];
     $Department=$row['Department'];
@@ -10606,6 +10610,18 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
             <div class="col-lg-3">
                 <label>Father Name</label>
                 <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
+            </div>
+              <div class="col-lg-3">
+                <label>Passport No</label>
+                <input type="text" value="<?=$ID_Proof_No;?>" id="ID_Proof_No" class="form-control">
+            </div>
+              <div class="col-lg-3">
+                <label>Start Date</label>
+                <input type="date" value="<?=$StartDate;?>" id="StartDate" class="form-control">
+            </div>
+              <div class="col-lg-3">
+                <label>End Date</label>
+                <input type="date" value="<?=$EndDate;?>" id="EndDate" class="form-control">
             </div>
 
             <div class="col-lg-3">
@@ -10814,6 +10830,9 @@ $classroll="";
 $duration = $_POST['duration'];
 $id = $_POST['id'];
 $Name = $_POST['Name'];
+$StartDate = $_POST['StartDate'];
+$EndDate = $_POST['EndDate'];
+$ID_Proof_No = $_POST['ID_Proof_No'];
 $leet = $_POST['leet'];
 
 $FatherName = $_POST['FatherName'];
@@ -10826,7 +10845,7 @@ $status= $_POST['status'];
 $reportedStatus= $_POST['reportedStatus'];
  
 
-  $insert_record = "UPDATE  offer_latter_international SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', UpdateBy='$EmployeeID',Duration='$duration',Status='$status',Lateral='$leet' where id='$id'";
+  $insert_record = "UPDATE  offer_latter_international SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', UpdateBy='$EmployeeID',Duration='$duration',Status='$status',Lateral='$leet',StartDate='$StartDate',EndDate='$EndDate',ID_Proof_No='$ID_Proof_No' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {

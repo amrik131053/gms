@@ -634,8 +634,9 @@ function edit_student_details(id) {
   // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
 
    var duration = document.getElementById('Duration').value;
-  // var session = document.getElementById('session').value;
-  // var AdharCardNo = document.getElementById('AdharCardNo').value;
+   var StartDate = document.getElementById('StartDate').value;
+   var EndDate = document.getElementById('EndDate').value;
+     var ID_Proof_No = document.getElementById('ID_Proof_No').value;
    var leet = document.getElementById('leet').value;
 
 
@@ -655,7 +656,7 @@ if( Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='
     // MobileNo: MobileNo,
     CollegeName: CollegeName,
     Department: Department,
-    Course: Course,
+    Course: Course,StartDate:StartDate,EndDate:EndDate,ID_Proof_No:ID_Proof_No,
     // Batch: Batch,
     // PinCode: PinCode,
     Nationality: Nationality,
