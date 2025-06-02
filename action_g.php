@@ -33182,9 +33182,12 @@ else if($code==367.1)
 
         </div>
 
+        <!-- <div class="row"> -->
+       
+        <!-- </div> -->
         <!-- <div class="col-lg-3 col-md-3 col-sm-12"> -->
             <!-- <label>Consultant ID</label> -->
-            <input type='hidden' id="User_id" class="form-control" readonly  required>
+            <input type='hidden' id="User_id" class="form-control"  readonly  required>
              <input type='hidden' id="nNationality" class="form-control" readonly  required>
               <input type='hidden' id="nState" class="form-control" readonly  required>
                <input type='hidden' id="nDistrict" class="form-control" readonly  required>
@@ -33242,11 +33245,15 @@ else if($code==367.1)
 
             </select>
         </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+        <label>Consultants Name</label>
+        <input type='text' id="User_id_Ref" class="form-control"  readonly  required>
+    </div>
 
 
     </div>
+  
     <br>
-
     <!-- <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Reference Detail --</h6> <hr style="background-color:#002149"> -->
 
 
@@ -33397,60 +33404,202 @@ $value[19]=$degree_row['id'];
     sqlsrv_close($conntest);
     mysqli_close($conn);
 }
-elseif($code==368.1)
-{
-    $registrationNumber = $_POST['registrationNumber'];
+// elseif($code==368.1)
+// {
+//     $registrationNumber = $_POST['registrationNumber'];
 
-  $degree="SELECT * FROM users   WHERE  registration_number='$registrationNumber' order by Id DESC limit 1"; 
-            $degree_run=mysqli_query($conn_online_pre_regist,$degree);
-            while ($degree_row=mysqli_fetch_array($degree_run)) 
-            {
-        $value[0]=$degree_row['courseIntersted'];
-        $value[1]=$degree_row['name'];
-        $value[2]=$degree_row['father_name'];
-        $value[3]=$degree_row['mobile_number'];
-        $value[4]=$degree_row['aadhaar_number'];
-        $value[5]=$degree_row['category'];
+//   $degree="SELECT * FROM users  INNER JOIN quiz_results ON quiz_results.user_id=users.id  WHERE  registration_number='$registrationNumber'"; 
+//             $degree_run=mysqli_query($conn_online_pre_regist,$degree);
+//             while ($degree_row=mysqli_fetch_array($degree_run)) 
+//             {
+//         $value[0]=$degree_row['courseIntersted'];
+//         $value[1]=$degree_row['name'];
+//         $value[2]=$degree_row['father_name'];
+//         $value[3]=$degree_row['mobile_number'];
+//         $value[4]=$degree_row['aadhaar_number'];
+//         $value[5]=$degree_row['category'];
              
-         $degree1="SELECT * FROM users   WHERE  id='".$degree_row['user_id']."' order by Id DESC limit 1"; 
-            $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
+//          $degree1="SELECT * FROM users   WHERE  id='".$degree_row['user_id']."' order by Id DESC limit 1"; 
+//             $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
 
-            if ($degree_row1=mysqli_fetch_array($degree_run1)) 
-            {
+//             if ($degree_row1=mysqli_fetch_array($degree_run1)) 
+//             {
                  
-                $value[6]=$degree_row1['erp_id'];  
+//                 $value[6]=$degree_row1['erp_id'];  
+//             }
+//          $value[7]=$degree_row['id'];
+//          $value[8]=$degree_row['registration_number'];
+//  $value[9]=$degree_row['course_id'];
+
+//   $value[15]=$degree_row['state'];
+
+//   $value[16]=$degree_row['district'];
+
+//     $value[17]=$degree_row['country'];
+
+
+
+// }
+
+//  $coursedata="Select * from MasterCourseCodes inner join MasterDepartment on MasterCourseCodes.DepartmentId=MasterDepartment.ID where CourseID='$value[9]'";
+// $stmtdata = sqlsrv_query($conntest,$coursedata);
+// if($row11 = sqlsrv_fetch_array($stmtdata, SQLSRV_FETCH_ASSOC) )
+// {
+// $value[10]=$row11['CollegeName'];
+// $value[11]=$row11['CollegeID'];
+// $value[12]=$row11['Course'];
+// $value[13]=$row11['DepartmentId'];
+// $value[14]=$row11['Department'];
+// }
+
+
+
+//     echo json_encode($value);
+//     sqlsrv_close($conntest);
+//     mysqli_close($conn);
+// }
+elseif($code == 368.1) {
+    $registrationNumber = $_POST['registrationNumber'];
+    $degree = "SELECT *, 
+       IF(users.submit_date IS NULL, 9999, DATEDIFF(CURDATE(), users.submit_date)) AS days_over ,users.user_id as user_id_c
+FROM users  
+INNER JOIN quiz_results ON quiz_results.user_id = users.id  
+WHERE users.registration_number = '$registrationNumber'
+";
+
+    $degree_run = mysqli_query($conn_online_pre_regist, $degree);
+    $value = []; 
+    $quiz_passed = false; 
+    $has_data = false;
+    $days_over = 0;
+    $admissions_status = 0;
+
+    if ($degree_row = mysqli_fetch_array($degree_run)) {
+        $has_data = true;
+        if ($degree_row['correct_answers'] > 2) { 
+            $quiz_passed = true;
+        }
+        $days_over = $degree_row['days_over'] ?? 0;  
+        $admissions_status = $degree_row['admissions_status'] ?? 0;
+        $user_id_c = $degree_row['user_id_c'] ?? '';
+
+        $value[0] = $degree_row['courseIntersted'] ?? '';
+        $value[1] = $degree_row['name'] ?? '';
+        $value[2] = $degree_row['father_name'] ?? '';
+        $value[3] = $degree_row['mobile_number'] ?? '';
+        $value[4] = $degree_row['aadhaar_number'] ?? '';
+        $value[5] = $degree_row['category'] ?? '';
+
+        // $degree1 = "SELECT * FROM users WHERE id = '".$degree_row['user_id']."' ORDER BY id DESC LIMIT 1"; 
+        // $degree_run1 = mysqli_query($conn_online_pre_regist, $degree1);
+
+        // if ($degree_row1 = mysqli_fetch_array($degree_run1)) {
+        //     $value[6] = $degree_row1['erp_id'] ?? '';  
+        // } else {
+        //     $value[6] = '';  
+        // }
+         $degree1 = "SELECT * FROM users WHERE id = '".$degree_row['user_id_c']."' ORDER BY id DESC LIMIT 1"; 
+        $degree_run1 = mysqli_query($conn_online_pre_regist, $degree1);
+            if ($degree_row1 = mysqli_fetch_array($degree_run1)) {
+                if ($days_over > 4) {
+                    $value[6] = '';
+                    $value[18] = 'Direct Admisisons'; 
+                } else {
+                    $value[6] = $degree_row1['erp_id'] ?? '';
+                    $value[18] = $degree_row1['name'] ?? '';
+                     
+                }
+            } else {
+                $value[6] = ''; 
+                $value[18] = 'Direct Admisisons'; 
             }
-         $value[7]=$degree_row['id'];
-         $value[8]=$degree_row['registration_number'];
- $value[9]=$degree_row['course_id'];
-
-  $value[15]=$degree_row['state'];
-
-  $value[16]=$degree_row['district'];
-
-    $value[17]=$degree_row['country'];
 
 
+        $value[7] = $degree_row['id'] ?? '';
+        $value[8] = $degree_row['registration_number'] ?? '';
+        $value[9] = $degree_row['course_id'] ?? '';
+        $value[15] = $degree_row['state'] ?? '';
+        $value[16] = $degree_row['district'] ?? '';
+        $value[17] = $degree_row['country'] ?? '';
+    }
 
-}
+    if (!$has_data) {
+        echo json_encode(['error' => 'No data found']);
+    } elseif (!$quiz_passed) {
+        echo json_encode(['error' => 'Attempt Quiz First']);
+    } 
+    // elseif ( ($days_over > 4 && !empty($user_id_c) && $admissions_status != 1)) {
+    //     echo json_encode(['error' => 'hold date over ']);
+    // }
+     elseif ($admissions_status == 1) {
+        echo json_encode(['error' => 'admission already done']);
+    }
+    else {
+        $coursedata = "SELECT * FROM MasterCourseCodes 
+                       INNER JOIN MasterDepartment ON MasterCourseCodes.DepartmentId = MasterDepartment.ID 
+                       WHERE CourseID = '$value[9]'";
 
- $coursedata="Select * from MasterCourseCodes inner join MasterDepartment on MasterCourseCodes.DepartmentId=MasterDepartment.ID where CourseID='$value[9]'";
-$stmtdata = sqlsrv_query($conntest,$coursedata);
-if($row11 = sqlsrv_fetch_array($stmtdata, SQLSRV_FETCH_ASSOC) )
-{
-$value[10]=$row11['CollegeName'];
-$value[11]=$row11['CollegeID'];
-$value[12]=$row11['Course'];
-$value[13]=$row11['DepartmentId'];
-$value[14]=$row11['Department'];
-}
+        $stmtdata = sqlsrv_query($conntest, $coursedata);
 
-
-
-    echo json_encode($value);
+        if ($row11 = sqlsrv_fetch_array($stmtdata, SQLSRV_FETCH_ASSOC)) {
+            $value[10] = $row11['CollegeName'] ?? '';
+            $value[11] = $row11['CollegeID'] ?? '';
+            $value[12] = $row11['Course'] ?? '';
+            $value[13] = $row11['DepartmentId'] ?? '';
+            $value[14] = $row11['Department'] ?? '';
+        } else {
+            $value[10] = $value[11] = $value[12] = $value[13] = $value[14] = '';
+        }   
+$logData = [
+    'user' => [
+        'id' => $degree_row['id'] ?? '',
+        'name' => $degree_row['name'] ?? '',
+        'email' => $degree_row['email'] ?? '',
+        'mobile' => $degree_row['mobile_number'] ?? '',
+        'registration_number' => $degree_row['registration_number'] ?? '',
+        'aadhaar_number' => $degree_row['aadhaar_number'] ?? '',
+        'category' => $degree_row['category'] ?? '',
+        'tenth' => $degree_row['tenth'] ?? '',
+        'twelfth' => $degree_row['twelfth'] ?? '',
+        'courseInterested' => $degree_row['courseIntersted'] ?? '',
+        'submit_date' => $degree_row['submit_date'] ?? '',
+        'hold_on' => $degree_row['hold_on'] ?? '',
+        'admissions_status' => $degree_row['admissions_status'] ?? '',
+        'payment_later_status' => $degree_row['payment_later_status'] ?? '',
+        'txnid' => $degree_row['txnid'] ?? '',
+        'userid' => $degree_row['user_id_c'] ?? ''
+    ],
+    'admin' => [
+        'id' => $degree_row1['id'] ?? '',
+        'name' => $degree_row1['name'] ?? '',
+        'email' => $degree_row1['email'] ?? '',
+        'mobile' => $degree_row1['mobile_number'] ?? '',
+        'role' => $degree_row1['role'] ?? '',
+        'erp_id' => $degree_row1['erp_id'] ?? ''
+    ],
+    'college' => [
+        'CollegeName' => $row11['CollegeName'] ?? '',
+        'Department' => $row11['Department'] ?? '',
+        'Session' => $row11['Session'] ?? '',
+        'ClassRollNo' => $row11['ClassRollNo'] ?? '',
+        'Batch' => $row11['Batch'] ?? '',
+        'CourseType' => $row11['CourseType'] ?? '',
+        'Duration' => $row11['Duration'] ?? ''
+    ]
+];
+$response_json = json_encode($logData);
+            $IDNo = $value[8] ?? '';
+            $desc = $response_json; 
+            $timeStamp = date('Y-m-d H:i:s');
+            $log_query = "INSERT INTO logbook (userid, remarks, updatedby, date) VALUES (?, ?, ?, ?)";
+            $params = array($IDNo, $desc, $EmployeeID, $timeStamp);
+            $log_stmt = sqlsrv_query($conntest, $log_query, $params);
+     echo json_encode($value);
+    }
     sqlsrv_close($conntest);
-    mysqli_close($conn);
+    mysqli_close($conn_online_pre_regist);
 }
+
 elseif($code==368.2)
 {
     $registrationNumber = $_POST['registrationNumber'];
