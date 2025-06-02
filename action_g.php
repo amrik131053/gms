@@ -33476,7 +33476,7 @@ WHERE users.registration_number = '$registrationNumber'
 
     if ($degree_row = mysqli_fetch_array($degree_run)) {
         $has_data = true;
-        if ($degree_row['correct_answers'] > 2) { 
+        if ($degree_row['correct_answers'] > 1) { 
             $quiz_passed = true;
         }
         $days_over = $degree_row['days_over'] ?? 0;  
