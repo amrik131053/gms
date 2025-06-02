@@ -35002,7 +35002,8 @@ else if($code==395)
    {
 $srNo=1;
  $search=$_POST['rollno'];
-$query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where (Admissions.ClassRollNo like '%".$search."%' or Admissions.UniRollNo like '%".$search."%') ";
+  $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo
+  Where (Admissions.ClassRollNo = '".$search."' or Admissions.UniRollNo = '".$search."') ";
 ?>
     <table class="table">
         <th>#</th>
