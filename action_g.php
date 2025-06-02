@@ -15697,9 +15697,11 @@ elseif($code==204)
                 <?php 
     $emp_id=$_POST['empid'];
      $from=$_POST['from'];
+        $leavestatus=$_POST['leavestatus'];
       $month = date('m',strtotime($from));
       $year  = date('Y',strtotime($from));
     $Sr=1;
+    
     
     if($from!='' && $emp_id!='' )
     {
@@ -15711,7 +15713,14 @@ elseif($code==204)
     }
     elseif($from!='' && $emp_id=='' )
 {
+if($leavestatus>0)
+{
+  $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year' ANd Status!='Approved' ANd Status!='Reject' order by  ApplyLeaveGKU.Id DESC  ";
+}
+else
+{
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year' order by  ApplyLeaveGKU.Id DESC  ";
+}
 }
 else
 {
@@ -16114,7 +16123,24 @@ elseif($code==206)
     $LeaveType=$_POST['LeaveType'];
     $LeaveDuration=$_POST['LeaveDuration'];
     $LeaveReason=$_POST['LeaveReason']; 
-         $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+
+try {
+     $date1 = new DateTime($StartDate);
+    $date2 = new DateTime($EndDate);
+    $diff = date_diff($date1, $date2);
+   $days=$diff->days+1;
+} catch (Exception $e) {
+    echo "Invalid date format: " . $e->getMessage();
+}
+
+if($days>1)
+{
+$LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$days',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+}else
+{
+    $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+}
+        
         $LeaveUpdateRun=sqlsrv_query($conntest,$LeaveUpdate);
         $escapedQuery="Leave Update By ".$EmployeeID.' '.str_replace("'", "''", $LeaveUpdate);
 $update12="insert into logbook(userid,remarks,updatedby,date)Values('$LeaveIDNo','$escapedQuery','$EmployeeID','$timeStamp')";

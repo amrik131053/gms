@@ -37,6 +37,8 @@
                         <input type="hidden" id="CollegeID_Set">
                         <div class="card-tools">
                             <div class="input-group ">
+                                <select id='leavestatus' class="form-control-sm"><option value="0">All</option>
+                                <option value="1">Pending</option></select>
 
                                 <input type="month" id="from" class="form-control form-control-sm">
 
@@ -195,6 +197,7 @@ function search_leave_employee() {
     if (buttonActionValue != 'Leave Blance') {
         var code = 204;
         var from = document.getElementById('from').value;
+        var leavestatus = document.getElementById('leavestatus').value;
         var empid = document.getElementById('empid').value;
         var spinner = document.getElementById('ajax-loader');
         spinner.style.display = 'block';
@@ -203,7 +206,7 @@ function search_leave_employee() {
             type: 'POST',
             data: {
                 code: code,
-                from: from,
+                from: from,leavestatus:leavestatus,
                 empid: empid
             },
             success: function(response) {
@@ -405,7 +408,7 @@ function show_text_box_pages(id) {
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="view_leave_table_load">
+            <div class="modal-body" id="view_leave_table_load"> 
 
             </div>
             <div class="modal-footer">
