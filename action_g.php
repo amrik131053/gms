@@ -32011,12 +32011,17 @@ if($admisisontype==2)
     $ifexitIDNoAdhaar=0;
 }
 if($ifexitIDNoAdhaar<1)
-
-{   $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
+{ 
+    $getIfExistOnWeb = "SELECT * FROM users WHERE  aadhaar_number='$AdharCardNo'";
+    $get_card_runOnWeb = mysqli_query($conn_online_pre_regist, $getIfExistOnWeb);
+    $ifexitIDNoWeb = mysqli_num_rows($get_card_runOnWeb);
+    if ($ifexitIDNoWeb < 1) {   
+    $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
 if($ifexitIDNo<1)
-{    
+{ 
+       
      $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality,AdmissionType)
  VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID','$Nationality','$admissiontype')";
  $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert); //
@@ -32112,6 +32117,13 @@ $insert_record_run = mysqli_query($conn, $insert_record);
   else{
         echo "2"; // IDNo and ClassRollNo already Exist
     }
+
+
+}
+else{
+      echo "22"; // pre registration side
+  } 
+
 }
 else
 {

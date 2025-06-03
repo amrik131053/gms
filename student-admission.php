@@ -951,13 +951,18 @@ function submitNewAdmissions() {
         },
         type: 'POST',
         success: function(response) {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if (response == 1) {
                 ErrorToast('Server is busy Try Again ', 'bg-warning');
-            } else if (response == 2) {
+            }
+             else if (response == 2) {
                 ErrorToast('RollNo already exist please contant administrator', 'bg-warning');
-            } else if (response == 3) {
+            }
+             else if (response == 22) {
+                ErrorToast('This record belongs to pre-registration admissions and cannot be submitted through this portal', 'bg-warning');
+            }
+             else if (response == 3) {
                 ErrorToast('Student  Already Exist', 'bg-warning');
             } else if (response == 4) {
                 ErrorToast('Roll Number Series Over', 'bg-warning');
