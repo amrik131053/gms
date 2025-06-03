@@ -9467,41 +9467,32 @@ elseif($code==132)
 
             elseif($code==133)
            {
-            $rollNo = $_POST['rollNo'];
-             $degree1="SELECT * FROM users WHERE  registration_number='$rollNo' order by Id DESC limit 1"; 
-            $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
-            if ($degree_row1=mysqli_fetch_array($degree_run1)) 
-            {
-                  $Name = $degree_row1['name'];
-                  $FatherName = $degree_row1['father_name'];
-                  $MobileNo = $degree_row1['mobile_number'];
-                  //    $Consultant = $degree_row1['erp_id'];
-                  $Category= $degree_row1['category'];
-                }
-                
-
-
-                $Nationality = $_POST['Nationality'];
+            
+                  $Name = $_POST['Name'];
+                  $FatherName = $_POST['FatherName'];
+                  $MobileNo = $_POST['MobileNo'];
+                  //    $Consultant = $_POST['erp_id'];
+                  $Category= $_POST['Category'];
+                  $Nationality = $_POST['Nationality'];
                 $State = $_POST['State'];
                 $District = $_POST['District'];
-                $months = $_POST['months'];
+   
             $Gender = $_POST['Gender'];
             $CollegeName = $_POST['CollegeName'];
             $Department = $_POST['Department'];
             $Course = $_POST['Course'];
             $Batch = $_POST['Batch'];
             $Lateral = $_POST['Lateral'];
-            $PinCode = $_POST['PinCode'];
             $DOB= $_POST['DOB'];
             $session = $_POST['session'];
             $AdharCardNo = $_POST['AdharCardNo'];
             $PassportNo = $_POST['PassportNo'];
             $Accommodation = $_POST['Accommodation'];
-            $Consultant = $_POST['Consultant'];
+            //$Consultant = $_POST['Consultant'];
             $MotherName = $_POST['MotherName'];
             $ID_Proof_No=$AdharCardNo.$PassportNo;
 
-            $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0' ";
+           $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0' ";
             $check_exit_run=mysqli_query($conn,$check_exit);
             $numof_exit=mysqli_num_rows($check_exit_run);
             if ($numof_exit>1) {
@@ -9510,7 +9501,7 @@ elseif($code==132)
             else
             {
 
-            $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeName' and CourseID='$Course' ANd Session='$session'";
+         $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeName' and CourseID='$Course' ANd Session='$session'";
             $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
             if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
@@ -9559,8 +9550,8 @@ elseif($code==132)
 
 
 
-     $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`,`Accommodation`, `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`, `State`,`District`,`PinCode`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) 
-   VALUES ('$Name','$FatherName','$MotherName','$Accommodation','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$State','$District','$PinCode','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
+     $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`,`Accommodation`, `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`, `State`,`District`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) 
+   VALUES ('$Name','$FatherName','$MotherName','$Accommodation','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$State','$District','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
