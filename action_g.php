@@ -9467,41 +9467,32 @@ elseif($code==132)
 
             elseif($code==133)
            {
-            $rollNo = $_POST['rollNo'];
-             $degree1="SELECT * FROM users WHERE  registration_number='$rollNo' order by Id DESC limit 1"; 
-            $degree_run1=mysqli_query($conn_online_pre_regist,$degree1);
-            if ($degree_row1=mysqli_fetch_array($degree_run1)) 
-            {
-                  $Name = $degree_row1['name'];
-                  $FatherName = $degree_row1['father_name'];
-                  $MobileNo = $degree_row1['mobile_number'];
-                  //    $Consultant = $degree_row1['erp_id'];
-                  $Category= $degree_row1['category'];
-                }
-                
-
-
-                $Nationality = $_POST['Nationality'];
+            
+                  $Name = $_POST['Name'];
+                  $FatherName = $_POST['FatherName'];
+                  $MobileNo = $_POST['MobileNo'];
+                  //    $Consultant = $_POST['erp_id'];
+                  $Category= $_POST['Category'];
+                  $Nationality = $_POST['Nationality'];
                 $State = $_POST['State'];
                 $District = $_POST['District'];
-                $months = $_POST['months'];
+   
             $Gender = $_POST['Gender'];
             $CollegeName = $_POST['CollegeName'];
             $Department = $_POST['Department'];
             $Course = $_POST['Course'];
             $Batch = $_POST['Batch'];
             $Lateral = $_POST['Lateral'];
-            $PinCode = $_POST['PinCode'];
             $DOB= $_POST['DOB'];
             $session = $_POST['session'];
             $AdharCardNo = $_POST['AdharCardNo'];
             $PassportNo = $_POST['PassportNo'];
             $Accommodation = $_POST['Accommodation'];
-            $Consultant = $_POST['Consultant'];
+            //$Consultant = $_POST['Consultant'];
             $MotherName = $_POST['MotherName'];
             $ID_Proof_No=$AdharCardNo.$PassportNo;
 
-            $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0' ";
+           $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0' ";
             $check_exit_run=mysqli_query($conn,$check_exit);
             $numof_exit=mysqli_num_rows($check_exit_run);
             if ($numof_exit>1) {
@@ -9510,7 +9501,7 @@ elseif($code==132)
             else
             {
 
-            $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeName' and CourseID='$Course' ANd Session='$session'";
+         $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeName' and CourseID='$Course' ANd Session='$session'";
             $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
             if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
@@ -9559,8 +9550,8 @@ elseif($code==132)
 
 
 
-     $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`,`Accommodation`, `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`, `State`,`District`,`PinCode`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) 
-   VALUES ('$Name','$FatherName','$MotherName','$Accommodation','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$State','$District','$PinCode','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
+     $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`,`Accommodation`, `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`, `State`,`District`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) 
+   VALUES ('$Name','$FatherName','$MotherName','$Accommodation','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$State','$District','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -10463,6 +10454,10 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $name=$row['Name'];
     $FatherName=$row['FatherName'];
     $MotherName=$row['MotherName'];
+
+     $ID_Proof_No=$row['ID_Proof_No'];
+ $StartDate=$row['StartDate'];
+  $EndDate=$row['EndDate'];
     $Collegeid=$row['CollegeName'];
     $Course=$row['Course'];
     $Department=$row['Department'];
@@ -10606,6 +10601,18 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
             <div class="col-lg-3">
                 <label>Father Name</label>
                 <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
+            </div>
+              <div class="col-lg-3">
+                <label>Passport No</label>
+                <input type="text" value="<?=$ID_Proof_No;?>" id="ID_Proof_No" class="form-control">
+            </div>
+              <div class="col-lg-3">
+                <label>Start Date</label>
+                <input type="date" value="<?=$StartDate;?>" id="StartDate" class="form-control">
+            </div>
+              <div class="col-lg-3">
+                <label>End Date</label>
+                <input type="date" value="<?=$EndDate;?>" id="EndDate" class="form-control">
             </div>
 
             <div class="col-lg-3">
@@ -10814,6 +10821,9 @@ $classroll="";
 $duration = $_POST['duration'];
 $id = $_POST['id'];
 $Name = $_POST['Name'];
+$StartDate = $_POST['StartDate'];
+$EndDate = $_POST['EndDate'];
+$ID_Proof_No = $_POST['ID_Proof_No'];
 $leet = $_POST['leet'];
 
 $FatherName = $_POST['FatherName'];
@@ -10826,7 +10836,7 @@ $status= $_POST['status'];
 $reportedStatus= $_POST['reportedStatus'];
  
 
-  $insert_record = "UPDATE  offer_latter_international SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', UpdateBy='$EmployeeID',Duration='$duration',Status='$status',Lateral='$leet' where id='$id'";
+  $insert_record = "UPDATE  offer_latter_international SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', UpdateBy='$EmployeeID',Duration='$duration',Status='$status',Lateral='$leet',StartDate='$StartDate',EndDate='$EndDate',ID_Proof_No='$ID_Proof_No' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -15678,9 +15688,11 @@ elseif($code==204)
                 <?php 
     $emp_id=$_POST['empid'];
      $from=$_POST['from'];
+        $leavestatus=$_POST['leavestatus'];
       $month = date('m',strtotime($from));
       $year  = date('Y',strtotime($from));
     $Sr=1;
+    
     
     if($from!='' && $emp_id!='' )
     {
@@ -15692,7 +15704,14 @@ elseif($code==204)
     }
     elseif($from!='' && $emp_id=='' )
 {
+if($leavestatus>0)
+{
+  $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year' ANd Status!='Approved' ANd Status!='Reject' order by  ApplyLeaveGKU.Id DESC  ";
+}
+else
+{
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year' order by  ApplyLeaveGKU.Id DESC  ";
+}
 }
 else
 {
@@ -16095,7 +16114,24 @@ elseif($code==206)
     $LeaveType=$_POST['LeaveType'];
     $LeaveDuration=$_POST['LeaveDuration'];
     $LeaveReason=$_POST['LeaveReason']; 
-         $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+
+try {
+     $date1 = new DateTime($StartDate);
+    $date2 = new DateTime($EndDate);
+    $diff = date_diff($date1, $date2);
+   $days=$diff->days+1;
+} catch (Exception $e) {
+    echo "Invalid date format: " . $e->getMessage();
+}
+
+if($days>1)
+{
+$LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$days',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+}else
+{
+    $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+}
+        
         $LeaveUpdateRun=sqlsrv_query($conntest,$LeaveUpdate);
         $escapedQuery="Leave Update By ".$EmployeeID.' '.str_replace("'", "''", $LeaveUpdate);
 $update12="insert into logbook(userid,remarks,updatedby,date)Values('$LeaveIDNo','$escapedQuery','$EmployeeID','$timeStamp')";

@@ -319,7 +319,7 @@ include "header.php";
          <div class="row">
                 <div class="col-lg-2">
               <label>Nationality</label>  
-              <select class="form-control" id="Nationality_" onchange="fetch_state(this.value);">
+              <select class="form-control" id="Nationality_" onchange="fetch_state(this.value);ShowHideDiv_address(this.value);">
                  <option value="">Country</option>
                  <?php 
                   $get_country="SELECT * FROM countries ";
@@ -1073,62 +1073,72 @@ else
 }
 function submit_record() {
 
+
+
   //var rollNo = document.getElementById('rollNo').value;
-   var Name = document.getElementById('Name').value;
-   var FatherName = document.getElementById('FatherName').value;
-   var MotherName = document.getElementById('MotherName').value;
-   var Gender = document.getElementById('Gender').value;
-   var MobileNo = document.getElementById('MobileNo').value;
-   var DOB = document.getElementById('DOB').value;
-   var Category = document.getElementById('category').value;
+  
+  
 
-   var CollegeName = document.getElementById('CollegeName1').value;
-   var Department = document.getElementById('Department1').value;
-   var Course = document.getElementById('Course1').value;
+ 
 
-   var Batch = document.getElementById('Batch').value;
-
+   
    //var PinCode = document.getElementById('Pincode').value;
    var Nationality = document.getElementById('Nationality_').value;
    var State = document.getElementById('State_').value;
    var District = document.getElementById('District').value;
+
+   var Name = document.getElementById('Name').value;
+   var FatherName = document.getElementById('FatherName').value;
+   var MotherName = document.getElementById('MotherName').value;
+   var Gender = document.getElementById('Gender').value;
+   var AdharCardNo = document.getElementById('AdharCardNo').value;
+   var PassportNo = document.getElementById('PassportNo').value;
+   var Accommodation = document.getElementById('Accommodation').value;
+   var CollegeName = document.getElementById('CollegeName1').value;
+   var Department = document.getElementById('Department1').value;
+   var Course = document.getElementById('Course1').value;
    var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+   var MobileNo = document.getElementById('MobileNo').value;
+   var DOB = document.getElementById('DOB').value;
+   var Category = document.getElementById('category').value; 
+   var Batch = document.getElementById('Batch').value;
+
+
+   
    //var Consultant = document.getElementById('Consultant_').value;
    //var duration = document.getElementById('duration').value;
   // var months = document.getElementById('months').value;
-   //var session = document.getElementById('session').value;
-   var AdharCardNo = document.getElementById('AdharCardNo').value;
-   var PassportNo = document.getElementById('PassportNo').value;
-   var MotherName = document.getElementById('MotherName').value;
-   var Accommodation = document.getElementById('Accommodation').value;
+      var session = document.getElementById('session').value;
+  
+  
+   alert(DOB);
   
   
 
-if(Accommodation!='' && MotherName!='' && Gender!='' && session!=''  &&months!='')
+if(Accommodation!='' && MotherName!='' && Gender!='' && session!='')
 {
    if(AdharCardNo!='' || PassportNo!='')
    {
   var code = 133;
   var data = {
-   rollNo:rollNo,
-   //  Name: Name,
-   //  FatherName: FatherName,
-    months:months,
-    // MotherName: MotherName,
+
+     Name: Name,
+     FatherName: FatherName,
+    //months:months,
+    MotherName: MotherName,
     Gender: Gender,
-   //  MobileNo: MobileNo,
+    MobileNo: MobileNo,
     CollegeName: CollegeName,
     Department: Department,
     Course: Course,
     Batch: Batch,
-    PinCode: PinCode,
+    //PinCode: PinCode,
     Nationality: Nationality,
     State: State,
     District: District,
-    Consultant: Consultant,
+    //Consultant: Consultant,
     Lateral: Lateral,
-    MotherName: MotherName,
-    Accommodation: Accommodation,
+       Accommodation: Accommodation,
    DOB:DOB,
     session: session,
     AdharCardNo: AdharCardNo,
@@ -1143,8 +1153,7 @@ if(Accommodation!='' && MotherName!='' && Gender!='' && session!=''  &&months!='
     data: data,
     type: 'POST',
     success: function(response) {
-  console.log(response); // Log the response for debugging
-      // alert('Data submitted successfully!');
+      console.log(response); 
       if (response==1) {
       SuccessToast('Data submitted successfully');
 
@@ -1338,24 +1347,24 @@ $("#Course1").html(data);
 }
 });
 }
-// function ShowHideDiv_address(id)
-// {
-//    alert(id);
-//    if (id=='101')
-//     {
-//    $('#AdharCardNo_div').show('Slow');
-//    $('#PassportNo_div').hide('Slow');
-//    document.getElementById('PassportNo').value="";
-//     }
-//     else
-//     {
-//    $('#PassportNo_div').show('Slow');
-//     $('#AdharCardNo_div').hide('Slow');
-//     document.getElementById('AdharCardNo').value="";
+function ShowHideDiv_address(id)
+{
+  // alert(id);
+   if (id=='101')
+    {
+   $('#AdharCardNo_div').show('Slow');
+   $('#PassportNo_div').hide('Slow');
+   document.getElementById('PassportNo').value="";
+    }
+    else
+    {
+   $('#PassportNo_div').show('Slow');
+    $('#AdharCardNo_div').hide('Slow');
+    document.getElementById('AdharCardNo').value="";
 
-//     }
+    }
 
-// }
+}
 function ShowHideDiv_feetype(id)
 {
    // alert(id);
