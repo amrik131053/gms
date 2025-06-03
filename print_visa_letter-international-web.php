@@ -437,14 +437,14 @@ The admission is offered on the initial scrutiny of application, however if the 
                    <img src="dist/img/logo-join.png" alt="Logo" width="800px">
 <p style="font-size: 15px;text-align: center;"><b>ANNEXURE-A</b></p>
 
-<p style="font-size:18px">
+<p style="font-size:18px;text-align: justify; ">
 <u>Terms and Conditions:</u><br>
 <b>Admission Confirmation:</b><br>
 
-•   Your admission will be confirmed only upon up on receipt of the initial deposit. Non-payment of the deposit by the specified deadline may result in the correct of your you admission offer.<br>
+•   Your admission will be confirmed only upon up on receipt of the initial deposit. Non-payment of the deposit by the specified deadline may result in the cancellation of your admission offer.<br>
 •   All required original documents (academic transcripts, certificates, passport copy, etc.) must be submitted to the IED-International Education Division at the time of registration.<br>
 <b>Refund Policy</b><br>
-•   In case of visa rejection 100% of the tuition fee (except the registration fee) will be refunded upon submission of the wise rejection letter from the Indian Embassy<br>
+•   In case of visa rejection 100% of the tuition fee (except the registration fee) will be refunded upon submission of the  rejection letter from the Indian Embassy<br>
 •   In other cases, refund will be processed based on the university's refund policy, which is available on our website or upon request.<br>
 <b>Hostel and Accommodation:</b><br>
 
@@ -467,12 +467,12 @@ The admission is offered on the initial scrutiny of application, however if the 
 •   The university maintains a strict code of conduct and disciplinary regulations. Any violation of university rules code may result in penalties, including suspension or expulsion.<br>
 <b>Exit and Travel Permissions:</b><br>
 
-•   Students who wish to leave the campus for personal reasons must seek permission from the Hostel Warden at least 24 hours in advance and fill out the required forms....<br>
+•   Students who wish to leave the campus for personal reasons must seek permission from the Hostel Warden at least 1 Month in advance and fill out the required forms.<br>
 <b>Next Steps:</b> Confirm your admission by paying the initial deposit of USD 100 & full fee before your arrival.<br>
 
 <b>Submit the following documents: </b>Copy of your valid passport | Academic transcripts and certificates | Proof of health insurance Visa copy (upon approval). <br>
-Make travel arrangements and inform us of your (Arrival date by sharing your air tickets to arrange airport pickup via <b>WhatsApp app or call at +70093-96001 or send email at iedcoodinator@gku.ac.in</b><br>
-<b>We are excited to welcome you to Guru Kashi University and took forward to your academic success. If you have any questions, please do not hesitate to contact the international Education Division at 70099-55998</b>
+Make travel arrangements and inform us of your Arrival date by sharing your air tickets to arrange airport pickup via <b>WhatsApp app or call at +70093-96001 or send email at iedcoodinator@gku.ac.in</b><br>
+<b>We are excited to welcome you to Guru Kashi University and look forward to your academic success. If you have any questions, please do not hesitate to contact the international Education Division at 70099-55998</b>
 
   <div class="signature-section" style="text-align: right; position: relative;">
     <div style="display: inline-block; position: relative;">
