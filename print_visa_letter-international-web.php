@@ -471,7 +471,7 @@ The admission is offered on the initial scrutiny of application, however if the 
 <b>Next Steps:</b> Confirm your admission by paying the initial deposit of USD 100 & full fee before your arrival.<br>
 
 <b>Submit the following documents: </b>Copy of your valid passport | Academic transcripts and certificates | Proof of health insurance Visa copy (upon approval). <br>
-Make travel arrangements and inform us of your (Arrival date by sharing your air tickets to arrange airport pickup via <b>WhatsApp app or call at +70093-96001 or send email at iedcoodinator@gku.ac.in</b><br>
+Make travel arrangements and inform us of your Arrival date by sharing your air tickets to arrange airport pickup via <b>WhatsApp app or call at +70093-96001 or send email at iedcoodinator@gku.ac.in</b><br>
 <b>We are excited to welcome you to Guru Kashi University and look forward to your academic success. If you have any questions, please do not hesitate to contact the international Education Division at 70099-55998</b>
 
   <div class="signature-section" style="text-align: right; position: relative;">
