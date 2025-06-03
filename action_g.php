@@ -32051,7 +32051,11 @@ if($ifexitIDNoAdhaar<1)
     $getIfExistOnWeb = "SELECT * FROM users WHERE  aadhaar_number='$AdharCardNo'";
     $get_card_runOnWeb = mysqli_query($conn_online_pre_regist, $getIfExistOnWeb);
     $ifexitIDNoWeb = mysqli_num_rows($get_card_runOnWeb);
-    if ($ifexitIDNoWeb < 1) {   
+    if($admisisontype==4)
+    {
+    $ifexitIDNoWeb=0;
+    }
+    if ($ifexitIDNoWeb < 1 ) {   
     $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
