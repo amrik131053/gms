@@ -35174,7 +35174,19 @@ elseif ($code==393) {
  else if($code==394.1) //FOR REGISTRATION BRANCH
    {
        $ExamFromID=$_POST['ExamFromID'];
-   $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0',AcceptTypeRegistration='1' Where ID='$ExamFromID'";
+       $checkStatus="SELECT * FROM ExamFrom where ID='$ExamFromID'";
+       $checkStatusMenuRun=sqlsrv_query($conntest,$checkStatus);
+       if ($rowcheck = sqlsrv_fetch_array($checkStatusMenuRun, SQLSRV_FETCH_ASSOC)) {
+        $status=$rowcheck['Status'];
+       }
+       if($status==-1)
+        {
+           $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0',AcceptTypeRegistration='1' Where ID='$ExamFromID'";
+        }
+        else
+        {
+           $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',AcceptTypeRegistration='1' Where ID='$ExamFromID'";
+        }
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
