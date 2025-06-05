@@ -32146,7 +32146,7 @@ if($ifexitIDNo<1)
 
                 $duration=$row_collegecourse_name['Duration'];
                  }
-         $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
+         $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNoUpdate',IDNo='$IDNo' where registration_number='$refoffer'";
           mysqli_query($conn_online_pre_regist,$upd1); 
 
   $degree="SELECT * FROM users   WHERE  registration_number='$refoffer'" ;
