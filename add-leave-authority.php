@@ -1,7 +1,7 @@
 <?php  
    include "header.php";   
    ?>
-
+ 
    <script type="text/javascript">
 
 
@@ -447,14 +447,17 @@ else{
           }  
             function update_emp_record(empID)
           {
+
             var spinner=document.getElementById("ajax-loader");
                spinner.style.display='block';
+               var code_access = '<?php echo $code_access; ?>';
+            //    alert(code_access);
            var code=61;
            $.ajax({
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,empID:empID
+                 code:code,empID:empID,code_access:code_access
               },
               success: function(response) 
               {
@@ -3375,9 +3378,13 @@ function toggleLeavingDate(selectElement) {
       <button type="button" onclick="exportEmployee();" class="btn btn-success btn-sm ">
         <i class="fa fa-file-excel"></i>
       </button>
+      <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
+
        <button type="button" onclick="addNewStaff();" class="btn btn-success btn-sm ">
      Add New Staff
       </button>
+      
+      <?php }  ?>
       <?php if($role_id==2 OR  $role_id==27){?>
       <button type="button" onclick="manageDepartment();" class="btn btn-success btn-sm ">
       Manage Department

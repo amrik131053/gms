@@ -3476,6 +3476,7 @@ else { ?>
       }
       elseif($code==61)
       {
+        $code_access=$_POST['code_access'];
         $DateOfBirth="01-01-1900";
       ?>
     <?php 
@@ -4068,6 +4069,7 @@ else { ?>
                                         placeholder="Enter bank IFSC code" value="<?=$row1['BankIFSC'];?>">
                                 </div>
                             </div>
+                            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Action</label><br>
@@ -4076,6 +4078,7 @@ else { ?>
                                         class="btn btn-primary" value="Promotion">
                                 </div>
                             </div>
+                            <?php }?>
 
 
                         </div>
@@ -4123,18 +4126,21 @@ else { ?>
                                             </td>
                                             <td><?=$data['PayScaleORConsolidated']; ?></td>
                                             <td><?=$data['Reason']; ?></td>
-                                            <td><i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
+                                            <td>
+                                                <i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
                                                     onclick="viewAcademicDocumentExp(<?=$data['Id'];?>)"
                                                     data-toggle="modal" data-target="#modal-default-Experience"
                                                     style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                 </i>
 
 
+                                                <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                                 <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
                                                     onclick="dlt_data(<?=$data['Id']; ?>,<?=$emp_id;?>)"
                                                     data-toggle="modal"
                                                     style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                 </i>
+                                                <?php }?>
 
                                             </td>
                                         </tr>
@@ -4266,10 +4272,16 @@ else { ?>
                                     }?>
                                             </select>
                                         </td>
-                                        <td><button type="button" class="btn btn-danger"
+                                        <td>
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?> 
+                                        <button type="button" class="btn btn-danger"
                                                 onclick="deleteRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i
-                                                    class="fa fa-trash text-white"></i></button></td>
-                                        <td><button type="button" class="btn btn-success"
+                                                    class="fa fa-trash text-white"></i></button>
+                                                <?php }?>
+                                                </td>
+                                        <td>
+                                            
+                                        <button type="button" class="btn btn-success"
                                                 onclick="updateRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i
                                                     class="fa fa-check text-white fa-1x"></i></button></td>
                                     </tr>
@@ -4514,11 +4526,19 @@ else { ?>
                                                 <option value=''>Select Course</option>
                                             </select>
                                         </td>
-                                        <td><button type="button" class="btn btn-success"
+                                        <td>
+                                        <?php if($code_access=='010' || $code_access=='011' || $code_access=='110'  || $code_access=='111'){ ?> 
+                                        <button type="button" class="btn btn-success"
                                                 onclick="addCollegePermissions(<?=$emp_id;?>);"><i
-                                                    class="fa fa-plus text-white fa-1x"></i></button> </td>
-                                        <td> <button type="button" class="btn btn-success"
-                                                onclick="searchForDelete(<?=$emp_id;?>);">Search</button></td>
+                                                    class="fa fa-plus text-white fa-1x"></i></button>
+                                                <?php }?>
+                                                </td>
+                                        <td>
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
+                                        <button type="button" class="btn btn-success"
+                                                onclick="searchForDelete(<?=$emp_id;?>);">Search</button>
+                                            <?php }?>
+                                            </td>
                                     </tr>
                                 </table>
 
@@ -4569,9 +4589,13 @@ else { ?>
                                             <td>
                                                 <?=$getCollegeNameRunRow['Course'];?>
                                             </td>
-                                            <td><button type="button" class="btn btn-danger btn-xs"
+                                            <td>
+                                            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
+                                            <button type="button" class="btn btn-danger btn-xs"
                                                     onclick="deleteCollegeCourse('<?=$getUserMasterRunRow['AccessLevelID'];?>','<?=$getUserMasterRunRow['IDNo'];?>');"><i
-                                                        class="fa fa-trash text-white"></i></button></td>
+                                                        class="fa fa-trash text-white"></i></button>
+                                                    <?php }?>
+                                                    </td>
                                         </tr>
                                         <?php
                                                     }
@@ -4579,9 +4603,11 @@ else { ?>
                                                     ?>
                                         <tr>
                                             <td>
+                                            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                                 <button type="button" class="btn btn-danger btn-xs"
                                                     onclick="deleteCollegeCoursePermissions(<?=$emp_id;?>);"><i
                                                         class="fa fa-trash "></i></button>
+                                                        <?php }?>
                                             </td>
                                         </tr>
                                     </table>
@@ -4628,8 +4654,12 @@ else { ?>
                                         <td><button type="button" class="btn btn-success"
                                                 onclick="addCollegePermissionsAccount(<?=$emp_id;?>);"><i
                                                     class="fa fa-plus text-white fa-1x"></i></button></td>
-                                        <td> <button type="button" class="btn btn-success"
-                                                onclick="searchForDeleteAccount(<?=$emp_id;?>);">Search</button></td>
+                                        <td> 
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
+                                        <button type="button" class="btn btn-success"
+                                                onclick="searchForDeleteAccount(<?=$emp_id;?>);">Search</button>
+                                            <?php }?>
+                                            </td>
                                     </tr>
                                 </table>
                             </div>
@@ -4669,18 +4699,25 @@ else { ?>
                                                 <td>
                                                     <?=$getUserMasterRunRow['ApplicationName'];?>
                                                 </td>
-                                                <td><button type="button" class="btn btn-danger btn-xs"
+                                                <td>
+                                                <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
+                                                <button type="button" class="btn btn-danger btn-xs"
                                                         onclick="deleteCollegeCourseAccount('<?=$getUserMasterRunRow['UserMasterID'];?>','<?=$getUserMasterRunRow['UserName'];?>');"><i
-                                                            class="fa fa-trash text-white"></i></button></td>
+                                                            class="fa fa-trash text-white"></i></button>
+                                                        <?php }?>
+                                                        </td>
                                             </tr>
                                             <?php
                                             }
                                             ?>
                                             <tr>
                                                 <td>
+                                                <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                                     <button type="button" class="btn btn-danger btn-xs"
                                                         onclick="deleteCollegeCoursePermissionsAccount(<?=$emp_id;?>);"><i
                                                             class="fa fa-trash "></i></button>
+
+                                                            <?php }?>
                                                 </td>
                                             </tr>
                                         </table>
@@ -4750,12 +4787,13 @@ else { ?>
                                 <tbody>
                                     <!-- Your Image Row -->
                                     <tr>
-                                        <td>
+                                        <td> <label>Image</label>
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                             <form action="action_a.php" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" name="flag" value="3">
                                                 <input type="hidden" name="IDEmployee" id="IDEmployee"
                                                     value="<?=$emp_id;?>">
-                                                <label>Your Image</label>
+                                               
                                                 <input type="file" class="form-control-file" name="photoIMage">
                                                 <small style="color: green">*Document must be in .jpg/.jpeg/.png format.
                                                     &nbsp; *Size must be less than 500kb.</small><br>
@@ -4764,6 +4802,7 @@ else { ?>
                                                 <input class="btn btn-success btn-xs" onclick="uploadImage(this.form);"
                                                     value="Upload">
                                             </form>
+                                            <?php }?>
                                         </td>
                                         <td>
                                             <div data-toggle="modal" data-target="#UploadImageDocument"
@@ -4798,11 +4837,12 @@ else { ?>
                                     </tr>
                                     <!-- PAN Card Row -->
                                     <tr>
-                                        <td>
+                                        <td> <label>PAN Card</label>
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>  
                                             <form action="action_a.php" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" name="flag" value="1">
                                                 <input type="hidden" name="IDEmployee" value="<?=$emp_id;?>">
-                                                <label>PAN Card</label>
+                                               
                                                 <input type="file" class="form-control-file" name="panCard">
                                                 <small style="color: green">*Document must be in jpg/jpeg/png/.pdf
                                                     format. &nbsp; *Size must be less than 500kb.</small><br>
@@ -4810,6 +4850,7 @@ else { ?>
                                                 <input class="btn btn-success btn-xs"
                                                     onclick="uploadPanCard(this.form);" value="Upload">
                                             </form>
+                                            <?php }?>
                                         </td>
                                         <td>
                                             <div>
@@ -4846,19 +4887,22 @@ else { ?>
 
                                     <!-- Aadhar Card Row -->
                                     <tr>
-                                        <td>
+                                        <td> <label>Aadhar Card</label>
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                             <form action="action_a.php" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" name="flag" value="2">
                                                 <input type="hidden" name="IDEmployee" id="IDEmployee"
                                                     value="<?=$emp_id;?>">
-                                                <label>Aadhar Card</label>
+                                               
                                                 <input type="file" class="form-control-file" name="aadharCard">
                                                 <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf
                                                     format. &nbsp; *Size must be less than 500kb.</small><br>
                                                 <strong id="adharerror" style="color: red"></strong><br>
+                                               
                                                 <input class="btn btn-success btn-xs"
                                                     onclick="uploadAdharCard(this.form);" value="Upload">
                                             </form>
+                                            <?php }?>
                                         </td>
                                         <td>
                                             <div>
@@ -4896,12 +4940,13 @@ else { ?>
 
                                     <!-- Passbook Copy Row -->
                                     <tr>
-                                        <td>
+                                        <td>  <label>Upload Passbook Copy</label>
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                             <form action="action_a.php" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" name="flag" value="4">
                                                 <input type="hidden" name="IDEmployee" id="IDEmployee"
                                                     value="<?=$emp_id;?>">
-                                                <label>Upload Passbook Copy</label>
+                                              
                                                 <input type="file" class="form-control-file" name="passbookCopy">
                                                 <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf
                                                     format. &nbsp; *Size must be less than 500kb.</small><br>
@@ -4909,6 +4954,7 @@ else { ?>
                                                 <input class="btn btn-success btn-xs"
                                                     onclick="uploadPassBook(this.form);" value="Upload">
                                             </form>
+                                            <?php }?>
                                         </td>
                                         <td>
                                             <div>
@@ -5006,7 +5052,9 @@ else { ?>
         <div class="col-lg-3 col-12">
             <div class="form-group">
             <label>Action</label><br>
+            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
             <input onclick="addletters(this.form)" class="btn btn-primary" value="ADD">
+            <?php }?>
         </div>
         </div>
     </div>
@@ -5047,12 +5095,13 @@ else { ?>
                     </i>
 
 
-
+                    <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                     <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
                         onclick="dlt_data_letters(<?=$getLeetersRow['ID'];?>)"
                         data-toggle="modal"
                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                     </i>
+                    <?php }?>
                 </td>
             </tr><?php
                 $countletter++; }?>
@@ -5118,19 +5167,22 @@ else { ?>
                                                                 data-toggle="modal" data-target="#modal-default"
                                                                 style="padding-left: 20px;padding-top: 5px">
                                                             </i>
-
+                                                            
+                                                            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                                             <i class=" fa fa-trash fa-2x text-danger  " id="dlt"
                                                                 type="button"
                                                                 onclick="deleteAcademics(<?=$data['Id']; ?>)"
                                                                 data-toggle="modal"
                                                                 style="padding-left: 20px;padding-top: 5px">
                                                             </i>
+                                                            <?php }?>
 
                                                         </td>
                                                     </tr>
                                                     <?php
                               }
                               ?>
+                              <?php echo $code_access;?>
                                                 </tbody>
                                             </table>
                                             <?php }?>
@@ -5192,14 +5244,14 @@ else { ?>
                                                                 data-toggle="modal" data-target="#modal-default"
                                                                 style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                             </i>
-
+                                                            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                                             <i class=" fa fa-trash fa-2x text-danger " id="dlt"
                                                                 type="button"
                                                                 onclick="deletePHD(<?=$data1['id']; ?>,<?=$emp_id;?>)"
                                                                 data-toggle="modal"
                                                                 style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                             </i>
-
+                                                                <?php }?>
                                                         </td>
                                                     </tr>
                                                     <?php
@@ -5240,12 +5292,13 @@ else { ?>
                                                                 data-toggle="modal" data-target="#modal-default"
                                                                 style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                             </i>
-
+                                                            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                                             <i class=" fa fa-trash " id="dlt" type="button"
                                                                 onclick="deleteaddtional('<?=$data12['id'];?>','<?=$emp_id;?>')"
                                                                 data-toggle="modal"
                                                                 style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                             </i>
+                                                            <?php }?>
 
 
                                                         </td>
@@ -5341,12 +5394,13 @@ else { ?>
                                                 <input type="file" class="form-control" name="fileAttachment">
                                             </div>
                                         </div>
+                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                         <div class="col-12 col-md-6 col-lg-2 mt-3">
                                             <label>Action</label><br>
                                             <input type="button" onclick="addAditionalDuty(this.form,'<?=$emp_id;?>')"
                                                 class="btn btn-primary" value="ADD">
                                         </div>
-
+                                            <?php }?>
 
                                     </div>
                                 </form>
@@ -5411,7 +5465,7 @@ while ($data1 = sqlsrv_fetch_array($res)) {
                                                     <td><?= $data1['JoiningDate'] ? $data1['JoiningDate']->format('d-m-Y') : ""; ?>
                                                     </td>
                                                     <td>
-                                                        <input type="date" class="form-control"
+                                                    <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?> <input type="date" class="form-control"
                                                             value="<?= $relievingDateValue; ?>"
                                                             onchange="updateRelievingDate(<?= $data1['ID']; ?>, this.value, '<?= $emp_id; ?>')"
                                                             style="background: transparent; border: none; width: 100%;"
@@ -5419,6 +5473,7 @@ while ($data1 = sqlsrv_fetch_array($res)) {
                                                         <?php if (!$relievingDate || $relievingDate->format('Y-m-d') === '1900-01-01'): ?>
                                                         <small style="color: #7dcea0;">Working</small>
                                                         <?php endif; ?>
+                                                        <?php }?>
                                                     </td>
                                                     <td><?= $data1['Ramrks']; ?></td>
                                                     <td>
@@ -5426,10 +5481,11 @@ while ($data1 = sqlsrv_fetch_array($res)) {
                                                             onclick="viewAddtionalDocument(<?= $data1['ID']; ?>)"
                                                             data-toggle="modal" data-target="#modal-default"
                                                             style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
-                                                        <i class="fa fa-trash fa-2x text-danger" id="dlt" type="button"
+                                                            <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>  <i class="fa fa-trash fa-2x text-danger" id="dlt" type="button"
                                                             onclick="deleteAddtional(<?= $data1['ID']; ?>, <?= $emp_id; ?>)"
                                                             data-toggle="modal"
                                                             style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
+                                                            <?php }?>
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -5500,13 +5556,14 @@ while ($data1 = sqlsrv_fetch_array($res)) {
                                                             style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                         </i>
 
-
+                                                        <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                                                         <i class=" fa fa-trash fa-2x text-danger " id="dlt"
                                                             type="button"
                                                             onclick="dlt_data(<?=$data['Id']; ?>,<?=$emp_id;?>)"
                                                             data-toggle="modal"
                                                             style="color: #223260;padding-left: 20px;padding-top: 5px">
                                                         </i>
+                                                        <?php }?>
 
                                                     </td>
                                                 </tr>
@@ -5546,9 +5603,10 @@ while ($data1 = sqlsrv_fetch_array($res)) {
                     <div class="row">
 
 
-
+                    <?php if($code_access=='001' || $code_access=='101' || $code_access=='111'  || $code_access=='011'){ ?>
                         <button type="button" onclick="uploadPhoto(this.form)" class="btn btn-primary"
                             id="update_button<?=$emp_id;?>" style="display:none;">Update</button>
+                            <?php }?>
 
 
 
@@ -32051,7 +32109,11 @@ if($ifexitIDNoAdhaar<1)
     $getIfExistOnWeb = "SELECT * FROM users WHERE  aadhaar_number='$AdharCardNo'";
     $get_card_runOnWeb = mysqli_query($conn_online_pre_regist, $getIfExistOnWeb);
     $ifexitIDNoWeb = mysqli_num_rows($get_card_runOnWeb);
-    if ($ifexitIDNoWeb < 1) {   
+    if($admisisontype==4)
+    {
+    $ifexitIDNoWeb=0;
+    }
+    if ($ifexitIDNoWeb < 1 ) {   
     $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
@@ -32084,7 +32146,7 @@ if($ifexitIDNo<1)
 
                 $duration=$row_collegecourse_name['Duration'];
                  }
-         $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNo',IDNo='$IDNo' where registration_number='$refoffer'";
+         $upd1="UPDATE users SET admissions_status='1',ClassRollNo='$ClassRollNoUpdate',IDNo='$IDNo' where registration_number='$refoffer'";
           mysqli_query($conn_online_pre_regist,$upd1); 
 
   $degree="SELECT * FROM users   WHERE  registration_number='$refoffer'" ;
@@ -35170,7 +35232,19 @@ elseif ($code==393) {
  else if($code==394.1) //FOR REGISTRATION BRANCH
    {
        $ExamFromID=$_POST['ExamFromID'];
-   $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0',AcceptTypeRegistration='1' Where ID='$ExamFromID'";
+       $checkStatus="SELECT * FROM ExamFrom where ID='$ExamFromID'";
+       $checkStatusMenuRun=sqlsrv_query($conntest,$checkStatus);
+       if ($rowcheck = sqlsrv_fetch_array($checkStatusMenuRun, SQLSRV_FETCH_ASSOC)) {
+        $status=$rowcheck['Status'];
+       }
+       if($status==-1)
+        {
+           $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0',AcceptTypeRegistration='1' Where ID='$ExamFromID'";
+        }
+        else
+        {
+           $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',AcceptTypeRegistration='1' Where ID='$ExamFromID'";
+        }
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);

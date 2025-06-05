@@ -2367,11 +2367,13 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $Session=$row['Session'];    
      $Duration=$row['Duration'];    
      $Consultant_id=$row['Consultant_id']; 
-     $get_consultantName="SELECT * FROM MasterConsultant where ID='".$row['Consultant_id']."' ";
+     $get_consultantName="SELECT *,MasterConsultant.Name as CName FROM MasterConsultant inner join MasterConsultantRef ON MasterConsultant.ID=MasterConsultantRef.RefIDNo 
+right join Admissions ON Admissions.IDNo=MasterConsultantRef.StudentIDNo where Admissions.ClassRollNo='$classroll'";
+    //  $get_consultantName="SELECT * FROM MasterConsultant where ID='".$row['Consultant_id']."' ";
      $get_consultantNameRun=sqlsrv_query($conntest,$get_consultantName);
      if($row_get_consultantName=sqlsrv_fetch_array($get_consultantNameRun))
      {
-         $consultantName=$row_get_consultantName['Name'];
+         $consultantName=$row_get_consultantName['CName'];
      }  
          $Lateral=$row['Lateral'];    
          $Nationality=$row['Nationality'];    
