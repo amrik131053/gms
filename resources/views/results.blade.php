@@ -30,10 +30,10 @@
                             <td>{{ $resultdata['Type'] }} @if($resultdata['DeclareType']!='')({{ $resultdata['DeclareType'] }}) @endif </td>
                             <td>{{ $resultdata['Examination'] }}</td>
                             <td>{{ \Carbon\Carbon::parse($resultdata['DeclareDate'])->format('d-m-Y') }}</td>
-                           @if($resultdata['AcceptType']==1)
-                           <td><button class="btn btn-danger">RLF</button></td>
-                           <td><button class="btn btn-danger">
-                            Result late due to fee</button></td>
+                           @if($resultdata['ProvisionalMessageTitle']!='')
+                           <td><button class="btn btn-danger">{{$resultdata['ProvisionalMessageTitle']}}</button></td>
+                           <td>
+                           <b class="text-danger">{{$resultdata['ProvisionalMessage']}}</b></td>
                             @else
                             <td>{{ $resultdata['Sgpa'] }}</td>
                             <td>
