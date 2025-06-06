@@ -487,7 +487,7 @@ Make travel arrangements and inform us of your Arrival date by sharing your air 
         <div class="footer">
             <p>IED - International Education Division<br>
                 Office No. 217, First Floor, Block B, GKU Campus, Sardulgarh Road, Talwandi Sabo, Punjab - 151302<br>
-                IED Helpline: 7009396001 | Email: ieddiretor@gku.ac.in | Website: www.gku.ac.in</p>
+                IED Helpline: 7009396001 | Email: iedcoordinator@gku.ac.in | Website: www.gku.ac.in</p>
         </div>
     </div>
 

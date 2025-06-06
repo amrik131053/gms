@@ -60,7 +60,7 @@ window.location.href = "index.php";
        }
         $currentMonthString=date('F');
         $currentMonthInt=date('n');
-        $code=$_POST['flag'];
+        $code=$_POST['code'];
      
         if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8 || $code==33)
         {
@@ -74,46 +74,95 @@ if($code=='26.7')
 if($code==1)
 {
 ?>
- <table class="table table-head-fixed text-nowrap">
+ <table class="table">
                         <thead>
                            <tr>
                               <th>IDNo</th>
                               <th>Name</th>
-                              <th>Title</th>
-                              <th>Journal</th>
-                               <th>Faculty</th>
-                                 <th>Date</th>
-                                  <th>DOI</th>
-                                   <th>File</th>
-                                    <th>Action</th>
+                              <th style="width: 30%;text-align: center;">Title</th>
+                              <th>Faculty</th> <th style="width: 30%;text-align: center;">Journal</th>
+                              <th>Date</th>
+                              <th>DOI</th>
+                              <th>File</th>
+                              <th>Action</th>
                            </tr>
                         </thead>
                         <tbody >
                           <?php 
       $sr=1;
-    $query = "SELECT TOP(30)* FROM Repository where Status ='0' order by ID desc";
+   $query = "SELECT TOP(30)* FROM Repository where Status ='0' order by ID desc";
        $result = sqlsrv_query($conntest,$query);
        if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
-        $emp_pic=$row1['Image'];
+        
         ?>
         <tr>
             
             <td><?=$row1['IDNo'];?></td>
             <td><?=$row1['AuthorName'];?></td>
-            <td><?=$row1['PaperTitle'];?></td>
+            <td style="width: 30%;"><?= $row1['PaperTitle'];?></td>
             <td><?=$row1['Faculty'];?></td>
             <td><?=$row1['Journal'];?></td>
-            <td><?=$row1['DateofPublication'];?></td>
+            <td><?php if($row1['DateofPublication']!=''){echo $row1['DateofPublication']->format('d-m-Y');
+
+            } else{
+            	
+            }?></td>
              <td><?=$row1['DOI'];?></td>
-             <td><?=$row1['Documents'];?></td>
+             <td><a href="http://erp.gku.ac.in:86/Images/Repository/<?=$row1['Documents'];?>" target='_blank'><i class="fa fa-eye-slash"></i></a></td>
+              <td style="text-align:center;"><i class="fa fa-upload" data-toggle="modal" data-target="#exampleModal_update"  onclick="upload__r_paper(<?=$row1['ID'];?>)"> </i></td>
         </tr>
                         </tbody>
                      </table>
 
   
+<?php
+}
 
 }
+
+if($code==2)
+{
+
+	$ID=$_POST['id'];
+?>
+
+                          <?php 
+      $sr=1;
+   $query = "SELECT * FROM Repository where ID='$ID' order by ID desc";
+       $result = sqlsrv_query($conntest,$query);
+       if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        
+        ?><label>Name</label>
+          <input type="text" class="form-control" name="" value="<?=$row1['AuthorName'];?>">
+<label>Employee ID</label>
+          <input type="text" name="" class="form-control" value="<?=$row1['IDNo'];?>">
+        <label>Paper Title</label>    
+<textarea class="form-control"><?=$row1['PaperTitle'];?></textarea>
+                  
+               <input type="hidden" name="" value="<?=$row1['Faculty'];?>">  
+
+
+ <label>Name of Journal</label>    
+    <textarea class="form-control"> <?=$row1['Journal'];?></textarea>
+   
+
+<label>Date of Publication :</label>   
+
+
+<?php if($row1['DateofPublication']!=''){echo $row1['DateofPublication']->format('d-m-Y');
+
+            } ?><br>
+            <label>Upload File</label>   
+            <input type="file" class="form-control" name="">
+             
+                      
+
+  
+<?php
+}
+
 }
 
 

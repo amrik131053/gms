@@ -79,7 +79,7 @@
                      </div>
                   </div>
                   <div class="card-footer">
-                     <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                     <!-- <button type="submit" name="submit" class="btn btn-info">Submit</button> -->
                   </div>
                   <!-- /.card-footer -->
                </form>
@@ -147,7 +147,7 @@ if( $stmt === false) {
 
          </div>
        
-            <div class="col-lg-8 col-md-8 col-sm-3">
+            <div class="col-lg-9 col-md-9 col-sm-3">
                <div class="card card-info">
                   <div class="card-header">
                      <h3 class="card-title">All Papers</h3>
@@ -178,15 +178,15 @@ if( $stmt === false) {
    <div class="modal-dialog" role="document" >
       <div class="modal-content"  >
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Update Category </h5>
+            <h5 class="modal-title" id="exampleModalLabel">Upload Paper </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
          <form action="action.php" method="post">
             <input type="hidden" name="code" value="19">
-            <div class="modal-body" id="update_category">
-               
+            <div class="modal-body" id="upload-paper">
+             
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -197,30 +197,7 @@ if( $stmt === false) {
    </div>
 </div>
 
-<div class="modal fade" id="Assign_Permission" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-   <div class="modal-dialog" role="document" >
-      <div class="modal-content"  >
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Assign Permission </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-               <form action="action.php" method="post">
-                  
-            <input type="hidden" name="code" value="57">
-            <div class="modal-body" id="assignCategoryPermissons">
-               
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-               </form>
-        
-      </div>
-   </div>
-</div>
+
 
 <script type="text/javascript">
 
@@ -244,7 +221,25 @@ function load_data()
           });
  }
 
-      
+  function upload__r_paper(id)
+  {
+  var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code='2';
+            $.ajax({
+            url:'action_research.php',
+            data:{code:code,id:id},
+            type:'POST',
+            success:function(data)
+            { 
+   spinner.style.display='none';
+
+            document.getElementById("upload-paper").innerHTML=data;
+            }
+          });
+
+
+  }    
 
 </script>
 

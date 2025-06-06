@@ -1937,7 +1937,7 @@ $count++;
 
 
 }
-elseif($exportCode==20)
+elseif($exportCode==20) 
 {
    $string=$_GET['CollegeId'];
   $parts = explode('=', $string);
@@ -2005,6 +2005,7 @@ else
            <th>District </th>
            <th>State</th>
             <th>Date Of Joining</th>
+             <th>Date Of Leaving</th>
           <th>Ph.D</th>
           
           
@@ -2032,6 +2033,20 @@ else
 
       $pan = $row['PANNo'];
           $doj = $row['DateOfJoining']->format('d-m-Y');
+
+          $dol1 = $row['DateOfLeaving'];
+if($dol1!='')
+{
+    $dol=$dol1->format('d-m-Y');
+}
+else
+{
+   $dol=''; 
+}
+          
+
+
+
       $Phd = $row['Phd'];
             $exportMeter.="<tr>
                 <td>{$count}</td>
@@ -2054,6 +2069,7 @@ else
                  <td>{$State}</td>
                                 
                    <td>{$doj}</td>
+                    <td>{$dol}</td>
                 <td>{$Phd}</td>
             </tr>";
 $count++;
