@@ -1,57 +1,31 @@
 <?php
    ini_set('max_execution_time', '0');
-include "connection/connection.php";
 
-// $get_student_details = "SELECT * FROM Admissions";
-// $get_student_details_run = sqlsrv_query($conntest, $get_student_details);
+$serverName = "10.0.10.11";
+$connectionInfo = array( "Database"=>"DBGuruKashi",  "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
-// $totalSizeBytes = 0;
+//$connectionInfo = array( "Database"=>"DBGuruKashi",  "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
-// while ($row_student = sqlsrv_fetch_array($get_student_details_run)) {
-//     $snap = $row_student['Signature'];
-//     $imageData = base64_decode($snap);
+$conntest = sqlsrv_connect($serverName,$connectionInfo);
 
-//     $imageSizeBytes = strlen($imageData);
-//     $totalSizeBytes += $imageSizeBytes;
-
-//     $imageSizeKB = $imageSizeBytes / 1024;
-//     $imageSizeMB = $imageSizeKB / 1024;
-
-//     $imageSizeKB = number_format($imageSizeKB, 2);
-//     $imageSizeMB = number_format($imageSizeMB, 2);
+$serverName1 = "10.0.8.181";
+$connectionInfo1 = array( "Database"=>"DBGuruKashi", "UID"=>"Amrik", "PWD"=>"Amrik@123");
+$conn91 = sqlsrv_connect($serverName1,$connectionInfo1);
 
 
-//     echo "IDNo : " . $row_student['IDNo'] . "<br>";
-//     // echo "Image size: " . $imageSizeBytes . " bytes<br>";
-//     echo "Image size: " . $imageSizeKB . " KB<br>";
-//     echo "Image size: " . $imageSizeMB . " MB<br><br>";
-// }
+$gg="SELECT * FROM Staff";
+$ggrun=sqlsrv_query($conn91,$gg);
+while($row=sqlsrv_fetch_array($ggrun))
+{
+    $Id=$row['IDNo'];
+   $name=$row['Name'];
+     $Designation=$row['Designation'];
+   $contact=$row['PermanentAddress'];
+$Updat="UPDATE Staff set Name='$name',PermanentAddress='$contact',Designation='$Designation' where IDNo='$Id'";
 
-// $totalSizeKB = $totalSizeBytes / 1024;
-// $totalSizeMB = $totalSizeKB / 1024;
-// $totalSizeKB = number_format($totalSizeKB, 2);
-// $totalSizeMB = number_format($totalSizeMB, 2);
+$Updatrun=sqlsrv_query($conntest,$Updat);
 
-// // echo "Total size of all images: " . $totalSizeBytes . " bytes<br>";
-// // echo "Total size of all images: " . $totalSizeKB . " KB<br>";
-// echo "Total size of all images: " . $totalSizeMB . " MB<br>";
-
-
-
-
-
-// $gg="SELECT * FROM Staff where JobStatus='1' ";
-// $ggrun=sqlsrv_query($conntest,$gg);
-// while($row=sqlsrv_fetch_array($ggrun))
-// {
-//     $Id=$row['IDNo'];
-//     $name=$row['Name'];
-//      $email=$row['EmailID'];
-//       $contact=$row['ContactNo'];
-// echo $update="Update employee_master set name='$name',email='$email',phone='$contact' where emp_id='$Id'";
-//  $get_session_run=mysqli_query($conn_spoc,$update);
-
-// }
+}
 
 // $gg="SELECT IDNo FROM Staff ";
 // $ggrun=sqlsrv_query($conntest,$gg);
@@ -128,56 +102,56 @@ include "connection/connection.php";
 
 // }
 // }
-if(isset($_POST['submitPass'])){
-    $PasswordSet=$_POST['PasswordSet'];
-    $EmployeeID=$_POST['EmployeeID'];
-    $OfficialEmailID=$_POST['OfficialEmailID'];
-    $EmailID=$_POST['EmailID'];
-$getDefalutMenu="UPDATE  UserMaster  SET Password='$PasswordSet' Where UserName='$EmployeeID' and ApplicationName='Campus' ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+// if(isset($_POST['submitPass'])){
+//     $PasswordSet=$_POST['PasswordSet'];
+//     $EmployeeID=$_POST['EmployeeID'];
+//     $OfficialEmailID=$_POST['OfficialEmailID'];
+//     $EmailID=$_POST['EmailID'];
+// $getDefalutMenu="UPDATE  UserMaster  SET Password='$PasswordSet' Where UserName='$EmployeeID' and ApplicationName='Campus' ";
+// $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-$getDefalutMenu112="UPDATE  Staff  SET OfficialEmailID='$OfficialEmailID',EmailID='$EmailID' Where IDNo='$EmployeeID' ";
-$getDefalutMenu112Run=sqlsrv_query($conntest,$getDefalutMenu112);
+// $getDefalutMenu112="UPDATE  Staff  SET OfficialEmailID='$OfficialEmailID',EmailID='$EmailID' Where IDNo='$EmployeeID' ";
+// $getDefalutMenu112Run=sqlsrv_query($conntest,$getDefalutMenu112);
 
-if($getDefalutMenuRun==true)
-{
-    echo "Lock";
-}
-else{
-    echo "0";
-}
-}
-if(isset($_POST['submitPassReset'])){
-    $PasswordSet=$_POST['PasswordSet'];
-    $EmployeeID=$_POST['EmployeeID'];
-    $OfficialEmailIDSet=$_POST['OfficialEmailIDSet'];
-    $EmailIDSet=$_POST['EmailIDSet'];
-$getDefalutMenu="UPDATE  UserMaster  SET Password='$PasswordSet' Where UserName='$EmployeeID' and ApplicationName='Campus' ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+// if($getDefalutMenuRun==true)
+// {
+//     echo "Lock";
+// }
+// else{
+//     echo "0";
+// }
+// }
+// if(isset($_POST['submitPassReset'])){
+//     $PasswordSet=$_POST['PasswordSet'];
+//     $EmployeeID=$_POST['EmployeeID'];
+//     $OfficialEmailIDSet=$_POST['OfficialEmailIDSet'];
+//     $EmailIDSet=$_POST['EmailIDSet'];
+// $getDefalutMenu="UPDATE  UserMaster  SET Password='$PasswordSet' Where UserName='$EmployeeID' and ApplicationName='Campus' ";
+// $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-$getDefalutMenu11="UPDATE  Staff  SET OfficialEmailID='$OfficialEmailIDSet',EmailID='$EmailIDSet' Where IDNo='$EmployeeID' ";
-$getDefalutMenu11Run=sqlsrv_query($conntest,$getDefalutMenu11);
-if($getDefalutMenuRun==true)
-{
-    echo "Unlock";
-}
-else{
-    echo "0";
-}
-}
+// $getDefalutMenu11="UPDATE  Staff  SET OfficialEmailID='$OfficialEmailIDSet',EmailID='$EmailIDSet' Where IDNo='$EmployeeID' ";
+// $getDefalutMenu11Run=sqlsrv_query($conntest,$getDefalutMenu11);
+// if($getDefalutMenuRun==true)
+// {
+//     echo "Unlock";
+// }
+// else{
+//     echo "0";
+// }
+// }
 
-?>
-<form action="#" method="post">
-<input type="text" value="171714" name="EmployeeID">
-<input type="text" value="Manoj@19821" name="PasswordSet">
-<input type="text" value="hodpharmacy@gku.ac.in" name="OfficialEmailID">
-<input type="text" value="drmanoj1711714@gku.ac.in" name="EmailID">
-    <button type="submit" name="submitPass" >Lock</button>
-</form>
-<form action="#" method="post">
-<input type="text" value="171714" name="EmployeeID">
-<input type="text" value="Manoj@1982" name="PasswordSet">
-<input type="text" value="hod.pharmacy@gku.ac.in" name="OfficialEmailIDSet">
-<input type="text" value="drmanoj171714@gku.ac.in" name="EmailIDSet">
-    <button type="submit" name="submitPassReset" >Unlock</button>
-</form>
+// ?>
+<!-- <form action="#" method="post">
+// <input type="text" value="171714" name="EmployeeID">
+// <input type="text" value="Manoj@19821" name="PasswordSet">
+// <input type="text" value="hodpharmacy@gku.ac.in" name="OfficialEmailID">
+// <input type="text" value="drmanoj1711714@gku.ac.in" name="EmailID">
+//     <button type="submit" name="submitPass" >Lock</button>
+// </form>
+// <form action="#" method="post">
+// <input type="text" value="171714" name="EmployeeID">
+// <input type="text" value="Manoj@1982" name="PasswordSet">
+// <input type="text" value="hod.pharmacy@gku.ac.in" name="OfficialEmailIDSet">
+// <input type="text" value="drmanoj171714@gku.ac.in" name="EmailIDSet">
+//     <button type="submit" name="submitPassReset" >Unlock</button>
+// </form>-->
