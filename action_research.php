@@ -186,9 +186,11 @@ if($file_type == $accepted_type){
       $type = $_FILES['pprAttach']['type'];
        $file_data = file_get_contents($file_tmp);
          $file_title_clean = preg_replace('/\s+/', '_', $pprTitle); // Replaces spaces with underscores
+         $file_Auth_clean = preg_replace('/\s+/', '_', $pprAuth); // Replaces spaces with underscores
 $file_name_raw = basename($_FILES['pprAttach']['name']);
 $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw); // Clean original filename
-$file_name = $EmployeeID . "_" . $file_title_clean . "_" . $file_name_clean;
+$file_name = $EmployeeID ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
+$file_name = str_replace("'", "''", $file_name);
      $destdir = 'Images/Repository';
      ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
@@ -232,10 +234,11 @@ elseif($code == 4) {
 
        if ($file_type == $accepted_type) {
            $file_title_clean = preg_replace('/\s+/', '_', $pprTitle);
+           $file_Auth_clean = preg_replace('/\s+/', '_', $pprAuth);
            $file_name_raw = basename($_FILES['pprAttachupdate']['name']);
            $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw);
-           $file_name = $EmployeeID . "_" . $file_title_clean . "_" . $file_name_clean;
-
+           $file_name = $EmployeeID ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
+           $file_name = str_replace("'", "''", $file_name);
            $destdir = 'Images/Repository';
            ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
            ftp_pasv($conn_id, true);
