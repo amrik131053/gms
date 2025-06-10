@@ -192,7 +192,8 @@ if($file_type == $accepted_type){
 $file_name_raw = basename($_FILES['pprAttach']['name']);
 $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw); // Clean original filename
 $file_name = $IDNo ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
-$file_name = str_replace("'", "''", $file_name);
+$file_name = str_replace(["'", ":"], "", $file_name);
+
      $destdir = 'Images/Repository';
      ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
@@ -241,7 +242,8 @@ elseif($code == 4) {
            $file_name_raw = basename($_FILES['pprAttachupdate']['name']);
            $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw);
            $file_name = $IDNoUpdate ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
-           $file_name = str_replace("'", "''", $file_name);
+           $file_name = str_replace(["'", ":"], "", $file_name);
+
            $destdir = 'Images/Repository';
            ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
            ftp_pasv($conn_id, true);
