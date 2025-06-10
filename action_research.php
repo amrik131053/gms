@@ -144,7 +144,7 @@ else if($code==2)
     <input type="hidden" value="4" name="code">
     <input type="hidden" value="<?=$ID;?>" name="ID">
     <label>Employee ID</label>
-    <input type="text" name="" class="form-control" value="<?=$row1['IDNo'];?>">
+    <input type="text" name="IDNoUpdate" class="form-control" value="<?=$row1['IDNo'];?>">
     <label>Name</label>
     <input type="text" class="form-control" name="pprAuthupdate" value="<?=$row1['AuthorName'];?>">
     <label>Paper Title</label>
@@ -189,7 +189,7 @@ if($file_type == $accepted_type){
          $file_Auth_clean = preg_replace('/\s+/', '_', $pprAuth); // Replaces spaces with underscores
 $file_name_raw = basename($_FILES['pprAttach']['name']);
 $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw); // Clean original filename
-$file_name = $EmployeeID ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
+$file_name = $IDNo ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
 $file_name = str_replace("'", "''", $file_name);
      $destdir = 'Images/Repository';
      ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
@@ -216,6 +216,7 @@ ftp_close($conn_id);
 }
 elseif($code == 4) {
    $ID = $_POST['ID'];
+   $IDNoUpdate = $_POST['IDNoUpdate'];
    $pprTitle = $_POST['pprTitleupdate'];
    $pprAuth = $_POST['pprAuthupdate'];
    $pprJournal = $_POST['pprJournalupdate'];
@@ -237,7 +238,7 @@ elseif($code == 4) {
            $file_Auth_clean = preg_replace('/\s+/', '_', $pprAuth);
            $file_name_raw = basename($_FILES['pprAttachupdate']['name']);
            $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw);
-           $file_name = $EmployeeID ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
+           $file_name = $IDNoUpdate ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
            $file_name = str_replace("'", "''", $file_name);
            $destdir = 'Images/Repository';
            ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
