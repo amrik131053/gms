@@ -100,7 +100,8 @@ window.location.href = "index.php";
              <td>{$college}</td>
              <td>{$row1['Journal']}</td>
              <td>" . ($row1['DateofPublication'] ? $row1['DateofPublication']->format('d-m-Y') : '') . "</td>
-            <td>" . (!empty($row1['DOI']) ? "<a href='" . htmlspecialchars($row1['DOI']) . "' target='_blank'>Link</a>" : '') . "</td>
+          <td>" . (!empty($row1['DOI']) ? "<a href='" . (preg_match('/^https?:\/\//', $row1['DOI']) ? htmlspecialchars($row1['DOI']) : 'https://' . htmlspecialchars($row1['DOI'])) . "' target='_blank'>Link</a>" : '') . "</td>
+
              <td><a href='http://erp.gku.ac.in:86/Images/Repository/" . htmlspecialchars($row1['Documents']) . "' target='_blank'><i class='fa fa-eye'></i></a></td>
              <td><i class='fa fa-upload' data-toggle='modal' data-target='#exampleModal_update' onclick='updatePpr(" . $row1['ID'] . ")'></i></td>
            </tr>";
