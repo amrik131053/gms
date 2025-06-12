@@ -25451,6 +25451,151 @@ sqlsrv_close($conntest);
 mysqli_close($conn);
 }
 
+
+ elseif($code==300.1)
+   {
+   
+     
+                  ?>
+
+<div class="card">
+    <center>
+        <h5>
+            <b>Assign Role</b>
+        </h5>
+    </center>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card-header">
+            Search Employee
+           <!--  <span style="float:right;">
+                <button class="btn btn-xs ">
+                    <input type="search" class="form-control form-control-sm" name="rollNo" id="empID"
+                        placeholder="Emp ID">
+                </button>
+                <button type="button" onclick="searchEmp();" class="btn btn-success btn-sm">
+                    Search
+                </button></span> -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <br>
+
+                 <?php 
+  $staff="SELECT * FROM Staff Where (LeaveSanctionAuthority='$EmployeeID' OR LeaveRecommendingAuthority='$EmployeeID') ANd JobStatus='1'";
+
+    $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+
+
+
+     $emp_image = $row_staff['Snap'];
+  $empid = $row_staff['IDNo'];
+
+      $name = $row_staff['Name'];
+
+      $college = $row_staff['CollegeName'];
+      $dep = $row_staff['Department'];
+      $designation = $row_staff['Designation'];
+      $mob1 = $row_staff['ContactNo'];
+     
+      $email = $row_staff['EmailID'];
+      $superwiser_id = $row_staff['LeaveSanctionAuthority'];
+
+        
+?>
+
+<div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header badge-success">
+                <div class="row">
+                  <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
+                   
+                <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($emp_image).'" height="30px" width="30px" class="img-circle elevation-2"  style="border-radius:50%"/>';?> 
+                </div>
+                <!-- /.widget-user-image -->
+                <h6 class="widget-user-desc"><?=$name; ?>  &nbsp;(<?=$empid; ?>)</h6>
+                
+                <h6 class="widget-user-desc"><?= $designation;?></h6>
+                <h6 class="widget-user-desc"> M. <?= $mob1 ?></h6>
+                </div>
+                <div class="col-lg-1 col-sm-1">
+<input type="button" class="btn btn-danger btn-xs" onclick="mark_rolerr(<?= $empid;?>)"
+                                value="Mark HOD">
+      </div>
+             </div>
+               
+               
+
+
+              </div>
+          </div>
+  <?php
+     }
+
+?>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-6">
+        <div class="card-header">
+            All Assigned Role
+        </div>
+        <div id="card card-body">
+            <div class="table-responsive" style="height:500px;">
+                <table class="table">
+                    <?php  
+  $sr=1;
+     $presult ="SELECT * FROM Staff WHERE RoleID='16' AND  (LeaveSanctionAuthority='$EmployeeID' OR LeaveRecommendingAuthority='$EmployeeID') ANd JobStatus='1'";
+     $resultRun= sqlsrv_query($conntest,$presult);
+     $name = $emp_id = "";
+     while($row=sqlsrv_fetch_array($resultRun,SQLSRV_FETCH_ASSOC))
+     {
+        $getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+        //  $id = $row['user_id'];
+         $emp_id = $row['IDNo'];
+         $name = $row['Name'];
+         $role_name = $rowGetRoleName['role_name'];
+      ?>
+                    <tr>
+                        <th><b style='color:#a62532;'><?=$sr;?></b></th>
+                        <th><b style='color:#a62532;'><?=$name." (".$emp_id;?>)</b></th>
+                        <input type="hidden" name="" value="<?=$id;?>">
+                        <td><?=$role_name;?></td>
+                        <th><input type="button" class="btn btn-danger btn-xs" onclick="del_rolerr_dean(<?=$emp_id;?>)"
+                                value="Delete"></th>
+                    </tr>
+                    <?php 
+  $sr++;
+     }
+    }
+     ?>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+</div>
+
+
+
+<?php
+sqlsrv_close($conntest);
+mysqli_close($conn);
+}
+
+
 elseif($code=='301')
    {
    $empid=$_POST['empid'];
@@ -25551,6 +25696,22 @@ mysqli_close($conn);
    sqlsrv_close($conntest);
    }
 
+
+   elseif($code==302.1) 
+   {
+   $emp_id=$_POST['emp_id'];
+   $del="UPDATE Staff SET RoleID='11' WHERE IDNo='$emp_id' and RoleID='16'";
+   $del_run=sqlsrv_query($conntest,$del);
+   if ($del_run) {
+      echo "1";
+    }
+   else
+   {
+       echo "0";
+   }
+   sqlsrv_close($conntest);
+   }
+
    elseif($code==303) 
    {
    $role_id=$_POST['role_new'];
@@ -25569,7 +25730,23 @@ mysqli_close($conn);
    sqlsrv_close($conntest);
    }
 
-   
+    elseif($code==303.1) 
+   {
+   $role_id=16;
+   $emp_id=$_POST['emp_id'];
+   $insert="UPDATE Staff SET RoleID='$role_id' WHERE IDNo='$emp_id'  and (RoleID='0' or RoleID='11') and RoleID!='16'";
+   $insert_run=sqlsrv_query($conntest,$insert);
+   if ($insert_run==true)
+    {
+   echo "1";
+   }
+   else
+   {
+     echo "0";
+   }
+ 
+   sqlsrv_close($conntest);
+   }
 elseif($code==304) 
    {
 $idno=$_POST['idno'];
