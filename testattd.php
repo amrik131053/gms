@@ -1,8 +1,8 @@
 
 <?php  
 ini_set('max_execution_time', '0');
-   include "header.php";   
-    include "connection/connection_web.php"; 
+
+    include "connection/connection.php"; 
    ?>
   <div class="card-body ">
     <div class="card-header ">
@@ -56,24 +56,31 @@ ini_set('max_execution_time', '0');
 
 
 
- echo $subjectcode="Select Distinct SubjectCode from ExamFormSubject where SubjectType='undefined' AND Type='Reappear' AND Examination='May 2025'";
-$get_subjectcode_run=sqlsrv_query($conntest,$subjectcode);
+  $subjectcode="SELECT * FROM research_publications WHERE status_code='3' AND year_name='2025'";
+$get_subjectcode_run=mysqli_query($conn_spoc,$subjectcode);
     
- while($row = sqlsrv_fetch_array($get_subjectcode_run, SQLSRV_FETCH_ASSOC))
+ while($row = mysqli_fetch_array($get_subjectcode_run))
        {
-          $subjectcode=$row["SubjectCode"];
-       
+          $emp_id=$row["emp_id"];
+          $pprTitle=$row['title'];
+          $pprAuth=$row['authors'];
+        //   $facultyId=$row['facultyId'];
+          $pprJournal=$row['name'];
+          $pprPublish=$row['date_of_publication'];
+          $pprLink=$row['doi'];
        
 
-$subjectcode1="Select * from MasterCourseStructure where SubjectCode='$subjectcode'";
+$subjectcode1="Select * from Staff where IDNo='$emp_id'";
 $get_subjectcode_run1=sqlsrv_query($conntest,$subjectcode1);
     
- while($row = sqlsrv_fetch_array($get_subjectcode_run1, SQLSRV_FETCH_ASSOC))
+ while($row1 = sqlsrv_fetch_array($get_subjectcode_run1, SQLSRV_FETCH_ASSOC))
        {
-           $subjecttype=$row["SubjectType"];
+           $Name=$row1["Name"];
+           $facultyId=$row1["CollegeId"];
 
-echo $quesryt="Update ExamFormSubject set SubjectType='$subjecttype' where SubjectCode='$subjectcode'";
-$get_subjectcode_run2=sqlsrv_query($conntest,$quesryt);
+          echo  "<br><br>".$InsertReseatch="INSERT into Repository (IDNo,PaperTitle,AuthorName,Faculty,Journal,DateofPublication,DOI,Documents,Status)
+           VALUES('$emp_id','$pprTitle','$pprAuth','$facultyId','$pprJournal','$pprPublish','$pprLink','','0')";
+            // $InsertResearchPpr=sqlsrv_query($conntest,$InsertReseatch);
 
        }
    }
