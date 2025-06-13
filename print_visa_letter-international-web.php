@@ -62,6 +62,7 @@ foreach ($id as $key => $value) {
             $NationalityName=$row_coutry_name['name'];
              
         }
+        
          $get_course_name="SELECT Course,CourseType FROM MasterCourseCodes where CourseID='$Course'";
         $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
         if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
@@ -364,6 +365,14 @@ where MasterDepartment.Id='$Department' ";
                 <th>Passport Number</th>
                 
                 <td><?=$ID_Proof_No;?></td>
+             
+              
+              
+            </tr>
+              <tr>
+                <th>Country</th>
+                
+                <td><?=$NationalityName;?></td>
              
               
               
