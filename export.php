@@ -1147,6 +1147,8 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                 {
               $sr++;
             
+                 
+
                   $IDNo= $row['IDNo'];
                   $ClassRollNo= $row['ClassRollNo'];
                   $UniRollNo= $row['UniRollNo'];
@@ -1201,7 +1203,7 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                   }
                 }
               }
-              //$noofuser=$noofuser+1;
+               $noofuser=$noofuser+1;
             }
             $newDateTable.="<tr><td rowspan='{$sr}'>{$date}</td><td rowspan='{$sr}'>{$reading}</td></tr>";
             $oldDateTable.="<tr><td rowspan='{$sr}'>{$previousReadingDate}</td><td rowspan='{$sr}'>{$previousReading}</td></tr>";
