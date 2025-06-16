@@ -5,7 +5,7 @@
         <div class="row row-deck row-cards">
             <div class="col-12">
                 <div class="row row-cards">
-                  
+
                     <div class="col-sm-6 col-lg-3">
                         <div class="card card-sm card-link card-link-rotate">
                             <div class="card-body">
@@ -158,13 +158,15 @@
                                             Hostel
                                         </div>
                                         <div class="text-secondary">
-                                            @if (!empty($meterDetails) && array_key_exists('RoomNo', $meterDetails))
-                                            <b>Room No:{{$meterDetails['RoomNo']}}</b>
-                                            @else
-                                            <b>Room No:NA</b>
-                                            @endif
+                                            @if (!empty($meterDetails) && array_key_exists('article_no', $meterDetails))
+                                            <b>Room No: {{ $meterDetails['article_no'] }}</b></br>
+                                            <b>Current Bill: {{ intval($meterDetails['amount']) }} Each Student</b>
 
+                                            @else
+                                            <b>Room No: NA</b>
+                                            @endif
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -176,134 +178,132 @@
 
             <div class="col-12">
                 <!-- <div class="card"> -->
-                    <!-- <div class="card-header">
+                <!-- <div class="card-header">
                     <h3 class="card-title">Cards inside card</h3>
                   </div> -->
-                    <!-- <div class="card-body"> -->
-                    <div class="row row-cards">
-              <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-status-top bg-primary"></div>
-                                <div class="card-header">
-                                    <h3 class="card-title">Office Order </h3>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                                        <div class="divide-y" style="height: 20rem">
-
-                                            @foreach ($noticeBoard as $noticeBoardShow )
-                                            <div>
-                                                <div class="row">
-                                                    <div class="col-auto">
-                                                        <span
-                                                            class="avatar">{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d') }}<br>{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('M') }}</span>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="">
-                                                            <strong class="text-danger">
-                                                                {{$noticeBoardShow['Subject']}}</strong> <a
-                                                                target="_blank"
-                                                                href="http://erp.gku.ac.in:86/Notices/{{$noticeBoardShow['FileName']}}"><b>Click
-                                                                    Here</b></a>
-                                                        </div>
-                                                        <div class="text-secondary">
-                                                            {{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d-m-Y') }}
-                                                        </div>
-                                                    </div>
-                                                    <!-- <div class="col-auto align-self-center"> -->
-                                                    <!-- <div class="badge bg-primary">Click Here</div> -->
-                                                    <!-- </div> -->
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
+                <!-- <div class="card-body"> -->
+                <div class="row row-cards">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-status-top bg-primary"></div>
+                            <div class="card-header">
+                                <h3 class="card-title">Office Order </h3>
                             </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-status-top bg-primary"></div>
-                                <div class="card-header">
-                                    <h3 class="card-title">Notice</h3>
-                                </div>
-                                <div class="card-body p-0">
-                                  
-                                    <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                                        <div class="divide-y" style="height: 20rem">
-                                            @foreach ($officeOrder as $officeorderShow )
-                                            <div>
-                                                <div class="row">
-                                                    <div class="col-auto">
-                                                        <span
-                                                            class="avatar">{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d') }}<br>{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('M') }}</span>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="">
-                                                            <strong class="text-danger">
-                                                                {{$officeorderShow['Subject']}}</strong> <a
-                                                                target="_blank"
-                                                                href="http://erp.gku.ac.in:86/Notices/{{$officeorderShow['FileName']}}"><b>Click
-                                                                    Here</b></a>
-                                                        </div>
-                                                        <div class="text-secondary">
-                                                            {{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d-m-Y') }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-status-top bg-primary"></div>
-                                <div class="card-header">
-                                    <h3 class="card-title">Latest News</h3>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="card-body card-body-scrollable card-body-scrollable-shadow">
+                            <div class="card-body p-0">
+                                <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                                     <div class="divide-y" style="height: 20rem">
-                                            @foreach ($newsDetails as $newsDetailsShow )
-                                            <div>
-                                                <div class="row">
-                                                    <div class="col-auto">
-                                                        <span
-                                                            class="avatar">{{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('d') }}<br>{{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('M') }}</span>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="">
+
+                                        @foreach ($noticeBoard as $noticeBoardShow )
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-auto">
+                                                    <span
+                                                        class="avatar">{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d') }}<br>{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('M') }}</span>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="">
                                                         <strong class="text-danger">
-                                                        {{ Str::limit(html_entity_decode($newsDetailsShow['subjectEng']), 100) }}
-                                                          </strong>
-                                                          <span class="short-text">
-                                                              {{ Str::limit(html_entity_decode($newsDetailsShow['bodyEng']), 100) }}
-                                                          </span>
-                                                                <a
-                                                                target="_blank"
-                                                                href="http://erp.gku.ac.in:86/Notices/{{$newsDetailsShow['newsRef']}}"><b>Read More
-                                                                    </b></a>
-                                                        </div>
-                                                        <div class="text-secondary">
-                                                            {{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('d-m-Y') }}
-                                                        </div>
+                                                            {{$noticeBoardShow['Subject']}}</strong> <a target="_blank"
+                                                            href="http://erp.gku.ac.in:86/Notices/{{$noticeBoardShow['FileName']}}"><b>Click
+                                                                Here</b></a>
+                                                    </div>
+                                                    <div class="text-secondary">
+                                                        {{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d-m-Y') }}
                                                     </div>
                                                 </div>
+                                                <!-- <div class="col-auto align-self-center"> -->
+                                                <!-- <div class="badge bg-primary">Click Here</div> -->
+                                                <!-- </div> -->
                                             </div>
-                                            @endforeach
                                         </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-status-top bg-primary"></div>
+                            <div class="card-header">
+                                <h3 class="card-title">Notice</h3>
+                            </div>
+                            <div class="card-body p-0">
+
+                                <div class="card-body card-body-scrollable card-body-scrollable-shadow">
+                                    <div class="divide-y" style="height: 20rem">
+                                        @foreach ($officeOrder as $officeorderShow )
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-auto">
+                                                    <span
+                                                        class="avatar">{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d') }}<br>{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('M') }}</span>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="">
+                                                        <strong class="text-danger">
+                                                            {{$officeorderShow['Subject']}}</strong> <a target="_blank"
+                                                            href="http://erp.gku.ac.in:86/Notices/{{$officeorderShow['FileName']}}"><b>Click
+                                                                Here</b></a>
+                                                    </div>
+                                                    <div class="text-secondary">
+                                                        {{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d-m-Y') }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-status-top bg-primary"></div>
+                            <div class="card-header">
+                                <h3 class="card-title">Latest News</h3>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="card-body card-body-scrollable card-body-scrollable-shadow">
+                                    <div class="divide-y" style="height: 20rem">
+                                        @foreach ($newsDetails as $newsDetailsShow )
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-auto">
+                                                    <span
+                                                        class="avatar">{{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('d') }}<br>{{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('M') }}</span>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="">
+                                                        <strong class="text-danger">
+                                                            {{ Str::limit(html_entity_decode($newsDetailsShow['subjectEng']), 100) }}
+                                                        </strong>
+                                                        <span class="short-text">
+                                                            {{ Str::limit(html_entity_decode($newsDetailsShow['bodyEng']), 100) }}
+                                                        </span>
+                                                        <a target="_blank"
+                                                            href="http://erp.gku.ac.in:86/Notices/{{$newsDetailsShow['newsRef']}}"><b>Read
+                                                                More
+                                                            </b></a>
+                                                    </div>
+                                                    <div class="text-secondary">
+                                                        {{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('d-m-Y') }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <!-- </div> -->
+            </div>
+            <!-- </div> -->
             <!-- </div> -->
         </div>
     </div>

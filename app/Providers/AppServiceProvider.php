@@ -26,9 +26,9 @@ class AppServiceProvider extends ServiceProvider
             $BaseURL = config('app.baseUrl');
             $profileData = [];
             $DataButtonsExam = [];
-            
+            $meterDetails = []; // ✅ Initialize default
+    
             if ($token) {
-                
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token,
                 ])->post($BaseURL . 'Student/dashboard');
@@ -39,19 +39,38 @@ class AppServiceProvider extends ServiceProvider
     
                 if ($response->successful()) {
                     $profileData = $response->json();
-                    $profileData=$profileData['profile'][0];
+                    $profileData = $profileData['profile'][0];
                 }
+    
                 if ($responseExam->successful()) {
                     $DataButtons = $responseExam->json();
                     $DataButtonsExam = $DataButtons['statusopen'][0]['flag'] ?? [];
                 }
+    
+                $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
+                    ->post($BaseURL . 'Student/profile');
+    
+                $resData = $DataResponse->json();
+                $profileData1 = $resData['data'][0] ?? [];
+                $IDNo = $profileData1['IDNo'] ?? null;
+                if ($IDNo) {
+                    $DataResponseTrack = Http::withHeaders([
+                        'Authorization' => 'Bearer ' . $token
+                    ])->post('http://117.250.20.109:94/student/meterReading/' . $IDNo);
+    
+                    if ($DataResponseTrack->successful()) {
+                        $DataMeter = $DataResponseTrack->json();
+                        $meterDetails = $DataMeter[0] ?? [];
+                    }
+                }
             }
-
             $view->with([
                 'profileData' => $profileData,
+                'menubar' => $meterDetails,
                 'DataButtonsExam' => $DataButtonsExam
             ]);
         });
     }
+    
     
 }

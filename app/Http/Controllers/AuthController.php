@@ -39,17 +39,23 @@ class AuthController extends Controller
             $examStatus = $DataButtonsExam->json();
             $profile = $DataResponse->json();
          
+            
             $profileData = $profile['profile'][0] ?? [];
-            $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/gmsapi/hostel_room_number.php?IDNo='.$profileData['IDNo']);
-        $DataMeter = $DataMeterBills->json();
-       
+            $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/profile');
+            $resData = $DataResponse->json();
+            $profileData1=$resData['data'][0];
+            $IDNo=$profileData1['IDNo'];
+            $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:94/student/meterReading/'.$IDNo);
+            $DataMeter = $DataResponseTrack->json();
+            // dd($DataResponseTrack);
         $officeOrder = $profile['notice'] ?? [];
         $smartcardStatus = $profile['statusIdcard'][0] ?? [];
         $noticeBoard = $profile['order'] ?? [];
         $booksCount = $profile['books'][0] ?? [];
         $booksFine = $profile['finedata'][0] ?? [];
         $examButtonFlag = $profile['statusopen']['flag'] ?? [];
-        $meterDetails = $DataMeter['data'][0] ?? [];
+        $meterDetails = $DataMeter[0] ?? [];
+        // dd($meterDetails);
         if($profileData['Status']==1)
         {
             return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails','newsDetails'));

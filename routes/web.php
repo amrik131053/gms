@@ -14,6 +14,9 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\GrievanceController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\StudentLeaveController;
+
+use App\Http\Controllers\WhatsAppController;
 use App\Http\Middleware\CheckAuthentication;
  
 // Auth Routes
@@ -98,6 +101,11 @@ Route::get('grievance', [GrievanceController::class, 'grievance'])->name('grieva
 Route::post('submitGrievanceData', [GrievanceController::class, 'submitGrievanceForm'])->name('submitGrievanceData')->middleware(CheckAuthentication::class);
 Route::post('complaintTrack', [GrievanceController::class, 'complaintTrack'])->name('complaintTrack')->middleware(CheckAuthentication::class);
 
+// hostel leave 
+Route::get('leaveApply', [StudentLeaveController::class, 'applyHostelLeave'])->name('applyHostelLeave')->middleware(CheckAuthentication::class);
+Route::post('submitHostelLeaveData', [StudentLeaveController::class, 'submitHostelLeaveForm'])->name('submitHostelLeaveData')->middleware(CheckAuthentication::class);
+// Route::post('complaintTrack', [StudentLeaveController::class, 'complaintTrack'])->name('complaintTrack')->middleware(CheckAuthentication::class);
+
 
 //Library
 Route::get('library', [LibraryController::class, 'libraryBooks'])->name('libraryBooks')->middleware(CheckAuthentication::class);
@@ -111,3 +119,8 @@ Route::get('libraryBooksReturn', [LibraryController::class, 'libraryBooksReturnA
 Route::get('documents', [DocumentController::class, 'showDocumentPage'])->name('showDocumentPage')->middleware(CheckAuthentication::class);
 
 Route::post('/upload-document', [DocumentController::class, 'upload'])->name('documentupload');
+
+
+
+Route::post('/send-otp', [WhatsAppController::class, 'sendOtpToWhatsApp']);
+Route::view('/otp-form', 'send-otp');
