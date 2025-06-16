@@ -292,6 +292,7 @@ elseif($code==25.8)
             <th>Configration</th>
             <th>Sim Number</th>
              <th>Status</th>
+              <th>Suspended</th>
         </tr>
     </thead>
     <tbody>
@@ -321,7 +322,7 @@ elseif($code==25.8)
 
                 }
             ?></b></th>
-          
+          <th><b><button onclick="hidedata()">Suspended</button></b></th>
              
           
         </tr>
@@ -330,6 +331,8 @@ elseif($code==25.8)
            ?>
     </tbody>
 </table>
+
+
 
 
 <?php
