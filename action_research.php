@@ -199,7 +199,7 @@ $file_name = str_replace(["'", ":"], "", $file_name);
      ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
-    echo   $InsertReseatch="INSERT into Repository (IDNo,PaperTitle,AuthorName,Faculty,Journal,DateofPublication,DOI,Documents,Status)
+       $InsertReseatch="INSERT into Repository (IDNo,PaperTitle,AuthorName,Faculty,Journal,DateofPublication,DOI,Documents,Status)
  VALUES('$IDNo','$pprTitle','$pprAuth','$facultyId','$pprJournal','$pprPublish','$pprLink','$file_name','0')";
   $InsertResearchPpr=sqlsrv_query($conntest,$InsertReseatch);
   
