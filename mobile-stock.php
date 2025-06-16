@@ -578,6 +578,27 @@ var status=document.getElementById('toggleForm'+id).value;
         }
     });
 }
+function suspend(id) {
+     var r = confirm("Do you really want to Suspend ");
+    if (r == true) {
+    var code = 29;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_j.php',
+        type: 'POST',
+        data: {
+            flag: code,id:id
+        },
+        success: function(response) {
+            console.log(response);
+            SuccessToast('Successfully Suspended');
+            spinner.style.display = 'none';
+           show_stock();
+        }
+    });
+}
+}
 function AddStock() { 
     var code = 25.7;
     var spinner = document.getElementById('ajax-loader');
