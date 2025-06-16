@@ -29,7 +29,7 @@ $sql123 ="SELECT * FROM computer_lab_entry  where entry_time between '$startDate
 }
 else
 {
-  $sql123 = "SELECT * FROM computer_lab_entry  where entry_time between '$startDate' and '$endDate'  and LENGTH(CAST(USERID AS CHAR)) <= 6   Order by entry_time asc";
+  $sql123 = "SELECT * FROM computer_lab_entry  where entry_time between '$startDate' and '$endDate'    Order by entry_time asc";
 }
 
 
