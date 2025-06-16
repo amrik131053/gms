@@ -25349,19 +25349,19 @@ else if($code=='364.1')
   <table class="table">
 
 <?php 
- $resulrs="SELECT *  from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!=''   order by classrollno DESC LIMIT 1";
+ $resulrs="SELECT Distinct Batch from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!='' limit 1";
 $list_resultsub = mysqli_query($conn_online_odl, $resulrs);
 $key1=1;
  while ($rows = mysqli_fetch_array($list_resultsub)) 
  {
-     $resulrs1="SELECT *  from ResultOnlineGKU where  UniRollNo='".$rows['classrollno']."' and Examination='$Examination' and Semester='$Semester' and Type='$Type'";
+   $resulrs1="SELECT *  from ResultOnlineGKU where Examination='$Examination' and Semester='$Semester' and Type='$Type'";
    $list_resultsub1 = sqlsrv_query($conntest, $resulrs1);
    $key1=1;
     while ($rows1 = sqlsrv_fetch_array($list_resultsub1, SQLSRV_FETCH_ASSOC)) 
     {
    ?>
    <tr><td></td><td><?= $rows['course'];?></td><td><?= $rows['batch'];?></td><td><?= $rows1['Semester'];?></td><td><?= $rows1['Type'];?></td><td>  <?php if($rows1['DeclareDate']!=''){
-      echo $date= $rows1['DeclareDate']->format('Y-m-d');
+      $date= $rows1['DeclareDate']->format('Y-m-d');
    }
    else
    {

@@ -154,7 +154,7 @@ $list_sql1="SELECT  * FROM ResultGKU
 INNER JOIN Admissions ON ResultGKU.UniRollNo = Admissions.UniRollNo
 where Admissions.CollegeID='$College' AND Admissions.CourseID='$Course'AND Admissions.Batch='$Batch' 
 AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
-ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'";
+ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate' AND Sgpa!='NC'";
  $list_result1 = sqlsrv_query($conntest, $list_sql1);
  while ($row1 = sqlsrv_fetch_array($list_result1, SQLSRV_FETCH_ASSOC)) {
  $UniRollNo=$row1["UniRollNo"];
