@@ -13,15 +13,15 @@ $connectionInfo1 = array( "Database"=>"DBGuruKashi", "UID"=>"Amrik", "PWD"=>"Amr
 $conn91 = sqlsrv_connect($serverName1,$connectionInfo1);
 
 
-$gg="SELECT * FROM Staff";
+$gg="SELECT * from Staff order by IDNo desc";
 $ggrun=sqlsrv_query($conn91,$gg);
 while($row=sqlsrv_fetch_array($ggrun))
 {
-    $Id=$row['IDNo'];
+   echo  $Id=$row['IDNo'];
    $name=$row['Name'];
      $Designation=$row['Designation'];
    $contact=$row['PermanentAddress'];
-$Updat="UPDATE Staff set Name='$name',PermanentAddress='$contact',Designation='$Designation' where IDNo='$Id'";
+ $Updat="UPDATE Staff set Name='$name',PermanentAddress='$contact',Designation='$Designation' where IDNo='$Id'";
 
 $Updatrun=sqlsrv_query($conntest,$Updat);
 

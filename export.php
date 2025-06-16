@@ -1147,6 +1147,8 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                 {
               $sr++;
             
+                 
+
                   $IDNo= $row['IDNo'];
                   $ClassRollNo= $row['ClassRollNo'];
                   $UniRollNo= $row['UniRollNo'];
@@ -1201,7 +1203,7 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                   }
                 }
               }
-              //$noofuser=$noofuser+1;
+               $noofuser=$noofuser+1;
             }
             $newDateTable.="<tr><td rowspan='{$sr}'>{$date}</td><td rowspan='{$sr}'>{$reading}</td></tr>";
             $oldDateTable.="<tr><td rowspan='{$sr}'>{$previousReadingDate}</td><td rowspan='{$sr}'>{$previousReading}</td></tr>";
@@ -13779,6 +13781,54 @@ elseif($exportCode==84)
                             <td>{$data1['Remarks']}</td>
                             <td>{$data1['CreatedBy']}</td><td><table  class='table' border='1'>";
                             $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestadmissioncell AS  rs inner join masterarticleadmisisoncell AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+                            $get_group_run=mysqli_query($connection_s,$get_group);
+                                while($row=mysqli_fetch_array($get_group_run))
+                                {
+                            $exportMeter.="<tr><td>{$row['Name']}({$row['quantity']})</td></tr>";
+
+                                }
+                           
+             $exportMeter.="</table></td></tr>";
+$count++;
+    }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Staff Phd Report";
+
+}
+
+
+elseif($exportCode==84.11)
+{
+  
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Request No</th>
+          <th>Name</th>
+          <th>Type</th>
+           <th>Remarks</th>
+           <th>Issued By</th>
+           <th>Stocks</th>
+         </tr>
+        </thead>";
+      $count=1;
+      $sql12 = "SELECT * FROM ledgeritcell";
+      $res111 = mysqli_query($connection_s, $sql12);
+      $SrNo = 1;
+      while ($data1 = mysqli_fetch_array($res111))
+       { 
+        $id=$data1['ID'];
+            $exportMeter.="<tr>     
+                           <td>{$count}</td>
+                           <td>{$data1['ID']}</td>
+                            <td>{$data1['Name']}-{$data1['IDNo']}</td>
+                            <td>{$data1['Type']}</td>
+                            <td>{$data1['Remarks']}</td>
+                            <td>{$data1['CreatedBy']}</td><td><table  class='table' border='1'>";
+                            $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestitcell AS  rs inner join masterarticleitcell AS ma on rs.item_code=ma.ID  where reference_no='$id'";
                             $get_group_run=mysqli_query($connection_s,$get_group);
                                 while($row=mysqli_fetch_array($get_group_run))
                                 {

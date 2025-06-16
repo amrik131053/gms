@@ -813,7 +813,7 @@ function viewLeaveFileHRside(id,eid) {
     var Empid = form.EmpID.value;
     var leaveShort = form.leaveShort.value;
     var leaveReason = form.leaveReason.value;
-    // var leaveFile = form.leaveFile.value;
+    var leavestatus= form.status_leave.value;
     var leaveShift = form.leaveShift.value;
     var leaveHalfShortRadio = form.leaveHalfShortRadio.value;
 
@@ -846,11 +846,11 @@ function viewLeaveFileHRside(id,eid) {
         return;
     }
 
-    // if (leaveFile === "") {
+    if (leavestatus === "") {
        
-    //     ErrorToast('Please upload an Adjustment File.','bg-warning');
-    //     return;
-    // }
+        ErrorToast('Please select status of leave.','bg-warning');
+        return;
+    }
    
     var submitButton = form.querySelector('input[name="leaveButtonSubmit"]');
     submitButton.disabled = true;

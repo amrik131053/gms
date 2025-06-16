@@ -2007,7 +2007,7 @@ elseif($code==25.4)
  $ArticleName=$_POST['ArticleName'];
  $ArticleSpecification=$_POST['ArticleSpecification'];
    
- $update1="insert into masterarticleadmisisoncell(Name,Description,CreatedBy,CreatedDate,Status)Values
+ $update1="insert into masterarticleadmissioncell(Name,Description,CreatedBy,CreatedDate,Status)Values
     ('$ArticleName','$ArticleSpecification','$EmployeeID','$timeStampS','0')";
 
 
@@ -2019,7 +2019,23 @@ mysqli_close($connection_s);
 echo "1";
       }
 
+elseif($code==25.41)
 
+   {
+ $ArticleName=$_POST['ArticleName'];
+ $ArticleSpecification=$_POST['ArticleSpecification'];
+   
+ $update1="insert into masterarticleitcell(Name,Description,CreatedBy,CreatedDate,Status)Values
+    ('$ArticleName','$ArticleSpecification','$EmployeeID','$timeStampS','0')";
+
+
+
+
+$addrun=mysqli_query($connection_s,$update1);
+
+mysqli_close($connection_s);
+echo "1";
+      }
 
 elseif($code==25.5)
 
@@ -2082,6 +2098,67 @@ elseif($code==25.5)
 
 <?php
       }
+      elseif($code==25.51)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+         $get_group="SELECT * FROM masterarticleitcell";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            $status=$row['Status'];
+            if($status=='1'){
+              $show='ON';
+              $color='';            
+            }
+            else
+            {
+                $show='OFF';   
+                $color='red';          
+            }
+            ?>
+        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><input type="text" class="form-control" id='arname<?=$row['ID'];?>' value="<?=$row['Name'];?>" onblur='chnageName(<?=$row['ID'];?>)'></b>
+            </th>
+            <th><b><?=$row['Description'];?></b></th>
+             <th><b><?=$row['CreatedBy'];?></b></th>
+             <th><b><?=$row['CreatedDate'];?></b></th>
+            <th>
+
+                <div class="form-check form-switch">
+                    <select class="form-control" id='toggleForm<?=$row['ID'];?>' onchange="updateStatus(<?=$row['ID'];?>)" style="color: <?=$color;?>">
+                         <option value="<?=$status;?>"><?=$show;?></option>
+  <option value="1">ON</option>
+   <option value="0">OFF</option>
+                    </select>
+   
+ 
+</div></th>
+        </tr>
+        <?php 
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
       elseif($code==25.6)
 
    {
@@ -2089,6 +2166,22 @@ elseif($code==25.5)
 $status=$_POST['status'];
 
  $asd="Update masterarticleadmisisoncell set Status='$status' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+
+
+mysqli_close($connection_s);
+
+echo "1";
+      }
+       elseif($code==25.61)
+
+   {
+ $id=$_POST['id'];
+$status=$_POST['status'];
+
+echo  $asd="Update masterarticleitcell set Status='$status' where ID='$id'";
    
 $addrun=mysqli_query($connection_s,$asd);
 
@@ -2151,6 +2244,57 @@ elseif($code==25.7)
   sqlsrv_close($conntest); 
 }
 
+elseif($code==25.71)
+
+   {
+     ?><div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Add Stock</b>
+        
+       </div>
+        </div>
+           
+              <label>Name of Article</label>
+              <select class="form-control" id='articlecode'>
+              <?php $get_group="SELECT * FROM masterarticleitcell";
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {?>
+            <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+            <?php }?>
+</select>
+
+<label>Quantity</label>
+                <input type="number"  id='quantity' placeholder=""  class="form-control">
+<br>
+<button onclick="submitstock()"  class="btn btn-primary">Add</button>
+              </div>
+
+
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id="showstock"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+        </div> 
+
+  <?php 
+  sqlsrv_close($conntest); 
+}
 elseif($code==25.8)
 
    {?>
@@ -2169,6 +2313,49 @@ elseif($code==25.8)
         <?php 
          $sr=1;
           $get_group="SELECT * FROM  masterstockadmissioncell  as ms inner join masterarticleadmisisoncell as ma  on ma.ID=ms.ArticleID";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['Name'];?>(<?=$row['ID'];?>)</b>
+            </th>
+            <th><b><?=$row['TotalStock'];?></b></th>
+             <th><b><?=$row['IssuedStock'];?></b></th>
+
+                 <th><b><?= $row['TotalStock']-$row['IssuedStock'];?></b></th>
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+      elseif($code==25.81)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Total Stock</th>
+            <th>Issued Stock</th>
+            <th>Balance</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+        $get_group="SELECT * FROM  masterstockitcell  as ms inner join masterarticleitcell as ma  on ma.ID=ms.ArticleID";
      $get_group_run=mysqli_query($connection_s,$get_group);
          while($row=mysqli_fetch_array($get_group_run))
          {
@@ -2226,6 +2413,45 @@ while($row=mysqli_fetch_array($result))
 $new_quantity=$stock_quantity+$quantity;
 
 $result = mysqli_query($connection_s, "UPDATE masterstockadmissioncell set TotalStock='$new_quantity' WHERE ArticleID ='$articlecode'");
+
+}
+
+mysqli_close($connection_s);
+
+}
+      }
+elseif($code==25.91)
+
+   {
+ $articlecode=$_POST['articlecode'];
+ $quantity=$_POST['quantity'];
+   
+if($quantity>0)
+{
+ $update1="insert into puchaserecorditcell(ArticleID,Stock,UpdateBy,Date)Values
+    ('$articlecode','$quantity','$EmployeeID','$timeStampS')";
+
+ $get_group_run=mysqli_query($connection_s,$update1);
+
+
+ $sql = "SELECT * FROM  masterstockitcell WHERE ArticleID ='$articlecode'";
+$result = mysqli_query($connection_s,$sql);
+
+if ($result->num_rows == 0) 
+{
+
+$result_z = mysqli_query($connection_s,"INSERT into masterstockitcell(ArticleID,TotalStock)
+                                                   values ('$articlecode','$quantity')");
+}
+else
+{
+while($row=mysqli_fetch_array($result))
+{   
+     $stock_quantity=$row["TotalStock"];
+}
+$new_quantity=$stock_quantity+$quantity;
+
+$result = mysqli_query($connection_s, "UPDATE masterstockitcell set TotalStock='$new_quantity' WHERE ArticleID ='$articlecode'");
 
 }
 
@@ -2375,6 +2601,146 @@ $sr=1;
 
       }
 
+
+elseif($code==26.55)
+
+
+   {
+
+    $code_access=$_POST['code_access'];?>
+<div class="row">
+         <div class="col-lg-3">
+        <div class="card">
+        <div class="card-header">
+       
+         <b>Issue Request</b>
+        
+       </div>
+       <script>
+
+            </script><br>
+               <div class="btn-group input-group-sm" style="text-align:center;">
+
+ <input type="radio"   id="ossm1"  onclick="emc1_hide();" name="Employee"   checked="" value="0" required="" hidden>  
+
+                       <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                       <input type="radio"  id="ossm"  name="Employee"   required=""  onclick="emc1_show();" value="1" name="empc1" hidden>  
+
+                       <label for="ossm" class="btn btn-xs">Other</label>
+    </div>
+                      <div class="col-md-12" style="display: none;" id="lect_div">   
+                        <label for="ossm1" class="btn  btn-xs"> Employee</label>
+
+                      <select class="form-control" id='emptype'>
+                         
+                          <option value="Guest">Guest</option>
+                            <option value="Field Team">FieldTeam</option>
+                              <option value="Consultant">Consultant</option>
+                                <option value="Other">Other</option>
+
+                      </select>   
+  <label>Name <span style="color: red">*</span></label>
+  <input type="text" name="name_visitor" id="empNames" class="form-control">
+  
+  <label>Detail <span style="color: red">*</span></label>
+  <input type="text"  id="empDetail" class="form-control">
+ 
+  
+  </div>
+
+  <div class="col-md-12"  id="lect_div1">
+ <label>Employee ID</label>
+<input type="text" class="form-control" name="" id='empID' onblur="emp_detail_verify1(this.value)" >
+<span id='emp-data' style="font-weight:bold"></span>
+<input type="hidden" class="form-control" name="" id='empName' readonly><br>
+<input type="text" class="form-control"  placeholder="Description" id='empDescription' >
+
+<br>
+                         
+
+
+</div>
+
+<br>
+        <table class="table-bordered">
+       <tr>   
+        <th>#</th>
+<th>Name of Article</th><th>Quantity</th></tr>
+ 
+<?php  
+if($code_access!='000')
+{
+ $get_group="SELECT * FROM masterarticleitcell ma  inner join masterstockitcell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock";   
+}
+else
+{
+  $get_group="SELECT * FROM masterarticleitcell ma  inner join masterstockitcell ms  on ma.ID=ms.ArticleID where  ms.TotalStock>ms.IssuedStock ANd Status='1'";   
+}
+$sr=1;
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+
+            ?>
+
+        <tr>   
+<td width="10%" style="text-align:center;"><?=$sr;?></td>
+<td width="30%"><?=$row['Name'];?><input type="hidden" class="form-control article" value="<?=$row['ArticleID'];?>" name="article[]" id="article">
+
+<b>(<?php echo "Balance-". $balance=$row['TotalStock']-$row['IssuedStock'];?>)</b>
+</td>
+<td width="10%">  
+
+    <select name="quantity[]" class="form-control quantity" value="0" id="article_value<?=$row['ID'];?>">
+<?php  for($i=0;$i<=$balance;$i++)
+{?>
+ <option value="<?= $i;?>"><?= $i;?></option>
+<?php }
+?>    
+</select>
+</td>
+<input type="hidden"  class="form-control remarks" id="remakrs<?=$row['ID'];?>" name="remarks[]"></tr>    
+            
+
+
+            <?php 
+
+            $sr++;}?>
+
+<input type="hidden"  value="<?=$sr-1;?>" class="form-control" id="flag">
+</table>
+               
+<br>
+<button onclick="IssueStock()"  class="btn btn-primary">Issue Stock</button>
+              </div>
+
+    </div>
+
+               <div class="col-lg-9">
+                    <div class="card">
+        <div class="card-header">
+       
+         <b>Master Stock</b>
+</div>
+         <div id="issuedstocklist"><div>
+        
+       </div>
+        </div>
+               </div>
+
+                
+                 
+          </div>  
+         </div>
+
+  <?php 
+  sqlsrv_close($conntest); 
+
+
+
+
+      }
         elseif($code==26.1)
 
    {
@@ -2382,6 +2748,33 @@ $sr=1;
 $ArticleName=$_POST['ArticleName'];
 
 $get_group="SELECT * FROM masterarticleadmisisoncell where  ID='$id'";   
+
+$sr=1;
+         $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+ $oldname=$row['Name'];
+
+}
+ $asd="Update masterarticleadmisisoncell set Name='$ArticleName' where ID='$id'";
+   
+$addrun=mysqli_query($connection_s,$asd);
+
+ $update1="insert into trackchnages(userID,newname,oldname,createddate)Values('$EmployeeID','$ArticleName','$oldname','$timeStamp')";
+
+$addrun=mysqli_query($connection_s,$update1);
+
+mysqli_close($connection_s);
+
+
+      }
+elseif($code==26.11)
+
+   {
+ $id=$_POST['id'];
+$ArticleName=$_POST['ArticleName'];
+
+$get_group="SELECT * FROM masterarticleitcell where  ID='$id'";   
 
 $sr=1;
          $get_group_run=mysqli_query($connection_s,$get_group);
@@ -2466,6 +2859,67 @@ $addrun=mysqli_query($connection_s,$asdw);
 
       }
 
+   elseif($code==26.21)
+
+   {
+ $empID=$_POST['empid'];
+  $empName=$_POST['empName'];
+   $empDetail=$_POST['empDetail'];
+    $emptype=$_POST['emptype'];
+
+
+    $ids=$_POST['ids'];
+    $qnt=$_POST['quantity'];
+    $flag2= $_POST['flag2'];
+    $ids=$_POST['ids'];
+    $qnt=$_POST['quantity'];
+    $rem=$_POST['remarks'];
+
+$insert="insert into ledgeritcell(IDNo,Name,Type,Remarks,CreatedDate,CreatedBy)Values
+                                        ('$empID','$empName','$emptype','$empDetail','$timeStamp','$EmployeeID')";
+
+$addrun=mysqli_query($connection_s,$insert);
+$select="Select ID from  ledgeritcell  order by ID Desc limit 1";
+$get_group_run=mysqli_query($connection_s,$select);
+ if($row=mysqli_fetch_array($get_group_run))
+         {
+ $REfno=$row['ID'];
+
+}
+
+   for($i=0;$i<$flag2;$i++)
+   {
+  $Issuedqty=$qnt[$i];
+ $issue="insert into requestitcell(reference_no,item_code,quantity,specification)Values
+                                        ('$REfno','$ids[$i]','$qnt[$i]','$rem[$i]')";
+
+$addissue=mysqli_query($connection_s,$issue);
+
+ $asdws="select IssuedStock from  masterstockitcell  where ArticleID='$ids[$i]'";
+   $addruns=mysqli_query($connection_s,$asdws);
+
+   while($row=mysqli_fetch_array($addruns))
+
+{
+   $IssuedStock=$row['IssuedStock'];
+  
+    $cstock=$IssuedStock+$Issuedqty;
+
+ $asdw="Update masterstockitncell set IssuedStock='$cstock' where ArticleID='$ids[$i]'";
+   
+$addrun=mysqli_query($connection_s,$asdw);
+
+
+}
+
+
+
+
+   }
+
+
+
+      }
     elseif($code==26.3)
 
    {?>
@@ -2488,6 +2942,59 @@ $addrun=mysqli_query($connection_s,$asdw);
         <?php 
          $sr=1;
           $get_group="SELECT * FROM  ledgeradmissioncell  order by ID desc limit 10";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            <th>
+                <b><?=$row['ID'];?></b>
+            </th>
+            <th>
+                <b><?=$row['Name'];?>(<?=$row['IDNo'];?>)</b>
+            </th>
+           
+             <th><b><?=$row['Type'];?></b></th>
+               <th><b><?=$row['Remarks'];?></b></th>
+                <th><b><?=$row['CreatedBy'];?></b></th>
+
+                   <th><b><i class="fa fa-eye" onclick="viewlist(<?=$row['ID'];?>)" data-toggle="modal" data-target="#exampleModal"></i>
+ </b></th>
+             
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+  elseif($code==26.31)
+
+   {?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+               <th>Request No</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Remarks</th>
+              <th>Issued By</th>
+              <th>View</th>
+
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+         $sr=1;
+          $get_group="SELECT * FROM  ledgeritcell  order by ID desc limit 10";
      $get_group_run=mysqli_query($connection_s,$get_group);
          while($row=mysqli_fetch_array($get_group_run))
          {
@@ -2577,6 +3084,63 @@ elseif($code==26.4)
 <?php
       }
 
+      elseif($code==26.41)
+
+   { 
+
+    $id=$_POST['id'];
+
+    ?>
+<table class="table">
+    <thead>
+        <tr> <th colspan="5" style="text-align: center;">
+                Request Number :<b><?=$id;?></b>
+            </th></tr>
+        <tr>
+            <th>#</th>
+              
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Remarks</th>
+            
+
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+       
+        <?php 
+         $sr=1;
+          $get_group="SELECT  * ,ma.Name as aName,ma.ID as AId FROM requestitcell AS  rs inner join masterarticleitcell AS ma on rs.item_code=ma.ID  where reference_no='$id'";
+     $get_group_run=mysqli_query($connection_s,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {
+            
+            ?>        <tr>
+            <th><?=$sr;?></th>
+            
+            <th>
+                <b><?=$row['aName'];?>(<?=$row['AId'];?>)</b>
+            </th>
+           
+             <th><b><?=$row['quantity'];?></b></th>
+               <th><b><?=$row['specification'];?></b></th>
+              
+
+                   
+          
+        </tr>
+        <?php
+         $sr++; }
+           ?>
+    </tbody>
+</table>
+
+
+<?php
+      }
+
 elseif($code==26.5)
 
    { 
@@ -2634,6 +3198,7 @@ elseif($code==26.5)
 
 <?php
       }
+
 elseif($code==26.6)
 
    { 

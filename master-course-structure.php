@@ -48,21 +48,24 @@
                             <a class="btn" id="btn7" style="background-color:#223260; color: white; border: 1px solid;" onclick="datesheetTab();bg(this.id);">Date Sheet</a> 
 
                               
-                            
-                    </div>
+                           </div> 
+                  
                         <?php 
                               }
-                               if ($code_access=='000') 
-                             { 
-                                ?>
-                                <script>
-                               $( window ).on("load", function() {
-                                 Search();
-});
-                                </script>
+                             else if ($code_access=='000') 
+                              { 
+                                 ?>  <div class="btn-group w-100 mb-2">
+                                <a class="btn " id="btn2" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="Search();bg(this.id);"> Search </a>
+
+                             <a class="btn " id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="addRoleLMS_dean();bg(this.id);"> Assign Role </a> 
+
+
+                           
 
                                 
-                        <?php }?>
+                         <?php }?></div>  </div>
 
                     <div id="table_load">
                      <?php
@@ -310,9 +313,9 @@ function update_study_scheme_search() {
     });
 
 }
+
 function submit_rolelms(id)
 {
-
 var code=303; 
 var role_id= document.getElementById("roleID").value;
 $.ajax({
@@ -344,6 +347,56 @@ error:function(){
 }
 });
 } 
+
+
+function mark_rolerr(id)
+{
+var code=303.1; 
+
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+if(response==1)
+{
+addRoleLMS_dean();
+  
+  SuccessToast('Successfully Asssined');
+}
+// else if(response==2)
+// {
+
+
+//   ErrorToast('already Assigned','bg-warning');
+// }
+else
+{
+  ErrorToast('Try Again','bg-danger');
+}
+},
+error:function(){
+}
+});
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function del_rolerr(id)
 {
@@ -380,6 +433,41 @@ else
 }
 } 
 
+function del_rolerr_dean(id)
+{
+    var a=confirm('Are you sure you want to delete Role '+id);;
+if (a==true) {
+var code=302.1;  
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+   emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+  if(response==1)
+  {
+   //searchEmp();
+   addRoleLMS_dean();
+    SuccessToast('Successfully Delete');
+  }
+  else
+  {
+    ErrorToast('Try Again','bg-danger');
+  }
+      },
+error:function(){
+// alert("error");
+}
+});
+}
+else
+{
+
+}
+}
+
 function searchEmp() {
     var code = 301;
     var empID = document.getElementById('empID').value;
@@ -401,6 +489,22 @@ function searchEmp() {
 
 function addRoleLMS() {
     var code = 300;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+function addRoleLMS_dean() {
+    var code = 300.1;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({

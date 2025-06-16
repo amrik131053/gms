@@ -11346,7 +11346,11 @@ elseif ($code==174)
       {
         $IDNo= $row['IDNo'];
          $StudentName = $row['StudentName'];
-         $img= $row['Snap'];
+         $img= "http://erp.gku.ac.in:86/Images/Students/".$row['Image'];
+
+
+
+
       $pic = 'data://text/plain;base64,' . base64_encode($img);
         $qry="SELECT * from computer_lab_entry where UserID='$IDNo' and status='0' and entry_time like '$date%'";
         $run=mysqli_query($conn,$qry);
@@ -11400,7 +11404,7 @@ elseif ($code==174)
          </div>
             </div>
             <div class="col-lg-1">
-               <img src="<?=$pic?>" width='100px' height='100%'>
+               <img src="<?=$img?>" width='100px' height='100%'>
             
             </div>
          </div>
@@ -11455,8 +11459,8 @@ elseif ($code==174)
       {
          $IDNo= $row['IDNo'];
          $userName = $row['Name'];
-         $img= $row['Snap'];
-      $pic = 'data://text/plain;base64,' . base64_encode($img);
+        $img= "http://erp.gku.ac.in:86/Images/Staff/".$row['Imagepath'];
+
          $qry="SELECT * from computer_lab_entry where UserID='$IDNo' and status='0' and entry_time like '$date%'";
         $run=mysqli_query($conn,$qry);
         if (mysqli_num_rows($run)<1) 
@@ -11509,7 +11513,7 @@ elseif ($code==174)
          </div>
             </div>
             <div class="col-lg-1">
-               <img src="<?=$pic?>" width='100px' height='100%'>
+               <img src="<?=$img?>" width='100px' height='100%'>
             
             </div>
          </div>
@@ -23253,10 +23257,27 @@ sqlsrv_close($conntest);
                <label>End Date<span class="text-danger">&nbsp;*</span></label>
                    <input type="date" class="form-control" id="leaveEndDate"  name="leaveEndDate" value="<?=date('Y-m-d');?>" >
                 </div>
+
+                 <div class="col-lg-12">
+               <label>Leave Status<span class="text-danger">&nbsp;*</span></label>
+
+                  <select class="form-control" id='leavestaus' name='leavestaus'>
+                     <option value="" >Select Status</option>
+                     <option value="Approved" >Approved</option>
+                     <option value="Pending to Sanction">Pending to Head/Incharge</option>
+                     <option value="Pending to Authority">Pending to Dean/Authority</option></select>
+
+                </div>
+
+
+
                <div class="col-lg-12">
                <label>Leave Reason<span class="text-danger">&nbsp;*</span></label>
                    <textarea Class="form-control" id="leaveReason" name="leaveReason" placeholder="Enter leave reason............" required></textarea>
                 </div>
+
+
+
                <div class="col-lg-12">
                <label>Adjustment File<span class="text-danger">&nbsp;*</span></label>
                <input type="file" class="form-control" name='leaveFile' required>
@@ -25349,19 +25370,19 @@ else if($code=='364.1')
   <table class="table">
 
 <?php 
- $resulrs="SELECT *  from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!=''   order by classrollno DESC LIMIT 1";
+ $resulrs="SELECT Distinct Batch from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!='' limit 1";
 $list_resultsub = mysqli_query($conn_online_odl, $resulrs);
 $key1=1;
  while ($rows = mysqli_fetch_array($list_resultsub)) 
  {
-     $resulrs1="SELECT *  from ResultOnlineGKU where  UniRollNo='".$rows['classrollno']."' and Examination='$Examination' and Semester='$Semester' and Type='$Type'";
+   $resulrs1="SELECT *  from ResultOnlineGKU where Examination='$Examination' and Semester='$Semester' and Type='$Type'";
    $list_resultsub1 = sqlsrv_query($conntest, $resulrs1);
    $key1=1;
     while ($rows1 = sqlsrv_fetch_array($list_resultsub1, SQLSRV_FETCH_ASSOC)) 
     {
    ?>
    <tr><td></td><td><?= $rows['course'];?></td><td><?= $rows['batch'];?></td><td><?= $rows1['Semester'];?></td><td><?= $rows1['Type'];?></td><td>  <?php if($rows1['DeclareDate']!=''){
-      echo $date= $rows1['DeclareDate']->format('Y-m-d');
+      $date= $rows1['DeclareDate']->format('Y-m-d');
    }
    else
    {
