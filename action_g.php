@@ -17490,13 +17490,25 @@ $EmpID=$_POST['EmpID'];
 $LeaveStatus=$_POST['status_leave'];
 if($LeaveStatus>0)
 {
-  $status='Approved';
+  //$status='Approved';
+$status=$_POST['leavestaus'];
+
+$employee_details="SELECT RoleID,IDNo,ShiftID,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmpID'";
+      $employee_details_run=sqlsrv_query($conntest,$employee_details);
+      if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
+        
+         $Authority=$employee_details_row['LeaveSanctionAuthority'];
+         $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
+       
+      }
+
+
+
 
 }
 else
 {
 $status="Pending to Sanction";
-
 }
 
 
@@ -17573,7 +17585,6 @@ $leaveReasonUser=$DateChnageRemarks.' '.$leaveReason;
 
 $DateChnageRemarksHR='Leave applied from '.$leaveStartDate.' to '.$leaveEndDate.' due to ';
 $leaveReasonHR=$DateChnageRemarksHR.' '.$leaveReason.' By HR Department';
-
 
 $sql_att23="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and StartDate='$leaveStartDate' and EndDate='$leaveEndDate' and Status!='Approved' and Status!='Reject' ";  
 $stmt=sqlsrv_query($conntest,$sql_att23,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -17710,6 +17721,9 @@ echo "6";
 
      }
 else{
+
+
+
 
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath,CreatedBy)
  VALUES('$EmpID','$LeaveType'

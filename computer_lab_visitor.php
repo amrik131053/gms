@@ -29,10 +29,21 @@ $tz = 'Asia/Kolkata';
                                         <div class="col-lg-4">
 
                                         </div>
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-4">
                                             <form action="computer-center-visitor-report-print.php" method="post"
                                                 target="_blank">
-                                                <div class="input-group input-group-sm">
+                                                <div class="input-group input-group-sm"><div class="input-group-prepend">
+                                                        <span class="input-group-text bg-danger"
+                                                            id="inputGroup-sizing-sm">Type</span>
+                                                    </div>
+                                                    <select  name="type" >
+                                                         <option value="0">All</option>
+                                                        <option value="1">Staff</option>
+                                                          <option value="2">Student</option>
+                                                          
+                                                    </select>
+                                                    &nbsp;
+
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-danger"
                                                             id="inputGroup-sizing-sm">Start</span>
@@ -115,8 +126,8 @@ $tz = 'Asia/Kolkata';
                            $name = $row1['StudentName'];
                            $college = $row1['CollegeName'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+                           $img="http://erp.gku.ac.in:86/Images/Students/".$row1['Image'];
+                           
                         }
                     }
                     else
@@ -138,8 +149,10 @@ $tz = 'Asia/Kolkata';
                            {
                               $ContactNo = $row1['MobileNo'];
                            }
-                           $img= $row1['Snap'];
-                        $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           $img= "http://erp.gku.ac.in:86/Images/Staff/".$row1['Imagepath'];
+
+                      
                         }
                     }
                     if($row["status"] == "1")
@@ -168,7 +181,7 @@ $tz = 'Asia/Kolkata';
 
                                     </th>
                                     <td><img class="img-circle elevation-2" width="50" height="50"
-                                            style="border-radius:50%" src="<?=$pic?>" alt="User Avatar"></td>
+                                            style="border-radius:50%" src="<?=$img;?>" alt="User Avatar"></td>
                                     <td><?=$userId?></td>
                                     <td><?=$name?></td>
                                     <td><?=$Department?></td>
