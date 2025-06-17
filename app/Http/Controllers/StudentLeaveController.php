@@ -8,12 +8,13 @@ class StudentLeaveController extends Controller
     public function applyHostelLeave(Request $request)
     { 
         $BaseURL=config('app.baseUrl');
+        $BaseURLPublic=config('app.baseUrlPublic');
         $token = $request->session()->get('api_token');
         $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/profile');
         $resData = $DataResponse->json();
         $profileData=$resData['data'][0];
         $IDNo=$profileData['IDNo'];
-        $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://119.250.20.109:94/student/showAllLeaves/',
+        $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURLPublic.'/student/showAllLeaves/',
         [
             'studentId' => $IDNo,
         ]);
@@ -34,6 +35,7 @@ class StudentLeaveController extends Controller
         ]);
     
         $BaseURL = config('app.baseUrl');
+        $BaseURLPublic=config('app.baseUrlPublic');
         $token = $request->session()->get('api_token');
         $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/profile');
         $resData = $DataResponse->json();
@@ -52,7 +54,7 @@ class StudentLeaveController extends Controller
         $application_subject = $request->input('application_subject');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->post('http://119.250.20.109:94/student/studentApplyLeave', [
+        ])->post($BaseURLPublic.'/student/studentApplyLeave', [
             'studentId' => $studentIDNo,
             'startDate' => $startDate,
             'endDate' => $endDate,

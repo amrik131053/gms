@@ -24,9 +24,10 @@ class AppServiceProvider extends ServiceProvider
         View::composer(['dashboard', 'header', 'footer', 'smartCard'], function ($view) {
             $token = session()->get('api_token');
             $BaseURL = config('app.baseUrl');
+            $BaseURLPublic=config('app.baseUrlPublic');
             $profileData = [];
             $DataButtonsExam = [];
-            $meterDetails = []; // ✅ Initialize default
+            $meterDetails = []; 
     
             if ($token) {
                 $response = Http::withHeaders([
@@ -56,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
                 if ($IDNo) {
                     $DataResponseTrack = Http::withHeaders([
                         'Authorization' => 'Bearer ' . $token
-                    ])->post('http://117.250.20.109:94/student/meterReading/' . $IDNo);
+                    ])->post($BaseURLPublic.'/student/meterReading/' . $IDNo);
     
                     if ($DataResponseTrack->successful()) {
                         $DataMeter = $DataResponseTrack->json();
