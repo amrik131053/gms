@@ -2875,27 +2875,27 @@ $addrun=mysqli_query($connection_s,$asdw);
     $qnt=$_POST['quantity'];
     $rem=$_POST['remarks'];
 
-$insert="insert into ledgeritcell(IDNo,Name,Type,Remarks,CreatedDate,CreatedBy)Values
+echo $insert="insert into ledgeritcell(IDNo,Name,Type,Remarks,CreatedDate,CreatedBy)Values
                                         ('$empID','$empName','$emptype','$empDetail','$timeStamp','$EmployeeID')";
 
 $addrun=mysqli_query($connection_s,$insert);
 $select="Select ID from  ledgeritcell  order by ID Desc limit 1";
 $get_group_run=mysqli_query($connection_s,$select);
- if($row=mysqli_fetch_array($get_group_run))
+if($row=mysqli_fetch_array($get_group_run))
          {
- $REfno=$row['ID'];
-
-}
+         $REfno=$row['ID'];
+         }
 
    for($i=0;$i<$flag2;$i++)
    {
-  $Issuedqty=$qnt[$i];
- $issue="insert into requestitcell(reference_no,item_code,quantity,specification)Values
+       $Issuedqty=$qnt[$i];
+  
+  echo $issue="insert into requestitcell(reference_no,item_code,quantity,specification)Values
                                         ('$REfno','$ids[$i]','$qnt[$i]','$rem[$i]')";
 
 $addissue=mysqli_query($connection_s,$issue);
 
- $asdws="select IssuedStock from  masterstockitcell  where ArticleID='$ids[$i]'";
+ echo $asdws="select IssuedStock from  masterstockitcell  where ArticleID='$ids[$i]'";
    $addruns=mysqli_query($connection_s,$asdws);
 
    while($row=mysqli_fetch_array($addruns))
@@ -2905,7 +2905,7 @@ $addissue=mysqli_query($connection_s,$issue);
   
     $cstock=$IssuedStock+$Issuedqty;
 
- $asdw="Update masterstockitncell set IssuedStock='$cstock' where ArticleID='$ids[$i]'";
+ $asdw="Update masterstockitcell set IssuedStock='$cstock' where ArticleID='$ids[$i]'";
    
 $addrun=mysqli_query($connection_s,$asdw);
 
