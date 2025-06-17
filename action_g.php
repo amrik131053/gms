@@ -7188,6 +7188,7 @@ elseif($code==94)
    $gender = $_POST["gender"];
    $category = $_POST["category"];
    $panNumber = $_POST["panNumber"];
+    $aadharNumber = $_POST["aadharNumber"];
    $personalEmail = $_POST["personalEmail"];
    $officialEmail = $_POST["officialEmail"];
    $mobileNumber = $_POST["mobileNumber"];
@@ -7281,8 +7282,9 @@ elseif($code==94)
    $query .= "DateOfBirth = '$dob', ";
    $query .= "Gender = '$gender', ";
    $query .= "Category = '$category', ";
-   $query .= "PANNo = '$panNumber' ";
-   $query .= ",EmailID = '$personalEmail', ";
+   $query .= "PANNo = '$panNumber', ";
+    $query .= "AadhaarCard = '$aadharNumber' ,";
+   $query .= "EmailID = '$personalEmail', ";
    $query .= "OfficialEmailID = '$officialEmail', ";
    $query .= "MobileNo = '$mobileNumber', ";
    $query .= "WhatsAppNumber = '$whatsappNumber', ";
@@ -7320,7 +7322,7 @@ elseif($code==94)
    }
    $query .= "BloodGroup = '$bloodGroup' ";
    $query .= "WHERE IDNo = '$loginId'";
-   $query;
+    $query;
 
    $escapedQuery1 = str_replace("'", "''", $query);
    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
