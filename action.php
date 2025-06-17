@@ -11346,7 +11346,11 @@ elseif ($code==174)
       {
         $IDNo= $row['IDNo'];
          $StudentName = $row['StudentName'];
-         $img= $row['Snap'];
+         $img= "http://erp.gku.ac.in:86/Images/Students/".$row['Image'];
+
+
+
+
       $pic = 'data://text/plain;base64,' . base64_encode($img);
         $qry="SELECT * from computer_lab_entry where UserID='$IDNo' and status='0' and entry_time like '$date%'";
         $run=mysqli_query($conn,$qry);
@@ -11400,7 +11404,7 @@ elseif ($code==174)
          </div>
             </div>
             <div class="col-lg-1">
-               <img src="<?=$pic?>" width='100px' height='100%'>
+               <img src="<?=$img?>" width='100px' height='100%'>
             
             </div>
          </div>
@@ -11455,8 +11459,8 @@ elseif ($code==174)
       {
          $IDNo= $row['IDNo'];
          $userName = $row['Name'];
-         $img= $row['Snap'];
-      $pic = 'data://text/plain;base64,' . base64_encode($img);
+        $img= "http://erp.gku.ac.in:86/Images/Staff/".$row['Imagepath'];
+
          $qry="SELECT * from computer_lab_entry where UserID='$IDNo' and status='0' and entry_time like '$date%'";
         $run=mysqli_query($conn,$qry);
         if (mysqli_num_rows($run)<1) 
@@ -11509,7 +11513,7 @@ elseif ($code==174)
          </div>
             </div>
             <div class="col-lg-1">
-               <img src="<?=$pic?>" width='100px' height='100%'>
+               <img src="<?=$img?>" width='100px' height='100%'>
             
             </div>
          </div>
@@ -23253,10 +23257,27 @@ sqlsrv_close($conntest);
                <label>End Date<span class="text-danger">&nbsp;*</span></label>
                    <input type="date" class="form-control" id="leaveEndDate"  name="leaveEndDate" value="<?=date('Y-m-d');?>" >
                 </div>
+
+                 <div class="col-lg-12">
+               <label>Leave Status<span class="text-danger">&nbsp;*</span></label>
+
+                  <select class="form-control" id='leavestaus' name='leavestaus'>
+                     <option value="" >Select Status</option>
+                     <option value="Approved" >Approved</option>
+                     <option value="Pending to Sanction">Pending to Head/Incharge</option>
+                     <option value="Pending to Authority">Pending to Dean/Authority</option></select>
+
+                </div>
+
+
+
                <div class="col-lg-12">
                <label>Leave Reason<span class="text-danger">&nbsp;*</span></label>
                    <textarea Class="form-control" id="leaveReason" name="leaveReason" placeholder="Enter leave reason............" required></textarea>
                 </div>
+
+
+
                <div class="col-lg-12">
                <label>Adjustment File<span class="text-danger">&nbsp;*</span></label>
                <input type="file" class="form-control" name='leaveFile' required>

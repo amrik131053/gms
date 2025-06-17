@@ -653,26 +653,6 @@ function submitstock() {
     });
      
 }
-function suspend(user_id) {
-    var code=25.10;
-    $.ajax({
-        url: 'action_j.php',
-        type: 'POST',
-        data: {
-            flag: code,
-            suspend: true,
-            user_id: user_id
-        },
-        success: function(response) {
-            alert(response); // Show response from PHP
-            // Refresh page (optional)
-        },
-        error: function(xhr, status, error) {
-            alert("AJAX Error: " + error);
-        }
-    });
-}
-
 
 
 </script>
@@ -833,7 +813,6 @@ function task_timeline(Token_No)
               }
            });
 }
-
 function submit_marks(ID)
 {
  // alert(Token_No);
@@ -862,7 +841,6 @@ function submit_marks(ID)
               }
            });
 }
-
 
 window.onload = function() {
   my_task();

@@ -322,7 +322,7 @@ elseif($code==25.8)
 
                 }
             ?></b></th>
-          <th><b><button onclick="suspend(<?= $row['ID']; ?>)">Suspend</button></b></th>
+          <th><b><button onclick="hidedata()">Suspended</button></b></th>
              
           
         </tr>
@@ -332,32 +332,8 @@ elseif($code==25.8)
     </tbody>
 </table>
 
-<?php
 
 
-if (isset($_POST['suspend']) && isset($_POST['user_id'])) {
-    $id = intval($_POST['user_id']);
-    $update = $conn->query("UPDATE mobilestockledger SET status = 0 WHERE id = $id");
-
-    if ($update) {
-        echo "User suspended successfully";
-    } else {
-        echo "Error updating user status.";
-    }
-}
-?>
-<!-- <script>
-if (isset($_POST['suspend'])) {
-    $id = intval($_POST['user_id']);
-    $update = $conn->query("UPDATE mobilestockledger SET status = 0 WHERE id = $id");
-
-    if ($update) {
-        echo "<script>alert('User suspended'); window.location.href='';</script>";
-    } else {
-        echo "Error updating status.";
-    }
-}
-</script> -->
 
 <?php
       }

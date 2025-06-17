@@ -18,11 +18,61 @@ $j = 0;
 
 $startDate=$_POST['startDate'];
 $endDate=$_POST['endDate'];
-$sql123 = "SELECT * FROM computer_lab_entry  where entry_time between '$startDate' and '$endDate'  Order by entry_time asc";
+$type=$_POST['type'];
+if($type==1)
+{
+ $sql123 = "SELECT * FROM computer_lab_entry  where entry_time between '$startDate' and '$endDate'  and LENGTH(CAST(USERID AS CHAR)) <= 6   Order by entry_time asc";
+}
+elseif($type==2)
+{
+$sql123 ="SELECT * FROM computer_lab_entry  where entry_time between '$startDate' and '$endDate' and LENGTH(CAST(USERID AS CHAR)) >6   Order by entry_time asc";
+}
+else
+{
+  $sql123 = "SELECT * FROM computer_lab_entry  where entry_time between '$startDate' and '$endDate'    Order by entry_time asc";
+}
+
+
+
 $stmt123 = mysqli_query($conn, $sql123);
 while ($row123 = mysqli_fetch_array($stmt123)) {
+
     $IDNo[] = $row123['UserID'];
+ $sidno=$row123['UserID'];
+
+        if(strlen($row123['UserID'])<=6)
+        {
+            $employee_details="SELECT RoleID,IDNo,ShiftID,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$sidno'";
+      $employee_details_run=sqlsrv_query($conntest,$employee_details);
+      if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
+         $Emp_Name[]=$employee_details_row['Name'];
+         $Emp_Designation[]='Staff';
+        
+      }
+        }
+        else
+        {
+          $Student_detail="Select * from Admissions where IDNo='$sidno'";
+
+   $Student_detail_run=sqlsrv_query($conntest,$Student_detail);
+      if ($Student_detail_row=sqlsrv_fetch_array($Student_detail_run,SQLSRV_FETCH_ASSOC)) {
+         $Emp_Name[]=$Student_detail_row['StudentName'];
+         $Emp_Designation[]='Student';
+        
+      }
+
+
+
+        }    
+      
+
+
+
+
     $entryTime[] = date('d-m-Y H:i',strtotime($row123['entry_time']));
+
+      $system_number[] = $row123['system_number'];
+
     $currentDateTime = date('m/d/Y H:i:s');
     $exitTime[] = date('d-m-Y H:i',strtotime($row123['exit_time']));
     $j++;
@@ -71,10 +121,14 @@ class PDF extends FPDF
         // $this->subWrite(0,$exitTime,'',6,4);
         $this->Write(0, '');
         $this->SetXY(9, 32);
-        $this->Cell(65, 6, 'ID No.', 1, 0, 'C', 0);
-        $this->Cell(65, 6, 'Entry Time', 1, 0, 'C', 0);
-        $this->Cell(65, 6, 'Exit Time', 1, 0, 'C', 0);
-        // $this->Cell(70,6,'In Time',1,0,'C',0);
+        $this->Cell(35, 6, 'ID No.', 1, 0, 'C', 0);
+        $this->Cell(50, 6, 'Name', 1, 0, 'C', 0);
+          $this->Cell(20, 6, 'Type', 1, 0, 'C', 0);
+        
+        $this->Cell(20, 6, 'System No', 1, 0, 'C', 0);
+        $this->Cell(35, 6, 'Entry Time', 1, 0, 'C', 0);
+        $this->Cell(35, 6, 'Exit Time', 1, 0, 'C', 0);
+        
         
     }
     // Page footer
@@ -105,9 +159,12 @@ $y=38;
     }
       
     $pdf->SetXY(9, $y );
-    $pdf->Cell(65, 6, $IDNo[$i], 1, 0, 'C', 0);
-    $pdf->Cell(65, 6, $entryTime[$i], 1, 0, 'C', 0);
-    $pdf->Cell(65, 6, $exitTime[$i], 1, 0, 'C', 0);
+    $pdf->Cell(35, 6, $IDNo[$i], 1, 0, 'C', 0);
+     $pdf->Cell(50, 6, $Emp_Name[$i], 1, 0, 'L', 0);
+      $pdf->Cell(20, 6, $Emp_Designation[$i], 1, 0, 'C', 0);
+    $pdf->Cell(20, 6, $system_number[$i], 1, 0, 'C', 0);
+    $pdf->Cell(35, 6, $entryTime[$i], 1, 0, 'C', 0);
+    $pdf->Cell(35, 6, $exitTime[$i], 1, 0, 'C', 0);
     // $pdf->Cell(70,6,$exitTime[$i],1,0,'C',0);
     $y = $y + 6;
 }
