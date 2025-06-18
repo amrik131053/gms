@@ -49,6 +49,65 @@ window.location.href = "index.php";
         ];
     }
 
+    function getOrdinal($number) {
+        $suffixes = ['th','st','nd','rd','th','th','th','th','th','th'];
+        if ((($number % 100) >= 11) && (($number % 100) <= 13))
+            return $number . 'th';
+        else
+            return $number . $suffixes[$number % 10];
+    }
+    
+    function sendExamFormRejectionMessage($mobileNumber, $studentName, $department, $remarks, $type, $email, $office, $contactMobile) {
+        
+        $apiUrl = 'https://publicapi.myoperator.co/chat/messages';
+        $payload = [
+            "phone_number_id" => "701959619656572",
+            "myop_ref_id" => "formreject_" . uniqid(),
+            "customer_country_code" => "91",
+            "customer_number" => "$mobileNumber",
+            "reply_to" => null,
+            "data" => [
+                "type" => "template",
+                "context" => [
+                    "template_name" => "exam_from",
+                    "body" => [
+                        "type" => "$type",
+                        "remarks" => trim($remarks),
+                        "department" => "$department",
+                        "name" => "$studentName",
+                        "mobile" => "$contactMobile",
+                        "email" => "$email",
+                        "office" => "$office"
+                    ]
+                ]
+            ]
+        ];
+        $headers = [
+            "Content-Type: application/json",
+            "Authorization: Bearer K7PZlwEE9tvHJT5wcAuDb1JUjdYpF5Q9UJWPtb1pKD",
+            "X-MYOP-COMPANY-ID: 681c3c005f48b343"
+        ];
+    
+        $ch = curl_init($apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+    
+        return [
+            'status' => $httpCode === 200,
+            'http_code' => $httpCode,
+            'curl_error' => $error,
+            'raw_response' => $response,
+            'decoded_response' => json_decode($response, true)
+        ];
+    }
+    
 
    include "connection/connection.php";
        $employee_details="SELECT RoleID,IDNo,ShiftID,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
@@ -24344,19 +24403,33 @@ $update_query=sqlsrv_query($conntest,$update1);
        $remark=$_POST['remark'];
         $getDefalutMenu="UPDATE  ExamForm  SET RegistraionRejectedReason='$remark',Status='22' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,Examination,Semesterid,Type FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
+       $Examination=$row['Examination'];
+       $Semester = $row['Semesterid']; 
+       $Type = $row['Type'];       
+       $Examination = $row['Examination'];
+       $semesterOrdinal = getOrdinal($Semester); // Converts 1 => 1st, 2 => 2nd, etc.
+       $LabeType = $semesterOrdinal . ' (' . $Type . ') ' . $Examination.' Form';
    }
    $desc= "UPDATE  ExamForm  SET Status: Rejected,RegistraionRejectedReason: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
-
-
+$sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $name = $row6['StudentName'];
+            $phone = $row6['StudentMobileNo']; 
+          }
    if($getDefalutMenuRun==true)
-   {
+   {  
+    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor ,Room no-105' ,'95697-06375');
        echo "1";
+
    }
    else
    {
@@ -25089,18 +25162,32 @@ $update_query=sqlsrv_query($conntest,$update1);
        $remark=$_POST['remark'];
         $getDefalutMenu="UPDATE  ExamForm  SET ExaminationRejectReason='$remark',Status='7' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,Examination,Semesterid,Type FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
+       $Examination=$row['Examination'];
+       $Semester = $row['Semesterid']; 
+       $Type = $row['Type'];       
+       $Examination = $row['Examination'];
+       $semesterOrdinal = getOrdinal($Semester); // Converts 1 => 1st, 2 => 2nd, etc.
+       $LabeType = $semesterOrdinal . ' (' . $Type . ') ' . $Examination.' Form';
    }
    $desc= "UPDATE  ExamForm  SET Status: Rejected,ExaminationRejectReason: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
 
+$sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $name = $row6['StudentName'];
+            $phone = $row6['StudentMobileNo']; 
+          }
 
    if($getDefalutMenuRun==true)
    {
+    sendExamFormRejectionMessage($phone,$name,'Examination Branch',$remark,$LabeType,'acoe@gku.ac.in','A1 Block, 2nd Floor' ,'94787-17247');
        echo "1";
    }
    else
@@ -29081,19 +29168,32 @@ $update_query=sqlsrv_query($conntest,$update1);
      $getDefalutMenu="UPDATE  ExamForm  SET  AccountantRejectReason='$remark',AccountRejectDate='$timeStampS',Status='6' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-   $getStudentID="SELECT IDNo FROM MasterNodues WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,Examination,Semesterid,Type FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
+       $Examination=$row['Examination'];
+       $Semester = $row['Semesterid']; 
+       $Type = $row['Type'];       
+       $Examination = $row['Examination'];
+       $semesterOrdinal = getOrdinal($Semester);
+       $LabeType = $semesterOrdinal . ' (' . $Type . ') ' . $Examination.' Form';
    }
+   $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+   $stmt1 = sqlsrv_query($conntest,$sql);
+           if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+            {
+               $IDNo= $row6['IDNo'];
+               $name = $row6['StudentName'];
+               $phone = $row6['StudentMobileNo']; 
+             }
    $desc= "UPDATE  ExamForm  SET Status: Rejected,AccountRejectDate: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
-
-
-   if($getDefalutMenuRun==true)
+ if($getDefalutMenuRun==true)
    {
-       echo "1";
+    sendExamFormRejectionMessage($phone,$name,'Account Branch',$remark,$LabeType,'accounts@gku.ac.in','A Block,Room No-110','87250-35250');
+    echo "1";
    }
    else
    {
@@ -29110,11 +29210,28 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-   $getStudentID="SELECT IDNo FROM MasterNodues WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,ExamFormID FROM MasterNodues WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
+       $ExamFormID=$row['ExamFormID'];
    }
+   $getExamFormData="SELECT IDNo,Examination,Semesterid,Type FROM ExamForm WHERE ID='$ExamFormID'";
+   $getExamFormDataRun=sqlsrv_query($conntest,$getExamFormData);
+   if ($row_exam = sqlsrv_fetch_array($getExamFormDataRun, SQLSRV_FETCH_ASSOC)) {
+       $Examination=$row_exam['Examination'];
+       $Semester = $row_exam['Semesterid']; 
+       $Type = $row_exam['Type'];       
+       $semesterOrdinal = getOrdinal($Semester); // Converts 1 => 1st, 2 => 2nd, etc.
+       $LabeType = $semesterOrdinal . ' (' . $Type . ') ' . $Examination.' No Dues';
+   }
+   $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+   $stmt1 = sqlsrv_query($conntest,$sql);
+           if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+            {
+               $name = $row6['StudentName'];
+               $phone = $row6['StudentMobileNo']; 
+             }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
@@ -29122,6 +29239,7 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
+    sendExamFormRejectionMessage($phone,$name,'Account Branch',$remark,$LabeType,'accounts@gku.ac.in','A Block,Room No-110','87250-35250');
        echo "1";
    }
    else
@@ -29141,11 +29259,29 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-   $getStudentID="SELECT IDNo FROM MasterNodues WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,ExamFormID FROM MasterNodues WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
+       $ExamFormID=$row['ExamFormID'];
    }
+
+   $getExamFormData="SELECT IDNo,Examination,Semesterid,Type FROM ExamForm WHERE ID='$ExamFormID'";
+   $getExamFormDataRun=sqlsrv_query($conntest,$getExamFormData);
+   if ($row_exam = sqlsrv_fetch_array($getExamFormDataRun, SQLSRV_FETCH_ASSOC)) {
+       $Semester = $row_exam['Semesterid']; 
+       $Type = $row_exam['Type'];       
+       $Examination = $row_exam['Examination'];
+       $semesterOrdinal = getOrdinal($Semester); 
+       $LabeType = $semesterOrdinal . ' (' . $Type . ') ' . $Examination.' No Dues';
+   }
+   $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+   $stmt1 = sqlsrv_query($conntest,$sql);
+           if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+            {
+               $name = $row6['StudentName'];
+               $phone = $row6['StudentMobileNo']; 
+             }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
@@ -29153,6 +29289,7 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
+    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor,Room no-105','95697-06375');
        echo "1";
    }
    else
@@ -29172,11 +29309,28 @@ else if($code==329.3)
 
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-   $getStudentID="SELECT IDNo FROM MasterNodues WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,ExamFormID FROM MasterNodues WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
+       $ExamFormID=$row['ExamFormID'];
    }
+   $getExamFormData="SELECT IDNo,Examination,Semesterid,Type FROM ExamForm WHERE ID='$ExamFormID'";
+   $getExamFormDataRun=sqlsrv_query($conntest,$getExamFormData);
+   if ($row_exam = sqlsrv_fetch_array($getExamFormDataRun, SQLSRV_FETCH_ASSOC)) {
+       $Semester = $row_exam['Semesterid']; 
+       $Type = $row_exam['Type'];       
+       $Examination = $row_exam['Examination'];
+       $semesterOrdinal = getOrdinal($Semester); // Converts 1 => 1st, 2 => 2nd, etc.
+       $LabeType = $semesterOrdinal . ' (' . $Type . ') ' . $Examination.' No Dues';
+   }
+   $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+   $stmt1 = sqlsrv_query($conntest,$sql);
+           if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+            {
+               $name = $row6['StudentName'];
+               $phone = $row6['StudentMobileNo']; 
+             }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
@@ -29184,6 +29338,7 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
+    sendExamFormRejectionMessage($phone,$name,'Central Library',$remark,$LabeType,'library@gku.ac.in','A Block,Fourth Floor,' ,'NA');
        echo "1";
    }
    else
@@ -30598,10 +30753,27 @@ else if($code==341)
 {
     $ID=$_POST['ID'];
     $remarks=$_POST['remarks'];
+    $getStudentID="SELECT IDNo,session FROM StudentBusPassGKU WHERE ID='$ID'";
+    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+        $IDNo=$row['IDNo'];
+        $session=$row['session'];
+        $spot=$row['spot'];
+        $LabeType = $spot . ' (' . $session . ') Bus Pass';
+    }
+ 
+    $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+ $stmt1 = sqlsrv_query($conntest,$sql);
+         if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+          {
+             $name = $row6['StudentName'];
+             $phone = $row6['StudentMobileNo']; 
+           }
       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='2' , Itrejectdate='$timeStamp' , itreason='$remarks' Where SerialNo='$ID'";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
+    sendExamFormRejectionMessage($phone,$name,'IT Department',$remarks,$LabeType,'online@gku.ac.in','A1 Block,First Floor ,Room no-205' ,'78146-79220');
     echo "1";
 }
 else{
@@ -30627,10 +30799,28 @@ else if($code==343)
 {
     $ID=$_POST['ID'];
     $remarks=$_POST['remarks'];
+
+    $getStudentID="SELECT IDNo,session FROM StudentBusPassGKU WHERE ID='$ID'";
+    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+        $IDNo=$row['IDNo'];
+        $session=$row['session'];
+        $spot=$row['spot'];
+        $LabeType = $spot . ' (' . $session . ') Bus Pass';
+    }
+ 
+    $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
+ $stmt1 = sqlsrv_query($conntest,$sql);
+         if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+          {
+             $name = $row6['StudentName'];
+             $phone = $row6['StudentMobileNo']; 
+           }
       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='4' , acrejectdate='$timeStamp' , ac_reason='$remarks' Where SerialNo='$ID'";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
+    sendExamFormRejectionMessage($phone,$name,'Account Branch',$remarks,$LabeType,'accounts@gku.ac.in','A Block,Ground Floor ,Room no-110' ,'87250-35250');
     echo "1";
 }
 else{
@@ -32182,10 +32372,11 @@ $admisisontype=$_POST['admisisontype'];
 $refoffer=$_POST['refoffer'];
 $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
-
 //$AdharCardNo=$_POST['idproof'];
- 
-
+function generateRandomPassword($length = 8) {
+    return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$&'), 0, $length);
+}
+$password = generateRandomPassword(8);
 $Dob=$_POST['Dob'];
 $Gender=$_POST['Gender'];
 $category=$_POST['category'];
@@ -32322,7 +32513,6 @@ if($ifexitIDNo<1)
  if($newAdmissionInsertRun==true)
  {
 
-
       if($admisisontype==3)
     {
          $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
@@ -32365,7 +32555,7 @@ $insert_record_run = mysqli_query($conn, $insert_record);
 
 
 
-      $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,RightsLevel,CollegeName,CreatedDate)Values('$IDNo','12345678','Student','Web','Campus','Student','$CollegeName','$timeStampS')";
+      $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,RightsLevel,CollegeName,CreatedDate)Values('$IDNo','$password','Student','Web','Campus','Student','$CollegeName','$timeStampS')";
     sqlsrv_query($conntest,$userMaster); 
     
      $insertLager="INSERT into Ledger(Session,CollegeName,DateEntry,IDNo,StudentName,FatherName,Course,Batch,ClassRollNo,Semester,SemesterID,Sex,Particulars,LedgerName,Debit,TransactionType,TransactionID)
@@ -32391,8 +32581,40 @@ $insert_record_run = mysqli_query($conn, $insert_record);
 }
     }
 
-  
-  
+    // Whatsapp Msg---------------------------------------------------------------
+    $apiUrl = 'https://publicapi.myoperator.co/chat/messages';
+    $payload = [
+        "phone_number_id" => "701959619656572",
+        "myop_ref_id" => "formreject_" . uniqid(),  
+        "customer_country_code" => "91",
+        "customer_number" => "$MobileNumber",
+        "reply_to" => null,
+        "data" => [
+            "type" => "template",
+            "context" => [
+                "template_name" => "copy_copy_adm_new",
+                "body" => [
+                    "label"=> "Password",
+                    "code" => "$password",
+                    "rollno" => "$ClassRollNoUpdate",
+                    "candidatename" => "$Name",
+                    "coursename" => "$CourseName"
+                ]
+            ]
+        ]
+    ];
+    $headers = [
+        "Content-Type: application/json",
+        "Authorization: Bearer K7PZlwEE9tvHJT5wcAuDb1JUjdYpF5Q9UJWPtb1pKD",
+        "X-MYOP-COMPANY-ID: 681c3c005f48b343"
+    ];
+    $ch = curl_init($apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    $response = curl_exec($ch);
+    // ----------------------------------------------------------------------------
      $Value[0]=$IDNo;
      $Value[1]=$ClassRollNoUpdate;
     echo json_encode($Value);

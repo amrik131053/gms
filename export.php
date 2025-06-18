@@ -824,8 +824,9 @@ echo "\n";
                     echo $LogDate . "\t";
                 }
                 else
-                {       
-                    $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and (start_date='$start' or '$start' BETWEEN start_date AND end_date)";
+                {      
+                    $leaveQry="SELECT * FROM hostel_student_leaves WHERE student_id = '$IDNo'  AND (start_date = '$start' OR DATE('$start') BETWEEN start_date AND end_date);"; 
+                    // $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and (start_date='$start' or '$start' BETWEEN start_date AND end_date)";
                     $leaveRes=mysqli_query($conn,$leaveQry);
                     if ($leaveData=mysqli_fetch_array($leaveRes)) 
                     {
