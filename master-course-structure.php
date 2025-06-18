@@ -8,8 +8,9 @@
         <div class="row">
 
             <div class="col-lg-12 col-md-4 col-sm-12">
-            <div class=" card-header">
+            <div class="card-header">
             Study Scheme
+        </div>
             <!-- <span style="float:right;">
       <button class="btn btn-xs ">
          <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Emp ID">
@@ -17,8 +18,9 @@
             <button type="button" onclick="addlmsRole();" class="btn btn-success btn-sm">
               Search
             </button>
-      </span> -->
-</div>
+      </span> 
+</div>-->
+
                 <div class="card-body card">
                 <?php 
                               
@@ -45,7 +47,7 @@
                         <a class="btn " id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
                             onclick="addRoleLMS();bg(this.id);"> Assign Role </a>
                             <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="reports();bg(this.id);">Reports</a> 
-                            <a class="btn" id="btn7" style="background-color:#223260; color: white; border: 1px solid;" onclick="datesheetTab();bg(this.id);">Date Sheet</a> 
+                            <!-- <a class="btn" id="btn7" style="background-color:#223260; color: white; border: 1px solid;" onclick="datesheetTab();bg(this.id);">Date Sheet</a>  -->
 
                               
                            </div> 
@@ -65,7 +67,7 @@
                            
 
                                 
-                         <?php }?></div>  </div>
+                         <?php }?>
 
                     <div id="table_load">
                      <?php
@@ -189,7 +191,7 @@ $(window).on('load', function() {
 })
 
 function format() {
-    window.location.href = 'http://gurukashiuniversity.co.in/gkuadmin/formats/studyscheme.csv';
+    window.location.href = 'formats/studyscheme.csv';
 }
 
 function bg(id) {

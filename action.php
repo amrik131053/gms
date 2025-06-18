@@ -17155,23 +17155,9 @@ elseif($code==252)
                            
                             $count_0++;
                             $SubjectCode=$get_row['SubjectCode'];
-                            if($get_row['ESE']!='' AND  $get_row['ESE']->format('Y-m-d')!="1900-01-01")
-                              {
-                      $ese = $get_row['ESE']->format('Y-m-d');
-                              }
-                              else
-                                 {
-                                    $ese='';
-                                 }
+                          
 
-                              if($get_row['MST']!='' AND  $get_row['MST']->format('Y-m-d')!='1900-01-01' )
-                                 {
-                                 $mst=$get_row['MST']->format('Y-m-d');
-                                 }
-                              else
-                                 {
-                                    $mst='';
-                                 }
+                             
                            ?> 
 
                               <tr>
@@ -17443,10 +17429,14 @@ elseif($code==255)
             $Tutorials = trim($filesop[5]);
             $Practical = trim($filesop[6]);
             $NoOfCredits = trim($filesop[7]);
-            $AcademicType = trim($filesop[8]);
+             $internalmarks = trim($filesop[8]);
+              $externalmarks = trim($filesop[9]);
+               $totalmarks = trim($filesop[10]);
 
-            $Elective = trim($filesop[9]);
-            $SubjectGroup = trim($filesop[10]);
+ $AcademicType = trim($filesop[11]);
+
+            $Elective = trim($filesop[12]);
+            $SubjectGroup = trim($filesop[13]);
 
 if ($SemesterID=='1')
  {    $Semester='First'; }
@@ -17480,7 +17470,7 @@ $SubjectType='Theory/Practical';
    }
 
 
-  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType,Session) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType','$session')";
+  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType,Session,TotalMarks) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$internalmarks','$externalmarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType','$session','$totalmarks')";
 
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
                   if ($add_study_scheme_run2==true)

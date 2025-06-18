@@ -1,0 +1,10 @@
+Semester,SubjectCode,SubjectName,SubjectType,Lecture,Tutorial,Practical,NoOFCredits,Internal Marks,External Marks,Total Marks,Theory /Practical,CHOICE,SubjectGroup
+1,BBL1100,General English-I,Core,4,1,0,5,30,70,100,T,C,NA
+1,BBL1101,Law of Contract-I,Core,4,1,0,5,30,70,100,T,C,NA
+1,BBL1102,Law of Torts including Motor Vehicle and Consumer Protection Laws,Core,4,1,0,5,30,70,100,T,C,NA
+1,BBL1103,Fundamentals of Computer,SEC,3,0,0,3,25,50,75,T,C,NA
+1,BBL1104,Environmental Studies,VAC,2,0,0,2,15,35,50,T,C,NA
+1,BBL1105,Political Science-I,Discipline Elective,4,0,0,4,30,70,100,T,E,NA
+1,BBL1106,History-I,Discipline Elective,4,0,0,4,30,70,100,T,E,NA
+1,BBL1107,Economics-I,Discipline Elective,4,0,0,4,30,70,100,T,E,NA
+1,BBL1108,Sociology-I,Discipline Elective,4,0,0,4,30,70,100,T,E,NA
