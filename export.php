@@ -10044,10 +10044,14 @@ $exportstudy.="<td>{$conname}</td>";
 }
   else if($exportCode==62)
     {
-        $CollegeID=$_REQUEST['CollegeID'];
-$Course=$_REQUEST['Course'];
-$Batch=$_REQUEST['batch'];
-$Semester=$_REQUEST['semester'];
+
+
+$collegeID = $_GET['CollegeID'];
+$courseID = $_GET['Course'];
+$batches = explode(',', $_GET['batch']);
+$semesters = explode(',', $_GET['semester']);
+$elective = $_GET['elective'];
+$session = $_GET['session'];
 
 $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE 1=1";
 if($CollegeID!='')
@@ -10058,14 +10062,14 @@ if($Course!='')
 {
 $get_study_scheme.=" AND CourseID='$Course'";
 }
-if($Batch!='')
-{
-$get_study_scheme.=" AND Batch='$Batch'";
-}
-if($Semester!='')
-{
-$get_study_scheme.=" AND SemesterID='$Semester'";
-} 
+
+$get_study_scheme.="AND IN (implode(',', array_map('intval', $batches)) AND Semester IN (implode(',', array_map('intval', $semesters))";
+ 
+
+
+echo $get_study_scheme;
+
+
 $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <tr>

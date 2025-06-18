@@ -518,7 +518,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                               for($i=2020;$i<=2030;$i++)
                                  {?>
                               <label>
-        <input type="checkbox" name="batch" value="<?php $i;?>">
+        <input type="checkbox" class="batch" name="batch" id='batch' value="<?php $i;?>">
 <?=$i;?>
     </label>
                            <?php }
@@ -534,7 +534,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                      <?php 
                         for($i=1;$i<=12;$i++)
                            {?> <label>
-                           <input type="checkbox" name="semester" value="<?php $i;?>">&nbsp;<?=$i;?>&nbsp;</label>
+                           <input type="checkbox"  class="semester" id="semester" value="<?php $i;?>">&nbsp;<?=$i;?>&nbsp;</label>
                      <?php }
             ?>
           
@@ -542,7 +542,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
             
                  <br>
  <label> Elective Type</label>
-                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                    <select id="elective" name="elective" class="form-control form-control-sm" required>
                                         <option value="">All</option>
                              <?php       
         
@@ -557,7 +557,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                      ?>
                                     </select>
 <br>
-                 <button onclick="update_study_scheme_search();" class="btn btn-success btn-sm">Search</button>
+                 <!-- <button onclick="update_study_scheme_search();" class="btn btn-success btn-sm">Search</button> -->
                  <button onclick="exportStudyScheme();" class="btn btn-success btn-sm">Download</button>
               </div>
             

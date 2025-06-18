@@ -187,8 +187,8 @@ for($i=1;$i<=12;$i++)
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Examination</label>
               <select  id="Examination" class="form-control form-control-sm" required="">
-                 <option value="<?=$CurrentExamination;?>"><?=$CurrentExamination;?></option>
-                      <!--  <?php
+                 <!-- <option value="<?=$CurrentExamination;?>"><?=$CurrentExamination;?></option> -->
+                 <?php
    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -201,7 +201,7 @@ for($i=1;$i<=12;$i++)
 <option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
 <?php    }
 
-?> -->
+?>
 
                 
               </select>

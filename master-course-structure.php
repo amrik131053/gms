@@ -801,15 +801,44 @@ function add_submit() {
 
 function exportStudyScheme() 
       {
-        var CollegeID = document.getElementById('College').value;
-    var Course = document.getElementById('Course').value;
-    var batch = document.getElementById('batch').value;
-    var semester = document.getElementById('semester').value;
-    
-         var exportCode='62';
-          window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batch+"&semester="+semester;
-      }
+  
+     var CollegeID = document.getElementById('College').value;
+     var Course = document.getElementById('Course').value;
+     var session = document.getElementById('session').value;
+     var elective = document.getElementById('elective').value;
+     var batch = document.getElementById('batch').value;
+     //var semester = document.getElementById('semester').value;
 
+     var verifiy = document.getElementsByClassName('semester');
+
+  var len_semester = verifiy.length;
+    var semesters = [];
+    for (i = 0; i < len_semester; i++) {
+        if (verifiy[i].checked === true) {
+            semesters.push(verifiy[i].value);
+        }
+    }
+
+
+  var verifiy1 = document.getElementsByClassName('batch');
+
+  var len_batch = verifiy1.length;
+    var batchs = [];
+    for (i = 0; i < len_batch; i++) {
+        if (verifiy1[i].checked === true) {
+            batchs.push(verifiy1[i].value);
+        }
+    }
+
+
+
+
+
+            var exportCode='62';
+         // alert('export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batch+"&semester="+semester');
+          window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batchs+"&semester="+semesters+"&elective="+elective;
+      }
+ 
 function delete_study_scheme(id) {
 
 

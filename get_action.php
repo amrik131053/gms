@@ -2558,7 +2558,7 @@ elseif($Status==5)
                          <!--   <td><?=$building_row['OS'];?></td>
                            <td><?=$building_row['Memory'];?></td> -->
 
-                           <td>  <i class="fa fa-eye fa-lg" onclick="track(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_track" style="color:red;">7</i></td>
+                           <td>  <i class="fa fa-eye fa-lg" onclick="track(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_track" style="color:red;"></i></td>
                             <td>
                                   <?php
                                  if($building_row['Status']=="0")
