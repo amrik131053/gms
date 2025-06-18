@@ -5,19 +5,23 @@ $timeStampS=date('Y-m-d H:i:s');
 $todaydate=date('Y-m-d');
 $day=date('l'); 
 // ----------------local DB-------------------------------
+// $username="Amrik";
+// $password="Amrik@123";
 // $serverName = "10.0.8.181"; 
 // $servername1 = "localhost";
 // $username1 = "root";
 // $password1 = "";
 //-----------------LIve DB------------------------------------
+$username="sa";
+$password = "b2y3rt78374&*#&$";
 $serverName = "10.0.10.11";
 $servername1 = "10.0.8.10";
 $username1 = "as";
 $password1 = "Bathinda@123";
 // -----------------------------------------------------------------
-$connectionInfo = array( "Database"=>"DBGuruKashi",  "UID"=>"Amrik", "PWD"=>"Amrik@123");
+$connectionInfo = array( "Database"=>"DBGuruKashi",  "UID"=>"$username", "PWD"=>"$password");
 $conntest = sqlsrv_connect($serverName,$connectionInfo);
-$connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$connectionInfo1 = array( "Database"=>"App91", "UID"=>"$username", "PWD"=>"$password");
 $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 $dbname1 = "lims";
 $dbname2 = "store";
