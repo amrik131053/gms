@@ -5455,6 +5455,7 @@ mysqli_close($conn);
        $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and RoomNo='$room' and Floor='$floor' AND session='$session' and hostel_student_summary.status='0' order by hostel_student_summary.status ASC";
    }
    
+
    ?>
 <table class="table">
    <thead>
@@ -5493,6 +5494,7 @@ mysqli_close($conn);
               $phone = $row['StudentMobileNo'];
               $batch = $row['Batch'];
               $college = $row['CollegeName'];
+              $Status = $row['Status'];
           }
            //$sql1="SELECT * from hostel_student_summary where status='0' and student_id='$IDNo'";
           $sql1="SELECT * from hostel_student_summary where  student_id='$IDNo' ";
@@ -5501,10 +5503,17 @@ mysqli_close($conn);
           {
               $locationID=$data1['location_id'];
           }
-      
+          $clr="";
+          if($Status!=1)
+          {
+            $clr="#f5a799";
+         }
+         else{
+            $clr="#bff0ae";
+          }
           $count++;
           ?>
-   <tr>
+   <tr style="background-color:<?=$clr;?>">
       <td><?=$count?></td>
       <td><?=$name?></td>
       <td><?= $ClassRollNo ;?>/<?= $UniRollNo ;?></td>
@@ -5515,6 +5524,7 @@ mysqli_close($conn);
       <td><?=$data['article_no']?></td>
       <td>
          <center><img src="<?=$BasURL.'Images/Students/'.$img?>" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></center>
+         
       </td>
       <td><?=$data['check_in_date']?></td>
 
@@ -6179,7 +6189,8 @@ mysqli_close($conn);
                 }
                 else
                 {
-                    $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and (start_date='$datedummy' or '$datedummy' BETWEEN start_date AND end_date)";
+                  $leaveQry="SELECT * FROM hostel_student_leaves WHERE student_id = '$IDNo'  AND (start_date = '$datedummy' OR DATE('$datedummy') BETWEEN start_date AND end_date);";
+                  //   $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and (start_date='$datedummy' or '$datedummy' BETWEEN start_date AND end_date)";
                     $leaveRes=mysqli_query($conn,$leaveQry);
                     if ($leaveData=mysqli_fetch_array($leaveRes)) 
                     {
@@ -6380,7 +6391,9 @@ sqlsrv_close($conntest);
                }
                else
                {       
-                   $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and (start_date='$start' or '$start' BETWEEN start_date AND end_date)";
+                  //   $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and 
+                  //   (start_date='$start' or '$start' BETWEEN start_date AND end_date)";
+                    $leaveQry="SELECT * FROM hostel_student_leaves WHERE student_id = '$IDNo'  AND (start_date = '$start' OR DATE('$start') BETWEEN start_date AND end_date);";
                    $leaveRes=mysqli_query($conn,$leaveQry);
                    if ($type==0) 
                    {
@@ -6525,7 +6538,9 @@ mysqli_close($conn);
          <td><?=$data['RoomNo']?></td>
          <td>
             <?php
-               $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and (start_date='$start' or '$start' BETWEEN start_date AND end_date)";
+             $leaveQry="SELECT * FROM hostel_student_leaves WHERE student_id = '$IDNo'  AND (start_date = '$start' OR DATE('$start') BETWEEN start_date AND end_date);";
+               // $leaveQry="SELECT * FROM hostel_student_leaves where student_id='$IDNo' and (start_date='$start' or '$start' BETWEEN start_date AND end_date)";
+               
                $leaveRes=mysqli_query($conn,$leaveQry);
                if ($leaveData=mysqli_fetch_array($leaveRes)) 
                {
@@ -7864,6 +7879,9 @@ mysqli_close($conn);
       {
           $img='dummy-user.png';
           $flag=0;
+          $JobStatus=0;
+          $img1='';
+          $img='';
           $userID='';
           $userName='';
           $college='';
@@ -7890,7 +7908,8 @@ mysqli_close($conn);
         $batch = $row['Batch'];
         $college = $row['CollegeName'];
         $courseShortName = $row['CourseShortName'];
-        $img= $row['Image'];
+        $JobStatus = $row['Status'];
+        $img1= $row['Image'];
         $userID=$ClassRollNo.'/'.$UniRollNo;
         
       }
@@ -7915,15 +7934,16 @@ mysqli_close($conn);
       {
         $sql1 = "SELECT * FROM Staff Where IDNo='$user'";
         $q1 = sqlsrv_query($conntest, $sql1);
-        while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+        if ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
         {
           $userID=$row['IDNo'];
           $userName = $row['Name'];
+          $JobStatus = $row['JobStatus'];
           $father_name = $row['FatherName'];
           $college = $row['CollegeName'];
           $Designation = $row['Designation'];
           $EmailID = $row['EmailID'];
-          $img= $row['Image'];
+          $img= $row['Imagepath'];
           $phone = $row['ContactNo'];
           if ($phone=='') 
           {
@@ -7933,7 +7953,14 @@ mysqli_close($conn);
       }
       }
       
-         
+      $clr="";
+      if($JobStatus!=1)
+      {
+        $clr="#f5a799";
+     }
+     else{
+        $clr="#bff0ae";
+      }
           
           if ($userID != '') 
           {
@@ -7944,7 +7971,7 @@ mysqli_close($conn);
             $count++;
           
           ?>
-   <tr>
+   <tr style="background-color:<?=$clr;?>">
       <td><?=$count?> </td>
       <td><?=$userName?></td>
       <td><?= $userID;?></td>
@@ -7954,7 +7981,18 @@ mysqli_close($conn);
       <td><?=$data['RoomNo']?></td>
       <!-- <td><?=$data['IDNo']?> (<?=$data['ArticleName']?>)</td> -->
       <td>
-         <center><img src="<?=$BasURL.'Images/Staff/'.$img?>" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></center>
+         <?php if($img1!='')
+         {
+            ?>
+<center><img src="<?=$BasURL.'Images/Students/'.$img1?>" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></center>
+
+            <?php 
+         }
+         else{
+            ?>
+<center><img src="<?=$BasURL.'Images/Staff/'.$img?>" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></center>
+            <?php 
+         }?>
       </td>
    </tr>
    <?php
