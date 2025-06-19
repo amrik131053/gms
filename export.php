@@ -10044,8 +10044,6 @@ $exportstudy.="<td>{$conname}</td>";
 }
   else if($exportCode==62)
     {
-
-
 $collegeID = $_GET['CollegeID'];
 $courseID = $_GET['Course'];
 $batches = explode(',', $_GET['batch']);
@@ -10054,6 +10052,7 @@ $elective = $_GET['elective'];
 $session = $_GET['session'];
 
 $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE 1=1";
+
 if($CollegeID!='')
 {
    $get_study_scheme.="AND CollegeID='$CollegeID'";
@@ -10067,7 +10066,7 @@ $get_study_scheme.="AND IN (implode(',', array_map('intval', $batches)) AND Seme
  
 
 
-echo $get_study_scheme;
+//echo $get_study_scheme;
 
 
 $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));

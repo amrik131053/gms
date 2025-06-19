@@ -17411,10 +17411,10 @@ elseif($code==255)
                $credits=$_POST['credits'];
                $department=$_POST['department'];
                $group=$_POST['group'];
-               $ese=$_POST['ese'];
-               $mst=$_POST['mst'];
+               // $ese=$_POST['ese'];
+               // $mst=$_POST['mst'];
 
-               $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',DepartmentID='$department',NoOFCredits='$credits',SGroup='$group',MST='$mst',ESE='$ese' WHERE SrNo='$SrNo'";
+               $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',DepartmentID='$department',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
                $update_study_run=sqlsrv_query($conntest,$update_study);  
 
          if ($update_study_run==true) 

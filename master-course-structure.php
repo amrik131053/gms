@@ -680,7 +680,7 @@ function Update() {
             document.getElementById("table_load").innerHTML = response;
         }
     });
-}
+} 
 // function Upload()
 // { //241
 //   var code=241;
@@ -801,23 +801,20 @@ function add_submit() {
 
 function exportStudyScheme() 
       {
-  
      var CollegeID = document.getElementById('College').value;
      var Course = document.getElementById('Course').value;
      var session = document.getElementById('session').value;
      var elective = document.getElementById('elective').value;
      var batch = document.getElementById('batch').value;
-     //var semester = document.getElementById('semester').value;
-
      var verifiy = document.getElementsByClassName('semester');
 
-  var len_semester = verifiy.length;
+    var len_semester = verifiy.length;
     var semesters = [];
     for (i = 0; i < len_semester; i++) {
         if (verifiy[i].checked === true) {
             semesters.push(verifiy[i].value);
         }
-    }
+      }
 
 
   var verifiy1 = document.getElementsByClassName('batch');
@@ -829,14 +826,10 @@ function exportStudyScheme()
             batchs.push(verifiy1[i].value);
         }
     }
-
-
-
-
-
-            var exportCode='62';
+ var exportCode='62';
          // alert('export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batch+"&semester="+semester');
-          window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batchs+"&semester="+semesters+"&elective="+elective;
+  window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batchs+"&semester="+semesters+"&elective="+elective+"&session="+session;
+
       }
  
 function delete_study_scheme(id) {
@@ -894,8 +887,8 @@ function update_study_scheme(srno) {
        var department = document.getElementById('department' + srno).value;
     var tutorials = document.getElementById('tutorials' + srno).value;
     var credits = document.getElementById('credits' + srno).value;
-    var mst = document.getElementById('mst' + srno).value;
-    var ese = document.getElementById('ese' + srno).value;
+    // var mst = document.getElementById('mst' + srno).value;
+    // var ese = document.getElementById('ese' + srno).value;
 
     if (subject_name != '' && subject_code != '' && subject_type != '' && int_marks != '' && ext_marks != '' &&
         elective != '' && lecture != '' && practical != '' && tutorials != '' && credits != '') {
@@ -920,7 +913,7 @@ function update_study_scheme(srno) {
                     practical: practical,
                     tutorials: tutorials,
                     credits: credits,department:department,
-                    srno: srno,mst:mst,ese:ese,
+                    srno: srno,
                     group: group
                 },
                 success: function(response) {
