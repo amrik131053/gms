@@ -25394,22 +25394,25 @@ else if($code=='364.1')
  $Type=$_POST['Type'];
  $Group=$_POST['Group'];
  $Examination=$_POST['Examination'];
+  $resultno=$_POST['resultno'];
 ?>
   <table class="table">
 
 <?php 
- $resulrs="SELECT Distinct Batch from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!='' limit 1";
+ $resulrs="SELECT Distinct Batch,name from basic_detail  as bd inner join course_master  cm on bd.course=cm.id  where  course='$Course' AND batch='$Batch' and classrollno!='' limit 1";
+
+
 $list_resultsub = mysqli_query($conn_online_odl, $resulrs);
 $key1=1;
  while ($rows = mysqli_fetch_array($list_resultsub)) 
  {
-   $resulrs1="SELECT *  from ResultOnlineGKU where Examination='$Examination' and Semester='$Semester' and Type='$Type'";
+    $resulrs1="SELECT TOP(1) * from ResultOnlineGKU where Examination='$Examination' and Semester='$Semester' and Type='$Type' ANd ResultNo='$resultno'";
    $list_resultsub1 = sqlsrv_query($conntest, $resulrs1);
    $key1=1;
     while ($rows1 = sqlsrv_fetch_array($list_resultsub1, SQLSRV_FETCH_ASSOC)) 
     {
    ?>
-   <tr><td></td><td><?= $rows['course'];?></td><td><?= $rows['batch'];?></td><td><?= $rows1['Semester'];?></td><td><?= $rows1['Type'];?></td><td>  <?php if($rows1['DeclareDate']!=''){
+   <tr><td></td><td><?= $rows['name'];?></td><td><?= $rows['Batch'];?></td><td><?= $rows1['Semester'];?></td><td><?= $rows1['Type'];?></td><td>  <?php if($rows1['DeclareDate']!=''){
       $date= $rows1['DeclareDate']->format('Y-m-d');
    }
    else
@@ -25422,7 +25425,7 @@ $date='';
       <td><?= $rows1['DeclareType'];?></td>
       <td><?= $rows1['ResultNo'];?></td>
       <td><?= $rows1['Examination'];?></td>
-      <td>   <button class="btn btn-success btn-sm " onclick="exportCutListExcelOnlineCourse('<?= $rows1['Examination'];?>','<?=$date;?>','<?= $rows1['ResultNo'];?>','<?=$rows1['Id'];?>')"><i
+      <td>   <button class="btn btn-success btn-sm " onclick="exportCutListExcelOnlineCourse('<?= $rows1['Examination'];?>','<?=$date;?>','<?= $rows1['ResultNo'];?>')"><i
                                         class="fa fa-file-excel"></i></button>
                                      </td>
                                   </tr>
@@ -25430,6 +25433,31 @@ $date='';
 <?php
     }
 }
+?>
+</table>
+<?php 
+  sqlsrv_close($conntest);
+}
+
+else if($code=='364.2')
+{
+ $examination = $_POST["examination"];
+
+    $sql = "SELECT  Distinct ResultNo from ResultOnlineGKU  where  Examination='$examination'";
+ 
+   $stmt = sqlsrv_query($conntest,$sql); 
+   ?> 
+ <option value=''>Result No</option>
+ <?php 
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+ ?>  
+ <option value='<?=$row["ResultNo"];?>'><?= $row["ResultNo"];?></option>
+ <?php   }
+
+
+
 ?>
 </table>
 <?php 

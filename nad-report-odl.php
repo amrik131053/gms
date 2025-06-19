@@ -119,6 +119,14 @@ $key1=1;
 // $key1++;
 
 // }
+$subjectee="SELECT  top(1) ID from ResultOnlineGKU  where  ResultNo='$ResultNo'  ";
+$list_resultsubsee = sqlsrv_query($conntest, $subjectee);
+
+ while ($rowssee = sqlsrv_fetch_array($list_resultsubsee, SQLSRV_FETCH_ASSOC)) {
+
+    $resultid=$rowssee['ID'];
+ }
+
 $subject2="SELECT  Distinct SubjectCode from ResultDetailOnlineGKU  where  ResultID='$resultid'  ";
 $list_resultsubs = sqlsrv_query($conntest, $subject2);
 $key2=$key1;
@@ -175,7 +183,7 @@ $key1=1;
  while ($rows = mysqli_fetch_array($list_resultsub)) 
  {
  
-     $resulrs1="SELECT *  from ResultOnlineGKU where  UniRollNo='".$rows['classrollno']."' and  ResultNo='$ResultNo' AND  DeclareDate='$DeclareDate'  and Examination='$Examination' and Semester='$Semester' and Type='$Type'";
+  $resulrs1="SELECT *  from ResultOnlineGKU where  UniRollNo='".$rows['classrollno']."' and  ResultNo='$ResultNo'   and Examination='$Examination' and Semester='$Semester' and Type='$Type'";
     $list_resultsub1 = sqlsrv_query($conntest, $resulrs1);
     $key1=1;
      while ($rows1 = sqlsrv_fetch_array($list_resultsub1, SQLSRV_FETCH_ASSOC)) 

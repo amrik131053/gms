@@ -1,5 +1,5 @@
 <?php 
-   include "header.php";  
+   include "header.php";   
    include "connection/connection_web.php"; 
    ?>
 <section class="content">
@@ -72,6 +72,9 @@
                                 </select>
 
                             </div>
+
+
+                            
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Type</label>
                                 <select id="Type" class="form-control form-control-sm">
@@ -109,9 +112,9 @@
                                 </select>
 
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-12">
+                            <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Examination</label>
-                                <select id="Examination" class="form-control form-control-sm">
+                <select id="Examination" class="form-control form-control-sm" onchange="resultnobyexamination(this.value)">
                                     <option value="">Select</option>
                                     <option value="Jan 2024">Jan 2024</option>
                                     <option value="July 2024">July 2024</option>
@@ -120,6 +123,21 @@
                                 </select>
 
                             </div>
+
+                               <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label>Result No</label>
+                                <select id="resultno" class="form-control form-control-sm">
+                                    <option value="">Select</option>
+                                    
+                                   
+
+                                </select>
+
+                            </div>
+
+
+
+
 
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
@@ -166,6 +184,7 @@
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
+     var resultno = document.getElementById('resultno').value;
 
 var code=364.1;
 if( Course!='')
@@ -183,7 +202,7 @@ var spinner=document.getElementById('ajax-loader');
                Semester:Semester,
                Type:Type,
                Group:Group,
-               Examination:Examination
+               Examination:Examination,resultno:resultno
          },
             success: function(response) 
             { 
@@ -211,7 +230,31 @@ var spinner=document.getElementById('ajax-loader');
 
 }
 
-function exportCutListExcelOnlineCourse(Examination,ddate,resultno,resultid) {
+
+
+function resultnobyexamination(examination) {
+
+    var code = '364.2';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            examination: examination,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            // console.log(data);
+            if (data != "") {
+
+                $("#resultno").html("");
+                $("#resultno").html(data);
+            }
+        }
+    });
+
+}
+
+function exportCutListExcelOnlineCourse(Examination,ddate,resultno) {
    
     // var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
@@ -224,7 +267,7 @@ function exportCutListExcelOnlineCourse(Examination,ddate,resultno,resultid) {
         '') {
         window.open("nad-report-odl.php?Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination+ "&DeclareDate=" + ddate+"&ResultNo=" + resultno+"&resultid=" + resultid, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+ "&DeclareDate=" + ddate+"&ResultNo=" + resultno+'_blank');
     } else {
 
         ErrorToast('All input required', 'bg-warning');
