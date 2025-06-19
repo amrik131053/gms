@@ -17419,7 +17419,7 @@ elseif($code==255)
 
          if ($update_study_run==true) 
          {
-            $desc= "UPDATE  MasterCourseStructure SET AcademicType=`$academic_type`, SubjectName=`$subject_name`,SubjectType=`$subject_type`,SubjectCode=`$subject_code`,Elective=`$elective`,IntMaxMarks=`$int_marks`,ExtMaxMarks=`$ext_marks`,Lecture=`$lecture`,Tutorial=`$tutorials`,Practical=`$practical`,DepartmentID=`$department`,NoOFCredits=`$credits`,SGroup=`$group`,MST=`$mst`,ESE=`$ese`";
+            $desc= "UPDATE  MasterCourseStructure SET AcademicType=`$academic_type`, SubjectName=`$subject_name`,SubjectType=`$subject_type`,SubjectCode=`$subject_code`,Elective=`$elective`,IntMaxMarks=`$int_marks`,ExtMaxMarks=`$ext_marks`,Lecture=`$lecture`,Tutorial=`$tutorials`,Practical=`$practical`,DepartmentID=`$department`,NoOFCredits=`$credits`,SGroup=`$group`";
 
             $update1="insert into logbook(userid,remarks,updatedby,date)Values('$SrNo-$subject_code','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
