@@ -175,7 +175,9 @@ for($i=1;$i<=12;$i++)
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Examination</label>
               <select  id="Examination" class="form-control" required="">
-                  <option value="<?=$CurrentExamination;?>"><?=$CurrentExamination;?></option>  <option value="">Examination</option>
+                  <!-- <option value="<?=$CurrentExamination;?>"><?=$CurrentExamination;?></option>  -->
+
+                   <option value="">Examination</option>
                        <?php
    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
           $stmt2 = sqlsrv_query($conntest,$sql);
