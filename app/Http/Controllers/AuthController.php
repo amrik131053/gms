@@ -45,7 +45,7 @@ class AuthController extends Controller
             $resData = $DataResponse->json();
             $profileData1=$resData['data'][0];
             $IDNo=$profileData1['IDNo'];
-            $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURLPublic.'/student/meterReading/'.$IDNo);
+            $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://gurukashiuniversity.co.in/odl-api/meterReading/'.$IDNo);
             $DataMeter = $DataResponseTrack->json();
             // dd($DataResponseTrack);
         $officeOrder = $profile['notice'] ?? [];
