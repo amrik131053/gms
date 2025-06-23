@@ -96,11 +96,10 @@ $CourseID=$row1["ID"];
 
 $key1=1;
 
- $subjectee="SELECT  top(1) ID from ResultOnlineGKU  where  ResultNo='$ResultNo'  ";
+$subjectee="SELECT  top(1) ID from ResultOnlineGKU  where  ResultNo='$ResultNo'  ";
 $list_resultsubsee = sqlsrv_query($conntest, $subjectee);
 
  while ($rowssee = sqlsrv_fetch_array($list_resultsubsee, SQLSRV_FETCH_ASSOC)) {
-
     $resultid=$rowssee['ID'];
  }
 
@@ -135,25 +134,7 @@ $key2=$key1;
                           <th>	ADMISSION_YEAR	</th>
                           </tr>
                         </thead> ";
-
-                     
-                        
-
-
-
-
-// $list_sql1="SELECT  * FROM ResultGKU 
-// INNER JOIN Admissions ON ResultGKU.UniRollNo = Admissions.UniRollNo
-// where Admissions.CollegeID='$College' AND Admissions.CourseID='$Course'AND Admissions.Batch='$Batch' 
-
-
-
-
-
-
-// AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
-// ANd ResultGKU.Examination='$Examination' ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'    ORDER BY Admissions.UniRollNo";
- 
+  
  $resulrs="SELECT *  from basic_detail  where  course='$Course' AND batch='$Batch' and classrollno!=''   order by classrollno Asc";
 $list_resultsub = mysqli_query($conn_online_odl, $resulrs);
 $key1=1;
@@ -267,18 +248,8 @@ $SubjectCode=$rowsubjects["SubjectCode"];
 $SubjectGrade=$rowsubjects["SubjectGrade"];
 $SubjectGradePoint=$rowsubjects["SubjectGradePoint"];
 $SubjectCredit=$rowsubjects["SubjectCredit"];
-// $NoOfCredit='';
 
-//     $subjectcredit="SELECT DISTINCT NoOFCredits from  MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd SubjectCode='$SubjectCode'";
-// $list_resultsubcredit = sqlsrv_query($conntest, $subjectcredit);
-// $key1=1;
-//  while ($rowcr = sqlsrv_fetch_array($list_resultsubcredit, SQLSRV_FETCH_ASSOC)) {
-//     $NoOfCredit=$rowcr['NoOFCredits'];
-//  }
-
-
-
-         $exportstudy .= " 
+ $exportstudy .= " 
                             <td>{$SubjectName}</td>
                             <td>{$SubjectCode}</td>
                             <td></td>
