@@ -1,5 +1,3 @@
-
-
 <?php 
    ini_set('max_execution_time', '0');
    include "header.php";  
@@ -7,13 +5,8 @@
    ?>
    <p id="ajax-loader"></p>
 <section class="content">
-   <div class="container-fluid">
-       
-   
-  
-
-
- <div class="row">
+<div class="container-fluid">
+<div class="row">
           <!-- left column -->
           <div class="col-lg-12 col-md-12 col-sm-12">
    
@@ -21,17 +14,9 @@
               <div class="card-header">
                 <h3 class="card-title">Reports</h3>
               </div>
-        
-             <!--  <form class="form-horizontal" action="" method="POST"> -->
-      
-                 
- <div class="card-body table-responsive" >
-     
 
-      <?php 
-
-//$query = "SELECT * FROM seminar_worksop_attended where user_id='$user_id' and emp_id='$emp_id' and status_code=3 order by id desc";  
-
+<div class="card-body table-responsive">
+<?php 
 $query = "SELECT * FROM seminar_worksop_attended where  status_code=3 order by id desc";      
     $rs_result = mysqli_query ($conn_spoc, $query);   
 ?>                      
@@ -83,8 +68,8 @@ $query = "SELECT * FROM seminar_worksop_attended where  status_code=3 order by i
 									} 		
                                ?>
                                       
-                            </tbody>
-                        </table>                         
+</tbody>
+</table>                         
                            </div>
 </div>
 </div>
@@ -93,15 +78,7 @@ $query = "SELECT * FROM seminar_worksop_attended where  status_code=3 order by i
 
 </section>
 
+<?php include "footer.php";
 
 
 
-
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-   
-    <!-- /.content-header -->
-
-
-</div>
