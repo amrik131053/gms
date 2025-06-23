@@ -14,7 +14,7 @@ class StudentLeaveController extends Controller
         $resData = $DataResponse->json();
         $profileData=$resData['data'][0];
         $IDNo=$profileData['IDNo'];
-        $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURLPublic.'/student/showAllLeaves/',
+        $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:95/student/showAllLeaves/',
         [
             'studentId' => $IDNo,
         ]);
@@ -54,7 +54,7 @@ class StudentLeaveController extends Controller
         $application_subject = $request->input('application_subject');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->post($BaseURLPublic.'/student/studentApplyLeave', [
+        ])->post('http://117.250.20.109:95/student/studentApplyLeave', [
             'studentId' => $studentIDNo,
             'startDate' => $startDate,
             'endDate' => $endDate,
