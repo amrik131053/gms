@@ -30,7 +30,7 @@
         ";
  $ExaminationMonth = "";
  $ExaminationYear = "";
- $resultid = $_GET["resultid"];
+// $resultid = $_GET["resultid"];
  $Course = $_GET["Course"];
  $Batch = $_GET["Batch"];
  $Semester = $_GET["Semester"];
@@ -90,36 +90,13 @@ $SemesterPrint=numberToRomanRepresentation($Semester);
 
 $PID="";
 $CourseName=$row1["Name"];
-// $CollegeName=$row1["CollegeName"];
-// $CollegeID=$rown["CollegeID"];
+
 $CourseID=$row1["ID"];
 }
 
-//  echo $subject="SELECT * from MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd Isverified='1'";
-// $list_resultsub = sqlsrv_query($conntest, $subject);
 $key1=1;
-//  while ($rows = sqlsrv_fetch_array($list_resultsub, SQLSRV_FETCH_ASSOC)) {
 
-//     $exportstudy .= "<th>	SUB{$key1}NM	</th>
-//    <th>	SUB{$key1}	</th>
-//    <th>	SUB{$key1}_TH_MAX	</th>
-//    <th>	SUB{$key1}_PR_MAX	</th>
-//    <th>	SUB{$key1}_CE_MAX	</th>
-//    <th>	SUB{$key1}_TH_MRKS	</th>
-//    <th>	SUB{$key1}_PR_MRKS	</th>
-//    <th>	SUB{$key1}_CE_MRKS	</th>
-//    <th>	SUB{$key1}_TOT	</th>
-//    <th>	SUB{$key1}_STAUTS	</th>
-//    <th>	SUB{$key1}_GRADE	</th>
-//    <th>	SUB{$key1}_GRADE_POINTS	</th>
-//    <th>	SUB{$key1}_CREDIT	</th>
-//    <th>	SUB{$key1}_CREDIT_POINTS	</th>
-//    <th>	SUB{$key1}_REMARKS	</th>
-//    <th>	SUB{$key1}_CREDIT_ELIGIBILITY	</th>";
-// $key1++;
-
-// }
-$subjectee="SELECT  top(1) ID from ResultOnlineGKU  where  ResultNo='$ResultNo'  ";
+ $subjectee="SELECT  top(1) ID from ResultOnlineGKU  where  ResultNo='$ResultNo'  ";
 $list_resultsubsee = sqlsrv_query($conntest, $subjectee);
 
  while ($rowssee = sqlsrv_fetch_array($list_resultsubsee, SQLSRV_FETCH_ASSOC)) {
