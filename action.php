@@ -14627,6 +14627,12 @@ $list_sqlw= "update ExamFormSubject set $ecat1='1' where Examination='$examinati
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
+$update1="insert into logbook(userid,remarks,updatedby,date)Values('$EmployeeID','Lock All Exam Form','$EmployeeID','$timeStamp')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+
+
    echo "1";
  }
  else
