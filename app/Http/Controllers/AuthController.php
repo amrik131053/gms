@@ -10,8 +10,9 @@ class AuthController extends Controller
     // dashboard 
     public function mainDashboard(Request $request)
     {
+        $meterDetails = [];
     $BaseURL=config('app.baseUrl');
-    $BaseURLPublic=config('app.baseUrlPublic');
+    // $BaseURLPublic=config('app.baseUrlPublic');
     $token = $request->session()->get('api_token');
     if (!$token) {
         return redirect()->route('index')->withErrors(['error' => 'Session expired or token is missing. Please log in again.']);
@@ -45,7 +46,7 @@ class AuthController extends Controller
             $resData = $DataResponse->json();
             $profileData1=$resData['data'][0];
             $IDNo=$profileData1['IDNo'];
-            $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURLPublic.'/student/meterReading/'.$IDNo);
+            $DataResponseTrack = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:95/Student/meterReading/'.$IDNo);
             $DataMeter = $DataResponseTrack->json();
             // dd($DataResponseTrack);
         $officeOrder = $profile['notice'] ?? [];
@@ -183,7 +184,7 @@ class AuthController extends Controller
         'username' => $request->input('username'),
         'password' => $request->input('password'),
     ]);
-
+// dd($response);
     if ($response->successful()) {
         $token = $response->json('token');
         session(['api_token' => $token]);
