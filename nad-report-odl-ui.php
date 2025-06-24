@@ -265,9 +265,17 @@ function exportCutListExcelOnlineCourse(Examination,ddate,resultno) {
     //var Examination = document.getElementById('Examination').value;
     if ( Course != '' && Batch != '' && Semester != '' && Type != '' && Group != '' && Examination !=
         '') {
-        window.open("nad-report-odl.php?Course=" + Course +
-            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination+ "&DeclareDate=" + ddate+"&ResultNo=" + resultno+'_blank');
+       window.open(
+  "nad-report-odl.php?Course=" + Course +
+  "&Batch=" + Batch +
+  "&Semester=" + Semester +
+  "&Type=" + Type +
+  "&Group=" + Group +
+  "&Examination=" + Examination +
+  "&DeclareDate=" + ddate +
+  "&ResultNo=" + resultno,
+  "_blank"
+);
     } else {
 
         ErrorToast('All input required', 'bg-warning');

@@ -10,7 +10,7 @@
       <div class="row">
          <!-- left column -->
           
- <div class="col-lg-4">
+ <div class="col-lg-4"> 
    <label>Code/Emp ID</label>
                       <input type="text" class="form-control" required="" id="subject_code" placeholder="Emp ID">
                   </div>
