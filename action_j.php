@@ -322,17 +322,36 @@ elseif($code==25.8)
 
                 }
             ?></b></th>
-          <th>
+           
+
+         <th>
             <?php if($row['Action']==1){
-ECHO  "<b class='text-danger'>Suspended</b>";
+
+// ECHO  "<b class='text-danger'>Suspended</b>";
+
+            }
+
+            else{
+              ?>
+
+<button class="btn btn-danger" onclick="suspend(<?=$row['mID'];?>);">Suspend</button>
+
+              <?php
+            }?>
+          </th>
+           <th>
+            <?php if($row['Action']==0){
+// ECHO  "<b class='text-danger'>Active</b>";
+
             }
             else{
               ?>
 
-<button class="btn btn-success" onclick="suspend(<?=$row['mID'];?>);">Suspend</button>
+<button class="btn btn-success" onclick="Active(<?=$row['mID'];?>);">Active</button>
+
               <?php
             }?>
-          </th>
+          </th> 
              
           
         </tr>
@@ -1352,6 +1371,14 @@ window.location.href = 'mobile-stock.php';
                  
                     $id=$_POST['id'];
    $Status="UPDATE mobilestockadd set Action='1' where ID='$id'";
+
+        $result = mysqli_query($connection_s,$Status);
+ }
+    elseif($code==30)
+      {
+                 
+                    $id=$_POST['id'];
+   $Status="UPDATE mobilestockadd set Action='0' where ID='$id'";
 
         $result = mysqli_query($connection_s,$Status);
  }
