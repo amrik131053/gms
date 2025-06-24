@@ -292,13 +292,13 @@ elseif($code==25.8)
             <th>Configration</th>
             <th>Sim Number</th>
              <th>Status</th>
-              <th>Suspended</th>
+             <th>Action</th>
         </tr>
     </thead>
     <tbody>
         <?php 
          $sr=1;
-          $get_group="SELECT  *,ms.Status as mtatus FROM  mobilestockadd  as ms inner join mobilestockarticle as ma  on ma.ID=ms.ArticleID";
+         $get_group="SELECT  *,ms.Status as mtatus,ms.ID as mID FROM  mobilestockadd  as ms inner join mobilestockarticle as ma  on ma.ID=ms.ArticleID order by ms.Status,ms.ID ASC";
      $get_group_run=mysqli_query($connection_s,$get_group);
          while($row=mysqli_fetch_array($get_group_run))
          {
@@ -306,7 +306,7 @@ elseif($code==25.8)
             ?>        <tr>
             <th><?=$sr;?></th>
             <th>
-                <b><?=$row['Name'];?>(<?=$row['ID'];?>)</b>
+            <b><?=$row['Name'];?>(<?=$row['mID'];?>)</b>
             </th>
              <th><b><?=$row['mobile_model'];?></b></th>
              <th><b><?=$row['brand'];?></b></th>
@@ -322,7 +322,17 @@ elseif($code==25.8)
 
                 }
             ?></b></th>
-          <th><b><button onclick="hidedata()">Suspended</button></b></th>
+          <th>
+            <?php if($row['Action']==1){
+ECHO  "<b class='text-danger'>Suspended</b>";
+            }
+            else{
+              ?>
+
+<button class="btn btn-success" onclick="suspend(<?=$row['mID'];?>);">Suspend</button>
+              <?php
+            }?>
+          </th>
              
           
         </tr>
@@ -349,8 +359,8 @@ elseif($code==25.8)
 
     $result_z = mysqli_query($connection_s, 
         "INSERT INTO mobilestockadd 
-        (ArticleID, mobile_model, brand, configuration, sim_number,Status)
-        VALUES ('$articlecode', '$mobile_model', '$brand', '$configuration', '$sim_number','0')"
+       (ArticleID, mobile_model, brand, configuration, sim_number,Status,Action)Add commentMore actions
+        VALUES ('$articlecode', '$mobile_model', '$brand', '$configuration', '$sim_number','0','0')"
     );
 
     // Optional: check if insert was successful
@@ -1249,7 +1259,7 @@ elseif($code==33.1)
           ?>
           <option value="">Select</option>
           <?php         
- $Status="SELECT * FROM mobilestockadd where ArticleID='$id' ANd Status!='1'";
+ $Status="SELECT * FROM mobilestockadd where ArticleID='$id' ANd Status!='1' and Action!='1'";
   $StatusRu=mysqli_query($connection_s,$Status);
 while($row=mysqli_fetch_array($StatusRu))
 {
@@ -1337,6 +1347,14 @@ window.location.href = 'mobile-stock.php';
 
 
       }
+      elseif($code==29)
+      {
+                 
+                    $id=$_POST['id'];
+   $Status="UPDATE mobilestockadd set Action='1' where ID='$id'";
+
+        $result = mysqli_query($connection_s,$Status);
+ }
 
 }
 
