@@ -32489,14 +32489,16 @@ $ifexitIDNoAdhaar=sqlsrv_num_rows($get_card_runAdhaar);
 
 if($admisisontype==2)
 {
-    $ifexitIDNoAdhaar=0;
+    $ifOldadms = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' and Status='1' and CourseID='$Course' "; 
+    $get_ifOldadms=sqlsrv_query($conntest,$ifOldadms,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    $ifexitIDNoAdhaar=sqlsrv_num_rows($get_ifOldadms);
 }
 if($ifexitIDNoAdhaar<1)
 { 
     $getIfExistOnWeb = "SELECT * FROM users WHERE  aadhaar_number='$AdharCardNo'";
     $get_card_runOnWeb = mysqli_query($conn_online_pre_regist, $getIfExistOnWeb);
     $ifexitIDNoWeb = mysqli_num_rows($get_card_runOnWeb);
-    if($admisisontype==4)
+    if($admisisontype==4 || $admisisontype==2)
     {
     $ifexitIDNoWeb=0;
     }
