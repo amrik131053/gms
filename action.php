@@ -17463,22 +17463,21 @@ elseif($code==255)
             {
              if($c>0)
                {
+
+                if($batch>2024)
+                 {
             $SemesterID = trim($filesop[0]);
             $SubjectCode = trim($filesop[1]);
             $SubjectName = trim($filesop[2]);
-
             $SkillType = trim($filesop[3]);
-
             $Lacture = trim($filesop[4]);
             $Tutorials = trim($filesop[5]);
             $Practical = trim($filesop[6]);
             $NoOfCredits = trim($filesop[7]);
-             $internalmarks = trim($filesop[8]);
-              $externalmarks = trim($filesop[9]);
-               $totalmarks = trim($filesop[10]);
-
- $AcademicType = trim($filesop[11]);
-
+            $internalmarks = trim($filesop[8]);
+            $externalmarks = trim($filesop[9]);
+            $totalmarks = trim($filesop[10]);
+            $AcademicType = trim($filesop[11]);
             $Elective = trim($filesop[12]);
             $SubjectGroup = trim($filesop[13]);
 
@@ -17516,6 +17515,56 @@ $SubjectType='Theory/Practical';
 
   $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType,Session,TotalMarks) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$internalmarks','$externalmarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType','$session','$totalmarks')";
 
+}
+else
+{
+            $SemesterID = trim($filesop[0]);
+            $SubjectCode = trim($filesop[1]);
+            $SubjectName = trim($filesop[2]);
+            $SkillType = trim($filesop[3]);
+            $Lacture = trim($filesop[4]);
+            $Tutorials = trim($filesop[5]);
+            $Practical = trim($filesop[6]);
+            $NoOfCredits = trim($filesop[7]);
+            $AcademicType = trim($filesop[8]);
+            $Elective = trim($filesop[9]);
+            $SubjectGroup = trim($filesop[10]);
+
+if ($SemesterID=='1')
+ {    $Semester='First'; }
+
+  elseif ($SemesterID==2) {   $Semester='Second'; } elseif ($SemesterID==3) { $Semester='Third';
+ } elseif ($SemesterID==4) {   $Semester='Four'; } elseif ($SemesterID==5) {  $Semester='Five'; } elseif ($SemesterID==6) {   $Semester='Sixth'; } elseif ($SemesterID==7) {
+   $Semester='Seven'; } elseif ($SemesterID==8) {    $Semester='Eight'; } 
+
+   elseif ($SemesterID==9) {  $Semester='Nine'; }    elseif ($SemesterID==10) { $Semester='Ten'; } 
+   elseif ($SemesterID==11) { $Semester='Eleven'; }    elseif ($SemesterID==12) { $Semester='Twelve'; } 
+   else
+   {
+
+   }
+
+   if($AcademicType=='T')
+   {
+$SubjectType='Theory';
+   }
+   else if($AcademicType=='P')
+   {
+$SubjectType='Practical';
+   }
+    else if($AcademicType=='TP')
+   {
+$SubjectType='Theory/Practical';
+   }
+   else
+   {
+    $SubjectType='';
+   }
+
+
+  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType,Session) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType','$session')";
+}
+
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
                   if ($add_study_scheme_run2==true)
                    {
@@ -17527,6 +17576,15 @@ $SubjectType='Theory/Practical';
                   echo $SubjectCode."-".$SubjectName."Not Uploaded";
 
                   }
+
+
+
+
+
+
+
+
+
             }
             $c++;
  

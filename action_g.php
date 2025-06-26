@@ -19,6 +19,8 @@ window.location.href = 'index.php';
 
    $Leave_Authority_Label="Pending to VC";
 
+   $Leave_Authority_Label_rer="Reamrks By Vice Chancellor";
+
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
@@ -16048,7 +16050,7 @@ else
                 {?>
                     <li class="nav-item">
 
-                        <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Registrar</b>
+                        <a href='#' class="nav-link leaveViewColor"> <b><?=$Leave_Authority_Label_rer;?></b>
                             &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
                                 <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A ');};?></b>
                         </a>
@@ -17065,7 +17067,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
                 {?>
                         <li class="nav-item">
 
-                            <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Registrar
+                            <a href='#' class="nav-link leaveViewColor"> <b> <?=$Leave_Authority_Label_rer;?>
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
                                     <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
