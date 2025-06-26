@@ -53,10 +53,10 @@ $updateLoggedIn = "UPDATE UserMaster SET LoggedIn = '0'WHERE UserName = ?  AND A
     }
     if (is_secure_password($pass)) {
         $_SESSION['secure'] = 0;
-       // header('Location: Dashboard.php');
+        header('Location: Dashboard.php');
     } else {
         $_SESSION['secure'] = 1;
-       // header('Location: password-change.php');
+        header('Location: password-change.php');
     }
     exit();
 } elseif ($lockProfile == 1 && $status == 1) {
