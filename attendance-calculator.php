@@ -1,8 +1,7 @@
 <?php 
 $holidaycount=0;
 $print_shift='';
-
-
+$ShiftID='';
    $shiftIDrecord="SELECT  
     ShiftID,
     CASE 
@@ -21,7 +20,7 @@ $print_shift='';
 $stmtr = sqlsrv_query($conntest,$shiftIDrecord);  
             if($row_staff_sr = sqlsrv_fetch_array($stmtr, SQLSRV_FETCH_ASSOC) )
             {
-                       $ShiftID=$row_staff_sr['ShiftID'];
+                     $ShiftID=$row_staff_sr['ShiftID'];
             }  
 
 
@@ -38,12 +37,12 @@ $stmt = sqlsrv_query($conntest,$sql_staff_s);
           
              $ShiftID=$row_staff_s['ShiftID'];
             }  
-    
+
 }
 
 
 
-$sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000' AND ShiftID='$ShiftID'";
+ $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000' AND ShiftID='$ShiftID'";
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {

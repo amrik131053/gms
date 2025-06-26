@@ -16632,7 +16632,7 @@ elseif($code==212)
                     <tbody>
                         <?php 
         $Sr=1;
-    $insertHoliday="SELECT * FROM Holidays order by  Id DESC    ";
+ $insertHoliday="SELECT * FROM Holidays inner join MasterShift on Holidays.ShiftID=MasterShift.Id order by Holidays.Id DESC ";
     $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
    while($row=sqlsrv_fetch_array($insertHolidayRun))
    {?>
@@ -16642,6 +16642,7 @@ elseif($code==212)
                             </td>
                             <td class="editable" data-field="HolidayName"><?= $row['HolidayName']; ?></td>
                             <td class="editable" data-field="Description"><?= $row['Description']; ?></td>
+                            <td class="editable" data-field="Shift"><?= $row['ShiftName']; ?></td>
                             <td>
                                 <div class="controls">
                                     <button type="button" class="edit-btn btn btn-primary  btn-sm"
