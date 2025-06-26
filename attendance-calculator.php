@@ -2,6 +2,35 @@
 $holidaycount=0;
 $print_shift='';
 
+
+   $shiftIDrecord="SELECT  
+    ShiftID,
+    CASE 
+        WHEN StartDate < '$start' THEN '$start'
+        ELSE StartDate 
+    END AS Leave_Start_Date,   
+     CASE 
+        WHEN EndDate > '$start' THEN '$start'
+        ELSE EndDate 
+    END AS Leave_End_Date       
+         FROM MasterSHiftRoaster 
+           WHERE StartDate <= '$start' 
+               AND EndDate >= '$start' 
+                     AND IDNO = '$IDNo'";
+
+$stmtr = sqlsrv_query($conntest,$shiftIDrecord);  
+            if($row_staff_sr = sqlsrv_fetch_array($stmtr, SQLSRV_FETCH_ASSOC) )
+            {
+                       $ShiftID=$row_staff_sr['ShiftID'];
+            }  
+
+
+if($ShiftID!='')
+{
+
+}
+else
+{
 $sql_staff_s="select ShiftID from Staff where IDNo='$IDNo' order by IDNo DESC";
 $stmt = sqlsrv_query($conntest,$sql_staff_s);  
             if($row_staff_s = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -9,9 +38,12 @@ $stmt = sqlsrv_query($conntest,$sql_staff_s);
           
              $ShiftID=$row_staff_s['ShiftID'];
             }  
+    
+}
 
 
-$sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
+
+$sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000' AND ShiftID='$ShiftID'";
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {

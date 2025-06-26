@@ -279,7 +279,9 @@ elseif($code==4)
     </li>
     <?php 
       }
-$check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd='Yes'";
+$check_count_emp="SELECT DISTINCT Username FROM Staff
+JOIN PHDacademic ON Staff.IDNo = PHDacademic.username Where JobStatus='1' AND PHDacademic.DeleteStatus='0'";
+
               $check_count_emp_catego_run=sqlsrv_query($conntest,$check_count_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
               $emp_coun1t=sqlsrv_num_rows($check_count_emp_catego_run);
       ?>

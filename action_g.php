@@ -3302,7 +3302,13 @@ else { ?>
                 $query ="SELECT DISTINCT IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$collegeId'";
             }
             else{
-              $query="SELECT DISTINCT IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM  Staff   Where JobStatus='1' and Phd='Yes'";
+
+  
+$query="SELECT * , DepartmentID as depid FROM Staff 
+JOIN PHDacademic ON Staff.IDNo = PHDacademic.username Where JobStatus='1' AND PHDacademic.DeleteStatus='0' ";
+
+
+              //$query="SELECT DISTINCT IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM  Staff   Where JobStatus='1' and Phd='Yes'";
             }
           
         }
@@ -5073,6 +5079,7 @@ else { ?>
                      <option value='No Dues Certificate'>No Dues Certificate</option>
                     <option value='No Objection Certificate'>No Objection Certificate</option>
                      <option value='Office Order'>Office Order</option>
+                      <option value='Offer letter'>Offer letter</option>
                     <option value='Promotion Letter'>Promotion Letter</option>
                     <option value='Warning Letter'>Warning Letter</option>
                     <option value='Suspension Letter'>Suspension Letter</option>
@@ -16570,15 +16577,35 @@ elseif($code==212)
                     <label>Date</label>
                     <input type="date" class="form-control" id="holidayDate">
                 </div>
+                 <div class="col-lg-2">
+                    <label>Shift</label>
+
+                    <select name="College" id='shiftid' class="form-control "
+                            required="">
+                            <option value=''>Select Shift</option>
+                            <?php
+                        $sql="SELECT * from MasterShift ";
+                                $stmt2 = sqlsrv_query($conntest,$sql);
+                            while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                {
+                            $ShiftName = $row1['ShiftName']; 
+                            $Id = $row1['Id'];
+                            ?>
+                            <option value="<?=$Id;?>"><?= $ShiftName;?></option>
+                            <?php    }
+
+                                                    ?>
+                        </select>
+                </div>
                 <div class="col-lg-3">
                     <label>Holiday Name </label>
                     <input type="text" class="form-control" id="holidayName">
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <label> Discription</label>
                     <input type="text" class="form-control" id="holidayDiscription">
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <label>Action</label><br>
                     <button type="button" onclick="addHolidayMark();" class="btn btn-success ">
                         <i class="fa fa-plus"></i>
@@ -16642,11 +16669,11 @@ elseif($code==212)
       
 }
 elseif($code==213)
-{
+{    $shiftid=$_POST['shiftid'];
     $holidayDate=$_POST['holidayDate'];
     $holidayName=$_POST['holidayName'];
     $holidayDiscription=$_POST['holidayDiscription'];
-    $insertHoliday="INSERT into  Holidays (HolidayName,HolidayDate,Description,UpdatedBy)values('$holidayName','$holidayDate','$holidayDiscription','$EmployeeID')";
+    $insertHoliday="INSERT into  Holidays (HolidayName,HolidayDate,Description,UpdatedBy,ShiftID)values('$holidayName','$holidayDate','$holidayDiscription','$EmployeeID','$shiftid')";
     $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
     if($insertHolidayRun==true)
       {

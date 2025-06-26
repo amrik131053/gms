@@ -446,6 +446,9 @@ function CorrectionSubmit(form) {
 }
  function addHolidayMark(){ 
    var code=213;
+
+
+   var shiftid=document.getElementById('shiftid').value;
    var holidayDate=document.getElementById('holidayDate').value;
   var holidayName=document.getElementById('holidayName').value;
   var holidayDiscription=document.getElementById('holidayDiscription').value;
@@ -457,7 +460,7 @@ function CorrectionSubmit(form) {
             url:'action_g.php',
             type:'POST',
             data:{
-               code:code,holidayDate:holidayDate,holidayName:holidayName,holidayDiscription:holidayDiscription
+               code:code,holidayDate:holidayDate,holidayName:holidayName,holidayDiscription:holidayDiscription,shiftid:shiftid
                },
             success: function(response) 
             { 

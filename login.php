@@ -29,18 +29,34 @@ while ($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)) {
 }
 if ($status == 1 && $lockProfile != 1) {
     $_SESSION['usr'] = $user;
-    $updateLoggedIn = "UPDATE UserMaster  SET LoggedIn = '0'WHERE UserName = ?  AND ApplicationType = 'Web' AND ApplicationName = 'Campus'";
+
+
+include 'activity.php';
+
+      $updateactivity = "INSERT INTO UserActivity
+           (IDNo,ActivityType,ActivityDescription,IPAddress,Broswer,DeviceType,CreatedAt)
+          Values (?,?,?,?,?,?,?)";
+
+    $paramslog = array($user,'Logged in','New Login',$ipAddress,$browserName,$deviceType,$timeStampS);
+
+    $stmt3 = sqlsrv_query($conntest, $updateactivity,$paramslog);
+
+
+
+$updateLoggedIn = "UPDATE UserMaster SET LoggedIn = '0'WHERE UserName = ?  AND ApplicationType = 'Web' AND ApplicationName = 'Campus'";
+
     $params2 = array($user);
     $stmt3 = sqlsrv_query($conntest, $updateLoggedIn, $params2);
     if ($stmt3 === false) {
         die(print_r(sqlsrv_errors(), true));
+
     }
     if (is_secure_password($pass)) {
         $_SESSION['secure'] = 0;
-        header('Location: Dashboard.php');
+       // header('Location: Dashboard.php');
     } else {
         $_SESSION['secure'] = 1;
-        header('Location: password-change.php');
+       // header('Location: password-change.php');
     }
     exit();
 } elseif ($lockProfile == 1 && $status == 1) {

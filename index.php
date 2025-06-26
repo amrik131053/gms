@@ -54,6 +54,8 @@ else
             <div class="d-flex justify-content-center">
                 <div class="brand_logo_container">
                     <?php 
+
+
 include "fastival.php";
 ?>
                 </div>
@@ -73,6 +75,8 @@ include "fastival.php";
                             value="<?php if(isset($_COOKIE["user_login"])) { echo $_COOKIE["user_login"]; } ?>"
                             placeholder="Employee ID" autocomplete="username" required>
                     </div>
+   
+
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -82,6 +86,7 @@ include "fastival.php";
                             name="pass" class="form-control input_pass" placeholder="Password" autocomplete="new-password" required>
 
                     </div>
+                   <?php  include 'activity.php';?>
                     <div class="form-group">
                         <div class=" custom-checkbox">
                             <input type="checkbox" name="remember" id="remember"

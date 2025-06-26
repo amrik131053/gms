@@ -2583,7 +2583,7 @@ function uploadAdharCard(form) {
             ErrorToast('Submission failed: ' + error);
         }
     });
-}
+} 
 function viewPHDDocument(id) {
     var code = 57.1;
     //alert(id);

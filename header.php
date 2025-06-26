@@ -170,8 +170,18 @@ $_SESSION['RequiredData']=$alertMessage;
  
       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
-   
-       if (!in_array($file,$urls))
+
+   include 'activity.php';
+
+      $updateactivity = "INSERT INTO UserActivity
+           (IDNo,ActivityType,ActivityDescription,IPAddress,Broswer,DeviceType,CreatedAt)
+          Values (?,?,?,?,?,?,?)";
+
+    $paramslog = array($EmployeeID,$file,'',$ipAddress,$browserName,$deviceType,$timeStampS);
+
+    $stmt3 = sqlsrv_query($conntest, $updateactivity,$paramslog);
+
+          if (!in_array($file,$urls))
         { 
           
     $result1 = mysqli_query($conn,"SELECT id from permissions WHERE page_link = '$file' ANd  (portal_type='4' OR portal_type='0')");
@@ -201,8 +211,7 @@ window.location.href = 'profile.php';
        
      
 
-      
-    }
+          }
    
    // ----------------------------------------------------------------------------------------
         $code_access="";

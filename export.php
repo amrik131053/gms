@@ -13696,7 +13696,17 @@ elseif($exportCode==83)
          </tr>
         </thead>";
       $count=1;
-      $sql12 = "SELECT * FROM Staff WHERE Phd='Yes' and JobStatus='1' order by IDNo ASC";
+
+
+      $sql12 = "SELECT s.*, p.*, s.DepartmentID AS depid
+FROM Staff s
+JOIN PHDacademic p ON s.IDNo = p.username
+JOIN (
+    SELECT username, MIN(id) AS min_id
+    FROM PHDacademic
+    GROUP BY username
+) AS sub ON p.username = sub.username AND p.id = sub.min_id
+WHERE s.JobStatus = '1' AND p.DeleteStatus = '0'";
       $res111 = sqlsrv_query($conntest, $sql12);
       $SrNo = 1;
       while ($data1 = sqlsrv_fetch_array($res111))
@@ -13715,11 +13725,7 @@ elseif($exportCode==83)
         $pan = $data1['PANNo'];
             $doj = $data1['DateOfJoining']->format('d-m-Y');
         $Phd = $data1['Phd'];
-      $sql1 = "SELECT * FROM PHDacademic WHERE UserName = '$IDNo'";
-      $get_category_run1 = sqlsrv_query($conntest, $sql1);
-     while($row=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
-        {
-    
+     
             $exportMeter.="<tr>
                 <td>{$count}</td>
                 <td>{$IDNo}</td>
@@ -13731,23 +13737,23 @@ elseif($exportCode==83)
                 <td>{$Designation}</td>
              
                 <td>{$phone}</td>
-                <td>{$row['University']}</td>
-                            <td>{$row['TopicofResearch']}</td>
-                            <td>{$row['NameofSupervisor']}</td>
-                            <td>{$row['DateofEnrollment']}</td>
-                            <td>{$row['DateofRegistration']}</td>
-                            <td>{$row['DateofDegree']}</td>
-                            <td>{$row['Subject']}</td>
-                            <td>{$row['SupervisorDetails']}</td>
-                            <td>{$row['CourseWorkDetails']}</td>
-                            <td>{$row['CourseWorkUniversity']}</td>
-                            <td>{$row['TotalMarks']}</td>
-                            <td>{$row['ObtainedMarks']}</td>
-                            <td>{$row['DateofPassing']}</td>
-                            <td>{$row['Percentage']}</td>
+                <td>{$data1['University']}</td>
+                            <td>{$data1['TopicofResearch']}</td>
+                            <td>{$data1['NameofSupervisor']}</td>
+                            <td>{$data1['DateofEnrollment']}</td>
+                            <td>{$data1['DateofRegistration']}</td>
+                            <td>{$data1['DateofDegree']}</td>
+                            <td>{$data1['Subject']}</td>
+                            <td>{$data1['SupervisorDetails']}</td>
+                            <td>{$data1['CourseWorkDetails']}</td>
+                            <td>{$data1['CourseWorkUniversity']}</td>
+                            <td>{$data1['TotalMarks']}</td>
+                            <td>{$data1['ObtainedMarks']}</td>
+                            <td>{$data1['DateofPassing']}</td>
+                            <td>{$data1['Percentage']}</td>
             </tr>";
 $count++;
-    }
+   
 }
     $exportMeter.="</table>";
     //echo $exportMeterHeader;
