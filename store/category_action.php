@@ -171,11 +171,9 @@ echo '<div   class="alert-danger" style="text-align: center; height="50px">Valid
 }
 }
 
-// Publish 
+// Publish  
 else if($code==3)
 {
-
-
 $reference_no=rand(100,9999).date("His");
 $emp_id=$_POST['emp_id'];
 $category=$_POST['category'];
@@ -187,17 +185,12 @@ $id=$_POST["id"];
 $approved_date='';
 $request_app='';
 
-
-
- $staff="SELECT Name,Designation,Department,CollegeName FROM Staff Where IDNo='$emp_id'";
-    $stmt = sqlsrv_query($conntest,$staff);  
-   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+  $staff="SELECT Name,Designation,Department,CollegeName FROM Staff Where IDNo='$emp_id'";
+  $stmt = sqlsrv_query($conntest,$staff);  
+  while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
         {
-
-
-
   $name=$row_staff['Name'];
-	$college=$row["college"];
+	$college=$row_staff["CollegeName"];
 	$dept=$row_staff['Department'];
 	$designation=$row_staff['Designation'];
 	$superviser_id='';
@@ -243,6 +236,16 @@ $request_app='';
 $request_app='Pre-Approved';
 $approved_date=date("Y-m-d");
 	$request_status='Approved';
+
+$topno="SELECT id from ledger order by id desc limit 1";
+
+$result = mysqli_query($connection_s, $topno);
+
+if($rowno=mysqli_fetch_array($result)){
+
+	$reference_no=$rowno['id']+1;
+}
+
 
 
 $result = mysqli_query($connection_s,"INSERT into ledger(emp_id,name,submit_date,request_status,reference_no,college,college_dept,designation,approved_date,approving_athority,superwiser_id)
