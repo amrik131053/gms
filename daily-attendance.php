@@ -493,6 +493,7 @@ function CorrectionSubmit(form) {
             success: function(response) 
             { 
                spinner.style.display='none';
+               console.log(response);
                if(response==1)
                {
                   SuccessToast('Delete Successfully');

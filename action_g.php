@@ -16632,7 +16632,7 @@ elseif($code==212)
                     <tbody>
                         <?php 
         $Sr=1;
- $insertHoliday="SELECT * FROM Holidays inner join MasterShift on Holidays.ShiftID=MasterShift.Id order by Holidays.Id DESC ";
+ $insertHoliday="SELECT * ,Holidays.ID as hid FROM Holidays inner join MasterShift on Holidays.ShiftID=MasterShift.Id order by Holidays.Id DESC ";
     $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
    while($row=sqlsrv_fetch_array($insertHolidayRun))
    {?>
@@ -16653,7 +16653,7 @@ elseif($code==212)
                                     <button type="button" class="cancel-btn btn btn-danger  btn-sm"
                                         onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times"> </i>
                                     </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteHoliday(<?=$row['Id'];?>);"><i
+                                    <button class="btn btn-danger btn-sm" onclick="deleteHoliday(<?=$row['hid'];?>);"><i
                                             class="fa fa-trash"></i></button>
                                 </div>
                             </td>
@@ -16698,7 +16698,7 @@ elseif($code==214)
     
 }
 elseif($code==215)
-{
+{ 
     $id=$_POST['id'];
    
     $insertHoliday="DELETE FROM Holidays  WHERE Id='$id'";
