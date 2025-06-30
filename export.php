@@ -13898,6 +13898,170 @@ $count++;
 
 }
 
+
+elseif($exportCode==85)
+{
+  
+
+  $start_date=$_GET['start_date'];
+  $end_date=$_GET['end_date'];
+
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>EMP ID</th>
+       
+          <th>Name</th>
+          <th>Designation</th>
+       
+           <th>Casual</th>
+           <th>Compansatory</th>
+           <th>On Duty</th>
+             <th>LWS</th>
+         </tr>
+        </thead>";
+
+      $count=1;
+ $sql12 = "SELECT
+  StaffId,
+  Name,Designation,
+  SUM(CASE WHEN LeaveTypeId = '1' THEN
+    CASE 
+      WHEN LeaveDurationsTime > 0 THEN 
+        LeaveDurationsTime * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '2025-06-30' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+      ELSE
+        LeaveDuration * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '$end_date' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+    END
+    ELSE 0
+  END) AS Casual,
+
+  SUM(CASE WHEN LeaveTypeId = '2' THEN
+    CASE 
+      WHEN LeaveDurationsTime > 0 THEN 
+        LeaveDurationsTime * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '$end_date' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+      ELSE
+        LeaveDuration * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '$end_date' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+    END
+    ELSE 0
+  END) AS Compansatory,
+
+  SUM(CASE WHEN LeaveTypeId = '3' THEN
+    CASE 
+      WHEN LeaveDurationsTime > 0 THEN 
+        LeaveDurationsTime * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '$end_date' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+      ELSE
+        LeaveDuration * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '$end_date' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+    END
+    ELSE 0
+  END) AS OnDuty,
+
+
+   SUM(CASE WHEN LeaveTypeId = '4' THEN
+    CASE 
+      WHEN LeaveDurationsTime > 0 THEN 
+        LeaveDurationsTime * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '$end_date' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+      ELSE
+        LeaveDuration * 
+        (
+          (DATEDIFF(day, 
+            CASE WHEN StartDate > '$start_date' THEN StartDate ELSE '$start_date' END,
+            CASE WHEN EndDate < '$end_date' THEN EndDate ELSE '$end_date' END
+          ) + 1)
+          / NULLIF(DATEDIFF(day, StartDate, EndDate) + 1, 0)
+        )
+    END
+    ELSE 0
+  END) AS LWS
+
+FROM
+  ApplyLeaveGKU
+INNER JOIN Staff ON Staff.IDNo = ApplyLeaveGKU.StaffId
+WHERE
+  StartDate <= '$end_date' AND EndDate >= '$start_date' AND Status='Approved'
+GROUP BY
+  StaffId,
+  Name,Designation  ORDER BY   StaffId";
+    
+$stmt2 = sqlsrv_query($conntest,$sql12);
+      $count = 1;
+
+
+
+
+     while($data1 =sqlsrv_fetch_array($stmt2,SQLSRV_FETCH_ASSOC))
+     {
+        
+
+        $id=$data1['StaffId'];
+            $exportMeter.="<tr>     
+                           <td>{$count}</td>
+                          
+                           <td>{$id}</td> <td>{$data1['Name']}</td>
+                            <td>{$data1['Designation']}</td>
+                          
+                            <td>{$data1['Casual']}</td><td>{$data1['Compansatory']}  </td>
+                            <td>{$data1['OnDuty']}</td><td>{$data1['LWS']}</td>";
+                            
+                           
+             $exportMeter.="</tr>";
+$count++;
+    }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Leave Summary";
+
+}
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

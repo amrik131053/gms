@@ -32,11 +32,22 @@
                       <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i
                       class="fa fa-retweet" aria-hidden="true"></i></button>
                       <button type="button" class="btn btn-success btn-sm" data-toggle="modal"  data-target="#viewLeaveBulk">Add  Leave</button>
-                                <?php }else{
+                                <?php }
+                                else{
                                    ?><input type="hidden"id="actionButtonValue" value="Manage Leaves"><?php  }?>
                         <input type="hidden" id="CollegeID_Set">
                         <div class="card-tools">
-                            <div class="input-group ">
+                            <div class="input-group ">Leave Summary &nbsp;
+                                 <input type="date" id="from_start" class="form-control form-control-sm">
+                                  <input type="date" id="to_end" class="form-control form-control-sm">
+<button type="button" onclick="export_Leave_Summary();"
+                                        class="btn btn-success btn-sm">
+                                        <i class="fa fa-download"></i>
+                                    </button>
+
+                                    &nbsp;&nbsp;
+
+
                                 <select id='leavestatus' class="form-control-sm"><option value="0">All</option>
                                 <option value="1">Pending</option></select>
 
@@ -51,7 +62,7 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                           
-                                    </button>
+                            
                                 </div>
                             </div>
                         </div>
@@ -355,6 +366,29 @@ function manageLeaveBalance() {
     });
 
 }
+
+
+ function export_Leave_Summary()
+      {
+         var exportCode=85;
+
+  var start_date=document.getElementById('from_start').value;
+  var end_date=document.getElementById('to_end').value;
+
+  if(start_date!='' && end_date!='')
+   {
+   window.location.href="export.php?exportCode="+exportCode+"&start_date="+start_date+"&end_date="+end_date;
+    }
+      else
+      {
+        ErrorToast('Select Start and End Date','bg-danger');
+ 
+      }
+}
+
+
+
+
 function casulaCountSubmit(form) {
     var formData = new FormData(form);
     $.ajax({

@@ -477,7 +477,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 ?>
 
 
-            <div class="col-12 col-sm-6 col-md-3  align-items-stretch">
+           <!--  <div class="col-12 col-sm-6 col-md-3  align-items-stretch">
                 <div class="card ">
                     <div class="card-header  border-bottom-0">
                         Electrical Incharge (<?=$BlockName?>)
@@ -518,7 +518,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
 
@@ -553,7 +553,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 ?>
 
 
-            <div class="col-12 col-sm-6 col-md-3  align-items-stretch">
+        <!--     <div class="col-12 col-sm-6 col-md-3  align-items-stretch">
                 <div class="card ">
                     <div class="card-header  border-bottom-0">
                         Infrastructure Incharge (<?=$BlockName?>)
@@ -595,7 +595,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                     </div>
                 </div>
 
-            </div>
+            </div> -->
             </div>
 
             <?php 
