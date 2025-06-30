@@ -4039,7 +4039,7 @@ else { ?>
                                 <div class="form-group">
                                     <label>Shift</label>
                                     <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
-                                    <select class="form-control" name="shift" id='old_shift'>
+                                    <select class="form-control" name="shift" id='old_shift_<?=$emp_id;?>'>
                                         <?php  $getShift="SELECT * FROm MasterShift Where Id='".$row1['ShiftID']."'";
                                                 $getshiftRun=sqlsrv_query($conntest,$getShift);
                                                 if($row_shift=sqlsrv_fetch_array($getshiftRun,SQLSRV_FETCH_ASSOC))
@@ -4264,28 +4264,28 @@ else { ?>
                                       
 
                        
-                        <select  id="shift_additional" class="form-control">
+                        <select  id="shift_additional_<?=$emp_id;?>" class="form-control">
                             <option value="">Select</option>
                             <?php 
-                                           $get_category="SELECT * FROM MasterShift ";
+                                           $get_category="SELECT * FROM MasterShift";
                                                     $get_category_run=sqlsrv_query($conntest,$get_category);
                                                     while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
                                                     {
                                                 ?>
                             <option value="<?=$row_categort['Id'];?>">
-                                <?=$row_categort['ShiftName'];?></option>
+                                <?=$row_categort['ShiftName'];?>(<?=$row_categort['Id'];?>)</option>
                             <?php 
                                                 }?>
                         </select>
                        
                   </td>
                   <td>
-<input type="date"  id='shift_additional_start' class="form-control">
+<input type="date"  id='shift_additional_start_<?=$emp_id;?>' class="form-control">
 
                   </td>
                                         <td>
 
-                                        </td><td><button onclick="save_shift()" class="btn btn-primary btn">Save</button></td>
+                                        </td><td><button onclick="save_shift(<?=$emp_id;?>)" class="btn btn-primary btn">Save</button></td>
                                    
 
             </tr> 
@@ -43272,7 +43272,7 @@ elseif($code==470)
 
                $get_Update_run=sqlsrv_query($conntest,$Insert);
 
-
+echo 1;
 
 
        
