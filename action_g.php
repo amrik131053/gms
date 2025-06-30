@@ -3585,13 +3585,10 @@ else { ?>
                             data-toggle="tab">Documents</a></li>
                     <li class="nav-item"><a class="nav-link" href="#letters-admin<?=$emp_id;?>"
                             data-toggle="tab">Letters</a></li>
-                             <li class="nav-item"><a class="nav-link" href="#shift<?=$emp_id;?>" data-toggle="tab">Shift Manage</a>
-                    </li>
 
                     <?php   if($role_id==2){
                                             
                                             ?>
-
                     <li class="nav-item"><a class="nav-link" href="#idcard<?=$emp_id;?>" data-toggle="tab">ID Card</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#permissions<?=$emp_id;?>"
@@ -4039,7 +4036,7 @@ else { ?>
                                 <div class="form-group">
                                     <label>Shift</label>
                                     <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
-                                    <select class="form-control" name="shift" id='old_shift'>
+                                    <select class="form-control" name="shift">
                                         <?php  $getShift="SELECT * FROm MasterShift Where Id='".$row1['ShiftID']."'";
                                                 $getshiftRun=sqlsrv_query($conntest,$getShift);
                                                 if($row_shift=sqlsrv_fetch_array($getshiftRun,SQLSRV_FETCH_ASSOC))
@@ -4049,11 +4046,17 @@ else { ?>
                                         <option value="<?=$row_shift['Id'];?>">
                                             <?=$row_shift['ShiftName'];?></option>
                                         <?php
-                                         } 
-                            ?>
-                        
-                       
-                    
+                                         }  
+                                                                    $get_category="SELECT * FROM MasterShift ";
+                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                    {
+                                ?>
+                                        <option value="<?=$row_categort['Id'];?>">
+                                            <?=$row_categort['ShiftName'];?></option>
+                                        <?php 
+                                }?>
+                                    </select>
                                     </select>
                                 </div>
                             </div>
@@ -4222,79 +4225,7 @@ else { ?>
 
                     </div>
 
-  <div class="tab-pane" id="shift<?=$emp_id;?>">
 
-                        <div class="row">
-                            <div class="col-lg-12">
-
-                                <table class="table  table-bordered">
-                                    <tr>
-                                        <th colspan="3">
-                                            <center> Shift Detail</center>
-                                        </th>
-                                    </tr>
-
-                                     <tr style="">
-                                        <td width="35%">Shift Name</td>
-                                        <td>Start Date </td>
-                                        <td>End Date</td>
-                                         <td>Action</td>
-                                    </tr>
-
-
-                            <?php 
-                                                $IdCard="SELECT *  FROM MasterSHiftRoaster as msr  inner join MasterShift on msr.ShiftId=MasterShift.Id where IDNo='".$row1['IDNo']."'"; 
-                                        $getUseridcard=sqlsrv_query($conntest,$IdCard);
-                                        $countPerms=0;
-                                        while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
-                                        {
-                                        ?>
-                                    <tr>
-                                        
-                                        <td><?= $getUseridcardRow['ShiftName'];?></td>
-                                        <td><?= $getUseridcardRow['StartDate']->format('d-m-Y');?></td>
-                                        <td><?= $getUseridcardRow['Enddate']->format('d-m-Y');?></td>
-                                        <td><i  class="fa fa-edit"><i></td>
-                                    </tr>
-                                    <?php 
-                                      }?>
-
-                                    <tr>
-                                       <td>
-                                      
-
-                       
-                        <select  id="shift_additional" class="form-control">
-                            <option value="">Select</option>
-                            <?php 
-                                           $get_category="SELECT * FROM MasterShift ";
-                                                    $get_category_run=sqlsrv_query($conntest,$get_category);
-                                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
-                                                    {
-                                                ?>
-                            <option value="<?=$row_categort['Id'];?>">
-                                <?=$row_categort['ShiftName'];?></option>
-                            <?php 
-                                                }?>
-                        </select>
-                       
-                  </td>
-                  <td>
-<input type="date"  id='shift_additional_start' class="form-control">
-
-                  </td>
-                                        <td>
-
-                                        </td><td><button onclick="save_shift()" class="btn btn-primary btn">Save</button></td>
-                                   
-
-            </tr> 
-
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                    
                     <div class="tab-pane" id="idcard<?=$emp_id;?>">
 
@@ -15532,7 +15463,26 @@ elseif($code=='198')
                     </div>
                 </div>
 
-            
+                <div class="col-lg-2 col-12">
+                    <div class="form-group">
+                        <label> Shift </label>
+                        <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                        <select class="form-control" id="shift">
+                            <option value="">Select</option>
+                            <?php 
+                                           $get_category="SELECT * FROM MasterShift ";
+                                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                                    {
+                                                ?>
+                            <option value="<?=$row_categort['Id'];?>">
+                                <?=$row_categort['ShiftName'];?></option>
+                            <?php 
+                                                }?>
+                        </select>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="col-12 col-lg-2">
                     <div class="form-group">
@@ -32695,6 +32645,7 @@ $insert_record_run = mysqli_query($conn, $insert_record);
     ];
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
@@ -43244,53 +43195,6 @@ elseif($code==470)
        $role_run=mysqli_query($conn,$update_addrole);
         mysqli_close($conn);
         }
-
-           elseif($code == 476) 
-         {
-
-
-             
-        $new_shiftid = $_POST['new_shiftid'];     
-        $old_shifid = $_POST['old_shifid'];     
-        $EmployeeID = $_POST['loginId'];     
-        $start = $_POST['start'];  
-
-      $get_enddate="SELECT TOP(1) Enddate from MasterShiftRoaster where IDNo='$EmployeeID' Order by ID DESc";
-             $get_enddate_run=sqlsrv_query($conntest,$get_enddate);
-         if($row_enddate=sqlsrv_fetch_array($get_enddate_run))
-          {
-           echo "endate:". $endDate=$row_enddate['Enddate']->format('Y-m-d');
-
-         }
-         else
-         {
-             $get_enddate="SELECT DateofJoining from Staff where IDNo='$EmployeeID'";
-             $get_enddate_run=sqlsrv_query($conntest,$get_enddate);
-             if($row_enddate=sqlsrv_fetch_array($get_enddate_run))
-          {
-           echo "DOJ:". $endDate=$row_enddate['DateofJoining']->format('Y-m-d');
-         }
-
-         }
-
-
-         // $Update="UPDATE Staff set ShiftID='$new_shiftid' where IDNo='$EmployeeID'";
-         //  $get_Update_run=sqlsrv_query($conntest,$Update);
-
-
-         // $Insert=""
-
-
-
-
-
-
-       
-        }
-
-
-
-
    else
    {
    
