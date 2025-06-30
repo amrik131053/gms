@@ -2230,6 +2230,7 @@ function addEmployee()
        var Permanent=document.getElementById('Permanent').value;
        var Correspondance=document.getElementById('Correspondance').value;
        var shift=document.getElementById('shift').value;
+
        if (shift!='' && bloodGroup && loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
        {
        var spinner=document.getElementById('ajax-loader');
@@ -2424,9 +2425,47 @@ function resetPassword(empid,ApplicationName)
 }
 
 
+ function save_shift()
+ {
+     var old_shifid=document.getElementById('old_shift').value;
+     var new_shiftid=document.getElementById('shift_additional').value;
+     var loginId=document.getElementById('loginId').value;
+     var start=document.getElementById('shift_additional_start').value;
+  if(start!='' && new_shiftid!='')
+  {
+     var spinner = document.getElementById("ajax-loader");
+     spinner.style.display = 'block';
+     var code = 476;
+     $.ajax({
+      url: 'action_g.php',
+         type: 'POST',
+         data: {
+            code: code,old_shifid:old_shifid,new_shiftid:new_shiftid,loginId:loginId,start:start
+         },
+         success: function(response) {
+           console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               
+               SuccessToast('Shift Changed Successfully');
+               
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   
+ }
+ else
+ {
+    errorToast('select shift and start date', 'bg-warning');
+ }
 
 
-
+}
 
 
 // profile function

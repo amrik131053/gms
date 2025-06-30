@@ -39,8 +39,10 @@ date_default_timezone_set("Asia/Kolkata");
         $ChequeDraftNo=$getStatusRow['ChequeDraftNo'];
         $ChequeDraftDate1=$getStatusRow['ChequeDraftDate'];
         if($getStatusRow['ChequeDraftDate']!=''){
-        $date1 = DateTime::createFromFormat('m-d-Y', $ChequeDraftDate1);
+
+        $date1 = DateTime::createFromFormat('d/m/Y', $ChequeDraftDate1);
         $ChequeDraftDate = $date1->format('d-m-Y');
+
             }
             else{
                 $ChequeDraftDate="";
