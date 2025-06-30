@@ -16043,15 +16043,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                         </select>
                     </div>
                     <div class="col-lg-12"><label>Duration</label>
-                        <?php 
-if($row['Status']=='Approved')
-{?>
-                        <input type="text" class="form-control" id="LeaveDuration" value="<?=$LeaveDurationsTime;?>"
-                            readonly>
-                        <?php 
-}
-else
-{?>
+
                         <select class="form-control" id="LeaveDuration">
                             <option value="<?=$LeaveDurationsTime;?>"><?=$LeaveDurationsTime;?></option>
                             <option value="0.25">0.25</option>
@@ -16059,9 +16051,7 @@ else
                             <option value="0.75">0.75</option>
                             <option value="0">1</option>
                         </select>
-                        <?php
- }
- ?>
+ 
                     </div>
                     <div class="col-lg-12"><label>Reason</label><textarea id="LeaveReason"
                             class="form-control"><?=$row['LeaveReason'];?></textarea></div>
@@ -16296,16 +16286,16 @@ elseif($code==206)
 
 try {
      $date1 = new DateTime($StartDate);
-    $date2 = new DateTime($EndDate);
-    $diff = date_diff($date1, $date2);
+     $date2 = new DateTime($EndDate);
+    $diff = date_diff($date1,$date2);
    $days=$diff->days+1;
 } catch (Exception $e) {
     echo "Invalid date format: " . $e->getMessage();
 }
 
-if($days>1)
+if($days>=1)
 {
-$LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$days',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+ $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$days',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
 }else
 {
     $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
@@ -43259,7 +43249,7 @@ elseif($code==470)
              $get_enddate_run=sqlsrv_query($conntest,$get_enddate);
          if($row_enddate=sqlsrv_fetch_array($get_enddate_run))
           {
-           echo "endate:". $endDate=$row_enddate['Enddate']->format('Y-m-d');
+           $endDate=$row_enddate['Enddate']->format('Y-m-d');
 
          }
          else
@@ -43268,19 +43258,19 @@ elseif($code==470)
              $get_enddate_run=sqlsrv_query($conntest,$get_enddate);
              if($row_enddate=sqlsrv_fetch_array($get_enddate_run))
           {
-           echo "DOJ:". $endDate=$row_enddate['DateofJoining']->format('Y-m-d');
+           $endDate=$row_enddate['DateofJoining']->format('Y-m-d');
          }
 
          }
 
 
-         // $Update="UPDATE Staff set ShiftID='$new_shiftid' where IDNo='$EmployeeID'";
-         //  $get_Update_run=sqlsrv_query($conntest,$Update);
+      $Update="UPDATE Staff set ShiftID='$new_shiftid' where IDNo='$EmployeeID'";
+    $get_Update_run=sqlsrv_query($conntest,$Update);
 
 
-         // $Insert=""
+           $Insert="INSERT INTO MasterShiftRoaster(IDNo,StartDate,Enddate,ShiftID) Values('$EmployeeID','$endDate','$start','$old_shifid')";
 
-
+               $get_Update_run=sqlsrv_query($conntest,$Insert);
 
 
 
