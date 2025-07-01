@@ -7807,7 +7807,7 @@ elseif($code==100) // sic
        
             $stmt = sqlsrv_query($conntest,$sql);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-            
+            {
                  $userId.=$ClassRollNo= $row1['ClassRollNo'];
                            $userId.="/".$UniRollNo= $row1['UniRollNo'];
                            $name = $row1['StudentName'];
@@ -7877,9 +7877,7 @@ elseif($code==100) // sic
         </tr>
         <?php 
                         }
-                    }
-                 }
-              
+                 
              
             ?>
     </tbody>

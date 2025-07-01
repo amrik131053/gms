@@ -3905,7 +3905,8 @@ else if($code=='43')
                <td><?= $subject;?>
              <?php  $iidd=$row['id'];?></td>
                            <td style='text-align:center;width: 100px'>  
-                              <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td>
+                              <?=$row['intmarks'];?>
+                              <!-- <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td> -->
                             
                             <td>
                               <?php
@@ -3960,14 +3961,15 @@ $moocattchment=$row_staff['MOOCattachment'];
                               {
 
 
-            ?>   <form action="action.php" method="post" enctype="multipart/form-data">
-                 <input type="hidden" name="code" value="358">
+            ?>   
+            <!-- <form action="action.php" method="post" enctype="multipart/form-data"> -->
+                <!--  <input type="hidden" name="code" value="358">
                  <input type="hidden" class="form-control" name='id' value="<?=$row['id'];?>">
                  <input type="file" class="form-control"  name="moocfile">
                  <button type="button"  onclick="uploadPhoto(this.form)">
 
                   <i class="fa fa-upload" ></i></button>
-            </form>
+            </form> -->
 
             &nbsp;&nbsp;&nbsp;<?php }?>
 
