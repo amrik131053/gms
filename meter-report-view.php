@@ -49,7 +49,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                        <?php
                                      
 
-if ($role_id=='2')
+if ($role_id=='2' OR $role_id=='27' )
 {
                                        $hostelQry="SELECT Distinct building_master.ID as BmId, Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block";
                                        $hostelRes=mysqli_query($conn,$hostelQry);

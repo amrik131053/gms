@@ -300,6 +300,52 @@ for($i=1;$i<=12;$i++)
                 <div class="card-footer"> </div>
                
             </div>
+
+   <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title"> Subject Wise (Select College,Course,Batch,Subject,Semester,Examination) </h3>
+              </div> 
+                <div class="card-body">
+<input type="checkbox" id="CE1_s" name="CE1" value="CE1" class="semesterwisetheory">
+<label for="CE1"> CE-1</label>&nbsp;&nbsp;
+
+<input type="checkbox" id="CE2_S" name="CE2" value="CE2" class="semesterwisetheory">
+<label for="CE2"> CE-2</label>&nbsp;&nbsp;
+
+<input type="checkbox" id="CE3_s" name="CE3" value="CE3" class="semesterwisetheory">
+<label for="CE3"> CE-3</label>&nbsp;&nbsp;
+
+
+<input type="checkbox" id="MST1_s" name="MST1" value="MST1" class="semesterwisetheory">
+<label for="MS1"> MST-1</label>&nbsp;&nbsp;
+
+
+
+<input type="checkbox" id="MST2_s" name="MST2" value="MST2" class="semesterwisetheory">
+<label for="MS2"> MST-2</label>&nbsp;&nbsp;
+
+
+
+<input type="checkbox" id="ESE_s" name="ESE" value="ESE" class="semesterwisetheory">
+<label for="ESE"> ESE</label>&nbsp;&nbsp;
+
+
+
+<input type="checkbox" id="Attendance_s" name="Attendance" value="Attendance" class="semesterwisetheory">
+<label for="Attendance"> Attendance</label><br><br>
+ <h3 class="card-title">
+                  <i class='btn btn-warning btn-xs' onclick="unlocksubject();">Unlock All</i>&nbsp;&nbsp;&nbsp;
+                  <i class='btn btn-warning btn-xs' onclick="unlockSubjectpending();">Unlock Pending</i></h3>
+
+
+                  <!-- <div id="live_data_Exam_subjects"></div> -->
+                    
+                
+                </div>
+                <div class="card-footer"> </div>
+               
+            </div>
+
           </div>
 
 
@@ -307,6 +353,10 @@ for($i=1;$i<=12;$i++)
 
 
 </div>
+
+
+
+
       <!-- /.container-fluid -->
     </section>
     <script>
@@ -720,6 +770,57 @@ if(typeof  distributiontheory_str[0]== 'undefined')
       type:'post',
       data:{
         examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,subject_code:subject_code,code:'218.1'
+      },
+      success:function(response)
+      {
+    
+       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp; of &nbsp;"+examination);
+       
+      }
+    });
+}
+else
+{
+
+   ErrorToast('Select Examination , Theory Distibution,Batch,College and Semester',"bg-danger" );
+}
+}
+}
+
+
+function unlocksubject()
+{
+  var college=document.getElementById('College').value;
+  var course=document.getElementById('Course').value;
+  var examination=document.getElementById('Examination').value;
+  var batch=document.getElementById('Batch').value;
+  var semester=document.getElementById('Semester').value;
+  var subject_code=document.getElementById('subject_code').value;
+  var distributiontheory=document.getElementsByClassName('semesterwisetheory');
+  var len_distribution= distributiontheory.length;
+  var distributiontheory_str=[];
+    for(i=0;i<len_distribution;i++)
+     {
+      if(distributiontheory[i].checked===true)
+       {
+        distributiontheory_str.push(distributiontheory[i].value);
+        }
+     }
+if(typeof  distributiontheory_str[0]== 'undefined') 
+  {
+    ErrorToast('Please select atleast one theory distribution',"bg-danger" );
+  }
+  else
+  {   
+  if(examination!='' && batch!='' && semester!='' && college!='' && course!='' && subject_code!='')
+ {
+  alert(distributiontheory_str[0]);
+
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,subject_code:subject_code,code:'217.1'
       },
       success:function(response)
       {

@@ -14916,6 +14916,49 @@ else
 sqlsrv_close($conntest);
 }
 
+
+else if($code==217.1)
+{       
+$college=$_POST['college'];  
+$course=$_POST['course']; 
+$batch=$_POST['batch']; 
+ $examination=$_POST['examination'];  
+$SubjectCode=$_POST['SubjectCode'];
+$semester=$_POST['semester'];
+//$ecat1=$ecat."Locked";
+$Examid=array();
+ $sql="SELECT * from ExamForm where CollegeID='$college' ANd CourseID='$course' ANd Batch='$batch' ANd Examination='$examination' ANd SemesterID='$semester' ";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+   while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+       {
+
+ $Examid[]=$row1['ID'];
+           }
+ $length =sizeof($Examid);
+
+foreach($_POST['distributiontheory_str'] as $key => $disti) { 
+
+   if($disti=='ESE')
+{
+$disti1="MoocLocked";
+}
+else
+{
+  $disti1=$disti."Locked"; 
+}
+
+//$disti=$disti."Locked";
+ for ($th=0;$th<$length;$th++)
+ {
+
+
+ $list_sqlw= "update ExamFormSubject set $disti=NULL where Examid='$Examid[$th]'  ANd SubjectCode='$SubjectCode'";
+    $stmt2 = sqlsrv_query($conntest,$list_sqlw);
+ }
+}
+sqlsrv_close($conntest);
+}
+
 else if($code==218)
 {       
 $college=$_POST['college'];  
