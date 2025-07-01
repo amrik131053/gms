@@ -629,7 +629,7 @@ if(typeof  distributiontheory_str[0]== 'undefined')
        
       }
     });
-}
+} 
 else
 {
 
@@ -670,6 +670,56 @@ if(typeof  distributiontheory_str[0]== 'undefined')
       type:'post',
       data:{
         examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,code:'218'
+      },
+      success:function(response)
+      {
+    
+       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp; of &nbsp;"+examination);
+       
+      }
+    });
+}
+else
+{
+
+   ErrorToast('Select Examination , Theory Distibution,Batch,College and Semester',"bg-danger" );
+}
+}
+}
+
+function unlocksubjectpending()
+{
+  var college=document.getElementById('College').value;
+  var course=document.getElementById('Course').value;
+  var examination=document.getElementById('Examination').value;
+  var batch=document.getElementById('Batch').value;
+  var semester=document.getElementById('Semester').value;
+  var subject_code=document.getElementById('subject_code').value;
+  var distributiontheory=document.getElementsByClassName('semesterwisetheory');
+  var len_distribution= distributiontheory.length;
+  var distributiontheory_str=[];
+    for(i=0;i<len_distribution;i++)
+     {
+      if(distributiontheory[i].checked===true)
+       {
+        distributiontheory_str.push(distributiontheory[i].value);
+        }
+     }
+if(typeof  distributiontheory_str[0]== 'undefined') 
+  {
+    ErrorToast('Please select atleast one theory distribution',"bg-danger" );
+  }
+  else
+  {   
+  if(examination!='' && batch!='' && semester!='' && college!='' && course!='' && subject_code!='')
+ {
+  alert(distributiontheory_str[0]);
+
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,subject_code:subject_code,code:'218.1'
       },
       success:function(response)
       {

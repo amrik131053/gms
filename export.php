@@ -2009,7 +2009,7 @@ else
            <th>State</th>
             <th>Date Of Joining</th>
              <th>Date Of Leaving</th>
-          <th>Ph.D</th>
+         
           
           
          </tr>
@@ -2038,14 +2038,18 @@ else
           $doj = $row['DateOfJoining']->format('d-m-Y');
 
           $dol1 = $row['DateOfLeaving'];
-if($dol1!='')
-{
-    $dol=$dol1->format('d-m-Y');
+
+
+if (!empty($dol1) && $dol1 instanceof DateTime) {
+    if ($dol1->format('Y-m-d H:i:s') == '1970-01-01 00:00:00') {
+        $dol = '';
+    } else {
+        $dol = $dol1->format('d-m-Y');
+    }
+} else {
+    $dol = '';
 }
-else
-{
-   $dol=''; 
-}
+
           
 
 
@@ -2073,7 +2077,7 @@ else
                                 
                    <td>{$doj}</td>
                     <td>{$dol}</td>
-                <td>{$Phd}</td>
+               
             </tr>";
 $count++;
     }
