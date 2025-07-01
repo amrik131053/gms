@@ -3585,13 +3585,10 @@ else { ?>
                             data-toggle="tab">Documents</a></li>
                     <li class="nav-item"><a class="nav-link" href="#letters-admin<?=$emp_id;?>"
                             data-toggle="tab">Letters</a></li>
-                             <li class="nav-item"><a class="nav-link" href="#shift<?=$emp_id;?>" data-toggle="tab">Shift Manage</a>
-                    </li>
 
                     <?php   if($role_id==2){
                                             
                                             ?>
-
                     <li class="nav-item"><a class="nav-link" href="#idcard<?=$emp_id;?>" data-toggle="tab">ID Card</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#permissions<?=$emp_id;?>"
@@ -4049,11 +4046,17 @@ else { ?>
                                         <option value="<?=$row_shift['Id'];?>">
                                             <?=$row_shift['ShiftName'];?></option>
                                         <?php
-                                         } 
-                            ?>
-                        
-                       
-                    
+                                         }  
+                                                                    $get_category="SELECT * FROM MasterShift ";
+                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                    {
+                                ?>
+                                        <option value="<?=$row_categort['Id'];?>">
+                                            <?=$row_categort['ShiftName'];?></option>
+                                        <?php 
+                                }?>
+                                    </select>
                                     </select>
                                 </div>
                             </div>
@@ -4222,7 +4225,6 @@ else { ?>
 
                     </div>
 
-  <div class="tab-pane" id="shift<?=$emp_id;?>">
 
                         <div class="row">
                             <div class="col-lg-12">
@@ -15532,7 +15534,26 @@ elseif($code=='198')
                     </div>
                 </div>
 
-            
+                <div class="col-lg-2 col-12">
+                    <div class="form-group">
+                        <label> Shift </label>
+                        <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                        <select class="form-control" id="shift">
+                            <option value="">Select</option>
+                            <?php 
+                                           $get_category="SELECT * FROM MasterShift ";
+                                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                                    {
+                                                ?>
+                            <option value="<?=$row_categort['Id'];?>">
+                                <?=$row_categort['ShiftName'];?></option>
+                            <?php 
+                                                }?>
+                        </select>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="col-12 col-lg-2">
                     <div class="form-group">
@@ -32686,6 +32707,7 @@ $insert_record_run = mysqli_query($conn, $insert_record);
     ];
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
