@@ -16278,27 +16278,28 @@ elseif($code==206)
     $StartDate=$_POST['StartDate'];
     $EndDate=$_POST['EndDate'];
     $ApplyDate=$_POST['ApplyDate'];
-   $Time=date('H:i:s');
-  $ApplyDate=$ApplyDate.' '.$Time;
+    $Time=date('H:i:s');
+    $ApplyDate=$ApplyDate.' '.$Time;
     $LeaveType=$_POST['LeaveType'];
     $LeaveDuration=$_POST['LeaveDuration'];
     $LeaveReason=$_POST['LeaveReason']; 
-
 try {
+
      $date1 = new DateTime($StartDate);
      $date2 = new DateTime($EndDate);
-    $diff = date_diff($date1,$date2);
-   $days=$diff->days+1;
+     $diff = date_diff($date1,$date2);
+     $days=$diff->days+1;
+
 } catch (Exception $e) {
     echo "Invalid date format: " . $e->getMessage();
 }
-
-if($days>=1)
+if($days>1)
 {
  $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$days',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
-}else
+}
+else
 {
-    $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+       $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
 }
         
         $LeaveUpdateRun=sqlsrv_query($conntest,$LeaveUpdate);
