@@ -3991,7 +3991,7 @@ $moocattchment=$row_staff['MOOCattachment'];
 
 </table>
 
-<p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-danger "  >
+<!-- <p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testingeee();" class="btn btn-danger "  > -->
 <?php 
 
 
