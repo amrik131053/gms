@@ -2425,12 +2425,14 @@ function resetPassword(empid,ApplicationName)
 }
 
 
- function save_shift()
+ function save_shift(empid)
  {
-     var old_shifid=document.getElementById('old_shift').value;
-     var new_shiftid=document.getElementById('shift_additional').value;
-     var loginId=document.getElementById('loginId').value;
-     var start=document.getElementById('shift_additional_start').value;
+     var old_shifid=document.getElementById('old_shift_'+empid).value;
+     var new_shiftid=document.getElementById('shift_additional_'+empid).value;
+
+    
+     
+     var start=document.getElementById('shift_additional_start_'+empid).value;
   if(start!='' && new_shiftid!='')
   {
      var spinner = document.getElementById("ajax-loader");
@@ -2440,10 +2442,10 @@ function resetPassword(empid,ApplicationName)
       url: 'action_g.php',
          type: 'POST',
          data: {
-            code: code,old_shifid:old_shifid,new_shiftid:new_shiftid,loginId:loginId,start:start
+            code: code,old_shifid:old_shifid,new_shiftid:new_shiftid,loginId:empid,start:start
          },
          success: function(response) {
-           console.log(response);
+          // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
@@ -2461,7 +2463,7 @@ function resetPassword(empid,ApplicationName)
  }
  else
  {
-    errorToast('select shift and start date', 'bg-warning');
+    ErrorToast('select shift and start date', 'bg-warning');
  }
 
 

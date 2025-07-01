@@ -4036,7 +4036,7 @@ else { ?>
                                 <div class="form-group">
                                     <label>Shift</label>
                                     <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
-                                    <select class="form-control" name="shift">
+                                    <select class="form-control" name="shift" id='old_shift_<?=$emp_id;?>'>
                                         <?php  $getShift="SELECT * FROm MasterShift Where Id='".$row1['ShiftID']."'";
                                                 $getshiftRun=sqlsrv_query($conntest,$getShift);
                                                 if($row_shift=sqlsrv_fetch_array($getshiftRun,SQLSRV_FETCH_ASSOC))
@@ -4226,6 +4226,77 @@ else { ?>
                     </div>
 
 
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <table class="table  table-bordered">
+                                    <tr>
+                                        <th colspan="3">
+                                            <center> Shift Detail</center>
+                                        </th>
+                                    </tr>
+
+                                     <tr style="">
+                                        <td width="35%">Shift Name</td>
+                                        <td>Start Date </td>
+                                        <td>End Date</td>
+                                         <td>Action</td>
+                                    </tr>
+
+
+                            <?php 
+                                                $IdCard="SELECT *  FROM MasterSHiftRoaster as msr  inner join MasterShift on msr.ShiftId=MasterShift.Id where IDNo='".$row1['IDNo']."'"; 
+                                        $getUseridcard=sqlsrv_query($conntest,$IdCard);
+                                        $countPerms=0;
+                                        while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
+                                    <tr>
+                                        
+                                        <td><?= $getUseridcardRow['ShiftName'];?></td>
+                                        <td><?= $getUseridcardRow['StartDate']->format('d-m-Y');?></td>
+                                        <td><?= $getUseridcardRow['Enddate']->format('d-m-Y');?></td>
+                                        <td><i  class="fa fa-edit"><i></td>
+                                    </tr>
+                                    <?php 
+                                      }?>
+
+                                    <tr>
+                                       <td>
+                                      
+
+                       
+                        <select  id="shift_additional_<?=$emp_id;?>" class="form-control">
+                            <option value="">Select</option>
+                            <?php 
+                                           $get_category="SELECT * FROM MasterShift";
+                                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                                    {
+                                                ?>
+                            <option value="<?=$row_categort['Id'];?>">
+                                <?=$row_categort['ShiftName'];?>(<?=$row_categort['Id'];?>)</option>
+                            <?php 
+                                                }?>
+                        </select>
+                       
+                  </td>
+                  <td>
+<input type="date"  id='shift_additional_start_<?=$emp_id;?>' class="form-control">
+
+                  </td>
+                                        <td>
+
+                                        </td><td><button onclick="save_shift(<?=$emp_id;?>)" class="btn btn-primary btn">Save</button></td>
+                                   
+
+            </tr> 
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                    
                     <div class="tab-pane" id="idcard<?=$emp_id;?>">
 
@@ -15993,15 +16064,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                         </select>
                     </div>
                     <div class="col-lg-12"><label>Duration</label>
-                        <?php 
-if($row['Status']=='Approved')
-{?>
-                        <input type="text" class="form-control" id="LeaveDuration" value="<?=$LeaveDurationsTime;?>"
-                            readonly>
-                        <?php 
-}
-else
-{?>
+
                         <select class="form-control" id="LeaveDuration">
                             <option value="<?=$LeaveDurationsTime;?>"><?=$LeaveDurationsTime;?></option>
                             <option value="0.25">0.25</option>
@@ -16009,9 +16072,7 @@ else
                             <option value="0.75">0.75</option>
                             <option value="0">1</option>
                         </select>
-                        <?php
- }
- ?>
+ 
                     </div>
                     <div class="col-lg-12"><label>Reason</label><textarea id="LeaveReason"
                             class="form-control"><?=$row['LeaveReason'];?></textarea></div>
@@ -16246,16 +16307,16 @@ elseif($code==206)
 
 try {
      $date1 = new DateTime($StartDate);
-    $date2 = new DateTime($EndDate);
-    $diff = date_diff($date1, $date2);
+     $date2 = new DateTime($EndDate);
+    $diff = date_diff($date1,$date2);
    $days=$diff->days+1;
 } catch (Exception $e) {
     echo "Invalid date format: " . $e->getMessage();
 }
 
-if($days>1)
+if($days>=1)
 {
-$LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$days',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
+ $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$days',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
 }else
 {
     $LeaveUpdate="UPDATE ApplyLeaveGKU SET LeaveTypeId='$LeaveType', StartDate='$StartDate',EndDate='$EndDate',LeaveReason='$LeaveReason',LeaveDurationsTime='$LeaveDuration',LeaveDuration='$days',ApplyDate='$ApplyDate' Where Id='$LeaveID' ";
@@ -43195,6 +43256,53 @@ elseif($code==470)
        $role_run=mysqli_query($conn,$update_addrole);
         mysqli_close($conn);
         }
+
+           elseif($code == 476) 
+         {
+
+
+             
+        $new_shiftid = $_POST['new_shiftid'];     
+        $old_shifid = $_POST['old_shifid'];     
+        $EmployeeID = $_POST['loginId'];     
+        $start = $_POST['start'];  
+
+      $get_enddate="SELECT TOP(1) Enddate from MasterShiftRoaster where IDNo='$EmployeeID' Order by ID DESc";
+             $get_enddate_run=sqlsrv_query($conntest,$get_enddate);
+         if($row_enddate=sqlsrv_fetch_array($get_enddate_run))
+          {
+           $endDate=$row_enddate['Enddate']->format('Y-m-d');
+
+         }
+         else
+         {
+             $get_enddate="SELECT DateofJoining from Staff where IDNo='$EmployeeID'";
+             $get_enddate_run=sqlsrv_query($conntest,$get_enddate);
+             if($row_enddate=sqlsrv_fetch_array($get_enddate_run))
+          {
+           $endDate=$row_enddate['DateofJoining']->format('Y-m-d');
+         }
+
+         }
+
+
+      $Update="UPDATE Staff set ShiftID='$new_shiftid' where IDNo='$EmployeeID'";
+    $get_Update_run=sqlsrv_query($conntest,$Update);
+
+
+           $Insert="INSERT INTO MasterShiftRoaster(IDNo,StartDate,Enddate,ShiftID) Values('$EmployeeID','$endDate','$start','$old_shifid')";
+
+               $get_Update_run=sqlsrv_query($conntest,$Insert);
+
+echo 1;
+
+
+       
+        }
+
+
+
+
    else
    {
    
