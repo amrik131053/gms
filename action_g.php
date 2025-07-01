@@ -7801,20 +7801,14 @@ elseif($code==100) // sic
     </thead>
     <tbody>
         <?php
-                $sql = "SELECT * FROM sic_document_record where  status='9'  ORDER BY status ASC";
-                $result = mysqli_query($conn, $sql);
-                $count = 1;
-                if(mysqli_num_rows($result) > 0)
-                {
-                  while($row = mysqli_fetch_array($result))
-                  {
-                     $userId='';
-                    
-                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
-                        $stmt1 = sqlsrv_query($conntest,$result1);
-                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-                        {
-                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                $sql = "SELECT * FROM   DocumentRequests as dr inner join Admissions as a on dr.IdNO=a.IDNo  where  Status='1' ORDER BY ID ASc";
+
+
+       
+            $stmt = sqlsrv_query($conntest,$sql);  
+            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            
+                 $userId.=$ClassRollNo= $row1['ClassRollNo'];
                            $userId.="/".$UniRollNo= $row1['UniRollNo'];
                            $name = $row1['StudentName'];
                            $father_name = $row1['FatherName'];

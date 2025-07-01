@@ -834,6 +834,7 @@ var exportCode='58';
      var  examination = document.getElementById('Examination').value;
  var  group = document.getElementById('group').value;
     var distributiontheory = document.getElementById('ecat').value;
+    var OrderBy = document.getElementById('OrderBy').value;
 
 
 
@@ -841,13 +842,13 @@ var exportCode='58';
  {
   var code=1;
    
-   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group+"&code="+code,"_blank";
+   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group+"&OrderBy="+OrderBy+"&code="+code,"_blank";
 
     }
     else if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='')
     {
        var code=2;
-      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group+"&code="+code,"_blank";
+      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group+"&OrderBy="+OrderBy+"&code="+code,"_blank";
 
     }
       else

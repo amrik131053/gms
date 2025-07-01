@@ -206,9 +206,9 @@ for($i=1;$i<=12;$i++)
   <label>Search</label><br>
             <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
 
+
+    <button class="btn btn-danger" onclick="exportpdfdata()"><i  class="fa fa-file-pdf" ></i></button> 
 </div>
-
-
 
         <!-- /.row -->
       </div>
@@ -687,6 +687,57 @@ else
 }
 }
 
+  function exportpdfdata()
+
+
+   {
+          var  college = document.getElementById('College').value;
+  var  course = document.getElementById('Course').value;
+   var  batch = document.getElementById('Batch').value;
+    var  sem = document.getElementById('Semester').value;
+         var subject = document.getElementById('Subject').value;
+     var  examination = document.getElementById('Examination').value;
+ var  group = document.getElementById('group').value;
+    var distributiontheory = document.getElementById('ecat').value;
+
+
+
+  var OrderBy = document.getElementById('OrderBy').value;
+
+
+
+  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
+ {
+  var code=1;
+   
+window.open(
+  "print-award-theory.php?college=" + college +
+  "&course=" + course +
+  "&batch=" + batch +
+  "&sem=" + sem +
+  "&subject=" + subject +
+  "&examination=" + examination +
+  "&distributiontheory=" + distributiontheory +
+  "&group=" + group +
+  "&OrderBy=" + OrderBy +
+  "&code=" + code,
+  "_blank"
+);
+
+
+    }
+    else if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='')
+    {
+       var code=2;
+      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group+"&OrderBy="+OrderBy+"&code="+code,"_blank";
+
+    }
+      else
+      {
+        ErrorToast('Select Appropriate data','bg-danger');
+ 
+      }
+}
 
   function uploadPhoto(form) {
 

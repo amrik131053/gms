@@ -94,7 +94,7 @@ $pdf->SetXY($X+175, $Y+12);
 $pdf->Cell(15, 4,'Status', 1, 1, 'C');
 
 $pdf->SetFont('Times', 'B', 10);
- $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
+ $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group','')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
     if (!sqlsrv_execute($stmt)) {
           echo "Your code is fail!";
