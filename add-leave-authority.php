@@ -2229,7 +2229,8 @@ function addEmployee()
        var bloodGroup=document.getElementById('bloodGroup').value;
        var Permanent=document.getElementById('Permanent').value;
        var Correspondance=document.getElementById('Correspondance').value;
-       var shift=document.getElementById('shift').value;
+       var shift=1;
+
 
        if (shift!='' && bloodGroup && loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
        {
@@ -2270,7 +2271,7 @@ function addEmployee()
        document.getElementById('Doj').value="";
        document.getElementById('Permanent').value="";
        document.getElementById('Correspondance').value="";
-       document.getElementById('shift').value="";
+      // document.getElementById('shift').value="";
                    
       }
       else{
