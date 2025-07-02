@@ -32440,10 +32440,11 @@ $refoffer=$_POST['refoffer'];
 $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
 //$AdharCardNo=$_POST['idproof'];
-function generateRandomPassword($length = 8) {
-    return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$&'), 0, $length);
-}
-$password = generateRandomPassword(8);
+
+
+
+
+
 $Dob=$_POST['Dob'];
 $Gender=$_POST['Gender'];
 $category=$_POST['category'];
@@ -32465,6 +32466,20 @@ $SemesterForFee=$_POST['SemesterForFee'];
 $SemesterID=$_POST['SemesterID'];
 $feeparticulr=$_POST['feeparticulr'];
 $feeTotalDebit=$_POST['feeTotalDebit'];
+
+
+function generateRandomPassword($length = 8) {
+    return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$&'), 0, $length);
+}
+
+if($Course!='188')
+{
+$password = generateRandomPassword(8);
+}
+else
+{
+   $password ='12345678'; 
+}
 
 if($Nationality=='Indian')
 {

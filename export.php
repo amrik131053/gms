@@ -2043,7 +2043,7 @@ $SalaryAtPresent = $row['SalaryAtPresent'];
 
 
 if (!empty($dol1) && $dol1 instanceof DateTime) {
-    if ($dol1->format('Y-m-d H:i:s') == '1970-01-01 00:00:00') {
+    if ($dol1->format('Y-m-d H:i:s') == '1970-01-01 00:00:00'  OR $dol1->format('Y-m-d H:i:s') == '1900-01-01 00:00:00' ) {
         $dol = '';
     } else {
         $dol = $dol1->format('d-m-Y');
