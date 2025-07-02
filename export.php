@@ -2009,6 +2009,7 @@ else
            <th>State</th>
             <th>Date Of Joining</th>
              <th>Date Of Leaving</th>
+               <th>Salary</th>
          
           
           
@@ -2034,6 +2035,7 @@ else
       $District = $row['District'];
       $State = $row['State'];
 
+$SalaryAtPresent = $row['SalaryAtPresent'];
       $pan = $row['PANNo'];
           $doj = $row['DateOfJoining']->format('d-m-Y');
 
@@ -2077,6 +2079,7 @@ if (!empty($dol1) && $dol1 instanceof DateTime) {
                                 
                    <td>{$doj}</td>
                     <td>{$dol}</td>
+                     <td>{$SalaryAtPresent}</td>
                
             </tr>";
 $count++;
