@@ -39657,26 +39657,45 @@ else{
 elseif ($code == 434)
 {
 
-    $doa = $_POST['doa']; // Date of Arrival (or any start date)
-    $dor = $_POST['dor']; // Date of Retirement (or any end date)
+    // $doa = $_POST['doa']; // Date of Arrival (or any start date)
+    // $dor = $_POST['dor']; // Date of Retirement (or any end date)
     
-    $ts1 = strtotime($doa); // Convert the start date to timestamp
-    $ts2 = strtotime($dor); // Convert the end date to timestamp
+    // $ts1 = strtotime($doa); // Convert the start date to timestamp
+    // $ts2 = strtotime($dor); // Convert the end date to timestamp
     
-    $year1 = date('Y', $ts1); // Extract the year from the start date
-    $year2 = date('Y', $ts2); // Extract the year from the end date
-    $month1 = date('m', $ts1); // Extract the month from the start date
-    $month2 = date('m', $ts2); // Extract the month from the end date
+    // $year1 = date('Y', $ts1); // Extract the year from the start date
+    // $year2 = date('Y', $ts2); // Extract the year from the end date
+    // $month1 = date('m', $ts1); // Extract the month from the start date
+    // $month2 = date('m', $ts2); // Extract the month from the end date
     
-    // Calculate the total number of months between the two dates
-    $total_months = ($year2 - $year1) * 12 + ($month2 - $month1);
+    // // Calculate the total number of months between the two dates
+    // $total_months = ($year2 - $year1) * 12 + ($month2 - $month1);
     
-    // Adjust if the month of the start date is greater than the month of the end date
-    if ($month1 > $month2) {
-        $total_months -= 12; // Subtract 12 months if the start month is greater than the end month
-    }
+    // // Adjust if the month of the start date is greater than the month of the end date
+    // if ($month1 > $month2) {
+    //     $total_months -= 12; // Subtract 12 months if the start month is greater than the end month
+    // }
     
-    echo $total_months; // Output the total months
+    // echo $total_months; // Output the total months
+
+
+$doa = $_POST['doa']; // e.g. 2020-01-15
+$dor = $_POST['dor']; // e.g. 2023-06-10
+
+$start = new DateTime($doa);
+$end = new DateTime($dor);
+
+$interval = $start->diff($end);
+
+// Calculate total full months
+$total_months = ($interval->y * 12) + $interval->m;
+
+// Optional: If you want to round up for partial months (e.g., if $interval->d > 0)
+// if ($interval->d > 0) {
+//     $total_months++;
+// }
+
+echo  $total_months;
 
     
 }
