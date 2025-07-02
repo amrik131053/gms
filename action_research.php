@@ -114,12 +114,27 @@ window.location.href = "index.php";
      
          // Generate pagination HTML
          ob_start();
-         echo '<nav><ul class="pagination justify-content-center mb-0">';
+         echo '<nav><ul class="pagination pagination-sm justify-content-center flex-wrap">';
+         $range = 2;
+         
          for ($i = 1; $i <= $totalPages; $i++) {
-             $active = ($i == $page) ? 'active' : '';
-             echo "<li class='page-item $active'><a class='page-link' href='javascript:void(0)' onclick='load_data($i)'>$i</a></li>";
+             if (
+                 $i == 1 ||
+                 $i == $totalPages ||
+                 ($i >= $page - $range && $i <= $page + $range)
+             ) {
+                 $active = ($i == $page) ? 'active' : '';
+                 echo "<li class='page-item $active'>
+                     <a class='page-link' href='javascript:void(0)' onclick='load_data($i)'>$i</a>
+                 </li>";
+                 $last = $i;
+             } elseif (isset($last) && $last != '...') {
+                 echo "<li class='page-item disabled'><span class='page-link'>…</span></li>";
+                 $last = '...';
+             }
          }
          echo '</ul></nav>';
+         
          $paginationHTML = ob_get_clean();
      
          echo json_encode([
@@ -335,12 +350,33 @@ $sr++;
 
     // Generate pagination HTML
     ob_start();
-    echo '<nav><ul class="pagination justify-content-center mb-0">';
-    for ($i = 1; $i <= $totalPages; $i++) {
+    // echo '<nav><ul class="pagination justify-content-center mb-0">';
+    // for ($i = 1; $i <= $totalPages; $i++) {
+    //     $active = ($i == $page) ? 'active' : '';
+    //     echo "<li class='page-item $active'><a class='page-link' href='javascript:void(0)' onclick='load_data($i)'>$i</a></li>";
+    // }
+    // echo '</ul></nav>';
+    echo '<nav><ul class="pagination pagination-sm justify-content-center flex-wrap">';
+$range = 2;
+
+for ($i = 1; $i <= $totalPages; $i++) {
+    if (
+        $i == 1 ||
+        $i == $totalPages ||
+        ($i >= $page - $range && $i <= $page + $range)
+    ) {
         $active = ($i == $page) ? 'active' : '';
-        echo "<li class='page-item $active'><a class='page-link' href='javascript:void(0)' onclick='load_data($i)'>$i</a></li>";
+        echo "<li class='page-item $active'>
+            <a class='page-link' href='javascript:void(0)' onclick='load_data($i)'>$i</a>
+        </li>";
+        $last = $i;
+    } elseif (isset($last) && $last != '...') {
+        echo "<li class='page-item disabled'><span class='page-link'>…</span></li>";
+        $last = '...';
     }
-    echo '</ul></nav>';
+}
+echo '</ul></nav>';
+
     $paginationHTML = ob_get_clean();
 
     echo json_encode([
