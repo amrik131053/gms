@@ -93,6 +93,7 @@ window.location.href = "index.php";
     
         $ch = curl_init($apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
@@ -32676,7 +32677,7 @@ $insert_record_run = mysqli_query($conn, $insert_record);
     sqlsrv_query($conntest,$sqlConsultant); 
 }
     }
-
+    
     // Whatsapp Msg---------------------------------------------------------------
     $apiUrl = 'https://publicapi.myoperator.co/chat/messages';
     $payload = [
