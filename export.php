@@ -1995,6 +1995,7 @@ else
           <th>FatherName</th>
           <th>MotherName</th>
           <th>Gender</th>
+          <th>Date of Birth</th>
            <th>College</th>
            <th>Department</th>
            <th>Designation</th>
@@ -2010,6 +2011,7 @@ else
             <th>Date Of Joining</th>
              <th>Date Of Leaving</th>
                <th>Salary</th>
+                <th>Qualification</th>
          
           
           
@@ -2034,7 +2036,7 @@ else
       $CorrespondenceAddress = $row['CorrespondanceAddress'];
       $District = $row['District'];
       $State = $row['State'];
-
+ $dob1 = $row['DateOfBirth'];
 $SalaryAtPresent = $row['SalaryAtPresent'];
       $pan = $row['PANNo'];
           $doj = $row['DateOfJoining']->format('d-m-Y');
@@ -2052,7 +2054,18 @@ if (!empty($dol1) && $dol1 instanceof DateTime) {
     $dol = '';
 }
 
-          
+   
+if (!empty($dob1) && $dob1 instanceof DateTime) {
+    if ($dob1->format('Y-m-d H:i:s') == '1970-01-01 00:00:00'  OR $dob1->format('Y-m-d H:i:s') == '1900-01-01 00:00:00' ) {
+        $dob = '';
+    } else {
+        $dob = $dob1->format('d-m-Y');
+    }
+} else {
+    $dob = '';
+}
+
+       
 
 
 
@@ -2064,6 +2077,7 @@ if (!empty($dol1) && $dol1 instanceof DateTime) {
                 <td>{$FatherName}</td>
                 <td>{$MotherName}</td>
                  <td>{$Gender}</td>
+                 <td>{$dob}</td>
                 <td>{$CollegeName}</td>
                 <td>{$Department}</td>
                 <td>{$Designation}</td>
@@ -2079,9 +2093,33 @@ if (!empty($dol1) && $dol1 instanceof DateTime) {
                                 
                    <td>{$doj}</td>
                     <td>{$dol}</td>
-                     <td>{$SalaryAtPresent}</td>
+                     <td>{$SalaryAtPresent}</td>";
+
+$qualification="SELECT * from PHDacademic where UserName='$IDNo'";
+
+$get_qualification_run1=sqlsrv_query($conntest,$qualification);
+if($row=sqlsrv_fetch_array($get_qualification_run1,SQLSRV_FETCH_ASSOC))
+        {
+                     $exportMeter.="<td>Ph.D</td>";
+                 }
+                 else
+                 {
+
+                  $qualificationm="SELECT * from StaffAcademicDetails where UserName='$IDNo' AND StandardType='6'";
+
+$get_qualification_runm1=sqlsrv_query($conntest,$qualificationm);
+if($rowm=sqlsrv_fetch_array($get_qualification_runm1,SQLSRV_FETCH_ASSOC))
+        {
+                     $exportMeter.="<td>Masters</td>";
+                 }
+                 else
+                 {
+                   $exportMeter.="<td>--</td>";  
+                 }
+
+                 }
                
-            </tr>";
+            $exportMeter.="</tr>";
 $count++;
     }
     
