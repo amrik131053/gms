@@ -9,21 +9,21 @@ include "connection/connection.php";
 //     Course,
 //     StudentMobileNo
 // FROM Admissions inner join UserMaster ON Admissions.IDNo=UserMaster.UserName
-// WHERE CAST(AdmissionDate AS DATE) BETWEEN '2025-06-30' AND '2025-06-30' and Password!='12345678'
+// WHERE CAST(AdmissionDate AS DATE) BETWEEN '2025-07-01' AND '2025-07-01' and Password!='12345678'
 // ORDER BY IDNo DESC;
 // ";
-// $sql = "
-//    SELECT
-// Password,
-//     IDNo,
-//     ClassRollNo,
-//     StudentName,
-//     Course,
-//     StudentMobileNo
-// FROM Admissions inner join UserMaster ON Admissions.IDNo=UserMaster.UserName
-// WHERE IDNo='9618248485'
-// ORDER BY IDNo DESC;
-// ";
+$sql = "
+   SELECT
+Password,
+    IDNo,
+    ClassRollNo,
+    StudentName,
+    Course,
+    StudentMobileNo
+FROM Admissions inner join UserMaster ON Admissions.IDNo=UserMaster.UserName
+WHERE IDNo='9618248442'
+ORDER BY IDNo DESC;
+";
 
 $stmt = sqlsrv_query($conntest, $sql);
 
