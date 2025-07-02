@@ -1348,7 +1348,7 @@ var d= document.getElementById("role").value;
   }
   xmlhttp.open("GET", "get_action.php?role_id=" + d+"&code="+code, true);
   xmlhttp.send();
-}
+} 
  
 // function emp_role()
 // {

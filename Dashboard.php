@@ -358,7 +358,7 @@ if($rowCount>0)
             </div>
         </div>
 
-        
+
 
 
 
@@ -493,8 +493,8 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                                         <?=$EmailID?></li>
                                     <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span>
                                         Phone: <?=$ContactNo?></li>
-                                    <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
-                                    <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
+                                  <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> 
+                                    <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> 
                                 </ul>
                             </div>
                             <div class="col-5 text-center">
@@ -569,8 +569,8 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                                         <?=$EmailID?></li>
                                     <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span>
                                         Phone: <?=$ContactNo?></li>
-                                    <!-- <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> -->
-                                    <!-- <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> -->
+                                   <li class="small"><span class="fa-li"></span><i class="fas fa-lg fa-phone-alt"> <a href="tel:<?=$ContactNo?>"> <?=$ContactNo?></a></i></li> 
+                              <li class="small"><span class="fa-li"></span><small><i class="fas fa-lg fa-envelope"> <a href="mailto:<?=$EmailID?>"><?=$EmailID?> </a></i></small></li> 
                                 </ul>
                             </div>
                             <div class="col-5 text-center">

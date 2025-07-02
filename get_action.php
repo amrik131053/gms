@@ -3096,28 +3096,19 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
    $contact=$row_staff['ContactNo'];
    $email=$row_staff['EmailID'];
    mysqli_query($conn,"INSERT INTO user (emp_id, name, college, department, designation, mobile, email) VALUES ('$IDNo', '$Name', ' $Clg','$dept', '$Desi', '$contact', '$email')");
-   
-   }
-   
-   } 
-   
-  $presult = sqlsrv_query($conntest,"SELECT IDNo,Name,RoleID from Staff WHERE IDNo = '$user_id'");
-   
+      }
+      } 
+     $presult = sqlsrv_query($conntest,"SELECT IDNo,Name,RoleID from Staff WHERE IDNo = '$user_id'");
    $name = $emp_id = "";
-
-
    while($row=sqlsrv_fetch_array($presult,SQLSRV_FETCH_ASSOC))
    {
       $permissions = $row['RoleID'];
      $emp_id = $row['IDNo'];
      $name = $row['Name'];
    }
-   
-   
    echo "<h4>Role Assigned</h4>";
-   
+
    $count=0;
-   
    $result1 = mysqli_query($conn,"SELECT DISTINCT role_name,id from role_name where id='$permissions'  order by role_name ASC");
    while($row1=mysqli_fetch_array($result1))
    {
@@ -3133,9 +3124,44 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
       <th><b style='color:#a62532;'><?=$main[$i];?></b></th>
       <th><input type="button" class="btn btn-danger btn-xs" onclick="del_role(<?=$user_id;?>);" value="Delete"></th>
    </tr>
+
 </table>
 <?php 
    } 
+
+
+
+ 
+   echo "<h4>Additional  Role Assigned</h4>";
+echo '<table class="table">';
+
+$presult = sqlsrv_query($conntest,"SELECT * from AdditionalRole WHERE IDNo = '$user_id'");
+   $name = $emp_id = "";
+   while($row=sqlsrv_fetch_array($presult,SQLSRV_FETCH_ASSOC))
+   {?>
+ <tr><?php 
+     $permissions = $row['RoleID'];
+
+     $result1 = mysqli_query($conn,"SELECT * from role_name where id='$permissions'  order by role_name ASC");
+   if($row1=mysqli_fetch_array($result1))
+   {
+  
+   
+?>
+     
+      <th><b style='color:#a62532;'><?=$row1['role_name'];?></b></th> <th><b style='color:#a62532;'><input type="date" value="<?=$row['StartDate']->format('Y-m-d');?>"></b></th> <th><b style='color:#a62532;'><?=$row1['role_name'];?></b></th>
+      <th><input type="button" class="btn btn-danger btn-xs" onclick="del_role(<?=$user_id;?>);" value="Delete"></th>
+  
+  <?php  }?>
+  </tr>
+   <?php   
+   }
+
+
+ echo "</table>";
+
+
+
    echo "<br>";
     echo "<h4>Special permissions Assigned</h4>";
     ?>
