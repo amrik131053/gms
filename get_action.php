@@ -3149,7 +3149,7 @@ $presult = sqlsrv_query($conntest,"SELECT * from AdditionalRole WHERE IDNo = '$u
    
 ?>
      
-      <th><b style='color:#a62532;'><?=$row1['role_name'];?></b></th> <th><b style='color:#a62532;'><input type="date" value="<?=$row['StartDate']->format('Y-m-d');?>"></b></th> <th><b style='color:#a62532;'><?=$row1['role_name'];?></b></th>
+      <th><b style='color:#a62532;'><?=$row1['role_name'];?></b></th> <th><b style='color:#a62532;'><input type="date" value="<?=$row['StartDate']->format('Y-m-d');?>"></b></th> <th><input type="date" value="<?=$row['Enddate']->format('Y-m-d');?>"></th>
       <th><input type="button" class="btn btn-danger btn-xs" onclick="del_role(<?=$user_id;?>);" value="Delete"></th>
   
   <?php  }?>

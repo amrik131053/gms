@@ -3035,7 +3035,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             $check_count_emp_category_wise_run=sqlsrv_query($conntest,$check_count_emp_category_wise,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
             $emp_count_active=sqlsrv_num_rows($check_count_emp_category_wise_run);
       
-             $check_count_status_wise="SELECT IDNo FROM Staff Where JobStatus='2'";
+             $check_count_status_wise="SELECT IDNo FROM Staff Where JobStatus='0'";
             $check_count_status_wise_run=sqlsrv_query($conntest,$check_count_status_wise,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
             $emp_count_left=sqlsrv_num_rows($check_count_status_wise_run);
       
@@ -3046,7 +3046,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             <span class="badge bg-primary float-right"><?=$emp_count_active;?></span>
         </a>
     </li>
-    <li class="nav-item " onclick="show_emp_all_status(2);">
+    <li class="nav-item " onclick="show_emp_all_status(0);">
         <a href="#" class="nav-link">
             <i class="fas fa-inbox"></i> Left
             <span class="badge bg-primary float-right"><?=$emp_count_left;?></span>

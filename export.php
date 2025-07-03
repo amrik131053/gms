@@ -1965,7 +1965,7 @@ else if($ColomName=='StandardType')
 }
 elseif($ColomName=='JobStatus')
 {
-    $get_category1 ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.JobStatus='$value' ";
+   $get_category1 ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.JobStatus='$value' ";
 }
 elseif($ColomName=='RoleID')
 {
@@ -2047,10 +2047,12 @@ $SalaryAtPresent = $row['SalaryAtPresent'];
 if (!empty($dol1) && $dol1 instanceof DateTime) {
     if ($dol1->format('Y-m-d H:i:s') == '1970-01-01 00:00:00'  OR $dol1->format('Y-m-d H:i:s') == '1900-01-01 00:00:00' ) {
         $dol = '';
-    } else {
+    } 
+    else {
         $dol = $dol1->format('d-m-Y');
     }
-} else {
+} 
+else {
     $dol = '';
 }
 
@@ -2059,7 +2061,7 @@ if (!empty($dob1) && $dob1 instanceof DateTime) {
     if ($dob1->format('Y-m-d H:i:s') == '1970-01-01 00:00:00'  OR $dob1->format('Y-m-d H:i:s') == '1900-01-01 00:00:00' ) {
         $dob = '';
     } else {
-        $dob = $dob1->format('d-m-Y');
+         $dob = $dob1->format('d-m-Y');
     }
 } else {
     $dob = '';
