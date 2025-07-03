@@ -1,53 +1,78 @@
 <?php 
 
 include "connection/connection.php";
-function is_secure_password($password) {
-    
-    $min_length = 8;
-    
-    
-    if (strlen($password) < $min_length) {
-        return false;
-    }
-    
-    
-    $contains_uppercase = preg_match('/[A-Z]/', $password);
-    $contains_lowercase = preg_match('/[a-z]/', $password);
-    $contains_digit = preg_match('/\d/', $password);
-    $contains_special = preg_match('/[\W]/', $password); 
-    
-    
-    if (!$contains_uppercase || !$contains_lowercase || !$contains_digit || !$contains_special) {
-        return false;
-    }
-    
-    return true;
- }
+$connection_web_in_website= new mysqli('185.206.161.149:3306', 'u758234764_prepmguri','Gurpreet@pnm12','u758234764_pre_reg');
 
- $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE ApplicationType='Web' and JobStatus=1 order by  IDNo ASC ";
-$countSecure=0;
-$SrNo=0;
-$countNotSecure=0;
-$stmt2 = sqlsrv_query($conntest,$sql1);
-	 while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-     {
-       $password=$row['Password'];
-       $Name=$row['Name'];
-       $IDNo=$row['IDNo'];
-       if(!is_secure_password($password))
-       {
-        echo $SrNo."<b style='color:red;'>Password Not Secure</b> ".$Name."(".$IDNo.")";
-        $countNotSecure++;
-       }
-       else{
-        echo $SrNo." <b style='color:green;'>Password Fully  Secure</b> ".$Name."(".$IDNo.")";
-        $countSecure++;
-       }
 
-       echo "</br>";
-       $SrNo++;
+$gg = "SELECT * FROM users  WHERE course_id!='' and  course_name IS null";
+     $hgg = mysqli_query($connection_web_in_website,$gg);  
+     $sr=1;
+     while($row = mysqli_fetch_array($hgg) )
+     {    
+    $CourseID=$row['course_id'];
+    $id=$row['id'];
+    $getReffrenceNumbersql = "SELECT * FROM MasterCourseCodes  Where CourseID='$CourseID'";
+     $getReffrenceNumberstmt = sqlsrv_query($conntest,$getReffrenceNumbersql);  
+         if($getReffrenceNumberrow = sqlsrv_fetch_array($getReffrenceNumberstmt) )
+     {    
+                 $RefString=$getReffrenceNumberrow["Course"];                    
      }
-     echo "Total Secure :".$countSecure;
-     echo "Total Not Secure :".$countNotSecure;
+    echo  $sr.'='.$rt = "UPDATE users  SET course_name='$RefString' WHERE id='$id'";
+    echo "</br>";
+     mysqli_query($connection_web_in_website,$rt);  
+    $sr++;
+    }
+
+
+
+
+// function is_secure_password($password) {
+    
+//     $min_length = 8;
+    
+    
+//     if (strlen($password) < $min_length) {
+//         return false;
+//     }
+    
+    
+//     $contains_uppercase = preg_match('/[A-Z]/', $password);
+//     $contains_lowercase = preg_match('/[a-z]/', $password);
+//     $contains_digit = preg_match('/\d/', $password);
+//     $contains_special = preg_match('/[\W]/', $password); 
+    
+    
+//     if (!$contains_uppercase || !$contains_lowercase || !$contains_digit || !$contains_special) {
+//         return false;
+//     }
+    
+//     return true;
+//  }
+
+//  $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE ApplicationType='Web' and JobStatus=1 order by  IDNo ASC ";
+// $countSecure=0;
+// $SrNo=0;
+// $countNotSecure=0;
+// $stmt2 = sqlsrv_query($conntest,$sql1);
+// 	 while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+//      {
+//        $password=$row['Password'];
+//        $Name=$row['Name'];
+//        $IDNo=$row['IDNo'];
+//        if(!is_secure_password($password))
+//        {
+//         echo $SrNo."<b style='color:red;'>Password Not Secure</b> ".$Name."(".$IDNo.")";
+//         $countNotSecure++;
+//        }
+//        else{
+//         echo $SrNo." <b style='color:green;'>Password Fully  Secure</b> ".$Name."(".$IDNo.")";
+//         $countSecure++;
+//        }
+
+//        echo "</br>";
+//        $SrNo++;
+//      }
+//      echo "Total Secure :".$countSecure;
+//      echo "Total Not Secure :".$countNotSecure;
     
  ?>
