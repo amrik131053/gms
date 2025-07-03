@@ -1348,7 +1348,7 @@ var d= document.getElementById("role").value;
   }
   xmlhttp.open("GET", "get_action.php?role_id=" + d+"&code="+code, true);
   xmlhttp.send();
-}
+} 
  
 // function emp_role()
 // {
@@ -1385,7 +1385,7 @@ function emp_role()
        $('#all_permissions').hide();
       document.getElementById("role_assign").innerHTML=xmlhttp.responseText;
       emp_permission();
-      emp_role_all(user_id);
+      emp_role();
       
 
     }

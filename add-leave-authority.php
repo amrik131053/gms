@@ -2247,7 +2247,7 @@ function addEmployee()
                   if(response==1)
                {
             
-                  console.log(response);
+                  //console.log(response);
                spinner.style.display='none';
                 SuccessToast('Successfully Added');
                 addEmpInLms(loginId,category);

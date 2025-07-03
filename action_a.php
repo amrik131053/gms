@@ -3511,6 +3511,8 @@ else
     {
 if($status!='1')
 {
+     $insertqryuw="UPDATE `user_login_master`  set JobStatus='$status' where username='$emp_id'";
+            $insertresu=mysqli_query($conn_spoc,$insertqryuw);  
 }
 else
 {
@@ -3526,10 +3528,11 @@ $checkdatau=mysqli_query($conn_spoc,$checku);
    if (mysqli_num_rows($checkdatau)>0)
    {
 
-   }else
+   }
+   else
    {
 
-                $insertqryu="INSERT INTO `user_login_master`(`username`, `password`, `role_id`) VALUES ('$emp_id','$password','$role_id')";
+                $insertqryu="INSERT INTO `user_login_master`(`username`, `password`, `role_id`,`JobStatus`) VALUES ('$emp_id','$password','$role_id','$status')";
             $insertresu=mysqli_query($conn_spoc,$insertqryu);  
             }            
            
