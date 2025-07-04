@@ -15532,6 +15532,13 @@ elseif($code==221)
    $update_permission="UPDATE DDL_TheroyExaminationSemester SET StartDate='$start_date_edit',EndDate='$end_date_edit' where DDL_TE_ID='$id' and SemesterId='$semester'";
    $update_run=sqlsrv_query($conntest,$update_permission);
 
+  $desc= "UPDATE DDL_TheroyExaminationSemester SET StartDate='$start_date_edit',EndDate='$end_date_edit' where DDL_TE_ID='$id' and SemesterId='$semester'";
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+
+    
+
+
   if ($update_run==true)
     {
        echo "1";   
@@ -16711,7 +16718,7 @@ elseif($code==230)
                      <option value="<?=$i?>"><?=$i?></option>
                      <?php }
             ?>
-            </select>
+            </select> 
               </div>
               <div class="col-lg-2">
                  <label>Action</label><br>

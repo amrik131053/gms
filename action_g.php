@@ -7681,21 +7681,18 @@ elseif($code==99) // home sic
     </thead>
     <tbody>
         <?php
-                $sql = "SELECT * FROM sic_document_record where  Status!='8' and Status!='7'   ORDER BY status ASC";
-                $result = mysqli_query($conn, $sql);
-                $count = 1;
-                if(mysqli_num_rows($result) > 0)
-                {
-                  while($row = mysqli_fetch_array($result))
-                  {
-                     $userId='';
-                    
-                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
-                        $stmt1 = sqlsrv_query($conntest,$result1);
-                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-                        {
-                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
-                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+
+$count=1;
+
+                $sql = "SELECT * FROM DocumentRequests as dr inner join Admissions as a on dr.IDNO=a.IDNo inner join MasterApplyDocuments as mad on dr.DocumentRequested=mad.ID where dr.Status='0' ORDER BY dr.Id ASc";
+
+
+       
+            $stmt = sqlsrv_query($conntest,$sql);  
+            while($row1 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+                           $ClassRollNo= $row1['ClassRollNo'];
+                          $UniRollNo= $row1['UniRollNo'];
                            $name = $row1['StudentName'];
                            $father_name = $row1['FatherName'];
                            $mother_name = $row1['MotherName'];
@@ -7703,25 +7700,24 @@ elseif($code==99) // home sic
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
                            $snap= $row1['Image'];
-                        
- include "document-section-tr-color.php";
-                           ?>
+                             ?>
+       
         <tr style='background:<?=$clr;?>'>
 
             <td><?=$count++?></td>
             <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%"
                     src="<?=$BasURL.'Images/Students/'.$snap;?>" alt="User Avatar"></td>
-            <td><?=$userId?></td>
+            <td><?=$ClassRollNo;?><?=$UniRollNo;?></td>
             <td><?=$name?></td>
             <td><?=$father_name?></td>
             <td><?=$mother_name?></td>
             <td><?=$Department?></td>
             <td><?=$batch?></td>
 
-            <td><?=$row['receive_by']?></td>
-            <td><?=$row['document_type']?></td>
-            <td><?=$row['apply_date']?></td>
-            <td><?php   if($row['status']==0)
+            <td><?=$row1['ReceivingType']?></td>
+            <td><?=$row1['DocumentName']?></td>
+            <td><?=$row1['SubmitDate']->format('d-m-Y H:i:s')?></td>
+            <td><?php   if($row1['Status']==1)
                       {
                         echo "Draft";
                       }elseif($row['status']==1)
@@ -7767,9 +7763,9 @@ elseif($code==99) // home sic
 
         </tr>
         <?php 
-                        }
+                        
                     }
-                 }
+             
               
              
             ?>
@@ -40478,9 +40474,9 @@ elseif($code==443)  // search student  for unlock lock
 ?>
                     <tr>
                         <td colspan="9"><button type="button" class="btn btn-success"
-                                onclick="lockedUnlockAll('0','1');">Unlock</button></td>
+                                onclick="lockedUnlockAll('0','1');">Unlock Selected</button></td>
                         <td colspan="10"><button type="button" class="btn btn-danger"
-                                onclick="lockedUnlockAll('1','1');">Lock</button></td>
+                                onclick="lockedUnlockAll('1','1');">Lock Selected</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -40647,7 +40643,7 @@ elseif($code==447)
   $status=$_POST['status'];
   foreach($ids as $key => $id)
   {
-       $getDefalutMenu="UPDATE Admissions SET Locked='$status' Where IDNo='$id'";
+       $getDefalutMenu="UPDATE Admissions SET Locked='$status',BasicLocked='$status' Where IDNo='$id'";
         $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu); 
         $desc= "UPDATE  Admissions  SET Locked: $status,UpdateDate: ".$timeStampS;
  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
