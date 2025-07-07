@@ -128,12 +128,11 @@ for($i=1;$i<=12;$i++)
               <select name="ecat" id="ecat" class="form-control" required="">
                 <option value="CE1">CA-1 & CA-2 /W1/P1</option>
                 <option value="MST1">MST-1 /W2/P2</option>
-                 <!-- <option value="CE2">CE-2</option> -->
                 <option value="MST2">MST-2</option> 
                 <option value="CE3">CA-3/W3/P3</option>
                 <option value="ESE">ESE/W4/P4/S/M</option>
                 <option value="Attendance">Attendance/P5</option>
-                <option value="Grace">Grace</option>
+             
                           </select>
             </div>
             </div>
@@ -170,7 +169,9 @@ for($i=1;$i<=12;$i++)
   <label>Examination</label>
               <select  id="Examination" class="form-control" required="">
                  <option value="">Examination</option>
-                       <?php
+                 <option  value="May 2025">May 2025</option>
+
+                     <!--   <?php
    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -184,7 +185,7 @@ for($i=1;$i<=12;$i++)
 <?php    }
 
 ?>
-
+ -->
                 
               </select>
 
