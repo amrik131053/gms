@@ -4011,20 +4011,526 @@ $moocattchment=$row_staff['MOOCattachment'];
 
 }
   $flag=$i-1; 
-
 ?>
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
-
 <!-- <p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testingeee();" class="btn btn-danger "  > -->
 <?php 
 
+}
+    
+
+else if($code=='43.1')
+{
+
+
+ $allow=0;
+ $ucourse = $_GET['course'];
+ $college = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+ $subject = $_GET['subject'];
+ $ecat = $_GET['DistributionTheory'];
+ $group = $_GET['group'];
+  $OrderBy = $_GET['OrderBy'];
+   $start=0;
+if($ecat=='CE1')
+{
+$max=20;
+}
+else if($ecat=='CE3')
+{
+$max=5;
+}
+
+else if($ecat=='MST1')
+{
+$max=30;
+}else if($ecat=='MST2')
+{
+$max=30;
+}
+else if($ecat=='ESE')
+{
+$max=40;
+}
+else if($ecat=='Attendance')
+{
+$max=5;
+$start=3;
+}
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
 
 
 
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecatn" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: left;"> Name </th>
+                         <th style="width:50px;text-align: center;"> Subject </th>
+                   <th style="width:25px;text-align: center;">MST Marks </th>
+
+                 <th style="width:25px;text-align: center;">Lock </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subject'];
+ $DistributionTheory = $_GET['DistributionTheory'];
+ $exam = $_GET['examination'];
+ $OrderBy = $_GET['OrderBy'];
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group','$OrderBy')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+        $count=0;
+
+ while($row = sqlsrv_fetch_array($stmt)){
+
+ $declare= $row['11'];
+
+//print_r($row);
+
+
+
+               
+                  
+?>
+<tr>
+<td style="width:25px;text-align: left;"><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td style="width:25px;text-align:left"> <?=$row['UniRollNo'];?></td>
+<td style="width:25px;text-align: left;">  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+                                            
+               <td style="width:25px;text-align: left;"><?=$row['SubjectName'];?> (<?=$row['SubjectCode'];?>)
+             <?php  $iidd=$row['id'];?></td>
+                           <td style='text-align:center;width: 25px'>  
+                             
+
+                             <select  name="mst[]"  id='marks_<?=$iidd;?>' class='marks' onchange="savemarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
+
+<?php 
+
+ if($row['Locked']>0)
+  {
+                               
+   if($row['intmarks']!='')
+{
+   ?>
+    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+
+<?php
+}
+
+ }
+   else
+   {
+   if($row['intmarks']!='')
+{
+   ?>
+    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+
+<?php
+}
+
+    ?>
+     <option value="">Select</option>
+      
+        <option value='NA'>NA</option>
+
+
+        <?php 
+
+        if($ecat=='Attendance')
+        {?>
+          <option value='0'>0</option>
+
+
+       <?php  }else
+       {?>
+         <option value='AB'>AB</option>
+       <?php } 
+
+
+for($j=$start;$j<=$max;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
 }
       
+                           
+     }
+      ?>
+
+
+</select> 
+                         
+
+
+                              <td style='text-align:center;width: 25px'>
+
+
+                            <?php
+
+
+                            if($row['Locked']>0)
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger"></i>
+
+                                <?php 
+
+
+                           }
+                           else {
+                             ?>
+
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                                <?php 
+                           
+                        }
+                           ?>
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1; 
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+<!-- <p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testingeee();" class="btn btn-danger "  > -->
+<?php 
+
+}
+
+else if($code=='43.2')
+{
+
+
+ $allow=0;
+ $ucourse = $_GET['course'];
+ $college = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+ $subject = $_GET['subject'];
+ $ecat = $_GET['DistributionTheory'];
+ $group = $_GET['group'];
+  $OrderBy = $_GET['OrderBy'];
+   $start=0;
+if($ecat=='CE1')
+{
+$max=20;
+}
+else if($ecat=='CE3')
+{
+$max=5;
+}
+
+else if($ecat=='MST1')
+{
+$max=30;
+}else if($ecat=='MST2')
+{
+$max=30;
+}
+else if($ecat=='ESE')
+{
+$max=40;
+}
+else if($ecat=='Attendance')
+{
+$max=5;
+$start=3;
+}
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecatn" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: left;"> Name </th>
+                         <th style="width:50px;text-align: center;"> Subject </th>
+                   <th style="width:25px;text-align: center;">MST Marks </th>
+
+                 <th style="width:25px;text-align: center;">Lock </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subject'];
+ $DistributionTheory = $_GET['DistributionTheory'];
+ $exam = $_GET['examination'];
+ $OrderBy = $_GET['OrderBy'];
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group','$OrderBy')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+        $count=0;
+
+ while($row = sqlsrv_fetch_array($stmt)){
+
+ $declare= $row['11'];
+
+//print_r($row);
+
+
+
+               
+                  
+?>
+<tr>
+<td style="width:25px;text-align: left;"><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td style="width:25px;text-align:left"> <?=$row['UniRollNo'];?></td>
+<td style="width:25px;text-align: left;">  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+                                            
+               <td style="width:25px;text-align: left;"><?=$row['SubjectName'];?> (<?=$row['SubjectCode'];?>)
+             <?php  $iidd=$row['id'];?></td>
+                           <td style='text-align:center;width: 25px'>  
+                             
+
+                             <select  name="mst[]"  id='marks_<?=$iidd;?>' class='marks' onchange="savemarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
+
+<?php 
+
+ if($row['Locked']>0)
+  {
+                               
+   if($row['intmarks']!='')
+{
+   ?>
+    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+
+<?php
+}
+
+ }
+   else
+   {
+   if($row['intmarks']!='')
+{
+   ?>
+    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+
+<?php
+}
+
+    ?>
+     <option value="">Select</option>
+      
+        <option value='NA'>NA</option>
+
+
+        <?php 
+
+        if($ecat=='Attendance')
+        {?>
+          <option value='0'>0</option>
+
+
+       <?php  }else
+       {?>
+         <option value='AB'>AB</option>
+       <?php } 
+
+
+for($j=$start;$j<=$max;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
+}
+      
+                           
+     }
+      ?>
+
+
+</select> 
+                              <!-- <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td> -->
+                            
+                            <td>
+                      <!--         <?php
+                              $checkmooc="select MOOCattachment from ExamFormSubject where Id='$iidd'";
+                              $list_result = sqlsrv_query($conntest,$checkmooc);
+                    while($row_staff = sqlsrv_fetch_array( $list_result, SQLSRV_FETCH_ASSOC) )
+     {
+
+$moocattchment=$row_staff['MOOCattachment'];
+     
+     if($moocattchment!='')
+     { ?>
+
+<a href="http://erp.gku.ac.in:86//<?=$moocattchment;?>" target="_blank"><i class="fa fa-eye" style="color: green"></i></a>
+    
+     <?php
+  }
+     else
+     {
+      ?>
+<i class="fa fa-eye-slash" style="color:red"></i>
+     <?php
+     }
+}
+
+
+                               ?> -->
+                              
+
+                              </td>
+
+
+                              <td style='text-align:center;width: 25px'>
+
+
+                            <?php
+
+
+                            if($row['Locked']>0)
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger"></i>
+
+                                <?php 
+
+
+                           }
+                           else {
+
+                              if($EmployeeID=='131053')
+                              {
+
+
+            ?>   
+     <!--     <form action="action.php" method="post" enctype="multipart/form-data"> 
+                <input type="hidden" name="code" value="358">
+                 <input type="hidden" class="form-control" name='id' value="<?=$row['id'];?>">
+                 <input type="file" class="form-control"  name="moocfile">
+                 <button type="button"  onclick="uploadPhoto(this.form)">
+
+                  <i class="fa fa-upload" ></i></button>
+            </form>   -->
+
+            &nbsp;&nbsp;&nbsp;<?php }
+            ?>
+
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                                <?php 
+                           
+                        }
+                           ?>
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1; 
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+<!-- <p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testingeee();" class="btn btn-danger "  > -->
+<?php 
+
+}
+
 else if($code=='44')
 {?>
 <br>
@@ -4995,10 +5501,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
 <?php
 }
 
-  
-
-
-   }
+ }
    else
    {
    if($row['intmarks']!='')

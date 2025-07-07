@@ -242,7 +242,7 @@ for($i=1;$i<=12;$i++)
  
  <div class="row">
           <!-- left column -->
-          <div class="col-lg-12 col-md-4 col-sm-3">
+          <div class="col-lg-12 col-md-12 col-sm-12">
    
             <div class="card card-info">
               <div class="card-header">

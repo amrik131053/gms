@@ -24962,18 +24962,14 @@ $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
               ?>
      <?php     
          }
-    
  if($dateover>0)
  {
    echo 2;
  }
-
 else
  {
-
  $list_sqlw= "update ExamFormSubject set $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-
  if ($stmt1==true) 
  {
    echo 1;
@@ -24985,6 +24981,56 @@ else
 
  sqlsrv_close($conntest);
 }
+}
+
+ else  if($code==360.1)
+{       
+
+$id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+$marks=$_POST['marks'];
+$semID=$_POST['sem'];
+$idno=$_POST['idno'];
+
+
+if($ecat=='ESE')
+{
+
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+
+$list_sqlw= "update ExamFormSubject set $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+ $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+ $desc= "Marks Updated Exam Form id ".$id." $ecat=$marks,$update = $EmployeeID,$updatedate = $timeStamp";
+
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','theory-marks-dean.php')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+ if ($stmt1==true) 
+ {
+   echo 1;
+ }
+ else
+ {
+  echo 0;
+ }
+
+ sqlsrv_close($conntest);
+
 }
  else if($code==361)
 {  
