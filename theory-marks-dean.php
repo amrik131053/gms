@@ -311,7 +311,7 @@ else
 
 
 
-function lock(id)
+function lock(id,idno)
 {
 
   var marks=document.getElementsByClassName('marks');
@@ -320,7 +320,7 @@ function lock(id)
       url:'action.php',
       type:'post',
       data:{
-        id:id,ecat:ecat,code:'207'
+        id:id,ecat:ecat,idno:idno,code:'207'
       },
       success:function(response)
       {

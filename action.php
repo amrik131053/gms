@@ -14516,22 +14516,40 @@ mysqli_close($conn);
   }
 
 //unlock one student 
- else  if($code==206)
+else  if($code==206)
 {       
 
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
-if($ecat=='ESE')
+  $idno=$_POST['idno'];
+
+  if($ecat=='ESE')
 {
 $ecat='MoocLocked';
-  $list_sqlw= "update ExamFormSubject set $ecat=NULL,MOOCattachment='' where ID='$id'";
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{ $ecat=$ecat."Locked"; 
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
 }
 else
-{
-  $ecat=$ecat."Locked"; 
-  $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
+{ $ecat=$ecat."Locked"; 
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
 }
- 
+
+
+
+  $list_sqlw= "update ExamFormSubject set $ecat=NULL,MOOCattachment='' where ID='$id'";
+
+
+
+$desc= "Marks Status Exam Form id ".$id." $ecat=Unlocked,$update = $EmployeeID,$updatedate = $timeStamp";
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','')";
+ $update_query=sqlsrv_query($conntest,$update1);
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -14550,19 +14568,33 @@ else
 
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
-  
+$idno=$_POST['idno'];
+
 if($ecat=='ESE')
 {
 $ecat='MoocLocked';
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{  $ecat=$ecat."Locked"; 
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
 }
 else
-{
-  $ecat=$ecat."Locked"; 
+{ $ecat=$ecat."Locked"; 
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
 }
 
 
   $list_sqlw= "update ExamFormSubject set $ecat='1' where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+$desc= "Marks Status Exam Form id ".$id." $ecat=Locked,$update = $EmployeeID,$updatedate = $timeStamp";
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','')";
+$update_query=sqlsrv_query($conntest,$update1);
  if ($stmt1==true) 
  {
    echo "1";

@@ -3930,9 +3930,37 @@ else if($code=='43')
                                             
                <td><?= $subject;?>
              <?php  $iidd=$row['id'];?></td>
-                           <td style='text-align:center;width: 100px'>  
-                              <?=$row['intmarks'];?>
-                              <!-- <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td> -->
+                           <td style='text-align:center;width: 100px'> 
+
+                            
+
+
+                             <?php  if($DistributionTheory=='Grace')
+                             {
+?>
+<select  name="mst[]"  id='marks_<?=$iidd;?>' class='marks' onchange="savemarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
+  
+   <option value='<?=$row['intmarks'];?>'><?=$row['intmarks'];?></option>
+    <?php
+                              for($j=0;$j<=20;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
+}
+?>
+
+                                 
+                             <?php }
+                             else
+                             {
+                                echo $row['intmarks'];
+                             }
+
+?>
+                          
+
+                           </td>
                             
                             <td>
                               <?php
@@ -3975,7 +4003,7 @@ $moocattchment=$row_staff['MOOCattachment'];
                             {
                                
                                ?>
-                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>
+                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>,<?=$row['IDNo'];?>);" ></i>
 
                                 <?php 
 
@@ -3999,7 +4027,7 @@ $moocattchment=$row_staff['MOOCattachment'];
 
             &nbsp;&nbsp;&nbsp;<?php }?>
 
-                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>,<?=$row['IDNo'];?>);"></i>
                                 <?php 
                            
                         }
@@ -4232,7 +4260,7 @@ for($j=$start;$j<=$max;$j++)
                            else {
                              ?>
 
-                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>,<?=$row['IDNo'];?>);"></i>
                                 <?php 
                            
                         }

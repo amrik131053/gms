@@ -484,8 +484,9 @@ var   spinner= document.getElementById("ajax-loader");
 }
 
 
-function unlock(id)
+function unlock(id,idno)
 {
+
 
   var marks=document.getElementsByClassName('marks');
   var ecat=document.getElementById('ecat').value;
@@ -493,12 +494,12 @@ function unlock(id)
       url:'action.php',
       type:'post',
       data:{
-        id:id,ecat:ecat,code:'206'
+        id:id,ecat:ecat,idno:idno,code:'206'
       },
       success:function(response)
       {
  
-
+  console.log(response);
 
         SuccessToast('Successfully Unlocked');
         select_mst(); 
@@ -508,7 +509,7 @@ function unlock(id)
     });
 }
 
-function lock(id)
+function lock(id,idno)
 {
 
   var marks=document.getElementsByClassName('marks');
@@ -517,11 +518,11 @@ function lock(id)
       url:'action.php',
       type:'post',
       data:{
-        id:id,ecat:ecat,code:'207'
+        id:id,ecat:ecat,idno:idno,code:'207'
       },
       success:function(response)
       {
- 
+
       SuccessToast('Successfully Locked');
         select_mst(); 
         
@@ -562,6 +563,50 @@ else
    ErrorToast('Select Examination and Theory Distibution',"bg-danger" );
 }
 }
+
+function savemarks(id,idno)
+{ 
+
+var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var marks=document.getElementById('marks_'+id).value;
+   var ecat=document.getElementById('ecat').value;
+     var  sem = document.getElementById('Semester').value;
+
+  $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        id:id,marks:marks,ecat:ecat,sem:sem,idno:idno,code:'360.1'
+      },
+      success:function(response)
+      { 
+        spinner.style.display='none';
+         console.log(response); 
+       if(response==1)
+        {
+       SuccessToast('Successfully Updated');
+            select_mst(); 
+        }
+        else if(response==0)
+        {
+           ErrorToast('something went wrong','bg-danger');
+
+        }
+         else if(response==2)
+        {
+ ErrorToast('Date Over','bg-danger');
+        }
+
+
+     
+       
+       
+      }
+    });
+
+}
+
 
 
 function unlockall()
