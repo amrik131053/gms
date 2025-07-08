@@ -3215,7 +3215,9 @@ elseif($exportCode=='27.1')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2025'");
+  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON
+ seminar_registrations.id=online_payment.roll_no WHERE 
+ status='success'   AND seminar_registrations.purpose='IACE2025'");
     $counter = 1; 
        
     $exportMeter="<table class='table' border='1'>

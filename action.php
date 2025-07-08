@@ -22634,7 +22634,9 @@ mysqli_close($conn);
    }
  elseif($code=='332.1') 
    {
-    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2025'";
+    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON
+ seminar_registrations.id=online_payment.roll_no WHERE 
+ status='success'   AND seminar_registrations.purpose='IACE2025'";
  $result = mysqli_query($conn_online,$qry);
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
