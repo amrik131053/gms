@@ -172,7 +172,7 @@
                            <div class="col-lg-12">
                               <select name="room_no" required id="session" class="form-control">
                                  <option value="">Select</option>
-                                 <option value="2024-25">2024-25</option>
+                                 <option value="2025-26">2025-26</option>
                               </select>
                            </div>
                         </div>
