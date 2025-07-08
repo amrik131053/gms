@@ -15,10 +15,11 @@ use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\GrievanceController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\StudentLeaveController;
-
+use App\Http\Controllers\ApplyDocumentsController;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Middleware\CheckAuthentication;
- 
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Http\Request;
 // Auth Routes
 Route::get('/', [AuthController::class, 'loginPage'])->name('index');
 Route::get('dashboard', [AuthController::class, 'mainDashboard'])->name('dashboard')->middleware(CheckAuthentication::class);
@@ -121,6 +122,54 @@ Route::get('documents', [DocumentController::class, 'showDocumentPage'])->name('
 Route::post('/upload-document', [DocumentController::class, 'upload'])->name('documentupload');
 
 
+// Apply Documents
+Route::get('applyDocuments', [ApplyDocumentsController::class, 'applyDocuments'])->name('applyDocuments')->middleware(CheckAuthentication::class);
+Route::post('/fetch-required', [ApplyDocumentsController::class, 'fetchRequired'])->middleware(CheckAuthentication::class);
+Route::post('/fetch-states', [ApplyDocumentsController::class, 'fetchState']);
+Route::post('/fetch-citys', [ApplyDocumentsController::class, 'fetchcity']);
+Route::post('/submit-document', [ApplyDocumentsController::class, 'submitDocument'])->name('submit-document');
+Route::post('fetch-apply-documents', [ApplyDocumentsController::class, 'fetchDocument'])->name('fetch-apply-documents');
+Route::get('/{id}', [ApplyDocumentsController::class, 'view'])->name('apply-documents-view');
+Route::post('/finalize/{id}', [ApplyDocumentsController::class, 'finalize'])->name('apply-documents-finalize');
+Route::post('/apply-documents/upload-document', [ApplyDocumentsController::class, 'uploadDocument'])->name('apply-documents.upload-document');
+Route::put('/apply-documents/update-address/{id}', [ApplyDocumentsController::class, 'updateAddress'])->name('apply-documents.update-address');
+Route::any('/get-document-charges', [ApplyDocumentsController::class, 'getDocumentCharges'])->name('document.charges');
 
-Route::post('/send-otp', [WhatsAppController::class, 'sendOtpToWhatsApp']);
-Route::view('/otp-form', 'send-otp');
+
+
+//payment gateway PayU
+
+Route::any('/payu/confirm/{encryptedId}', [PayuPaymentController::class, 'showConfirmation'])->name('payu.confirm');
+Route::post('/payu/initiate', [PayuPaymentController::class, 'startPayment'])->name('payu.initiate');
+// Route::post('payu/start-payment', [PayuPaymentController::class, 'startPayment']);
+Route::any('payu/payment-response', [PayuPaymentController::class, 'paymentResponse'])->name('payu.response');
+
+
+Route::get('payu/payment-success', function (Request $request) {
+    try {
+        $decrypted = Crypt::decrypt($request->data);
+
+        return view('payu.success', [
+            'txnid'    => $decrypted['txnid'] ?? null,
+            'mihpayid' => $decrypted['mihpayid'] ?? null,
+            'amount'   => $decrypted['amount'] ?? null,
+        ]);
+    } catch (\Exception $e) {
+        abort(403, 'Invalid or tampered data.');
+    }
+})->name('payu.success');
+
+Route::get('payu/payment-failure', function (Request $request) {
+    try {
+        $decrypted = Crypt::decrypt($request->data);
+
+        return view('payu.failure', [
+            'txnid'         => $decrypted['txnid'] ?? null,
+            'status'        => $decrypted['status'] ?? null,
+            'amount'        => $decrypted['amount'] ?? null,
+            'error_message' => $decrypted['error_message'] ?? null,
+        ]);
+    } catch (\Exception $e) {
+        abort(403, 'Invalid or tampered data.');
+    }
+})->name('payu.failure');

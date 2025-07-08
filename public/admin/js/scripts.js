@@ -1175,3 +1175,229 @@ function updateTextBox() {
 function showLoaders() {
     document.getElementById('fullScreenLoader').style.display = 'flex';
 }
+
+
+
+function loadState(country) {
+    showLoader();
+    const stateDrop = document.getElementById('outside_state');
+            stateDrop.innerHTML = '<option value="">Choose State</option>';
+    fetch('/fetch-states', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ID: country })
+    })
+    .then(response => response.json())
+    .then(states => {
+        hideLoader();
+                        states.forEach(spot => {
+                            let option = document.createElement('option');
+                            option.value = spot.id;
+                            option.text = spot.name;
+                            stateDrop.add(option);
+                        });
+                    })
+    .catch(error => console.error('Error:', error));
+}
+function loadCity(country) {
+    showLoader();
+    const cityDrop = document.getElementById('outside_city');
+            cityDrop.innerHTML = '<option value="">Choose city</option>';
+    fetch('/fetch-citys', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ID: country })
+    })
+    .then(response => response.json())
+    .then(citys => {
+        hideLoader();
+                        citys.forEach(spot => {
+                            let option = document.createElement('option');
+                            option.value = spot.id;
+                            option.text = spot.name;
+                            cityDrop.add(option);
+                        });
+                    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+function loadState_i(country) {
+    showLoader();
+    const stateDrop = document.getElementById('state');
+            stateDrop.innerHTML = '<option value="">Choose State</option>';
+    fetch('/fetch-states', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ID: country })
+    })
+    .then(response => response.json())
+    .then(states => {
+        hideLoader();
+                        states.forEach(spot => {
+                            let option = document.createElement('option');
+                            option.value = spot.id;
+                            option.text = spot.name;
+                            stateDrop.add(option);
+                        });
+                    })
+    .catch(error => console.error('Error:', error));
+}
+function loadCity_i(country) {
+    showLoader();
+    const cityDrop = document.getElementById('city');
+            cityDrop.innerHTML = '<option value="">Choose city</option>';
+    fetch('/fetch-citys', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ID: country })
+    })
+    .then(response => response.json())
+    .then(citys => {
+        hideLoader();
+                        citys.forEach(spot => {
+                            let option = document.createElement('option');
+                            option.value = spot.id;
+                            option.text = spot.name;
+                            cityDrop.add(option);
+                        });
+                    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+
+// Apply Documents SIC
+
+function viewApplyDsassocuments(id) {
+    showLoader();
+    fetch('/fetch-apply-documents', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ID: id })
+    })
+    .then(response => response.json())
+    .then(result => {
+        hideLoader();
+
+        const docsData = result.data;
+
+        const modalBody = document.querySelector('#modal-view-apply-documents .modal-body');
+
+        let html = `
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tbody> 
+                       
+                        <tr><th>Applied For</th><td>${docsData.AppliedDoc}</td></tr>
+                        <tr><th>Amount</th><td>₹${docsData.Amount}</td></tr>
+                        <tr><th>Delivery Mode</th><td>${docsData.ReceivingType}</td></tr>
+                        <tr><th>Address</th><td>
+                            ${docsData.AddressLine}, ${docsData.District}, ${docsData.State}, ${docsData.Country} - ${docsData.Pin}
+                        </td></tr>
+                        <tr><th>Documents</th><td>
+                            <ul>
+                                ${docsData.Docs.map(doc => `<li>${doc.DocumentName}</li>`).join('')}
+                            </ul>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        modalBody.innerHTML = html;
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('modal-view-apply-documents'));
+        modal.show();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        hideLoader();
+    });
+}
+
+function viewApplyDocuments(id) {
+    showLoader();
+    fetch('/fetch-apply-documents', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ID: id })
+    })
+    .then(response => response.json())
+    .then(result => {
+        hideLoader();
+        const data = result.data;
+
+        // Fill form
+        document.getElementById('edit_id').value = data.Id;
+        document.getElementById('edit_IDNo').value = data.IDNo;
+        document.getElementById('edit_appliedDoc').value = data.AppliedDoc;
+        document.getElementById('edit_amount').value = data.Amount;
+        document.getElementById('edit_receivingType').value = data.ReceivingType;
+        document.getElementById('edit_submitDate').value = new Date(data.SubmitDate).toLocaleDateString();
+
+        document.getElementById('edit_country').value = data.Country || '';
+        document.getElementById('edit_state').value = data.State || '';
+        document.getElementById('edit_district').value = data.District || '';
+        document.getElementById('edit_pin').value = data.Pin || '';
+        document.getElementById('edit_addressLine').value = data.AddressLine || '';
+
+        // Show/hide address
+        toggleAddressSection(data.ReceivingType);
+
+        // Render documents
+        const docContainer = document.getElementById('edit_docsList');
+        docContainer.innerHTML = '';
+        data.Docs.forEach(doc => {
+            docContainer.innerHTML += `
+                <div class="col-md-4">
+                    <div class="border p-2 rounded bg-light">
+                        <strong>${doc.DocumentName}</strong>
+                        <br>Status: <span class="text-${doc.DocStatus == 1 ? 'success' : 'warning'}">
+                            ${doc.DocStatus == 1 ? 'Uploaded' : 'Pending'}
+                        </span>
+                    </div>
+                </div>
+            `;
+        });
+
+        const modal = new bootstrap.Modal(document.getElementById('modal-view-apply-documents'));
+        modal.show();
+    })
+    .catch(error => {
+        hideLoader();
+        console.error('Error fetching data:', error);
+    });
+}
+
+document.getElementById('edit_receivingType').addEventListener('change', function () {
+    toggleAddressSection(this.value);
+});
+
+function toggleAddressSection(receivingType) {
+    const section = document.getElementById('edit_addressSection');
+    if (receivingType === 'By Hand') {
+        section.style.display = 'none';
+    } else {
+        section.style.display = 'block';
+    }
+}

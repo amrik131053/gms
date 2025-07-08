@@ -12,5 +12,6 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'auth/google/callback', // Exclude this route from CSRF verification
+        // 'payu/initiate',
     ];
 }

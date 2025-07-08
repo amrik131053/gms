@@ -33,11 +33,13 @@
                         </div>
                     @endif
                         
-
+                
                  
         <div class="form-group">
+            <input type="hidden" class="form-control" name="idno" id="idno" value="{{ Crypt::encrypt($details['IDNo']) }}"  required>
             <div class="form-label">Student Name</div>
-            <input type="text" class="form-control" name="student_name" id="student_name" value="{{ $details['StudentName'] }}" readonly required>
+            <input type="text" class="form-control" name="firstname" id="student_name" value="{{ $details['StudentName'] }}" readonly required>
+            <input type="hidden" class="form-control" name="productinfo" id="productinfo" value="Document Fee"  required>
         </div>
         <div class="form-group">
             <div class="form-label">Father Name</div>
@@ -45,39 +47,36 @@
         </div>
         <div class="form-group">
         <div class="form-label">Mobile No</div>
-            <input type="mobile" class="form-control" name="mobile" id="mobile" value="{{ $details['StudentMobileNo'] }}" required>
+            <input type="mobile" class="form-control" name="phone" id="mobile" value="{{ $details['StudentMobileNo'] }}" readonly required>
         </div>
         <div class="form-group">
         <div class="form-label">Email</div>
-            <input type="email" class="form-control" name="email" id="email" value="{{ $details['EmailID'] }}" required>
+            <input type="email" class="form-control" name="email" id="email" value="{{ $details['EmailID'] }}" readonly required>
         </div>
         <div class="form-group">
-        <div class="form-label">Fee Type</div>
-            <input type="text" class="form-control" name="fee_type" id="fee_type" value="{{ $submit_details['fee_type'] }}" readonly required>
-        </div>
-        <div class="form-group">
-        <div class="form-label">Semester</div>
-            <input type="text" class="form-control" name="semester" id="semester" value="{{ $submit_details['semester'] }}" readonly required>
-        </div>
+    
         <div class="form-group">
         <div class="form-label">Amount</div>
-            <input type="text" class="form-control" name="amount" id="amount" value="{{ $submit_details['amount'] }}" readonly required>
+            <input type="hidden" class="form-control" name="requestid" id="requestid" value="{{ Crypt::encrypt($submit_details['Id']) }}" readonly required>
+            <input type="text" class="form-control" name="amount" id="amount" value="{{ $submit_details['TotalAmount'] }}" readonly required>
         </div>
         <div class="form-group">
         <div class="form-label">Remarks</div>
-            <textarea name="remarks"  class="form-control" id="remarks" readonly>{{ $submit_details['remarks'] }}</textarea>
+            <textarea name="remarks"   class="form-control" id="remarks" readonly >{{ $submit_details['AppliedDoc'] }}</textarea>
         </div>
         <div class="form-label"></div>
         <div class="form-group">
         <button type="submit" class="btn btn-danger">Confirm and Pay</button>
-</div>
+
     </div>   
 </form>
                    
                  </div>
+                 </div>
            
           </div>
       
+        </div>
         </div>
 
 
