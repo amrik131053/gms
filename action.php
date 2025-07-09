@@ -26535,7 +26535,7 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
- $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='M'  order by SubjectCode";
+  $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd Elective='M'  order by SubjectCode";
 
       
 
