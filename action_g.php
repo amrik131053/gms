@@ -17447,7 +17447,7 @@ if(sqlsrv_num_rows($RungetGeneralShift)>0)
 }
 else
 {
-    $getGeneralShift1="SELECT * FROM MasterShiftTime WHERE ShiftId = '$ShiftID'";
+   $getGeneralShift1="SELECT * FROM MadamShiftTime WHERE ShiftId = '$ShiftID'";
     $RungetGeneralShift1=sqlsrv_query($conntest,$getGeneralShift1);
     if($getshoftrow=sqlsrv_fetch_array($RungetGeneralShift1,SQLSRV_FETCH_ASSOC))
     {
