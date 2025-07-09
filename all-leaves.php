@@ -113,6 +113,7 @@ function saveRow(button, id) {
     const leave1 = row.querySelector('[data-field="Leave1"]').textContent;
     const leave2 = row.querySelector('[data-field="Leave2"]').textContent;
     const leave3 = row.querySelector('[data-field="Leave3"]').textContent;
+     const leave4 = row.querySelector('[data-field="Leave4"]').textContent;
     const editBtn = row.querySelector('.edit-btn');
     const saveBtn = row.querySelector('.save-btn');
     const cancelBtn = row.querySelector('.cancel-btn');
@@ -132,6 +133,7 @@ function saveRow(button, id) {
             leave1: leave1,
             leave2: leave2,
             leave3: leave3,
+             leave4: leave4,
         },
         success: function(response) {
             console.log(response);
@@ -513,6 +515,7 @@ function show_text_box_pages(id) {
                <option value="1">Casual</option>
                <option value="2">Compansatory</option>
                <option value="12">Duty Leave</option>
+                <option value="26">Vacations</option>
                </select>
                 </div>
               

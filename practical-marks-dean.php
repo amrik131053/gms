@@ -425,13 +425,9 @@ function savepmarks(id,idno)
     if(emarks!='' && vmarks!=''&& fmarks!='')
     {
 
-
       marks=parseInt(emarks)+parseInt(vmarks)+parseInt(fmarks);
-
-document.getElementById('marks_'+id).value='';
-
+      document.getElementById('marks_'+id).value='';
       document.getElementById('marks_'+id).value = marks;
-
 
       $.ajax({
       url:'action.php',

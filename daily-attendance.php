@@ -20,13 +20,17 @@
          <div class="card-body card">
             <div class="card-body table-responsive pad">
         <div class="btn-group w-100 mb-12">
+        
                      <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 10px solid;" onclick="Search();bg(this.id);"> Search </a>
                     <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 10px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
                    <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> 
             
+            <?php   $code_access; if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
+                                         {?>
                <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
                <a class="btn" id="btn5" style="background-color:#223260; color: white; border: 10px solid;" onclick="Concession();bg(this.id);">Concession</a> 
                <a class="btn" id="btn6" style="background-color:#223260; color: white; border: 10px solid;" onclick="ApplyLeave();bg(this.id);">Apply Leave</a> 
+            <?php }?>
 
 
 
@@ -762,6 +766,9 @@ function viewLeaveFileHRside(id,eid) {
                                   var employeeId=document.getElementById("employeeId_").value;
                                   var month=document.getElementById("month").value;
                                   var year=document.getElementById("year").value;
+
+                            var code_access = <?= json_encode($code_access) ?>;
+                                 
                                   
                                   if(employeeId!=''&& month!=''){
                                   var spinner=document.getElementById("ajax-loader");
@@ -772,7 +779,7 @@ function viewLeaveFileHRside(id,eid) {
                                  {
                                     url: 'action.php',
                                     type: 'post',
-                                    data:{code:code,month:month,year:year,EmployeeId:employeeId},
+                                    data:{code:code,month:month,year:year,EmployeeId:employeeId,code_access:code_access},
                                     success:function(response)
                                     {
                                        spinner.style.display='none';

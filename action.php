@@ -23009,6 +23009,8 @@ else if($code=='335')
 $curmnth =$_POST['month'];
 $curyear = $_POST['year'];
 $emp_code=$_POST['EmployeeId'];
+$code_access=$_POST['code_access'];
+
 
 include 'attendance-date-function.php';
 
@@ -23184,8 +23186,19 @@ else
    <?php
    if($alreadyLeaveExistInRecordTable!=1)
    {
-   if(($HolidayName!='' && $printleave=='On Duty') || ($HolidayName!='' && $intime!="" &&  $outtime!="" && $outtime>$intime)){?>
+   if(($HolidayName!='' && $printleave=='On Duty') || ($HolidayName!='' && $intime!="" &&  $outtime!="" && $outtime>$intime)){
+
+ if ($code_access=='010' || $code_access=='011' || $code_access=='110' ||   $code_access=='111') 
+                                          {         
+                ?>  
+    
+
+
 <button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button>
+
+<?php }
+?>
+
 <?php }
 else{ 
 
