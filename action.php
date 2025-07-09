@@ -24945,6 +24945,7 @@ else if($code==358)
 include "connection/ftp-erp.php";
 
 $Id = $_POST["id"];
+$idno = $_POST["idno"];
 
 $marks = $_POST["MOOC_Mark"];
       $file_name = $_FILES['moocfile']['name'];
@@ -24969,6 +24970,14 @@ $marks = $_POST["MOOC_Mark"];
   $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
 MOOCupdatedDate='$timeStamp' where ID='$Id'";
   $stmt = sqlsrv_query($conntest,$query);    
+
+$desc= "Marks Updated Exam Form id ".$Id." Mooc marks=$marks,MOOCupdateby = $EmployeeID,$updatedate = $timeStamp";
+
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','mooc-marks-dean.php')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+
 
   echo "Uploaded"; 
   sqlsrv_close($conntest);
@@ -26508,6 +26517,27 @@ $sem= $_POST['sem'];
  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
  and mcs.Batch='$batch' ANd mcs.Elective='M' And sa.EmployeeID='$EmployeeID'";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+ sqlsrv_close($conntest);
+}
+else if($code=='374.1')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='M'  order by SubjectCode";
+
+      
 
 
  $stmt2 = sqlsrv_query($conntest,$sql);
