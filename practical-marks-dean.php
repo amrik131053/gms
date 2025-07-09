@@ -390,10 +390,30 @@ else {
 
 }
 
-
-
-function savepmarks(id)
+function lock(id,idno)
 {
+
+  var marks=document.getElementsByClassName('marks');
+  var ecat=document.getElementById('ecat').value;
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        id:id,ecat:ecat,idno:idno,code:'207'
+      },
+      success:function(response)
+      {
+ 
+      SuccessToast('Successfully Locked');
+        select_mst(); 
+        
+      }
+    });
+}
+
+function savepmarks(id,idno)
+{
+
 
   var emarks=document.getElementById('emarks_'+id).value;
    var vmarks=document.getElementById('vmarks_'+id).value
@@ -417,7 +437,7 @@ document.getElementById('marks_'+id).value='';
       url:'action.php',
       type:'post',
       data:{
-        id:id,emarks:emarks,vmarks:vmarks,fmarks:fmarks,marks:marks,ecat:ecat,sem:sem,code:'361'
+        id:id,emarks:emarks,vmarks:vmarks,fmarks:fmarks,marks:marks,ecat:ecat,idno:idno,sem:sem,code:'361.2'
       },
       success:function(response)
       {

@@ -135,7 +135,7 @@ function bg1(id) {
     $('#' + id).toggleClass("bg-success");
 }
 
-function newAdmission() {
+function newAdmission() { 
     var code = 348;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';

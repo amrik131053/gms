@@ -4133,9 +4133,10 @@ $start=3;
                       
                        <th style="width:25px;text-align: left;"> Name </th>
                          <th style="width:50px;text-align: center;"> Subject </th>
-                   <th style="width:25px;text-align: center;">MST Marks </th>
-
-                 <th style="width:25px;text-align: center;">Lock </th>
+                   <th style="width:25px;text-align: center;">Marks </th>
+                   <th style="width:25px;text-align: center;">Updated By  </th>  
+                   <th style="width:25px;text-align: center;">Updated On </th>
+                  <th style="width:25px;text-align: center;">Lock </th>
                       
                 </tr>
  <?php
@@ -4239,7 +4240,10 @@ for($j=$start;$j<=$max;$j++)
 
 </select> 
                          
-
+ <td style="width:10%;text-align: center"><?=$row['updateby'];?></td>
+                           <td><?php 
+                           If($row['updatedDate']!=''){ echo $row['updatedDate']->format('Y-m-d H:i:s');
+                        }?></td>
 
                               <td style='text-align:center;width: 25px'>
 
@@ -6155,7 +6159,7 @@ else if($code=='52.1')
                   
 ?>
 <tr>
-<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> -<?=$row['IDNo'];?></td>
 <td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
 
@@ -6189,7 +6193,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
 
 <td>
 
-   <select  name="emst[]"  id='emarks_<?=$iidd;?>' class='emarks' onchange="savepmarks(<?=$iidd;?>)" >
+   <select  name="emst[]"  id='emarks_<?=$iidd;?>' class='emarks' onchange="savepmarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
        <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
 
 
@@ -6243,7 +6247,9 @@ for($j=$start;$j<=10;$j++)
 
 <td>
 
-   <select  name="vmst[]"  id='vmarks_<?=$iidd;?>' class='vmarks' onchange="savepmarks(<?=$iidd;?>)" >
+
+
+   <select  name="vmst[]"  id='vmarks_<?=$iidd;?>' class='vmarks' onchange="savepmarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
         <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
 
    <?php 
@@ -6288,7 +6294,7 @@ for($j=$start;$j<=5;$j++)
 </td>
 <td>
 
-   <select  name="fmst[]"  id='fmarks_<?=$iidd;?>' class='fmarks' onchange="savepmarks(<?=$iidd;?>)" >
+   <select  name="fmst[]"  id='fmarks_<?=$iidd;?>' class='fmarks' onchange="savepmarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
        <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
  
 
@@ -6320,13 +6326,6 @@ for($j=$start;$j<=5;$j++)
 <?php
 }
 ?>
-
-
-
-
-
-
-
 
  <option value="">Select</option>
    <!--  <option value='S'>S</option>
@@ -6399,26 +6398,28 @@ for($j=$start;$j<=5;$j++)
                             <?php
 
 
+                
+
+
                             if($row['Locked']>0)
                             {
                                
                                ?>
-                               <i class="fa fa-lock text-danger" ></i>
-                                <!--<i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>-->
+                               <i class="fa fa-lock text-danger"></i>
 
                                 <?php 
 
 
-                     }
+                           }
                            else {
+                             ?>
 
-                           ?>
-                               <!-- <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i> -->
-                                <i class="fa fa-lock-open text-success" ></i>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>,<?=$row['IDNo'];?>);"></i>
                                 <?php 
                            
                         }
                            ?>
+                      
 
                         </td> </tr>
 
@@ -6431,7 +6432,7 @@ for($j=$start;$j<=5;$j++)
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
-<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >
+
 <?php 
 }
 
