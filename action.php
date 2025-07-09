@@ -13627,7 +13627,7 @@ $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
-AND SemesterID='$sem' ANd Batch='$batch'   order by SubjectCode";
+AND SemesterID='$sem' ANd Batch='$batch'  order by SubjectCode";
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -13754,7 +13754,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
  }
-
+//practical marks staff
  elseif ($code ==200.6)
  {
 $course= $_POST['course'];
@@ -13775,6 +13775,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
 }
+
 //open elective 
 elseif ($code ==200.7)
    {
@@ -13818,6 +13819,51 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
  }
+///dean Theory marks
+
+ elseif ($code ==200.9)
+    {
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
+AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='T' order by SubjectCode";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+?>
+<option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+<?php 
+}
+$sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
+$stmt = sqlsrv_query($conntest,$sqlee);  
+while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{
+$cname=$row["Course"];
+}
+
+$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
+SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
+$stmt2 = sqlsrv_query($conntest,$sql1);
+while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+   ?>
+   <option value='<?= $row2["SubjectCode"];?>'><?= $row2["SubjectName"];?>(<?= $row2["SubjectCode"];?>)/<?= $row2["SubjectType"];?></option>";
+ <?php 
+ }
+ sqlsrv_close($conntest);
+}
+
+
+
+
+
+
+
+
+
+
  // multiple update masrks  
  else if($code==201)
 {       
@@ -25576,6 +25622,60 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject
  } 
  sqlsrv_close($conntest);
 }
+
+else if($code=='363.1')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+ 
+  echo  $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='P'  order by SubjectCode";
+
+//   $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+// AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'AND sa.Status='1'";
+
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+$sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
+$stmt = sqlsrv_query($conntest,$sqlee);  
+    while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+      {
+   
+     $cname=$row["Course"];
+   }
+ 
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y'";
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ } 
+ sqlsrv_close($conntest);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 else if($code==364)
 {
 $College = $_POST["College"];

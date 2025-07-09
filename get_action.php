@@ -5642,7 +5642,6 @@ $srno++;
 else if($code=='52')
 {
 
-
  $allow=0;
  $ucourse = $_GET['course'];
  $college = $_GET['college'];
@@ -6051,7 +6050,390 @@ if($dateover>0)
 <?php 
 }
 
+else if($code=='52.1')
+{
 
+ $allow=0;
+ $ucourse = $_GET['course'];
+ $college = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+ $subject = $_GET['subject'];
+ $group = $_GET['group'];
+ $ecat = $_GET['DistributionTheory'];
+ $start=0;
+
+ 
+?>
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: left;"> Name </th>
+                         <th style="width:50px;text-align: left;"> Subject </th>
+                   <th style="width:25px;text-align: left;">EMarks </th>
+                     <th style="width:25px;text-align: left;">FMarks </th>
+                       <th style="width:25px;text-align: left;">VMarks </th>
+                        <th style="width:25px;text-align: left;">TotalMarks </th>
+                    <th style="width:25px;text-align: left;">Updated By </th>
+                     <th style="width:25px;text-align: left;">Updated On </th>
+                   
+                  <th style="width:25px;text-align: center;">Lock Status </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+
+
+
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subject'];
+ $DistributionTheory = $_GET['DistributionTheory'];
+ $exam = $_GET['examination'];
+  $group = $_GET['group'];
+
+ $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+        $count=0;
+
+     while($row = sqlsrv_fetch_array($stmt)){
+
+ //$declare= $row['11'];
+
+//print_r($row);
+
+
+
+               
+                  
+?>
+<tr>
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
+<td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+
+
+
+
+                                            
+               <td>
+                  <?= $row['SubjectName'];?>/<?= $subject;?>
+             <?php   $iidd=$row['id'];?></td>
+
+
+<?php
+
+$getdistri="Select Id from DDL_TheroyExamination where Value='PracticalNO'" ;
+$list_resultdi = sqlsrv_query($conntest,$getdistri);
+      
+        while( $rowdi = sqlsrv_fetch_array($list_resultdi, SQLSRV_FETCH_ASSOC) )
+        {  
+            $did=$rowdi['Id'];
+        }
+
+
+
+
+
+     $exam_type=$DistributionTheory;
+
+  
+         ?>
+
+<td>
+
+   <select  name="emst[]"  id='emarks_<?=$iidd;?>' class='emarks' onchange="savepmarks(<?=$iidd;?>)" >
+       <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
+
+
+
+
+
+<?php 
+
+ if($row['Locked']>0)
+  {
+                               
+   if($row['experiment']!='')
+{
+   ?>
+    <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
+
+<?php
+}
+
+  
+
+
+   }
+   else
+   {
+   if($row['experiment']!='')
+{
+   ?>
+    <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
+
+<?php
+}
+?>
+
+
+
+ <option value="">Select</option>
+  
+        <?php 
+
+for($j=$start;$j<=10;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
+}
+}
+?>
+</select>
+</td>
+
+<td>
+
+   <select  name="vmst[]"  id='vmarks_<?=$iidd;?>' class='vmarks' onchange="savepmarks(<?=$iidd;?>)" >
+        <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
+
+   <?php 
+
+ if($row['Locked']>0)
+  {
+                               
+   if($row['viva']!='')
+{
+   ?>
+    <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
+
+<?php
+}
+
+  
+
+
+   }
+   else
+   {
+   if($row['viva']!='')
+{
+   ?>
+    <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
+
+<?php
+}
+?> <option value="">Select</option>
+
+        <?php 
+
+for($j=$start;$j<=5;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
+}
+}
+?>
+</select>
+</td>
+<td>
+
+   <select  name="fmst[]"  id='fmarks_<?=$iidd;?>' class='fmarks' onchange="savepmarks(<?=$iidd;?>)" >
+       <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
+ 
+
+
+   <?php 
+
+ if($row['Locked']>0)
+  {
+                               
+   if($row['filem']!='')
+{
+   ?>
+    <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
+
+<?php
+}
+
+  
+
+
+   }
+   else
+   {
+   if($row['filem']!='')
+{
+   ?>
+    <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
+
+<?php
+}
+?>
+
+
+
+
+
+
+
+
+ <option value="">Select</option>
+   <!--  <option value='S'>S</option>
+    <option value='US'>US</option> -->
+        <?php 
+
+for($j=$start;$j<=5;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
+}
+}
+?>
+</select>
+</td>
+
+
+
+
+
+
+
+                           <td style='text-align:left;width:50px'>  
+
+
+<!--onchange="savemarks(<?=$iidd;?>)" -->
+
+
+
+<input type='text' name="mst[]"  id='marks_<?=$iidd;?>' class='marks' value='<?=$row['intmarks'];?>' readonly style="width: 50px;" >
+
+
+<?php 
+
+ if($row['Locked']>0)
+  {
+                               
+   if($row['intmarks']!='')
+{
+   ?>
+    
+
+<?php
+}
+
+  
+
+
+   }
+
+
+?>
+
+
+
+                           </td>
+
+                           <td><?=$row['updateby'];?></td>
+                           <td><?php 
+                           If($row['updatedDate']!=''){ echo $row['updatedDate']->format('Y-m-d H:i:s');
+                        }?></td>
+                            
+                            
+
+
+                              <td style='text-align:center;width: 30px'>
+
+
+                            <?php
+
+
+                            if($row['Locked']>0)
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger" ></i>
+                                <!--<i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>-->
+
+                                <?php 
+
+
+                     }
+                           else {
+
+                           ?>
+                               <!-- <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i> -->
+                                <i class="fa fa-lock-open text-success" ></i>
+                                <?php 
+                           
+                        }
+                           ?>
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1;
+
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >
+<?php 
+}
 
 else if($code==55)
 {

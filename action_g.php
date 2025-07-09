@@ -24490,7 +24490,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
           }
    if($getDefalutMenuRun==true)
    {  
-    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor ,Room no-105' ,'95697-06375');
+    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor ,Room no-105' ,'NA');
        echo "1";
 
    }
@@ -29352,7 +29352,7 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
-    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor,Room no-105','95697-06375');
+    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor,Room no-105','NA');
        echo "1";
    }
    else
@@ -31756,14 +31756,14 @@ if($Status==6)
             <label>Select</label>
             <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
                 <option value="">Select</option>
-                <?php $get_consultant="SELECT * FROM MasterConsultant ";
+                <?php $get_consultant="SELECT * FROM MasterConsultant  where AdmissionStatus='1'";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
                     while($row=sqlsrv_fetch_array($get_consultantRun))
                     {
     ?>
-                <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+                <option value="<?=$row['ID'];?>"><?=$row['Name'];?>(<?=$row['ID'];?>)</option>
                 <?php 
                     }
             ?>
@@ -32082,14 +32082,14 @@ if($Status==6)
             <label>Select</label>
             <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
                 <option value="">Select</option>
-                <?php $get_consultant="SELECT * FROM MasterConsultant";
+                <?php $get_consultant="SELECT * FROM MasterConsultant  where AdmissionStatus='1'";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
                     while($row=sqlsrv_fetch_array($get_consultantRun))
                     {
     ?>
-                <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+                <option value="<?=$row['ID'];?>"><?=$row['Name'];?>(<?=$row['ID'];?>)</option>
                 <?php 
                     }
             ?>
