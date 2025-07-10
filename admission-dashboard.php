@@ -368,11 +368,14 @@
 
     function exportTotalScordingToStatus(Status,Eligible) {
     var exportCode = 44;
+
+    var role_id = "<?php echo addslashes($role_id); ?>";
+    
     var Batch = document.getElementById('Session').value;
     var Lateral = document.getElementById('Lateral').value;
 
-        window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral, '_blank');
-
+        window.open("export.php?exportCode=" + exportCode + "&Status=" + Status+ "&role_id=" + role_id  + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral, '_blank');
+ 
 }
 
 function exportTotalScordingToCollege(CollegeID,Status,Eligible) {
