@@ -80,15 +80,6 @@ Route::post('submitProfileData', [ProfileController::class, 'submitProfileForm']
 Route::post('upload-student-image', [ProfileController::class, 'uploadImage'])->name('upload-student-image')->middleware(CheckAuthentication::class);
 Route::post('upload-student-signature', [ProfileController::class, 'uploadsignature'])->name('upload-student-signature')->middleware(CheckAuthentication::class);
 
-//payment gateway PayU
-Route::get('/payu/form', function () {
-    return view('payu.payment_form');
-})->name('payu.form');
-
-Route::post('/payu/confirm', [PayuPaymentController::class, 'showConfirmation'])->name('payu.confirm');
-Route::post('/payu/initiate', [PayuPaymentController::class, 'initiatePayment'])->name('payu.initiate');
-Route::post('/payu/success', [PayuPaymentController::class, 'paymentSuccess'])->name('payu.success');
-Route::post('/payu/failure', [PayuPaymentController::class, 'paymentFailure'])->name('payu.failure');
 
 
 // News Routes
@@ -107,7 +98,6 @@ Route::get('leaveApply', [StudentLeaveController::class, 'applyHostelLeave'])->n
 Route::post('submitHostelLeaveData', [StudentLeaveController::class, 'submitHostelLeaveForm'])->name('submitHostelLeaveData')->middleware(CheckAuthentication::class);
 // Route::post('complaintTrack', [StudentLeaveController::class, 'complaintTrack'])->name('complaintTrack')->middleware(CheckAuthentication::class);
 
-
 //Library
 Route::get('library', [LibraryController::class, 'libraryBooks'])->name('libraryBooks')->middleware(CheckAuthentication::class);
 Route::post('searchBooks', [LibraryController::class, 'searchBooksApi'])->name('searchBooks')->middleware(CheckAuthentication::class);
@@ -120,7 +110,6 @@ Route::get('libraryBooksReturn', [LibraryController::class, 'libraryBooksReturnA
 Route::get('documents', [DocumentController::class, 'showDocumentPage'])->name('showDocumentPage')->middleware(CheckAuthentication::class);
 
 Route::post('/upload-document', [DocumentController::class, 'upload'])->name('documentupload');
-
 
 // Apply Documents
 Route::get('applyDocuments', [ApplyDocumentsController::class, 'applyDocuments'])->name('applyDocuments')->middleware(CheckAuthentication::class);
@@ -135,41 +124,10 @@ Route::post('/apply-documents/upload-document', [ApplyDocumentsController::class
 Route::put('/apply-documents/update-address/{id}', [ApplyDocumentsController::class, 'updateAddress'])->name('apply-documents.update-address');
 Route::any('/get-document-charges', [ApplyDocumentsController::class, 'getDocumentCharges'])->name('document.charges');
 
-
-
 //payment gateway PayU
-
+Route::any('/payu/form', [PayuPaymentController::class, 'showPaymentForm'])->name('payu.form');
 Route::any('/payu/confirm/{encryptedId}', [PayuPaymentController::class, 'showConfirmation'])->name('payu.confirm');
+Route::any('/payu/fee/{encryptedId}', [PayuPaymentController::class, 'showConfirmationOpen'])->name('payu.confirm-fee');
 Route::post('/payu/initiate', [PayuPaymentController::class, 'startPayment'])->name('payu.initiate');
-// Route::post('payu/start-payment', [PayuPaymentController::class, 'startPayment']);
-Route::any('payu/payment-response', [PayuPaymentController::class, 'paymentResponse'])->name('payu.response');
 
 
-Route::get('payu/payment-success', function (Request $request) {
-    try {
-        $decrypted = Crypt::decrypt($request->data);
-
-        return view('payu.success', [
-            'txnid'    => $decrypted['txnid'] ?? null,
-            'mihpayid' => $decrypted['mihpayid'] ?? null,
-            'amount'   => $decrypted['amount'] ?? null,
-        ]);
-    } catch (\Exception $e) {
-        abort(403, 'Invalid or tampered data.');
-    }
-})->name('payu.success');
-
-Route::get('payu/payment-failure', function (Request $request) {
-    try {
-        $decrypted = Crypt::decrypt($request->data);
-
-        return view('payu.failure', [
-            'txnid'         => $decrypted['txnid'] ?? null,
-            'status'        => $decrypted['status'] ?? null,
-            'amount'        => $decrypted['amount'] ?? null,
-            'error_message' => $decrypted['error_message'] ?? null,
-        ]);
-    } catch (\Exception $e) {
-        abort(403, 'Invalid or tampered data.');
-    }
-})->name('payu.failure');

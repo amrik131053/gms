@@ -16,10 +16,10 @@ class ApplyDocumentsController extends Controller
         $BaseURL=config('app.baseUrl');
         $token = $request->session()->get('api_token');
         $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/profile');
-        $getCountries = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://10.0.8.181:95/common/allcountries');
+        $getCountries = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:95/common/allcountries');
         $allCountries = $getCountries->json()??[];
         $DataResponseDocuments = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post($BaseURL.'Student/allApplyDocuments');
-        $AllRequests = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://10.0.8.181:89/Student/allDocRequests');
+        $AllRequests = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:89/Student/allDocRequests');
         $allRequestData = $AllRequests->json()??[];
         $DataFinal=$allRequestData['data'] ?? [];
         $resData = $DataResponse->json()??[];
@@ -109,7 +109,7 @@ $country = $validated['country_label']
          ?? $validated['country1_label1']
          ?? null;
 
-$response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
+$response = $request->post('http://117.250.20.109:89/student/uploadRequiredDocs/', [
    'applyFor'            => $validated['applyFor'],
     'numberOfSem'         => $validated['numberOfSem']??null,
     'deliveryMode'        => $validated['deliveryMode'],
@@ -138,7 +138,7 @@ $response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
         $token = $request->session()->get('api_token');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-            ])->post('http://10.0.8.181:95/common/allstates/' . $ID);
+            ])->post('http://117.250.20.109:95/common/allstates/' . $ID);
            $states= $response->json()??[];
             return $states;
     }
@@ -149,7 +149,7 @@ $response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
         $token = $request->session()->get('api_token');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-            ])->post('http://10.0.8.181:95/common/allcities/' . $ID);
+            ])->post('http://117.250.20.109:95/common/allcities/' . $ID);
            $states= $response->json()??[];
             return $states;
     }
@@ -161,16 +161,18 @@ $response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
         
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->post('http://10.0.8.181:89/Student/eachDocRequest/', [
+        ])->post('http://117.250.20.109:89/Student/eachDocRequest/', [
             'requestId' => $id,
         ]);
-        $getCountries = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://10.0.8.181:95/common/allcountries');
+        $getCountries = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:95/common/allcountries');
         $allCountries = $getCountries->json()??[];
-        $data = $response->json()['data'] ?? null;
+        $data = $response->json()['data'][0] ?? null;
+        $dataDocument = $response->json()['data'] ?? null;
+        // dd($dataDocument);
         if (!$data) {
             return redirect()->back()->with('error', 'Record not found.');
         }
-        return view('documentFinalSubmit', compact('data','allCountries'));
+        return view('documentFinalSubmit', compact('data','allCountries','dataDocument'));
     }
 
     public function getDocumentCharges(Request $request)
@@ -214,7 +216,7 @@ $response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
     }
     $response = Http::withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->post('http://10.0.8.181:89/student/documentCharges/', [
+    ])->post('http://117.250.20.109:89/student/documentCharges/', [
         'docId'    => $documentName,
         'receivingType'    => $deliveryMode,
         'addressType'    => $countryId,
@@ -256,7 +258,7 @@ $response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
             'docs',                          // name expected by API
             file_get_contents($file->getRealPath()),
             $file->getClientOriginalName()
-        )->post('http://10.0.8.181:89/student/updateDocument/', [
+        )->post('http://117.250.20.109:89/student/updateDocument/', [
             'docId'    => $docId,
         ]);
         if ($response->successful()) {
@@ -293,7 +295,7 @@ $response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
 
     $response = Http::withHeaders([
         'Authorization' => 'Bearer ' . $token,
-        ])->post('http://10.0.8.181:89/student/changeAddress/', [
+        ])->post('http://117.250.20.109:89/student/changeAddress/', [
             'purpose'            => $ResPonseVariable,
             'id'         => $id,
             'countryName'        => $data['country_label'],
@@ -313,7 +315,7 @@ $response = $request->post('http://10.0.8.181:89/student/uploadRequiredDocs/', [
     
     $response = Http::withHeaders([
         'Authorization' => 'Bearer ' . $token,
-        ])->post('http://10.0.8.181:89/student/finalSubmit/', [
+        ])->post('http://117.250.20.109:89/student/finalSubmit/', [
             'id'         => $ID,
         ]);
    

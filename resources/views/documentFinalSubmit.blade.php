@@ -138,7 +138,8 @@
                                         {{ is_array($data) && array_key_exists('AddressLine', $data) ? $data['AddressLine'] : '-' }}
                                     </span>
                                     <input type="text" class="form-control form-control-sm" name="AddressLine"
-                                        form="update-receiving-type" value="{{ is_array($data) && array_key_exists('AddressLine', $data) ? $data['AddressLine'] : '-' }}">
+                                        form="update-receiving-type"
+                                        value="{{ is_array($data) && array_key_exists('AddressLine', $data) ? $data['AddressLine'] : '-' }}">
                                 </td>
 
                             </tr>
@@ -167,11 +168,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data['Docs'] as $doc)
-                        <tr id="doc-row-{{ $doc['Id'] }}">
-                            <td>{{ $doc['DocumentName'] }}</td>
+                        @foreach($dataDocument as $doc)
+                        <tr id="doc-row-{{ $doc['DocId'] }}">
+                            <td>{{ $doc['DocName'] }}</td>
                             <td>
-                                <span id="doc-status-{{ $doc['Id'] }}"
+                                <span id="doc-status-{{ $doc['DocId'] }}"
                                     class="badge bg-{{ $doc['DocStatus'] == 1 ? 'success' : 'warning' }} text-white">
                                     {{ $doc['DocStatus'] == 1 ? 'Uploaded' : 'Pending' }}
                                 </span>
@@ -194,21 +195,22 @@
                                     @endif
 
                                     <button type="button" class="btn btn-warning btn-sm"
-                                        onclick="toggleUpload({{ $doc['Id'] }})">
+                                        onclick="toggleUpload({{ $doc['DocId'] }})">
                                         Edit
                                     </button>
                                 </div>
 
                                 <!-- Upload form hidden initially -->
-                                <form id="upload-form-{{ $doc['Id'] }}" class="row gx-2 mt-2 d-none"
-                                    enctype="multipart/form-data" onsubmit="submitDocument(event, {{ $doc['Id'] }})">
+                                <form id="upload-form-{{ $doc['DocId'] }}" class="row gx-2 mt-2 d-none"
+                                    enctype="multipart/form-data" onsubmit="submitDocument(event, {{ $doc['DocId'] }})">
 
                                     @csrf
                                     <div class="col-12 col-md">
-                                        <input type="file" name="document" class="form-control form-control-sm"
-                                            required>
-                                        <input type="hidden" name="docId" value="{{ $doc['Id'] }}">
-                                        <input type="hidden" name="requestId" value="{{ Crypt::encrypt($data['Id']) }}">
+                                        <input type="file" name="document" accept=".{{ $doc['DocumentExtension'] }}"
+                                            class="form-control form-control-sm" required>
+                                        <input type="hidden" name="docId" value="{{ $doc['DocId'] }}">
+                                        <input type="hidden" name="requestId"
+                                            value="{{ Crypt::encrypt($data['DocId']) }}">
                                     </div>
                                     <div class="col-12 col-md-auto mt-2 mt-md-0">
                                         <button type="submit" class="btn btn-success btn-sm w-100">

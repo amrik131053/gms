@@ -125,7 +125,7 @@ return [
         
     ],
     
-    // 'baseUrl' => env('API_BASE_URL', 'http://117.250.20.109:89/'),
-    'baseUrl' => env('API_BASE_URL', 'http://10.0.8.181:89/'),
+    'baseUrl' => env('API_BASE_URL', 'http://117.250.20.109:89/'),
+    // 'baseUrl' => env('API_BASE_URL', 'http://10.0.8.181:89/'),
     'baseUrlPublic' => env('API_BASE_URL', 'http://117.250.20.109:95'),
 ];

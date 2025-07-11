@@ -7,6 +7,7 @@
                 <form action="{{ route('payu.initiate') }}" method="POST" class="card">
                     @csrf
                     <meta name="csrf-token" content="{{ csrf_token() }}">
+
                     <div class="card-header">
                         <h4 class="card-title">Confirmation Payment
                         </h4>
@@ -29,17 +30,14 @@
                                 </ul>
                             </div>
                             @endif
-
                             <div class="form-group">
                                 <input type="hidden" class="form-control" name="idno" id="idno"
                                     value="{{ Crypt::encrypt($details['IDNo']) }}" required>
-                                <input type="hidden" class="form-control" name="semester" id="semester" value="0"
-                                    required>
                                 <div class="form-label">Student Name</div>
                                 <input type="text" class="form-control" name="firstname" id="student_name"
                                     value="{{ $details['StudentName'] }}" readonly required>
                                 <input type="hidden" class="form-control" name="productinfo" id="productinfo"
-                                    value="Document Fee" required>
+                                    value="{{ $feeType }}" required>
                             </div>
                             <div class="form-group">
                                 <div class="form-label">Father Name</div>
@@ -57,19 +55,27 @@
                                     value="{{ $details['EmailID'] }}" readonly required>
                             </div>
                             <div class="form-group">
-
+                                <div class="form-label">Fee Type</div>
+                                <input type="text" class="form-control" name="fee_type" id="fee_type"
+                                    value="{{ $feeType }}" readonly required>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-label">Semester</div>
+                                <input type="text" class="form-control" name="semester" id="semester"
+                                    value="{{ $semester }}" readonly required>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" name="requestid" id="requestid"
+                                    value="{{ Crypt::encrypt('-1') }}" readonly required>
                                 <div class="form-group">
                                     <div class="form-label">Amount</div>
-
-                                    <input type="hidden" class="form-control" name="requestid" id="requestid"
-                                        value="{{ Crypt::encrypt($submit_details['Id']) }}" readonly required>
                                     <input type="text" class="form-control" name="amount" id="amount"
-                                        value="{{ $submit_details['TotalAmount'] }}" readonly required>
+                                        value="{{ $amount }}" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-label">Remarks</div>
                                     <textarea name="remarks" class="form-control" id="remarks"
-                                        readonly>{{ $submit_details['AppliedDoc'] }}</textarea>
+                                        readonly>{{ $remarks }}</textarea>
                                 </div>
                                 <div class="form-label"><br></div>
                                 <div class="form-group">

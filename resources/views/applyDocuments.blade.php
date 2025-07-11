@@ -260,7 +260,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                
+
                                                 @if ($DataFinalShows['Status']=='-1')
                                                 <button type="button" class="btn btn-danger btn-sm">Cencel</button>
                                                 <button type="button" class="btn btn-primary btn-sm"
@@ -288,8 +288,7 @@
                                                 <b class="text-danger">--</b>
                                                 @endif
 
-
-
+                                               
                                             </td>
                                         </tr>
                                         @endforeach
