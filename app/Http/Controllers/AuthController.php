@@ -22,7 +22,7 @@ class AuthController extends Controller
         $getNews = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/gmsapi/newsread.php');
         $newsConvert = $getNews->json();
         $newsDetails = $newsConvert['data'] ?? [];
-        // dd($newsDetails);
+        // dd($DataResponse);
         if ($DataResponse->failed()) {
             return view('index', [
                 'profileData' => [], 

@@ -101,7 +101,7 @@ class PayuPaymentController extends Controller
             'productinfo'  => $validated['productinfo'],
         ];
         // dd($apiPayload);
-        $response = Http::post('http://10.0.8.182:8000/api/payu/initiate-web/', $apiPayload);
+        $response = Http::post('https://payment.gku.ac.in/api/payu/initiate-web/', $apiPayload);
         $responseData = $response->json();
 return view('payu.payu_redirect', ['payuData' => $responseData]);
     }
@@ -295,8 +295,8 @@ return view('payu.payu_redirect', ['payuData' => $responseData]);
     //         'firstname'   => $validated['firstname'],
     //         'email'       => $validated['email'],
     //         'phone'       => $validated['phone'],
-    //         'surl'        => 'http://10.0.8.182:8000/api/payu/payment-response-web',
-    //         'furl'        => 'http://10.0.8.182:8000/api/payu/payment-response-web',
+    //         'surl'        => 'https://payment.gku.ac.in/api/payu/payment-response-web',
+    //         'furl'        => 'https://payment.gku.ac.in/api/payu/payment-response-web',
     //         'udf1'        => '0',
     //         'udf2'        => $validated['remarks'] ?? '',
     //         'udf3'        => $idno ?? '',
