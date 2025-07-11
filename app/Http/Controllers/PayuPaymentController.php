@@ -58,7 +58,7 @@ class PayuPaymentController extends Controller
         $token = $request->session()->get('api_token');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->post('http://10.0.8.181:89/Student/eachDocRequest/', [
+        ])->post('http://117.250.20.109:89/Student/eachDocRequest/', [
             'requestId' => $id,
         ]);
         
@@ -144,7 +144,7 @@ return view('payu.payu_redirect', ['payuData' => $responseData]);
      
 //         $apiResponse = Http::withHeaders([
 //             // 'Authorization' => 'Bearer ' . $token,
-//         ])->post('http://10.0.8.181:89/student/paymentStart/', $apiPayload);
+//         ])->post('http://117.250.20.109:89/student/paymentStart/', $apiPayload);
     
 //         if (!$apiResponse->successful()) {
 //             return response()->json([
@@ -260,7 +260,7 @@ return view('payu.payu_redirect', ['payuData' => $responseData]);
      
     //     $apiResponse = Http::withHeaders([
     //         'Authorization' => 'Bearer ' . $token,
-    //     ])->post('http://10.0.8.181:89/student/paymentStart/', $apiPayload);
+    //     ])->post('http://117.250.20.109:89/student/paymentStart/', $apiPayload);
     
     //     if (!$apiResponse->successful()) {
     //         return response()->json([
@@ -436,7 +436,7 @@ return view('payu.payu_redirect', ['payuData' => $responseData]);
 
 // $apiResponse = Http::withHeaders([
 //     'Authorization' => 'Bearer ' . $token,
-// ])->post('http://10.0.8.181:89/student/updatePayment/', $updatePayload);
+// ])->post('http://117.250.20.109:89/student/updatePayment/', $updatePayload);
 // $responseData = $apiResponse->json();
 //     $flag = $responseData['flag'] ?? null;
 //     if ($status === 'success' && $flag == '1') {
@@ -577,7 +577,7 @@ return view('payu.payu_redirect', ['payuData' => $responseData]);
 
 // $apiResponse = Http::withHeaders([
 //     'Authorization' => 'Bearer ' . $token,
-// ])->post('http://10.0.8.181:89/student/updatePayment/', $updatePayload);
+// ])->post('http://117.250.20.109:89/student/updatePayment/', $updatePayload);
 // $responseData = $apiResponse->json();
 //     $flag = $responseData['flag'] ?? null;
  
