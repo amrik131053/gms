@@ -12683,6 +12683,7 @@ else if($exportCode==75)
       <th style='background-color:black; color:white;'>Student Mobile No</th>
       <th style='background-color:black; color:white;'>Status</th>
       <th style='background-color:black; color:white;'>State</th>
+       <th style='background-color:black; color:white;'>Country</th>
       ";
       $exportstudy.="</tr></thead>";      
                   
@@ -12692,7 +12693,7 @@ else if($exportCode==75)
            $Examination=$_REQUEST['Examination'];
            $Confirmation=$_REQUEST['Confirmation'];
 
-    $getCourse1=" SELECT Admissions.*,  ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.Course,ExamForm.CourseID,ExamForm.Status as ExamStatus
+     $getCourse1="SELECT Admissions.*,  Admissions.Country, ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.Course,ExamForm.CourseID,ExamForm.Status as ExamStatus
     FROM Admissions Inner Join ExamForm ON Admissions.IDNo=ExamForm.IDNo Where  ExamForm.Examination='$Examination' and ExamForm.Type='$Type' and Admissions.Status='1'";
     if($_REQUEST['Batch']!='')
     {
@@ -12727,6 +12728,7 @@ else if($exportCode==75)
                                      $Batch=$row['Batch'];
                                      $SemesterId=$row['SemesterId'];
                                      $State=$row['State'];
+                                     $Country=$row['Country'];
                                     
  if($Status==-1)
               {
@@ -12800,6 +12802,8 @@ else if($exportCode==75)
                                         <td>{$StudentMobileNo}</td>
                                         <td>{$StatusShow}</td>
                                         <td>{$State}</td>
+                                        <td>{$Country}</td>
+
                                         </tr>";
            }
                      $exportstudy.="</table>";

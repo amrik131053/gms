@@ -19798,7 +19798,7 @@ $nooflect=$row['nooflect'];
 $s_id=$row['s_id'];
 $DocumentType=$row['DocumentType'];
 ?>
-                        <tr style="background-color:<?=$clr;?>">
+                         <tr style="background-color:<?=$clr;?>">
                             <td><?=$SrNo;?></td>
                             <td><?=$ColegeName;?></td>
                             <td><?=$Courseid;?></td>
@@ -19835,6 +19835,9 @@ elseif ($code==244.1) {
     
     while ($row = sqlsrv_fetch_array($CheckStudyMaterialRun, SQLSRV_FETCH_ASSOC)) {
         $file = $row['CourseFile'];
+   $DocumentType = $row['DocumentType'];
+
+       
         $VerifyStatus = $row['VerifyStatus'];
         $file_url = "http://erp.gku.ac.in:86/StudyMaterial/$file";
         $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
@@ -19862,7 +19865,28 @@ else{
         } elseif (in_array($extension, ['ppt', 'pptx'])) {
             $google_viewer_url = "https://docs.google.com/gview?url=" . urlencode($file_url) . "&embedded=true";
             echo "<iframe src='$google_viewer_url' style='width:100%; height:600px;' frameborder='0'></iframe>";
-        } else {
+        } 
+       elseif (in_array($DocumentType,['Video/Audio'])) {
+    
+
+        $pos = strpos($file_url, 'https://');
+
+if ($pos !== false) {
+    $clean_url = substr($file_url, $pos);
+    
+    echo $clean_url;
+
+} else {
+    echo "Invalid URL format.";
+}?>
+    <a href='<?=$clean_url;?>' target='_blank'>Click to download</a> 
+<iframe id="youtubeFrame" 
+            src="<?=$clean_url;?>" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+    </iframe><?php 
+}
+        else {
             echo "<p>Unsupported file format. <a href='$file_url' target='_blank'>Click to download</a></p>";
         }
     ?>
@@ -24512,7 +24536,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
         if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
             $IDNo= $row6['IDNo'];
-            $name = $row6['StudentName'];
+            $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
+
+
             $phone = $row6['StudentMobileNo']; 
           }
    if($getDefalutMenuRun==true)
@@ -25271,8 +25297,9 @@ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
 $stmt1 = sqlsrv_query($conntest,$sql);
         if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-            $name = $row6['StudentName'];
+            $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
             $phone = $row6['StudentMobileNo']; 
+
           }
 
    if($getDefalutMenuRun==true)
@@ -29274,7 +29301,8 @@ $update_query=sqlsrv_query($conntest,$update1);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
                $IDNo= $row6['IDNo'];
-               $name = $row6['StudentName'];
+          
+               $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "UPDATE  ExamForm  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -29319,7 +29347,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    $stmt1 = sqlsrv_query($conntest,$sql);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
-               $name = $row6['StudentName'];
+  $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -29369,7 +29397,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    $stmt1 = sqlsrv_query($conntest,$sql);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
-               $name = $row6['StudentName'];
+         $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -29418,7 +29446,7 @@ else if($code==329.3)
    $stmt1 = sqlsrv_query($conntest,$sql);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
-               $name = $row6['StudentName'];
+             $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -30856,7 +30884,8 @@ else if($code==341)
  $stmt1 = sqlsrv_query($conntest,$sql);
          if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
           {
-             $name = $row6['StudentName'];
+         $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
+        
              $phone = $row6['StudentMobileNo']; 
            }
       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='2' , Itrejectdate='$timeStamp' , itreason='$remarks' Where SerialNo='$ID'";
@@ -30903,7 +30932,7 @@ else if($code==343)
  $stmt1 = sqlsrv_query($conntest,$sql);
          if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
           {
-             $name = $row6['StudentName'];
+    $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
              $phone = $row6['StudentMobileNo']; 
            }
       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='4' , acrejectdate='$timeStamp' , ac_reason='$remarks' Where SerialNo='$ID'";
