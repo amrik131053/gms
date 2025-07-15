@@ -2009,7 +2009,7 @@ elseif($code==25.4)
  $ArticleName=$_POST['ArticleName'];
  $ArticleSpecification=$_POST['ArticleSpecification'];
    
- $update1="insert into masterarticleadmissioncell(Name,Description,CreatedBy,CreatedDate,Status)Values
+  $update1="insert into masterarticleadmisisoncell(Name,Description,CreatedBy,CreatedDate,Status)Values
     ('$ArticleName','$ArticleSpecification','$EmployeeID','$timeStampS','0')";
 
 

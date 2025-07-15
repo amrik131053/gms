@@ -75,7 +75,7 @@ $tz = 'Asia/Kolkata';
             <div class="card card-info">
                <div class="card-header">
                         <div class="btn-group w-100 mb-2">
-                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="sic_home();bg(this.id);"> Home </a>
+                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="sic_home();bg(this.id);"> Pending </a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="sic_printed();bg(this.id);"> Printed </a>
                     <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="sic_posted();bg(this.id);"> Posted </a>
                     <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="sic_issued();bg(this.id);"> Issued </a>
@@ -103,100 +103,7 @@ $tz = 'Asia/Kolkata';
               </tr>
             </thead>
             <tbody>
-            <?php
-                $sql = "SELECT * FROM sic_document_record Where Status!='8' and Status!='7'  ORDER BY status ASC";
-                $result = mysqli_query($conn, $sql);
-                $count = 1;
-                if(mysqli_num_rows($result) > 0)
-                {
-                  while($row = mysqli_fetch_array($result))
-                  {
-                     $userId='';
-                    
-                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
-                        $stmt1 = sqlsrv_query($conntest,$result1);
-                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-                        {
-                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
-                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
-                           $name = $row1['StudentName'];
-                           $father_name = $row1['FatherName'];
-                           $mother_name = $row1['MotherName'];
-                           $college = $row1['CollegeName'];
-                           $batch = $row1['Batch'];
-                           $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
- include "document-section-tr-color.php";
-                           ?>
-                             <tr style='background:<?=$clr;?>'>
-                        <?php
-                     
-                     ?>
-                      <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar"  ></td>
-                       <td><?=$userId?></td>
-                       <td><?=$name?></td>
-                       <td><?=$father_name?></td>
-                       <td><?=$mother_name?></td>
-                       <td><?=$Department?></td>
-                       <td><?=$batch?></td>
-                       
-                    <td><?=$row['receive_by']?></td>
-                      <td><?=$row['document_type']?></td>
-                      <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Under Process";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==3)
-                      {
-                        echo "Under Process";
-                      }
-                      elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }
-                      elseif($row['status']==5)
-                      {
-                        echo "Forward To Verification";
-                      }
-                       elseif($row['status']==6)
-                      {
-                        echo "Printed";
-                      } 
-                      elseif($row['status']==7)
-                      {
-                        echo "By Post";
-                      }
-                      elseif($row['status']==8)
-                      {
-                        echo "By Hand";
-                      } 
-                      elseif($row['status']==9)
-                      {
-                         echo ' <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="postBySic(\'' . $row['ID'] . '\');">By Post</button>
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="handOverToBySic(\'' . $row['ID'] . '\');">By Hand</button>
-                      </div>';
-                      }
-                  ?></td>
-                     
-                   
-            
-                  </tr>
-                  <?php 
-                        }
-                    }
-                 }
-              
-             
-            ?>
+           
           </tbody>
         </table>
                </div>
@@ -208,6 +115,7 @@ $tz = 'Asia/Kolkata';
 <script type="text/javascript">
      $(window).on('load', function() 
           {
+            sic_home();
          $('#btn1').toggleClass("bg-success"); 
            })
     function bg(id)
@@ -215,8 +123,12 @@ $tz = 'Asia/Kolkata';
          $('.btn').removeClass("bg-success");
          $('#'+id).toggleClass("bg-success"); 
          }
+
+
+
    function labUsers() //ok
    {
+
        var code='99';
          $.ajax({
          url:'action_g.php',
@@ -231,8 +143,10 @@ $tz = 'Asia/Kolkata';
          }
          });
    }
+
    function assignSystem(id)  //ok
    {
+
       var receive=document.getElementById('receive').value;
       var applyfor=document.getElementById('applyfor').value;
       var address=document.getElementById('address').value;
@@ -281,6 +195,7 @@ $tz = 'Asia/Kolkata';
    }
 function sic_home()
 {
+
 labUsers();
 }
   function sic_printed()
@@ -299,7 +214,7 @@ labUsers();
          }
          });
 
-   }
+   } 
 function sic_posted()
 {
   var code='101';
@@ -332,6 +247,7 @@ function sic_issued(){
          });
 }
 function sic_pending(){
+
   var code='103';
          $.ajax({
          url:'action_g.php',
@@ -349,6 +265,7 @@ function sic_pending(){
 
 
 function postBySic(IDNo){
+
   var code='121';
          $.ajax({
          url:'action_g.php',

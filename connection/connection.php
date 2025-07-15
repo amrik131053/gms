@@ -5,12 +5,12 @@ $timeStampS=date('Y-m-d H:i:s');
 $todaydate=date('Y-m-d');
 $day=date('l'); 
 // ----------------local DB-------------------------------
-//$username="Amrik";
-// $password="Amrik@123";
+// $username="Amrik";
+//  $password="Amrik@123";
 // $serverName = "10.0.8.181"; 
-// // $servername1 = "10.0.8.182";
-// // $username1 = "root";
-// // $password1 = "Amrik@123";
+ //$servername1 = "10.0.8.182";
+ // $username1 = "root";
+ // $password1 = "Amrik@123";
 //-----------------LIve DB------------------------------------
 $username="sa";
 $password = "b2y3rt78374&*#&$";
