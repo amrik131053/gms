@@ -48,11 +48,11 @@ $result1 = mysqli_query($conn,"SELECT Class_RollNo,NAME,PrintDate,FatherName,Mob
 //        }?>
 
 
-<table style="border:1px solid black"><tr><td style="border:1px solid black"><?=$row['NAME'];?></td><td style="border:1px solid black"><?=$row['FatherName'];?></td><td style="border:1px solid black"><?=$row['Class_RollNo'];?></td><td style="border:1px solid black"><?=$Course;?></td><td style="border:1px solid black"><?=$CollegeName;?></td><td style="border:1px solid black"><?=$row['PrintDate'];?></td></tr></table>
+<!-- <table style="border:1px solid black"><tr><td style="border:1px solid black"><?=$row['NAME'];?></td><td style="border:1px solid black"><?=$row['FatherName'];?></td><td style="border:1px solid black"><?=$row['Class_RollNo'];?></td><td style="border:1px solid black"><?=$Course;?></td><td style="border:1px solid black"><?=$CollegeName;?></td><td style="border:1px solid black"><?=$row['PrintDate'];?></td></tr></table> -->
 
        <?php 
 
-}
+// }
 
 
 
