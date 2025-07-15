@@ -24073,6 +24073,36 @@ echo "1";
 sqlsrv_close($conntest);
  }
 
+ elseif($code==353.1)
+ {
+
+   if (isset($_FILES['casualCountFile']) && 
+   $_FILES['casualCountFile']['error'] === UPLOAD_ERR_OK &&
+   !empty($_FILES['casualCountFile']['tmp_name'])) {
+      
+
+   $file = $_FILES['casualCountFile']['tmp_name'];
+
+   $handle = fopen($file, 'r');
+   $c = 0;
+   while (($filesop = fgetcsv($handle, 1000, ',')) !== false) {
+       $EmpID = $filesop[0];
+       $log   = $filesop[1];
+ $ApplyYear = date('Y',strtotime($log));
+ $ApplyMonth = date('m',strtotime($log));
+ $emp_id=$EmpID;
+ $as='DeviceLogs_'.$ApplyMonth.'_'.$ApplyYear;
+ echo "<br>".$query="INSERT INTO $as(DownloadDate,DeviceId,Direction,UserId,LogDate,C1,C4,C5,WorkCode,UpdateFlag)
+ VALUES ('$log','16','','$emp_id','$log','out','255','84','','')";
+//  $stmt = sqlsrv_query($conn91,$query);
+ echo "<br>".$query="INSERT INTO DeviceLogsAll(LogDateTime,DeviceShortName,LogDirection,EmpCode,SerialNo)
+ VALUES ('$log','202','','$emp_id','OIN7010057010800775')";
+//  $stmt = sqlsrv_query($conntest,$query);
+echo "1";
+}
+sqlsrv_close($conntest);
+ }
+}
 
  elseif($code==354)
  {
