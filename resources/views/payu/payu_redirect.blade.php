@@ -7,7 +7,7 @@
 <body>
     <p>Redirecting to PayU. Please wait...</p>
 
-    <form id="payuForm" action="https://test.payu.in/_payment" method="post">
+    <form id="payuForm" action="https://secure.payu.in/_payment" method="post">
         @foreach ($payuData as $key => $value)
             <input type="hidden" name="{{ $key }}" value="{{ $value }}">
         @endforeach
