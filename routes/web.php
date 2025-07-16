@@ -108,7 +108,6 @@ Route::get('libraryBooksReturn', [LibraryController::class, 'libraryBooksReturnA
 
 //document uploads
 Route::get('documents', [DocumentController::class, 'showDocumentPage'])->name('showDocumentPage')->middleware(CheckAuthentication::class);
-
 Route::post('/upload-document', [DocumentController::class, 'upload'])->name('documentupload');
 
 // Apply Documents
@@ -129,5 +128,5 @@ Route::any('/payu/form', [PayuPaymentController::class, 'showPaymentForm'])->nam
 Route::any('/payu/confirm/{encryptedId}', [PayuPaymentController::class, 'showConfirmation'])->name('payu.confirm');
 Route::any('/payu/fee/{encryptedId}', [PayuPaymentController::class, 'showConfirmationOpen'])->name('payu.confirm-fee');
 Route::post('/payu/initiate', [PayuPaymentController::class, 'startPayment'])->name('payu.initiate');
-
+Route::post('/sync-fee', [PayuPaymentController::class, 'syncfee'])->name('sync-fee');
 
