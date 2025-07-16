@@ -29,7 +29,7 @@ while ($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)) {
 }
 if ($status == 1 && $lockProfile != 1) {
     $_SESSION['usr'] = $user;
-
+    $_SESSION['user_id']=$user;
 
 include 'activity.php';
 

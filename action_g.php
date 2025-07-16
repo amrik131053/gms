@@ -22566,8 +22566,8 @@ include "connection/ftp-erp.php";
 
    if($row6 = sqlsrv_fetch_array($check_lock_run, SQLSRV_FETCH_ASSOC) )
     {
-    $BasicLocked=$row6["BasicLocked"];
-    $Locked=$row6["Locked"];
+     $BasicLocked=$row6["BasicLocked"];
+     $Locked=$row6["Locked"];
      $ClassRollNo=$row6["ClassRollNo"];
     }
 
@@ -22617,8 +22617,10 @@ include "connection/ftp-erp.php";
   $query;
 
    }
+
    else if($Locked>0)
    {
+
    $query = "UPDATE Admissions SET ";
     $query .= "Locked ='$ulocked', ";
     $query .= "WHERE IDNo ='$loginId'";
@@ -22626,7 +22628,8 @@ include "connection/ftp-erp.php";
    }
    else
    {
-    $query = "UPDATE Admissions SET ";
+    echo "Lockec:".$Locked;
+   echo  $query = "UPDATE Admissions SET ";
     if($role_id=='2' )
     {
     $query .= "StudentName ='$name', ";
@@ -22676,7 +22679,7 @@ include "connection/ftp-erp.php";
      }
 
 
-$insert_record = "UPDATE  offer_latter SET Name='$name', FatherName='$fatherName',  Gender='$gender'where Class_RollNo='$ClassRollNo'";
+echo $insert_record = "UPDATE  offer_latter SET Name='$name', FatherName='$fatherName',  Gender='$gender' where Class_RollNo='$ClassRollNo'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 
@@ -22688,7 +22691,7 @@ mysqli_close($conn);
 
 
 
-  $update_studentb="UPDATE Ledger SET StudentName='$name',FatherName='$fatherName',Batch='$batch' where IDNo='$loginId'";
+  echo $update_studentb="UPDATE Ledger SET StudentName='$name',FatherName='$fatherName',Batch='$batch' where IDNo='$loginId'";
 
     $update_runb=sqlsrv_query($conntest,$update_studentb);
 
@@ -22702,7 +22705,7 @@ mysqli_close($conn);
 //$desc= "UPDATE Admissions SET Batch:".$batch."Status:".$status.",Locked:".$lock.",Eligibility:".$eligible.",Reason:".$provisional;
 
 
-  $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScholarShip :".$scholaship."CommentsDetail".$specialcomment."Batch :".$batch;
+   $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScholarShip :".$scholaship."CommentsDetail".$specialcomment."Batch :".$batch;
 
       
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
