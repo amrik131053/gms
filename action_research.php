@@ -209,10 +209,10 @@ $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw); // Clean original
 $file_name = $IDNo ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
 $file_name = str_replace(["'", ":"], "", $file_name);
 
-     $destdir = 'Images/Repository';
-     ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
-     ftp_pasv($conn_id,true);
-    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+$destdir = 'Images/Repository';
+ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
+ftp_pasv($conn_id,true);
+ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
        $InsertReseatch="INSERT into Repository (IDNo,PaperTitle,AuthorName,Faculty,Journal,DateofPublication,DOI,Documents,Status)
  VALUES('$IDNo','$pprTitle','$pprAuth','$facultyId','$pprJournal','$pprPublish','$pprLink','$file_name','0')";
@@ -232,6 +232,60 @@ ftp_close($conn_id);
             
             sqlsrv_close($conntest);
 }
+elseif($code==3.1) 
+{
+$IDNo=$_POST['IDNo'];
+$pprTitle=$_POST['pprTitle'];
+$pprAuth=$_POST['pprAuth'];
+$facultyId=$_POST['facultyId'];
+$pprJournal=$_POST['pprJournal'];
+$pprPublish=$_POST['pprPublish'];
+$pprLink=$_POST['pprLink'];
+$file_name = $_FILES['pprAttach']['name'];
+$file_tmp = $_FILES['pprAttach']['tmp_name'];
+$file_size =$_FILES['pprAttach']['size'];
+$file_type = $_FILES['pprAttach']['type'];
+$accepted_type = 'application/pdf';
+$date=date('Y-m-d');  
+if($file_type == $accepted_type){  
+ $string = bin2hex(openssl_random_pseudo_bytes(4));
+    $file_name = $_FILES['pprAttach']['name'];
+      $file_tmp = $_FILES['pprAttach']['tmp_name'];
+      $type = $_FILES['pprAttach']['type'];
+       $file_data = file_get_contents($file_tmp);
+         $file_title_clean = preg_replace('/\s+/', '_', $pprTitle); // Replaces spaces with underscores
+         $file_Auth_clean = preg_replace('/\s+/', '_', $pprAuth); // Replaces spaces with underscores
+$file_name_raw = basename($_FILES['pprAttach']['name']);
+$file_name_clean = preg_replace('/\s+/', '_', $file_name_raw); // Clean original filename
+$file_name = $IDNo ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
+$file_name = str_replace(["'", ":"], "", $file_name);
+
+     $destdir = 'Images/Repository';
+     ftp_chdir($conn_id, "Images/LibraryRepository/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ftp_close($conn_id);
+       $InsertReseatch="INSERT into LibraryRepository (IDNo,Topic,NameOfResearcher,SupervisorName,YearOfComplition,FileName,Status,CreatedDate)
+ VALUES('$IDNo','$pprTitle','$pprAuth','$facultyId','$pprJournal','$pprPublish','$pprLink','$file_name','0')";
+  $InsertResearchPpr=sqlsrv_query($conntest,$InsertReseatch);
+  
+                if($InsertResearchPpr==true)
+                {
+                    echo "1";
+                }
+                else
+                {
+                    echo "0";
+                } 
+            }else{
+                echo "2";
+            }
+            
+            sqlsrv_close($conntest);
+}
+
+
+
 elseif($code == 4) {
    $ID = $_POST['ID'];
    $IDNoUpdate = $_POST['IDNoUpdate'];

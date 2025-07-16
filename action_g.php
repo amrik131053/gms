@@ -10063,7 +10063,7 @@ mysqli_close($conn);
         if (mysqli_num_rows($result) > 0) {
             echo "3"; 
         } else {
-            $insert_consultant = "INSERT INTO MasterConsultant (Name, Mobile, Address, Organisation, Status,Email) OUTPUT INSERTED.ID VALUES (?, ?, ?, ?, '1',?)";
+            $insert_consultant = "INSERT INTO MasterConsultant (Name, Mobile, Address, Organisation, Status,Email,AdmissionStatus) OUTPUT INSERTED.ID VALUES (?, ?, ?, ?, '1',?,'1')";
             $stmt1 = sqlsrv_prepare($conntest, $insert_consultant, [$name, $mobile, $address, $o,$email]);
             if (sqlsrv_execute($stmt1)) {
                 if ($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)) {
@@ -30885,7 +30885,7 @@ else if($code==341)
          if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
           {
          $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
-        
+
              $phone = $row6['StudentMobileNo']; 
            }
       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='2' , Itrejectdate='$timeStamp' , itreason='$remarks' Where SerialNo='$ID'";
