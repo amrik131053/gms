@@ -3215,7 +3215,9 @@ elseif($exportCode=='27.1')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2025'");
+  $result = mysqli_query($conn_online,"SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON
+ seminar_registrations.id=online_payment.roll_no WHERE 
+ status='success'   AND seminar_registrations.purpose='IACE2025'");
     $counter = 1; 
        
     $exportMeter="<table class='table' border='1'>
@@ -4954,7 +4956,8 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
      
     <th>Remarks </th>
     <th>Status</th>
-    <th>Locked</th>";
+    <th>Locked</th>
+     <th>Address</th>";
     if($role_id==2 || $role_id==21)    {
   $exportstudy.="<th style='background-color:black; color:white;'>Comment detail</th>
      <th>Refrence</th>
@@ -5027,6 +5030,8 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $State=$row['State'];
             $OTR=$row['OTR'];
             $ABCID=$row['ABCID'];
+            
+              $address=$row['PermanentAddress'];
             if($row['DOB']!='')
             {
             $DOB=$row['DOB']->format('d-m-Y');
@@ -5121,7 +5126,8 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$Ereason}</td>     
          <td style='background-color:".$clr1.";'>{$status}</td>     
          
-         <td>{$lockedtype}</td> ";
+         <td>{$lockedtype}</td>
+           <td>{$address}</td> ";
          if($role_id==2 || $role_id==21)    {
         $exportstudy.="<td>{$CommentsDetail}</td><td>";
 
@@ -5986,7 +5992,7 @@ elseif($RegistrationStatus==8)
                                <th style='background-color:black; color:white;'>Lateral</th>
                                <th style='background-color:black; color:white;'>Eligibility</th>
                                <th style='background-color:black; color:white;'>Status</th>
-                            
+                               <th style='background-color:black; color:white;'>Address</th>
                                ";
 //                                <th style='background-color:black; color:white;'>Comment detail</th>
 //                                <th>Refrence</th>
@@ -6015,8 +6021,7 @@ elseif($RegistrationStatus==8)
                                $list_sql.=" AND CourseID!='188' ORDER BY CollegeName ASC"; 
 
                                
-                            
-                                                   $list_result = sqlsrv_query($conntest,$list_sql);
+                            $list_result = sqlsrv_query($conntest,$list_sql);
                                                    while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                                                       {
                                                       // $aa=$row;
@@ -6037,6 +6042,7 @@ elseif($RegistrationStatus==8)
                                                    $City=$row['City'];
                                                    $State=$row['State'];
                                                    $Nationality=$row['Nationality'];
+                                                     $address=$row['PermanentAddress'];
                                                    $country=$row['country'];
                                                    $PIN=$row['PIN'];
                                              
@@ -6112,38 +6118,48 @@ elseif($RegistrationStatus==8)
                                                    <td>{$PIN}</td>
                                                    <td>{$Lateral}</td>
                                                    <td style='background:{$clr}'>{$Eligibility}</td>
-                                                   <td style='background:{$clr1}'>{$status}</td>";
-                                                //    <td>{$commentdetail}</td>";
-            //                                              <td>";
-            // $query3 = "SELECT Name, IDNo FROM MasterConsultantRef AS mcr INNER JOIN Staff AS s ON mcr.RefIDNo = s.IDNo WHERE mcr.StudentIDNo = '$IDNo' AND mcr.Type = 'Staff'";
-            // $result3 = sqlsrv_query($conntest, $query3);
-            // while ($row3 = sqlsrv_fetch_array($result3, SQLSRV_FETCH_ASSOC)) {
-            //     $idno = $row3['IDNo'];
-            //     $name = $row3['Name'];
-            //     $exportstudy .= "{$idno} ({$name})<br>";
-            // }
+                                                   <td style='background:{$clr1}'>{$status}</td>
+                                                   <td>{$address}- {$role_id}</td>";
+ 
+if($role_id==2 || $role_id==21)    {
+        $exportstudy.="<td>{$commentdetail}</td><td>";
 
-            // $exportstudy.="</td><td>";
-            // $query2 = "Select * from  MasterConsultantRef as mcr inner join Staff as s on mcr.RefIDNo=s.IDNo where StudentIDNo='$IDNo' AND mcr.Type='Staff'";
-            // $result2 = sqlsrv_query($conntest,$query2);
-            // while($row2 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
-            // {      
-            //     $idnoR = $row2['ID'];
-            //     $nameR = $row2['Name'];
-            //     $exportstudy .= "{$idnoR} ({$nameR})<br>";
-            // }
-            // $exportstudy.="</td><td>";
-            //  $query2 = "Select * from  MasterConsultantRef as mcr inner join MasterConsultant as s on mcr.RefIDNo=s.ID where StudentIDNo='$IDNo' AND mcr.Type='Consultant'";
-            // $result2 = sqlsrv_query($conntest,$query2);
-            // while($row21 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
-            // {      
-            //     $idnoC = $row21['ID'];
-            //     $nameC = $row21['Name'];
-            //     $exportstudy .= "{$nameC}<br>";
-            // }
+            $query3 = "SELECT Name, IDNo FROM MasterConsultantRef AS mcr INNER JOIN Staff AS s ON mcr.RefIDNo = s.IDNo WHERE mcr.StudentIDNo = '$IDNo' AND mcr.Type = 'Staff'";
+            $result3 = sqlsrv_query($conntest, $query3);
+            while ($row3 = sqlsrv_fetch_array($result3, SQLSRV_FETCH_ASSOC)) {
+                $idno = $row3['IDNo'];
+                $name = $row3['Name'];
+                $exportstudy .= "{$idno} ({$name})<br>";
+            }
+
+            $exportstudy.="</td><td>";
+            $query2 = "Select * from  MasterConsultantRef as mcr inner join Staff as s on mcr.RefIDNo=s.IDNo where StudentIDNo='$IDNo' AND mcr.Type='Staff'";
+            $result2 = sqlsrv_query($conntest,$query2);
+            while($row2 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            {      
+                $idnoR = $row2['ID'];
+                $nameR = $row2['Name'];
+                $exportstudy .= "{$idnoR} ({$nameR})<br>";
+            }
+            $exportstudy.="</td><td>";
+             $query2 = "Select * from  MasterConsultantRef as mcr inner join MasterConsultant as s on mcr.RefIDNo=s.ID where StudentIDNo='$IDNo' AND mcr.Type='Consultant'";
+            $result2 = sqlsrv_query($conntest,$query2);
+            while($row21 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            {      
+                $idnoC = $row21['ID'];
+                $nameC = $row21['Name'];
+                $exportstudy .= "{$nameC}<br>";
+            } 
+        } 
+
             $exportstudy .= "</tr>";
                                    $SrNo++;
-                                                      }     
+                                                      }    
+
+
+
+
+
                                    $exportstudy.="</table>";
                                    echo $exportstudy;
                                    $fileName=$Batch." Total ".$fileNameA." Report ";
@@ -12667,6 +12683,7 @@ else if($exportCode==75)
       <th style='background-color:black; color:white;'>Student Mobile No</th>
       <th style='background-color:black; color:white;'>Status</th>
       <th style='background-color:black; color:white;'>State</th>
+       <th style='background-color:black; color:white;'>Country</th>
       ";
       $exportstudy.="</tr></thead>";      
                   
@@ -12676,7 +12693,7 @@ else if($exportCode==75)
            $Examination=$_REQUEST['Examination'];
            $Confirmation=$_REQUEST['Confirmation'];
 
-    $getCourse1=" SELECT Admissions.*,  ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.Course,ExamForm.CourseID,ExamForm.Status as ExamStatus
+     $getCourse1="SELECT Admissions.*,  Admissions.Country, ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.Course,ExamForm.CourseID,ExamForm.Status as ExamStatus
     FROM Admissions Inner Join ExamForm ON Admissions.IDNo=ExamForm.IDNo Where  ExamForm.Examination='$Examination' and ExamForm.Type='$Type' and Admissions.Status='1'";
     if($_REQUEST['Batch']!='')
     {
@@ -12711,6 +12728,7 @@ else if($exportCode==75)
                                      $Batch=$row['Batch'];
                                      $SemesterId=$row['SemesterId'];
                                      $State=$row['State'];
+                                     $Country=$row['Country'];
                                     
  if($Status==-1)
               {
@@ -12784,6 +12802,8 @@ else if($exportCode==75)
                                         <td>{$StudentMobileNo}</td>
                                         <td>{$StatusShow}</td>
                                         <td>{$State}</td>
+                                        <td>{$Country}</td>
+
                                         </tr>";
            }
                      $exportstudy.="</table>";

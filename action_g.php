@@ -15819,7 +15819,7 @@ elseif($code==203)
                         &nbsp;
 
                         <?php  
-                        if($role_id==2 || $role_id==18) {?>
+                        if($role_id==2 || $role_id==27) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
@@ -16316,7 +16316,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Compansatory Off</th>
 
                                 <th>Duty Leave</th>
-                               
+                                <th>Vacation</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -16334,6 +16334,7 @@ sqlsrv_query($conntest,$update12);
                     'Leave1' => 0,
                     'Leave2' => 0,
                     'Leave3' => 0,
+                    'Leave4' => 0,
                     'IDNo' => $row['IDNo'],
                 ];
             }
@@ -16346,6 +16347,9 @@ sqlsrv_query($conntest,$update12);
             elseif ($row['LeaveType_Id'] == '12') {
                 $employeeData[$employeeId]['Leave3'] = $row['Balance'];
             }
+             elseif ($row['LeaveType_Id'] == '26') {
+                $employeeData[$employeeId]['Leave4'] = $row['Balance'];
+            }
         }
         
         foreach ($employeeData as $employeeId => $data) {
@@ -16356,6 +16360,7 @@ sqlsrv_query($conntest,$update12);
                                 <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
+                                <td class="editable" data-field="Leave4"><?= $data['Leave4']; ?></td>
                               
                             </tr>
                             <?php
@@ -16379,6 +16384,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
                                 <th>Duty Leave</th>
+                                 <th>Vacation</th>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16403,7 +16409,8 @@ $getAllLeaves ="SELECT
     Staff.Name,
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '1' THEN LeaveBalances.Balance ELSE 0 END) AS Casual,
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '2' THEN LeaveBalances.Balance ELSE 0 END) AS Compansatory,
-    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '12' THEN LeaveBalances.Balance ELSE 0 END) AS Duty
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '12' THEN LeaveBalances.Balance ELSE 0 END) AS Duty,
+     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '26' THEN LeaveBalances.Balance ELSE 0 END) AS Vacation
 FROM Staff
 INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo
 WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
@@ -16423,6 +16430,7 @@ WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
                                 <td class="editable" data-field="Leave1"><?= $row['Casual']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $row['Compansatory']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $row['Duty']; ?></td>
+                                 <td class="editable" data-field="Leave4"><?= $row['Vacation']; ?></td>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16463,6 +16471,7 @@ $employeeId=$_POST['employeeId'];
 $leave1=$_POST['leave1'];
 $leave2=$_POST['leave2'];
 $leave3=$_POST['leave3'];
+$leave4=$_POST['leave4'];
 
 $checkLeaveBlacne="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='2' ";
  $existrow=sqlsrv_query($conntest,$checkLeaveBlacne,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -16509,6 +16518,24 @@ sqlsrv_query($conntest,$updateLeaveBalance1);
 
 
 }
+
+$checkLeaveBlacne4="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+$existrow4=sqlsrv_query($conntest,$checkLeaveBlacne4,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$countblacne4=sqlsrv_num_rows($existrow3);
+if($countblacne4>0)
+{
+    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave4'WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+}
+else
+{
+   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave4','26')";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+
+
+}
+
+
 
 sqlsrv_close($conntest);
  }
@@ -17420,7 +17447,7 @@ if(sqlsrv_num_rows($RungetGeneralShift)>0)
 }
 else
 {
-    $getGeneralShift1="SELECT * FROM MasterShiftTime WHERE ShiftId = '$ShiftID'";
+   $getGeneralShift1="SELECT * FROM MadamShiftTime WHERE ShiftId = '$ShiftID'";
     $RungetGeneralShift1=sqlsrv_query($conntest,$getGeneralShift1);
     if($getshoftrow=sqlsrv_fetch_array($RungetGeneralShift1,SQLSRV_FETCH_ASSOC))
     {
@@ -18041,6 +18068,16 @@ sqlsrv_query($conntest,$updateLeaveBalancec);
     $updateLeaveBalancec="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc','0','12') ";
 sqlsrv_query($conntest,$updateLeaveBalancec);
 
+
+    }
+
+     $staffc1="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=26)";
+    $stmtc1=sqlsrv_query($conntest,$staffc1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    while($rowc1=sqlsrv_fetch_array($stmtc1))
+    {
+   $employeeIdc1=$rowc1['IDNo'];
+    $updateLeaveBalancec1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc1','0','26') ";
+sqlsrv_query($conntest,$updateLeaveBalancec1);
 
     }
 
@@ -19771,7 +19808,7 @@ $nooflect=$row['nooflect'];
 $s_id=$row['s_id'];
 $DocumentType=$row['DocumentType'];
 ?>
-                        <tr style="background-color:<?=$clr;?>">
+                         <tr style="background-color:<?=$clr;?>">
                             <td><?=$SrNo;?></td>
                             <td><?=$ColegeName;?></td>
                             <td><?=$Courseid;?></td>
@@ -19808,6 +19845,9 @@ elseif ($code==244.1) {
     
     while ($row = sqlsrv_fetch_array($CheckStudyMaterialRun, SQLSRV_FETCH_ASSOC)) {
         $file = $row['CourseFile'];
+   $DocumentType = $row['DocumentType'];
+
+       
         $VerifyStatus = $row['VerifyStatus'];
         $file_url = "http://erp.gku.ac.in:86/StudyMaterial/$file";
         $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
@@ -19835,7 +19875,28 @@ else{
         } elseif (in_array($extension, ['ppt', 'pptx'])) {
             $google_viewer_url = "https://docs.google.com/gview?url=" . urlencode($file_url) . "&embedded=true";
             echo "<iframe src='$google_viewer_url' style='width:100%; height:600px;' frameborder='0'></iframe>";
-        } else {
+        } 
+       elseif (in_array($DocumentType,['Video/Audio'])) {
+    
+
+        $pos = strpos($file_url, 'https://');
+
+if ($pos !== false) {
+    $clean_url = substr($file_url, $pos);
+    
+    echo $clean_url;
+
+} else {
+    echo "Invalid URL format.";
+}?>
+    <a href='<?=$clean_url;?>' target='_blank'>Click to download</a> 
+<iframe id="youtubeFrame" 
+            src="<?=$clean_url;?>" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+    </iframe><?php 
+}
+        else {
             echo "<p>Unsupported file format. <a href='$file_url' target='_blank'>Click to download</a></p>";
         }
     ?>
@@ -24485,12 +24546,14 @@ $stmt1 = sqlsrv_query($conntest,$sql);
         if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
             $IDNo= $row6['IDNo'];
-            $name = $row6['StudentName'];
+            $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
+
+
             $phone = $row6['StudentMobileNo']; 
           }
    if($getDefalutMenuRun==true)
    {  
-    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor ,Room no-105' ,'95697-06375');
+    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor ,Room no-105' ,'NA');
        echo "1";
 
    }
@@ -25244,8 +25307,9 @@ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo' and Status='1'";
 $stmt1 = sqlsrv_query($conntest,$sql);
         if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-            $name = $row6['StudentName'];
+            $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
             $phone = $row6['StudentMobileNo']; 
+
           }
 
    if($getDefalutMenuRun==true)
@@ -29247,7 +29311,8 @@ $update_query=sqlsrv_query($conntest,$update1);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
                $IDNo= $row6['IDNo'];
-               $name = $row6['StudentName'];
+          
+               $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "UPDATE  ExamForm  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -29292,7 +29357,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    $stmt1 = sqlsrv_query($conntest,$sql);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
-               $name = $row6['StudentName'];
+  $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -29342,7 +29407,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    $stmt1 = sqlsrv_query($conntest,$sql);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
-               $name = $row6['StudentName'];
+         $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -29352,7 +29417,7 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
-    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor,Room no-105','95697-06375');
+    sendExamFormRejectionMessage($phone,$name,'Registration Branch',$remark,$LabeType,'reg.branch@gku.ac.in','A Block,Ground Floor,Room no-105','NA');
        echo "1";
    }
    else
@@ -29391,7 +29456,7 @@ else if($code==329.3)
    $stmt1 = sqlsrv_query($conntest,$sql);
            if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
             {
-               $name = $row6['StudentName'];
+             $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
                $phone = $row6['StudentMobileNo']; 
              }
    $desc= "No dues  SET Status: Rejected,AccountRejectDate: ".$remark;
@@ -30829,7 +30894,8 @@ else if($code==341)
  $stmt1 = sqlsrv_query($conntest,$sql);
          if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
           {
-             $name = $row6['StudentName'];
+         $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
+        
              $phone = $row6['StudentMobileNo']; 
            }
       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='2' , Itrejectdate='$timeStamp' , itreason='$remarks' Where SerialNo='$ID'";
@@ -30876,7 +30942,7 @@ else if($code==343)
  $stmt1 = sqlsrv_query($conntest,$sql);
          if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
           {
-             $name = $row6['StudentName'];
+    $name = $row6['StudentName'].'('.$row6['ClassRollNo'].')';
              $phone = $row6['StudentMobileNo']; 
            }
       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='4' , acrejectdate='$timeStamp' , ac_reason='$remarks' Where SerialNo='$ID'";
@@ -31756,14 +31822,14 @@ if($Status==6)
             <label>Select</label>
             <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
                 <option value="">Select</option>
-                <?php $get_consultant="SELECT * FROM MasterConsultant ";
+                <?php $get_consultant="SELECT * FROM MasterConsultant  where AdmissionStatus='1'";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
                     while($row=sqlsrv_fetch_array($get_consultantRun))
                     {
     ?>
-                <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+                <option value="<?=$row['ID'];?>"><?=$row['Name'];?>(<?=$row['ID'];?>)</option>
                 <?php 
                     }
             ?>
@@ -32082,14 +32148,14 @@ if($Status==6)
             <label>Select</label>
             <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
                 <option value="">Select</option>
-                <?php $get_consultant="SELECT * FROM MasterConsultant";
+                <?php $get_consultant="SELECT * FROM MasterConsultant  where AdmissionStatus='1'";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
                     while($row=sqlsrv_fetch_array($get_consultantRun))
                     {
     ?>
-                <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+                <option value="<?=$row['ID'];?>"><?=$row['Name'];?>(<?=$row['ID'];?>)</option>
                 <?php 
                     }
             ?>
@@ -36450,26 +36516,26 @@ $counter=$_REQUEST['counter'];
 $SourceName=$_REQUEST['SourceName'];
 if($counter==1)
 {
-$counsellor="170937";
+$counsellor="171217";
 }
 elseif($counter==2)
 {
-   // $counsellor="171218";
+ $counsellor="171218";
 }else if($counter==3)
 {
-    $counsellor="171217";
+ $counsellor="171853";
 }
 elseif($counter==4)
 {
-    $counsellor="171218";
+ $counsellor="172113";
 }
 elseif($counter==5)
 {
-    $counsellor="171853";
+    
 }
 elseif($counter==6)
 {
-    $counsellor="172113";
+   
 }
 elseif($counter==7)
 {

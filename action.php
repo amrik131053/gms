@@ -13627,7 +13627,7 @@ $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
-AND SemesterID='$sem' ANd Batch='$batch'   order by SubjectCode";
+AND SemesterID='$sem' ANd Batch='$batch'  order by SubjectCode";
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -13754,7 +13754,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
  }
-
+//practical marks staff
  elseif ($code ==200.6)
  {
 $course= $_POST['course'];
@@ -13775,6 +13775,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
 }
+
 //open elective 
 elseif ($code ==200.7)
    {
@@ -13818,6 +13819,51 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
  }
+///dean Theory marks
+
+ elseif ($code ==200.9)
+    {
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
+AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='T' order by SubjectCode";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+?>
+<option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+<?php 
+}
+$sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
+$stmt = sqlsrv_query($conntest,$sqlee);  
+while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{
+$cname=$row["Course"];
+}
+
+$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
+SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
+$stmt2 = sqlsrv_query($conntest,$sql1);
+while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+   ?>
+   <option value='<?= $row2["SubjectCode"];?>'><?= $row2["SubjectName"];?>(<?= $row2["SubjectCode"];?>)/<?= $row2["SubjectType"];?></option>";
+ <?php 
+ }
+ sqlsrv_close($conntest);
+}
+
+
+
+
+
+
+
+
+
+
  // multiple update masrks  
  else if($code==201)
 {       
@@ -14516,22 +14562,40 @@ mysqli_close($conn);
   }
 
 //unlock one student 
- else  if($code==206)
+else  if($code==206)
 {       
 
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
-if($ecat=='ESE')
+  $idno=$_POST['idno'];
+
+  if($ecat=='ESE')
 {
 $ecat='MoocLocked';
-  $list_sqlw= "update ExamFormSubject set $ecat=NULL,MOOCattachment='' where ID='$id'";
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{ $ecat=$ecat."Locked"; 
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
 }
 else
-{
-  $ecat=$ecat."Locked"; 
-  $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
+{ $ecat=$ecat."Locked"; 
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
 }
- 
+
+
+
+  $list_sqlw= "update ExamFormSubject set $ecat=NULL,MOOCattachment='' where ID='$id'";
+
+
+
+$desc= "Marks Status Exam Form id ".$id." $ecat=Unlocked,$update = $EmployeeID,$updatedate = $timeStamp";
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','')";
+ $update_query=sqlsrv_query($conntest,$update1);
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -14550,19 +14614,33 @@ else
 
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
-  
+$idno=$_POST['idno'];
+
 if($ecat=='ESE')
 {
 $ecat='MoocLocked';
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{  $ecat=$ecat."Locked"; 
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
 }
 else
-{
-  $ecat=$ecat."Locked"; 
+{ $ecat=$ecat."Locked"; 
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
 }
 
 
   $list_sqlw= "update ExamFormSubject set $ecat='1' where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+$desc= "Marks Status Exam Form id ".$id." $ecat=Locked,$update = $EmployeeID,$updatedate = $timeStamp";
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','')";
+$update_query=sqlsrv_query($conntest,$update1);
  if ($stmt1==true) 
  {
    echo "1";
@@ -22602,7 +22680,9 @@ mysqli_close($conn);
    }
  elseif($code=='332.1') 
    {
-    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON seminar_registrations.id=online_payment.roll_no where  status='success' AND remarks='IACE2025'";
+    $qry="SELECT *,online_payment.purpose as purposeType FROM online_payment INNER JOIN seminar_registrations ON
+ seminar_registrations.id=online_payment.roll_no WHERE 
+ status='success'   AND seminar_registrations.purpose='IACE2025'";
  $result = mysqli_query($conn_online,$qry);
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
@@ -22929,6 +23009,8 @@ else if($code=='335')
 $curmnth =$_POST['month'];
 $curyear = $_POST['year'];
 $emp_code=$_POST['EmployeeId'];
+$code_access=$_POST['code_access'];
+
 
 include 'attendance-date-function.php';
 
@@ -23104,8 +23186,19 @@ else
    <?php
    if($alreadyLeaveExistInRecordTable!=1)
    {
-   if(($HolidayName!='' && $printleave=='On Duty') || ($HolidayName!='' && $intime!="" &&  $outtime!="" && $outtime>$intime)){?>
+   if(($HolidayName!='' && $printleave=='On Duty') || ($HolidayName!='' && $intime!="" &&  $outtime!="" && $outtime>$intime)){
+
+ if ($code_access=='010' || $code_access=='011' || $code_access=='110' ||   $code_access=='111') 
+                                          {         
+                ?>  
+    
+
+
 <button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button>
+
+<?php }
+?>
+
 <?php }
 else{ 
 
@@ -24080,6 +24173,36 @@ echo "1";
 sqlsrv_close($conntest);
  }
 
+ elseif($code==353.1)
+ {
+
+   if (isset($_FILES['casualCountFile']) && 
+   $_FILES['casualCountFile']['error'] === UPLOAD_ERR_OK &&
+   !empty($_FILES['casualCountFile']['tmp_name'])) {
+      
+
+   $file = $_FILES['casualCountFile']['tmp_name'];
+
+   $handle = fopen($file, 'r');
+   $c = 0;
+   while (($filesop = fgetcsv($handle, 1000, ',')) !== false) {
+       $EmpID = $filesop[0];
+       $log   = $filesop[1];
+ $ApplyYear = date('Y',strtotime($log));
+ $ApplyMonth = date('m',strtotime($log));
+ $emp_id=$EmpID;
+ $as='DeviceLogs_'.$ApplyMonth.'_'.$ApplyYear;
+ echo "<br>".$query="INSERT INTO $as(DownloadDate,DeviceId,Direction,UserId,LogDate,C1,C4,C5,WorkCode,UpdateFlag)
+ VALUES ('$log','16','','$emp_id','$log','out','255','84','','')";
+//  $stmt = sqlsrv_query($conn91,$query);
+ echo "<br>".$query="INSERT INTO DeviceLogsAll(LogDateTime,DeviceShortName,LogDirection,EmpCode,SerialNo)
+ VALUES ('$log','202','','$emp_id','OIN7010057010800775')";
+//  $stmt = sqlsrv_query($conntest,$query);
+echo "1";
+}
+sqlsrv_close($conntest);
+ }
+}
 
  elseif($code==354)
  {
@@ -24852,6 +24975,7 @@ else if($code==358)
 include "connection/ftp-erp.php";
 
 $Id = $_POST["id"];
+$idno = $_POST["idno"];
 
 $marks = $_POST["MOOC_Mark"];
       $file_name = $_FILES['moocfile']['name'];
@@ -24876,6 +25000,14 @@ $marks = $_POST["MOOC_Mark"];
   $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
 MOOCupdatedDate='$timeStamp' where ID='$Id'";
   $stmt = sqlsrv_query($conntest,$query);    
+
+$desc= "Marks Updated Exam Form id ".$Id." Mooc marks=$marks,MOOCupdateby = $EmployeeID,$updatedate = $timeStamp";
+
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','mooc-marks-dean.php')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+
 
   echo "Uploaded"; 
   sqlsrv_close($conntest);
@@ -24962,18 +25094,14 @@ $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
               ?>
      <?php     
          }
-    
  if($dateover>0)
  {
    echo 2;
  }
-
 else
  {
-
  $list_sqlw= "update ExamFormSubject set $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-
  if ($stmt1==true) 
  {
    echo 1;
@@ -24985,6 +25113,56 @@ else
 
  sqlsrv_close($conntest);
 }
+}
+
+ else  if($code==360.1)
+{       
+
+$id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+$marks=$_POST['marks'];
+$semID=$_POST['sem'];
+$idno=$_POST['idno'];
+
+
+if($ecat=='ESE')
+{
+
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+
+$list_sqlw= "update ExamFormSubject set $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+ $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+ $desc= "Marks Updated Exam Form id ".$id." $ecat=$marks,$update = $EmployeeID,$updatedate = $timeStamp";
+
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','theory-marks-dean.php')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+ if ($stmt1==true) 
+ {
+   echo 1;
+ }
+ else
+ {
+  echo 0;
+ }
+
+ sqlsrv_close($conntest);
+
 }
  else if($code==361)
 {  
@@ -25069,6 +25247,7 @@ $ecat=$_POST['ecat'];
 $marks=$_POST['marks'];
 $emarks=$_POST['emarks'];
 $semID=$_POST['sem'];
+$idno=$_POST['idno'];
 $vmarks=0;
 $fmarks=0;
 if($ecat=='ESE')
@@ -25087,46 +25266,20 @@ else
   $updatedate=$ecat."updatedDate"; 
 }
 
-$getdistri="Select Id from DDL_TheroyExamination where Value='PracticalNO'" ;
-$list_resultdi = sqlsrv_query($conntest,$getdistri);
-      
-        while( $rowdi = sqlsrv_fetch_array($list_resultdi, SQLSRV_FETCH_ASSOC) )
-        {  
-            $did=$rowdi['Id'];
-        }
-
-
-$list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$did' ANd Semesterid='$semID' order by DTES.SemesterId  ASC";
-$list_result5 = sqlsrv_query($conntest,$list_sqlw5);
-        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
-        {  
-            $todaydate=date('d-m-Y');
-            $endDate=$row5['EndDate']->format('d-m-Y');
-         
-              if (strtotime($endDate)<strtotime($todaydate)) 
-              {
-              $dateover=1;
-              $show="<b style='color:red;'>Date Over</b>";
-              }
-              else
-              {
-               $dateover=0;
-               $show="";
-              }
-              ?>
-     <?php     
-         }
-    
- if($dateover>0)
- {
-   echo 2;
- }
- else
- {
- $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+ echo $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+  $desc= "Marks Updated Exam Form id ".$id." $ecat=$marks,$update = $EmployeeID,$updatedate = $timeStamp";
+
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','practical-marks-dean.php')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
  if ($stmt1==true) 
  {
+
+
+
    echo "1";
  }
  else
@@ -25134,7 +25287,62 @@ $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
   echo "0";
  }
  sqlsrv_close($conntest);
+
 }
+ 
+// pracical dean
+
+ else if($code==361.2)
+{  
+$id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+$marks=$_POST['marks'];
+$emarks=$_POST['emarks'];
+$vmarks=$_POST['vmarks'];
+$fmarks=$_POST['fmarks'];
+
+
+$semID=$_POST['sem'];
+$idno=$_POST['idno'];
+
+if($ecat=='ESE')
+{
+$update='MOOCupdateby'; 
+$updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+  $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+
+ $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+  $desc= "Marks Updated Exam Form id ".$id." P$ecat=$emarks,V$ecat=$vmarks,F$ecat=$fmarks, $ecat=$marks,$update = $EmployeeID,$updatedate = $timeStamp";
+
+$update1="insert into logbook(userid,remarks,updatedby,date,pagename)Values('$idno','$desc','$EmployeeID','$timeStamp','practical-marks-dean.php')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+ if ($stmt1==true) 
+ {
+
+
+
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+ sqlsrv_close($conntest);
+
 }
  elseif($code==362)
    {
@@ -25496,6 +25704,60 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject
  } 
  sqlsrv_close($conntest);
 }
+
+else if($code=='363.1')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+ 
+  echo  $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd AcademicType='P'  order by SubjectCode";
+
+//   $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+// AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'AND sa.Status='1'";
+
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+$sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
+$stmt = sqlsrv_query($conntest,$sqlee);  
+    while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+      {
+   
+     $cname=$row["Course"];
+   }
+ 
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y'";
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ } 
+ sqlsrv_close($conntest);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 else if($code==364)
 {
 $College = $_POST["College"];
@@ -26285,6 +26547,27 @@ $sem= $_POST['sem'];
  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
  and mcs.Batch='$batch' ANd mcs.Elective='M' And sa.EmployeeID='$EmployeeID'";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+ sqlsrv_close($conntest);
+}
+else if($code=='374.1')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+  $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd Elective='M'  order by SubjectCode";
+
+      
 
 
  $stmt2 = sqlsrv_query($conntest,$sql);

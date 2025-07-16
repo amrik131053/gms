@@ -1385,7 +1385,7 @@ function emp_role()
        $('#all_permissions').hide();
       document.getElementById("role_assign").innerHTML=xmlhttp.responseText;
       emp_permission();
-      emp_role();
+      //emp_role();
       
 
     }
