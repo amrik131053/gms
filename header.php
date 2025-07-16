@@ -484,6 +484,16 @@ window.location.href = 'profile.php';
                                 </p>
                             </a>
                         </li>
+                           <li class="nav-item has-treeview menu-open">
+                            <a href="/tms" class="nav-link ">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    TMS
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
+
                         <?php 
               if ($spoc_per>0) 
                   {
