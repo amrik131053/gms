@@ -166,7 +166,7 @@ $_SESSION['RequiredData']=$alertMessage;
           
            $array_aa=array_unique((array_merge($r,$p)));
 
-       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php','attendence-calendar.php','profile.php','staff-attendance.php','books-issued.php','movement-admin.php','all-notification.php');
+       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php','attendence-calendar.php','profile.php','staff-attendance.php','books-issued.php','movement-admin.php','mooc-vac.php','all-notification.php');
  
       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
