@@ -1382,6 +1382,6 @@ window.location.href = 'mobile-stock.php';
 
         $result = mysqli_query($connection_s,$Status);
  }
-
+ 
 }
 

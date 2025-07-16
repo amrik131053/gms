@@ -81,7 +81,7 @@ $SemesterPrint=numberToRomanRepresentation($Semester);
    <th>	TERM_TYPE	</th>
    <th>	TOT_GRADE	</th>";
 
-    $subjectn="SELECT * from MasterCOurseCodes  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch'";
+     $subjectn="SELECT * from MasterCOurseCodes  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch'";
 $list_resultsubn = sqlsrv_query($conntest, $subjectn);
 
  while($rown = sqlsrv_fetch_array($list_resultsubn, SQLSRV_FETCH_ASSOC)) {

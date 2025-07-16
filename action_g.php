@@ -18071,6 +18071,16 @@ sqlsrv_query($conntest,$updateLeaveBalancec);
 
     }
 
+     $staffc1="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=26)";
+    $stmtc1=sqlsrv_query($conntest,$staffc1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    while($rowc1=sqlsrv_fetch_array($stmtc1))
+    {
+   $employeeIdc1=$rowc1['IDNo'];
+    $updateLeaveBalancec1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc1','0','26') ";
+sqlsrv_query($conntest,$updateLeaveBalancec1);
+
+    }
+
 
 
 
