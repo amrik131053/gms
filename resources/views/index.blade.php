@@ -3,8 +3,12 @@
     <div class="container container-tight py-4">
         <div class="card card-md">
             <div class="card-body">
-                <div class="text-center" >        
+                <div class="text-center" > 
+                @if (Request::is('payu*'))       
+                    <img src="../admin/img/join-logo.png" width="200" height="50" alt="logo" class="navbar-brand-image">
+                    @else
                     <img src="admin/img/join-logo.png" width="200" height="50" alt="logo" class="navbar-brand-image">
+                    @endif
                 </div>
                 <br>
                 <h2 class="h2 text-center mb-4">Login Here</h2>
