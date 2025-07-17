@@ -51,7 +51,7 @@
 
 
                             <div class="form-label">Fee Type <span class="text-danger">*</span></div>
-                            <select name="fee_type" class="form-control" id="fee_type" required>
+                            <select name="fee_type" class="form-select" id="fee_type" required>
                                 <option value="">Select Fee Type</option>
                                 @foreach ($dropDownHead as $dropDownHeadValue)
                                 <option value="{{$dropDownHeadValue['Head']}}">{{$dropDownHeadValue['Head']}}</option>
@@ -59,7 +59,7 @@
                             </select>
 
                             <div class="form-label">Semester <span class="text-danger">*</span></div>
-                            <select name="semester" class="form-control" id="semester" required>
+                            <select name="semester" class="form-select" id="semester" required>
                                 <option value="">Select Semester</option>
                                 @for ($i = 1; $i <= 12; $i++) <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
