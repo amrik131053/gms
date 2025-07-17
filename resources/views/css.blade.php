@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Guru Kashi University</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="admin/img/favicon-32x32.png">
+  
+
+
+    @if (Request::is('payu*'))
+    <link rel="icon" type="image/png" sizes="16x16" href="../admin/img/favicon-32x32.png">
+      <!-- Standard Favicon -->
+      <link rel="icon" type="image/png" sizes="32x32" href="../admin/img/favicon-32x32.png">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../admin/img/apple-touch-icon.png">
+    <!-- Android Chrome Icon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="../admin/img/android-chrome-192x192.png">
+    <!-- CSS files -->
+                @else
+                <link rel="icon" type="image/png" sizes="16x16" href="admin/img/favicon-32x32.png">
       <!-- Standard Favicon -->
       <link rel="icon" type="image/png" sizes="32x32" href="admin/img/favicon-32x32.png">
     <!-- Apple Touch Icon -->
@@ -13,6 +26,8 @@
     <!-- Android Chrome Icon -->
     <link rel="icon" type="image/png" sizes="192x192" href="admin/img/android-chrome-192x192.png">
     <!-- CSS files -->
+                @endif
+
     <link href="{{ asset('admin/css/tabler.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{ asset('admin/css/tabler-flags.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{ asset('admin/css/tabler-payments.min.css?1692870487')}}" rel="stylesheet"/>
