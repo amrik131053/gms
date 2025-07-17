@@ -81,7 +81,7 @@ foreach ($id as $key => $value) {
   {
     $Leet_Duration=$Duration." Years)";
   }
-         $getCollege="SELECT Distinct Department FROM MasterCourseCodes inner join MasterDepartment ON MasterDepartment.DepartmentID=MasterCourseCodes.DepartmentId
+         $getCollege="SELECT Distinct Department FROM MasterCourseCodes inner join MasterDepartment ON MasterDepartment.Id=MasterCourseCodes.DepartmentId
 where MasterDepartment.Id='$Department' ";
         $getCollege_run=sqlsrv_query($conntest,$getCollege);
         if ($rowCollege=sqlsrv_fetch_array($getCollege_run)) {
