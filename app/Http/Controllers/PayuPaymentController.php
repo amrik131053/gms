@@ -101,6 +101,7 @@ class PayuPaymentController extends Controller
             'semester'       => $validated['semester'],
             'requestid'    => $requestid,
             'productinfo'  => $validated['productinfo'],
+            'remarks'  => $validated['remarks'],
         ];
         $response = Http::post('https://payment.gku.ac.in/api/payu/initiate-web/', $apiPayload);
         $responseData = $response->json();
