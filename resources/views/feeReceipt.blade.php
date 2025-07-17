@@ -28,7 +28,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $feedata['Session'] }}</td>
-                            <td>{{ $feedata['DateEntry'] }}</td>
+                            <td>{{ \Carbon\Carbon::parse($feedata['DateEntry'])->format('d-m-Y') }}</td>
                             <td>{{ $feedata['Semester'] }}</td>
                             <td>{{ $feedata['Type'] }}</td>
                             <td>{{ $feedata['ReceiptNo'] }}</td>

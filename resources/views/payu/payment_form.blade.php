@@ -50,7 +50,7 @@
                             @endif
 
 
-                            <div class="form-label">Fee Type</div>
+                            <div class="form-label">Fee Type <span class="text-danger">*</span></div>
                             <select name="fee_type" class="form-control" id="fee_type" required>
                                 <option value="">Select Fee Type</option>
                                 @foreach ($dropDownHead as $dropDownHeadValue)
@@ -58,7 +58,7 @@
                                 @endforeach
                             </select>
 
-                            <div class="form-label">Semester</div>
+                            <div class="form-label">Semester <span class="text-danger">*</span></div>
                             <select name="semester" class="form-control" id="semester" required>
                                 <option value="">Select Semester</option>
                                 @for ($i = 1; $i <= 12; $i++) <option value="{{ $i }}">{{ $i }}</option>
@@ -66,7 +66,7 @@
                             </select>
 
 
-                            <div class="form-label">Amount</div>
+                            <div class="form-label">Amount <span class="text-danger">*</span></div>
                             <input type="number" class="form-control" name="amount" id="amount" required>
 
                             <div class="form-label">Remarks</div>
