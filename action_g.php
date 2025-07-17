@@ -12603,7 +12603,7 @@ $degree="SELECT * FROM offer_latter  where Batch='2025' order by Id DESC limit 3
                   {
                      $data2=$degree_row;
                      $CourseID=$degree_row['Course'];
-                      $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                      $get_course="SELECT Course FROM MasterCourseCodes Where CourseId='$CourseID'";
                      $get_course_run=sqlsrv_query($conntest,$get_course);
                      if($row=sqlsrv_fetch_array($get_course_run))
                      {
