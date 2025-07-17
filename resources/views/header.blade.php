@@ -5,9 +5,18 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-            <a href=".">
-                <img src="admin/img/join-logo.png" width="110" height="32" alt="gku-logo" class="navbar-brand-image">
+
+            <a href="{{ route('dashboard') }}">
+                @if (Request::is('payu*'))
+                <img src="{{ asset('../admin/img/join-logo.png') }}" width="110" height="32" alt="gku-logo"
+                    class="navbar-brand-image">
+                @else
+                <img src="{{ asset('admin/img/join-logo.png') }}" width="110" height="32" alt="gku-logo"
+                    class="navbar-brand-image">
+                @endif
             </a>
+
+
         </h1>
         <div class="navbar-nav flex-row order-md-last">
 
@@ -130,7 +139,7 @@
             <div class="container-xl">
                 <ul class="navbar-nav">
                     <li class="nav-item ">
-                        <a class="nav-link" href="./">
+                        <a class="nav-link" href="{{ route('dashboard') }}">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
