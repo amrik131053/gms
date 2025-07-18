@@ -382,6 +382,38 @@ function pverify(ExamFromID)
         });
    }
 }
+
+function reverifyReg(ExamFromID)
+ {
+    var r = confirm("Do you really want to ReVerify");
+    if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 429.1;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ExamFromID: ExamFromID
+            },
+            success: function(response) {
+                // console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully Re-Verify');
+                    edit_stu(ExamFromID);                            
+                    $('.bd-example-modal-xl').modal('hide');
+                    fetchCutList();
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+   }
+}
 function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';

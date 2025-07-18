@@ -24068,7 +24068,7 @@ else
              $AcceptTypeRegistration=$row['AcceptTypeRegistration'];
              if($AcceptTypeRegistration>0)
              {
-               $pr='(Provisional)';
+               $pr='(Provisional-RLE)';
              }
              else
              {
@@ -24256,6 +24256,15 @@ elseif($code==283)
             {
               $rdateas='';        
             } 
+            $AcceptTypeRegistration=$row5['AcceptTypeRegistration'];
+            if($AcceptTypeRegistration>0)
+            {
+              $pr='(Provisional-RLE)';
+            }
+            else
+            {
+             $pr=''; 
+            }
             // $aa[]=$row5;
             $DepartmentRejectReason=$row5['DepartmentRejectReason'];
             $DeanRejectReason=$row5['DeanRejectReason'];
@@ -24374,15 +24383,15 @@ $sr=0;
 while($row7 = sqlsrv_fetch_array($list_resultexam, SQLSRV_FETCH_ASSOC) )
          { 
             
-            $AcceptTypeRegistration=$row7['AcceptTypeRegistration'];
-            if($AcceptTypeRegistration>0)
-            {
-              $pr='(Provisional)';
-            }
-            else
-            {
-             $pr=''; 
-            }
+            // $AcceptTypeRegistration=$row7['AcceptTypeRegistration'];
+            // if($AcceptTypeRegistration>0)
+            // {
+            //   $pr='(Provisional-RLE)';
+            // }
+            // else
+            // {
+            //  $pr=''; 
+            // }
             $sr++;
             ?>
 
@@ -24469,8 +24478,8 @@ elseif($row7['Status']==8)
                 <?php if($Status==0 && $Status!=22)
                    {
                     ?>
-                      <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update"
-                      class="btn btn-success ">Verify</button>
+                      <!-- <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update"
+                      class="btn btn-success ">Verify</button> -->
                 <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
                 <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
                     <?php 
@@ -24482,10 +24491,20 @@ elseif($row7['Status']==8)
                     <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally
     Verify</button>
                 <?php }
-                ?>
-                <?php if($Status==8 ){?>
-                    <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
-                <?php }
+              
+                 if($Status>0 && $AcceptTypeRegistration>0){?>
+<button type="submit" id="type" onclick="reverifyReg(<?=$formid;?>);" name="update"
+    class="btn btn-danger ">Re-Verify</button>
+
+<!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button> -->
+<?php } ?>
+                 <?php 
+                 
+                //  if($Status==8 ){
+                    ?>
+                    <!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button> -->
+                <?php 
+                // } 
                 ?>
             </td>
         </tr>
@@ -37533,14 +37552,37 @@ elseif($code==428)
  else if($code==429)
    {
        $ExamFromID=$_POST['ExamFromID'];
-   $getDefalutMenu="UPDATE  ExamForm  SET AcceptType='0',ReVerifyAccount='$timeStampS' Where ID='$ExamFromID'";
+   $getDefalutMenu="UPDATE  ExamForm  SET AcceptType='0',ReVerifyAccount='$timeStampS',,ReVerifyAccountBy='$EmployeeID' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
    }
-   $desc= "UPDATE  ExamForm  SET Status:  Provisional Verified,AccountantVerificationDate: ".$timeStampS;
+   $desc= "UPDATE  ExamForm  SET Status:  Provisional Re Verified,ReVerifyAccount: ".$timeStampS;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
+   if($getDefalutMenuRun==true)
+   {
+       echo 1;
+   }
+   else
+   {
+       echo 0;
+   }
+   }
+ else if($code==429.1)
+   {
+       $ExamFromID=$_POST['ExamFromID'];
+   $getDefalutMenu="UPDATE  ExamForm  SET AcceptTypeRegistration=null,ReVerifyRegistration='$timeStampS',ReVerifyRegistrationBy='$EmployeeID' Where ID='$ExamFromID'";
+   $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+   if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+       $IDNo=$row['IDNo'];
+   }
+   $desc= "UPDATE  ExamForm  SET Status: Provisional  Re Verified ,ReVerifyRegistration: ".$timeStampS;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
 
