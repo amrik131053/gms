@@ -149,7 +149,7 @@
 }
 </style>
   </head>
-  <body class="{{ request()->is('payu/*') || request()->is('/') || request()->is('login') || request()->is('forgotpassword') ? '' : 'layout-fluid' }}">
+  <body class="{{  request()->is('/') || request()->is('login') || request()->is('forgotpassword') ? '' : 'layout-fluid' }}">
     @include('modals')
   <div id="fullScreenLoader" class="full-screen-loader" style="display:none;">
     <div class="loader"></div>
