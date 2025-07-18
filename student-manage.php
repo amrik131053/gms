@@ -21,6 +21,7 @@ function uploadPhotoStudent(form) {
         success: function(response) {
             console.log(response);
             if (response == 1) {
+            
                 SuccessToast('Successfully Updated');
                 updateStudent(empID)
                 search_all_employee();
@@ -906,7 +907,6 @@ function syncdocuments(idno) {
 
         }
     });
-
 
 
 }

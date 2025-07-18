@@ -23464,7 +23464,7 @@ elseif($code=='336')
 
 <?php 
 
-sqlsrv_close($conntest);
+sqlsrv_close($conntest); 
    }
    else if ($code=='338')
    {

@@ -166,7 +166,7 @@ $_SESSION['RequiredData']=$alertMessage;
           
            $array_aa=array_unique((array_merge($r,$p)));
 
-       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php','attendence-calendar.php','profile.php','staff-attendance.php','books-issued.php','movement-admin.php','all-notification.php');
+       $urls=array('Dashboard.php','not_found.php','bulk_assign.php','password-change.php','print.php','attendence-calendar.php','profile.php','staff-attendance.php','books-issued.php','movement-admin.php','mooc-vac.php','all-notification.php');
  
       $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
@@ -484,6 +484,16 @@ window.location.href = 'profile.php';
                                 </p>
                             </a>
                         </li>
+                           <li class="nav-item has-treeview menu-open">
+                            <a href="/tms" class="nav-link ">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    TMS
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
+
                         <?php 
               if ($spoc_per>0) 
                   {
