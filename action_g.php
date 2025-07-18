@@ -42113,7 +42113,7 @@ while($row7co = sqlsrv_fetch_array($list_resultamrikco, SQLSRV_FETCH_ASSOC) )
 
 
 
-      $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
+   echo    $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
 VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0','$sgroup');";
 $result = sqlsrv_query($conntest,$insertResult);
 if ($result === false) {
