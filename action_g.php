@@ -10210,8 +10210,11 @@ mysqli_close($conn);
        sqlsrv_close($conntest);
    }  elseif($code==139)
     {
-     echo  $id=$_POST['id'];
-     echo  $get_student_details="SELECT * FROM offer_latter  where id='$id'";
+        $consultant='';
+      $id=$_POST['id'];
+      $DepartmentName='';
+      $Consultant_id='';
+       $get_student_details="SELECT * FROM offer_latter  where id='$id'";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
 if ($row=mysqli_fetch_array($get_student_details_run))
  {
@@ -10225,13 +10228,13 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $classroll=$row['Class_RollNo'];
     //$Duration=$row['Duration'];
 
-$get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' ANd (Status='1'  OR Status is NULL)";
+ $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' ANd (Status='1'  OR Status is NULL)";
 $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
 if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
     $courseName=$row_collegecourse_name['Course'];
     $CollegeName=$row_collegecourse_name['CollegeName'];
-    $Department=$row_collegecourse_name['DepartmentId'];
+     $Department=$row_collegecourse_name['DepartmentId'];
 $get_department_name="SELECT * FROM MasterDepartment where Id='$Department'";
 $get_department_name_run=sqlsrv_query($conntest,$get_department_name);
 if ($row_departcourse_name=sqlsrv_fetch_array($get_department_name_run)) {
@@ -10251,14 +10254,14 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
 
     $courseName=$row_course_name['Course'];
 }
-    echo "stt : ". $State_id=$row['State'];
+     $State_id=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
     $ID_Proof_No=$row['ID_Proof_No'];
-   echo  $District_id=$row['District'];
+    $District_id=$row['District'];
      $months=$row['months'];
 
       $lStatus=$row['Status'];
@@ -10273,7 +10276,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
     {
     $State=$row_state['name'];
     }
-   echo  $get_district="SELECT name FROM cities  where id='$District_id'";
+  $get_district="SELECT name FROM cities  where id='$District_id'";
     $get_district_run=mysqli_query($conn,$get_district);
     if($row_dist=mysqli_fetch_array($get_district_run))
     {
@@ -10293,7 +10296,7 @@ $NationalityName=$row['name'];
 
                     }
                    }
-    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id'";
+     $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
  {
@@ -10455,7 +10458,7 @@ else
             <div class="col-lg-3">
                 <label>College Name</label>
                 <select id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
-                    <option value='<?=$Collegeid;?>'><?=$CollegeName;?></option>
+                    <option value='<?=$Collegeid;?>'><?=$Collegeid;?></option>
 
 
                     <?php
@@ -10613,7 +10616,7 @@ else
                 <select class="form-control" id="reportedStatus">
                     <option value="<?=$ReportedStatus;?> "><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?>
                     </option>
-                    <option value="1">No </option>
+                    <option value="0">No </option>
                     <option value="1">Yes</option>
                 </select>
             </div>
@@ -10946,11 +10949,11 @@ else
                  ?>
             </div>
             <div class="col-lg-2">
-                <label>Reported</label>
+                <label>Reported </label>
                 <select class="form-control" id="reportedStatus">
-                    <option value="<?=$ReportedStatus;?> "><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?>
+                    <option value="<?=$ReportedStatus;?>"><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?>
                     </option>
-                    <option value="1">No </option>
+                    <option value="0">No</option>
                     <option value="1">Yes</option>
                 </select>
             </div>
