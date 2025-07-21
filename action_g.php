@@ -37555,7 +37555,7 @@ elseif($code==428)
  else if($code==429)
    {
        $ExamFromID=$_POST['ExamFromID'];
-   $getDefalutMenu="UPDATE  ExamForm  SET AcceptType='0',ReVerifyAccount='$timeStampS',,ReVerifyAccountBy='$EmployeeID' Where ID='$ExamFromID'";
+  $getDefalutMenu="UPDATE  ExamForm  SET AcceptType='0',ReVerifyAccount='$timeStampS',ReVerifyAccountBy='$EmployeeID' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
