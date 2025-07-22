@@ -551,7 +551,8 @@ if($code==1) // pendig complaint
      $staff_name = isset($_POST['staff_name']) ? $_POST['staff_name'] : "";
     $organisationName = isset($_POST['organisationName']) ? $_POST['organisationName'] : "";
     $departmentName = isset($_POST['departmentName']) ? $_POST['departmentName'] : "";
-    $remakrs = isset($_POST['remakrs']) ? $_POST['remakrs'] : "";
+    $remakrs = isset($_POST["remakrs"]) ? str_replace("'", " ", $_POST["remakrs"]) : "";
+
      $employee_details="SELECT * FROM Staff Where IDNo='$staff_name'";
     $employee_details_run=sqlsrv_query($conntest,$employee_details);
     if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
@@ -594,7 +595,8 @@ if($code==1) // pendig complaint
    {
    $userId=$_POST['userId'];
    $TokenNo=$_POST['token'];
-   $forward_remarks=$_POST['forward_remarks'];
+   $forward_remarks = isset($_POST["forward_remarks"]) ? str_replace("'", " ", $_POST["forward_remarks"]) : "";
+
     $action_update_after_forward="UPDATE StudentGrievanceTrack SET Action='2',EmployeeRemarks='$forward_remarks' where TokenNo='$TokenNo' and EmployeeId='$EmployeeID'";
     $insert_request_process_run1= sqlsrv_query($conntest,$action_update_after_forward);
 

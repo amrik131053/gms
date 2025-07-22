@@ -24196,10 +24196,10 @@ sqlsrv_close($conntest);
  $as='DeviceLogs_'.$ApplyMonth.'_'.$ApplyYear;
  echo "<br>".$query="INSERT INTO $as(DownloadDate,DeviceId,Direction,UserId,LogDate,C1,C4,C5,WorkCode,UpdateFlag)
  VALUES ('$log','16','','$emp_id','$log','out','255','84','','')";
-//  $stmt = sqlsrv_query($conn91,$query);
+ $stmt = sqlsrv_query($conn91,$query);
  echo "<br>".$query="INSERT INTO DeviceLogsAll(LogDateTime,DeviceShortName,LogDirection,EmpCode,SerialNo)
  VALUES ('$log','202','','$emp_id','OIN7010057010800775')";
-//  $stmt = sqlsrv_query($conntest,$query);
+ $stmt = sqlsrv_query($conntest,$query);
 echo "1";
 }
 sqlsrv_close($conntest);
