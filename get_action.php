@@ -5449,7 +5449,7 @@ $start=3;
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
    $OrderBy = $_GET['OrderBy'];
-
+ 
  $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group','$OrderBy')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   

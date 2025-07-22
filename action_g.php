@@ -4063,12 +4063,12 @@ else { ?>
                                 <div class="form-group">
                                     <label> Recommending Authority
                                     </label>
-                                    <input type="text" class="form-control" name="leaveRecommendingAuthority"
+                                    <input type="number" class="form-control" name="leaveRecommendingAuthority"
                                         placeholder="Enter leave sanction authority"
                                         value="<?=$row1['LeaveRecommendingAuthority'];?>"
                                         onkeyup="emp_detail_verify2(this.value);">
                                     <?php  
-                                                                                        $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+                      $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
                                             $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
                                             if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
                                             {
@@ -4083,7 +4083,7 @@ else { ?>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label> Sanction Authority</label>
-                                    <input type="text" class="form-control" name="leaveSanctionAuthority"
+                                    <input type="number" class="form-control" name="leaveSanctionAuthority"
                                         placeholder="Enter leave recommending authority"
                                         value="<?=$row1['LeaveSanctionAuthority'];?>"
                                         onkeyup="emp_detail_verify1(this.value);">

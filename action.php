@@ -23184,6 +23184,8 @@ else
 </td>
 <td style="color:green"><b>
    <?php
+
+
    if($alreadyLeaveExistInRecordTable!=1)
    {
    if(($HolidayName!='' && $printleave=='On Duty') || ($HolidayName!='' && $intime!="" &&  $outtime!="" && $outtime>$intime)){

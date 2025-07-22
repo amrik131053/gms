@@ -144,6 +144,94 @@ window.location.href = "index.php";
      }
      
 
+        if ($code == 1.1) {
+         $search = isset($_POST['search']) ? trim($_POST['search']) : '';
+         $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+         $limit = 10;
+         $offset = ($page - 1) * $limit;
+     
+         $where = "WHERE Status = '0'";
+         if ($search != '') {
+             $search = str_replace("'", "''", $search); // prevent SQL injection
+             $where .= " AND (PaperTitle LIKE '%$search%' OR AuthorName LIKE '%$search%' OR IDNo LIKE '%$search%')";
+         }
+     
+         // Get total count
+         $countQuery = "SELECT COUNT(*) AS Total FROM LibraryRepository $where";
+         $countResult = sqlsrv_query($conntest, $countQuery);
+         $totalRows = sqlsrv_fetch_array($countResult)['Total'];
+         $totalPages = ceil($totalRows / $limit);
+     
+         // Get paginated records
+         $query = "SELECT * FROM (
+             SELECT *, ROW_NUMBER() OVER (ORDER BY ID DESC) AS RowNum 
+             FROM LibraryRepository $where
+         ) AS T WHERE T.RowNum BETWEEN " . ($offset + 1) . " AND " . ($offset + $limit);
+     
+         $result = sqlsrv_query($conntest, $query);
+     
+         ob_start();
+         echo "<table class='table table-bordered'><thead><tr>
+               <th>SrNo</th><th>IDNo</th><th>Author Name</th><th>Title</th><th>Faculty</th><th>Journal</th><th>Date</th><th>DOI</th><th>File</th><th>Action</th>
+               </tr></thead><tbody>";
+               $sr = $offset + 1; 
+         while ($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+             $college = '';
+             $stmt2 = sqlsrv_query($conntest, "SELECT CollegeName FROM MasterCourseCodes WHERE CollegeID='" . $row1['Faculty'] . "'");
+             if ($row12 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)) {
+                 $college = $row12['CollegeName'];
+             }
+             echo "<tr>
+             <td>{$sr}</td>
+             <td>{$row1['IDNo']}</td>
+             <td>{$row1['AuthorName']}</td>
+             <td style='width:30%'>{$row1['PaperTitle']}</td>
+             <td>{$college}</td>
+             <td>{$row1['Journal']}</td>
+             <td>" . ($row1['DateofPublication'] ? $row1['DateofPublication']->format('d-m-Y') : '') . "</td>
+          <td>" . (!empty($row1['DOI']) ? "<a href='" . (preg_match('/^https?:\/\//', $row1['DOI']) ? htmlspecialchars($row1['DOI']) : 'https://' . htmlspecialchars($row1['DOI'])) . "' target='_blank'>Link</a>" : '') . "</td>
+
+             <td><a href='http://erp.gku.ac.in:86/Images/Repository/" . htmlspecialchars($row1['Documents']) . "' target='_blank'><i class='fa fa-eye'></i></a></td>
+             <td><i class='fa fa-upload' data-toggle='modal' data-target='#exampleModal_update' onclick='updatePpr(" . $row1['ID'] . ")'></i></td>
+           </tr>";
+     $sr++;
+     
+         }
+     
+         echo "</tbody></table>";
+         $tableHTML = ob_get_clean();
+     
+         // Generate pagination HTML
+         ob_start();
+         echo '<nav><ul class="pagination pagination-sm justify-content-center flex-wrap">';
+         $range = 2;
+         
+         for ($i = 1; $i <= $totalPages; $i++) {
+             if (
+                 $i == 1 ||
+                 $i == $totalPages ||
+                 ($i >= $page - $range && $i <= $page + $range)
+             ) {
+                 $active = ($i == $page) ? 'active' : '';
+                 echo "<li class='page-item $active'>
+                     <a class='page-link' href='javascript:void(0)' onclick='load_data($i)'>$i</a>
+                 </li>";
+                 $last = $i;
+             } elseif (isset($last) && $last != '...') {
+                 echo "<li class='page-item disabled'><span class='page-link'>…</span></li>";
+                 $last = '...';
+             }
+         }
+         echo '</ul></nav>';
+         
+         $paginationHTML = ob_get_clean();
+     
+         echo json_encode([
+             'table' => $tableHTML,
+             'pagination' => $paginationHTML
+         ]);
+     }
+
 else if($code==2)
 {
 
