@@ -3932,12 +3932,9 @@ else if($code=='43')
              <?php  $iidd=$row['id'];?></td>
                            <td style='text-align:center;width: 100px'> 
 
-                            
+                          
 
 
-                             <?php  if($DistributionTheory=='Grace')
-                             {
-?>
 <select  name="mst[]"  id='marks_<?=$iidd;?>' class='marks' onchange="savemarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
   
    <option value='<?=$row['intmarks'];?>'><?=$row['intmarks'];?></option>
@@ -3951,12 +3948,7 @@ else if($code=='43')
 ?>
 
                                  
-                             <?php }
-                             else
-                             {
-                                echo $row['intmarks'];
-                             }
-
+                           
 ?>
                           
 
