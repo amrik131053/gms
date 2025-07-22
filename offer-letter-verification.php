@@ -663,7 +663,7 @@ function edit_student_details(id) {
   var reportedStatus = document.getElementById('reportedStatus').value;
 
 
-if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& Consultant!='' )
+if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!=''  && Course!=''  && Nationality!='' && State!='' )
 {
   var code = 140;
   var data = {
@@ -700,7 +700,9 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     data: data,
     type: 'POST',
     success: function(response) {
-      //  console.log(response); // Log the response for debugging
+     console.log(response);
+
+     // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');

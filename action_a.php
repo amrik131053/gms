@@ -1199,13 +1199,42 @@ elseif ($code==19)
     $Count=$_POST['CountType'];
     $Type=$_POST['Type'];
 
+       
+       if($Type=='15')
+       {
+   if ($TypeofLeave == 'Single') {
+        $employeeId = $_POST['employeeId'];
+
+        $Update1="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$employeeId' and LeaveType_Id='$Type'";
+        $s1s=sqlsrv_query($conntest,$Update1);
+
+        $Update2="UPDATE LeaveBalances SET Balance=Balance-$Count Where Employee_Id='$employeeId' and LeaveType_Id='1'";
+        $s1s2=sqlsrv_query($conntest,$Update2);
+
+        if($s1s=true)
+        {
+             $insertBLance1="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Remarks)
+            Values('$timeStamp','$employeeId','$Type','$Count','$EmployeeID','$timeStamp','Advance Leave')";
+            $insertBLanceRun1=sqlsrv_query($conntest,$insertBLance1);
+
+               $insertBLance2="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Remarks)
+            Values('$timeStamp','$employeeId','1','-$Count','$EmployeeID','$timeStamp','-1 in casual due to Advance Leave')";
+            $insertBLanceRun2=sqlsrv_query($conntest,$insertBLance2);
+
+        }
+    }
+     }
+    else
+    {
+
     if ($TypeofLeave == 'Single') {
         $employeeId = $_POST['employeeId'];
         $Update1="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$employeeId' and LeaveType_Id='$Type'";
         $s1s=sqlsrv_query($conntest,$Update1);
         if($s1s=true)
         {
-            $insertBLance1="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$employeeId','$Type','$Count','$EmployeeID','$timeStamp','0')";
+            $insertBLance1="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)
+            Values('$timeStamp','$employeeId','$Type','$Count','$EmployeeID','$timeStamp','0')";
             $insertBLanceRun1=sqlsrv_query($conntest,$insertBLance1);
         }
     }
@@ -1231,6 +1260,7 @@ elseif ($code==19)
          }
      }
    }
+}
    elseif($code=='20') 
    {
     $sub_data=$_POST['sub_data'];

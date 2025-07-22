@@ -443,9 +443,10 @@ function reverify(ExamFromID)
                 ExamFromID: ExamFromID
             },
             success: function(response) {
-                // console.log(response);
+                 console.log(response);
                 spinner.style.display = 'none';
                 if (response == 1) {
+
                     SuccessToast('Successfully Verify');
                     edit_stu(ExamFromID);                            
                     $('.bd-example-modal-xl').modal('hide');

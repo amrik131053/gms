@@ -10210,8 +10210,11 @@ mysqli_close($conn);
        sqlsrv_close($conntest);
    }  elseif($code==139)
     {
-     echo  $id=$_POST['id'];
-     echo  $get_student_details="SELECT * FROM offer_latter  where id='$id'";
+        $consultant='';
+      $id=$_POST['id'];
+      $DepartmentName='';
+      $Consultant_id='';
+       $get_student_details="SELECT * FROM offer_latter  where id='$id'";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
 if ($row=mysqli_fetch_array($get_student_details_run))
  {
@@ -10225,13 +10228,13 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $classroll=$row['Class_RollNo'];
     //$Duration=$row['Duration'];
 
-$get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' ANd (Status='1'  OR Status is NULL)";
+ $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' ANd (Status='1'  OR Status is NULL)";
 $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
 if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
     $courseName=$row_collegecourse_name['Course'];
     $CollegeName=$row_collegecourse_name['CollegeName'];
-    $Department=$row_collegecourse_name['DepartmentId'];
+     $Department=$row_collegecourse_name['DepartmentId'];
 $get_department_name="SELECT * FROM MasterDepartment where Id='$Department'";
 $get_department_name_run=sqlsrv_query($conntest,$get_department_name);
 if ($row_departcourse_name=sqlsrv_fetch_array($get_department_name_run)) {
@@ -10251,14 +10254,14 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
 
     $courseName=$row_course_name['Course'];
 }
-    echo "stt : ". $State_id=$row['State'];
+     $State_id=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
     $ID_Proof_No=$row['ID_Proof_No'];
-   echo  $District_id=$row['District'];
+    $District_id=$row['District'];
      $months=$row['months'];
 
       $lStatus=$row['Status'];
@@ -10273,7 +10276,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
     {
     $State=$row_state['name'];
     }
-   echo  $get_district="SELECT name FROM cities  where id='$District_id'";
+  $get_district="SELECT name FROM cities  where id='$District_id'";
     $get_district_run=mysqli_query($conn,$get_district);
     if($row_dist=mysqli_fetch_array($get_district_run))
     {
@@ -10293,7 +10296,7 @@ $NationalityName=$row['name'];
 
                     }
                    }
-    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id'";
+     $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
  {
@@ -10455,7 +10458,7 @@ else
             <div class="col-lg-3">
                 <label>College Name</label>
                 <select id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
-                    <option value='<?=$Collegeid;?>'><?=$CollegeName;?></option>
+                    <option value='<?=$Collegeid;?>'><?=$Collegeid;?></option>
 
 
                     <?php
@@ -10613,7 +10616,7 @@ else
                 <select class="form-control" id="reportedStatus">
                     <option value="<?=$ReportedStatus;?> "><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?>
                     </option>
-                    <option value="1">No </option>
+                    <option value="0">No </option>
                     <option value="1">Yes</option>
                 </select>
             </div>
@@ -10946,11 +10949,11 @@ else
                  ?>
             </div>
             <div class="col-lg-2">
-                <label>Reported</label>
+                <label>Reported </label>
                 <select class="form-control" id="reportedStatus">
-                    <option value="<?=$ReportedStatus;?> "><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?>
+                    <option value="<?=$ReportedStatus;?>"><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?>
                     </option>
-                    <option value="1">No </option>
+                    <option value="0">No</option>
                     <option value="1">Yes</option>
                 </select>
             </div>
@@ -16317,6 +16320,7 @@ sqlsrv_query($conntest,$update12);
 
                                 <th>Duty Leave</th>
                                 <th>Vacation</th>
+                                 <th>Advance</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -16335,6 +16339,7 @@ sqlsrv_query($conntest,$update12);
                     'Leave2' => 0,
                     'Leave3' => 0,
                     'Leave4' => 0,
+                     'Leave5' => 0,
                     'IDNo' => $row['IDNo'],
                 ];
             }
@@ -16350,6 +16355,9 @@ sqlsrv_query($conntest,$update12);
              elseif ($row['LeaveType_Id'] == '26') {
                 $employeeData[$employeeId]['Leave4'] = $row['Balance'];
             }
+             elseif ($row['LeaveType_Id'] == '15') {
+                $employeeData[$employeeId]['Leave5'] = $row['Balance'];
+            }
         }
         
         foreach ($employeeData as $employeeId => $data) {
@@ -16361,6 +16369,7 @@ sqlsrv_query($conntest,$update12);
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
                                 <td class="editable" data-field="Leave4"><?= $data['Leave4']; ?></td>
+                                <td class="editable" data-field="Leave5"><?= $data['Leave5']; ?></td>
                               
                             </tr>
                             <?php
@@ -16385,6 +16394,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Compansatory Off</th>
                                 <th>Duty Leave</th>
                                  <th>Vacation</th>
+                                  <th>Advance</th>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16410,7 +16420,8 @@ $getAllLeaves ="SELECT
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '1' THEN LeaveBalances.Balance ELSE 0 END) AS Casual,
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '2' THEN LeaveBalances.Balance ELSE 0 END) AS Compansatory,
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '12' THEN LeaveBalances.Balance ELSE 0 END) AS Duty,
-     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '26' THEN LeaveBalances.Balance ELSE 0 END) AS Vacation
+     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '26' THEN LeaveBalances.Balance ELSE 0 END) AS Vacation,
+      SUM(CASE WHEN LeaveBalances.LeaveType_Id = '15' THEN LeaveBalances.Balance ELSE 0 END) AS Advance
 FROM Staff
 INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo
 WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
@@ -16431,6 +16442,7 @@ WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
                                 <td class="editable" data-field="Leave2"><?= $row['Compansatory']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $row['Duty']; ?></td>
                                  <td class="editable" data-field="Leave4"><?= $row['Vacation']; ?></td>
+                                 <td class="editable" data-field="Leave5"><?= $row['Advance']; ?></td>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16521,7 +16533,9 @@ sqlsrv_query($conntest,$updateLeaveBalance1);
 
 $checkLeaveBlacne4="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
 $existrow4=sqlsrv_query($conntest,$checkLeaveBlacne4,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-$countblacne4=sqlsrv_num_rows($existrow3);
+$countblacne4=sqlsrv_num_rows($existrow4);
+
+
 if($countblacne4>0)
 {
     $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave4'WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
@@ -16532,6 +16546,22 @@ else
    $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave4','26')";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 
+
+}
+$checkLeaveBlacne5="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='15' ";
+$existrow5=sqlsrv_query($conntest,$checkLeaveBlacne5,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$countblacne5=sqlsrv_num_rows($existrow5);
+
+
+if($countblacne5>0)
+{
+    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave5'WHERE Employee_Id='$employeeId' and LeaveType_Id='15' ";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+}
+else
+{
+   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave5','15')";
+sqlsrv_query($conntest,$updateLeaveBalance1);
 
 }
 
@@ -17492,7 +17522,7 @@ else
                                 </option>
                                 <?php
      }
-     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26' and Id!='12'"; 
+     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26' and Id!='12' and Id!='15'"; 
      $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
                  while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
                 {
@@ -18078,6 +18108,16 @@ sqlsrv_query($conntest,$updateLeaveBalancec);
    $employeeIdc1=$rowc1['IDNo'];
     $updateLeaveBalancec1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc1','0','26') ";
 sqlsrv_query($conntest,$updateLeaveBalancec1);
+
+    }
+
+    $staffc1a="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=15)";
+    $stmtc1a=sqlsrv_query($conntest,$staffc1a,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    while($rowc1a=sqlsrv_fetch_array($stmtc1a))
+    {
+   $employeeIdc1a=$rowc1a['IDNo'];
+    $updateLeaveBalancec1a="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc1a','0','15') ";
+sqlsrv_query($conntest,$updateLeaveBalancec1a);
 
     }
 
@@ -37552,7 +37592,7 @@ elseif($code==428)
  else if($code==429)
    {
        $ExamFromID=$_POST['ExamFromID'];
-   $getDefalutMenu="UPDATE  ExamForm  SET AcceptType='0',ReVerifyAccount='$timeStampS',,ReVerifyAccountBy='$EmployeeID' Where ID='$ExamFromID'";
+  $getDefalutMenu="UPDATE  ExamForm  SET AcceptType='0',ReVerifyAccount='$timeStampS',ReVerifyAccountBy='$EmployeeID' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
@@ -42155,7 +42195,7 @@ while($row7co = sqlsrv_fetch_array($list_resultamrikco, SQLSRV_FETCH_ASSOC) )
 
 
 
-      $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
+   echo    $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus,SGroup) 
 VALUES('$UniRollNo','$IDNo','$Semester','$sgpa',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Regular','','$EmployeeID','$ResultColumn','1','$timeStamp','0','$sgroup');";
 $result = sqlsrv_query($conntest,$insertResult);
 if ($result === false) {
