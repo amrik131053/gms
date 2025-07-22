@@ -3938,6 +3938,10 @@ else if($code=='43')
 <select  name="mst[]"  id='marks_<?=$iidd;?>' class='marks' onchange="savemarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
   
    <option value='<?=$row['intmarks'];?>'><?=$row['intmarks'];?></option>
+   <option value='AB'>AB</option>
+   <option value='S'>S</option>
+    <option value='US'>US</option>
+      <option value='NA'>NA</option>
     <?php
                               for($j=0;$j<=20;$j++)
 {?>
