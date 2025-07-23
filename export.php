@@ -12674,6 +12674,7 @@ else if($exportCode==75)
       <th style='background-color:black; color:white;'>Examination</th>
       <th style='background-color:black; color:white;'>Student Name</th>
       <th style='background-color:black; color:white;'>Gender</th>
+      <th style='background-color:black; color:white;'>DOB</th>
       <th style='background-color:black; color:white;'>Category</th>
       <th style='background-color:black; color:white;'>Class Roll No</th>
       <th style='background-color:black; color:white;'>UniRollno</th>
@@ -12728,6 +12729,7 @@ else if($exportCode==75)
                                      $Batch=$row['Batch'];
                                      $SemesterId=$row['SemesterId'];
                                      $State=$row['State'];
+                                     $DOB=$row['DOB']->format('d-m-Y');
                                      $Country=$row['Country'];
                                     
  if($Status==-1)
@@ -12793,6 +12795,7 @@ else if($exportCode==75)
                                         <td>{$Examination}</td>
                                         <td>{$StudentName}</td>
                                         <td>{$Gender}</td>
+                                        <td>{$DOB}</td>
                                         <td>{$Category}</td>
                                         <td>{$ClassRollNo}</td>
                                         <td>{$UniRollno}</td>
