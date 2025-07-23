@@ -132,14 +132,12 @@
                                             <td>{{ $recent['mihpayid'] }}</td>
                                             <td>
 
-                                                <!-- @if($recent['Status'] != 'success') -->
+                                              
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="syncFee(`{{ $recent['txnid'] }}`)">
                                                     ReSync
                                                 </button>
-                                                <!-- @else
-                                                <b class="text-success">{{ $recent['Status'] }}</b>
-                                                @endif -->
+                                               
                                             </td>
 
 
