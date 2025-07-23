@@ -187,10 +187,11 @@ function updatePpr(id) {
 
 function uploadSubmit(form) {
 
+
    /* var IDNo = form.IDNo.value;*/
     var pprTitle = form.pprTitle.value;
     var pprAuth = form.pprAuth.value;
-    var facultyId = form.facultyId.value;
+    // var facultyId = form.facultyId.value;
     var pprJournal = form.pprJournal.value;
     var pprPublish = form.pprPublish.value;
     // var pprLink = form.pprLink.value;
@@ -253,7 +254,7 @@ function uploadSubmit(form) {
                 document.getElementById("IDNo").value = "";
                 document.getElementById("pprTitle").innerHTML = "";
                 document.getElementById("pprAuth").value = "";
-                document.getElementById("College").innerHTML = "";
+                // document.getElementById("College").innerHTML = "";
 
             } else if (response == 2) {
                 ErrorToast('Please upload the file in (.PDF) format only.', 'bg-warning');

@@ -153,7 +153,7 @@ window.location.href = "index.php";
          $where = "WHERE Status = '0'";
          if ($search != '') {
              $search = str_replace("'", "''", $search); // prevent SQL injection
-             $where .= " AND (PaperTitle LIKE '%$search%' OR AuthorName LIKE '%$search%' OR IDNo LIKE '%$search%')";
+             $where .= " AND (Topic LIKE '%$search%' OR NameOfResearcher LIKE '%$search%' OR SupervisorName LIKE '%$search%')";
          }
      
          // Get total count
@@ -164,7 +164,7 @@ window.location.href = "index.php";
      
          // Get paginated records
          $query = "SELECT * FROM (
-             SELECT *, ROW_NUMBER() OVER (ORDER BY ID DESC) AS RowNum 
+             SELECT *, ROW_NUMBER() OVER (ORDER BY Id DESC) AS RowNum 
              FROM LibraryRepository $where
          ) AS T WHERE T.RowNum BETWEEN " . ($offset + 1) . " AND " . ($offset + $limit);
      
@@ -172,27 +172,21 @@ window.location.href = "index.php";
      
          ob_start();
          echo "<table class='table table-bordered'><thead><tr>
-               <th>SrNo</th><th>IDNo</th><th>Author Name</th><th>Title</th><th>Faculty</th><th>Journal</th><th>Date</th><th>DOI</th><th>File</th><th>Action</th>
+               <th>SrNo</th><th>NameOfResearcher</th><th>Topic</th><th>SupervisorName</th><th>YearOfComplition</th><th>FileName</th>
                </tr></thead><tbody>";
                $sr = $offset + 1; 
          while ($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
-             $college = '';
-             $stmt2 = sqlsrv_query($conntest, "SELECT CollegeName FROM MasterCourseCodes WHERE CollegeID='" . $row1['Faculty'] . "'");
-             if ($row12 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)) {
-                 $college = $row12['CollegeName'];
-             }
+           
+
              echo "<tr>
              <td>{$sr}</td>
-             <td>{$row1['IDNo']}</td>
-             <td>{$row1['AuthorName']}</td>
-             <td style='width:30%'>{$row1['PaperTitle']}</td>
-             <td>{$college}</td>
-             <td>{$row1['Journal']}</td>
-             <td>" . ($row1['DateofPublication'] ? $row1['DateofPublication']->format('d-m-Y') : '') . "</td>
-          <td>" . (!empty($row1['DOI']) ? "<a href='" . (preg_match('/^https?:\/\//', $row1['DOI']) ? htmlspecialchars($row1['DOI']) : 'https://' . htmlspecialchars($row1['DOI'])) . "' target='_blank'>Link</a>" : '') . "</td>
-
-             <td><a href='http://erp.gku.ac.in:86/Images/Repository/" . htmlspecialchars($row1['Documents']) . "' target='_blank'><i class='fa fa-eye'></i></a></td>
-             <td><i class='fa fa-upload' data-toggle='modal' data-target='#exampleModal_update' onclick='updatePpr(" . $row1['ID'] . ")'></i></td>
+             <td>{$row1['NameOfResearcher']}</td>
+             <td>{$row1['Topic']}</td>
+             <td>{$row1['SupervisorName']}</td>
+             <td style='width:30%'>{$row1['YearOfComplition']}</td>
+    
+             <td><a href='http://erp.gku.ac.in:86/Images/LibraryRepository/" . htmlspecialchars($row1['FileName']) . "' target='_blank'><i class='fa fa-eye'></i></a></td>
+           
            </tr>";
      $sr++;
      
@@ -274,10 +268,10 @@ elseif($code==3)
 $IDNo=$_POST['IDNo'];
 $pprTitle=$_POST['pprTitle'];
 $pprAuth=$_POST['pprAuth'];
-$facultyId=$_POST['facultyId'];
+// $facultyId=$_POST['facultyId'];
 $pprJournal=$_POST['pprJournal'];
 $pprPublish=$_POST['pprPublish'];
-$pprLink=$_POST['pprLink'];
+// $pprLink=$_POST['pprLink'];
 $file_name = $_FILES['pprAttach']['name'];
 $file_tmp = $_FILES['pprAttach']['tmp_name'];
 $file_size =$_FILES['pprAttach']['size'];
@@ -297,13 +291,16 @@ $file_name_clean = preg_replace('/\s+/', '_', $file_name_raw); // Clean original
 $file_name = $IDNo ."_".$file_Auth_clean."_" . $file_title_clean . "_" . $file_name_clean;
 $file_name = str_replace(["'", ":"], "", $file_name);
 
-$destdir = 'Images/Repository';
-ftp_chdir($conn_id, "Images/Repository/") or die("Could not change directory");
+$destdir = 'Images/LibraryRepository';
+ftp_chdir($conn_id, "Images/LibraryRepository/") or die("Could not change directory");
 ftp_pasv($conn_id,true);
 ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
-       $InsertReseatch="INSERT into Repository (IDNo,PaperTitle,AuthorName,Faculty,Journal,DateofPublication,DOI,Documents,Status)
- VALUES('$IDNo','$pprTitle','$pprAuth','$facultyId','$pprJournal','$pprPublish','$pprLink','$file_name','0')";
+       $InsertReseatch="INSERT into LibraryRepository (NameOfResearcher,Topic,SupervisorName,YearOfComplition,FileName,Status,CreatedDate)
+ VALUES('$pprAuth','$pprTitle','$pprJournal','$pprPublish','$file_name','0','$date')";
+
+
+
   $InsertResearchPpr=sqlsrv_query($conntest,$InsertReseatch);
   
                 if($InsertResearchPpr==true)
