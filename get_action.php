@@ -3943,7 +3943,7 @@ else if($code=='43')
     <option value='US'>US</option>
       <option value='NA'>NA</option>
     <?php
-                              for($j=0;$j<=40;$j++)
+                              for($j=0;$j<=100;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
