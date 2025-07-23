@@ -84,6 +84,7 @@ $leaveName='';
 $printleave='';
 $LeaveSchoduleTime='';
 $printhalf='';
+$printleaveonduty='';
 $printShortleave='';
 $leavecount=0;
 $leavecount_n=0;
@@ -93,7 +94,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
             $LeaveID=$row['LeaveID'];
             $FilePathLeave=$row['FilePath'];
             $leavetypeid=$row['leavetypes'];
-            $leaveName=$row['Name'];
+             $leaveName=$row['Name'];
             $leaveShortName=$row['ShortName'];
             $leaveduration=$row['LeaveDuration'];
             $leavedurationtime=$row['LeaveDurationsTime'];
@@ -114,6 +115,8 @@ $printhalf='(SH)';
   if($leavedurationtime>0)
 { 
 
+    $printleaveonduty=$leaveName;
+
   $printleave=$printleave.' '.$leavedurationtime.' '.$leaveName.$printhalf;
  
   $printShortleave=$printShortleave .' '.$leavedurationtime.' '.$leaveShortName .$printhalf;
@@ -122,7 +125,6 @@ $printhalf='(SH)';
  {
     
  $printleave=$leaveName;
-
  $printShortleave=$leaveShortName;
 
  }

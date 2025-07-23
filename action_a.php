@@ -417,7 +417,7 @@ JOIN PHDacademic ON Staff.IDNo = PHDacademic.username Where JobStatus='1' AND PH
                                         <div class="form-group">
                                             <label> Recommending Authority
                                             </label>
-                                            <input type="text" class="form-control" name="leaveRecommendingAuthorityPromition"
+                                            <input type="number" class="form-control" name="leaveRecommendingAuthorityPromition"
                                                 placeholder="Enter leave sanction authority"
                                                 
                                                 onkeyup="emp_detail_verify3(this.value);">
@@ -427,7 +427,7 @@ JOIN PHDacademic ON Staff.IDNo = PHDacademic.username Where JobStatus='1' AND PH
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label> Sanction Authority</label>
-                                            <input type="text" class="form-control" name="leaveSanctionAuthorityPromition"
+                                            <input type="number" class="form-control" name="leaveSanctionAuthorityPromition"
                                                 placeholder="Enter leave recommending authority"
                                                 
                                                 onkeyup="emp_detail_verify4(this.value);">

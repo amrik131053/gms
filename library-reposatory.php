@@ -151,7 +151,7 @@ function load_data(page = 1) {
     url: 'action_research.php',
     type: 'POST',
     data: {
-      code: '1',
+      code: '1.1',
       page: page,
       search: search
     },

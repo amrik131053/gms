@@ -3932,17 +3932,18 @@ else if($code=='43')
              <?php  $iidd=$row['id'];?></td>
                            <td style='text-align:center;width: 100px'> 
 
-                            
+                          
 
 
-                             <?php  if($DistributionTheory=='Grace')
-                             {
-?>
 <select  name="mst[]"  id='marks_<?=$iidd;?>' class='marks' onchange="savemarks(<?=$iidd;?>,<?=$row['IDNo'];?>)" >
   
    <option value='<?=$row['intmarks'];?>'><?=$row['intmarks'];?></option>
+   <option value='AB'>AB</option>
+   <option value='S'>S</option>
+    <option value='US'>US</option>
+      <option value='NA'>NA</option>
     <?php
-                              for($j=0;$j<=20;$j++)
+                              for($j=0;$j<=100;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
@@ -3951,12 +3952,7 @@ else if($code=='43')
 ?>
 
                                  
-                             <?php }
-                             else
-                             {
-                                echo $row['intmarks'];
-                             }
-
+                           
 ?>
                           
 
@@ -5449,7 +5445,7 @@ $start=3;
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
    $OrderBy = $_GET['OrderBy'];
-
+ 
  $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group','$OrderBy')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
