@@ -32598,7 +32598,9 @@ function generateRandomPassword($length = 8) {
 
 if($Course!='188')
 {
-$password = generateRandomPassword(8);
+//$password = generateRandomPassword(8);
+
+ $password ='12345678'; 
 }
 else
 {

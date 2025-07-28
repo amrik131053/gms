@@ -806,15 +806,8 @@ function submitNewAdmissions() {
     var Batch = document.getElementById('Batch').value;
     var Comments = document.getElementById('Comments').value;
     var admissiontype = document.getElementById('admissiontype').value;
-
-
-
-
-
-
     var refvalue = document.getElementById('refvalue').value;
     var EmIDTeam = document.getElementById('EmID' + refvalue + '1').value;
-
     if (refvalue == 'Team') {
         var verifiy = document.getElementsByClassName('v_check');
         var len_student = verifiy.length;
