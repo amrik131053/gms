@@ -2386,15 +2386,52 @@ WHERE
              <th>Consultant</th>
               <th>Status</th>
               <th>Verification</th>
+              
               <th>Loan Number</th>
               <th>Application No</th>
               <th>Date Of Verification</th>
-               <th>Loan Number1</th>
+             
+
+              <th>Loan Number1</th>
               <th>Application No1</th>
               <th>Date Of Verification1</th>
-               <th>Amount</th>
-              <th>UTR Number</th>
+
+
+
+              <th>Amount</th>
+              <th>UTR</th>
               <th>Date Of Payment</th>
+
+              
+
+
+               <th>Amount1</th>
+              <th>UTR1</th>
+              <th>Date Of Payment1</th>
+
+
+
+
+               <th>Amount1</th>
+              <th>UTR1</th>
+              <th>Date Of Payment1</th>
+
+
+
+
+               <th>Amount1</th>
+              <th>UTR1</th>
+              <th>Date Of Payment1</th>
+
+
+
+
+             
+
+
+
+           
+             
               <th>Reported</th>
 
 
@@ -2414,15 +2451,22 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $Department=$row['Department'];    
     $Gender=$row['Gender'];    
     $classroll=$row['Class_RollNo'];
+
      $loanNumber=$row['loanNumber'];
       $applicationNo=$row['applicationNo'];
        $dateVerification =$row['dateVerification'];
+         $UTRNumber=$row['UTRNumber'];
+      $loan_amount=$row['loan_amount'];
+     $datePayment =$row['datePayment'];
+
+
+
         $loanNumber1=$row['loanNumber1'];
       $applicationNo1=$row['applicationNo1'];
        $dateVerification1 =$row['dateVerification1'];
 
-          $UTRNumber=$row['UTRNumber'];
-      $loan_amount=$row['loan_amount'];
+          $UTRNumber=$row['UTRNumber1'];
+      $loan_amount=$row['loan_amount1'];
        $datePayment =$row['datePayment'];
 
          $UTRNumber1=$row['UTRNumber1'];
