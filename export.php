@@ -2325,179 +2325,114 @@ $count = 1;
 }
 elseif($exportCode==23.1)
 {    
-    $District=$_GET['District'];   
+    // $District=$_GET['District'];   
     $batch=$_GET['batch'];   
-    if($District>0)
-    {   
-     $get_student_details="SELECT  
-    offer_latter.*, 
-    IFNULL(states.name, 'Not Available') AS StateName, 
-    IFNULL(cities.Name, 'Not Available') AS DistrictName
-FROM 
-    offer_latter 
-LEFT JOIN 
-    states ON states.id = offer_latter.State 
-LEFT JOIN 
-    cities ON cities.id = offer_latter.District  
-WHERE 
-    offer_latter.District = '$District' 
-    AND offer_latter.batch = '$batch';
- ";
-}
-else
-{
- $get_student_details="SELECT  
-    offer_latter.*, 
-    IFNULL(states.name, 'Not Available') AS StateName, 
-    IFNULL(cities.Name, 'Not Available') AS DistrictName
-FROM 
-    offer_latter 
-LEFT JOIN 
-    states ON states.id = offer_latter.State 
-LEFT JOIN 
-    cities ON cities.id = offer_latter.District  
-WHERE 
-    offer_latter.batch = '$batch'";   
-}
-
+    $get_student_details="SELECT * FROM offer_latter WHERE batch = '$batch' order by id desc";   
     $get_student_details_run=mysqli_query($conn,$get_student_details);
     $count = 1;
     $exportMeter="
-    <table class='table' border='1'>
-               
-       <thead>
-                          
-          <tr color='red'>
-                             
-             <th>#</th>
-                            
+    <table class='table' border='1'> 
+       <thead>                
+          <tr color='red'>                 
+             <th>#</th>              
              <th>Session</th>
              <th>College Name</th>
              <th>Course</th>
-              
              <th>Name</th>
              <th>Father Name</th>
              <th>RollNo</th>
-              <th>Batch</th>
- <th>Laternal Entry</th>
+             <th>Batch</th>
+             <th>Laternal Entry</th>
              <th>Gender</th>
              <th>State</th>
              <th>District</th>
              <th>Consultant</th>
               <th>Status</th>
               <th>Verification</th>
-              
               <th>Loan Number</th>
               <th>Application No</th>
               <th>Date Of Verification</th>
-             
-
               <th>Loan Number1</th>
               <th>Application No1</th>
               <th>Date Of Verification1</th>
-
-
-
               <th>Amount</th>
               <th>UTR</th>
               <th>Date Of Payment</th>
-
-              
-
-
                <th>Amount1</th>
               <th>UTR1</th>
               <th>Date Of Payment1</th>
-
-
-
-
                <th>Amount1</th>
               <th>UTR1</th>
               <th>Date Of Payment1</th>
-
-
-
-
                <th>Amount1</th>
               <th>UTR1</th>
               <th>Date Of Payment1</th>
-
-
-
-
-             
-
-
-
-           
-             
               <th>Reported</th>
-
-
-              
-          </tr>
-            
+          </tr>   
        </thead>
        ";
 while($row=mysqli_fetch_array($get_student_details_run)) 
 {   
-     $name=$row['Name'];    
-    $FatherName=$row['FatherName'];    
-    $MotherName=$row['MotherName'];    
-    $Collegeid=$row['CollegeName'];    
-    $Course=$row['Course'];  
-    $batch=$row['Batch'];    
-    $Department=$row['Department'];    
-    $Gender=$row['Gender'];    
     $classroll=$row['Class_RollNo'];
-
-     $loanNumber=$row['loanNumber'];
-      $applicationNo=$row['applicationNo'];
-       $dateVerification =$row['dateVerification'];
-         $UTRNumber=$row['UTRNumber'];
-      $loan_amount=$row['loan_amount'];
-     $datePayment =$row['datePayment'];
-
-
-
+     $query = "SELECT * FROM Admissions WHERE ClassRollNo = '$classroll'";
+     $result = sqlsrv_query($conntest,$query);
+     if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+     {
+        $IDNo=$row1['IDNo'];
+        $ClassRollNo=$row1['ClassRollNo'];
+        $name=$row1['StudentName'];
+        $FatherName=$row1['FatherName'];
+        $MotherName=$row1['MotherName'];
+        $Collegeid=$row1['CollegeID'];
+        $Course=$row1['CourseID'];
+        $batch=$row1['Batch'];
+        $Country=$row1['country'];
+        $State=$row1['State'];
+        $District=$row1['District'];
+        $Nationality=$row1['Nationality'];
+        $Gender=$row1['Sex'];
+        $Lateral=$row1['LateralEntry'];    
+        $Session=$row1['Session'];  
+        // $status=$row1['Status'];   
+     }
+        $loanNumber=$row['loanNumber'];
+        $applicationNo=$row['applicationNo'];
+        $dateVerification =$row['dateVerification'];
+        $UTRNumber=$row['UTRNumber'];
+        $loan_amount=$row['loan_amount'];
+        $datePayment =$row['datePayment'];
         $loanNumber1=$row['loanNumber1'];
-      $applicationNo1=$row['applicationNo1'];
-       $dateVerification1 =$row['dateVerification1'];
-
-          $UTRNumber=$row['UTRNumber1'];
-      $loan_amount=$row['loan_amount1'];
-       $datePayment =$row['datePayment'];
-
-         $UTRNumber1=$row['UTRNumber1'];
-      $loan_amount1=$row['loan_amount1'];
-       $datePayment1 =$row['datePayment1'];
-
-         $UTRNumber2=$row['UTRNumber2'];
-      $loan_amount2=$row['loan_amount2'];
-       $datePayment2 =$row['datePayment2'];
-
-         $UTRNumber3=$row['UTRNumber3'];
-      $loan_amount3=$row['loan_amount3'];
-       $datePayment3 =$row['datePayment3'];
-
-       $ReportedStatus =$row['ReportedStatus'];
-
-    $statusVerification=$row['statusVerification'];
-    $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
-    $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
-    if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) 
-    {   
+        $applicationNo1=$row['applicationNo1'];
+        $dateVerification1 =$row['dateVerification1'];
+        $UTRNumber=$row['UTRNumber1'];
+        $loan_amount=$row['loan_amount1'];
+        $datePayment =$row['datePayment'];
+        $UTRNumber1=$row['UTRNumber1'];
+        $loan_amount1=$row['loan_amount1'];
+        $datePayment1 =$row['datePayment1'];
+        $UTRNumber2=$row['UTRNumber2'];
+        $loan_amount2=$row['loan_amount2'];
+        $datePayment2 =$row['datePayment2'];
+        $UTRNumber3=$row['UTRNumber3'];
+        $loan_amount3=$row['loan_amount3'];
+        $datePayment3 =$row['datePayment3'];
+        $ReportedStatus =$row['ReportedStatus'];
+        $statusVerification=$row['statusVerification'];
+        $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid'  AND CourseID='$Course'";
+        $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+        if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) 
+        {   
          $courseName=$row_collegecourse_name['Course'];   
-          $CollegeName=$row_collegecourse_name['CollegeName']; 
-    }   
+         $CollegeName=$row_collegecourse_name['CollegeName']; 
+         $Duration=$row_collegecourse_name['Duration'];    
+        }   
 
-    $State=$row['StateName'];   
-    $status=$row['Status'];   
-    $Session=$row['Session'];    
-     $Duration=$row['Duration'];    
-     $Consultant_id=$row['Consultant_id']; 
-     $get_consultantName="SELECT *,MasterConsultant.Name as CName FROM MasterConsultant inner join MasterConsultantRef ON MasterConsultant.ID=MasterConsultantRef.RefIDNo 
+    // $State=$row['StateName'];   
+       $status=$row['Status'];   
+    //    $Session=$row['Session'];    
+    //    $Duration=$row['Duration'];    
+      $Consultant_id=$row['Consultant_id']; 
+      $get_consultantName="SELECT *,MasterConsultant.Name as CName FROM MasterConsultant inner join MasterConsultantRef ON MasterConsultant.ID=MasterConsultantRef.RefIDNo 
 right join Admissions ON Admissions.IDNo=MasterConsultantRef.StudentIDNo where Admissions.ClassRollNo='$classroll'";
     //  $get_consultantName="SELECT * FROM MasterConsultant where ID='".$row['Consultant_id']."' ";
      $get_consultantNameRun=sqlsrv_query($conntest,$get_consultantName);
@@ -2505,8 +2440,8 @@ right join Admissions ON Admissions.IDNo=MasterConsultantRef.StudentIDNo where A
      {
          $consultantName=$row_get_consultantName['CName'];
      }  
-         $Lateral=$row['Lateral'];    
-         $Nationality=$row['Nationality'];    
+        
+        //  $Nationality=$row['Nationality'];    
          $ID_Proof_No=$row['ID_Proof_No'];   
 
 
@@ -2532,9 +2467,6 @@ else
 $color1="";
 $verification='';
 }
-
-
-
 if ($status>0)
 {
         $colorl='red';
@@ -2555,20 +2487,15 @@ else
      $colorlR='red';
         $ReportedStatusV='No';
 }
-
-
-
-    $District=$row['DistrictName'];     
+    // $District=$row['DistrictName'];     
      $exportMeter .= "
-       <tr>           
-          
+       <tr>            
           <td>{$count}</td>
           <td>{$Session}</td>
           <td>{$CollegeName}</td>
           <td>{$courseName}</td>
           <td>{$name}</td>
           <td>{$FatherName}</td>
-
           <td bgcolor=$color>{$classroll}</td>
           <td>{$batch}</td>
           <td>{$Lateral}</td>
@@ -2578,9 +2505,6 @@ else
           <td>{$consultantName}</td>
            <td bgcolor=$colorl>{$mnStatus}</td>
              <td bgcolor=$color1>{$verification}</td>
-
-          
-
               <td >{$loanNumber}</td>
                <td >{$applicationNo}</td>
                 <td >{$dateVerification}</td>
@@ -2590,19 +2514,15 @@ else
                   <td >{$loan_amount}</td>
                     <td >{$UTRNumber}</td>
                       <td >{$datePayment}</td>
-
                       <td >{$loan_amount1}</td>
                     <td >{$UTRNumber1}</td>
                       <td >{$datePayment1}</td>
-
                       <td >{$loan_amount2}</td>
                     <td >{$UTRNumber2}</td>
                       <td >{$datePayment2}</td>
-
                         <td >{$loan_amount3}</td>
                     <td >{$UTRNumber3}</td>
                       <td >{$datePayment3}</td>
-
                       <td bgcolor=$colorlR>{$ReportedStatusV}</td>
        </tr>";                                    
        $count++;    
