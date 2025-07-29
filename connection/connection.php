@@ -8,9 +8,9 @@ $day=date('l');
 // $username="Amrik";
 //  $password="Amrik@123";
 // $serverName = "10.0.8.181"; 
- //$servername1 = "10.0.8.182";
- // $username1 = "root";
- // $password1 = "Amrik@123";
+//  $servername1 = "localhost";
+//  $username1 = "guri";
+//  $password1 = "Guri@123";
 //-----------------LIve DB------------------------------------
 $username="sa";
 $password = "b2y3rt78374&*#&$";
