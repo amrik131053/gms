@@ -10323,9 +10323,9 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
 <div class="row">
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-2">
+            <!-- <div class="col-lg-2">
                 <label>Nationality</label>
-                <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
+                <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID=='131027' || $EmployeeID=='170573')
                     {?>
                 <select class="form-control" id="Nationality" onchange="fetch_state2(this.value);">
                     <option value="<?=$Nationality;?>"><?=$NationalityName;?></option>
@@ -10350,10 +10350,10 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
                 }?>
 
             </div>
+ -->
 
 
-            <div class="col-lg-2">
-                <label>State</label>
+                <!-- <label>State</label>
                 <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
                     {?>
                 <select class="form-control" id="State" onchange="fetch_district2(this.value);">
@@ -10364,15 +10364,15 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
                 else
                     {
                echo "<br>";
-                    echo $State;
+                   
 
 ?>
-                <input type="hidden" value="<?=$State_id;?>" id="State" readonly="">
+                <input type="hidden" value="" id="State" readonly="">
                 <?php 
                 }?>
 
-            </div>
-            <div class="col-lg-2">
+            </div> -->
+          <!--   <div class="col-lg-2">
                 <label>District</label>
                 <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
                     {?>
@@ -10387,16 +10387,16 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
 else
 {
                 echo "<br>";
-                  echo $District;
+               
                   ?>
 
-                <input type="hidden" value="<?=$District_id;?>" id="District1" readonly="">
+                <input type="hidden" value="" id="District1" readonly="">
 
                 <?php  }
                  ?>
-            </div>
+            </div> -->
 
-            <div class="col-lg-2">
+       <!--      <div class="col-lg-2">
                 <label>Consultant</label>
 
                 <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
@@ -10425,13 +10425,13 @@ else
   ?>
 
 
-                <input type="hidden" value="<?=$Consultant_id;?>" id="Consultant_" readonly="">
+                <input type="hidden" value="" id="Consultant_" readonly="">
 
 
                 <?php 
 }
 ?>
-            </div>
+            </div> -->
 
 
             <div class="col-lg-3">
@@ -10454,7 +10454,7 @@ else
             </div>
 
 
-
+<!-- 
             <div class="col-lg-3">
                 <label>College Name</label>
                 <select id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
@@ -10476,14 +10476,14 @@ else
                         ?>
 
                 </select>
-            </div>
-            <div class="col-lg-2">
+            </div> -->
+          <!--   <div class="col-lg-2">
                 <label>Department</label>
                 <select id="Department1" class="form-control" onchange="fetchcourse1()" required>
                     <option value='<?=$Department;?>'><?=$DepartmentName;?></option>
                 </select>
             </div>
-
+ -->
 
             <div class="col-lg-2">
                 <label>Course</label>
@@ -10561,7 +10561,7 @@ else
             </div>
             <div class="col-lg-2">
                 <label>Status</label>
-                <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID=='170573')
+                <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID=='170573' || $EmployeeID=='131027')
                     {?>
 
                 <?php if($lStatus>0) {
@@ -10897,8 +10897,8 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
 
 
             <div class="col-lg-2">
-                <label>Status</label>
-                <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID=='170573')
+                <label>Status <?=$EmployeeID;?> </label>
+                <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID=='170573'||$EmployeeID=='131027')
                     {?>
 
                 <?php if($lStatus>0) {
@@ -10974,25 +10974,29 @@ else
    elseif($code==140)
       {
 $classroll="";
-$duration = $_POST['duration'];
+// $duration = $_POST['duration'];
 $id = $_POST['id'];
-$Name = $_POST['Name'];
-$leet = $_POST['leet'];
-$months = $_POST['months'];
-$FatherName = $_POST['FatherName'];
-$Gender = $_POST['Gender'];
-$CollegeName = $_POST['CollegeName'];
-$Department = $_POST['Department'];
-$Course = $_POST['Course'];
-$Nationality = $_POST['Nationality'];
-$State = $_POST['State'];
-$Consultant = $_POST['Consultant'];
-$District = $_POST['District1'];
-$status= $_POST['status'];
+// $Name = $_POST['Name'];
+// $leet = $_POST['leet'];
+// $months = $_POST['months'];
+// $FatherName = $_POST['FatherName'];
+// $Gender = $_POST['Gender'];
+// $CollegeName = $_POST['CollegeName'];
+// $Department = $_POST['Department'];
+// $Course = $_POST['Course'];
+// $Nationality = $_POST['Nationality'];
+// $State = $_POST['State'];
+// $Consultant = $_POST['Consultant'];
+// $District = $_POST['District1'];
+ $status= $_POST['status'];
 $reportedStatus= $_POST['reportedStatus'];
  
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status',Lateral='$leet' where id='$id'";
+  //$insert_record = "UPDATE  offer_latter SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status',Lateral='$leet' where id='$id'";
+
+    $insert_record = "UPDATE  offer_latter SET ReportedStatus='$reportedStatus',Status='$status' where id='$id'";
+
+
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -12843,30 +12847,30 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
 <div class="row">
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-2">
-                <label>Nationality</label>
-                <input type="text" value="<?=$NationalityName;?>" id="Name" class="form-control" disabled>
+           <!--  <div class="col-lg-2">
+              <label>Nationality</label>
+                <input type="hidden" value="<?=$NationalityName;?>" id="Name" class="form-control" disabled>
 
 
             </div>
 
 
             <div class="col-lg-2">
-                <label>State</label>
-                <input type="text" value="<?=$State;?>" id="Name" class="form-control" disabled>
+              <label>State</label> 
+                <input type="hidden" value="<?=$State;?>" id="Name" class="form-control" disabled>
 
 
             </div>
             <div class="col-lg-2">
-                <label>District</label>
-                <input type="text" value="<?=$District;?>" id="Name" class="form-control" disabled>
+               
+                <input type="hidden" value="<?=$District;?>" id="Name" class="form-control" disabled>
 
             </div>
+ -->
 
 
 
-
-            <div class="col-lg-3">
+    <div class="col-lg-3">
                 <label>Student Name</label>
                 <input type="text" value="<?=$name;?>" id="Name" class="form-control" disabled>
             </div>
@@ -12887,7 +12891,7 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
 
 
 
-            <div class="col-lg-3">
+           <!--  <div class="col-lg-3">
                 <label>College Name</label>
                 <select id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required
                     disabled>
@@ -12909,23 +12913,23 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
                         ?>
 
                 </select>
-            </div>
-            <div class="col-lg-2">
+            </div> -->
+           <!--  <div class="col-lg-2">
                 <label>Department</label>
                 <select id="Department1" class="form-control" onchange="fetchcourse1()" disabled>
                     <option value='<?=$Department;?>'><?=$DepartmentName;?></option>
                 </select>
             </div>
+ -->
 
-
-            <div class="col-lg-2">
+           <!--  <div class="col-lg-2">
                 <label>Course</label>
                 <select id="Course1" class="form-control" disabled>
 
                     <option value='<?=$Course;?>'><?=$courseName;?></option>
                 </select>
-            </div>
-            <div class="col-lg-2">
+            </div> -->
+          <!--   <div class="col-lg-2">
                 <label>Duration</label>
                 <select class="form-control" id="Duration" disabled>
                     <option value="<?= $Duration?>"><?= $Duration;?></option>
@@ -12937,8 +12941,8 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
                     <option value="6">6</option>
                     <option value="7">7</option>
                 </select>
-            </div>
-            <div class="col-lg-2">
+            </div> -->
+            <!-- <div class="col-lg-2">
                 <label>Course Duration</label>
 
                 <select class="form-control" id="months" disabled>
@@ -12948,7 +12952,7 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
                     <option value="6">6 Month</option>
 
                 </select>
-            </div>
+            </div> -->
 
 
 
@@ -13522,7 +13526,7 @@ elseif($code==177)
     }
     if($Batch!='')
     {
-  echo   $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+   $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
 $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
     if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
 {    
