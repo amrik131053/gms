@@ -50,7 +50,7 @@ include "header.php";
 
 
                                      </select>
-                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs">Report</button >
+                                     <!-- <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs">Report</button > -->
                                       &nbsp;
                                        <button onclick="export_detail();"  class="btn btn-success btn-xs">Export Report</button>
                                      <?php } ?>

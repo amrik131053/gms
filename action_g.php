@@ -32680,7 +32680,7 @@ $getTransactionIDstmt = sqlsrv_query($conntest,$getTransactionIDsql);
 
 if ($Nationality == 'NRI') 
 {
-     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' and Status='1' "; 
+    echo  $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' and Status='1' "; 
 } 
 else
 {
