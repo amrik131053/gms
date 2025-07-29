@@ -23195,6 +23195,7 @@ else
 
      if($HolidayName!='' && $printleaveonduty=='On Duty') 
    {
+      echo "ee".$HolidayName;
 
  if ($code_access=='010' || $code_access=='011' || $code_access=='110' ||   $code_access=='111') 
                                           {         
@@ -23208,7 +23209,19 @@ else
 ?>
 
 <?php }
+else if($HolidayName!='' &&  $intime!='' && $outtime!='')
+{
+
+ ?>  
+    <button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button>
+
+<?php
+}
+
+
+
 else{ 
+
 
     }
    }
