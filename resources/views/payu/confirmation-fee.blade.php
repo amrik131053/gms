@@ -84,7 +84,7 @@
                                     </button>
 
                                     <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}" class="btn btn-primary">
-                                         Cancel
+                                         Confirm and Pay with Razorpay
                                     </button>
                                 </div>
 
