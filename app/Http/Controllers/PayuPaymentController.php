@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use Razorpay\Api\Api;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 class PayuPaymentController extends Controller
@@ -28,7 +30,6 @@ class PayuPaymentController extends Controller
         $DataResponserecentTranscations = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:89/Student/transactionsTest');
         $recentTranscations1 = $DataResponserecentTranscations->json();
         $recentTranscations=$recentTranscations1['data'] ?? [];
-
         $encryptedId = Crypt::encrypt('-1');
         return view('payu.payment_form', compact('details','encryptedId','dropDownHead','recentTranscations'));
     }
@@ -89,9 +90,13 @@ class PayuPaymentController extends Controller
             'amount'      => 'required|numeric|min:1',
             'semester'      => 'required|numeric|min:0',
             'requestid'   => 'required|min:1',
+            'payment_method'   => 'required|min:1',
         ]);
-             $requestid = Crypt::decrypt($validated['requestid']);
+        $requestid = Crypt::decrypt($validated['requestid']);
         $idno      = Crypt::decrypt($validated['idno']);
+        $payment_method      = Crypt::decrypt($validated['payment_method']);
+
+    
         $apiPayload = [
             'idno'         => $idno ?? '',
             'firstname'    => $validated['firstname'],
@@ -103,10 +108,37 @@ class PayuPaymentController extends Controller
             'productinfo'  => $validated['productinfo'],
             'remarks'  => $validated['remarks'],
         ];
+      
+        if($payment_method==1)
+        {
+            // dd($apiPayload);
         $response = Http::post('https://payment.gku.ac.in/api/payu/initiate-web/', $apiPayload);
         $responseData = $response->json();
+        // dd($responseData);
         return view('payu.payu_redirect', ['payuData' => $responseData]);
+        }
+        else
+        {
+            $response = Http::post('https://payment.gku.ac.in/api/razorpay/initiate-web-razorpay/', $apiPayload);
+            $responseData = $response->json();
+        //    dd($responseData);
+            return view('razorpay.checkout', [
+                'order_id'   => $responseData['order_id'],
+                'amount'     => $responseData['amount'],  // still in paise
+                'currency'   => $responseData['currency'],
+                'payment_capture' => $responseData['payment_capture'] ?? 1,
+                'productinfo' => $responseData['notes']['productinfo'],
+                'semester'    => $responseData['notes']['semester'],
+                'remarks'     => $responseData['notes']['remarks'],
+                'idno'     => $responseData['notes']['idno'],
+                'requestid'     => $responseData['notes']['requestid'] ?? '',
+                'name'        => $responseData['notes']['firstname'],
+                'email'       => $responseData['notes']['email'],
+                'phone'       => $responseData['notes']['phone'],
+            ]);
+        }
     }
+    
 
 
     public function syncfee(Request $request)

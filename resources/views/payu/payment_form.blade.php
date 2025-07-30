@@ -132,12 +132,12 @@
                                             <td>{{ $recent['mihpayid'] }}</td>
                                             <td>
 
-                                              
+
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="syncFee(`{{ $recent['txnid'] }}`)">
                                                     ReSync
                                                 </button>
-                                               
+
                                             </td>
 
 

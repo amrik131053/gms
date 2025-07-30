@@ -79,9 +79,16 @@
                                 </div>
                                 <div class="form-label"><br></div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success">Confirm and Pay</button>
+                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('1') }}" class="btn btn-danger">
+                                        Confirm and Pay with PayU
+                                    </button>
 
+                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}" class="btn btn-primary">
+                                         <!-- Confirm and Pay with Razorpay -->
+                                         Cancel
+                                    </button>
                                 </div>
+
                 </form>
             </div>
         </div>

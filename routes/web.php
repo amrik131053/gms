@@ -9,6 +9,7 @@ use App\Http\Controllers\ExamFormController;
 use App\Http\Controllers\AcademicsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PayuPaymentController;
+use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\AdmitCardController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\LibraryController;
@@ -129,4 +130,5 @@ Route::any('/payu/confirm/{encryptedId}', [PayuPaymentController::class, 'showCo
 Route::any('/payu/fee/{encryptedId}', [PayuPaymentController::class, 'showConfirmationOpen'])->name('payu.confirm-fee');
 Route::post('/payu/initiate', [PayuPaymentController::class, 'startPayment'])->name('payu.initiate');
 Route::post('/sync-fee', [PayuPaymentController::class, 'syncfee'])->name('sync-fee');
+
 
