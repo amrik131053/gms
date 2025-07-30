@@ -105,11 +105,11 @@ $pdf->SetXY(15, $Y+40);
 $pdf->MultiCell(180, 10, 'It is certified that '.$mr .ucwords(strtoupper($name)). $sod.' Sh '.ucwords(strtoupper($father_name)).' was enrolled vide enrolment number '.$UniRollNo.' in '.ucwords(strtoupper($course)).' branch as a regular student of the university from '.$batch.' to '.$year.'.', 0, 'J');
 
 
-$pdf->SetXY(15, $Y+75);
+$pdf->SetXY(15, $Y+85);
 $pdf->MultiCell(180, 10, 'Guru Kashi University has no objection to his/her continuing studies at another University/Board established by law.           
 ', 0, 'J');
 
-$pdf->SetXY(20, $Y+140);
+$pdf->SetXY(20, $Y+160);
 $yrdata= strtotime($dateofissue);
 
 $dateofissue=date('d F Y', $yrdata);
