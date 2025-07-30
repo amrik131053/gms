@@ -83,10 +83,10 @@
                                         Confirm and Pay with PayU
                                     </button>
 
-                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}" class="btn btn-primary">
+                                    <!-- <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}" class="btn btn-primary"> -->
                                          <!-- Confirm and Pay with Razorpay -->
-                                         Cancel
-                                    </button>
+                                         <!-- Cancel -->
+                                    <!-- </button> -->
                                 </div>
 
                 </form>
