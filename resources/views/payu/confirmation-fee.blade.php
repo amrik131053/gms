@@ -78,15 +78,28 @@
                                         readonly>{{ $remarks }}</textarea>
                                 </div>
                                 <div class="form-label"><br></div>
-                                <div class="form-group">
-                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('1') }}" class="btn btn-danger">
-                                        Confirm and Pay with PayU
-                                    </button>
+                                <div class="container py-4">
+                                    <div class="card  border-0 p-4 mx-auto" style="max-width: 600px;">
+                                        <h4 class="text-center mb-3">Select Payment Method</h4>
 
-                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}" class="btn btn-primary">
-                                         Confirm and Pay with Razorpay
-                                    </button>
+                                        <div class="row g-3">
+                                            <div class="col-md-6 col-12">
+                                                <button type="submit" name="payment_method"
+                                                    value="{{ Crypt::encrypt('1') }}" class="btn btn-danger w-100 py-3">
+                                                    <i class="fas fa-credit-card me-2"></i> Pay with PayU
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <button type="submit" name="payment_method"
+                                                    value="{{ Crypt::encrypt('2') }}"
+                                                    class="btn btn-primary w-100 py-3">
+                                                    <i class="fas fa-wallet me-2"></i> Pay with Razorpay
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
 
                 </form>
             </div>
