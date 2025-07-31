@@ -30,6 +30,7 @@ class PayuPaymentController extends Controller
         $DataResponserecentTranscations = Http::withHeaders(['Authorization' => 'Bearer ' .$token,])->post('http://117.250.20.109:89/Student/transactionsTest');
         $recentTranscations1 = $DataResponserecentTranscations->json();
         $recentTranscations=$recentTranscations1['data'] ?? [];
+        // dd($recentTranscations);
         $encryptedId = Crypt::encrypt('-1');
         return view('payu.payment_form', compact('details','encryptedId','dropDownHead','recentTranscations'));
     }
@@ -112,10 +113,9 @@ class PayuPaymentController extends Controller
         if($payment_method==1)
         {
             // dd($apiPayload);
-        $response = Http::post('https://payment.gku.ac.in/api/payu/initiate-web/', $apiPayload);
-        $responseData = $response->json();
-        // dd($responseData);
-        return view('payu.payu_redirect', ['payuData' => $responseData]);
+        // $response = Http::post('https://payment.gku.ac.in/api/payu/initiate-web/', $apiPayload);
+        // $responseData = $response->json();
+        // return view('payu.payu_redirect', ['payuData' => $responseData]);
         }
         else
         {
@@ -147,6 +147,16 @@ class PayuPaymentController extends Controller
         $BaseURL=config('app.baseUrl');
         $token = $request->session()->get('api_token');
         $response = Http::withHeaders([])->post('https://payment.gku.ac.in/api/payu/payment-sync', [
+            'transaction_id' => $encryptedId,
+        ]);
+        $submit_details = $response->json() ?? null;
+        return $submit_details;
+    }
+
+    public function syncfeerazorpay(Request $request)
+    {
+        $encryptedId=$request->encryptedId;
+        $response = Http::withHeaders([])->post('https://payment.gku.ac.in/api/razorpay/payment-sync', [
             'transaction_id' => $encryptedId,
         ]);
         $submit_details = $response->json() ?? null;

@@ -112,7 +112,6 @@
                                             <th>Amount</th>
                                             <th>FeeType</th>
                                             <th>sem</th>
-                                            <!-- <th>Remarks</th> -->
                                             <th>ReeferenceNo</th>
                                             <th>Status</th>
                                         </tr>
@@ -128,15 +127,20 @@
                                             <td>{{ $recent['Amount'] }}</td>
                                             <td>{{ $recent['FeeType'] }}</td>
                                             <td>{{ $recent['sem'] }}</td>
-                                            <!-- <td>{{ $recent['Remarks'] }}</td> -->
-                                            <td>{{ $recent['mihpayid'] }}</td>
+                                            <td>{{ !empty($recent['mihpayid']) ? $recent['mihpayid'] : $recent['txnid'] }}</td>
                                             <td>
 
-
+                                                @if($recent['Gateway']=='payu')
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="syncFee(`{{ $recent['txnid'] }}`)">
                                                     ReSync
                                                 </button>
+                                                @else
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="syncFeeRazorPay(`{{ $recent['txnid'] }}`)">
+                                                    ReSync
+                                                </button>
+                                                @endif
 
                                             </td>
 
@@ -162,7 +166,6 @@
 
 <script>
 function syncFee(encryptedId) {
-
     showLoader();
     fetch("{{ url('sync-fee') }}", {
             method: "POST",
@@ -180,21 +183,48 @@ function syncFee(encryptedId) {
             console.log(data);
             if (data.status === 'failure') {
                 showErrorMessage(data.message);
-                // alert(data.message || 'Payment failed!');
             } else if (data.status === 'success') {
                 showSuccessMessage(data.message);
-                // alert(data.message || 'ReSync successful!');
                 location.reload();
             } else {
                 showErrorMessage('Unexpected response!');
-                // alert('Unexpected response!');
             }
         })
         .catch(error => {
             hideLoader();
             console.error(error);
             showErrorMessage('ReSync failed due to a network or server error!');
-            // alert('ReSync failed due to a network or server error!');
+        });
+}
+function syncFeeRazorPay(encryptedId) {
+    showLoader();
+    fetch("{{ url('sync-fee-razorpay') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                encryptedId: encryptedId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoader();
+            console.log(data);
+            if (data.status === 'failure') {
+                showErrorMessage(data.message);
+            } else if (data.status === 'success') {
+                showSuccessMessage(data.message);
+                location.reload();
+            } else {
+                showErrorMessage('Unexpected response!');
+            }
+        })
+        .catch(error => {
+            hideLoader();
+            console.error(error);
+            showErrorMessage('ReSync failed due to a network or server error!');
         });
 }
 </script>

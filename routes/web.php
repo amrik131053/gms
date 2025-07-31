@@ -130,5 +130,6 @@ Route::any('/payu/confirm/{encryptedId}', [PayuPaymentController::class, 'showCo
 Route::any('/payu/fee/{encryptedId}', [PayuPaymentController::class, 'showConfirmationOpen'])->name('payu.confirm-fee');
 Route::post('/payu/initiate', [PayuPaymentController::class, 'startPayment'])->name('payu.initiate');
 Route::post('/sync-fee', [PayuPaymentController::class, 'syncfee'])->name('sync-fee');
+Route::post('/sync-fee-razorpay', [PayuPaymentController::class, 'syncfeerazorpay'])->name('sync-fee-razorpay');
 
 
