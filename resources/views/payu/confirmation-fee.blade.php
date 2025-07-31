@@ -79,8 +79,9 @@
                                 </div>
                                 <div class="form-label"><br></div>
                                 <div class="form-group">
-                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}" class="btn btn-primary">
-                                         Confirm and Pay with Razorpay
+                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}"
+                                        class="btn btn-primary">
+                                        Pay Now
                                     </button>
                                 </div>
 
