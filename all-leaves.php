@@ -61,6 +61,10 @@
                                         class="btn btn-success btn-sm">
                                         <i class="fa fa-search"></i>
                                     </button>
+                                    <button type="button" onclick="export_leave_employee();"
+                                        class="btn btn-success btn-sm">
+                                        <i class="fa fa-file-excel"></i>
+                                    </button>
                           
                             
                                 </div>
@@ -254,6 +258,35 @@ function search_leave_employee() {
     }
 
 }
+
+
+ function export_leave_employee()
+      {
+   
+        var exportCode = 85.1;
+        var from = document.getElementById('from').value;
+        var leavestatus = document.getElementById('leavestatus').value;
+        var empid = document.getElementById('empid').value;
+
+       if(from!='' && leavestatus!='')
+   {
+   window.location.href="export.php?exportCode="+exportCode+"&from="+from+"&leavestatus="+leavestatus+"&empid="+empid;
+    }
+      else
+      {
+        ErrorToast('Select Month and Status','bg-danger');
+ 
+      }
+
+}
+
+
+
+
+
+
+
+
 
 function viewLeaveModal(id) {
 
