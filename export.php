@@ -14116,6 +14116,83 @@ $count++;
     $fileName="Leave Summary";
 
 }
+
+elseif($exportCode==85.1)
+{
+ $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>EMP ID</th>
+       
+          <th>Name</th>
+          <th>Start Date</th>
+           <th>End Date</th>
+           <th>Leave Type</th>
+             <th>Count</th>
+           
+             <th>Sanction Authority</th>
+               <th>Recomending Authority</th>
+               <th>Status</th>
+         </tr>
+
+        </thead>";
+    $emp_id=$_GET['empid'];
+     $from=$_GET['from'];
+        $leavestatus=$_GET['leavestatus'];
+      $month = date('m',strtotime($from));
+      $year  = date('Y',strtotime($from));
+    $Sr=1;
+
+     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year' ANd Status!='Approved' ANd Status!='Reject' order by  ApplyLeaveGKU.Id DESC  ";
+
+     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    {
+        if($row['LeaveDurationsTime']!=0)
+        {
+            $LeaveDurationsTime=$row['LeaveDurationsTime'];
+        }
+        else
+        {
+            $LeaveDurationsTime=$row['LeaveDuration'];
+        }
+        if($row['Status']=='Approved')
+        {
+            $statusColor="success";
+        }
+        elseif($row['Status']=='Reject')
+        {
+            $statusColor="danger";
+        }
+        else
+        {
+            $statusColor="warning";
+        }
+
+
+         $exportMeter.="<tr>     
+                           <td>{$Sr}</td>
+                          
+                           <td>{$row['StaffId']}</td> <td>({$row['StaffName']}){$row['IDNo']}</td>
+                            <td>{$row['StartDate']->format('d-m-Y')}</td>
+                          
+                            <td>{$row['EndDate']->format('d-m-Y')}</td><td>{$row['LeaveTypeName']}  </td>
+                            <td>{$LeaveDurationsTime}</td>
+                             <td>{$row['SanctionId']}</td><td>{$row['AuthorityId']}</td>
+                             <td>{$row['Status']}</td>";
+                            
+                           
+             $exportMeter.="</tr>";
+$Sr++;
+    }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Leave Pending Summary";
+  
+}
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

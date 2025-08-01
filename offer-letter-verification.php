@@ -50,7 +50,7 @@ include "header.php";
 
 
                                      </select>
-                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs">Report</button >
+                                     <!-- <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs">Report</button > -->
                                       &nbsp;
                                        <button onclick="export_detail();"  class="btn btn-success btn-xs">Export Report</button>
                                      <?php } ?>
@@ -254,10 +254,9 @@ function by_search_studetn() {
 table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-eye"></i></button >&nbsp;';
 }
 
- if(userid!='131027' )
-                {
 
-table += '<button onclick="edit_student_a('+ data[i]['id'] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';}
+
+table += '<button onclick="edit_student_a('+ data[i]['id'] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';
                            
  if(generate<=0)
           {
@@ -637,60 +636,61 @@ else
 
 function edit_student_details(id) {
 
-  var Name = document.getElementById('Name').value;
-  var FatherName = document.getElementById('FatherName').value;
-  // var MotherName = document.getElementById('MotherName').value;
-  var Gender = document.getElementById('Gender').value;
-  // var MobileNo = document.getElementById('MobileNo').value;
-  var CollegeName = document.getElementById('CollegeName1').value;
-  var Department = document.getElementById('Department1').value;
-  var Course = document.getElementById('Course1').value;
-  // var Batch = document.getElementById('batch').value;
-  // var PinCode = document.getElementById('Pincode').value;
-  var Nationality = document.getElementById('Nationality').value;
-  var State = document.getElementById('State').value;
-    var months = document.getElementById('months').value;
-//   var District = document.getElementById('District1').value;
-  // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
-  var Consultant = document.getElementById('Consultant_').value;
-   var duration = document.getElementById('Duration').value;
-  // var session = document.getElementById('session').value;
-  // var AdharCardNo = document.getElementById('AdharCardNo').value;
-   var leet = document.getElementById('leet').value;
+//   var Name = document.getElementById('Name').value;
+//   var FatherName = document.getElementById('FatherName').value;
+//   // var MotherName = document.getElementById('MotherName').value;
+//   var Gender = document.getElementById('Gender').value;
+//   // var MobileNo = document.getElementById('MobileNo').value;
+//   // var CollegeName = document.getElementById('CollegeName1').value;
+//   // var Department = document.getElementById('Department1').value;
+//   // var Course = document.getElementById('Course1').value;
+//   // var Batch = document.getElementById('batch').value;
+//   // var PinCode = document.getElementById('Pincode').value;
+//   var Nationality = document.getElementById('Nationality').value;
+//   var State = document.getElementById('State').value;
+//     var months = document.getElementById('months').value;
+// //   var District = document.getElementById('District1').value;
+//   // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+//   var Consultant = document.getElementById('Consultant_').value;
+//    var duration = document.getElementById('Duration').value;
+//   // var session = document.getElementById('session').value;
+//   // var AdharCardNo = document.getElementById('AdharCardNo').value;
+//    var leet = document.getElementById('leet').value;
   var classroll = document.getElementById('classroll').value;
-  var District = document.getElementById('District1').value;
+//   var District = document.getElementById('District1').value;
   var Status1 = document.getElementById('Status1').value;
   var reportedStatus = document.getElementById('reportedStatus').value;
 
 
-if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!=''  && Course!=''  && Nationality!='' && State!='' )
+if( Name!='' && FatherName!='' && Gender!='')
 {
   var code = 140;
   var data = {
     id: id,
-    Name: Name,
-    FatherName: FatherName,
-    // MotherName: MotherName,
-    Gender: Gender,
-    // MobileNo: MobileNo,
-    CollegeName: CollegeName,
-    Department: Department,
-    Course: Course,
-    // Batch: Batch,
-    // PinCode: PinCode,
-    Nationality: Nationality,
-    State: State,
-    // District: District,
-    Consultant: Consultant,
-    // Lateral: Lateral,
-    duration: duration,
-    // session: session,
-    // AdharCardNo: AdharCardNo,
-  leet:leet,
-    months:months,
-    classroll: classroll,
+  //   Name: Name,
+  //   FatherName: FatherName,
+  //   // MotherName: MotherName,
+  //   Gender: Gender,
+  //   // MobileNo: MobileNo,
+  //   CollegeName: CollegeName,
+  //   Department: Department,
+  //   Course: Course,
+  //   // Batch: Batch,
+  //   // PinCode: PinCode,
+  //   Nationality: Nationality,
+  //   State: State,
+  //   // District: District,
+  //   Consultant: Consultant,
+  //   // Lateral: Lateral,
+  //   duration: duration,
+  //   // session: session,
+  //   // AdharCardNo: AdharCardNo,
+  // leet:leet,
+  //   months:months,
+  classroll: classroll,
     reportedStatus: reportedStatus,
-    District1: District,status:Status1,
+    // District1: District,
+    status:Status1,
     code: code
   };
  

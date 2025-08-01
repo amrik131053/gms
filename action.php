@@ -18221,7 +18221,7 @@ sqlsrv_close($conntest);
          <td>
          <?php   $code_access; if ($code_access=='001' || $code_access=='011' || $code_access=='111' || $code_access=='101') 
                                          {?>
-            <form action="migration-printing-pdf.php" method="post" target="_blank">
+            <form action="migration-printing-pdf-new.php" method="post" target="_blank">
                <?php if($getStatusRow['Status']=='1'){
             ?>
             <input type="hidden" class="form-control" name="id" value="<?=$getStatusRow['ID'];?>">
