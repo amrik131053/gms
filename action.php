@@ -2548,12 +2548,12 @@ mysqli_close($conn);
    mysqli_close($conn);
    }
    else if ($code == 46) {
-       $locationID = $_POST['location_id'];
+        $locationID = $_POST['location_id'];
    
    
    ?>
 <input type="hidden" name="exportCode" value="9">
-<input type="hidden" name="locationID" value="<?=$locationID?>">
+<input type="hidden"  id="locationID" name="locationID" value="<?=$locationID?>">
 <input type="hidden" name="inchargeID" value="<?=$EmployeeID?>">
 <div class="card-body table-responsive p-0" style="height: 400px;">
    <table class="table table-head-fixed text-nowrap" border="1">
@@ -2571,7 +2571,13 @@ mysqli_close($conn);
                $articleCode[]=$article_row['as11'];
                 
                ?>
-            <th><?=$articleName[$countforarray]?></th>
+            <!-- <th><?=$articleName[$countforarray]?></th> -->
+            <th>
+            <label style="display: flex; align-items: center; gap: 5px;">
+               <input type="checkbox" onclick="checkbutton(this)" data-class="category-<?=$countforarray?>">
+               <?=$articleName[$countforarray]?>
+            </label>
+            </th>
             <?php 
                $countforarray++;
                ?>
@@ -2627,10 +2633,15 @@ mysqli_close($conn);
                    ?>
             <td>
                <?php 
-                  if (isset($array[$i][$j])) 
-                  {
-                      echo  $array[$i][$j];
-                  } 
+               if (isset($array[$i][$j])) {
+                  $value = htmlspecialchars($array[$i][$j]); // optional: to prevent XSS
+                  echo "<label style='display: inline-flex; align-items: center; margin-right: 15px;'>
+                          <input type='checkbox' name='check_retrun[]' value='{$value}' class='category-{$i}' style='margin-right: 5px;'>
+                          {$value}
+                        </label>";
+              }
+              
+              
                   ?>
             </td>
             <?php
@@ -2885,7 +2896,108 @@ mysqli_close($conn);
 sqlsrv_close($conntest);
 mysqli_close($conn);
    }
-
+   elseif($code=='47.1')
+   {
+$locationID=$_POST['locationID'];
+      // if (!empty($_POST['check_retrun'])) {
+      //     foreach ($_POST['check_retrun'] as $value) {
+      //         echo "<div>Selected: " . htmlspecialchars($value) . "</div>";
+      //     }
+      // } else {
+      //     echo "<div style='color:red;'>No checkbox selected.</div>";
+      // }
+      ?>
+    
+      <div class="row">
+          <div class="col-lg-3 mb-3">
+              <label for="locationID"><strong>Block</strong></label>
+              <select class="form-control" name="locationID1" id="locationID1" required>
+                  <option value="">Select Building</option>
+                  <?php
+                  $hostelQry = "SELECT *,location_master.ID as LID, room_name_master.RoomName as LName, 
+                                      room_type_master.RoomType as RoomTypeName, location_master.RoomNo as RmNo 
+                                FROM building_master 
+                                INNER JOIN location_master ON building_master.ID = location_master.Block 
+                                INNER JOIN room_name_master ON room_name_master.ID = location_master.RoomName 
+                                INNER JOIN room_type_master ON room_type_master.ID = location_master.Type 
+                                WHERE location_master.returnLocation = '1' 
+                                ORDER BY Name ASC";
+                  $hostelRes = mysqli_query($conn, $hostelQry);
+                  while ($hostelData = mysqli_fetch_array($hostelRes)) {
+                      ?>
+                      <option value="<?= $hostelData['LID'] ?>">
+                          <?= $hostelData['Name'] ?> (<?= $hostelData['RoomTypeName'] ?>) <?= $hostelData['LName'] ?> (<?= $hostelData['RmNo'] ?>)
+                      </option>
+                      <?php
+                  }
+                  ?>
+              </select>
+          </div>
+      
+          <div class="col-lg-3 mb-3">
+              <label for="returnRemark"><strong>Remarks</strong></label>
+              <input type="text" id="returnRemark1" class="form-control" placeholder="Enter remarks" required>
+          </div>
+      
+          <div class="col-lg-3 mb-3">
+              <label for="workingStatus1"><strong>Status</strong></label>
+              <select id="workingStatus1" class="form-control" required>
+                  <option value="">Select</option>
+                  <option value="0">Working</option>
+                  <option value="1">Faulty</option>
+              </select>
+          </div>
+      
+          <div class="col-lg-3 mb-3 d-flex align-items-end">
+              <button type="button" class="btn btn-danger w-100" onclick="returnSubmit1(<?=$locationID;?>);">Submit</button>
+          </div>
+      </div>
+      
+   <?php
+            }
+      
+            else if ($code=='47.2') {
+               if (!empty($_POST['check_retrun'])) {
+                  foreach ($_POST['check_retrun'] as $value) {
+              $id=$value;
+              $workingStatus=$_POST['workingStatus'];
+              $returnRemark=$_POST['returnRemark'];
+              $locationID=$_POST['locationID'];
+              $date=date('Y-m-d');
+              $sql="SELECT * FROM stock_summary  where IDNo='$id'";
+              $result = mysqli_query($conn,$sql);
+              while($data=mysqli_fetch_array($result))
+              {
+                 $currentOwner=$data['Corrent_owner'];
+                 $currentLocation=$data['LocationID'];
+                 $deviceSerialNo=$data['DeviceSerialNo'];
+                 $referenceNo=$data['reference_no'];
+                 $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) 
+                 VALUES ('$id', '$date', 'Returned', '$currentLocation', '$currentOwner', '$returnRemark', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+                 $res=mysqli_query($conn,$qry);
+                 if ($res) 
+                 {    
+                  if ($workingStatus==1) 
+                  {
+                      $tokenQry="SELECT token_no FROM faulty_track ORDER BY token_no Desc ";
+                  $tokenRes=mysqli_query($conn,$tokenQry);
+                  if ($tokenData=mysqli_fetch_array($tokenRes)) 
+                  {
+                      $token=$tokenData['token_no'];
+                      $token=$token+1;
+                  }
+                      $insFaultyTrack="INSERT INTO faulty_track ( article_no, location_id,  direction, remarks, reference_no, working_status, status, updated_by, token_no, time_stamp) 
+                      VALUES ('$id', '$currentLocation', 'Faulty', '$returnRemark', '$referenceNo', '1', '1', '$EmployeeID', '$token', '$timeStamp')";
+                      mysqli_query($conn,$insFaultyTrack);
+                  }
+                      $updateQry="UPDATE stock_summary SET LocationID='$locationID', Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
+                      mysqli_query($conn,$updateQry);
+                 }
+               }
+               } 
+              
+         }   
+            }
    elseif($code=='48')
    {
        $id=$_POST['article_id'];

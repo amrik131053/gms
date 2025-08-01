@@ -1074,9 +1074,12 @@ xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
 xmlhttp.send();
 }
 
-function locationsearch(id){
+function locationsearch(){
 var code=17;
-// alert(id);
+var id=document.getElementById("table_search").value;
+alert(id);
+if(id!='')
+{
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
 if (xmlhttp.readyState==4 && xmlhttp.status==200)
@@ -1086,6 +1089,7 @@ document.getElementById("search_record").innerHTML=xmlhttp.responseText;
 }
 xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
 xmlhttp.send();
+}
 }
 
 function specification_search(id){
