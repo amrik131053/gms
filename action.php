@@ -2998,6 +2998,160 @@ $locationID=$_POST['locationID'];
               
          }   
             }
+
+
+            elseif($code=='47.3')
+            {
+         $locationID=$_POST['locationID'];
+               // if (!empty($_POST['check_retrun'])) {
+               //     foreach ($_POST['check_retrun'] as $value) {
+               //         echo "<div>Selected: " . htmlspecialchars($value) . "</div>";
+               //     }
+               // } else {
+               //     echo "<div style='color:red;'>No checkbox selected.</div>";
+               // }
+               ?>
+             
+               <div class="row">
+                              <div class="col-lg-3">
+                                 <div class="input-group-sm">
+                                    <select class="form-control" name="hostel1" id='hostel_id1' onchange="floorLocation1(this.value)"  >
+                                       <option value="">Select Building</option>
+                                       <?php
+                                       $hostelQry="SELECT * FROM building_master order by Name asc";
+                                       $hostelRes=mysqli_query($conn,$hostelQry);
+                                       while($hostelData=mysqli_fetch_array($hostelRes))
+                                       {
+                                          ?>
+                                          <option value="<?=$hostelData['ID']?>"><?=$hostelData['Name']?></option>
+                                          <?php
+                                       }
+                                       ?>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-lg-3">
+                                 <div class="input-group-sm">
+                                    <select class="form-control" name="hostelFloorID1" id='hostelFloorID1' onchange="buildingRoom1(0,this.value)" >
+                                       <option value="">Select Floor</option>
+                                       <?php
+    $floor_qry="Select distinct Floor from location_master where Floor!='' ";
+    $res_floor=mysqli_query($conn,$floor_qry);
+    while ($floorData=mysqli_fetch_array($res_floor)) 
+    {
+       $floorValue='';
+        $floorValue=$floorData['Floor'];
+       if ($floorValue=='0') 
+          {
+             $floorName='Ground';
+          }  
+          elseif ($floorValue=='1') 
+          { 
+             $floorName='First';
+          }  
+          elseif ($floorValue=='2') 
+          {
+             $floorName='Second';
+          }  
+          elseif ($floorValue=='3') 
+          {
+             $floorName='Third';
+          }
+          elseif ($floorValue=='4') 
+          {
+             $floorName='Fourth';
+          }
+          elseif ($floorValue=='5') 
+          {
+             $floorName='Fifth';
+          } 
+          elseif ($floorValue=='-1') 
+          {
+             $floorName='Basement';
+          } 
+         
+
+
+          if ($floorValue!='') 
+          {
+              // code...
+          
+          ?>
+          <option value="<?=$floorValue?>"><?=$floorName?></option> 
+          <?php
+    }
+ }?>
+                                       
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-lg-2">
+                                 <div class="input-group-sm">
+                                    <select class="form-control" name="hostelRoomID1" id='hostelRoomID1'  >
+                                       <option value="">Select Room No.</option>
+                                       <?php
+                                       $room_qry="Select distinct RoomNo from location_master order by RoomNo asc ";
+    
+    $res_room=mysqli_query($conn,$room_qry);
+    while ($roomData=mysqli_fetch_array($res_room)) 
+    {
+       $roomValue=$roomData['RoomNo'];
+       ?>
+          <option value="<?=$roomValue?>"><?=$roomValue?></option> 
+        <?php
+    } ?>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-lg-3 mb-3">
+              <label for="returnRemark"><strong>Remarks</strong></label>
+              <input type="text" id="returnRemark1" class="form-control" placeholder="Enter remarks" required>
+          </div>
+                   <div class="col-lg-3 mb-3 d-flex align-items-end">
+                       <button type="button" class="btn btn-danger w-100" onclick="moveSubmit1(<?=$locationID;?>);">Submit</button>
+                   </div>
+               </div>
+               
+            <?php
+                     }
+
+                     else if ($code=='47.4')
+                     {
+               $building=$_POST['building'];
+               $floor=$_POST['floor'];
+               $room=$_POST['room'];
+               $room=$_POST['room'];
+               $returnRemark=$_POST['returnRemark1'];
+               $room_qry="SELECT ID from location_master where  Floor='$floor' and RoomNo='$room' and Block='$building' order by ID desc";
+               $res_room=mysqli_query($conn,$room_qry);
+               if ($roomData=mysqli_fetch_array($res_room)) 
+               {
+                  $locationId=$roomData['ID'];
+                        if (!empty($_POST['check_retrun'])) {
+                           foreach ($_POST['check_retrun'] as $value) {
+                       $id=$value;
+                       $date=date('Y-m-d');
+                       $sql="SELECT * FROM stock_summary  where IDNo='$id' order by IDNo desc";
+                       $result = mysqli_query($conn,$sql);
+                       if($data=mysqli_fetch_array($result))
+                       {
+                          $currentOwner=$data['Corrent_owner'];
+                          $currentLocation=$data['LocationID'];
+                          $deviceSerialNo=$data['DeviceSerialNo'];
+                          $referenceNo=$data['reference_no'];
+                           $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, DeviceSerialNo, Updated_By, reference_no) 
+                          VALUES ('$id', '$date', 'Move', '$currentLocation', '$currentOwner', '$returnRemark', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+                          $res=mysqli_query($conn,$qry);
+                          if ($res) 
+                          {    
+                                $updateQry="UPDATE stock_summary SET LocationID='$locationId', Corrent_owner='',reference_no='' ,  Status=1 WHERE IDNo='$id'";
+                               mysqli_query($conn,$updateQry);
+                          }
+                        }
+                        } 
+                     } 
+                  }   
+                     }
    elseif($code=='48')
    {
        $id=$_POST['article_id'];
