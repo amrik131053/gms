@@ -129,9 +129,10 @@
                               
                               
                               
-                              <div class="col-lg-1">
+                              <div class="col-lg-2">
                                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search" onkeyup="locationsearch(this.value);">
+                                    <input type="text" id="table_search" name="table_search" class="form-control float-right" placeholder="Like Search" >
+                                    <button  class="btn btn-outline-warning btn-sm form-control" onclick="locationsearch();">Search</button>
                   </div>
                               </div> 
 
@@ -276,14 +277,14 @@ else {
           
          var code='115';
          var building=document.getElementById("hostel_id").value;
-         
+         var floor=document.getElementById("hostelFloorID").value;
+         var room=document.getElementById("hostelRoomID").value;
+
+         if(building!='')
+      {
          var spinner=document.getElementById("ajax-loader");
                               spinner.style.display='block';
-            var floor=document.getElementById("hostelFloorID").value;
-            var room=document.getElementById("hostelRoomID").value;
-            // alert(building);
-            // alert(floor);
-            // alert(room);
+
             $.ajax({
             url:'action.php',
             data:{code:code,building:building,floor:floor,room:room},
@@ -300,6 +301,10 @@ else {
             }
             }
             });
+         }
+         else{
+            ErrorToast('Please select building', 'bg-warning');
+         }
          
          
       }
@@ -307,7 +312,9 @@ else {
       {
          // var id=id1;
          //var RoomType= document.getElementById("RoomType").value;
-         //alert(RoomType);
+         // alert(location_id);
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
          var code=46;
          $.ajax(
          {
@@ -319,19 +326,112 @@ else {
             },
             success:function(response) 
             {
+               spinner.style.display='none';
                document.getElementById("view_serial").innerHTML =response;
                $(document).ajaxStop(function()
-               {
+                {
                   // window.location.reload();
                });
             },
             error:function()
             {
+               spinner.style.display='none';
                alert("error");
             }
          });
       }
-    </script>
+
+
+ 
+      function checkbutton(el) {
+    const className = el.getAttribute('data-class');
+    const checkboxes = document.querySelectorAll('.' + className);
+    checkboxes.forEach(cb => cb.checked = el.checked);
+}
+
+
+
+
+function return_assigned_stock() {
+    var code = 47.1;
+    var spinner=document.getElementById("ajax-loader");
+    spinner.style.display='block';
+    var checkedValues = [];
+    let locationID = document.getElementById('locationID').value;
+    document.querySelectorAll("input[name='check_retrun[]']:checked").forEach(cb => {
+       checkedValues.push(cb.value);
+      });
+      
+      $.ajax({
+         url: "action.php",
+         method: "POST",
+         data: {
+            code:code,
+            check_retrun: checkedValues,locationID:locationID
+         },
+         success: function(response) {
+       spinner.style.display='none';
+      //   console.log(response);
+        document.getElementById("return_stock_all").innerHTML = response;
+    }
+});
+   }
+   
+
+   function returnSubmit1(id) {
+    let checkboxes = document.querySelectorAll('input[name="check_retrun[]"]:checked');
+    let selected = [];
+    checkboxes.forEach(cb => selected.push(cb.value));
+
+    if (selected.length === 0) {
+        ErrorToast('Please select at least one item', 'bg-warning');
+        return;
+    }
+
+
+    let locationID = document.getElementById('locationID1').value;
+    let returnRemark = document.getElementById('returnRemark1').value;
+    let workingStatus = document.getElementById('workingStatus1').value;
+
+    if (!locationID || !returnRemark || !workingStatus) {
+        ErrorToast('All Input Required', 'bg-warning');
+        return;
+    }
+
+    var spinner=document.getElementById("ajax-loader");
+    spinner.style.display='block';
+    $.ajax({
+       url: "action.php",
+        method: "POST",
+        data: {
+           code: 47.2,
+           check_retrun: selected,
+            locationID: locationID,
+            returnRemark: returnRemark,
+            workingStatus: workingStatus
+         },
+         success: function (response) {
+            spinner.style.display='none';
+            SuccessToast('Successfully Retruned');
+            view_serials(id);
+            $('#return_stock_all_Modal').hide();
+            
+         },
+         error: function () {
+           spinner.style.display='none';
+
+            ErrorToast('Submission failed', 'bg-warning');
+            
+        }
+    });
+}
+
+
+
+
+</script>
+
+
 <div class="modal fade" id="view_serial_no_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog modal-lg" role="document" >
       <div class="modal-content"  >
@@ -350,12 +450,37 @@ else {
             <div class="modal-footer">
                <button type="submit" class="btn btn-primary" >Export</button>
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <!--  <button type="submit" class="btn btn-primary">Save</button> -->
+                <button type="button" class="btn btn-danger" onclick="return_assigned_stock();" data-toggle="modal" data-target="#return_stock_all_Modal">Retrun</button>
+              
             </div>
          </form>
       </div>
    </div>
 </div>
+
+<div class="modal fade" id="return_stock_all_Modal" tabindex="-1" role="dialog" aria-labelledby="return_stock_all_Modal" aria-hidden="true" >
+   <div class="modal-dialog modal-lg" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="return_stock_all_Modal">Return All Stock </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         
+            <div class="modal-body" id="return_stock_all">
+               ...
+            </div>
+           
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <!--  <button type="submit" class="btn btn-primary">Save</button> -->
+            </div>
+         
+      </div>
+   </div>
+</div>
+
 <div class="modal fade" id="AddNewLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog modal-md" role="document" >
       <div class="modal-content"  >
