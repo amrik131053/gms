@@ -17527,7 +17527,7 @@ else
                                 <?php
                  }
 
-     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26' and Id!='12' and Id!='15' and Id!='6' and Id!='7'"; 
+     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26' and Id!='12' and Id!='15'and Id!='13' and Id!='6' and Id!='7'"; 
      $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
                  while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
                 {

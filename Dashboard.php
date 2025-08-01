@@ -394,7 +394,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                             //  $emp_pic=base64_encode($Emp_Image);
                              $Designation=$row_staff['Designation'];
                              $Department=$row_staff['Department'];
-                             $ContactNo=$row_staff['ContactNo'];
+                             $ContactNo=$row_staff['MobileNo'];
                              $aa=$row_staff;
 
                            
