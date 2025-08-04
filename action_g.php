@@ -16325,6 +16325,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Duty Leave</th>
                                 <th>Vacation</th>
                                  <th>Advance</th>
+                                   <th>Earned</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -16343,7 +16344,7 @@ sqlsrv_query($conntest,$update12);
                     'Leave2' => 0,
                     'Leave3' => 0,
                     'Leave4' => 0,
-                     'Leave5' => 0,
+                     'Leave5' => 0,'Leave6' => 0,
                     'IDNo' => $row['IDNo'],
                 ];
             }
@@ -16362,6 +16363,10 @@ sqlsrv_query($conntest,$update12);
              elseif ($row['LeaveType_Id'] == '15') {
                 $employeeData[$employeeId]['Leave5'] = $row['Balance'];
             }
+            elseif ($row['LeaveType_Id'] == '13') {
+
+                $employeeData[$employeeId]['Leave6'] = $row['Balance'];
+            }
         }
         
         foreach ($employeeData as $employeeId => $data) {
@@ -16374,6 +16379,7 @@ sqlsrv_query($conntest,$update12);
                                 <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
                                 <td class="editable" data-field="Leave4"><?= $data['Leave4']; ?></td>
                                 <td class="editable" data-field="Leave5"><?= $data['Leave5']; ?></td>
+                                <td class="editable" data-field="Leave6"><?= $data['Leave6']; ?></td>
                               
                             </tr>
                             <?php
@@ -16399,6 +16405,7 @@ sqlsrv_query($conntest,$update12);
                                 <th>Duty Leave</th>
                                  <th>Vacation</th>
                                   <th>Advance</th>
+                                  <th>Earned</th>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16424,8 +16431,9 @@ $getAllLeaves ="SELECT
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '1' THEN LeaveBalances.Balance ELSE 0 END) AS Casual,
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '2' THEN LeaveBalances.Balance ELSE 0 END) AS Compansatory,
     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '12' THEN LeaveBalances.Balance ELSE 0 END) AS Duty,
-     SUM(CASE WHEN LeaveBalances.LeaveType_Id = '26' THEN LeaveBalances.Balance ELSE 0 END) AS Vacation,
-      SUM(CASE WHEN LeaveBalances.LeaveType_Id = '15' THEN LeaveBalances.Balance ELSE 0 END) AS Advance
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '26' THEN LeaveBalances.Balance ELSE 0 END) AS Vacation,
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '15' THEN LeaveBalances.Balance ELSE 0 END) AS Advance, 
+    SUM(CASE WHEN LeaveBalances.LeaveType_Id = '13' THEN LeaveBalances.Balance ELSE 0 END) AS Earned
 FROM Staff
 INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo
 WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
@@ -16445,8 +16453,9 @@ WHERE Staff.IDNo = '$emp_id' GROUP BY Staff.IDNo, Staff.Name";
                                 <td class="editable" data-field="Leave1"><?= $row['Casual']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $row['Compansatory']; ?></td>
                                 <td class="editable" data-field="Leave3"><?= $row['Duty']; ?></td>
-                                 <td class="editable" data-field="Leave4"><?= $row['Vacation']; ?></td>
-                                 <td class="editable" data-field="Leave5"><?= $row['Advance']; ?></td>
+                                <td class="editable" data-field="Leave4"><?= $row['Vacation']; ?></td>
+                                <td class="editable" data-field="Leave5"><?= $row['Advance']; ?></td>
+                                <td class="editable" data-field="Leave6"><?= $row['Earned']; ?></td>
                                 <?php 
                                 if($role_id==2)
                                 {
@@ -16488,9 +16497,11 @@ $leave1=$_POST['leave1'];
 $leave2=$_POST['leave2'];
 $leave3=$_POST['leave3'];
 $leave4=$_POST['leave4'];
+$leave5=$_POST['leave5'];
+$leave6=$_POST['leave6'];
 
 $checkLeaveBlacne="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='2' ";
- $existrow=sqlsrv_query($conntest,$checkLeaveBlacne,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$existrow=sqlsrv_query($conntest,$checkLeaveBlacne,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne=sqlsrv_num_rows($existrow);
 if($countblacne>0)
 {
@@ -16499,75 +16510,75 @@ sqlsrv_query($conntest,$updateLeaveBalance);
 }
 else
 {
-    $updateLeaveBalance="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave2','2') ";
+$updateLeaveBalance="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave2','2') ";
 sqlsrv_query($conntest,$updateLeaveBalance);
 }
-
 $checkLeaveBlacne1="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='1' ";
 $existrow1=sqlsrv_query($conntest,$checkLeaveBlacne1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne1=sqlsrv_num_rows($existrow1);
 if($countblacne1>0)
 {
-    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave1'WHERE Employee_Id='$employeeId' and LeaveType_Id='1' ";
+$updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave1'WHERE Employee_Id='$employeeId' and LeaveType_Id='1' ";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 }
 else
 {
-   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave1','1') ";
+$updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave1','1') ";
 sqlsrv_query($conntest,$updateLeaveBalance1);
-
-
 }
-
 $checkLeaveBlacne3="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='12' ";
 $existrow3=sqlsrv_query($conntest,$checkLeaveBlacne3,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne3=sqlsrv_num_rows($existrow3);
 if($countblacne3>0)
 {
-    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave3'WHERE Employee_Id='$employeeId' and LeaveType_Id='12' ";
+$updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave3'WHERE Employee_Id='$employeeId' and LeaveType_Id='12' ";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 }
 else
 {
-   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave3','12')";
+$updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave3','12')";
 sqlsrv_query($conntest,$updateLeaveBalance1);
-
-
 }
-
 $checkLeaveBlacne4="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
 $existrow4=sqlsrv_query($conntest,$checkLeaveBlacne4,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne4=sqlsrv_num_rows($existrow4);
-
-
 if($countblacne4>0)
 {
-    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave4'WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+$updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave4'WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 }
 else
 {
-   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave4','26')";
+$updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave4','26')";
 sqlsrv_query($conntest,$updateLeaveBalance1);
-
-
 }
 $checkLeaveBlacne5="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='15' ";
 $existrow5=sqlsrv_query($conntest,$checkLeaveBlacne5,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne5=sqlsrv_num_rows($existrow5);
-
-
 if($countblacne5>0)
 {
-    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave5'WHERE Employee_Id='$employeeId' and LeaveType_Id='15' ";
+$updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave5'WHERE Employee_Id='$employeeId' and LeaveType_Id='15' ";
 sqlsrv_query($conntest,$updateLeaveBalance1);
 }
 else
 {
-   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave5','15')";
+$updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave5','15')";
 sqlsrv_query($conntest,$updateLeaveBalance1);
-
 }
+$checkLeaveBlacne6="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='13' ";
+$existrow6=sqlsrv_query($conntest,$checkLeaveBlacne6,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$countblacne6=sqlsrv_num_rows($existrow6);
+if($countblacne6>0)
+{
+    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave6'WHERE Employee_Id='$employeeId' and LeaveType_Id='13' ";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+}
+else
+{
+$updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave6','13')";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+}
+
 
 
 
@@ -18126,7 +18137,15 @@ sqlsrv_query($conntest,$updateLeaveBalancec1a);
 
     }
 
+   $staffc1ae="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances where LeaveType_Id=13)";
+    $stmtc1ae=sqlsrv_query($conntest,$staffc1ae,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    while($rowc1ae=sqlsrv_fetch_array($stmtc1ae))
+    {
+   $employeeIdc1ae=$rowc1ae['IDNo'];
+    $updateLeaveBalancec1ae="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeIdc1ae','0','13') ";
+sqlsrv_query($conntest,$updateLeaveBalancec1ae);
 
+    }
 
 
 
@@ -19107,8 +19126,8 @@ else
     if($updateLeaveAcrodingToActionRun==true)
       {
         
-        if($LeaveTypeID<3 || $LeaveTypeID==26){
-             $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
+        if($LeaveTypeID<4 || $LeaveTypeID==26|| $LeaveTypeID==13|| $LeaveTypeID==15){
+             $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where  Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
             sqlsrv_query($conntest,$deductionBLance);
             echo "1";
        }
