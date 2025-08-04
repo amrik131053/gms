@@ -252,6 +252,24 @@ else {
          }
          });
       } 
+   function floorLocation1(id)
+      {  var floor='';
+         buildingRoom(id,floor);
+         var code='81';
+         $.ajax({
+         url:'action.php',
+         data:{code:code,building:id},
+         type:'POST',
+         success:function(data){
+         if(data != "")
+         {
+            console.log(data);
+         $("#hostelFloorID1").html("");
+         $("#hostelFloorID1").html(data);
+         }
+         }
+         });
+      } 
        function buildingRoom(id,floor)
       {
          if (id==0) 
@@ -268,6 +286,26 @@ else {
          {
          $("#hostelRoomID").html("");
          $("#hostelRoomID").html(data);
+         }
+         }
+         });
+      }
+       function buildingRoom1(id,floor)
+      {
+         if (id==0) 
+         {
+            id=document.getElementById("hostel_id1").value;
+         }
+         var code='82';
+         $.ajax({
+         url:'action.php',
+         data:{code:code,building:id,floor:floor},
+         type:'POST',
+         success:function(data){
+         if(data != "")
+         {
+         $("#hostelRoomID1").html("");
+         $("#hostelRoomID1").html(data);
          }
          }
          });
@@ -376,6 +414,30 @@ function return_assigned_stock() {
     }
 });
    }
+function movetoLocation() {
+    var code = 47.3;
+    var spinner=document.getElementById("ajax-loader");
+    spinner.style.display='block';
+    var checkedValues = [];
+    let locationID = document.getElementById('locationID').value;
+    document.querySelectorAll("input[name='check_retrun[]']:checked").forEach(cb => {
+       checkedValues.push(cb.value);
+      });
+      
+      $.ajax({
+         url: "action.php",
+         method: "POST",
+         data: {
+            code:code,
+            check_retrun: checkedValues,locationID:locationID
+         },
+         success: function(response) {
+       spinner.style.display='none';
+      //   console.log(response);
+        document.getElementById("move_stock_all").innerHTML = response;
+    }
+});
+   }
    
 
    function returnSubmit1(id) {
@@ -425,6 +487,53 @@ function return_assigned_stock() {
         }
     });
 }
+   function moveSubmit1(id) {
+    let checkboxes = document.querySelectorAll('input[name="check_retrun[]"]:checked');
+    let selected = [];
+    checkboxes.forEach(cb => selected.push(cb.value));
+
+    if (selected.length === 0) {
+        ErrorToast('Please select at least one item', 'bg-warning');
+        return;
+    }
+    var building=document.getElementById("hostel_id1").value;
+         var floor=document.getElementById("hostelFloorID1").value;
+         var room=document.getElementById("hostelRoomID1").value;
+         var returnRemark1=document.getElementById("returnRemark1").value;
+    if (!building || !floor || !room) {
+        ErrorToast('All Input Required', 'bg-warning');
+        return;
+    }
+
+    var spinner=document.getElementById("ajax-loader");
+    spinner.style.display='block';
+    $.ajax({
+       url: "action.php",
+        method: "POST",
+        data: {
+           code: 47.4,
+           check_retrun: selected,
+           building: building,
+           floor: floor,
+           returnRemark1: returnRemark1,
+           room: room
+         },
+         success: function (response) {
+            console.log(response);
+            spinner.style.display='none';
+            SuccessToast('Successfully Retruned');
+            view_serials(id);
+            $('#move_stock_all_Modal').hide();
+            
+         },
+         error: function () {
+           spinner.style.display='none';
+
+            ErrorToast('Submission failed', 'bg-warning');
+            
+        }
+    });
+}
 
 
 
@@ -449,8 +558,9 @@ function return_assigned_stock() {
            
             <div class="modal-footer">
                <button type="submit" class="btn btn-primary" >Export</button>
+               <button type="button" class="btn btn-danger" onclick="return_assigned_stock();" data-toggle="modal" data-target="#return_stock_all_Modal">Bulk Retrun</button>
+               <button type="button" class="btn btn-warning" onclick="movetoLocation();" data-toggle="modal" data-target="#move_stock_all_Modal">Move Location</button>
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" onclick="return_assigned_stock();" data-toggle="modal" data-target="#return_stock_all_Modal">Retrun</button>
               
             </div>
          </form>
@@ -469,6 +579,28 @@ function return_assigned_stock() {
          </div>
          
             <div class="modal-body" id="return_stock_all">
+               ...
+            </div>
+           
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <!--  <button type="submit" class="btn btn-primary">Save</button> -->
+            </div>
+         
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="move_stock_all_Modal" tabindex="-1" role="dialog" aria-labelledby="move_stock_all_Modal" aria-hidden="true" >
+   <div class="modal-dialog modal-lg" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="move_stock_all_Modal">Move All Stock </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         
+            <div class="modal-body" id="move_stock_all">
                ...
             </div>
            
