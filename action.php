@@ -18685,6 +18685,202 @@ echo 1;
    
 }
 
+else if($code=='257.5')
+   {
+     
+      $status="";
+   $code_access=$_POST['code_access'];
+   $univ_rollno=$_POST['rollNo'];
+  if(is_numeric($univ_rollno))
+{
+    $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
+}
+ else
+ {
+$result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+      }
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+    $IDNo= $row['IDNo'];
+    $img= $row['Image'];
+    $name = $row['StudentName'];
+    $father_name = $row['FatherName'];
+    $mother_name = $row['MotherName'];
+    $course = $row['Course'];
+    $email = $row['EmailID'];
+    $batch = $row['Batch'];
+    $college = $row['CollegeName'];
+     $UniRollNo = $row['UniRollNo'];
+    $ClassRollNo = $row['ClassRollNo'];
+   
+    $getStatus="SELECT * FROM Migration where IDNo='$IDNo'";
+    $getStatusRun=sqlsrv_query($conntest,$getStatus);
+    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
+    {
+       
+       $status = $getStatusRow['Status'];
+    }
+   ?>
+            <!-- Widget: user widget style 2 -->
+            <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-warning">
+                <div class="widget-user-image">
+                
+                   
+
+                     <img class='direct-chat-img' src='<?=$BasURL.'Images/Students/'.$img;?>' alt='message user image'>
+    
+                      </div> 
+                <!-- /.widget-user-image -->
+                <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
+                <h6 class="widget-user-desc"><?=$IDNo; ?></h6>
+              
+                  <h6 class="widget-user-desc"><?=$UniRollNo; ?>/<?=$ClassRollNo; ?></h6>
+              </div>
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Mother Name </b> :&nbsp;&nbsp;&nbsp;<?= $mother_name; ?></li>
+                  </li>
+                  <!-- <li class="nav-item">
+                     <li class="nav-link"><b>Contact</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
+                  </li> -->
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Batch</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
+                  </li>
+                  
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $course; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
+                  </li>
+                 
+                  </li>
+                    
+                </ul>
+              </div>
+            </div>
+         
+   <?Php
+}  
+   } 
+
+   elseif($code=='257.6')
+   {
+      $code_access=$_POST['code_access'];
+      ?>
+       <table class="table">
+      <tr>
+         <th>Apply Date</th>
+         <th>Verified Date</th>
+         <th>Print Date</th>
+         <th>Status</th>
+         
+      </tr><?php 
+   $status="";
+   $univ_rollno=$_POST['rollNo'];
+
+
+   if(is_numeric($univ_rollno))
+{
+ $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno' or  IDNo='$univ_rollno'"; 
+}
+ else
+ {
+ $result1 = "SELECT  * FROM Admissions where   UniRollNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+      }
+
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+    $IDNo= $row['IDNo'];
+
+
+   //  -------------------------------
+   $check_student_idcard="SELECT * FROM SmartCardDetails Where IDNO='$IDNo'";
+   $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
+if($row_check=sqlsrv_fetch_array($check_student_idcard_run,SQLSRV_FETCH_ASSOC))
+{
+   if($row_check['PrintDate']!='')
+   {
+   $PrintDate1=$row_check['PrintDate'];
+
+   $PrintDate=$PrintDate1->format('d-M-Y  h:s:A');
+   }
+
+   else{ 
+     $PrintDate=""; 
+   }
+
+   if($row_check['ApplyDate']!='')
+   {
+      $ApplyDate1=$row_check['ApplyDate'];
+      $ApplyDate=$ApplyDate1->format('d-M-Y  h:s:A');
+   }
+   else
+   {
+$ApplyDate="";
+   }
+   if($row_check['status']=='Printed')
+   {
+      // $printed_status="<b class='text-success'>Printed</b>";
+      $printed_status="<img src='dist/img/emoji-yes.png' width='50'>";
+      $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$PrintDate;
+   }
+   else if($row_check['status']=='Applied')
+   {
+      $printed_status="<img src='dist/img/emoji-no.GIF' width='60'>";
+      $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$ApplyDate;
+      // $printed_status="Applied";
+   }
+
+   else if($row_check['status']=='Rejected')
+   {
+      $printed_status="<b class='text-danger'>Rejected</b>";
+   }
+    else if($row_check['status']=='Verified')
+   {
+      $printed_status="<b class='text-danger'>Verified</b>";
+   }
+
+
+   $ApplyDate=$row_check['ApplyDate']->format('d-m-Y');
+   $VerifyDate=$row_check['VerifyDate']->format('d-m-Y');
+   $PrintDate=$row_check['PrintDate']->format('d-m-Y');
+}
+else{
+   $printed_status="NA";
+}
+
+// -------------------------------------
+  ?>
+<tr>
+<td><?=$ApplyDate;?></td>
+<td><?=$VerifyDate;?></td>
+<td><?=$PrintDate;?></td>
+<td><?=$printed_status;?></td>
+
+
+</tr>
+  <?php 
+         ?>
+      </form>
+      <?php }
+  
+      ?>   
+      </td>
+      </tr>
+      <?php 
+   ?>
+    </table>
+<?php 
+   }
    elseif($code=='258')
    {
    $univ_rollno=$_POST['rollNo'];
