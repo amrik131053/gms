@@ -16,9 +16,8 @@ window.location.href = 'index.php';
    $CurrentExaminationGetDate=date('Y-m-d');
 
    $Leave_Authority_ID="172094"; 
-
    $Leave_Authority_Label="Pending to VC";
-
+   $Leave_Authority_button_Label="Forward to VC";
    $Leave_Authority_Label_rer="Reamrks By Vice Chancellor";
 
    $EmployeeID=$_SESSION['usr'];
@@ -18902,8 +18901,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
                             <?php if($EmployeeID!=$Leave_Authority_ID)
                     {?>
-                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To Registrar</button>
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_button_Label;?></button>
                             <?php }?>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
@@ -18925,7 +18923,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             <?php if($EmployeeID!=$Leave_Authority_ID)
                     {?>
                             <button class="btn btn-warning"
-                                onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_Label;?></button>
+                                onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_button_Label;?></button>
                             <?php }?>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
@@ -18935,8 +18933,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
          {
            ?>
 
-                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To Registrar</button>
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_button_Label;?></button>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
@@ -18956,7 +18953,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
           ?>
 
                             <button class="btn btn-warning"
-                                onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_Label;?></button>
+                                onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_button_Label;?></button>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
