@@ -550,8 +550,9 @@ function show_text_box_pages(id) {
                <option value="1">Casual</option>
                <option value="2">Compansatory</option>
                <option value="12">Duty Leave</option>
-                <option value="26">Vacations</option>
-                 <option value="15">Advance Leave</option>
+               <option value="26">Vacations</option>
+               <option value="15">Advance Leave</option>
+               <option value="13">Earned Leave</option>
                </select>
                 </div>
               
