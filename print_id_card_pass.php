@@ -1823,7 +1823,7 @@ $id=explode(",",$sel);
    foreach ($id as $key => $value) {
          $pdf->SetFont('Arial','B',12);
         //  
-    $sql="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+     $sql="SELECT *,Admissions.CourseID as CourseIDs,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
      ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
       where StudentBusPassGKU.SerialNo='$value' order by StudentBusPassGKU.SerialNo ASC  ";
    $result = sqlsrv_query($conntest,$sql);
@@ -1831,6 +1831,15 @@ $id=explode(",",$sel);
   
      while($row=sqlsrv_fetch_array($result))
    {
+    $CourseIDs=$row['CourseIDs'];
+
+     $sqlGG="SELECT DISTINCT CourseShortName from MasterCourseCodes  Where CourseID='$CourseIDs' and Isopen='1'";
+$stmtGG = sqlsrv_query($conntest,$sqlGG);
+if($rowGG = sqlsrv_fetch_array($stmtGG, SQLSRV_FETCH_ASSOC) )
+{ 
+$CourseName = $rowGG['CourseShortName']; 
+}
+
     $newDate=$row['expiryDate']->format('d-m-Y');
     $text = "Name: ".$row['StudentName']."\nRollNo: ".$row['ClassRollNo']."\nPassNo: ".$row['SerialNo']."\nValid: ".$newDate;
       $path = 'degreeqr/';
@@ -1921,7 +1930,7 @@ $id=explode(",",$sel);
    
    $pdf->SetXY($left+35,$down+24.5);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['CourseShortName']);
+   $pdf->Write(0,$CourseName);
 
    $pdf->SetXY($left+20,$down+28);
    $pdf->SetFont('Arial','',7);
@@ -2070,7 +2079,7 @@ $down=10;
  
  $pdf->SetXY($left+35,$down+24.5);
  $pdf->SetFont('Arial','',7);
- $pdf->Write(0,$row['CourseShortName']);
+ $pdf->Write(0,$CourseName);
 
  $pdf->SetXY($left+20,$down+28);
  $pdf->SetFont('Arial','',7);
@@ -2222,7 +2231,7 @@ $pdf->SetXY($left,$down+46);
  
  $pdf->SetXY($left+35,$down+24.5);
  $pdf->SetFont('Arial','',7);
- $pdf->Write(0,$row['CourseShortName']);
+ $pdf->Write(0,$CourseName);
 
  $pdf->SetXY($left+20,$down+28);
  $pdf->SetFont('Arial','',7);
@@ -2372,7 +2381,7 @@ $pdf->SetXY($left,$down+46);
        
        $pdf->SetXY($left+35,$down+24.5);
        $pdf->SetFont('Arial','',7);
-       $pdf->Write(0,$row['CourseShortName']);
+       $pdf->Write(0,$CourseName);
       
        $pdf->SetXY($left+20,$down+28);
        $pdf->SetFont('Arial','',7);
@@ -2523,7 +2532,7 @@ if ($count==5)
  
  $pdf->SetXY($left+35,$down+24.5);
  $pdf->SetFont('Arial','',7);
- $pdf->Write(0,$row['CourseShortName']);
+ $pdf->Write(0,$CourseName);
 
  $pdf->SetXY($left+20,$down+28);
  $pdf->SetFont('Arial','',7);
@@ -2676,7 +2685,7 @@ if ($count==6)
        
        $pdf->SetXY($left+35,$down+24.5);
        $pdf->SetFont('Arial','',7);
-       $pdf->Write(0,$row['CourseShortName']);
+       $pdf->Write(0,$CourseName);
       
        $pdf->SetXY($left+20,$down+28);
        $pdf->SetFont('Arial','',7);
@@ -2825,7 +2834,7 @@ if ($count==6)
        
        $pdf->SetXY($left+35,$down+24.5);
        $pdf->SetFont('Arial','',7);
-       $pdf->Write(0,$row['CourseShortName']);
+       $pdf->Write(0,$CourseName);
        
        $pdf->SetXY($left+20,$down+28);
        $pdf->SetFont('Arial','',7);
@@ -2974,7 +2983,7 @@ if ($count==6)
          
          $pdf->SetXY($left+35,$down+24.5);
          $pdf->SetFont('Arial','',7);
-         $pdf->Write(0,$row['CourseShortName']);
+         $pdf->Write(0,$CourseName);
         
          $pdf->SetXY($left+20,$down+28);
          $pdf->SetFont('Arial','',7);
