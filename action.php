@@ -26471,20 +26471,18 @@ $id=$_POST['articleID'];
    }
 }
 ?>
-     <table class="table table-head-fixed text-nowrap" border="0" style="border: 2px solid black;">
+     <table class="table table-bordered table-striped mb-4">
       <tr>
-         <td>Article Name: </td>
-         <th><?=$category;?></th>
-         <td>Specification: </td>
-         <th> <?=$description;?></th>
-         
+         <td><strong>Article Name:</strong></td>
+         <td><?= $category; ?></td>
+         <td><strong>Specification:</strong></td>
+         <td><?= $description; ?></td>
       </tr>
       <tr>
-         <td>QR No: </td>
-         <th><?=$id;?>
-      </th>
-         <td>Status: </td>
-         <th><?= $remarks;?></th>
+         <td><strong>QR No:</strong></td>
+         <td><?= $id; ?></td>
+         <td><strong>Status:</strong></td>
+         <td><?= $remarks; ?></td>
       </tr>
    </table>
    <?php
@@ -26501,18 +26499,27 @@ $CollegeName="";
 $img="";
 
       $id=$_POST['articleID'];
-  $location="SELECT *  from  stock_summary ss
-   inner join  stock_description as abc ON abc.IDNO=ss.IDNO  
- inner join master_calegories mc on ss.CategoryID=mc.ID
-  INNER join master_article ma on ss.ArticleCode=ma.ArticleCode
-  inner join location_master lm on lm.ID=ss.LocationID 
-  inner join room_master rm on rm.FloorID=lm.Floor 
-  inner join building_master bm on bm.ID=lm.Block 
-   inner join room_type_master rtm on rtm.ID=lm.Type
-    inner join room_name_master rnm on rnm.ID=lm.RoomName
-   --  inner join user on abc.OwerID=user.emp_id
+//   echo $location="SELECT *  from  stock_summary ss
+//    inner join  stock_description as abc ON abc.IDNO=ss.IDNO  
+//  inner join master_calegories mc on ss.CategoryID=mc.ID
+//   INNER join master_article ma on ss.ArticleCode=ma.ArticleCode
+//   inner join location_master lm on lm.ID=ss.LocationID 
+//   inner join room_master rm on rm.FloorID=lm.Floor 
+//   inner join building_master bm on bm.ID=lm.Block 
+//    inner join room_type_master rtm on rtm.ID=lm.Type
+//     inner join room_name_master rnm on rnm.ID=lm.RoomName
+//    --  inner join user on abc.OwerID=user.emp_id
     
-     WHERE ss.IDNo='$id' GROUP BY  abc.reference_no";
+//      WHERE ss.IDNo='$id' GROUP BY  abc.reference_no";
+
+ $location="SELECT *,rnm.RoomName AS RName,rm.Floor AS floorname,bm.Name AS buildingname FROM stock_description AS sd 
+INNER JOIN location_master AS lm ON sd.LocationID=lm.ID
+INNER JOIN room_name_master rnm ON rnm.ID = lm.RoomName
+INNER JOIN room_type_master rtm ON rtm.ID = lm.Type
+inner JOIN room_master rm ON rm.FloorID = lm.Floor
+INNER JOIN building_master bm ON bm.ID = lm.Block
+  WHERE sd.IDNo='$id' GROUP BY  sd.reference_no";
+
          $location_run=mysqli_query($conn,$location);
 
 
@@ -26536,65 +26543,61 @@ $emp_id=$location_row['OwerID'];
    }  
 
       ?>
-   <table class="table table-head-fixed text-nowrap" border="0" style="border: 2px solid black;">
-      <tr>
-         <td>Employee ID: </td>
-         <th><?=$location_row['OwerID'];?></th>
-         <td>Name: </td>
-         <th> <?=$name;?></th>
-         <td rowspan="2" style="text-align: right;">
-            <img src="<?= $BasURL.'Images/Staff/'.$img; ?>" width="100" height="130" border="1">
-         </td>
-      </tr>
-      <tr>
-         <td>Designation: </td>
-         <th><?=$Designation;?></th>
-         <td>Department: </td>
-         <th><?=$Department;?></th>
-      </tr>
-   </table>
-   <br>
-    <label>Location</label>
-    <table class="table table-head-fixed text-nowrap" border="1">
-      <thead>
-         <tr>
-           
-            <th>Block</th>
-            <th>Floor</th>
-            <th>Room No</th>
-            <th>Room Type</th>
-            <th>Room Name</th>
-            <th>Issue Date</th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr>
-            
-            <td>
-               <?=$location_row['Name'];?>
-            </td>
-            <td>
-               <?=$location_row['Floor'];?>
-            </td>
-            <td>
-               <?=$location_row['RoomNo'];?>
-            </td>
-            <td>
-               <?=$location_row['RoomType'];?>
-            </td>
-            <td>
-               <?=$location_row['RoomName'];?>
-            </td>
-
-              <td>
-               <?=$location_row['IssueDate'];?>
-            </td>
-            
-         </tr>
-      </tbody>
-   </table>
+      
+     <div class="card mb-4 border border-primary table-responsive " >
+     <label class="fw-bold">&nbsp;&nbsp;Staff Details</label>
+         <div class="card-body">
+            <div class="row">
+               <div class="col-md-10">
+                  <table class="table table-bordered table-hover ">
+                     <tr>
+                        <td><strong>Employee ID:</strong></td>
+                        <td><?= $location_row['OwerID']; ?></td>
+                        <td><strong>Name:</strong></td>
+                        <td><?= $name; ?></td>
+                     </tr>
+                     <tr>
+                        <td><strong>Designation:</strong></td>
+                        <td><?= $Designation; ?></td>
+                        <td><strong>Department:</strong></td>
+                        <td><?= $Department; ?></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="col-md-2 text-end">
+                  <img src="<?= $BasURL . 'Images/Staff/' . $img; ?>" width="100" height="130" class="border" alt="Staff Image">
+               </div>
+            </div>
+         </div>
+  
+         <label class="fw-bold">&nbsp;&nbsp;Article Location</label>
+         <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+               <tr>
+                  <th>Block</th>
+                  <th>Floor</th>
+                  <th>Room No</th>
+                  <th>Room Type</th>
+                  <th>Room Name</th>
+                  <th>Issue Date</th>
+                  <th>Update By</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td><?= $location_row['buildingname']; ?></td>
+                  <td><?= $location_row['floorname']; ?></td>
+                  <td><?= $location_row['RoomNo']; ?></td>
+                  <td><?= $location_row['RoomType']; ?></td>
+                  <td><?= $location_row['RName']; ?></td>
+                  <td><?= $location_row['Date_issue']; ?></td>
+                  <td><?= $location_row['Updated_By']; ?></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
    
-   <br>
+   <!-- <br> -->
   <!--  <label>Particular's Description(<?=$id?>)</label>
    <table class="table table-head-fixed text-nowrap" border="1" style="border: 2px solid black;"> -->
       <!-- <thead>
@@ -26629,7 +26632,7 @@ $emp_id=$location_row['OwerID'];
             ?>
     <!--   </tbody>
    </table> -->
-   <br>
+   <!-- <br> -->
 <!--    <div class="row" >
       <div class="col-lg-6">
          <label>Remarks</label>
@@ -26648,7 +26651,7 @@ $emp_id=$location_row['OwerID'];
          <button type="submit" data-dismiss="modal" class="form-control btn-danger btn" onclick="returnSubmit(<?=$id?>)">Return</button>
       </div>
    </div> -->
-   <br>
+   <!-- <br> -->
 </div>
 <?php 
 
