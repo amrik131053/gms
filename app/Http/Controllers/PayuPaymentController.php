@@ -113,9 +113,9 @@ class PayuPaymentController extends Controller
         if($payment_method==1)
         {
             // dd($apiPayload);
-        // $response = Http::post('https://payment.gku.ac.in/api/payu/initiate-web/', $apiPayload);
-        // $responseData = $response->json();
-        // return view('payu.payu_redirect', ['payuData' => $responseData]);
+        $response = Http::post('https://payment.gku.ac.in/api/payu/initiate-web/', $apiPayload);
+        $responseData = $response->json();
+        return view('payu.payu_redirect', ['payuData' => $responseData]);
         }
         else
         {

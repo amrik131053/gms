@@ -79,9 +79,13 @@
                                 </div>
                                 <div class="form-label"><br></div>
                                 <div class="form-group">
-                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}"
+                                    <!-- <button type="submit" name="payment_method" value="{{ Crypt::encrypt('2') }}"
                                         class="btn btn-primary">
                                         Pay Now
+                                    </button> -->
+                                  
+                                    <button type="submit" name="payment_method" value="{{ Crypt::encrypt('1') }}" class="btn btn-danger">
+                                        Confirm and Pay with PayU
                                     </button>
                                 </div>
 

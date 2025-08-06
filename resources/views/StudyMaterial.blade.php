@@ -89,12 +89,23 @@
             <td class="sort-session">{{ $showStudyMaterialData['Course'] }}</td>
             <td class="sort-date">{{ $showStudyMaterialData['Topic'] }}</td>
             <td class="sort-transaction">
-            <a href="http://erp.gku.ac.in:86/StudyMaterial/{{ $showStudyMaterialData['CourseFile'] }}" target="_blank">  <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="#modal-view-busspass" onclick="" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+              @if($showStudyMaterialData['DocumentType']!='Video/Audio')
+            <a href="http://erp.gku.ac.in:86/StudyMaterial/{{ $showStudyMaterialData['CourseFile'] }}" target="_blank">  <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
                     <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                 </svg>
                 </a>
+                @else
+                <a href="{{ $showStudyMaterialData['CourseFile'] }}" target="_blank">  <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                </svg>
+                </a>
+                @endif
+
+
             </td>
         </tr>
     @endforeach
