@@ -43480,10 +43480,100 @@ echo 1;
 
        
         }
+        elseif($code==477)  // hostel Count
+        {
+        $count=array(); 
+        $Session=$_POST['Batch'];
+        $HostelID=$_POST['CollegeID'];
+     
+        $get_study_scheme = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+        inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' AND ArticleCode='28' ";
+        $get_study_scheme_run = mysqli_query($conn, $get_study_scheme);
+        $row = mysqli_fetch_assoc($get_study_scheme_run);
+        $TotalStudents = $row['total'];
+        
+        $getActiveTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+        inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' AND ArticleCode='28'  and hostel_student_summary.status='0'";
+        $getActiveTotal_run = mysqli_query($conn, $getActiveTotal);
+        $row1 = mysqli_fetch_assoc($getActiveTotal_run);
+        $TotalActive = $row1['total'];
+
+        $TotalLeftActive = 0;
+
+        $getActiveTotal = "SELECT student_id FROM stock_summary  INNER JOIN location_master  ON stock_summary.LocationID = location_master.ID  
+        INNER JOIN hostel_student_summary   ON hostel_student_summary.article_no = stock_summary.IDNo  WHERE BLOCK = '$HostelID'  AND SESSION = '$Session' AND ArticleCode='28'   AND hostel_student_summary.status = '0'";
+        
+        $getActiveTotal_run = mysqli_query($conn, $getActiveTotal);
+        
+        while ($hostelData = mysqli_fetch_array($getActiveTotal_run)) {
+            $idno = $hostelData['student_id'];
+             $list_sql = "SELECT * FROM Admissions WHERE IDNo = '$idno' and Status='0'";
+            $getPleftTotal_run = sqlsrv_query($conntest, $list_sql, array(), array("Scrollable" => SQLSRV_CURSOR_KEYSET));
+            $rows = sqlsrv_num_rows($getPleftTotal_run);
+            if ($rows == 1) {
+                $TotalLeftActive++;
+            }
+        }
+        
+        // echo "Total Students Left: " . $TotalLeftActive;
+        
+
+        
+        $getNEligibleTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+        inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' AND ArticleCode='28'  and hostel_student_summary.status='1'";
+        $getNEligibleTotal_run = mysqli_query($conn, $getNEligibleTotal);
+        $row2 = mysqli_fetch_assoc($getNEligibleTotal_run);
+        $TotalNEligible = $row2['total'];
+
+        $getleftTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+        inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' AND ArticleCode='28'  and hostel_student_summary.status='1'";
+        $getleftTotal_run = mysqli_query($conn, $getleftTotal);
+        $row2 = mysqli_fetch_assoc($getleftTotal_run);
+        $Totalleft = $row2['total'];
+
+        $getEligibility = "SELECT COUNT(*) AS total FROM stock_summary ss    INNER JOIN location_master AS lm ON  ss.LocationID= lm.Id  
+ inner JOIN  building_master  AS bm  ON   bm.ID= lm.Block    WHERE bm.ID='$HostelID' AND ArticleCode='28' ;";
+        $getPActiveTotal_run = mysqli_query($conn, $getEligibility);
+        $row3 = mysqli_fetch_assoc($getPActiveTotal_run);
+        $TotalEligibility = $row3['total'];
+        // $getEligibility = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+        // left join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID'";
+        // $getPActiveTotal_run = mysqli_query($conn, $getEligibility);
+        // $row3 = mysqli_fetch_assoc($getPActiveTotal_run);
+        // $TotalEligibility = $row3['total'];
+
+
+        $getPActiveTotal = "SELECT COUNT(*) AS total from stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID 
+         inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo 
+          INNER JOIN hostel_student_leaves ON hostel_student_summary.student_id=hostel_student_leaves.student_id where BLOCK='$HostelID' AND SESSION='$Session' AND ArticleCode='28' ";
+        $getPActiveTotal_run = mysqli_query($conn, $getPActiveTotal);
+        $row4 = mysqli_fetch_assoc($getPActiveTotal_run);
+        $PTotalActive = $row4['total'];
 
 
 
+        $getPleftTotal = "SELECT COUNT(*) AS total FROM stock_summary ss INNER JOIN location_master lm ON ss.LocationID = lm.ID WHERE lm.BLOCK = '$HostelID' AND NOT EXISTS (
+        SELECT 1 FROM hostel_student_summary hss WHERE hss.article_no = ss.IDNo)";
+        $getPleftTotal_run = mysqli_query($conn, $getPleftTotal);
+        $row5 = mysqli_fetch_assoc($getPleftTotal_run);
+        $PTotalLeft = $row5['total']??0;
 
+
+     
+           $count[0]=$TotalStudents;
+           $count[1]=$TotalActive;
+           $count[2]=$TotalNEligible;
+           $count[3]=$TotalEligibility;
+           $count[4]=$PTotalActive;
+           $count[5]=$Totalleft;
+           $count[6]=$TotalEligibility-$TotalActive;
+           $count[7]=$TotalLeftActive;
+     
+     
+     
+         echo json_encode($count);
+         sqlsrv_close($conntest);
+        }
    else
    {
    

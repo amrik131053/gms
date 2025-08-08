@@ -6162,23 +6162,17 @@ if($Status==2)
 {
 $Status=1;
 $StatusType=1;
-
-                                            }
-                                            if($Status==3)
-                                            {
-
+}
+if($Status==3)
+ {
 $Status=0;
 $StatusType=1;
-
-                                            }
-                                            
-
-
-                                            $Lateral=$_GET['Lateral'];                
-                                            $SrNo=1;
-                                            $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-                                            <thead>  
-                                            <tr>
+}
+ $Lateral=$_GET['Lateral'];                
+   $SrNo=1;
+     $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+                    <thead>  
+                      <tr>
                                             ";
                                             $exportstudy.="<th style='background-color:black; color:white;'>IDNo</th>
 <th style='background-color:black; color:white;'>College Name</th>
@@ -14192,6 +14186,349 @@ $Sr++;
     $fileName="Leave Pending Summary";
   
 }
+
+                        else if($exportCode==86)
+                        {
+                        $CollegeID=$_GET['CollegeID'];
+                        $Session=$_GET['Batch'];
+                        $Eligible=$_GET['Eligible'];
+                        $Status=$_GET['Status']; 
+                        $CollegeName="";
+                        $Course="";             
+                        $SrNo=1;
+                        $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+                        <thead>  
+                        <tr>
+                        ";
+                        $exportstudy.="
+                        <th style='background-color:black; color:white;'>College Name</th>
+                        <th style='background-color:black; color:white;'>Batch</th>
+                        <th style='background-color:black; color:white;'>Total Students</th>
+                        <th style='background-color:black; color:white;'>Active</th>
+                        <th style='background-color:black; color:white;'>Left</th>
+                        <th style='background-color:black; color:white;'>On Leave</th>
+                        <th style='background-color:black; color:white;'>Total Bed</th>
+                        <th style='background-color:black; color:white;'>Available Bed</th> ";
+                        $exportstudy.="</tr></thead>";             
+                     
+
+                            $hostelQry="SELECT DISTINCT Name,ID FROM building_master  where ID='$CollegeID'";
+                            $hostelRes=mysqli_query($conn,$hostelQry);
+                            while($hostelData=mysqli_fetch_array($hostelRes))
+                            {
+             $college = $hostelData['Name']; 
+             $HostelID = $hostelData['ID'];
+             $get_study_scheme = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session'";
+             $get_study_scheme_run = mysqli_query($conn, $get_study_scheme);
+             $row = mysqli_fetch_assoc($get_study_scheme_run);
+             $TotalStudents = $row['total'];
+             
+             $getActiveTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' and hostel_student_summary.status='0'";
+             $getActiveTotal_run = mysqli_query($conn, $getActiveTotal);
+             $row1 = mysqli_fetch_assoc($getActiveTotal_run);
+             $TotalActive = $row1['total'];
+             
+             $getNEligibleTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' and hostel_student_summary.status='1'";
+             $getNEligibleTotal_run = mysqli_query($conn, $getNEligibleTotal);
+             $row2 = mysqli_fetch_assoc($getNEligibleTotal_run);
+             $TotalNEligible = $row2['total'];
+     
+             $getleftTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' and hostel_student_summary.status='1'";
+             $getleftTotal_run = mysqli_query($conn, $getleftTotal);
+             $row2 = mysqli_fetch_assoc($getleftTotal_run);
+             $Totalleft = $row2['total'];
+     
+             $getEligibility = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             left join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID'";
+             $getPActiveTotal_run = mysqli_query($conn, $getEligibility);
+             $row3 = mysqli_fetch_assoc($getPActiveTotal_run);
+             $TotalEligibility = $row3['total'];
+     
+             $getPActiveTotal = "SELECT COUNT(*) AS total from stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID  inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo  INNER JOIN hostel_student_leaves ON hostel_student_summary.student_id=hostel_student_leaves.student_id where BLOCK='$HostelID' AND SESSION='$Session'";
+             $getPActiveTotal_run = mysqli_query($conn, $getPActiveTotal);
+             $row4 = mysqli_fetch_assoc($getPActiveTotal_run);
+             $PTotalActive = $row4['total'];
+     
+    
+     
+          
+                $count[0]=$TotalStudents;
+                $count[1]=$TotalActive;
+                $count[2]=$TotalNEligible;
+                $count[3]=$TotalEligibility;
+                $count[4]=$PTotalActive;
+                $count[5]=$Totalleft;
+    
+
+                       
+
+
+                                                                                        
+                        $exportstudy.="<tr >
+
+                                                                                                                
+                        <td>{$college}</td>
+                        <td>{$Session}</td>   
+                        <td>{$TotalStudents}</td>
+                        <td>{$TotalActive}</td>
+                        <td>{$TotalNEligible}</td>
+                        <td>{$PTotalActive}</td>
+                        <td>{$TotalEligibility}</td>
+                        <td>{$Totalleft}</td>
+
+
+                                                                                                
+                        </tr>";
+                            $SrNo++;
+                            }
+                            $exportstudy.="</table>";
+                            echo $exportstudy;
+                            $fileName=$Session.' '.$college." Students summary ";
+                        } 
+                        else if($exportCode==87)
+                        {
+                        $CollegeID=$_GET['CollegeID'];
+                        $Batch=$_GET['Batch'];
+                        $Eligible=$_GET['Eligible'];
+                        $Status=$_GET['Status']; 
+                        $CollegeName="";
+                        $Course="";             
+                        $SrNo=1;
+                        $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+                        <thead>  
+                        <tr>
+                        ";
+                        $exportstudy.="
+                        <th style='background-color:black; color:white;'>College Name</th>
+                        <th style='background-color:black; color:white;'>Session</th>
+                        <th style='background-color:black; color:white;'>Total Students</th>
+                        <th style='background-color:black; color:white;'>Active</th>
+                        <th style='background-color:black; color:white;'>Left</th>
+                        <th style='background-color:black; color:white;'>On Leave</th>
+                        <th style='background-color:black; color:white;'>Total Bed</th>
+                        <th style='background-color:black; color:white;'>Available Bed</th> ";
+                        $exportstudy.="</tr></thead>";             
+                     
+
+                            $hostelQry="SELECT DISTINCT building_master.Name,building_master.ID,hostel_student_summary.session from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo INNER JOIN building_master ON
+				 building_master.ID=location_master.Block where BLOCK='$CollegeID'";
+                            $hostelRes=mysqli_query($conn,$hostelQry);
+                            while($hostelData=mysqli_fetch_array($hostelRes))
+                            {
+             $college = $hostelData['Name']; 
+             $HostelID = $hostelData['ID'];
+             $Session = $hostelData['session'];
+             $get_study_scheme = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session'";
+             $get_study_scheme_run = mysqli_query($conn, $get_study_scheme);
+             $row = mysqli_fetch_assoc($get_study_scheme_run);
+             $TotalStudents = $row['total'];
+             
+             $getActiveTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' and hostel_student_summary.status='0'";
+             $getActiveTotal_run = mysqli_query($conn, $getActiveTotal);
+             $row1 = mysqli_fetch_assoc($getActiveTotal_run);
+             $TotalActive = $row1['total'];
+             
+             $getNEligibleTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' and hostel_student_summary.status='1'";
+             $getNEligibleTotal_run = mysqli_query($conn, $getNEligibleTotal);
+             $row2 = mysqli_fetch_assoc($getNEligibleTotal_run);
+             $TotalNEligible = $row2['total'];
+     
+             $getleftTotal = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID' AND SESSION='$Session' and hostel_student_summary.status='1'";
+             $getleftTotal_run = mysqli_query($conn, $getleftTotal);
+             $row2 = mysqli_fetch_assoc($getleftTotal_run);
+             $Totalleft = $row2['total'];
+     
+             $getEligibility = "SELECT COUNT(*) AS total from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+             left join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$HostelID'";
+             $getPActiveTotal_run = mysqli_query($conn, $getEligibility);
+             $row3 = mysqli_fetch_assoc($getPActiveTotal_run);
+             $TotalEligibility = $row3['total'];
+     
+             $getPActiveTotal = "SELECT COUNT(*) AS total from stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID  inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo  INNER JOIN hostel_student_leaves ON hostel_student_summary.student_id=hostel_student_leaves.student_id where BLOCK='$HostelID' AND SESSION='$Session'";
+             $getPActiveTotal_run = mysqli_query($conn, $getPActiveTotal);
+             $row4 = mysqli_fetch_assoc($getPActiveTotal_run);
+             $PTotalActive = $row4['total'];
+     
+    
+             $getPleftTotal = "SELECT COUNT(*) AS total FROM stock_summary ss INNER JOIN location_master lm ON ss.LocationID = lm.ID WHERE lm.BLOCK = '$HostelID' AND NOT EXISTS (
+                SELECT 1 FROM hostel_student_summary hss WHERE hss.article_no = ss.IDNo)";
+                $getPleftTotal_run = mysqli_query($conn, $getPleftTotal);
+                $row5 = mysqli_fetch_assoc($getPleftTotal_run);
+                $PTotalLeft = $row5['total']??0;
+        
+     
+          
+                $count[0]=$TotalStudents;
+                $count[1]=$TotalActive;
+                $count[2]=$TotalNEligible;
+                $count[3]=$TotalEligibility;
+                $count[4]=$PTotalActive;
+                $count[5]=$PTotalLeft;
+    
+
+                       
+
+
+                                                                                        
+                        $exportstudy.="<tr >
+
+                                                                                                                
+                        <td>{$college}</td>
+                        <td>{$Session}</td>   
+                        <td>{$TotalStudents}</td>
+                        <td>{$TotalActive}</td>
+                        <td>{$TotalNEligible}</td>
+                        <td>{$PTotalActive}</td>
+                        <td>{$TotalEligibility}</td>
+                        <td>{$PTotalLeft}</td>
+
+
+                                                                                                
+                        </tr>";
+                            $SrNo++;
+                            }
+                            $exportstudy.="</table>";
+                            echo $exportstudy;
+                            $fileName=$Session.' '.$college." Students summary ";
+                        } 
+
+                        else if($exportCode==88)
+                {
+  $CollegeID=$_GET['CollegeID'];
+$Batch=$_GET['Batch'];
+$Status=$_GET['Status'];
+   $CollegeName="";         
+   $SrNo=1;
+     $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+                    <thead>  
+                      <tr>
+                                            ";
+        $exportstudy.="<th style='background-color:black; color:white;'>IDNo</th>
+<th style='background-color:black; color:white;'>College Name</th>
+<th style='background-color:black; color:white;'>Course</th>
+<th style='background-color:black; color:white;'>Batch</th>
+<th style='background-color:black; color:white;'>Student Name</th>
+<th style='background-color:black; color:white;'>Gender</th>
+<th style='background-color:black; color:white;'>Category</th>
+<th style='background-color:black; color:white;'>Class Roll No</th>
+<th style='background-color:black; color:white;'>UniRollno</th>
+<th style='background-color:black; color:white;'>Father Name</th>
+<th style='background-color:black; color:white;'>Mother Name</th>
+<th style='background-color:black; color:white;'>EmailID</th>
+<th style='background-color:black; color:white;'>Student Mobile No</th>
+<th style='background-color:black; color:white;'>City</th>
+<th style='background-color:black; color:white;'>State</th>
+<th style='background-color:black; color:white;'>PIN</th>
+<th style='background-color:black; color:white;'>Floor</th>
+<th style='background-color:black; color:white;'>RoomNo</th>
+";
+$exportstudy.="</tr></thead>";  
+
+
+
+
+// $get_study_scheme = "SELECT hostel_student_summary.student_id,Block,Floor,RoomNo from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+//         inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$CollegeID' AND SESSION='$Batch' order by Floor ASC";
+
+if($Status==''){
+$get_study_scheme = "SELECT hostel_student_summary.student_id,Block,Floor,RoomNo from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$CollegeID' AND SESSION='$Batch' order by Floor ASC";
+}
+else if($Status=='0'){
+    $get_study_scheme = "SELECT hostel_student_summary.student_id,Block,Floor,RoomNo from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+    inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$CollegeID' AND SESSION='$Batch' and hostel_student_summary.status='0' order by Floor ASC";
+}
+else if($Status=='1'){
+    $get_study_scheme = "SELECT hostel_student_summary.student_id,Block,Floor,RoomNo from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+    inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$CollegeID' AND SESSION='$Batch' and hostel_student_summary.status='1' order by Floor ASC";
+}
+else if($Status=='2'){
+    $get_study_scheme = "SELECT hostel_student_leaves.student_id,Block,Floor,RoomNo from stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID  
+    inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo  
+    INNER JOIN hostel_student_leaves ON hostel_student_summary.student_id=hostel_student_leaves.student_id where BLOCK='$CollegeID' AND SESSION='$Batch' order by Floor ASC";
+}
+
+
+          $hostelRes=mysqli_query($conn,$get_study_scheme);
+          while($hostelData=mysqli_fetch_array($hostelRes))
+          {
+            $idno=$hostelData['student_id']; 
+            $RoomNo=$hostelData['RoomNo']; 
+            $Floor=$hostelData['Floor']; 
+            $list_sql = "SELECT * FROM Admissions where IDNo='$idno'";                                   
+$list_result = sqlsrv_query($conntest,$list_sql);
+if( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+{
+// $aa=$row;
+                                                                    $IDNo=$row['IDNo'];
+                                                                    $CollegeName=$row['CollegeName'];
+                                                                    $Course=$row['Course'];
+                                                                    $StudentName=$row['StudentName'];
+                                                                    $Gender=$row['Sex'];
+                                                                    $Category=$row['Category'];
+                                                                    $ClassRollNo=$row['ClassRollNo'];
+                                                                    $UniRollno=$row['UniRollNo'];
+                                                                    $FatherName=$row['FatherName'];
+                                                                    $MotherName=$row['MotherName'];
+                                                                    $EmailID=$row['EmailID'];
+                                                                    $StudentMobileNo=$row['StudentMobileNo'];
+                                                                    $LateralEntry=$row['LateralEntry'];
+                                                                    $City=$row['City'];
+                                                                    $State=$row['State'];
+                                                                    $PIN=$row['PIN'];
+                                                                    $Status=$row['Status'];
+
+                                                                    if($Status==0)
+                                                                    {
+                                                                        $clr="red";
+                                                                     $adstatus="Left";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                     $adstatus="Active";
+                                                                     $clr="";
+                                                                    }
+                                                                   
+                                                                    $exportstudy.="<tr style='background-color:{$clr}'>
+                                                                    
+                                                                    <td>{$IDNo}</td>
+                                                                    <td>{$CollegeName}</td>
+                                                                    <td>{$Course}</td>
+                                                                    <td>{$Batch}</td>
+                                                                    <td>{$StudentName}</td>
+                                                                    <td>{$Gender}</td>
+                                                                    <td>{$Category}</td>
+                                                                    <td>{$ClassRollNo}</td>
+                                                                    <td>{$UniRollno}</td>
+                                                                    <td>{$FatherName}</td>
+                                                                    <td>{$MotherName}</td>
+                                                                    <td>{$EmailID}</td>
+                                                                    <td>{$StudentMobileNo}</td>
+                                                                    <td>{$City}</td>
+                                                                    <td>{$State}</td>
+                                                                    <td>{$PIN}</td>
+                                                                    <td>{$Floor}</td>
+                                                                    <td>{$RoomNo}</td>
+                                                                </tr>";
+                                                    $SrNo++;
+                                                                       }
+
+                                                                    }
+                                                    $exportstudy.="</table>";
+                                                    echo $exportstudy;
+                                                    $fileName=$Batch.' '.$CollegeName." Students Report ";
+                                                     
+
+                                                    }
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
