@@ -43557,6 +43557,11 @@ echo 1;
         $getPleftTotal_run = mysqli_query($conn, $getPleftTotal);
         $row5 = mysqli_fetch_assoc($getPleftTotal_run);
         $PTotalLeft = $row5['total']??0;
+        
+        $getTatalRoom = "SELECT COUNT(*) AS total FROM building_master AS bm INNER JOIN location_master AS lm ON lm.Block=bm.ID WHERE bm.ID='$HostelID' AND RoomName=10 ";
+        $getTatalRoom_run = mysqli_query($conn, $getTatalRoom);
+        $row6 = mysqli_fetch_assoc($getTatalRoom_run);
+        $TotalRoom = $row6['total']??0;
 
 
      
@@ -43568,6 +43573,7 @@ echo 1;
            $count[5]=$Totalleft;
            $count[6]=$TotalEligibility-$TotalActive;
            $count[7]=$TotalLeftActive;
+           $count[8]=$TotalRoom;
      
      
      

@@ -58,9 +58,9 @@
                             <div class="info-box-content ">
                                 <?=$college;?>(<?=$CollegeID;?>)
 
-
                             </div>
-                           
+                            
+                          
                             <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
                                     style='color:white;'
                                     onclick="exportTotalScordingToCollegeSumyAll(<?=$CollegeID;?>,'','');">
@@ -72,7 +72,8 @@
                         </div>
                         <div class="card-footer p-0">
                             <ul class="nav flex-column">
-                                <li class="nav-item">
+                               
+                                <li class="nav-item" style="display:none">
                                     <a href="#" class="nav-link"
                                         onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'');">
                                         <i class="fa fa-download fa-sm text-info"></i>&nbsp;&nbsp;Total Student <span
@@ -130,6 +131,19 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="#" class="nav-link"
+                                        >
+                                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;Total Rooms <span
+                                            class="float-right badge bg-warning" id="TotalRoom<?=$CollegeID;?>">
+                                            <div class="text-center" id="div-loader<?=$CollegeID;?>">
+                                                <div class="spinner-border spinner-grow-sm" role="status">
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Total Beds in Hostel<span
                                             class="float-right badge bg-success" id="TEligible<?=$CollegeID;?>">
@@ -151,7 +165,7 @@
                                         </span>
                                     </a>
                                 </li>
-
+                               
 
                                 <!-- <li class="nav-item">
                                     <a href="#" class="nav-link"
@@ -284,6 +298,7 @@
                 document.getElementById("TLeft" + CollegeID).textContent = data[5];
                 document.getElementById("PLeft" + CollegeID).textContent = data[6];
                 document.getElementById("ALeft" + CollegeID).textContent = data[7];
+                document.getElementById("TotalRoom" + CollegeID).textContent = data[8];
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error);

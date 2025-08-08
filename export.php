@@ -14430,6 +14430,8 @@ $Status=$_GET['Status'];
 <th style='background-color:black; color:white;'>PIN</th>
 <th style='background-color:black; color:white;'>Floor</th>
 <th style='background-color:black; color:white;'>RoomNo</th>
+<th style='background-color:black; color:white;'>CheckInDate</th>
+<th style='background-color:black; color:white;'>CheckOutDate</th>
 ";
 $exportstudy.="</tr></thead>";  
 
@@ -14448,7 +14450,7 @@ else if($Status=='0'){
     inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$CollegeID' AND SESSION='$Batch' and hostel_student_summary.status='0' order by Floor ASC";
 }
 else if($Status=='1'){
-    $get_study_scheme = "SELECT hostel_student_summary.student_id,Block,Floor,RoomNo from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
+    $get_study_scheme = "SELECT check_in_date,check_out_date,hostel_student_summary.student_id,Block,Floor,RoomNo from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID 
     inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where BLOCK='$CollegeID' AND SESSION='$Batch' and hostel_student_summary.status='1' order by Floor ASC";
 }
 else if($Status=='2'){
@@ -14464,6 +14466,8 @@ else if($Status=='2'){
             $idno=$hostelData['student_id']; 
             $RoomNo=$hostelData['RoomNo']; 
             $Floor=$hostelData['Floor']; 
+            $check_in_date=$hostelData['check_in_date']; 
+            $check_out_date=$hostelData['check_out_date']; 
             $list_sql = "SELECT * FROM Admissions where IDNo='$idno'";                                   
 $list_result = sqlsrv_query($conntest,$list_sql);
 if( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
@@ -14518,6 +14522,8 @@ if( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                                                                     <td>{$PIN}</td>
                                                                     <td>{$Floor}</td>
                                                                     <td>{$RoomNo}</td>
+                                                                    <td>{$check_in_date}</td>
+                                                                    <td>{$check_out_date}</td>
                                                                 </tr>";
                                                     $SrNo++;
                                                                        }

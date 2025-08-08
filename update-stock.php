@@ -195,7 +195,7 @@ function articleTask(content) {
             console.log(status);
             // alert(flag);
             if (status == 0) {
-                update(content, 'update-stock.php');
+                // update(content, 'update-stock.php');
             }
             if (status == 1) {
                 assign(content);
@@ -400,8 +400,8 @@ function returnSubmit(id) {
                 locationID: locationID
             },
             success: function(response) {
-                // console.log(response);
-                location.reload(true);
+                console.log(response);
+                // location.reload(true);
             }
         });
     } else {
@@ -449,7 +449,7 @@ function assigned_one() {
                         },
                         success: function(response) {
                             document.getElementById("stock_add").innerHTML = response;
-                            window.location.reload();
+                            // window.location.reload();
                         },
                         error: function() {
                             alert("error");
