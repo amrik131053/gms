@@ -88,7 +88,7 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link"
                                         onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'0');">
-                                        <i class="fa fa-download fa-sm text-primary"></i> &nbsp;&nbsp;Checked In 
+                                        <i class="fa fa-download fa-sm text-primary"></i> &nbsp;&nbsp;Total Student 
                                         <span
                                             class="float-right badge bg-primary" id="TActive<?=$CollegeID;?>">
                                             <div class="text-center" id="div-loader<?=$CollegeID;?>">
@@ -108,7 +108,7 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link"
                                         onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'1');">
-                                        <i class="fa fa-download fa-sm text-danger"></i> &nbsp;&nbsp; Checked Out<span
+                                        <i class="fa fa-download fa-sm text-danger"></i> &nbsp;&nbsp; Left<span
                                             class="float-right badge bg-success" id="TLeft<?=$CollegeID;?>">
                                             <div class="text-center" id="div-loader<?=$CollegeID;?>">
                                                 <div class="spinner-border spinner-grow-sm" role="status">
