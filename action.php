@@ -11146,7 +11146,7 @@ mysqli_close($conn);
       $articleID=$_POST['articleID'];
       $flag=0;
       $articleStatus='aa';
-       $sql="SELECT *,stock_summary.status as stockStatus FROM stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID inner join master_calegories on stock_summary.CategoryID=master_calegories.ID inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID where stock_summary.IDNo='$articleID' and category_permissions.employee_id='$EmployeeID'";
+        $sql="SELECT *,stock_summary.status as stockStatus FROM stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID inner join master_calegories on stock_summary.CategoryID=master_calegories.ID inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID where stock_summary.IDNo='$articleID' and category_permissions.employee_id='$EmployeeID'";
       $res=mysqli_query($conn,$sql);
       if ($data=mysqli_fetch_array($res)) 
       {
