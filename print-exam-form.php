@@ -68,7 +68,7 @@ $batch = $row6['Batch'];
 $college = $row6['CollegeName'];
 $CourseID=$row6['CourseID'];
 $CollegeID=$row6['CollegeID'];
-
+$imageURL=$row6['Image'];
 
 }
 $srno=1;
@@ -88,10 +88,52 @@ $pdf-> Image('dist\img\new-logo.jpg',10,8,55,10);
 $pdf-> Image('dist\img\naac-logo.jpg',170,8,30,10);
 $pdf->SetXY(10,25);
 
-$pic = 'data://text/plain;base64,' . base64_encode($img);
-$info = getimagesize($pic);
-$extension = explode('/', mime_content_type($pic))[1];
-$pdf-> Image($pic,180,26.8,20,21,$extension);
+
+
+
+$fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
+// echo $fullURL;
+$ch = curl_init($fullURL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$imageData = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'cURL error: ' . curl_error($ch);
+    curl_close($ch);
+    exit;
+}
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+if ($httpCode != 200) {
+    echo 'HTTP error: ' . $httpCode;
+    curl_close($ch);
+    exit;
+}
+curl_close($ch);
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+$mimeType = $finfo->buffer($imageData);
+$extension = 'jpeg'; 
+switch ($mimeType) {
+    case 'image/jpeg':
+        $extension = 'jpeg';
+        break;
+    case 'image/png':
+        $extension = 'png';
+        break;
+    default:
+        echo 'Unsupported image type: ' . $mimeType;
+        exit;
+}
+
+$base64Image = base64_encode($imageData);
+$imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+$pdf-> Image($imageSrc,180,26.8,20,21,$extension);
+
+// $pic = 'data://text/plain;base64,' . base64_encode($img);
+// $info = getimagesize($pic);
+// $extension = explode('/', mime_content_type($pic))[1];
+
+
+
+
 $pdf->SetFont('Arial', '', 9);
 $pdf->MultiCell(80, 6,"Uni Roll No :    ".$UniRollNo, 1, 'l');
 $pdf->SetXY(90,25);
