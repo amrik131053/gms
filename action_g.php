@@ -22689,8 +22689,8 @@ include "connection/ftp-erp.php";
    }
    else
    {
-    echo "Lockec:".$Locked;
-   echo  $query = "UPDATE Admissions SET ";
+    // echo "Lockec:".$Locked;
+     $query = "UPDATE Admissions SET ";
     if($role_id=='2' )
     {
     $query .= "StudentName ='$name', ";
@@ -22740,7 +22740,7 @@ include "connection/ftp-erp.php";
      }
 
 
-echo $insert_record = "UPDATE  offer_latter SET Name='$name', FatherName='$fatherName',  Gender='$gender' where Class_RollNo='$ClassRollNo'";
+ $insert_record = "UPDATE  offer_latter SET Name='$name', FatherName='$fatherName',  Gender='$gender' where Class_RollNo='$ClassRollNo'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 
@@ -22752,7 +22752,7 @@ mysqli_close($conn);
 
 
 
-  echo $update_studentb="UPDATE Ledger SET StudentName='$name',FatherName='$fatherName',Batch='$batch' where IDNo='$loginId'";
+   $update_studentb="UPDATE Ledger SET StudentName='$name',FatherName='$fatherName',Batch='$batch' where IDNo='$loginId'";
 
     $update_runb=sqlsrv_query($conntest,$update_studentb);
 
