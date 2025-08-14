@@ -35,17 +35,17 @@ $passSecureFlag=$_SESSION['secure'];
 $updatedFlag=$_SESSION['profileIncomplete'];
 $spoc_per=0;
 
-// $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
-// $result = $conn_spoc->query($sqlspoc);
-// if ($result->num_rows > 0) 
-// {
-//       $spoc_per=1;
-//       while($rowspoc = $result->fetch_assoc())   
-//       {
-//          $spoce_session=$rowspoc["id"];
-//          $_SESSION['spoc_id']=$spoce_session;
-//       }
-// }
+$sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
+$result = $conn_spoc->query($sqlspoc);
+if ($result->num_rows > 0) 
+{
+      $spoc_per=1;
+      while($rowspoc = $result->fetch_assoc())   
+      {
+         $spoce_session=$rowspoc["id"];
+         $_SESSION['spoc_id']=$spoce_session;
+      }
+}
  if($EmployeeID==0 || $EmployeeID=='')
 {?>
 <script type="text/javascript">
