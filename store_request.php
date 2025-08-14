@@ -28,13 +28,14 @@
                         // {
                         
                           echo  $name=$Emp_Name;
-                          echo  $dep=$Emp_Department;
+                          echo  "(".$dep=$Emp_Department.")";
                         
                         // }
                         ?>    
                      <div class="row">
                         <div class="col-sm-12" style="text-align:left;" id="data">
                            <div id="live_data"></div>
+                           <div id="live_data1"></div>
                         </div>
                         <div class="col-lg-3">
                            <label>Category</label>
@@ -66,7 +67,7 @@
                         </div>
                         <div class="col-lg-2">
                            <label>Quantity</label>
-                           <input type="number"  placeholder="Quanity" id="quantity"  min="1"  class="form-control">
+                           <input type="number"  placeholder="Quanity" id="quantity" onkeyup="checkonchange();" min="1"  class="form-control">
                            <input type="hidden" name="text"  value="<?php echo $a;?>" id="emp_id" class="form-control">
                            <input type="hidden" name="text"  value="<?php echo $dep;?>" id="department" class="form-control">
                            <input type="hidden" name="text"  value="<?php echo $name;?>" id="name" class="form-control">
@@ -79,6 +80,7 @@
                         <div class="col-lg-1">
                            <label >Action</label><br>
                            <input type="button" name="submit" id="add_request" class="btn btn-primary" value="Add">
+                           <input type="button" name="submit" id="add_request_buy" class="btn btn-warning" value="Purchase Request" style="display:none">
                         </div>
                      </div>
                  
@@ -86,7 +88,7 @@
            </div>
            <br>
                <div class="row">
-               <div class="col-lg-12" id="show_request">
+               <div class="col-lg-12 table-responsive" id="show_request">
                </div>
            </div>
                <!-- ------------- -->
@@ -102,7 +104,7 @@
             </div>
             <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                <li class="nav-item">
-                  <a class="nav-link active"  data-toggle="pill" href="#dd5" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true" >
+                  <a class="nav-link active"  data-toggle="pill" href="#dd5" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true" style="display:none;" >
                   Draft</a>
                </li>
                <li class="nav-item">
@@ -124,6 +126,10 @@
                <li class="nav-item">
                   <a class="nav-link" data-toggle="pill" href="#cancel" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" >
                   Canceled</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link "  data-toggle="pill" href="#dd6" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" >
+                  Purchase</a>
                </li>
             </ul>
             <div class="card-body table-responsive " >
@@ -314,6 +320,34 @@
                               ?>
                         </table>
                      </div>
+                     <div id="dd6" class="tab-pane fade in  ">
+                        <?php   
+                           $list_sql = "SELECT * FROM ledger_buy where emp_id='$a' AND request_status='Approved'  ORDER BY ID DESC ";
+                           $result = mysqli_query($connection_s,$list_sql); ?> 
+                        <table class="table">
+                           <th>Request No</th>
+                           <th>Department</th>
+                           <th>Date</th>
+                           <?php 
+                              while($row = mysqli_fetch_array($result))  
+                                   {  
+                              
+                              $originalDate=$row['submit_date'];
+                                     $newDate = date("d-m-Y", strtotime($originalDate));
+                              ?>
+                           <tr>
+                              <td style="width: 50px;text-align: center;"> <a href="#"  onClick="issued_request_buy(<?php echo $row['reference_no'];?>)"> <?php echo  $row['id'];?> </a>  </td>
+                              <td>  <?php echo  $row['college_dept'];?></td>
+                              <td>  <?php echo $newDate; ?></td>
+                           </tr>
+                           <?php
+                              }
+                              
+                              
+                              
+                              ?>
+                        </table>
+                     </div>
                   </div>
                </div>
             </div>
@@ -406,6 +440,19 @@
      xmlhttp.open("GET", "store/issued_request.php?reference_no=" + reference_no, true);
        xmlhttp.send();
    }
+   function issued_request_buy(reference_no) 
+   { 
+   
+     var xmlhttp = new XMLHttpRequest();
+       xmlhttp.onreadystatechange = function() {
+       if (xmlhttp.readyState==4 && xmlhttp.status==200)
+       {
+         document.getElementById("show_request").innerHTML=xmlhttp.responseText;
+       }
+       }
+     xmlhttp.open("GET", "store/issued_request_buy.php?reference_no=" + reference_no, true);
+       xmlhttp.send();
+   }
    
    
    
@@ -443,6 +490,17 @@
        if(r == true) {
        
            window.location.href ="store/delete_article.php?user_id=" + user_id;
+       } else {
+           return;
+       }
+   }
+   function delete_dr_buy(user_id) 
+   {   
+       
+       var r = confirm("Do you really want to Delete");
+       if(r == true) {
+       
+           window.location.href ="store/delete_buy_article.php?user_id=" + user_id;
        } else {
            return;
        }
@@ -487,6 +545,54 @@
 <!-- <script src="http://gurukashiuniversity.co.in/gkuadmin/js/jquery.min.js" type="text/javascript"></script> -->
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script> -->
 <script>
+
+function checkonchange() {
+   var category = $("#category").val();
+      var item = $("#item_name").val();
+      var emp_id = $("#emp_id").val();
+      var department = $("#department").val();
+      var name = $("#name").val();
+      var quantity=$("#quantity").val();
+      var specification=$("#specification").val();
+      var btnAdd=document.getElementById('add_request');
+      var btnBuy=document.getElementById('add_request_buy');
+      btnBuy.style.display='none';
+      btnAdd.style.display='block';
+     var code = "2.1";
+          $.ajax({
+          url:'store/category_action.php',
+          data:{category:category,item:item,emp_id:emp_id,department:department,name:name,specification:specification,quantity:quantity,code:code},
+          type:'POST',
+          success:function(data){
+              if(data != "")
+              {
+               if(data==1)
+              {
+                 $("#message").html("");
+                 $("#message").html(`<div class="alert-danger" style="text-align: center; height="50px">Out of Stock</div>`);
+                 btnBuy.style.display='block';
+                 btnAdd.style.display='none';
+              }
+              else
+              {
+               btnBuy.style.display='none';
+               btnAdd.style.display='block';
+              }
+              }
+           $.ajax({  
+              url:"store/my_buy_request.php", 
+      data:{emp_id:emp_id},
+              method:"POST",  
+              success:function(data){  
+                   $('#live_data1').html(data);  
+              }  
+         });
+         
+      }
+        });
+}
+
+
    $(function() { 
     $("#add_request").click(function(e) {
       e.preventDefault();
@@ -525,13 +631,51 @@
         });
    });
    });
+
+
+   $(function() { 
+    $("#add_request_buy").click(function(e) {
+      e.preventDefault();
+      var category = $("#category").val();
+      var item = $("#item_name").val();
+      var emp_id = $("#emp_id").val();
+      var department = $("#department").val();
+      var name = $("#name").val();
+      var quantity=$("#quantity").val();
+      var specification=$("#specification").val();
+   
+     var code = "2.2";
+          $.ajax({
+          url:'store/category_action.php',
+          data:{category:category,item:item,emp_id:emp_id,department:department,name:name,specification:specification,quantity:quantity,code:code},
+          type:'POST',
+          success:function(data){
+              if(data != "")
+              {
+                  $("#message").html("");
+                  $("#message").html(data);
+                  $('#specification').val("");
+                  $('#quantity').val("");
+                   $('#category').val("");
+              }
+           $.ajax({  
+              url:"store/my_buy_request.php", 
+      data:{emp_id:emp_id},
+              method:"POST",  
+              success:function(data){  
+                   $('#live_data1').html(data);  
+              }  
+         });
+         
+      }
+        });
+   });
+   });
+
 </script>
 <script>
    $( document ).ready(function() {
-   
    var emp_id = $("#emp_id").val();
-        
-         
    $.ajax({  
                  url:"store/my_request.php", 
          data:{emp_id:emp_id},
@@ -542,7 +686,18 @@
             });
    
    });
+   $( document ).ready(function() {
+   var emp_id = $("#emp_id").val();  
+   $.ajax({  
+                 url:"store/my_buy_request.php", 
+         data:{emp_id:emp_id},
+                 method:"POST",  
+                 success:function(data){  
+                      $('#live_data1').html(data);  
+                 }  
+            });
    
+   });
 </script>
 <script>
    $(document).ready(function(){

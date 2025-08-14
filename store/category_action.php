@@ -171,6 +171,117 @@ echo '<div   class="alert-danger" style="text-align: center; height="50px">Valid
 }
 }
 
+else if($code==2.1)
+{
+$category = $_POST['category'];
+$item_name=$_POST['item'];
+$emp_id=$_POST['emp_id'];
+$department=$_POST['department'];
+$name=$_POST['name'];
+$request_status="draft";
+$specification=$_POST['specification'];
+$quantity=$_POST['quantity'];
+$request_date=date("Y-m-d");
+if ($category!="" AND $item_name!="" AND $quantity!="")
+{
+
+$sql = "SELECT * FROM item_category WHERE category ='$category' AND item_name='$item_name'";
+$result = mysqli_query($connection_s, $sql);
+
+while($row=mysqli_fetch_array($result))
+{
+	
+
+	$category_code=$row["category_code"];
+	$item_code=$row["item_code"];
+	 
+}
+ 
+ $sql = "SELECT * FROM master_stock WHERE category_code ='$category_code' AND item_code='$item_code'";
+
+
+$result = mysqli_query($connection_s, $sql);
+
+
+while($row=mysqli_fetch_array($result))
+{
+ $stock_quantity1=$row["issued_qty"];
+ $stock_quantity2=$row["quantity"];
+
+}
+$new_quantity1=$stock_quantity1 +$quantity;
+
+if($stock_quantity2>=$new_quantity1)
+{
+	echo "0";
+}
+else
+{
+	echo "1";
+	// echo '<div class="alert-danger" style="text-align: center; height="50px">Out of Stock</div>';
+}
+}
+}
+
+else if($code==2.2)
+{
+$category = $_POST['category'];
+$item_name=$_POST['item'];
+$emp_id=$_POST['emp_id'];
+$department=$_POST['department'];
+$name=$_POST['name'];
+$request_status="draft";
+$specification=$_POST['specification'];
+$quantity=$_POST['quantity'];
+$request_date=date("Y-m-d");
+if ($category!="" AND $item_name!="" AND $quantity!="")
+{
+
+$sql = "SELECT * FROM item_category WHERE category ='$category' AND item_name='$item_name'";
+$result = mysqli_query($connection_s, $sql);
+
+while($row=mysqli_fetch_array($result))
+{
+	
+
+	$category_code=$row["category_code"];
+	$item_code=$row["item_code"];
+	 
+}
+ 
+ $sql = "SELECT * FROM master_stock WHERE category_code ='$category_code' AND item_code='$item_code'";
+
+
+$result = mysqli_query($connection_s, $sql);
+
+
+while($row=mysqli_fetch_array($result))
+{
+ $stock_quantity1=$row["issued_qty"];
+ $stock_quantity2=$row["quantity"];
+
+}
+$new_quantity1=$stock_quantity1 +$quantity;
+ $sql = "SELECT * FROM request_buy WHERE emp_id ='$emp_id' AND request_status='draft' AND item_code='$item_code'";
+$result = mysqli_query($connection_s, $sql);
+if(mysqli_num_rows($result)>0)
+{
+echo  '<div   class="alert-danger" style="text-align: center; height="50px">Article allready  Added in Buy</div>';
+}
+else
+{
+$result = mysqli_query($connection_s,"INSERT into request_buy(emp_id,name,item_code,item_name,category_name,category_code,request_date,request_status,quantity,specification,department)
+ values ('$emp_id','$name','$item_code','$item_name','$category','$category_code','$request_date','$request_status','$quantity','$specification','$department')");
+mysqli_close($connection_s);
+  echo  '<div   class="alert-success" style="text-align: center; height="50px">Article Added Successfully</div>';  
+}
+}
+else
+{
+echo '<div   class="alert-danger" style="text-align: center; height="50px">Valid input Required </div>';
+}
+}
+
 // Publish  
 else if($code==3)
 {
@@ -268,6 +379,47 @@ header('Location:../store_request.php');
 
 }
 
+else if($code==3.1)
+{
+$reference_no=rand(100,9999).date("His");
+$emp_id=$_POST['emp_id'];
+$category=$_POST['category'];
+$id= $_POST['id'];
+$request_date=date("Y-m-d");
+$request_status='pending';
+$rowCount = count($_POST["id"]);
+$id=$_POST["id"];
+$approved_date='';
+$request_app='';
+
+  $staff="SELECT Name,Designation,Department,CollegeName FROM Staff Where IDNo='$emp_id'";
+  $stmt = sqlsrv_query($conntest,$staff);  
+  while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+  $name=$row_staff['Name'];
+	$college=$row_staff["CollegeName"];
+	$dept=$row_staff['Department'];
+	$designation=$row_staff['Designation'];
+	$superviser_id='';
+
+        }
+$request_app='Pre-Approved';
+$approved_date=date("Y-m-d");
+$request_status='Approved';
+$topno="SELECT id from ledger_buy order by id desc limit 1";
+$result = mysqli_query($connection_s, $topno);
+if($rowno=mysqli_fetch_array($result)){
+	$reference_no=$rowno['id']+1;
+}
+$result = mysqli_query($connection_s,"INSERT into ledger_buy(emp_id,name,submit_date,request_status,reference_no,college,college_dept,designation,approved_date,approving_athority,superwiser_id)
+                                               values ('$emp_id','$name','$request_date','$request_status','$reference_no','$college','$dept','$designation','$approved_date','$request_app','$superviser_id')");
+for($i=0;$i<$rowCount;$i++) {
+$result = mysqli_query($connection_s,"UPDATE request_buy set request_status='$request_status',reference_no='$reference_no' WHERE id='$id[$i]'");
+}
+mysqli_close($connection_s);
+header('Location:../store_request.php');
+
+}
 
 //return add
 

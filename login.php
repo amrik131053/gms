@@ -17,9 +17,15 @@ function is_secure_password($password) {
     return $has_uppercase && $has_lowercase && $has_digit && $has_special;
 }
 include 'connection/connection.php';
-$sql1 = "SELECT * FROM UserMaster INNER JOIN Staff ON UserMaster.UserName = Staff.IDNO  WHERE UserMaster.UserName = ? AND UserMaster.Password = ? AND UserMaster.ApplicationType = 'Web' AND Staff.JobStatus = 1";
+ $sql1 = "SELECT * FROM UserMaster INNER JOIN Staff ON UserMaster.UserName = Staff.IDNO  WHERE UserMaster.UserName = ? AND UserMaster.Password = ? AND UserMaster.ApplicationType = 'Web' AND Staff.JobStatus = 1";
 $params1 = array($user, $pass);
-$stmt2 = sqlsrv_prepare($conntest, $sql1, $params1);
+
+
+
+$stmt2 = sqlsrv_prepare($conntest,$sql1,$params1);
+
+
+
 if (!$stmt2 || !sqlsrv_execute($stmt2)) {
    //  die(print_r(sqlsrv_errors(), true));
 }

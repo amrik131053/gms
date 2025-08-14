@@ -2323,7 +2323,168 @@ $count = 1;
 
    $fileName="CC Report";
 }
-elseif($exportCode==23.1)
+elseif ($exportCode=='23.1') {
+    $batch = mysqli_real_escape_string($conn, $_GET['batch']);
+
+// Step 1: Fetch all students from MySQL (offer_latter)
+$get_student_details = "SELECT * FROM offer_latter WHERE batch = '$batch' and Class_RollNo!=''  ORDER BY id DESC";
+$get_student_details_run = mysqli_query($conn, $get_student_details);
+
+$offer_data = [];
+$roll_numbers = [];
+
+while ($row = mysqli_fetch_assoc($get_student_details_run)) {
+    $offer_data[$row['Class_RollNo']] = $row;
+    $roll_numbers[] = "'" . $row['Class_RollNo'] . "'";
+}
+
+// If no records, skip
+if (empty($roll_numbers)) {
+    die("No records found.");
+}
+
+// print_r($roll_numbers);
+$roll_list = implode(",", $roll_numbers);
+// Step 2: Fetch all Admissions data from SQL Server in one query
+$query = "SELECT * FROM Admissions WHERE ClassRollNo IN ($roll_list)";
+$result = sqlsrv_query($conntest, $query);
+
+$admissions_data = [];
+while ($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+    $admissions_data[$row1['ClassRollNo']] = $row1;
+}
+
+// Step 3: Get all unique (CollegeID, CourseID) pairs
+$college_course_ids = [];
+foreach ($admissions_data as $ad) {
+    $college_course_ids[] = $ad['CourseID'];
+}
+$college_course_ids = array_unique($college_course_ids);
+$college_course_list = implode(",", $college_course_ids);
+
+// Step 4: Fetch all course names in one query
+$course_names = [];
+if (!empty($college_course_list)) {
+    $get_course_sql = "SELECT * FROM MasterCourseCodes 
+                       WHERE (CourseID) IN ($college_course_list)";
+    $get_course_run = sqlsrv_query($conntest, $get_course_sql);
+    while ($row_course = sqlsrv_fetch_array($get_course_run, SQLSRV_FETCH_ASSOC)) {
+        $course_names[$row_course['CollegeID']][$row_course['CourseID']] = $row_course;
+    }
+}
+
+if ($result === false) {
+    die(print_r(sqlsrv_errors(), true)); // Shows detailed SQL Server error
+}
+
+// Step 5: Build HTML table
+// $exportMeter="
+// <table class='table' border='1'> 
+//    <thead>                
+   
+//    </thead>
+//    ";
+$count = 1;
+$exportMeter = "<table border='1'><thead>    <tr color='red'>                 
+         <th>#</th>              
+         <th>Session</th>
+         <th>College Name</th>
+         <th>Course</th>
+         <th>Name</th>
+         <th>Father Name</th>
+         <th>RollNo</th>
+         <th>Batch</th>
+         <th>Laternal Entry</th>
+         <th>Gender</th>
+         <th>State</th>
+         <th>District</th>
+         <th>Consultant</th>
+          <th>Status</th>
+          <th>Verification</th>
+          <th>Loan Number</th>
+          <th>Application No</th>
+          <th>Date Of Verification</th>
+          <th>Loan Number1</th>
+          <th>Application No1</th>
+          <th>Date Of Verification1</th>
+          <th>Amount</th>
+
+          <th>UTR</th>
+          <th>Date Of Payment</th>
+           <th>Amount</th>
+
+          <th>UTR1</th>
+          <th>Date Of Payment1</th>
+           <th>Amount1</th>
+
+          <th>UTR2</th>
+          <th>Date Of Payment1</th>
+           <th>Amount2</th>
+
+          <th>UTR3</th>
+          <th>Date Of Payment1</th>
+
+
+          <th>Reported</th>
+      </tr>  </thead>";
+
+foreach ($offer_data as $roll => $offer) {
+    $ad = $admissions_data[$roll] ?? [];
+    $courseInfo = $course_names[$ad['CollegeID']][$ad['CourseID']] ?? [];
+
+    $color = $roll ? '' : 'red';
+    $verification = ($offer['statusVerification'] > 0) ? 'Verified' : '';
+    $color1 = ($offer['statusVerification'] > 0) ? 'green' : '';
+    $mnStatus = ($offer['Status'] > 0) ? 'LEFT' : '';
+    $colorl = ($offer['Status'] > 0) ? 'red' : '';
+    $ReportedStatusV = ($offer['ReportedStatus'] > 0) ? 'Yes' : 'No';
+    $colorlR = ($offer['ReportedStatus'] > 0) ? 'green' : 'red';
+
+    $exportMeter .= "<tr>
+        <td>{$count}</td>
+        <td>{$ad['Session']}</td>
+        <td>{$courseInfo['CollegeName']}</td>
+        <td>{$courseInfo['Course']}</td>
+        <td>{$ad['StudentName']}</td>
+        <td>{$ad['FatherName']}</td>
+        <td bgcolor='{$color}'>{$roll}</td>
+        <td>{$ad['Batch']}</td>
+        <td>{$ad['LateralEntry']}</td>
+        <td>{$ad['Sex']}</td>
+        <td>{$ad['State']}</td>
+        <td>{$ad['District']}</td>
+        <td></td>
+        <td bgcolor='{$colorl}'>{$mnStatus}</td>
+        <td bgcolor='{$color1}'>{$verification}</td>
+        <td>{$offer['loanNumber']}</td>
+        <td>{$offer['applicationNo']}</td>
+        <td>{$offer['dateVerification']}</td>
+        <td>{$offer['loanNumber1']}</td>
+        <td>{$offer['applicationNo1']}</td>
+        <td>{$offer['dateVerification1']}</td>
+        <td>{$offer['loan_amount']}</td>
+        <td>{$offer['UTRNumber']}</td>
+        <td>{$offer['datePayment']}</td>
+        <td>{$offer['loan_amount1']}</td>
+        <td>{$offer['UTRNumber1']}</td>
+        <td>{$offer['datePayment1']}</td>
+        <td>{$offer['loan_amount2']}</td>
+        <td>{$offer['UTRNumber2']}</td>
+        <td>{$offer['datePayment2']}</td>
+        <td>{$offer['loan_amount3']}</td>
+        <td>{$offer['UTRNumber3']}</td>
+        <td>{$offer['datePayment3']}</td>
+        <td bgcolor='{$colorlR}'>{$ReportedStatusV}</td>
+    </tr>";
+
+    $count++;
+}
+
+$exportMeter .= "</table>";
+echo $exportMeter;
+
+}
+elseif($exportCode==23.1111)
 {    
     // $District=$_GET['District'];   
     $batch=$_GET['batch'];   
@@ -2356,17 +2517,23 @@ elseif($exportCode==23.1)
               <th>Application No1</th>
               <th>Date Of Verification1</th>
               <th>Amount</th>
+
               <th>UTR</th>
               <th>Date Of Payment</th>
-               <th>Amount1</th>
+               <th>Amount</th>
+
               <th>UTR1</th>
               <th>Date Of Payment1</th>
                <th>Amount1</th>
-              <th>UTR1</th>
+
+              <th>UTR2</th>
               <th>Date Of Payment1</th>
-               <th>Amount1</th>
-              <th>UTR1</th>
+               <th>Amount2</th>
+
+              <th>UTR3</th>
               <th>Date Of Payment1</th>
+
+
               <th>Reported</th>
           </tr>   
        </thead>
@@ -2404,7 +2571,7 @@ while($row=mysqli_fetch_array($get_student_details_run))
         $loanNumber1=$row['loanNumber1'];
         $applicationNo1=$row['applicationNo1'];
         $dateVerification1 =$row['dateVerification1'];
-        $UTRNumber=$row['UTRNumber1'];
+        $UTRNumber=$row['UTRNumber'];
         $loan_amount=$row['loan_amount1'];
         $datePayment =$row['datePayment'];
         $UTRNumber1=$row['UTRNumber1'];
