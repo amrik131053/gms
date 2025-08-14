@@ -20903,10 +20903,17 @@ elseif ($code==264)
                             <th>Action</th>
                         </tr><?php 
     $times=array();
-$univ_rollno=$_POST['empid'];
+    $univ_rollno=$_POST['empid'];
+    if($univ_rollno !=''  && is_numeric($univ_rollno)) 
+    {    
     $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' ORDER BY ExamForm.Semesterid ASC"; 
+}
+else{
     
+    $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' ORDER BY ExamForm.Semesterid ASC"; 
+}
     $list_result = sqlsrv_query($conntest,$list_sql);
      while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
         {
