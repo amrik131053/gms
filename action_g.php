@@ -30971,8 +30971,9 @@ else if($code==341)
 {
     $ID=$_POST['ID'];
     $remarks=$_POST['remarks'];
-    $getStudentID="SELECT IDNo,session FROM StudentBusPassGKU WHERE ID='$ID'";
+     $getStudentID="SELECT IDNo,session,spot FROM StudentBusPassGKU WHERE SerialNo='$ID'";
     $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+  
     if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
         $IDNo=$row['IDNo'];
         $session=$row['session'];
