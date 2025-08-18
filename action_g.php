@@ -35889,8 +35889,8 @@ elseif ($code==393) {
  else if($code==394.1) //FOR REGISTRATION BRANCH
    {
        $ExamFromID=$_POST['ExamFromID'];
-       $checkStatus="SELECT * FROM ExamFrom where ID='$ExamFromID'";
-       $checkStatusMenuRun=sqlsrv_query($conntest,$checkStatus);
+        $checkStatus="SELECT * FROM ExamForm where ID='$ExamFromID'";
+        $checkStatusMenuRun=sqlsrv_query($conntest,$checkStatus);
        if ($rowcheck = sqlsrv_fetch_array($checkStatusMenuRun, SQLSRV_FETCH_ASSOC)) {
         $status=$rowcheck['Status'];
        }
